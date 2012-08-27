@@ -207,7 +207,7 @@
                                                 <tr class="odd">
                                                     <td style="width:160px;">
                                                         <span>
-                                                            <xsl:text>Processor</xsl:text>
+                                                            <xsl:text>Processors</xsl:text>
                                                         </span>
                                                     </td>
                                                     <td>
