@@ -1,15 +1,16 @@
-phpSysInfo 3.0 - http://phpsysinfo.sourceforge.net/
+phpSysInfo
+==============
 
-Copyright (c), 1999-2008, Uriah Welcome (precision@users.sf.net)
-Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
-Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
-Copyright (c), 2007-2012, Erkan Valentin (jacky672@users.sf.net)
-Copyright (c), 2009-2012, Mieczyslaw Nalewaj (namiltd@users.sf.net)
-Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
+* Copyright (c), 1999-2008, Uriah Welcome (precision@users.sf.net)
+* Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
+* Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
+* Copyright (c), 2007-2012, Erkan Valentin (jacky672@users.sf.net)
+* Copyright (c), 2009-2012, Mieczyslaw Nalewaj (namiltd@users.sf.net)
+* Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
 
 CURRENT TESTED PLATFORMS
 ------------------------
-	- Linux 2.6.x
+    - Linux 2.6.x
 	- FreeBSD 7.x
 	- OpenBSD 2.8+
 	- NetBSD
@@ -98,5 +99,3 @@ LICENSING
 ---------
 	This program and all associated files are released under the GNU Public
 	License, see COPYING for details.
-
-$Id: README 631 2012-08-16 06:18:31Z namiltd $
