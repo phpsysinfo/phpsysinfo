@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <!-- $Id: translation.xsd 150 2009-03-20 20:19:23Z bigmichi1 $ -->
+<schema targetNamespace="http://phpsysinfo.sourceforge.net/translation"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns="http://www.w3.org/2001/XMLSchema">
+  <complexType name="translationType">
+    <sequence>
+      <element name="expression" type="tns:expressionType" maxOccurs="unbounded"
+        minOccurs="93">
+      </element>
+    </sequence>
+    <attribute name="charset" type="string" use="required"></attribute>
+    <attribute name="language" type="string" use="required"></attribute>
+  </complexType>
+  <complexType name="expressionType">
+    <sequence>
+      <element name="exp" type="string" maxOccurs="1" minOccurs="1"></element>
+    </sequence>
+    <attribute name="id" use="required">
+      <simpleType>
+        <restriction base="string">
+          <length value="3"></length>
+          <pattern value="\d\d\d"></pattern>
+        </restriction>
+      </simpleType>
+    </attribute>
+    <attribute name="name" use="required">
+      <simpleType>
+        <restriction base="string">
+          <pattern value="[a-z_]+"></pattern>
+        </restriction>
+      </simpleType>
+    </attribute>
+  </complexType>
+  <element name="translation" type="tns:translationType"></element>
+</schema>

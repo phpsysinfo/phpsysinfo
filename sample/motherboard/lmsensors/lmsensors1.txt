@@ -1,0 +1,13 @@
+via686a-isa-6000
+Adapter: ISA adapter
+CPU core:  +1.72 V  (min =  +1.99 V, max =  +2.49 V)   ALARM
++2.5V:     +0.30 V  (min =  +2.24 V, max =  +2.74 V)   ALARM
+I/O:       +3.35 V  (min =  +2.95 V, max =  +3.62 V)
++5V:       +4.82 V  (min =  +4.47 V, max =  +5.49 V)
++12V:     +11.45 V  (min = +10.79 V, max = +13.18 V)
+CPU Fan:     0 RPM  (min = 3000 RPM, div = 2)          ALARM
+P/S Fan:     0 RPM  (min = 3000 RPM, div = 2)
+SYS Temp:  +27.9°C  (high =   +45°C, hyst =   +40°C)
+CPU Temp:  +53.1°C  (high =   +60°C, hyst =   +55°C)
+SBr Temp:  +24.2°C  (high =   +65°C, hyst =   +60°C)
+

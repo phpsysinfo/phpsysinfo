@@ -1,0 +1,18 @@
+smsc47m1-isa-0680
+Adapter: ISA adapter
+CPU fan:  2507 RPM  (min =  640 RPM, div = 8)          
+
+adm1025-i2c-0-2d
+Adapter: SMBus I801 adapter at e000
+CPU I/O (+1.5V):
+           +1.51 V  (min =  +1.35 V, max =  +1.65 V)   
+CPU Core (+1.75V):
+           +1.72 V  (min =  +1.66 V, max =  +1.84 V)   
++3.3V:     +3.33 V  (min =  +2.97 V, max =  +3.63 V)   
++5V:       +5.21 V  (min =  +4.50 V, max =  +5.50 V)   
++3.3V standby:
+           +3.27 V  (min =  +2.97 V, max =  +3.63 V)   
+CPU Temp:  +34.0 C  (low  =   +10 C, high =   +60 C)   
+M/B Temp:  +33.0 C  (low  =   +10 C, high =   +45 C)   
+vid:      +1.750 V  (VRM Version 9.0)
+

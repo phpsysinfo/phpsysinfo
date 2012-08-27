@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 96 2009-01-14 14:23:33Z BigMichi1 $ -->
+  <!--
+    phpSysInfo language file Language: English Created by: Michael Cramer
+  -->
+<tns:translationPlugin language="english" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_quotas_001" name="ps_title">
+    <exp>Quota Status</exp>
+  </expression>
+  <expression id="plugin_quotas_002" name="quotas_date">
+    <exp>Last Refresh</exp>
+  </expression>
+  <expression id="plugin_quotas_003" name="quotas_user">
+    <exp>User</exp>
+  </expression>
+  <expression id="plugin_quotas_004" name="quotas_bused">
+    <exp>Bytes Used</exp>
+  </expression>
+  <expression id="plugin_quotas_005" name="quotas_bsoft">
+    <exp>Bytes Soft</exp>
+  </expression>
+  <expression id="plugin_quotas_006" name="quotas_bhard">
+    <exp>Bytes Hard</exp>
+  </expression>
+  <expression id="plugin_quotas_007" name="quotas_bpuse">
+    <exp>Bytes Used Percent</exp>
+  </expression>
+  <expression id="plugin_quotas_008" name="quotas_fused">
+    <exp>Files Used</exp>
+  </expression>
+  <expression id="plugin_quotas_009" name="quotas_fsoft">
+    <exp>Files Soft</exp>
+  </expression>
+  <expression id="plugin_quotas_010" name="quotas_fhard">
+    <exp>Files Hard</exp>
+  </expression>
+  <expression id="plugin_quotas_011" name="quotas_fpuse">
+    <exp>Files Used Percent</exp>
+  </expression>
+</tns:translationPlugin>

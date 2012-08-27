@@ -1,0 +1,5 @@
+Mon Dec  6 09:00:00 EST 2004
+                        1K Block limits               File limits
+User                used        soft        hard  grace    used  soft  hard  grace
+cherylstaff--     2755724           0           0          15678     0     0       
+brucestaff	--     5738512           0           0           7830     0     0       

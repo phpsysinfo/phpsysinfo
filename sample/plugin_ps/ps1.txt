@@ -1,0 +1,39 @@
+  PID  PPID %MEM COMMAND
+    1     0  0.0 init [2]      
+31822     1  0.0 /sbin/syslogd
+31847     1  0.0 /sbin/klogd -x
+31861     1  0.0 /usr/sbin/sshd
+ 1357     1  4.3 amavisd (master)
+ 1918     1  0.3 ddclient - sleeping for 50 seconds
+ 1923     1  1.0 /usr/bin/memcached -m 64 -p 11211 -u root
+ 2001     1  0.1 /usr/lib/postfix/master
+ 2006     1  0.0 /usr/sbin/vsftpd
+ 2010  2001  0.1 qmgr -l -t fifo -u
+ 2037     1  0.0 /usr/sbin/cron
+ 3516     1  0.3 /usr/sbin/munin-node
+ 3576     1  0.2 /usr/bin/fetchmail -f /etc/fetchmailrc --pidfile /var/run/fetchmail/fetchmail.pid --syslog
+ 5266  2001  0.1 tlsmgr -l -t unix -u -c
+32604     1  0.8 /usr/sbin/apache2 -k start
+ 3097     1  0.0 /usr/bin/freshclam -d --quiet
+ 3599     1  8.7 /usr/sbin/clamd
+13505     1  0.0 /bin/sh /usr/bin/mysqld_safe
+13545 13505  2.6 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+13546 13505  0.0 logger -p daemon.err -t mysqld_safe -i -t mysqld
+13988     1  0.0 /usr/sbin/dovecot
+13989 13988  0.1 dovecot-auth
+14041 13988  0.1 managesieve-login
+14042 13988  0.1 managesieve-login
+30094 13988  0.1 managesieve-login
+15381  1357  4.5 amavisd (ch19-avail)
+16215 13988  0.2 dovecot-auth -w
+ 6095  2001  0.1 pickup -l -t fifo -u -c
+ 9846  1357  4.4 amavisd (ch1-avail)
+11585 13988  0.1 imap-login
+22385 13988  0.1 imap-login
+22421 32604  1.9 /usr/sbin/apache2 -k start
+22424 32604  1.5 /usr/sbin/apache2 -k start
+22425 32604  1.1 /usr/sbin/apache2 -k start
+22432 32604  1.1 /usr/sbin/apache2 -k start
+22433 32604  0.5 /usr/sbin/apache2 -k start
+25851 13988  0.1 imap-login
+26454 22424  0.0 ps -eo pid,ppid,pmem,args

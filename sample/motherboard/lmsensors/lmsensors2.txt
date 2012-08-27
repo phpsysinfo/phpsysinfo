@@ -1,0 +1,20 @@
+w83781d-i2c-0-2d
+Adapter: SMBus PIIX4 adapter at 5f00
+VCore 1:   +2.82 V  (min =  +2.66 V, max =  +2.94 V)              
+VCore 2:   +1.49 V  (min =  +2.66 V, max =  +2.94 V)       ALARM  
++3.3V:     +3.50 V  (min =  +3.14 V, max =  +3.46 V)       ALARM  
++5V:       +4.97 V  (min =  +4.73 V, max =  +5.24 V)              
++12V:     +11.92 V  (min = +11.37 V, max = +12.59 V)              
+-12V:     -11.57 V  (min = -12.57 V, max = -11.35 V)              
+-5V:       -4.89 V  (min =  -5.25 V, max =  -4.74 V)              
+fan1:     6026 RPM  (min = 2657 RPM, div = 2)                     
+fan2:        0 RPM  (min = 2657 RPM, div = 2)              ALARM  
+fan3:        0 RPM  (min = 2657 RPM, div = 2)              ALARM  
+temp1:       +12°C  (high =  +127°C, hyst =    +0°C)          
+temp2:     +11.5°C  (high =   +50°C, hyst =   +49°C)          
+temp3:     +11.0°C  (high =  +127°C, hyst =    +0°C)          
+vid:      +2.800 V
+alarms:   
+beep_enable:
+          Sound alarm disabled
+

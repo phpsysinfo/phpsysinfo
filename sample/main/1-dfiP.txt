@@ -1,0 +1,6 @@
+Filesystem             Inode   IUsati  ILib. IUso% Montato su
+/dev/sda3            3278576  589607 2688969   18% /
+udev                  218280    1831  216449    1% /dev
+/dev/sda4                  0       0       0    -  /home/erendil
+shm                   218280       1  218279    1% /dev/shm
+/dev/sda1              18072      52   18020    1% /boot

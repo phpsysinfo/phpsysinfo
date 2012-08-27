@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: pl.xml 532 2012-01-26 11:42:45Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
+  -->
+<tns:translationPlugin language="polish" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_bat_001" name="bat_title">
+    <exp>Status Baterii</exp>
+  </expression>
+  <expression id="plugin_bat_002" name="bat_date">
+    <exp>Ostatnie odświeżenie</exp>
+  </expression>
+  <expression id="plugin_bat_003" name="bat_design_capacity">
+    <exp>Pojemność znamionowa</exp>
+  </expression> 
+  <expression id="plugin_bat_004" name="bat_remaining_capacity">
+    <exp>Pojemność aktualna</exp>
+  </expression> 
+  <expression id="plugin_bat_005" name="bat_design_voltage">
+    <exp>Napięcie znamionowe</exp>
+  </expression> 
+  <expression id="plugin_bat_006" name="bat_present_voltage">
+    <exp>Napięcie aktualne</exp>
+  </expression>
+  <expression id="plugin_bat_007" name="bat_item">
+    <exp>Sztuki</exp>
+  </expression>   
+  <expression id="plugin_bat_008" name="bat_value">
+    <exp>Wartości</exp>
+  </expression>
+  <expression id="plugin_bat_009" name="bat_charging_state">
+    <exp>Stan ładowania</exp>
+  </expression>     
+</tns:translationPlugin>

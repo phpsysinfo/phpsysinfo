@@ -1,0 +1,105 @@
+div#nyroModalFull {
+	font-size: 12px;
+	color: #777;
+}
+div#nyroModalFull div#nyroModalLoading {
+	border: 4px solid #777;
+	width: 150px;
+	height: 150px;
+	text-indent: -9999em;
+	background: #fff url(../../gfx/ajaxLoader.gif) no-repeat;
+	background-position: center;
+}
+div#nyroModalFull div#nyroModalLoading.error {
+	border: 4px solid #f66;
+	line-height: 20px;
+	padding: 20px;
+	width: 300px;
+	height: 100px;
+	text-indent: 0;
+	background: #fff;
+}
+div#nyroModalFull div#nyroModalWrapper {
+	background: #fff;
+	border: 4px solid #777;
+}
+div#nyroModalFull div#nyroModalWrapper a#closeBut {
+	position: absolute;
+	display: block;
+	top: -13px;
+	right: -13px;
+	width: 12px;
+	height: 12px;
+	text-indent: -9999em;
+	background: url(../../gfx/close.gif) no-repeat;
+	outline: 0;
+}
+div#nyroModalFull div#nyroModalWrapper h1#nyroModalTitle {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: -22px;
+	left: 5px;
+	font-size: 12px;
+	color: #ddd;
+}
+div#nyroModalFull div#nyroModalWrapper div#nyroModalContent {
+	overflow: auto;
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapper div#nyroModalContent {
+	padding: 5px;
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapperImg div#nyroModalContent {
+	position: relative;
+	overflow: hidden;
+	text-align: center;
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapperImg div#nyroModalContent img {
+	vertical-align: baseline;
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapperImg div#nyroModalContent div {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: black;
+	padding: 10px;
+	margin: 10px;
+	border: 1px white dotted;
+	overflow: hidden;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapperImg div#nyroModalContent div:hover {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	cursor: help;
+}
+div#nyroModalFull div#nyroModalWrapper a.nyroModalPrev, div#nyroModalFull div#nyroModalWrapper a.nyroModalNext {
+	z-index: 105;
+	outline: none;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 40%;
+	cursor: pointer;
+	text-indent: -9999em;
+	background: left 20% no-repeat;
+	background-image: url(data:image/gif;base64,AAAA); /* Trick IE6 */
+}
+div#nyroModalFull div#nyroModalWrapper div.wrapperSwf a.nyroModalPrev, div#nyroModalFull div#nyroModalWrapper div.wrapperSwf a.nyroModalNext, div#nyroModalFull div#nyroModalWrapper div.wrapper a.nyroModalPrev, div#nyroModalFull div#nyroModalWrapper div.wrapper a.nyroModalNext {
+	height: 60%;
+	width: 20%;
+}
+div#nyroModalFull div#nyroModalWrapper div#nyroModalContent a.nyroModalPrev {
+	left: 0;
+}
+div#nyroModalFull div#nyroModalWrapper div#nyroModalContent a.nyroModalPrev:hover {
+	background-image: url(../../gfx/prev.gif);
+}
+div#nyroModalFull div#nyroModalWrapper div#nyroModalContent a.nyroModalNext {
+	right: 0;
+	background-position: right 20%;
+}
+div#nyroModalFull div#nyroModalWrapper div#nyroModalContent a.nyroModalNext:hover {
+	background-image: url(../../gfx/next.gif);
+}

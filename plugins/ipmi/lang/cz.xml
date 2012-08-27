@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: cz.xml 475 2011-07-20 17:17:37Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Czech Created by: Tomáš Růžička
+  -->
+<tns:translationPlugin language="czech" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_ipmi_001" name="ipmi_title">
+    <exp>IPMI informace</exp>
+  </expression>
+  <expression id="plugin_ipmi_002" name="ipmi_date">
+    <exp>Aktualizováno</exp>
+  </expression>
+  <expression id="plugin_ipmi_003" name="ipmi_temperatures">
+    <exp>Teploty [°C]</exp>
+  </expression>
+  <expression id="plugin_ipmi_004" name="ipmi_fans">
+    <exp>Větráky [RPM]</exp>
+  </expression>
+  <expression id="plugin_ipmi_005" name="ipmi_voltages">
+    <exp>Napětí [V]</exp>
+  </expression>
+  <expression id="plugin_ipmi_006" name="ipmi_misc">
+    <exp>Různé [0/1]</exp>
+  </expression>
+</tns:translationPlugin>

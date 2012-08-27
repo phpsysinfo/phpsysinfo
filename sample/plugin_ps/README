@@ -1,0 +1,3 @@
+FILE             CONTENT OF
+ps1              ps -eo pid,ppid,pmem,args
+ps2              ps axo pid,ppid,pmem,args

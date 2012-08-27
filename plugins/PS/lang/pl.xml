@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: pl.xml 533 2012-01-26 12:42:16Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
+  -->
+<tns:translationPlugin language="polish" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_ps_001" name="ps_title">
+    <exp>Status Procesów</exp>
+  </expression>
+  <expression id="plugin_ps_002" name="ps_date">
+    <exp>Ostatnie odświeżenie</exp>
+  </expression>
+  <expression id="plugin_ps_003" name="ps_command">
+    <exp>Polecenie</exp>
+  </expression>
+  <expression id="plugin_ps_004" name="ps_pid">
+    <exp>PID</exp>
+  </expression>
+  <expression id="plugin_ps_005" name="ps_ppid">
+    <exp>PID rodzica</exp>
+  </expression>
+  <expression id="plugin_ps_006" name="ps_mem">
+    <exp>Wykorzystanie pamięci</exp>
+  </expression>
+</tns:translationPlugin>

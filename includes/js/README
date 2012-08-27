@@ -1,0 +1,10 @@
+versions, links and simple description of used files
+===========================================================
+
+class.JavaScriptPacker.inc.php
+---------
+VERSION  : 1.1+FF4
+URL      : http://dean.edwards.name
+DESC     : Downloaded from http://dean.edwards.name/download/ http://joliclic.free.fr/php/javascript-packer/en/ + Firefox 4 fix
+LICENSE  : LGPL 2.1 (http://creativecommons.org/licenses/LGPL/2.1/)
+USED     : define('PSI_JS_COMPRESSION', 'None'); or define('PSI_JS_COMPRESSION', 'Normal'); 

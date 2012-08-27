@@ -1,0 +1,24 @@
+asb100-i2c-1-2d
+Adapter: SMBus nForce2 adapter at 5500
+VCore 1:   +1.60 V  (min =  +1.25 V, max =  +1.87 V)       
++3.3V:     +3.30 V  (min =  +2.96 V, max =  +3.63 V)       
++5V:       +5.05 V  (min =  +4.49 V, max =  +5.51 V)       
++12V:     +11.55 V  (min =  +9.55 V, max = +14.41 V)       
+-12V (reserved):
+          -12.07 V  (min =  -0.00 V, max =  -0.00 V)       
+-5V (reserved):
+           -5.06 V  (min =  -0.00 V, max =  -0.00 V)       
+CPU Fan:  11065 RPM  (min =   -1 RPM, div = 2)              
+Chassis Fan:
+          2755 RPM  (min =   -1 RPM, div = 2)              
+Power Fan:   0 RPM  (min =   -1 RPM, div = 2)              
+M/B Temp:    +34 C  (high =   +80 C, hyst =   +75 C)   
+CPU Temp (Intel):
+             +25 C  (high =   +80 C, hyst =   +75 C)   
+Power Temp:
+              -0 C  (high =   +80 C, hyst =   +75 C)   
+CPU Temp (AMD):
+             +25 C  (high =   +80 C, hyst =   +75 C)   
+vid:      +1.575 V  (VRM Version 9.0)
+alarms:   
+

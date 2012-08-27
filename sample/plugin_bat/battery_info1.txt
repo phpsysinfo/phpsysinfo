@@ -1,0 +1,13 @@
+present:                 yes
+design capacity:         50000 mWh
+last full capacity:      50000 mWh
+battery technology:      rechargeable
+design voltage:          10000 mV
+design capacity warning: 100 mWh
+design capacity low:     50 mWh
+capacity granularity 1:  1 mWh
+capacity granularity 2:  1 mWh
+model number:            1
+serial number:           0
+battery type:            VBOX
+OEM info:                innotek

@@ -1,0 +1,127 @@
+  PID  PPID %MEM COMMAND
+    1     0  0.0 init [5]  
+    2     0  0.0 [kthreadd]
+    3     2  0.0 [migration/0]
+    4     2  0.0 [ksoftirqd/0]
+    5     2  0.0 [events/0]
+    6     2  0.0 [khelper]
+    7     2  0.0 [kintegrityd/0]
+    8     2  0.0 [kblockd/0]
+    9     2  0.0 [kacpid]
+   10     2  0.0 [kacpi_notify]
+   11     2  0.0 [cqueue]
+   12     2  0.0 [kseriod]
+   13     2  0.0 [kondemand/0]
+   14     2  0.0 [pdflush]
+   15     2  0.0 [pdflush]
+   16     2  0.0 [kswapd0]
+   17     2  0.0 [aio/0]
+   18     2  0.0 [kpsmoused]
+   54     2  0.0 [ata/0]
+   55     2  0.0 [ata_aux]
+   57     2  0.0 [scsi_eh_0]
+   58     2  0.0 [scsi_eh_1]
+  202     2  0.0 [ksuspend_usbd]
+  203     2  0.0 [khubd]
+  510     2  0.0 [kjournald]
+  592     1  0.0 /sbin/udevd --daemon
+  818     2  0.0 [scsi_eh_2]
+  819     2  0.0 [usb-storage]
+ 1303     2  0.0 [kauditd]
+ 1326     2  0.0 [kstriped]
+ 1363     2  0.0 [kjournald]
+ 1385     1  0.0 /sbin/mount.ntfs-3g /dev/sda1 /windows/C -v -o rw,noexec,nosuid,nodev,users,gid=100,fmask=133,dmask=022,locale=de_DE.UTF-8
+ 1808     1  0.0 /sbin/acpid
+ 1827     1  0.0 /sbin/klogd -c 1 -x
+ 1843     1  0.0 /sbin/syslog-ng
+ 1853     1  0.0 /bin/dbus-daemon --system
+ 1982     1  0.2 /usr/sbin/hald --daemon=yes
+ 1991     1  0.1 /usr/sbin/console-kit-daemon
+ 2054  1982  0.0 hald-runner
+ 2129  2054  0.0 hald-addon-input: Listening on /dev/input/event4 /dev/input/event3 /dev/input/event2 /dev/input/event1
+ 2223  2054  0.0 hald-addon-storage: no polling on /dev/fd0 because it is explicitly disabled
+ 2234  2054  0.0 hald-addon-storage: polling /dev/sdb (every 2 sec)
+ 2235  2054  0.0 hald-addon-storage: polling /dev/sdc (every 2 sec)
+ 2238  2054  0.0 hald-addon-storage: polling /dev/sr0 (every 2 sec)
+ 2246  2054  0.0 hald-addon-acpi: listening on acpid socket /var/run/acpid.socket
+ 2478     1  0.0 /usr/bin/kdm
+ 2492  2478  3.0 /usr/bin/Xorg -br -nolisten tcp :0 vt7 -auth /var/lib/xdm/authdir/authfiles/A:0-StlX1E
+ 2873     1  0.0 /sbin/dhcpcd --netconfig -L -E -c /etc/sysconfig/network/scripts/dhcpcd-hook -t 0 -h linux-mcr eth0
+ 2911     1  0.0 /sbin/rpcbind
+ 3381     1  0.2 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 3382  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 3383  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 3401     1  0.0 /sbin/auditd -s disable
+ 3404  3401  0.0 /sbin/audispd
+ 3422     1  0.0 avahi-daemon: running [linux-mcr.local]
+ 3482     1  0.1 /usr/sbin/cupsd
+ 3671     1  0.0 /usr/sbin/nscd
+ 3701     1  0.0 /usr/sbin/ntpd -p /var/run/ntp/ntpd.pid -g -u ntp:ntp -i /var/lib/ntp -c /etc/ntp.conf
+ 3761     1  0.0 /usr/sbin/smartd
+ 3774     1  0.0 /usr/lib/postfix/master
+ 3800     1  0.0 /usr/sbin/cron
+ 3823  3774  0.0 pickup -l -t fifo -u
+ 3824  3774  0.0 qmgr -l -t fifo -u
+ 3843     1  0.0 /usr/sbin/sshd -o PidFile=/var/run/sshd.init.pid
+ 3959     1  0.0 /sbin/mingetty --noclear tty1
+ 3961     1  0.0 /sbin/mingetty tty2
+ 3963     1  0.0 /sbin/mingetty tty3
+ 3965     1  0.0 /sbin/mingetty tty4
+ 3975     1  0.0 /sbin/mingetty tty5
+ 3976     1  0.0 /sbin/mingetty tty6
+ 4730  2478  0.1 -:0         
+ 4752     1  0.0 /bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session
+ 4753     1  0.0 dbus-launch --autolaunch 9fe5b43331dd16711f578ff44a61a184 --binary-syntax --close-stderr
+ 4777  4730  0.0 /bin/sh /usr/bin/startkde
+ 4960     1  0.0 /bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session
+ 4961     1  0.0 dbus-launch --sh-syntax --exit-with-session
+ 4966     1  0.2 kdeinit4: kdeinit4 Running...
+ 4967  4966  0.5 klauncher
+ 4969     1  1.0 kded4
+ 5008  4777  0.0 kwrapper4 ksmserver
+ 5009  4966  1.4 ksmserver
+ 5011  5009  1.7 kwin -session 1015110b9fd8000124791360500000100220000_1247938211_215332
+ 5017     1  1.7 /usr/bin/knotify4
+ 5018     1  1.5 /usr/bin/krunner
+ 5020     1  2.0 /usr/bin/plasma
+ 5024     1  0.5 /usr/bin/nepomukserver
+ 5026  5024  0.6 /usr/bin/nepomukservicestub nepomukstorage
+ 5027  5024  0.4 /usr/bin/nepomukservicestub nepomukfilewatch
+ 5028  5024  0.4 /usr/bin/nepomukservicestub nepomukontologyloader
+ 5030     1  0.4 /usr/bin/kaccess
+ 5044  4966  0.5 /usr/bin/policykit-kde
+ 5046     1  0.2 /usr/bin/pulseaudio --start
+ 5053     1  1.1 beagled /usr/lib/beagle/BeagleDaemon.exe --replace --bg
+ 5059     1  0.6 /usr/bin/kupdateapplet
+ 5060     1  0.7 /usr/bin/kmix
+ 5062     1  0.5 /usr/bin/klipper
+ 5083     1  0.0 /usr/lib/kde4/libexec/kdesud
+ 5309     1  2.3 amarokapp
+ 5312     1  0.2 kdeinit Running...                           
+ 5316     1  0.1 dcopserver [kdeinit] --nosid --suicide       
+ 5318  5312  0.3 klauncher [kdeinit] --new-startup            
+ 5320     1  0.5 kded [kdeinit] --new-startup                 
+ 5342  5312  0.2 kio_file [kdeinit] file /tmp/ksocket-BigMic  
+ 5346  5309  0.5 yauap -noexit
+ 5356  5309  0.1 ruby /opt/kde3/share/apps/amarok/scripts/score_default/score_default.rb
+ 5440     1  0.4 knotify [kdeinit]                            
+ 5465     1  0.4 /usr/bin/kwalletd
+ 5495     1  1.0 beagled-helper /usr/lib/beagle/IndexHelper.exe
+ 5536     1  0.6 kio_uiserver [kdeinit]                       
+ 5621     1  1.1 /usr/bin/konsole
+ 5623  5621  0.1 /bin/bash
+ 5648  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 5661  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 5710  5623  0.2 /usr/bin/mc -P /tmp/mc-BigMichi1/mc.pwd.5623
+ 5712  5710  0.1 bash -rcfile .bashrc
+ 6305  4966  0.2 kdeinit4: kio_file [kdeinit] file local:/tmp/ksocket-BigMichi1/klauncherMT4967.slave-socket local:/tmp/ksocket-BigMichi1/konquerordx5442.slave-socket
+ 6313  4966  0.0 /bin/sh /usr/bin/firefox
+ 6318  6313  3.5 /usr/lib/firefox/firefox
+ 6320     1  0.1 /usr/lib/GConf/2/gconfd-2
+ 6332     1  0.1 /usr/lib/gvfs/gvfsd
+ 6338     1  0.1 /usr/lib/gvfs//gvfs-fuse-daemon /home/BigMichi1/.gvfs
+ 6389  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 6390  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 6395  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 6737  3381  0.3 /usr/sbin/httpd2-prefork -f /etc/apache2/httpd.conf
+ 7003  5712  0.0 ps axo pid,ppid,pmem,args

@@ -1,0 +1,21 @@
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 23
+model name	: Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz
+stepping	: 10
+cpu MHz		: 2391.032
+cache size	: 64 KB
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 2
+wp		: yes
+flags		: fpu vme de pse tsc msr mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 constant_tsc up pni monitor
+bogomips	: 4782.06
+clflush size	: 64
+power management:
+

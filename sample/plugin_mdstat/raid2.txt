@@ -1,0 +1,5 @@
+Personalities : [linear] [raid0] [raid1] [raid5] [hsm] 
+read_ahead 1024 sectors 
+md0 : active raid5 sdd1[3](F) sdc6[2] sdb6[1] sda5[0] 633984 blocks
+ level 5, 32k chunk, algorithm 2 [4/3] [UUU_] 
+unused devices: <none>

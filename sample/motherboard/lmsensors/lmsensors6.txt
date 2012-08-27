@@ -1,0 +1,29 @@
+it8716-isa-0228
+Adapter: ISA adapter
+VCore:     +0.99 V  (min =  +0.00 V, max =  +4.08 V)   
+VDDR:      +1.89 V  (min =  +0.00 V, max =  +4.08 V)   
++3.3V:     +3.38 V  (min =  +0.00 V, max =  +4.08 V)   
++5V:       +5.08 V  (min =  +0.00 V, max =  +6.85 V)   
++12V:     +12.16 V  (min =  +0.00 V, max = +16.32 V)   
+in5:       +3.25 V  (min =  +0.00 V, max =  +4.08 V)   
+in6:       +0.10 V  (min =  +0.00 V, max =  +4.08 V)   
+5VSB:      +4.95 V  (min =  +0.00 V, max =  +6.85 V)   
+VBat:      +3.26 V
+fan1:     1374 RPM  (min =    0 RPM)                   
+fan2:        0 RPM  (min =    0 RPM)                   
+temp1:       +42°C  (low  =  +127°C, high =  +127°C)   sensor = thermistor   
+temp2:       +37°C  (low  =  +127°C, high =  +127°C)   sensor = thermistor   
+temp3:       +28°C  (low  =  +127°C, high =  +127°C)   sensor = diode   
+vid:      +1.000 V
+
+k8temp-pci-00c3
+Adapter: PCI adapter
+Core0 Temp:
+             +31°C
+Core0 Temp:
+             +21°C
+Core1 Temp:
+             +29°C
+Core1 Temp:
+             +21°C
+

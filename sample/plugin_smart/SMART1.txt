@@ -1,0 +1,86 @@
+smartctl version 5.38 [x86_64-unknown-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
+
+=== START OF INFORMATION SECTION ===
+Device Model: Hitachi HDS722020ALA330
+Serial Number: JK1121[rest of serial number redacted]
+Firmware Version: JKAOA20N
+User Capacity: 2,000,398,934,016 bytes
+Device is: Not in smartctl database [for details use: -P showall]
+ATA Version is: 8
+ATA Standard is: ATA-8-ACS revision 4
+Local Time is: Tue Dec 1 15:21:30 2009 CST
+SMART support is: Available - device has SMART capability.
+SMART support is: Enabled
+
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+General SMART Values:
+Offline data collection status: (0x84) Offline data collection activity
+                                        was suspended by an interrupting command from host.
+                                        Auto Offline Data Collection: Enabled.
+Self-test execution status: ( 0) The previous self-test routine completed
+                                        without error or no self-test has ever
+                                        been run.
+Total time to complete Offline
+data collection: (21742) seconds.
+Offline data collection
+capabilities: (0x5b) SMART execute Offline immediate.
+                                        Auto Offline data collection on/off support.
+                                        Suspend Offline collection upon new
+                                        command.
+                                        Offline surface scan supported.
+                                        Self-test supported.
+                                        No Conveyance Self-test supported.
+                                        Selective Self-test supported.
+SMART capabilities: (0x0003) Saves SMART data before entering
+                                        power-saving mode.
+                                        Supports SMART auto save timer.
+Error logging capability: (0x01) Error logging supported.
+                                        General Purpose Logging supported.
+Short self-test routine
+recommended polling time: ( 1) minutes.
+Extended self-test routine
+recommended polling time: ( 255) minutes.
+SCT capabilities: (0x003d) SCT Status supported.
+                                        SCT Feature Control supported.
+                                        SCT Data Table supported.
+
+SMART Attributes Data Structure revision number: 16
+Vendor Specific SMART Attributes with Thresholds:
+ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED WHEN_FAILED RAW_VALUE
+  1 Raw_Read_Error_Rate 0x000b 100 100 016 Pre-fail Always - 0
+  2 Throughput_Performance 0x0005 134 134 054 Pre-fail Offline - 98
+  3 Spin_Up_Time 0x0007 123 123 024 Pre-fail Always - 587 (Average 584)
+  4 Start_Stop_Count 0x0012 100 100 000 Old_age Always - 16
+  5 Reallocated_Sector_Ct 0x0033 100 100 005 Pre-fail Always - 0
+  7 Seek_Error_Rate 0x000b 100 100 067 Pre-fail Always - 0
+  8 Seek_Time_Performance 0x0005 114 114 020 Pre-fail Offline - 38
+  9 Power_On_Hours 0x0012 100 100 000 Old_age Always - 292
+ 10 Spin_Retry_Count 0x0013 100 100 060 Pre-fail Always - 0
+ 12 Power_Cycle_Count 0x0032 100 100 000 Old_age Always - 16
+192 Power-Off_Retract_Count 0x0032 100 100 000 Old_age Always - 16
+193 Load_Cycle_Count 0x0012 100 100 000 Old_age Always - 16
+194 Temperature_Celsius 0x0002 230 230 000 Old_age Always - 27 (Lifetime Min/Max 20/45)
+196 Reallocated_Event_Count 0x0032 100 100 000 Old_age Always - 0
+197 Current_Pending_Sector 0x0022 100 100 000 Old_age Always - 0
+198 Offline_Uncorrectable 0x0008 100 100 000 Old_age Offline - 0
+199 UDMA_CRC_Error_Count 0x000a 200 200 000 Old_age Always - 0
+
+SMART Error Log Version: 0
+No Errors Logged
+
+SMART Self-test log structure revision number 1
+No self-tests have been logged. [To run self-tests, use: smartctl -t]
+
+SMART Selective self-test log data structure revision number 1
+ SPAN MIN_LBA MAX_LBA CURRENT_TEST_STATUS
+    1 0 0 Not_testing
+    2 0 0 Not_testing
+    3 0 0 Not_testing
+    4 0 0 Not_testing
+    5 0 0 Not_testing
+Selective self-test flags (0x0):
+  After scanning selected spans, do NOT read-scan remainder of disk.
+If Selective self-test is pending on power-up, resume after 0 minute delay.

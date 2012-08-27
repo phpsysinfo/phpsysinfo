@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: ru.xml 586 2012-06-16 17:50:46Z namiltd $ -->
+<!--
+phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated
+by: Artem Volk
+-->
+<tns:translation language="russian" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>Системная информация</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>Общая информация</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>Имя системы</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>IP-адрес</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>Версия ядра</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>Операционная система</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>Время работы</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>Активных пользователей</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>Средняя загрузка</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>Установленное оборудование</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>Количество процессоров</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>Модель</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>Частота процессора</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>Частота системной шины</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>Размер кэша</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>Производительность в bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>PCI устройства</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>IDE устройства</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>SCSI устройства</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>USB устройства</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>Использование сети</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>Устройство</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>Получено</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>Отправлено</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>Err/Drop</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>Установлено сетевых подключений</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>Использование памяти</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>Физическая память</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>Файл подкачки</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>Смонтированные файловые системы</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>Точка монтирования</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>Устройство</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>Использовано</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>Тип</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>Свободно</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>Занято</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>Общий размер</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>Всего</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>Кб</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>Мб</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>Гб</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>Отсутствуют</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>Вместимость</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>Шаблон</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>Язык</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Применить</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Сгенерировано с помощью</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>дней</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>часов</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>минут</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>Температура</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>Напряжение</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>Вентиляторы</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Значение</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Минимум</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Максимум</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Гистерезис</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Лимит</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Значение</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>В</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>Об/мин</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>Ядро + приложения</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>Буферы</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>Кэшировано</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Перейти к</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>ИБП</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>Название</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>Модель</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>Режим</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>Время включения</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>Состояние</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>Переходы на батарею</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>Причина последнего перехода</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>Время последнего перехода</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Напряжение сети</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>Нагрузка</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>Напряжение батареи</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>Уровень заряда батареи</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>Время работы на батареях</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>В</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>мин.</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>Температура</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualization</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Last boot</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+</tns:translation>

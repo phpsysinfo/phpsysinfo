@@ -1,0 +1,6 @@
+Filesystem         1024-blocks      Used Available Capacity Montato su
+/dev/sda3             51613048  13387836  35603404      28% /
+udev                     10240       148     10092       2% /dev
+/dev/sda4            2876529360 784104536 2092424824      28% /home/erendil
+shm                    1685172         0   1685172       0% /dev/shm
+/dev/sda1                69972     37071     29288      56% /boot

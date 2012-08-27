@@ -1,0 +1,30 @@
+eeprom-i2c-0-50
+Adapter: SMBus PIIX4 adapter at f0b0
+Unknown EEPROM type (54)
+
+eeprom-i2c-0-54
+Adapter: SMBus PIIX4 adapter at f0b0
+Memory type:            SDR SDRAM DIMM
+Memory size (MB):       128
+
+eeprom-i2c-0-55
+Adapter: SMBus PIIX4 adapter at f0b0
+Memory type:            SDR SDRAM DIMM
+Memory size (MB):       128
+
+eeprom-i2c-0-56
+Adapter: SMBus PIIX4 adapter at f0b0
+Memory type:            SDR SDRAM DIMM
+Memory size (MB):       128
+
+fscpos-i2c-0-73
+Adapter: SMBus PIIX4 adapter at f0b0
+temp1:          +38.00 C
+temp2:          +28.00 C
+temp3:          failed
+fan1:             1440 RPM
+fan2:                0 RPM
+fan3:             3120 RPM
+volt12:         +11.91 V
+volt5:           +5.12 V
+voltbatt:        +3.15 V

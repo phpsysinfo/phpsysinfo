@@ -1,0 +1,19 @@
+battery.voltage:  13.5
+driver.name: bcmxcp_usb
+driver.parameter.pollinterval: 2
+driver.parameter.port: auto
+driver.version: 2.2.2
+driver.version.internal: 0.14
+input.frequency:  49.9
+input.voltage: 234
+output.current:   0.3
+output.frequency:  49.9
+output.phases: 1
+output.voltage: 234
+output.voltage.nominal: 240
+ups.firmware: Cont:00.50 Inve:01.50
+ups.load:  16.7
+ups.model: POWERWARE UPS    700VA
+ups.power.nominal: 700
+ups.serial:
+ups.status: OL

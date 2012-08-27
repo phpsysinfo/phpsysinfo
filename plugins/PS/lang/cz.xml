@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: cz.xml 355 2010-01-26 09:09:05Z jacky672 $ -->
+  <!--
+    phpSysInfo language file Language: Czech Created by: Tomáš Růžička
+  -->
+<tns:translationPlugin language="czech" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_ps_001" name="ps_title">
+    <exp>Procesy</exp>
+  </expression>
+  <expression id="plugin_ps_002" name="ps_date">
+    <exp>Aktualizováno</exp>
+  </expression>
+  <expression id="plugin_ps_003" name="ps_command">
+    <exp>Příkaz</exp>
+  </expression>
+  <expression id="plugin_ps_004" name="ps_pid">
+    <exp>PID</exp>
+  </expression>
+  <expression id="plugin_ps_005" name="ps_ppid">
+    <exp>Rodičovský PID</exp>
+  </expression>
+  <expression id="plugin_ps_006" name="ps_mem">
+    <exp>Spotřeba paměti</exp>
+  </expression>
+</tns:translationPlugin>

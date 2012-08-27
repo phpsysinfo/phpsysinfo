@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <!-- $Id: translation-plugin.xsd 36 2008-12-08 09:45:45Z BigMichi1 $ -->
+<schema targetNamespace="http://phpsysinfo.sourceforge.net/translation-plugin"
+  xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin">
+  <complexType name="translationPluginType">
+    <sequence>
+      <element name="expression" type="tns:expressionPluginType"
+        maxOccurs="unbounded" minOccurs="1">
+      </element>
+    </sequence>
+    <attribute name="charset" type="string" use="required"></attribute>
+    <attribute name="language" type="string" use="required"></attribute>
+  </complexType>
+  <complexType name="expressionPluginType">
+    <sequence>
+      <element name="exp" type="string" maxOccurs="1" minOccurs="1"></element>
+    </sequence>
+    <attribute name="id" use="required">
+      <simpleType>
+        <restriction base="string">
+          <pattern value="[a-z_]+\d\d\d"></pattern>
+        </restriction>
+      </simpleType>
+    </attribute>
+    <attribute name="name" use="required">
+      <simpleType>
+        <restriction base="string">
+          <pattern value="[a-z_]+"></pattern>
+        </restriction>
+      </simpleType>
+    </attribute>
+  </complexType>
+  <element name="translationPlugin" type="tns:translationPluginType"></element>
+</schema>

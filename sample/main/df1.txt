@@ -1,0 +1,24 @@
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/ad0s1a                  2         1         1   0% /
+/dev/ad0s1f                  2         1         1   0% /usr
+/dev/ad0s1e                  2         1         1   0% /var
+/dev/ad4s1e                  2         1         1   0% /opt
+/dev/ad2s1e                  2         1         1   0% /opt/glftpd/site/Games
+/dev/ad5s1e                  2         1         1   0% /opt/glftpd/site/Movies
+/dev/ad1s1c                  2         1         1   0% /opt/glftpd/site/Movies2
+/dev/ad6s1e                  2         1         1   0% /opt/glftpd/site/xbox
+/dev/vinum/opt1              2         1         1   0% /opt1
+procfs                       2         1         1   0% /proc
+//ADMINISTRATOR@GODFATHER/GODFATHER C   2         1         1   0% /usr/home/username/godfather
+/dev/sda1                  2         1         1   0% /mount/sda1
+/dev/sda2                  2         1         1   0% /mount/sda2
+/dev/sda3                  2         1         1   0% /mount/sda3
+/dev/sda4                  2         1         1   0% /mount/sda4
+/dev/sda5                  2         1         1   0% /mount/sda5
+/dev/sda6                  2         1         1   0% /mount/sda6
+/dev/sda7                  2         1         1   0% /mount/sda7
+/dev/sda8                  2         1         1   0% /mount/sda8
+/dev/sda9                  2         1         1   0% /mount/sda9
+/dev/sda10                  2         1         1   0% /mount/sda10
+/dev/sda11                  2         1         1   0% /mount/sda11
+/dev/sda12                  2         1         1   0% /mount/sda12

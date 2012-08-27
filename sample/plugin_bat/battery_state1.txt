@@ -1,0 +1,6 @@
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mW
+remaining capacity:      50000 mWh
+present voltage:         10000 mV

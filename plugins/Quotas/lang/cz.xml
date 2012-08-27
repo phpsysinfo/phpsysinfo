@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: cz.xml 345 2010-01-16 23:03:10Z jacky672 $ -->
+  <!--
+    phpSysInfo language file Language: Czech Created by: Tomáš Růžička
+  -->
+<tns:translationPlugin language="czech" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_quotas_001" name="ps_title">
+    <exp>Stav kvót</exp>
+  </expression>
+  <expression id="plugin_quotas_002" name="quotas_date">
+    <exp>aktualizováno</exp>
+  </expression>
+  <expression id="plugin_quotas_003" name="quotas_user">
+    <exp>Uživatel</exp>
+  </expression>
+  <expression id="plugin_quotas_004" name="quotas_bused">
+    <exp>Využité místo</exp>
+  </expression>
+  <expression id="plugin_quotas_005" name="quotas_bsoft">
+    <exp>Měkký limit</exp>
+  </expression>
+  <expression id="plugin_quotas_006" name="quotas_bhard">
+    <exp>Tvrdý limit</exp>
+  </expression>
+  <expression id="plugin_quotas_007" name="quotas_bpuse">
+    <exp>Procento využití</exp>
+  </expression>
+  <expression id="plugin_quotas_008" name="quotas_fused">
+    <exp>Počet soouborů</exp>
+  </expression>
+  <expression id="plugin_quotas_009" name="quotas_fsoft">
+    <exp>Měkký souborový limit</exp>
+  </expression>
+  <expression id="plugin_quotas_010" name="quotas_fhard">
+    <exp>Tvrdý souborový limit</exp>
+  </expression>
+  <expression id="plugin_quotas_011" name="quotas_fpuse">
+    <exp>Procento využití souborů</exp>
+  </expression>
+</tns:translationPlugin>

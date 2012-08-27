@@ -1,0 +1,151 @@
+/*
+ $Id: jstyle_green.css 518 2011-10-28 08:09:07Z namiltd $
+ */
+
+* {
+    margin:0;
+    padding:0;
+}
+
+html {
+    background-color:#f3f1e9;
+    color:#666;
+    font-size:100%;
+    height:100%;
+}
+
+body {
+    font-family:Verdana, "Bitstream Vera Sans";
+    font-size:.75em;
+    margin:0 auto;
+    min-height:100%;
+    overflow:auto;
+    padding:20px 20px 0;
+    position:relative;
+    width:940px;
+    _width: 945px; /* ie6 */
+}
+
+h1 {
+    color:#693;
+    font-family:Georgia, serif;
+    font-size:150%;
+    font-weight:400;
+    line-height:1.5em;
+    margin:0 10px;
+    _margin: 0 15px 0 10px; /* ie6 */
+    padding:10px;
+    text-align:center;
+}
+
+h2 {
+    border-bottom:2px solid #693;
+    color:#693;
+    font-family:Georgia, serif;
+    font-size:130%;
+    font-weight:700;
+    line-height:1.5em;
+    padding:3px 10px;
+    text-transform:uppercase;
+}
+
+p {
+    line-height:1.6;
+    padding:4px 10px 2px;
+    text-align:left;
+    vertical-align:top;
+}
+
+table {
+    width:100%;
+}
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
+}
+
+th,td,h3 {
+    font-size:100%;
+    padding:4px 10px 2px;
+    text-align:left;
+    vertical-align:top;
+}
+
+a {
+    color:#c03000;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
+/****/
+
+.bar {
+    background-color:#C1DC70;
+}
+
+.even {
+    background:#EBE8DA;
+}
+
+.right {
+    padding-right:20px;
+    text-align:right;
+}
+
+/****/
+
+#filesystemTable thead tr .header {
+    background-image:url("../gfx/bg.gif");
+    background-position:right center;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+
+#filesystemTable thead tr .headerSortDown {
+    background-image:url("../gfx/desc.gif");
+    color:#c03000;
+}
+
+#filesystemTable thead tr .headerSortUp {
+    background-image:url("../gfx/asc.gif");
+    color:#c03000;
+}
+
+#pciTable,#ideTable,#scsiTable,#usbTable {
+    padding:0 30px;
+}
+
+#vitals,#network,#memory,#filesystem,#hardware,#temp,#voltage,#fan,#ups {
+    float:left;
+    margin:10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding:1px;
+    width:451px;
+}
+
+#memory,#filesystem {
+    width:915px;
+}
+
+#select {
+    text-align:right;
+}
+
+#select select {
+    width:100px;
+}
+
+#footer {
+    clear:both;
+    color:#5C5C5C;
+    font-size:80%;
+    line-height:18px;
+    margin:12px;
+    padding:13px 25px;
+    text-align:center;
+}

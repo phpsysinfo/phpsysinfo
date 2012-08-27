@@ -1,0 +1,37 @@
+/*
+ Copyright: Paul Hanlon
+ 
+ Released under the MIT/BSD licence which means you can do anything you want
+ with it, as long as you keep this copyright notice on the page
+ */
+.collapsed {
+    display: none;
+}
+
+.tablemain {
+    border-collapse: collapse;
+    padding: 0px;
+    text-align: left;
+}
+
+.tablemain td {
+    margin-left: 3px;
+}
+
+.tree td {
+    padding: 0px 2px 0px 0px;
+    cursor: pointer;
+}
+
+.adeimg, .ttimage, .parimg, .preimg {
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    vertical-align: bottom;
+    width: 16px;
+    height: 16px;
+}
+
+.adeimg, .parimg {
+    cursor: pointer;
+}

@@ -1,0 +1,15 @@
+it87-isa-0290
+Adapter: ISA adapter
+VCore:     +1.68 V  (min =  +1.64 V, max =  +1.69 V)   
+DDRVtt:    +2.56 V  (min =  +2.42 V, max =  +2.58 V)   
++3.3V:     +3.31 V  (min =  +3.13 V, max =  +3.45 V)   
++5V:       +4.77 V  (min =  +4.72 V, max =  +5.24 V)   
++12V:     +12.52 V  (min = +11.36 V, max = +12.72 V)   
++5VSB:     +4.99 V  (min =  +4.72 V, max =  +5.24 V)   
+CPU:      3515 RPM  (min = 1997 RPM, div = 4)          
+SYS:      2393 RPM  (min = 1997 RPM, div = 4)          
+SYS:         +34°C  (low  =   +20°C, high =   +40°C)   sensor = thermistor   
+
+max1617-i2c-1-4c
+Adapter: SMBus Via Pro adapter at 5000
+CPU:         +44°C  (low  =   +30°C, high =   +70°C)

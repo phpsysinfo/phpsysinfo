@@ -1,0 +1,6 @@
+/*
+ $Id: SMART.css 510 2011-10-24 18:01:22Z namiltd $
+ */
+#Plugin_SMARTTable tbody tr td {
+    text-align: right;
+}

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: gl.xml 586 2012-06-16 17:50:46Z namiltd $ -->
+<!--
+phpSysInfo language file Language: galician Created by: X.M.C. Guede
+-->
+<tns:translation language="spanish" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>Información do servidor</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>Características principais</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>Nome do servidor</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>Direccións IP</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>Versión do Kernel</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>Nome da distribución</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>Último arranque</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>Usuarios actuais</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>Promedio de uso</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>Información do hardware </exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>Procesadores</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>Modelo</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>Velocidade CPU</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>Velocidade BUS</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>Tamaño Caché</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>Sistema Bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>Dispositivos PCI</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>Dispositivos IDE</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>Dispositivos SCSI</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>Dispositivos USB</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>Uso da rede</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>Dispositivo</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>Recibidos</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>Enviados</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>Erros/Perdidos</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>Conexións de rede establecidas</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>Uso da memoria</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>Memoria Física</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>Disco Swap</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>Sistema archivos Montados</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>Punto de montaxe</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>Partición</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>Uso</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>Tipo</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>Libre</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>Usada</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>Tamaño</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>Total</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>KB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>ningÚn</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>Tamaño</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>Tema</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>Linguaxe</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Enviado</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Creado por</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>días</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>horas</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>minutos</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>Temperatura</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>Voltaxe</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>Ventiladores</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Valor</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Min</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Max</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Histéresis</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Límite</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Etiqueta</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>Kernel + aplicaciones</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>Buffers</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>Cache;</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Bifurcación</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>UPS information</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>Name</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>Model</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>Mode</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>Started</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>Status</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>Outages</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>Last outage cause</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>Last outage timestamp</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Line voltage</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>Load percent</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>Battery voltage</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>Battery charge</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>Time left on batteries</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>minutes</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>Temperature</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualization</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Last boot</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+</tns:translation>

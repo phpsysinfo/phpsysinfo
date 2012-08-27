@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: cz.xml 528 2011-12-19 06:02:56Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Czech Created by: Tomáš Růžička
+  -->
+<tns:translationPlugin language="czech" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_updatenotifier_001" name="updatenotifier_title">
+    <exp>Notifikátor aktualizací</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_002" name="updatenotifier_th">
+    <exp>Jsou dostupné aktualizace!</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_003" name="updatenotifier_packages">
+    <exp>balíčků je připraveno k aktualizaci.</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_004" name="updatenotifier_security">
+    <exp>balíčků obsahuje bezpečnostní aktualizace.</exp>
+  </expression> 
+</tns:translationPlugin>

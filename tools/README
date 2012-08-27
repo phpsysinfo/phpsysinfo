@@ -1,0 +1,4 @@
+check.sh         - Script for checking *.php files and reformat them
+MakeRelease.sh   - Cleanup the code a bit for a release
+phpsysinfo.ini   - Configuration file for generating documentation with phpDocumentor
+lint.bat         - run php lint on every php file to check for syntax (windows util)

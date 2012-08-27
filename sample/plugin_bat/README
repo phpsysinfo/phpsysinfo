@@ -1,0 +1,4 @@
+FILE             CONTENT OF
+ac_state         cat /proc/acpi/ac_adapter/AC/state
+battery_info     cat /proc/acpi/battery/BAT0/info
+battery_state    cat /proc/acpi/battery/BAT0/state

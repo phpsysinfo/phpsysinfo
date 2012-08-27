@@ -1,0 +1,2 @@
+FILE             CONTENT OF
+psstatus         ps=("apache2" "mysqld" "sshd"); for((i=0;i<${#ps};i++)); do echo ${ps[$i]} "|" `pidof -s ${ps[$i]}` ;done

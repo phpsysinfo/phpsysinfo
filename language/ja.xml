@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+phpSysInfo language file Language: Japanese Created by: nrgmilk
+-->
+<tns:translation language="japanese" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>システム情報</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>システム基本情報</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>ホスト名</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>待受けIPアドレス</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>カーネルバージョン</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>ディストリビューション / OS</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>起動時間</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>ログインユーザー数</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>ロードアベレージ</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>ハードウェア情報</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>プロセッサー数</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>モデル名</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>周波数</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>バススピード</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>キャッシュサイズ</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>システムBogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>PCIデバイス</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>IDEデバイス</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>SCSIデバイス</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>USBデバイス</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>ネットワーク使用状況</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>デバイス</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>受信</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>送信</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>ｴﾗｰ/破棄</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>接続中ネットワーク</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>メモリー使用状況</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>物理メモリー</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>ディスクスワップ</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>マウント済みファイルシステム</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>マウントポイント</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>パーティション</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>使用率</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>タイプ</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>空き</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>使用中</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>サイズ</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>合計</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>KB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>無し</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>容量</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>テンプレート</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>言語</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Submit</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Created by</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>日</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>時間</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>分</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>温度</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>電圧</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>ファン</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Value</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Min</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Max</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Hysteresis</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Limit</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Label</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>カーネル + アプリケーション</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>バッファー</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>キャッシュ</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Jump to</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>UPS情報</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>UPS名</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>モデル名</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>モード</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>開始日時</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>状態</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>供給停止回数</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>最終供給停止理由</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>最終供給停止日時</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Line voltage</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>負荷率</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>バッテリー電圧</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>バッテリー充電率</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>バッテリー残り時間</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>分</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>温度</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualization</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Last boot</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+</tns:translation>

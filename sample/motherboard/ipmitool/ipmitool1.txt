@@ -1,0 +1,64 @@
+BB +1.2V Vtt     | 1.197      | Volts      | ok    | na        | 1.096     | 1.134     | 1.285     | 1.323     | na        
+BB +1.5V AUX     | 1.490      | Volts      | ok    | na        | 1.334     | 1.373     | 1.622     | 1.669     | na        
+BB +1.5V         | 1.469      | Volts      | ok    | na        | 1.326     | 1.365     | 1.625     | 1.677     | na        
+BB +1.8V         | 1.802      | Volts      | ok    | na        | 1.638     | 1.689     | 1.926     | 1.988     | na        
+BB +3.3V         | 3.320      | Volts      | ok    | na        | 2.941     | 3.027     | 3.578     | 3.681     | na        
+BB +3.3V STB     | 3.337      | Volts      | ok    | na        | 3.027     | 3.113     | 3.509     | 3.612     | na        
+BB +1.5V ESB     | 1.490      | Volts      | ok    | na        | 1.357     | 1.404     | 1.591     | 1.638     | na        
+BB +5V           | 5.122      | Volts      | ok    | na        | 4.446     | 4.576     | 5.408     | 5.564     | na        
+BB +12V AUX      | 12.090     | Volts      | ok    | na        | 10.416    | 10.726    | 13.144    | 13.578    | na        
+BB 0.9V          | 0.902      | Volts      | ok    | na        | 0.811     | 0.835     | 0.950     | 0.979     | na        
+Baseboard Temp   | 29.000     | degrees C  | ok    | na        | 5.000     | 10.000    | 61.000    | 66.000    | na        
+P1 Therm Margin  | -32.000    | degrees C  | ok    | na        | na        | na        | na        | na        | na        
+P1 Therm Ctrl %  | 0.000      | unspecified | ok    | na        | na        | na        | na        | 49.530    | na        
+Proc 1 Vcc       | 1.203      | Volts      | ok    | na        | na        | na        | na        | na        | na        
+Power Unit       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+BMC Watchdog     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Scrty Violation  | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+F-P Diag Int     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+System Event Log | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Session Audit    | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+System Event     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+BB Vbat          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+SysACPIPowerStat | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+Button           | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+SMI Timeout      | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+NMI State        | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+SMI State        | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+Processor 1 Stat | 0x0        | discrete   | 0x8000| na        | na        | na        | na        | na        | na        
+Processor 2 Stat | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link0       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link1       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link2       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link3       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link4       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link5       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link6       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link7       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link8       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link9       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link10      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link11      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link12      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link13      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Proc1 VRD Hot    | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+CPU1 Vcc OOR     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+CPU Popula Error | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM A1          | 0x0        | discrete   | 0x0400| na        | na        | na        | na        | na        | na        
+DIMM A2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM B1          | 0x0        | discrete   | 0x0400| na        | na        | na        | na        | na        | na        
+DIMM B2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM C1          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM C2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM D1          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM D2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemA Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemB Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemC Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemD Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+B0 Sparing Enb   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B0 Spare Redun   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B1 Sparing Enb   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B1 Spare Redun   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B01 Mirror Enbl  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B01 MirrorRedun  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
