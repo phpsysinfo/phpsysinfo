@@ -226,7 +226,7 @@ define('PSI_HIDE_MOUNTS', '');
 
 /**
  * Hide filesystem types
- * Example : define('PSI_HIDE_FS_TYPES', 'tmpfs,usbfs');
+ * Example : define('PSI_HIDE_FS_TYPES', 'tmpfs,devtmpfs,usbfs');
  */
 define('PSI_HIDE_FS_TYPES', '');
 
