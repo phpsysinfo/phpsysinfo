@@ -18,115 +18,115 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//$Id: ipmi.js 518 2011-10-28 08:09:07Z namiltd $
+//$Id: ipmiinfo.js 661 2012-08-27 11:26:39Z namiltd $
 
 
 /*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
 
 "use strict";
 
-var ipmi_show = false;
+var ipmiinfo_show = false;
 /**
  * insert content into table
  * @param {jQuery} xml plugin-XML
  */
-function ipmi_populate(xml) {
+function ipmiinfo_populate(xml) {
 
     var html = "";
-    $("#Plugin_ipmiTable").html(" ");
+    $("#Plugin_ipmiinfoTable").html(" ");
 
-    $("Plugins Plugin_ipmi Temperature Item", xml).each(function ipmi_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Temperature Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(3, true, "ipmi") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(3, true, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
         html += "    </tr>\n";
-        ipmi_show = true;
+        ipmiinfo_show = true;
     });
 
-    $("Plugins Plugin_ipmi Fans Item", xml).each(function ipmi_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Fans Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(4, true, "ipmi") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(4, true, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
         html += "    </tr>\n";
-        ipmi_show = true;
+        ipmiinfo_show = true;
     });
 
-    $("Plugins Plugin_ipmi Voltage Item", xml).each(function ipmi_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Voltage Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(5, true, "ipmi") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(5, true, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
         html += "    </tr>\n";
-        ipmi_show = true;
+        ipmiinfo_show = true;
     });
 
-    $("Plugins Plugin_ipmi Misc Item", xml).each(function ipmi_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Misc Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(6, true, "ipmi") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(6, true, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
         html += "    </tr>\n";
-        ipmi_show = true;
+        ipmiinfo_show = true;
     });
 
-    $("#Plugin_ipmiTable").append(html);
-    $('#Plugin_ipmiTable tr:nth-child(even)').addClass('even');
+    $("#Plugin_ipmiinfoTable").append(html);
+    $('#Plugin_ipmiinfoTable tr:nth-child(even)').addClass('even');
 
 }
 
-function ipmi_buildTable() {
+function ipmiinfo_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_ipmiTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+    html += "<table id=\"Plugin_ipmiinfoTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "  </thead>\n";
     html += "  <tbody>\n";
     html += "  </tbody>\n";
     html += "</table>\n";
-    $("#Plugin_ipmi").append(html);
+    $("#Plugin_ipmiinfo").append(html);
 }
 
 /**
  * load the xml via ajax
  */
-function ipmi_request() {
+function ipmiinfo_request() {
     $.ajax({
-        url: "xml.php?plugin=ipmi",
+        url: "xml.php?plugin=ipmiinfo",
         dataType: "xml",
-        error: function ipmi_error() {
-        $.jGrowl("Error loading XML document for Plugin ipmi!");
+        error: function ipmiinfo_error() {
+        $.jGrowl("Error loading XML document for Plugin ipmiinfo!");
     },
-    success: function ipmi_buildblock(xml) {
+    success: function ipmiinfo_buildblock(xml) {
         populateErrors(xml);
-        ipmi_populate(xml);
-        if (ipmi_show) {
-            plugin_translate("ipmi");
-            $("#Plugin_ipmi").show();
+        ipmiinfo_populate(xml);
+        if (ipmiinfo_show) {
+            plugin_translate("ipmiinfo");
+            $("#Plugin_ipmiinfo").show();
         }
     }
     });
 }
 
-$(document).ready(function ipmi_buildpage() {
-    $("#footer").before(buildBlock("ipmi", 1, true));
-    $("#Plugin_ipmi").css("width", "451px");
+$(document).ready(function ipmiinfo_buildpage() {
+    $("#footer").before(buildBlock("ipmiinfo", 1, true));
+    $("#Plugin_ipmiinfo").css("width", "451px");
 
-    ipmi_buildTable();
+    ipmiinfo_buildTable();
 
-    ipmi_request();
+    ipmiinfo_request();
 
-    $("#Reload_ipmiTable").click(function ipmi_reload(id) {
-        ipmi_request();
-        $("#Reload_ipmiTable").attr("title",datetime());
+    $("#Reload_ipmiinfoTable").click(function ipmiinfo_reload(id) {
+        ipmiinfo_request();
+        $("#Reload_ipmiinfoTable").attr("title",datetime());
     });
 });

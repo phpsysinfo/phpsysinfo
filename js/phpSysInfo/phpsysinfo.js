@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: phpsysinfo.js 612 2012-07-24 19:41:51Z namiltd $
+// $Id: phpsysinfo.js 661 2012-08-27 11:26:39Z namiltd $
 //
 
 /*global $, jQuery */
@@ -405,48 +405,48 @@ function formatBytes(bytes, xml) {
         byteFormat = $(this).attr("byteFormat");
     });
     
-    switch (byteFormat) {
-    case "PiB":
+    switch (byteFormat.toLowerCase()) {
+    case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
         show += "&nbsp;" + genlang(90, true);
         break;
-    case "TiB":
+    case "tib":
         show += round(bytes / Math.pow(1024, 4), 2);
         show += "&nbsp;" + genlang(86, true);
         break;
-    case "GiB":
+    case "gib":
         show += round(bytes / Math.pow(1024, 3), 2);
         show += "&nbsp;" + genlang(87, true);
         break;
-    case "MiB":
+    case "mib":
         show += round(bytes / Math.pow(1024, 2), 2);
         show += "&nbsp;" + genlang(88, true);
         break;
-    case "KiB":
+    case "kib":
         show += round(bytes / Math.pow(1024, 1), 2);
         show += "&nbsp;" + genlang(89, true);
         break;
-    case "PB":
+    case "pb":
         show += round(bytes / Math.pow(1000, 5), 2);
         show += "&nbsp;" + genlang(91, true);
         break;
-    case "TB":
+    case "tb":
         show += round(bytes / Math.pow(1000, 4), 2);
         show += "&nbsp;" + genlang(85, true);
         break;
-    case "GB":
+    case "gb":
         show += round(bytes / Math.pow(1000, 3), 2);
         show += "&nbsp;" + genlang(41, true);
         break;
-    case "MB":
+    case "mb":
         show += round(bytes / Math.pow(1000, 2), 2);
         show += "&nbsp;" + genlang(40, true);
         break;
-    case "KB":
+    case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
         show += "&nbsp;" + genlang(39, true);
         break;
-    case "B":
+    case "b":
         show += bytes;
         show += "&nbsp;" + genlang(96, true);
         break;

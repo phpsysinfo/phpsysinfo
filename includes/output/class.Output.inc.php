@@ -37,7 +37,6 @@ abstract class Output
      */
     public function __construct()
     {
-        CommonFunctions::checkForSVN();
         CommonFunctions::checkForExtensions();
         $this->error = Error::singleton();
         $this->_checkConfig();

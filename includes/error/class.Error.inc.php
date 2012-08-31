@@ -161,7 +161,7 @@ class Error
         $dom->appendChild($root);
         $xml = new SimpleXMLExtended(simplexml_import_dom($dom), 'UTF-8');
         $generation = $xml->addChild('Generation');
-        $generation->addAttribute('version', CommonFunctions::$PSI_VERSION_STRING);
+        $generation->addAttribute('version', PSI_VERSION_STRING);
         $generation->addAttribute('timestamp', time());
         $xmlerr = $xml->addChild("Errors");
         foreach ($this->_arrErrorList as $arrLine) {

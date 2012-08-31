@@ -1,29 +1,29 @@
 <?php
 /**
- * ipmi Plugin
+ * ipmiinfo Plugin
  *
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_Plugin_ipmi
+ * @package   PSI_Plugin_ipmiinfo
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.ipmi.inc.php 639 2012-08-24 17:09:35Z namiltd $
+ * @version   SVN: $Id: class.ipmiinfo.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 /**
- * ipmi plugin, which displays all ipmi informations available 
+ * ipmiinfo plugin, which displays all ipmi informations available 
  *
  * @category  PHP
- * @package   PSI_Plugin_ipmi
+ * @package   PSI_Plugin_ipmiinfo
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class ipmi extends PSI_Plugin {
+class ipmiinfo extends PSI_Plugin {
     private $_lines;
 
     public function __construct($enc) {
@@ -122,18 +122,18 @@ class ipmi extends PSI_Plugin {
 
     public function execute() {
         $this->_lines = array();
-        switch (PSI_PLUGIN_IPMI_ACCESS) {
+        switch (strtolower(PSI_PLUGIN_IPMIINFO_ACCESS)) {
             case 'command':
                 $lines = "";
                 if ((CommonFunctions::executeProgram('ipmitool', 'sensor', $lines))&&(!empty($lines)))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
-                if ((CommonFunctions::rfts(APP_ROOT."/data/ipmi.txt", $lines))&&(!empty($lines)))
+                if ((CommonFunctions::rfts(APP_ROOT."/data/ipmiinfo.txt", $lines))&&(!empty($lines)))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
-                $this->error->addConfigError('__construct()', 'PSI_PLUGIN_IPMI_ACCESS');
+                $this->error->addConfigError('__construct()', 'PSI_PLUGIN_IPMIINFO_ACCESS');
                 break;
         }
     }

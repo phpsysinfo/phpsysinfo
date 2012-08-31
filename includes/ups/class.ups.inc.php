@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.UPS.inc.php 333 2009-09-12 09:22:20Z bigmichi1 $
+ * @version   SVN: $Id: class.ups.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**

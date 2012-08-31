@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Webpage.inc.php 412 2010-12-29 09:45:53Z Jacky672 $
+ * @version   SVN: $Id: class.Webpage.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -71,12 +71,12 @@ class Webpage extends Output implements PSI_Interface_Output
      */
     private function _checkTemplateLanguage()
     {
-        $this->_template = trim(PSI_DEFAULT_TEMPLATE);
+        $this->_template = trim(strtolower(PSI_DEFAULT_TEMPLATE));
         if (!file_exists(APP_ROOT.'/templates/'.$this->_template.".css")) {
             $this->_template = 'phpsysinfo';
         }
         
-        $this->_language = trim(PSI_DEFAULT_LANG);
+        $this->_language = trim(strtolower(PSI_DEFAULT_LANG));
         if (!file_exists(APP_ROOT.'/language/'.$this->_language.".xml")) {
             $this->_language = 'en';
         }

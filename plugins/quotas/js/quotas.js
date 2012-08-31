@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: Quotas.js 518 2011-10-28 08:09:07Z namiltd $
+// $Id: quotas.js 661 2012-08-27 11:26:39Z namiltd $
 //
 
 /*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, formatBytes, createBar */

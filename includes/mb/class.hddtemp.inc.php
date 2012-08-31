@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.HDDTemp.inc.php 344 2010-01-16 22:41:37Z jacky672 $
+ * @version   SVN: $Id: class.hddtemp.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -35,7 +35,7 @@ class HDDTemp extends Sensors
     private function _temperature()
     {
         $ar_buf = array();
-        switch (PSI_HDD_TEMP) {
+        switch (strtolower(PSI_HDD_TEMP)) {
         case "tcp":
             $lines = '';
             // Timo van Roermund: connect to the hddtemp daemon, use a 5 second timeout.

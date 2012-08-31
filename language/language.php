@@ -11,7 +11,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: language.php 305 2009-07-18 18:17:10Z BigMichi1 $
+ * @version   SVN: $Id: language.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 
@@ -62,10 +62,10 @@ if ($plugin == null) {
         echo file_get_contents(APP_ROOT.'/language/en.xml');
     }
 } else {
-    if (file_exists(APP_ROOT.'/plugins/'.$plugin.'/lang/'.$lang.'.xml')) {
-        echo file_get_contents(APP_ROOT.'/plugins/'.$plugin.'/lang/'.$lang.'.xml');
+    if (file_exists(APP_ROOT.'/plugins/'.strtolower($plugin).'/lang/'.$lang.'.xml')) {
+        echo file_get_contents(APP_ROOT.'/plugins/'.strtolower($plugin).'/lang/'.$lang.'.xml');
     } else {
-        echo file_get_contents(APP_ROOT.'/plugins/'.$plugin.'/lang/en.xml');
+        echo file_get_contents(APP_ROOT.'/plugins/'.strtolower($plugin).'/lang/en.xml');
     }
 }
 ?>

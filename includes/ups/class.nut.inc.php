@@ -10,7 +10,7 @@
  * @author    Anders Häggström <hagge@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Nut.inc.php 287 2009-06-26 12:11:59Z bigmichi1 $
+ * @version   SVN: $Id: class.nut.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**

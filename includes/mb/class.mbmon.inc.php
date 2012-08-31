@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.MBMon.inc.php 491 2011-08-17 11:51:36Z jacky672 $
+ * @version   SVN: $Id: class.mbmon.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**

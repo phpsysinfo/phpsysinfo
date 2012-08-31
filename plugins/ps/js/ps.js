@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: PS.js 510 2011-10-24 18:01:22Z namiltd $
+// $Id: ps.js 661 2012-08-27 11:26:39Z namiltd $
 //
 
 /*global $, jQuery, buildBlock, datetime, plugin_translate, createBar, genlang */

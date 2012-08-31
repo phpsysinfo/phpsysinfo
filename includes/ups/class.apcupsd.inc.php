@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Apcupsd.inc.php 417 2011-01-14 12:57:16Z jacky672 $
+ * @version   SVN: $Id: class.apcupsd.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -39,11 +39,17 @@ class Apcupsd extends UPS
     public function __construct()
     {
         parent::__construct();
-        $upses = preg_split('/,/', PSI_UPS_APCUPSD_LIST, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($upses as $ups) {
-            CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);
-            if (! empty($temp)) {
-                $this->_output[] = $temp;
+        if ( defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST) ) {
+            if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
+                $upses = eval(PSI_UPS_APCUPSD_LIST);
+            } else {
+                $upses = array(PSI_UPS_APCUPSD_LIST);
+            }
+            foreach ($upses as $ups) {
+                CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);
+                if (! empty($temp)) {
+                    $this->_output[] = $temp;
+                }
             }
         }
     }

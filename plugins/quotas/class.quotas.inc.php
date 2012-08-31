@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Quotas.inc.php 639 2012-08-24 17:09:35Z namiltd $
+ * @version   SVN: $Id: class.quotas.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -50,7 +50,7 @@ class Quotas extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
-        switch (PSI_PLUGIN_QUOTAS_ACCESS) {
+        switch (strtolower(PSI_PLUGIN_QUOTAS_ACCESS)) {
         case 'command':
             CommonFunctions::executeProgram("repquota", "-au", $buffer, PSI_DEBUG);
             break;

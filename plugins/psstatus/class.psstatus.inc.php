@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.PSStatus.inc.php 639 2012-08-24 17:09:35Z namiltd $
+ * @version   SVN: $Id: class.psstatus.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -51,7 +51,7 @@ class PSStatus extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
-        switch (PSI_PLUGIN_PSSTATUS_ACCESS) {
+        switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
         case 'command':
             if (PHP_OS == 'WINNT') {
                 $objLocator = new COM("WbemScripting.SWbemLocator");
@@ -61,11 +61,17 @@ class PSStatus extends PSI_Plugin
                     $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
                 }
             } else {
-                $processes = preg_split("/([\s]+)?,([\s]+)?/", PSI_PLUGIN_PSSTATUS_PROCESSES, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($processes as $process) {
-                    CommonFunctions::executeProgram("pidof", "-s ".$process, $buffer, PSI_DEBUG);
-                    if (strlen(trim($buffer)) > 0) {
-                        $this->_filecontent[] = array($process, trim($buffer));
+                if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
+                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                        $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                    } else {
+                        $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                    }
+                    foreach ($processes as $process) {
+                        CommonFunctions::executeProgram("pidof", "-s ".$process, $buffer, PSI_DEBUG);
+                        if (strlen(trim($buffer)) > 0) {
+                            $this->_filecontent[] = array($process, trim($buffer));
+                        }
                     }
                 }
             }
@@ -98,11 +104,18 @@ class PSStatus extends PSI_Plugin
         if ( empty($this->_filecontent)) {
             return;
         }
-        foreach (preg_split("/([\s]+)?,([\s]+)?/", PSI_PLUGIN_PSSTATUS_PROCESSES, -1, PREG_SPLIT_NO_EMPTY) as $process) {
-            if ($this->_recursiveinarray($process, $this->_filecontent)) {
-                $this->_result[] = array($process, true);
+        if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
+            if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
             } else {
-                $this->_result[] = array($process, false);
+                $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
+            }
+            foreach ($processes as $process) {
+                if ($this->_recursiveinarray($process, $this->_filecontent)) {
+                    $this->_result[] = array($process, true);
+                } else {
+                    $this->_result[] = array($process, false);
+                }
             }
         }
     }

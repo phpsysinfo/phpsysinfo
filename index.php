@@ -10,7 +10,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: index.php 412 2010-12-29 09:45:53Z Jacky672 $
+ * @version   SVN: $Id: index.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -44,7 +44,7 @@ else {
 }
 
 // redirect to page with and without javascript
-$display = isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE;
+$display = isset($_GET['disp']) ? $_GET['disp'] : strtolower(PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
 case "static":
     $webpage = new WebpageXSLT();

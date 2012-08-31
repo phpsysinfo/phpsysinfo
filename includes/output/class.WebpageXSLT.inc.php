@@ -40,7 +40,6 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
      */
     public function run()
     {
-        CommonFunctions::checkForSVN();
         CommonFunctions::checkForExtensions(array('xsl'));
         $xmlfile = $this->getXMLString();
         $xslfile = "phpsysinfo.xslt";

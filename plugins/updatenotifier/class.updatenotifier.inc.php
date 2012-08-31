@@ -9,7 +9,7 @@
  * @author    Damien ROTH <iysaak@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.UpdateNotifier.inc.php 640 2012-08-24 18:54:19Z namiltd $
+ * @version   SVN: $Id: class.updatenotifier.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 /**
@@ -20,7 +20,7 @@
  * @author    Damien ROTH <iysaak@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   $Id: class.UpdateNotifier.inc.php 640 2012-08-24 18:54:19Z namiltd $
+ * @version   $Id: class.updatenotifier.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 class UpdateNotifier extends PSI_Plugin

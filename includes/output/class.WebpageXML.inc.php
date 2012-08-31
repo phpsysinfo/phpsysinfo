@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.WebpageXML.inc.php 596 2012-07-05 19:37:48Z namiltd $
+ * @version   SVN: $Id: class.WebpageXML.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -69,9 +69,9 @@ class WebpageXML extends Output implements PSI_Interface_Output
             // check if there is a valid sensor configuration in config.php
             $found = false;
             if (PSI_SENSOR_PROGRAM !== false) {
-                if (!file_exists(APP_ROOT.'/includes/mb/class.'.PSI_SENSOR_PROGRAM.'.inc.php')) {
+                if (!file_exists(APP_ROOT.'/includes/mb/class.'.strtolower(PSI_SENSOR_PROGRAM).'.inc.php')) {
                     $found = false;
-                    $this->error->addError("file_exists(class.".htmlspecialchars(PSI_SENSOR_PROGRAM).".inc.php)", "specified sensor program is not supported");
+                    $this->error->addError("file_exists(class.".htmlspecialchars(strtolower(PSI_SENSOR_PROGRAM)).".inc.php)", "specified sensor program is not supported");
                 } else {
                     $found = true;
                 }
@@ -98,9 +98,9 @@ class WebpageXML extends Output implements PSI_Interface_Output
             // check if there is a valid ups configuration in config.php
             $found = false;
             if (PSI_UPS_PROGRAM !== false) {
-                if (!file_exists(APP_ROOT.'/includes/ups/class.'.PSI_UPS_PROGRAM.'.inc.php')) {
+                if (!file_exists(APP_ROOT.'/includes/ups/class.'.strtolower(PSI_UPS_PROGRAM).'.inc.php')) {
                     $found = false;
-                    $this->error->addError("file_exists(class.".htmlspecialchars(PSI_UPS_PROGRAM).".inc.php)", "specified UPS program is not supported");
+                    $this->error->addError("file_exists(class.".htmlspecialchars(strtolower(PSI_UPS_PROGRAM)).".inc.php)", "specified UPS program is not supported");
                 } else {
                     $found = true;
                 }
@@ -165,7 +165,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             $this->_completeXML = true;
         }
         if ($plugin) {
-            if (in_array($plugin, CommonFunctions::getPlugins())) {
+            if (in_array(strtolower($plugin), CommonFunctions::getPlugins())) {
                 $this->_pluginName = $plugin;
                 $this->_pluginRequest = true;
             }

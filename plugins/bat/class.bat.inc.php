@@ -9,7 +9,7 @@
  * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.BAT.inc.php 334 2009-09-16 15:21:39Z jacky672 $
+ * @version   SVN: $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -20,7 +20,7 @@
  * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   $Id: class.BAT.inc.php 334 2009-09-16 15:21:39Z jacky672 $
+ * @version   $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 class BAT extends PSI_Plugin
@@ -45,7 +45,7 @@ class BAT extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
-        switch (PSI_PLUGIN_BAT_ACCESS) {
+        switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
             CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/info', $buffer_info);
             CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/state', $buffer_state);
