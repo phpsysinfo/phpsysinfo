@@ -6,7 +6,7 @@
  * Licensed under the MIT license
  *
  * $Date: 2010-02-23 (Tue, 23 Feb 2010) $
- * $version: 1.6.2
+ * $version: 1.6.2+jquery1.8fix
  */
 jQuery(function($) {
 
@@ -1543,7 +1543,7 @@ jQuery(function($) {
 	}
 
 	function getCurCSS(elm, name) {
-		var ret = parseInt($.curCSS(elm, name, true));
+		var ret = parseInt($.css(elm, name, true));
 		if (isNaN(ret))
 			ret = 0;
 		return ret;

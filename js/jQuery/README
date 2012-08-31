@@ -3,7 +3,7 @@ versions, links and simple description of used jquery files
 
 jquery.js
 ---------
-VERSION  : 1.7.2
+VERSION  : 1.8.1
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle 
            events, perform animations, and add Ajax interactions to your web pages.
@@ -20,7 +20,7 @@ USED     : provide tablesorting for the filesystem table
 
 jquery.nyroModal.js
 -------------------
-VERSION  : 1.6.2
+VERSION  : 1.6.2+jquery1.8fix
 URL      : http://plugins.jquery.com/project/nyroModal
 DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
