@@ -47,13 +47,17 @@ if (!defined('PSI_CONFIG_FILE')){
             if (function_exists('errorHandlerPsi')) restore_error_handler();
             $contents = file_get_contents('/etc/sysconfig/i18n');
             if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
-            if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
-                if (exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
-                    foreach ($lines as $line) {
-                        if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches)) {
-                            define('PSI_SYSTEM_CHARSET', $matches[1]);
-                            break;
-                        }
+        } else if  (file_exists ('/etc/default/locale')){
+            if (function_exists('errorHandlerPsi')) restore_error_handler();
+            $contents = file_get_contents('/etc/default/locale');
+            if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+        } else $contents = false;
+        if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
+            if (exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
+                foreach ($lines as $line) {
+                    if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches)) {
+                        define('PSI_SYSTEM_CHARSET', $matches[1]);
+                        break;
                     }
                 }
             }
