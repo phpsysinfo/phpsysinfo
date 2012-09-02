@@ -221,11 +221,11 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if (PHP_OS == "Minix") 
-           $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        if (PHP_OS == "WINNT") 
+        if ( (PHP_OS == "Minix") || (PSI_SYSTEM_CHARSET == "UTF-8") )
+            $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
+        else if (PHP_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
-        else 
+        else
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom');
         $extensions = array_merge($arrExt, $arrReq);
         $text = "";

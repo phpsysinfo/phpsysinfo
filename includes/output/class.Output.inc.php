@@ -37,9 +37,11 @@ abstract class Output
      */
     public function __construct()
     {
-        CommonFunctions::checkForExtensions();
         $this->error = Error::singleton();
         $this->_checkConfig();
+        CommonFunctions::checkForExtensions();
+//        $this->error = Error::singleton();
+//        $this->_checkConfig();
     }
     
     /**

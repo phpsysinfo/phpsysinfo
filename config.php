@@ -1,10 +1,10 @@
 <?php 
 if (!defined('PSI_CONFIG_FILE')){
+//putenv('LANG=C.UTF-8');
     /**
      * phpSysInfo version
      */
     define('PSI_VERSION','3.1.x');
-
     /**
      * phpSysInfo configuration
      */
@@ -40,6 +40,29 @@ if (!defined('PSI_CONFIG_FILE')){
     if (!defined('PSI_VERSION_STRING')){ 
         define('PSI_VERSION_STRING', PSI_VERSION);
     }
+
+    /* get Linux charset */
+    if (PHP_OS == 'Linux'){
+        if  (file_exists ('/etc/sysconfig/i18n')){
+            if (function_exists('errorHandlerPsi')) restore_error_handler();
+            $contents = file_get_contents('/etc/sysconfig/i18n');
+            if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+            if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
+                if (exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
+                    foreach ($lines as $line) {
+                        if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches)) {
+                            define('PSI_SYSTEM_CHARSET', $matches[1]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (!defined('PSI_SYSTEM_CHARSET')){ 
+        define('PSI_SYSTEM_CHARSET', null);
+    }
+
 
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 

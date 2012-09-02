@@ -55,7 +55,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function getEncoding()
     {
-        return null;
+        return PSI_SYSTEM_CHARSET;
     }
     
     /**
