@@ -294,4 +294,7 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
+  <expression id="097" name="details">
+    <exp>details</exp>
+  </expression>
 </tns:translation>

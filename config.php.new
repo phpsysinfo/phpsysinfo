@@ -274,4 +274,10 @@ define('PSI_UPS_PROGRAM', false);
  */
 define('PSI_UPS_APCUPSD_LIST', '127.0.0.1:3551');
 
+/**
+ * Apcupsd has a CGI monitoring utility called apcupsd-cgi
+ * You can set the parameter below to true if you have it installed - this will add apcupsd-cgi links to the UPS tree
+ */
+define('PSI_UPS_APCUPSD_CGI_ENABLE', false);
+
 ?>
