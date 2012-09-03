@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: phpsysinfo.js 661 2012-08-27 11:26:39Z namiltd $
+// $Id: phpsysinfo.js 672 2012-09-03 14:35:06Z namiltd $
 //
 
 /*global $, jQuery */
@@ -567,8 +567,9 @@ function createBar(size) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var language = "", charmap = "";
     var lastboot = 0, timestamp = Number(new Date());
-    
+
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
         ip = $(this).attr("IPAddr");
@@ -582,6 +583,18 @@ function refreshVitals(xml) {
         if ($(this).attr("CPULoad") !== undefined) {
             loadavg = loadavg + "<br/>" + createBar(parseInt($(this).attr("CPULoad"), 10));
         }
+        if ($(this).attr("Language") !== undefined) {
+            language = $(this).attr("Language");
+            document.getElementById("s_language_tr").style.display='';
+        }
+        if ($(this).attr("Charmap") !== undefined) {
+            charmap = $(this).attr("Charmap");
+            if ($(this).attr("Language") !== undefined) {
+                document.getElementById("s_charmap_tr1").style.display='';
+            } else {
+                document.getElementById("s_charmap_tr2").style.display='';
+            }
+        }
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
         $("#s_ip_title").html(ip);
@@ -593,6 +606,9 @@ function refreshVitals(xml) {
         $("#s_lastboot").html(lastboot.toGMTString()); //toGMTString() or toLocaleString()
         $("#s_users").html(users);
         $("#s_loadavg").html(loadavg);
+        $("#s_language").html(language);
+        $("#s_charmap_1").html(charmap);
+        $("#s_charmap_2").html(charmap);
     });
 }
 

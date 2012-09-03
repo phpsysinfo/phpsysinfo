@@ -46,16 +46,37 @@ if (!defined('PSI_CONFIG_FILE')){
         if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
-                    if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches)) {
-                        define('PSI_SYSTEM_CHARSET', $matches[1]);
+                    if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches2)) {
+                        define('PSI_SYSTEM_CHARSET', $matches2[1]);
                         break;
                     }
                 }
             }
+            if (@exec($matches[1].' locale 2>/dev/null', $lines)) {
+                foreach ($lines as $line) {
+                    if ($contents && preg_match("/^LC_MESSAGES=\"([^\.\"@]*)/m", $line, $matches2)) {
+                        $lang = "";
+                        if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
+                            if (isset($langdata['Linux']['_'.$matches2[1]])) {
+                                $lang = $langdata['Linux']['_'.$matches2[1]];
+                            }
+                        }
+                        if ($lang == ""){
+                            $lang = 'Unknown';
+                        }
+                        define('PSI_SYSTEM_LANGUAGE', $lang.' ('.$matches2[1].')');
+                        break;
+                    }
+                }
+            }
+
         }
     }
     if (!defined('PSI_SYSTEM_CHARSET')){ 
         define('PSI_SYSTEM_CHARSET', null);
+    }
+    if (!defined('PSI_SYSTEM_LANGUAGE')){ 
+        define('PSI_SYSTEM_LANGUAGE', null);
     }
 
 

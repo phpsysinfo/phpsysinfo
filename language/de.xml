@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: de.xml 586 2012-06-16 17:50:46Z namiltd $ -->
+<!-- $Id: de.xml 672 2012-09-03 14:35:06Z namiltd $ -->
 <!--
 phpSysInfo language file Language: German Created by: Michael Cramer
 -->
@@ -293,5 +293,11 @@ phpSysInfo language file Language: German Created by: Michael Cramer
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
+  </expression>
+  <expression id="097" name="language">
+    <exp>System Language</exp>
+  </expression>
+  <expression id="098" name="charmap">
+    <exp>Charmap</exp>
   </expression>
 </tns:translation>

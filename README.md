@@ -18,7 +18,7 @@ CURRENT TESTED PLATFORMS
 	- IBM AIX
 	- HP-UX
 	- Darwin/OSX
-	- Windows 2000 / Windows 2003 / Windows XP / Windows Vista / Windows 7
+	- Windows 2000 / Windows 2003 / Windows XP / Windows Vista / Windows 7 / Windows 8
 	- > PHP 5.2 or later
 	  - With PCRE, XML, XSL, MBString and SimpleXML extension.
 

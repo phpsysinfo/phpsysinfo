@@ -30,6 +30,8 @@
     	<attribute name="Users" type="unsignedLong" use="required"></attribute>
     	<attribute name="LoadAvg" type="string" use="required"></attribute>
     	<attribute name="CPULoad" type="integer" use="optional"></attribute>
+    	<attribute name="Language" type="string" use="optional"></attribute>
+    	<attribute name="Charmap" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="NetDevice">

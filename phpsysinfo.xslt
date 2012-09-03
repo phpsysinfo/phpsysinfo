@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--  $Id: phpsysinfo.xslt 663 2012-08-27 22:27:01Z namiltd $ -->
+    <!--  $Id: phpsysinfo.xslt 672 2012-09-03 14:35:06Z namiltd $ -->
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -189,6 +189,34 @@
                                                     </xsl:if>
                                                 </td>
                                             </tr>
+                                            <xsl:if
+                                                test="count(@Language )&gt;0">
+                                                <tr class="odd">
+                                                    <td style="width:160px;">
+                                                        <span>
+                                                            <xsl:text>System Language</xsl:text>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <xsl:value-of
+                                                            select="@Language" />
+                                                    </td>
+                                                </tr>
+                                            </xsl:if>
+                                            <xsl:if
+                                                test="count(@Charmap )&gt;0">
+                                                <tr class="odd">
+                                                    <td style="width:160px;">
+                                                        <span>
+                                                            <xsl:text>Charmap</xsl:text>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <xsl:value-of
+                                                            select="@Charmap" />
+                                                    </td>
+                                                </tr>
+                                            </xsl:if>
                                         </tbody>
                                     </table>
                                 </xsl:for-each>
