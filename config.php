@@ -1,6 +1,5 @@
 <?php 
 if (!defined('PSI_CONFIG_FILE')){
-//putenv('LANG=C.UTF-8');
     /**
      * phpSysInfo version
      */
@@ -12,13 +11,9 @@ if (!defined('PSI_CONFIG_FILE')){
 
     /* get git revision */ 
     if  (file_exists (APP_ROOT.'/.git/HEAD')){
-        if (function_exists('errorHandlerPsi')) restore_error_handler();
-        $contents = file_get_contents(APP_ROOT.'/.git/HEAD');
-        if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+        $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
-            if (function_exists('errorHandlerPsi')) restore_error_handler();
-            $contents = file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
-            if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+            $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
             if ($contents && preg_match("/^([^\s]*)/m", $contents, $revision)) {
                 define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]."-".$revision[1]);
             } else {
@@ -28,9 +23,7 @@ if (!defined('PSI_CONFIG_FILE')){
     }
     /* get svn revision */
     if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))){ 
-        if (function_exists('errorHandlerPsi')) restore_error_handler();
-        $contents = file_get_contents(APP_ROOT.'/.svn/entries');
-        if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+        $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
         } else {
@@ -44,16 +37,14 @@ if (!defined('PSI_CONFIG_FILE')){
     /* get Linux charset */
     if (PHP_OS == 'Linux'){
         if  (file_exists ('/etc/sysconfig/i18n')){
-            if (function_exists('errorHandlerPsi')) restore_error_handler();
-            $contents = file_get_contents('/etc/sysconfig/i18n');
-            if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+            $contents = @file_get_contents('/etc/sysconfig/i18n');
         } else if  (file_exists ('/etc/default/locale')){
-            if (function_exists('errorHandlerPsi')) restore_error_handler();
-            $contents = file_get_contents('/etc/default/locale');
-            if (function_exists('errorHandlerPsi')) set_error_handler('errorHandlerPsi');
+            $contents = @file_get_contents('/etc/default/locale');
+        } else if  (file_exists ('/etc/locale.conf')){
+            $contents = @file_get_contents('/etc/locale.conf');
         } else $contents = false;
         if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
-            if (exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
+            if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches)) {
                         define('PSI_SYSTEM_CHARSET', $matches[1]);
