@@ -35,8 +35,8 @@ INSTALLATION AND CONFIGURATION
 	Just decompress and untar the source (which you should have done by now,
 	if you're reading this...), into your webserver's document root.
 
-	There is a configuration file called config.php.new. If this a brand new
-	installation, you should copy this file to config.php and edit it.
+	There is a configuration file called phpsysinfo.ini.new. If this a brand new
+	installation, you should copy this file to phpsysinfo.ini and edit it.
 
 	- make sure your 'php.ini' file's include_path entry contains "."
 	- make sure your 'php.ini' has safe_mode set to 'off'.
