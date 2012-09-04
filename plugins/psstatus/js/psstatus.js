@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: psstatus.js 661 2012-08-27 11:26:39Z namiltd $
+// $Id: psstatus.js 679 2012-09-04 10:10:11Z namiltd $
 //
 
 /*global $, jQuery, buildBlock, datetime, plugin_translate, genlang */
@@ -42,10 +42,10 @@ function psstatus_populate(xml) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("Status"), 10);
         if (status === 1 && !isNaN(status)) {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/PSStatus/gfx/online.png\" alt=\"online\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/online.png\" alt=\"online\" />";
         }
         else {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/PSStatus/gfx/offline.png\" alt=\"offline\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/offline.png\" alt=\"offline\" />";
         }
         psstatus_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
         psstatus_show = true;

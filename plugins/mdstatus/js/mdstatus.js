@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: mdstatus.js 661 2012-08-27 11:26:39Z namiltd $
+// $Id: mdstatus.js 679 2012-09-04 10:10:11Z namiltd $
 //
 
 /*global $, jQuery, buildBlock, genlang, createBar, plugin_translate, datetime */
@@ -121,7 +121,7 @@ function mdstatus_diskicon(xml) {
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/MDStatus/gfx/" + img + "\" alt=\"" + alt + "\" />";
+        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" />";
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });
