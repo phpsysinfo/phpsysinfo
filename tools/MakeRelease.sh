@@ -22,8 +22,8 @@ find . -type d -name .svn -exec rm -fr {} \;
 #remove some dirs
 rm -rf tools sample
 
-#remove config.php
-rm -rf config.php .cvsignore .project
+#remove phpsysinfo.ini
+rm -rf phpsysinfo.ini .cvsignore .project
 
 #create archive
 cd ..
