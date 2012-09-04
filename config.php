@@ -13,7 +13,11 @@ if (!defined('PSI_CONFIG_FILE')){
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
     }
-
+    
+    /* fatal errors only */
+    $old_err_rep = error_reporting();
+    error_reporting(E_ERROR);
+    
     /* get git revision */ 
     if  (file_exists (APP_ROOT.'/.git/HEAD')){
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
@@ -83,6 +87,9 @@ if (!defined('PSI_CONFIG_FILE')){
     if (!defined('PSI_SYSTEM_LANGUAGE')){ 
         define('PSI_SYSTEM_LANGUAGE', null);
     }
+    
+    /* restore error level */
+    error_reporting($old_err_rep);
     
     /* restore error handler */
     if (function_exists('errorHandlerPsi')) {
