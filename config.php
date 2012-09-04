@@ -9,6 +9,11 @@ if (!defined('PSI_CONFIG_FILE')){
      */
     define('PSI_CONFIG_FILE', APP_ROOT.'/phpsysinfo.ini');
 
+    /* default error handler */
+    if (function_exists('errorHandlerPsi')) {
+        restore_error_handler();
+    }
+
     /* get git revision */ 
     if  (file_exists (APP_ROOT.'/.git/HEAD')){
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
@@ -78,7 +83,11 @@ if (!defined('PSI_CONFIG_FILE')){
     if (!defined('PSI_SYSTEM_LANGUAGE')){ 
         define('PSI_SYSTEM_LANGUAGE', null);
     }
-
+    
+    /* restore error handler */
+    if (function_exists('errorHandlerPsi')) {
+        set_error_handler('errorHandlerPsi');
+    }
 
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
