@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Linux.inc.php 637 2012-08-21 08:50:57Z namiltd $
+ * @version   SVN: $Id: class.Linux.inc.php 681 2012-09-04 12:19:07Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -545,6 +545,10 @@ class Linux extends OS
                 if (!isset($distribution["Files"])) {
                     continue;
                 } else {
+                    /* default error handler */
+                    if (function_exists('errorHandlerPsi')) {
+                        restore_error_handler();
+                    }
                     foreach (preg_split("/;/", $distribution["Files"], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
                         if (file_exists($filename)) {
                             CommonFunctions::rfts($filename, $buf);
@@ -600,6 +604,10 @@ class Linux extends OS
                             return;
                         }
                     }
+                    /* restore error handler */
+                    if (function_exists('errorHandlerPsi')) {
+                        set_error_handler('errorHandlerPsi');
+                    } 
                 }
             }
         }
