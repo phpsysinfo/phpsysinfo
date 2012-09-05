@@ -43,6 +43,30 @@ else {
     include_once APP_ROOT.'/config.php';
 }
 
+/*
+if (!defined('PSI_DEBUG')){
+    trigger_error("Error: phpSysInfo requires setting 'DEBUG' (true or false) in 'phpsysinfo.ini'", E_USER_ERROR);
+}
+if (PSI_DEBUG === true){
+// Safe mode check
+    $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
+    if ($safe_mode) {
+         echo "Warning: phpSysInfo requires you to set off 'safe_mode' in 'php.ini'";
+    }
+// Include path check
+    $include_path = @ini_get("include_path");
+    if (($include_path)&&($include_path!="")) {
+        $include_path = str_replace(":", "\n", $include_path);
+        if (preg_match("/^\.$/m", $include_path)) {
+            $include_path = ".";
+        }
+    }
+    if ($include_path != "." ) {
+         echo "Warning: phpSysInfo requires '.' inside the 'include_path' in php.ini";
+    }
+}
+*/
+
 // redirect to page with and without javascript
 $display = isset($_GET['disp']) ? $_GET['disp'] : strtolower(PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
