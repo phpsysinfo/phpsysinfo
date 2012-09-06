@@ -9,7 +9,7 @@
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Minix.inc.php 622 2012-08-04 20:39:40Z namiltd $
+ * @version   SVN: $Id: class.Minix.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -39,7 +39,6 @@ class Minix extends OS
     public function __construct()
     {
         parent::__construct();
-        $this->error->addError("WARN", "The Minix version of phpSysInfo is work in progress, some things currently don't work");
     }
     
     /**
@@ -315,6 +314,7 @@ class Minix extends OS
      */
     function build()
     {
+        $this->error->addError("WARN", "The Minix version of phpSysInfo is work in progress, some things currently don't work");
         $this->_hostname();
         $this->_ip();
         $this->_distro();

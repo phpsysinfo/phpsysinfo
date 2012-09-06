@@ -9,7 +9,7 @@
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Haiku.inc.php 626 2012-08-08 12:56:05Z namiltd $
+ * @version   SVN: $Id: class.Haiku.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -39,7 +39,6 @@ class Haiku extends OS
     public function __construct()
     {
         parent::__construct();
-        $this->error->addError("WARN", "The Haiku version of phpSysInfo is work in progress, some things currently don't work");
     }
     
     /**
@@ -98,27 +97,26 @@ class Haiku extends OS
             $devices = preg_split("/^device /m", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($devices as $device) {
                 $ar_buf = preg_split("/\n/", $device); 
-        	if (count($ar_buf) >= 3) {
-		    
-        	    if (preg_match("/^([^\(\[\n]*)/", $device, $ar_buf2)) {
-            		if (preg_match("/^[^\(]*\((.*)\)/", $device, $ar_buf3)) {
-                	    $ar_buf2[1] = $ar_buf3[1];
-            		}
-            		$name = trim($ar_buf2[1]).": ";
+                if (count($ar_buf) >= 3) {
+                    if (preg_match("/^([^\(\[\n]*)/", $device, $ar_buf2)) {
+                        if (preg_match("/^[^\(]*\((.*)\)/", $device, $ar_buf3)) {
+                            $ar_buf2[1] = $ar_buf3[1];
+                        }
+                        $name = trim($ar_buf2[1]).": ";
 
-            		if (preg_match("/^\s+vendor\s+[0-9a-fA-F]{4}:\s+(.*)/", $ar_buf[1], $ar_buf3)) {
-                	    $name .=$ar_buf3[1]." ";
-            		}
-            		if (preg_match("/^\s+device\s+[0-9a-fA-F]{4}:\s+(.*)/", $ar_buf[2], $ar_buf3)) {
-                	    $name .=$ar_buf3[1]." ";
-            		}
-            		$dev = new HWDevice();
-            		$dev->setName(trim($name));
-            		$this->sys->setPciDevices($dev);
-        	    }	 
-    		}
-	    }
-	}
+                        if (preg_match("/^\s+vendor\s+[0-9a-fA-F]{4}:\s+(.*)/", $ar_buf[1], $ar_buf3)) {
+                            $name .=$ar_buf3[1]." ";
+                        }
+                        if (preg_match("/^\s+device\s+[0-9a-fA-F]{4}:\s+(.*)/", $ar_buf[2], $ar_buf3)) {
+                            $name .=$ar_buf3[1]." ";
+                        }
+                        $dev = new HWDevice();
+                        $dev->setName(trim($name));
+                        $this->sys->setPciDevices($dev);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -130,15 +128,15 @@ class Haiku extends OS
     protected function _usb()
     {
         if (CommonFunctions::executeProgram('listusb', '', $bufr, PSI_DEBUG)){
-            $devices = preg_split("/\n/", $bufr); 
+            $devices = preg_split("/\n/", $bufr);
             foreach ($devices as $device) {
                 if (preg_match("/^\S+\s+\S+\s+\"(.*)\"\s+\"(.*)\"/", $device, $ar_buf)) {
-            	    $dev = new HWDevice();
-            	    $dev->setName(trim($ar_buf[1]." ".$ar_buf[2]));
-            	    $this->sys->setUSBDevices($dev);
-		}
+                    $dev = new HWDevice();
+                    $dev->setName(trim($ar_buf[1]." ".$ar_buf[2]));
+                    $this->sys->setUSBDevices($dev);
+                }
             }
-	}
+        }
     }
     
     /**
@@ -206,9 +204,9 @@ class Haiku extends OS
         if (CommonFunctions::executeProgram('top', '-n 1 -i 1', $buf)) {
             if (preg_match("/\s+(\S+)%\s+TOTAL\s+\(\S+%\s+idle time/", $buf, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1]);
-        	if (PSI_LOAD_BAR) {
-    		    $this->sys->setLoadPercent(round($ar_buf[1]));
-    		}
+                if (PSI_LOAD_BAR) {
+                    $this->sys->setLoadPercent(round($ar_buf[1]));
+                }
             }
         }
     }
@@ -278,14 +276,14 @@ class Haiku extends OS
         if (CommonFunctions::executeProgram('vmstat', '', $bufr, PSI_DEBUG)){
             if (preg_match("/max swap space:\s+(.*)\nfree swap space:\s+(.*)\n/", $bufr, $ar_buf)) {
                 if ($ar_buf[1]>0){
-            	    $dev = new DiskDevice();
-            	    $dev->setMountPoint("/boot/common/var/swap");
-            	    $dev->setName("SWAP");
-            	    $dev->setTotal($ar_buf[1]);
-            	    $dev->setFree($ar_buf[2]);
-            	    $dev->setUSed($ar_buf[1]-$ar_buf[2]);
-            	    $this->sys->setSwapDevices($dev);
-            	}
+                    $dev = new DiskDevice();
+                    $dev->setMountPoint("/boot/common/var/swap");
+                    $dev->setName("SWAP");
+                    $dev->setTotal($ar_buf[1]);
+                    $dev->setFree($ar_buf[2]);
+                    $dev->setUSed($ar_buf[1]-$ar_buf[2]);
+                    $this->sys->setSwapDevices($dev);
+                }
             }
         }
     }
@@ -325,51 +323,51 @@ class Haiku extends OS
     private function _network()
     {
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)){
-    	    $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-    	    $notwas = true;
-    	    foreach ($lines as $line) {
-        	if (preg_match("/^(\S+)/", $line, $ar_buf)) {
-    		    if (!$notwas) {
-			$dev->setErrors($errors);
-			$dev->setDrops($drops);
-            		$this->sys->setNetDevices($dev);
-            	    }
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $notwas = true;
+            foreach ($lines as $line) {
+                if (preg_match("/^(\S+)/", $line, $ar_buf)) {
+                    if (!$notwas) {
+                        $dev->setErrors($errors);
+                        $dev->setDrops($drops);
+                        $this->sys->setNetDevices($dev);
+                    }
                     $errors = 0;
                     $drops = 0;
-        	    $dev = new NetDevice();
-        	    $dev->setName($ar_buf[1]);
-            	    $notwas = false;
-    		} else {
-    		    if (!$notwas) {
+                    $dev = new NetDevice();
+                    $dev->setName($ar_buf[1]);
+                    $notwas = false;
+                } else {
+                    if (!$notwas) {
                         if (preg_match('/\sReceive:\s\d+\spackets,\s(\d+)\serrors,\s(\d+)\sbytes,\s\d+\smcasts,\s(\d+)\sdropped/i', $line, $ar_buf2)){
-                    	    $errors +=$ar_buf2[1];
-                    	    $drops +=$ar_buf2[3];
-        	            $dev->setRxBytes($ar_buf2[2]);
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[3];
+                            $dev->setRxBytes($ar_buf2[2]);
                         }
                         else if (preg_match('/\sTransmit:\s\d+\spackets,\s(\d+)\serrors,\s(\d+)\sbytes,\s\d+\smcasts,\s(\d+)\sdropped/i', $line, $ar_buf2)){
-                    	    $errors +=$ar_buf2[1];
-                    	    $drops +=$ar_buf2[3];
-        	            $dev->setTxBytes($ar_buf2[2]);
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[3];
+                            $dev->setTxBytes($ar_buf2[2]);
                         }
 
-                	if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             if (preg_match('/\sEthernet,\s+Address:\s(\S*)/i', $line, $ar_buf2))
-                                $dev->setInfo(preg_replace('/:/', '-', $ar_buf2[1]));
+                                    $dev->setInfo(preg_replace('/:/', '-', $ar_buf2[1]));
                             else if (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2))
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                                  else if (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2))
-                                    	  if (!preg_match('/^fe80::/i',$ar_buf2[1]))
-                                    		$dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                          if (!preg_match('/^fe80::/i',$ar_buf2[1]))
+                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }
-		    }
-    		}
-	    }
-    	    if (!$notwas) {
-		$dev->setErrors($errors);
-		$dev->setDrops($drops);
-        	$this->sys->setNetDevices($dev);
-    	    }
-      }
+                    }
+                }
+            }
+            if (!$notwas) {
+                $dev->setErrors($errors);
+                $dev->setDrops($drops);
+                $this->sys->setNetDevices($dev);
+            }
+        }
     }
     
     /**
@@ -379,6 +377,7 @@ class Haiku extends OS
      */
     function build()
     {
+        $this->error->addError("WARN", "The Haiku version of phpSysInfo is work in progress, some things currently don't work");
         $this->_hostname();
         $this->_ip();
         $this->_distro();

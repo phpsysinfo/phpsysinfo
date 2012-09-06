@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.SunOS.inc.php 580 2012-05-15 18:53:33Z namiltd $
+ * @version   SVN: $Id: class.SunOS.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -31,7 +31,6 @@ class SunOS extends OS
      */
     public function __construct()
     {
-        $this->error->addError("WARN", "The SunOS version of phpSysInfo is work in progress, some things currently don't work");
     }
     
     /**
@@ -265,6 +264,7 @@ class SunOS extends OS
      */
     function build()
     {
+        $this->error->addError("WARN", "The SunOS version of phpSysInfo is work in progress, some things currently don't work");
         $this->_hostname();
         $this->_ip();
         $this->_distro();

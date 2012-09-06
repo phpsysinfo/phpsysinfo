@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.XML.inc.php 672 2012-09-03 14:35:06Z namiltd $
+ * @version   SVN: $Id: class.XML.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -458,6 +458,24 @@ class XML
     {
         if (!$this->_plugin_request || $this->_complete_request) {
             if ($this->_sys === null) {
+                if (PSI_DEBUG === true){
+                    // Safe mode check
+                    $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
+                    if ($safe_mode) {
+                        $this->_errors->addError("WARN", "PhpSysInfo requires to set off 'safe_mode' in 'php.ini'");
+                    }
+                    // Include path check
+                    $include_path = @ini_get("include_path");
+                    if (($include_path)&&($include_path!="")) {
+                        $include_path = str_replace(":", "\n", $include_path);
+                        if (preg_match("/^\.$/m", $include_path)) {
+                            $include_path = ".";
+                        }
+                    }
+                    if ($include_path != "." ) {
+                        $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
+                    }
+                }
                 $this->_sys = $this->_sysinfo->getSys();
             }
             $this->_buildVitals();
