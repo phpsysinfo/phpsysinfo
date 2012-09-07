@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.XML.inc.php 688 2012-09-07 11:23:44Z namiltd $
+ * @version   SVN: $Id: class.XML.inc.php 689 2012-09-07 11:27:48Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -467,7 +467,7 @@ class XML
                     // Include path check
                     $include_path = @ini_get("include_path");
                     if (($include_path)&&($include_path!="")) {
-                        $include_path = preg_replace("/(:)|(;)/", "\n:, $include_path);
+                        $include_path = preg_replace("/(:)|(;)/", "\n", $include_path);
                         if (preg_match("/^\.$/m", $include_path)) {
                             $include_path = ".";
                         }
