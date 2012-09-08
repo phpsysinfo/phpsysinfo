@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.ps.inc.php 691 2012-09-08 16:34:21Z namiltd $
+ * @version   SVN: $Id: class.ps.inc.php 692 2012-09-08 17:12:08Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -51,8 +51,8 @@ class PS extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
             if (PHP_OS == 'WINNT') {
-                $objLocator = new COM("WbemScripting.SWbemLocator");
                 try {
+                    $objLocator = new COM("WbemScripting.SWbemLocator");
                     $wmi = $objLocator->ConnectServer();
                     $os_wmi = $wmi->InstancesOf('Win32_OperatingSystem');
                     foreach ($os_wmi as $os) {

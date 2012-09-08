@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.WINNT.inc.php 690 2012-09-08 14:32:10Z namiltd $
+ * @version   SVN: $Id: class.WINNT.inc.php 692 2012-09-08 17:12:08Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -32,7 +32,7 @@ class WINNT extends OS
      *
      * @var Object
      */
-    private $_wmi;
+    private $_wmi = null;
     
     /**
      * holds all devices, which are in the system
@@ -65,9 +65,9 @@ class WINNT extends OS
         $strHostname = '';
         $strUser = '';
         $strPassword = '';       
-        // initialize the wmi object
-        $objLocator = new COM('WbemScripting.SWbemLocator');
         try {
+            // initialize the wmi object
+            $objLocator = new COM('WbemScripting.SWbemLocator');
             if ($strHostname == "") {
                 $this->_wmi = $objLocator->ConnectServer();
 
@@ -76,7 +76,7 @@ class WINNT extends OS
             }
         }
         catch(Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed in the IIS admin interface.");
+            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }
         $this->_getCodeSet();
     }
