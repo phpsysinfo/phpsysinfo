@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.psstatus.inc.php 661 2012-08-27 11:26:39Z namiltd $
+ * @version   SVN: $Id: class.psstatus.inc.php 691 2012-09-08 16:34:21Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -55,10 +55,14 @@ class PSStatus extends PSI_Plugin
         case 'command':
             if (PHP_OS == 'WINNT') {
                 $objLocator = new COM("WbemScripting.SWbemLocator");
-                $wmi = $objLocator->ConnectServer();
-                $process_wmi = $wmi->InstancesOf('Win32_Process');
-                foreach ($process_wmi as $process) {
-                    $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
+                try {
+                    $wmi = $objLocator->ConnectServer();
+                    $process_wmi = $wmi->InstancesOf('Win32_Process');
+                    foreach ($process_wmi as $process) {
+                        $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
+                    }
+                }
+                catch(Exception $e) {
                 }
             } else {
                 if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
