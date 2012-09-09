@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Linux.inc.php 683 2012-09-04 16:37:21Z namiltd $
+ * @version   SVN: $Id: class.Linux.inc.php 694 2012-09-09 09:28:32Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -262,7 +262,7 @@ class Linux extends OS
                     }
                 }
                 // sparc64 specific code ends
-                
+
                 // XScale detection code
                 if ($dev->getModel() === "") {
                     foreach ($details as $detail) {
@@ -451,10 +451,17 @@ class Linux extends OS
                         foreach ($bufe2 as $buf2) {
                             if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S*)/i', $buf2, $ar_buf2))
                                 $dev->setInfo(preg_replace('/:/', '-', $ar_buf2[1]));
+                            else if (preg_match('/^\s+inet\saddr:(\S*)\s+P-t-P:(\S*)/i', $buf2, $ar_buf2)) {
+                                    if ($ar_buf2[1] != $ar_buf2[2]) {
+                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
+                                    } else {
+                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                    }
+                                 }
                             else if (preg_match('/^\s+inet\saddr:(\S*)/i', $buf2, $ar_buf2))
-                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
-                                 else if (preg_match('/^\s+inet6\saddr:\s([^\/]*)(.*)\s+Scope:[GH]/i', $buf2, $ar_buf2))
-                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                            else if (preg_match('/^\s+inet6\saddr:\s([^\/]*)(.*)\s+Scope:[GH]/i', $buf2, $ar_buf2))
+                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }
                     }
                     $this->sys->setNetDevices($dev);
