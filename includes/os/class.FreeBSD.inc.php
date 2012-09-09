@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.FreeBSD.inc.php 629 2012-08-12 15:46:33Z namiltd $
+ * @version   SVN: $Id: class.FreeBSD.inc.php 696 2012-09-09 11:24:04Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -95,12 +95,16 @@ class FreeBSD extends BSDCommon
                               $dev->setErrors($ar_buf[5] + $ar_buf[8]);
                               $dev->setDrops($ar_buf[11]);
                             }
-                            $dev->setInfo(preg_replace('/:/', '-', $ar_buf[3]));                        }
+                            if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                                $dev->setInfo(preg_replace('/:/', '-', $ar_buf[3]));
+                            }
+                         }
                     }
                     else if (!is_null($dev)) {
                         if ($dev->getName() == $ar_buf[0]) { /* other infos */
-                           if (!preg_match('/^fe80::/i',$ar_buf[3]))
+                            if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (!preg_match('/^fe80::/i',$ar_buf[3]))) {
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf[3]);
+                            }
                         }
                         else { /* something wrong */
                              $this->sys->setNetDevices($dev);
