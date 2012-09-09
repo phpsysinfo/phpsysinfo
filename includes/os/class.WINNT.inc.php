@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.WINNT.inc.php 692 2012-09-08 17:12:08Z namiltd $
+ * @version   SVN: $Id: class.WINNT.inc.php 693 2012-09-09 00:20:11Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -266,13 +266,14 @@ class WINNT extends OS
      */
     private function _distro()
     {
-        $buffer = $this->_getWMI('Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion'));
+        $buffer = $this->_getWMI('Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption'));
         if ($buffer) {
             $kernel = $buffer[0]['Version'];
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
             $this->sys->setKernel($kernel);
+            $this->sys->setDistribution($buffer[0]['Caption']);
 
             if ((($kernel[1] == ".") && ($kernel[0] <5)) || (substr($kernel,0,4) == "5.0."))
                 $icon = 'Win2000.png';
@@ -283,16 +284,23 @@ class WINNT extends OS
             else
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
-        } else {
-            $this->sys->setDistributionIcon('Win2000.png');
-        }
-        
-        $buffer = $this->_getWMI('Win32_OperatingSystem', array('Caption'));
-        if ($buffer) {
-            $this->sys->setDistribution($buffer[0]['Caption']);
+        } else if (CommonFunctions::executeProgram("cmd", "/c ver", $ver_value)) {
+                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)){
+                    $this->sys->setDistribution("ReactOS");
+                    $this->sys->setKernel($ar_temp[1]);
+                    $this->sys->setDistributionIcon('ReactOS.png');
+                }else if (preg_match("/^(Microsoft [^\[]*)\s*\[(.+)\]/", $ver_value, $ar_temp)){ 
+                    $this->sys->setDistribution($ar_temp[1]);
+                    $this->sys->setKernel($ar_temp[2]);
+                    $this->sys->setDistributionIcon('Win2000.png');
+                } else {
+                    $this->sys->setDistribution("WinNT");
+                    $this->sys->setDistributionIcon('Win2000.png');
+                }
         } else {
             $this->sys->setDistribution("WinNT");
-        }
+            $this->sys->setDistributionIcon('Win2000.png');
+       }
     }
     
     /**

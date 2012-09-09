@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.CommonFunctions.inc.php 656 2012-08-27 05:28:27Z namiltd $
+ * @version   SVN: $Id: class.CommonFunctions.inc.php 693 2012-09-09 00:20:11Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -63,7 +63,11 @@ class CommonFunctions
             if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) || !is_dir($strPath)) {
                 continue;
             }
-            $strProgrammpath = $strPath."/".$strProgram;
+            if (PHP_OS == 'WINNT') {
+                $strProgrammpath = rtrim($strPath,'\\').'\\'.$strProgram;
+            } else {
+                $strProgrammpath = rtrim($strPath,"/")."/".$strProgram;
+            }
             if (is_executable($strProgrammpath)) {
                 return $strProgrammpath;
             }
