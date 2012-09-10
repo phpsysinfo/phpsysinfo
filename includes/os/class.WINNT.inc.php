@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.WINNT.inc.php 693 2012-09-09 00:20:11Z namiltd $
+ * @version   SVN: $Id: class.WINNT.inc.php 697 2012-09-10 18:03:58Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -180,7 +180,7 @@ class WINNT extends OS
     private function _hostname()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setHostname(getenv('SERVER_NAME'));
+            if ($hnm = getenv('SERVER_NAME')) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_getWMI('Win32_ComputerSystem', array('Name'));
             if ($buffer) {
@@ -189,6 +189,8 @@ class WINNT extends OS
                 if ($ip != $result) {
                     $this->sys->setHostname(gethostbyaddr($ip));
                 }
+            } else {
+                if ($hnm = getenv('COMPUTERNAME')) $this->sys->setHostname($hnm);
             }
         }
     }
@@ -201,12 +203,16 @@ class WINNT extends OS
     private function _ip()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+            if ( (($hnm=$this->sys->getHostname()) != 'localhost') && 
+                 (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
         } else {
             $buffer = $this->_getWMI('Win32_ComputerSystem', array('Name'));
             if ($buffer) {
                 $result = $buffer[0]['Name'];
                 $this->sys->setIp(gethostbyname($result));
+            } else {
+            if ( (($hnm=$this->sys->getHostname()) != 'localhost') && 
+                 (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
             }
         }
     }
@@ -284,12 +290,12 @@ class WINNT extends OS
             else
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
-        } else if (CommonFunctions::executeProgram("cmd", "/c ver", $ver_value)) {
+        } else if (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
                 if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)){
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
-                }else if (preg_match("/^(Microsoft [^\[]*)\s*\[(.+)\]/", $ver_value, $ar_temp)){ 
+                } else if (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)){ 
                     $this->sys->setDistribution($ar_temp[1]);
                     $this->sys->setKernel($ar_temp[2]);
                     $this->sys->setDistributionIcon('Win2000.png');
@@ -493,6 +499,27 @@ class WINNT extends OS
                 $dev->setName($typearray[$filesystem['DriveType']]);
             }
             $this->sys->setDiskDevices($dev);
+        }
+        if ((!$buffer) && ($this->sys->getDistribution()=="ReactOS")){
+            // test for command 'free' on current disk
+            if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
+                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)){
+                   if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/',$out_value, $out_dig )) {
+                       $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
+                       $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
+                       $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
+                       if ($used + $free == $size ) {
+                           $dev = new DiskDevice();
+                           $dev->setMountPoint($letter.":");
+                           $dev->setFsType('Unknown');
+                           $dev->setTotal($size);
+                           $dev->setFree($free);
+                           $dev->setUsed($used);
+                           $this->sys->setDiskDevices($dev);
+                       }                      
+                   }
+                }
+            }
         }
     }
     

@@ -2,6 +2,7 @@ phpSysInfo 3.1.0
 
  - [ADD] Turbolinux to detected distros
  - [ADD] Show System Language and Charmap on Linux and WINNT
+ - [ADD] Minor support of ReactOS
 
  - [UPD] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
  - [UPD] Plugin ipmi ranamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)

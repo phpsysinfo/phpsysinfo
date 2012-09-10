@@ -26,6 +26,7 @@ CURRENT TESTED PLATFORMS
 	- Haiku
 	- Minix
 	- SunOS
+        - ReactOS
 
 	If your platform is not here try checking out the mailing list archives or
 	the message boards on SourceForge.
