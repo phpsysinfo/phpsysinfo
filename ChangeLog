@@ -1,6 +1,6 @@
 phpSysInfo 3.1.0
 
- - [ADD] Turbolinux to detected distros
+ - [ADD] Turbolinux and Oracle Linux to detected distros
  - [ADD] Show System Language and Charmap on Linux and WINNT
  - [ADD] Minor support of ReactOS
 

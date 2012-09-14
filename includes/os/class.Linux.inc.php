@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Linux.inc.php 694 2012-09-09 09:28:32Z namiltd $
+ * @version   SVN: $Id: class.Linux.inc.php 698 2012-09-14 20:33:53Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -529,6 +529,7 @@ class Linux extends OS
      */
     private function _distro()
     {
+        $this->sys->setDistribution("Linux");
         $list = @parse_ini_file(APP_ROOT."/data/distros.ini", true);
         if (!$list) {
             return;
@@ -553,76 +554,123 @@ class Linux extends OS
             }                    
             /* fatal errors only */
             $old_err_rep = error_reporting();
-            error_reporting(E_ERROR);            
-            // Fall back in case 'lsb_release' does not exist ;)
+            error_reporting(E_ERROR);
+            
+            // Fall back in case 'lsb_release' does not exist and file 'lsb-release' and 'DISTRO_SPECS' does not exist
             foreach ($list as $section=>$distribution) {
                 if (!isset($distribution["Files"])) {
                     continue;
                 } else {
                     foreach (preg_split("/;/", $distribution["Files"], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
                         if (file_exists($filename)) {
-                            CommonFunctions::rfts($filename, $buf);
-
-                            // lsb-release file
-                            if (preg_match('/^DISTRIB_ID=(.*)/m', $buf, $id_buf)) {
-                                if (preg_match('/^DISTRIB_DESCRIPTION="(.*)"/m', $buf, $desc_buf)) {
-                                    $this->sys->setDistribution(trim($desc_buf[1]));
+                            if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                                $buf = "";
+                            }
+                            if (isset($distribution["Image"])) {
+                                $this->sys->setDistributionIcon($distribution["Image"]);
+                            }
+                            if (isset($distribution["Name"])) {
+                                if (($distribution["Name"] == 'Synology') || is_null($buf) || (trim($buf) == "")) {
+                                    $this->sys->setDistribution($distribution["Name"]);
                                 } else {
-                                    if (isset($list[trim($id_buf[1])]['Name'])) {
-                                        $dist = trim($list[trim($id_buf[1])]['Name']);
-                                    } else {
-                                        $dist = trim($id_buf[1]);
-                                    }
-                                    if (preg_match('/^DISTRIB_RELEASE=(.*)/m', $buf, $vers_buf)) {
-                                        $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
-                                    } else {
-                                        $this->sys->setDistribution($dist);
-                                    }
-                                }
-                                if (isset($list[trim($id_buf[1])]['Image'])) {
-                                    $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                                }
-                            // DISTRO_SPECS file
-                            } else if (preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf)) {
-                                if (isset($list[trim($id_buf[1])]['Name'])) {
-                                    $dist = trim($list[trim($id_buf[1])]['Name']);
-                                } else {
-                                    $dist = trim($id_buf[1]);
-                                }
-                                if (preg_match('/^DISTRO_VERSION=(.*)/m', $buf, $vers_buf)) {
-                                    $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
-                                } else {
-                                    $this->sys->setDistribution($dist);
-                                }
-                                if (isset($list[trim($id_buf[1])]['Image'])) {
-                                    $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                                    $this->sys->setDistribution($distribution["Name"]." ".trim($buf));
                                 }
                             } else {
-                                if (isset($distribution["Image"])) {
-                                    $this->sys->setDistributionIcon($distribution["Image"]);
-                                }
-                                if (isset($distribution["Name"])) {
-                                    if ($distribution["Name"] == 'Synology') {
-                                        $this->sys->setDistribution($distribution["Name"]);
-                                    } else {
-                                        $this->sys->setDistribution($distribution["Name"]." ".trim($buf));
-                                    }
+                                if ( is_null($buf) || (trim($buf) == "") ) {
+                                    $this->sys->setDistribution($section);
                                 } else {
                                     $this->sys->setDistribution(trim($buf));
                                 }
                             }
-                            return;
+                            break 2;
                         }
                     }
                 }
             }
+            // Otherwise, if no files found
+            if ($this->sys->getDistribution() == "Linux") {
+                if ( file_exists($filename="/etc/lsb-release")
+                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false) 
+                   && preg_match('/^DISTRIB_ID=(.*)/m', $buf, $id_buf) ) {
+                    if (preg_match('/^DISTRIB_DESCRIPTION="(.*)"/m', $buf, $desc_buf)) {
+                        $this->sys->setDistribution(trim($desc_buf[1]));
+                    } else {
+                        if (isset($list[trim($id_buf[1])]['Name'])) {
+                            $dist = trim($list[trim($id_buf[1])]['Name']);
+                        } else {
+                            $dist = trim($id_buf[1]);
+                        }
+                        if (preg_match('/^DISTRIB_RELEASE=(.*)/m', $buf, $vers_buf)) {
+                            $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
+                        } else {
+                            $this->sys->setDistribution($dist);
+                        }
+                    }
+                    if (isset($list[trim($id_buf[1])]['Image'])) {
+                        $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                    }
+                } else 
+                if ( file_exists($filename="/etc/DISTRO_SPECS")
+                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false) 
+                   && preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf) ) {
+                    if (isset($list[trim($id_buf[1])]['Name'])) {
+                        $dist = trim($list[trim($id_buf[1])]['Name']);
+                    } else {
+                        $dist = trim($id_buf[1]);
+                    }
+                    if (preg_match('/^DISTRO_VERSION=(.*)/m', $buf, $vers_buf)) {
+                        $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
+                    } else {
+                        $this->sys->setDistribution($dist);
+                    }
+                    if (isset($list[trim($id_buf[1])]['Image'])) {
+                        $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                    } else {
+                        if (isset($list['Puppy']["Image"])) {
+                            $this->sys->setDistributionIcon($list['Puppy']["Image"]);
+                        }
+                    }
+                } else
+                if ( file_exists($filename="/etc/redhat-release")
+                   && CommonFunctions::rfts($filename, $buf, 1, 4096, false) ){
+                    if ( (is_null($buf)) || (trim($buf) == "") ) {
+                        if (isset($list['RedHat']['Name'])) {
+                            $this->sys->setDistribution(trim($list['RedHat']['Name']));
+                        } else {
+                            $this->sys->setDistribution('RedHat');
+                        }
+                        if (isset($list['RedHat']["Image"])) {
+                            $this->sys->setDistributionIcon($list['RedHat']["Image"]);
+                        }
+                    } else {
+                        $this->sys->setDistribution(trim($buf));
+                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                           && isset($list[trim($id_buf[1])]['Image'])) {
+                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        } else {
+                            if (isset($list['RedHat']["Image"])) {
+                                $this->sys->setDistributionIcon($list['RedHat']["Image"]);
+                            }
+                        }  
+                    }
+                }
+            }
+            /*if ($this->sys->getDistribution() == "Linux") {
+                if (file_exists($filename="/etc/issue")) {
+                    if (CommonFunctions::rfts($filename, $buf, 1, 4096, false) 
+                       && (!is_null($buf))
+                       && ($buf != "")) {
+                        $this->sys->setDistribution($buf);
+                    }
+                }
+    
+            }*/
             /* restore error level */
             error_reporting($old_err_rep);
             /* restore error handler */
             if (function_exists('errorHandlerPsi')) {
                 set_error_handler('errorHandlerPsi');
             } 
-
         }
     }
     /**
