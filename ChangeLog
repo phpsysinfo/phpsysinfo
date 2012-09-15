@@ -1,7 +1,7 @@
 phpSysInfo 3.1.0
 
  - [ADD] Turbolinux and Oracle Linux to detected distros
- - [ADD] Show System Language and Charmap on Linux and WINNT
+ - [ADD] Show System Language and Code Page on Linux and WINNT
  - [ADD] Minor support of ReactOS
 
  - [UPD] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini

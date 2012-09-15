@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.CommonFunctions.inc.php 693 2012-09-09 00:20:11Z namiltd $
+ * @version   SVN: $Id: class.CommonFunctions.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -225,7 +225,7 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if ( (PHP_OS == "Minix") || (PSI_SYSTEM_CHARSET == "UTF-8") )
+        if ( (PHP_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8") )
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         else if (PHP_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');

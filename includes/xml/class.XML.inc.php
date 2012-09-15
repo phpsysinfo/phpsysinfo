@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.XML.inc.php 689 2012-09-07 11:27:48Z namiltd $
+ * @version   SVN: $Id: class.XML.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -131,10 +131,10 @@ class XML
             $vitals->addAttribute('CPULoad', $this->_sys->getLoadPercent());
         }
         if ($this->_sysinfo->getLanguage() !== null) {
-            $vitals->addAttribute('Language', $this->_sysinfo->getLanguage());
+            $vitals->addAttribute('SysLang', $this->_sysinfo->getLanguage());
         }
         if ($this->_sysinfo->getEncoding() !== null) {
-            $vitals->addAttribute('Charmap', $this->_sysinfo->getEncoding());
+            $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
     }
     

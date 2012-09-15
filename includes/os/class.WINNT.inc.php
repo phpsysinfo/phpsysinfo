@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.WINNT.inc.php 697 2012-09-10 18:03:58Z namiltd $
+ * @version   SVN: $Id: class.WINNT.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -46,14 +46,14 @@ class WINNT extends OS
      *
      * @var string
      */
-    private $_charset = null;
+    private $_codepage = null;
     
     /**
      * store language of the system
      *
      * @var string
      */
-    private $_language = null;
+    private $_syslang = null;
     
     /**
      * build the global Error object and create the WMI connection
@@ -90,7 +90,7 @@ class WINNT extends OS
     {
         $buffer = $this->_getWMI('Win32_OperatingSystem', array('CodeSet','OSLanguage'));
         if ($buffer) {
-            $this->_charset = 'windows-'.$buffer[0]['CodeSet'];
+            $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
             $lang = "";
             if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
                 if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
@@ -100,7 +100,7 @@ class WINNT extends OS
             if ($lang == ""){
                 $lang = 'Unknown';
             }
-            $this->_language = $lang.' ('.$buffer[0]['OSLanguage'].')';
+            $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
         }
     }
     
@@ -532,7 +532,7 @@ class WINNT extends OS
      */
     function getEncoding()
     {
-        return $this->_charset;
+        return $this->_codepage;
     }
     
     /**
@@ -544,7 +544,7 @@ class WINNT extends OS
      */
     function getLanguage()
     {
-        return $this->_language;
+        return $this->_syslang;
     }
     
     /**

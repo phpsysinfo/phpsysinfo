@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.OS.inc.php 672 2012-09-03 14:35:06Z namiltd $
+ * @version   SVN: $Id: class.OS.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -55,7 +55,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function getEncoding()
     {
-        return PSI_SYSTEM_CHARSET;
+        return PSI_SYSTEM_CODEPAGE;
     }
     /**
      * get os specific language
@@ -66,7 +66,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function getLanguage()
     {
-        return PSI_SYSTEM_LANGUAGE;
+        return PSI_SYSTEM_SYSLANG;
     }
     
     /**

@@ -43,7 +43,7 @@ if (!defined('PSI_CONFIG_FILE')){
         define('PSI_VERSION_STRING', PSI_VERSION);
     }
 
-    /* get Linux charset */
+    /* get Linux code page */
     if (PHP_OS == 'Linux'){
         if  (file_exists ('/etc/sysconfig/i18n')){
             $contents = @file_get_contents('/etc/sysconfig/i18n');
@@ -56,7 +56,7 @@ if (!defined('PSI_CONFIG_FILE')){
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches2)) {
-                        define('PSI_SYSTEM_CHARSET', $matches2[1]);
+                        define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
                         break;
                     }
                 }
@@ -73,7 +73,7 @@ if (!defined('PSI_CONFIG_FILE')){
                         if ($lang == ""){
                             $lang = 'Unknown';
                         }
-                        define('PSI_SYSTEM_LANGUAGE', $lang.' ('.$matches2[1].')');
+                        define('PSI_SYSTEM_SYSLANG', $lang.' ('.$matches2[1].')');
                         break;
                     }
                 }
@@ -81,11 +81,11 @@ if (!defined('PSI_CONFIG_FILE')){
 
         }
     }
-    if (!defined('PSI_SYSTEM_CHARSET')){ 
-        define('PSI_SYSTEM_CHARSET', null);
+    if (!defined('PSI_SYSTEM_SYSLANG')){ 
+        define('PSI_SYSTEM_SYSLANG', null);
     }
-    if (!defined('PSI_SYSTEM_LANGUAGE')){ 
-        define('PSI_SYSTEM_LANGUAGE', null);
+    if (!defined('PSI_SYSTEM_CODEPAGE')){ 
+        define('PSI_SYSTEM_CODEPAGE', null);
     }
     
     /* restore error level */

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--  $Id: phpsysinfo.xslt 672 2012-09-03 14:35:06Z namiltd $ -->
+    <!--  $Id: phpsysinfo.xslt 699 2012-09-15 11:57:13Z namiltd $ -->
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -190,7 +190,7 @@
                                                 </td>
                                             </tr>
                                             <xsl:if
-                                                test="count(@Language )&gt;0">
+                                                test="count(@SysLang )&gt;0">
                                                 <tr class="odd">
                                                     <td style="width:160px;">
                                                         <span>
@@ -199,21 +199,21 @@
                                                     </td>
                                                     <td>
                                                         <xsl:value-of
-                                                            select="@Language" />
+                                                            select="@SysLang" />
                                                     </td>
                                                 </tr>
                                             </xsl:if>
                                             <xsl:if
-                                                test="count(@Charmap )&gt;0">
+                                                test="count(@CodePage )&gt;0">
                                                 <tr class="odd">
                                                     <td style="width:160px;">
                                                         <span>
-                                                            <xsl:text>Charmap</xsl:text>
+                                                            <xsl:text>Code Page</xsl:text>
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <xsl:value-of
-                                                            select="@Charmap" />
+                                                            select="@CodePage" />
                                                     </td>
                                                 </tr>
                                             </xsl:if>

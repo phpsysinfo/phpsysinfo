@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 //
-// $Id: phpsysinfo.js 672 2012-09-03 14:35:06Z namiltd $
+// $Id: phpsysinfo.js 699 2012-09-15 11:57:13Z namiltd $
 //
 
 /*global $, jQuery */
@@ -567,7 +567,7 @@ function createBar(size) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
-    var language = "", charmap = "";
+    var syslang = "", codepage = "";
     var lastboot = 0, timestamp = Number(new Date());
 
     $("Vitals", xml).each(function getVitals(id) {
@@ -583,16 +583,16 @@ function refreshVitals(xml) {
         if ($(this).attr("CPULoad") !== undefined) {
             loadavg = loadavg + "<br/>" + createBar(parseInt($(this).attr("CPULoad"), 10));
         }
-        if ($(this).attr("Language") !== undefined) {
-            language = $(this).attr("Language");
-            document.getElementById("s_language_tr").style.display='';
+        if ($(this).attr("SysLang") !== undefined) {
+            syslang = $(this).attr("SysLang");
+            document.getElementById("s_syslang_tr").style.display='';
         }
-        if ($(this).attr("Charmap") !== undefined) {
-            charmap = $(this).attr("Charmap");
-            if ($(this).attr("Language") !== undefined) {
-                document.getElementById("s_charmap_tr1").style.display='';
+        if ($(this).attr("CodePage") !== undefined) {
+            codepage = $(this).attr("CodePage");
+            if ($(this).attr("SysLang") !== undefined) {
+                document.getElementById("s_codepage_tr1").style.display='';
             } else {
-                document.getElementById("s_charmap_tr2").style.display='';
+                document.getElementById("s_codepage_tr2").style.display='';
             }
         }
         document.title = "System information: " + hostname + " (" + ip + ")";
@@ -606,9 +606,9 @@ function refreshVitals(xml) {
         $("#s_lastboot").html(lastboot.toGMTString()); //toGMTString() or toLocaleString()
         $("#s_users").html(users);
         $("#s_loadavg").html(loadavg);
-        $("#s_language").html(language);
-        $("#s_charmap_1").html(charmap);
-        $("#s_charmap_2").html(charmap);
+        $("#s_syslang").html(syslang);
+        $("#s_codepage_1").html(codepage);
+        $("#s_codepage_2").html(codepage);
     });
 }
 
