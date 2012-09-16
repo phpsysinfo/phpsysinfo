@@ -10,7 +10,7 @@ phpSysInfo
 
 CURRENT TESTED PLATFORMS
 ------------------------
-    - Linux 2.6.x
+	- Linux 2.6.x
 	- FreeBSD 7.x
 	- OpenBSD 2.8+
 	- NetBSD
