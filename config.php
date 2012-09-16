@@ -51,8 +51,11 @@ if (!defined('PSI_CONFIG_FILE')){
             $contents = @file_get_contents('/etc/default/locale');
         } else if  (file_exists ('/etc/locale.conf')){
             $contents = @file_get_contents('/etc/locale.conf');
+        } else if  (file_exists ('/etc/sysconfig/language')){
+            $contents = @file_get_contents('/etc/sysconfig/language');
         } else $contents = false;
-        if ($contents && preg_match("/^(LANG=\".*\")/m", $contents, $matches)) {
+        if ($contents && ( preg_match("/^(LANG=\".*\")/m", $contents, $matches)
+           || preg_match("/^RC_(LANG=\".*\")/m", $contents, $matches))) {
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches2)) {
