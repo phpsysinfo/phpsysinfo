@@ -7,7 +7,7 @@ phpSysInfo 3.1.0
  - [UPD] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
  - [UPD] Plugin ipmi ranamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)
  - [UPD] Case-insensitive for most of parameters
- - [UPD] Updated jQuery plugin to 1.8.1
+ - [UPD] Updated jQuery plugin to 1.8.2
  - [UPD] Updated jQuery plugin nyroModal to 1.6.2+jquery1.8fix
 
  - [FIX] Fixed Bug [ 3561124 ] Incorrect reading of free mem on Mac OS X (thanks to pbobbenb)
