@@ -5,7 +5,7 @@
 ; @author    Michael Cramer <BigMichi1@users.sourceforge.net>
 ; @copyright 2009 phpSysInfo
 ; @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
-; @version   SVN: $Id: phpsysinfo.ini 661 2012-08-27 11:26:39Z namiltd $
+; @version   SVN: $Id: phpsysinfo.ini.new 705 2012-11-11 00:33:29Z namiltd $
 ; @link      http://phpsysinfo.sourceforge.net
 
 [main]
@@ -42,7 +42,7 @@ ADD_PATHS=false
 ; - Quotas         - show a table with all quotas that are active and there current state
 ; - SMART          - show S.M.A.R.T. information from drives that support it
 ; - BAT            - show battery state on a laptop
-; - ipmi           - show IPMI status
+; - IPMIInfo       - show IPMI status
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ;
