@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//$Id: smart.js 661 2012-08-27 11:26:39Z namiltd $
+//$Id: smart.js 707 2012-11-28 10:20:49Z namiltd $
 
 
 /*global $, jQuery, genlang, formatTemp, plugin_translate, buildBlock, datetime */
@@ -93,9 +93,10 @@ function smart_populate(xml) {
         $("Plugins Plugin_SMART columns column", xml).each(function smart_find_columns() {
             i  = parseInt($(this).attr("id"), 10);
             if (typeof(values[i])==='undefined') {
-                values[i] = "";
+//                values[i] = "";
+                display.push("<span style=\"display:none;\"></span>");
             }
-            if (i === 194) {
+            else if (i === 194) {
                 display.push("<span style=\"display:none;\">" + values[i] + "</span>" + formatTemp(values[i], xml));
             }
             else {

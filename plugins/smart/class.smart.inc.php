@@ -9,7 +9,7 @@
  * @author    Antoine Bertin <diaoulael@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.smart.inc.php 661 2012-08-27 11:26:39Z namiltd $
+ * @version   SVN: $Id: class.smart.inc.php 707 2012-11-28 10:20:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
 /**
@@ -138,8 +138,8 @@ class SMART extends PSI_Plugin
             if ( preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE) )
                $startIndex = $matches[0][1];
             
-            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" (hopefully every output has it!)
-            if ( preg_match('/(SMART Error Log Version)/', $result, $matches, PREG_OFFSET_CAPTURE) )
+            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" (hopefully every output has it!)
+            if ( preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)/', $result, $matches, PREG_OFFSET_CAPTURE) )
                $endIndex = $matches[0][1];
             
             if (($startIndex)&&($endIndex)&&($endIndex>$startIndex)) 

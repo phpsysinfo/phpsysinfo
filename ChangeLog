@@ -12,6 +12,7 @@ phpSysInfo 3.1.0
 
  - [FIX] Fixed Bug [ 3561124 ] Incorrect reading of free mem on Mac OS X (thanks to pbobbenb)
  - [FIX] Fixed UTF8 encoding for Linux
+ - [FIX] SMART plugin doesn't display for some results
 
 phpSysInfo 3.0.19
 
