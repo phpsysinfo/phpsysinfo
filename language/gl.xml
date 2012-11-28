@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: gl.xml 699 2012-09-15 11:57:13Z namiltd $ -->
+<!-- $Id: gl.xml 708 2012-11-28 18:37:58Z namiltd $ -->
 <!--
 phpSysInfo language file Language: galician Created by: X.M.C. Guede
 -->
@@ -202,7 +202,7 @@ phpSysInfo language file Language: galician Created by: X.M.C. Guede
     <exp>Buffers</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>Cache;</exp>
+    <exp>Cache</exp>
   </expression>
   <expression id="067" name="jumpto">
     <exp>Bifurcación</exp>
