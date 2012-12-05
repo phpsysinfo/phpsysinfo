@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Linux.inc.php 703 2012-11-04 19:40:42Z namiltd $
+ * @version   SVN: $Id: class.Linux.inc.php 709 2012-12-05 11:20:40Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -541,11 +541,23 @@ class Linux extends OS
                 $info_tmp = preg_split('/:/', $info, 2);
                 $distro[$info_tmp[0]] = trim($info_tmp[1]);
             }
-            if (isset($distro['Distributor ID']) && isset($list[$distro['Distributor ID']]['Image'])) {
-                $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
-            }
-            if (isset($distro['Description'])) {
-                $this->sys->setDistribution($distro['Description']);
+            if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) {
+                if ( !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") ) {
+                    $this->sys->setDistribution(trim($distro_tmp[0]));
+                    if ( preg_match('/^(\S+)\s*/', $distro_tmp[0], $id_buf)
+                        && isset($list[trim($id_buf[1])]['Image'])) {
+                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                    }
+                }
+            } else {
+                if (isset($distro['Description'])) {
+                    $this->sys->setDistribution($distro['Description']);
+                } else if (isset($distro['Distributor ID'])) {
+                    $this->sys->setDistribution($distro['Distributor ID']);
+                }
+                if (isset($distro['Distributor ID']) && isset($list[$distro['Distributor ID']]['Image'])) {
+                    $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
+                }
             }
         } else {
             /* default error handler */

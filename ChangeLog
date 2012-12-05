@@ -1,6 +1,6 @@
 phpSysInfo 3.1.0
 
- - [ADD] Turbolinux, Oracle Linux, PCLinuxOS and elementary OS to detected distros
+ - [ADD] Turbolinux, Oracle Linux, PCLinuxOS, StartOS and elementary OS to detected distros
  - [ADD] Show System Language and Code Page on Linux and WINNT
  - [ADD] Minor support of ReactOS
 
