@@ -54,11 +54,11 @@ if (!defined('PSI_CONFIG_FILE')){
         } else if  (file_exists ('/etc/sysconfig/language')){
             $contents = @file_get_contents('/etc/sysconfig/language');
         } else $contents = false;
-        if ($contents && ( preg_match("/^(LANG=\".*\")/m", $contents, $matches)
-           || preg_match("/^RC_(LANG=\".*\")/m", $contents, $matches))) {
+        if ($contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
+           || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
-                    if ($contents && preg_match("/^charmap=\"(.*)\"/m", $line, $matches2)) {
+                    if ($contents && preg_match('/^charmap="?([^"\n]*)"?/m', $line, $matches2)) {
                         define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
                         break;
                     }
@@ -66,7 +66,7 @@ if (!defined('PSI_CONFIG_FILE')){
             }
             if (@exec($matches[1].' locale 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
-                    if ($contents && preg_match("/^LC_MESSAGES=\"([^\.\"@]*)/m", $line, $matches2)) {
+                    if ($contents && preg_match('/^LC_MESSAGES="?([^\."@]*)/m', $line, $matches2)) {
                         $lang = "";
                         if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
                             if (isset($langdata['Linux']['_'.$matches2[1]])) {
