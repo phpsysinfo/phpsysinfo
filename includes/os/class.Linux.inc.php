@@ -9,7 +9,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.Linux.inc.php 709 2012-12-05 11:20:40Z namiltd $
+ * @version   SVN: $Id: class.Linux.inc.php 712 2012-12-05 14:09:18Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
@@ -539,7 +539,10 @@ class Linux extends OS
             $distro_tmp = preg_split("/\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);
-                $distro[$info_tmp[0]] = trim($info_tmp[1]);
+                if ( isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") &&
+                     isset($distro_tmp[1]) && !is_null($distro_tmp[1]) && (trim($distro_tmp[1]) != "") ) {
+                    $distro[$info_tmp[0]] = trim($info_tmp[1]);
+                }
             }
             if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) {
                 if ( !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") ) {
