@@ -58,7 +58,7 @@ if (!defined('PSI_CONFIG_FILE')){
            || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
-                    if ($contents && preg_match('/^charmap="?([^"\n]*)"?/m', $line, $matches2)) {
+                    if ($contents && preg_match('/^charmap="?([^"\n]*)/m', $line, $matches2)) {
                         define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
                         break;
                     }
