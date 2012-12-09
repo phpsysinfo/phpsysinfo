@@ -381,6 +381,9 @@ class XML
     private function _buildUpsinfo()
     {
         $upsinfo = $this->_xml->addChild('UPSInfo');
+        if(PSI_UPS_APCUPSD_CGI_ENABLE) {
+            $upsinfo->addAttribute('ApcupsdCgiLinks', true);
+        }
         if (PSI_UPSINFO) {
             $upsinfoclass = PSI_UPS_PROGRAM;
             $upsinfo_data = new $upsinfoclass();
