@@ -300,4 +300,7 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   <expression id="098" name="codepage">
     <exp>Code Page</exp>
   </expression>
+  <expression id="099" name="details">
+    <exp>Details</exp>
+  </expression>
 </tns:translation>

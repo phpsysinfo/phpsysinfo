@@ -163,7 +163,7 @@ class XML
                 $device->addAttribute('TxBytes', $dev->getTxBytes());
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && ($dev->getInfo())) 
+                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() ) 
                     $device->addAttribute('Info', $dev->getInfo());
             }
         }
@@ -407,6 +407,9 @@ class XML
     private function _buildUpsinfo()
     {
         $upsinfo = $this->_xml->addChild('UPSInfo');
+        if ( defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
+            $upsinfo->addAttribute('ApcupsdCgiLinks', true);
+        }
         if (PSI_UPSINFO) {
             $upsinfoclass = PSI_UPS_PROGRAM;
             $upsinfo_data = new $upsinfoclass();

@@ -1068,8 +1068,13 @@ function refreshFan(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshUps(xml) {
+    var add_apcupsd_cgi_links = ($("[ApcupsdCgiLinks='1']", xml).length > 0);
     var html = "", tree = [], closed = [], index = 0, values = false;
-    html += "<h2>" + genlang(68, false) + "</h2>\n";
+    html += "<h2>" + genlang(68, false) + "</h2>";
+    if (add_apcupsd_cgi_links){
+        html += " (<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)";
+    }
+    html += "\n";
     html += "        <table class=\"tablemain\" id=\"UPSTree\">\n";
     html += "          <tbody class=\"tree\">\n";
     

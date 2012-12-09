@@ -3,6 +3,7 @@ phpSysInfo 3.1.0
  - [ADD] Turbolinux, Oracle Linux, PCLinuxOS, StartOS and elementary OS to detected distros
  - [ADD] Show System Language and Code Page on Linux, Haiku and WINNT
  - [ADD] Minor support of ReactOS
+ - [ADD] apcupsd-cgi support
 
  - [UPD] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
  - [UPD] Plugin ipmi ranamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)

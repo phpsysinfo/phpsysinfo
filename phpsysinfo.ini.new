@@ -265,6 +265,18 @@ UPS_PROGRAM=false
 ;
 UPS_APCUPSD_LIST="127.0.0.1:3551"
 
+
+; Apcupsd has a CGI monitoring utility called apcupsd-cgi
+; You can set the parameter below to true if you have it installed - this will add apcupsd-cgi links to the UPS tree
+;
+UPS_APCUPSD_CGI_ENABLE=false
+
+
+; ********************************
+;        PLUGINS PARAMETERS
+; ********************************
+
+
 [bat]
 ; BAT Plugin configuration
 

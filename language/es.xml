@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: es.xml 708 2012-11-28 18:37:58Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Spanish Created by: J.F. Ruano
@@ -299,5 +299,8 @@ phpSysInfo language file Language: Spanish Created by: J.F. Ruano
   </expression>
   <expression id="098" name="codepage">
     <exp>Code Page</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>Details</exp>
   </expression>
 </tns:translation>
