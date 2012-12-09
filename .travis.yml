@@ -9,7 +9,6 @@ script: for i in `find . -name "*.php"`; do php -l $i; done;
 
 branches:
   only:
-    - master
     - unstable
 
 notifications:
