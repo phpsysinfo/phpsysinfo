@@ -30,7 +30,7 @@ class CommonFunctions
      *
      * @var string
      */
-    const PSI_VERSION = '3.x';
+    const PSI_VERSION = '3.0.20';
 
     public static $PSI_VERSION_STRING = self::PSI_VERSION;
 
