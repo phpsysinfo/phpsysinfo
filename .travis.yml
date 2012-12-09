@@ -9,3 +9,6 @@ script: echo "test"
 branches:
   only:
     - unstable
+
+notifications:
+  email: false
