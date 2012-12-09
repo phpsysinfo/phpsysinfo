@@ -3,6 +3,9 @@ language: php
 php:
   - 5.2
   - 5.3
-  - 5.4
 
-script: 
+script: echo "test"
+
+branches:
+  only:
+    - unstable
