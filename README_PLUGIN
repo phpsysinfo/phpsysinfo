@@ -1,4 +1,4 @@
-phpSysInfo 3.0 - http://phpsysinfo.sourceforge.net/
+phpSysInfo 3.1 - http://phpsysinfo.sourceforge.net/
 Document written by Michael Cramer (bigmichi1 at sourceforge.net)
 
 !!Please read if you want to develop a plugin to understand our plugin system!!
@@ -8,15 +8,15 @@ Plugins
 
 Beginning with phpSysInfo 3.0, phpSysInfo can be extended by Plugins. So here is
 a description that a developer of a plugin must take care of. Plugins can be
-enabled through the `config.php` in the PSI_PLUGINS variable. The name of the
-plugin is essential for the function of the plgin system. Lets say you write a
-plugin with the name 'hdd_status', then this name is added to the PSI_PLUGINS
-variable in `config.php`. And this is also then the name which is everywhere in
+enabled through the `phpsysinfo.ini` in the PLUGINS variable. The name of the
+plugin is essential for the function of the plugin system. Lets say you write a
+plugin with the name 'hdd_stats', then this name is added to the PLUGINS
+variable in `phpsysinfo.ini`. And this is also then the name which is everywhere in
 the plugin system used, like creating the object, locate the needed files and
 so on.
 
 So if the name is now specified, phpSysInfo needs a special directory structure
-to find the needed files. The directory structure for the example 'hdd_status'
+to find the needed files. The directory structure for the example 'hdd_stats'
 plugin can be seen here:
 
 -+ phpSysInfo root
@@ -24,7 +24,7 @@ plugin can be seen here:
  +---+ plugins (directory in that plugins are installed)
  |   |
  |   +---+ hdd_stats (the real plugin directory, must have the same name like
- |   |   |            the plugin named in PSI_PLUGINS, else it won't be found)
+ |   |   |            the plugin named in PLUGINS, else it won't be found)
  |   |   |
  |   |   +---+ js (directory in which the needed JavaScript file is located,
  |   |   |   |     to generate the html output out of the xml)
@@ -39,11 +39,8 @@ plugin can be seen here:
  |   |   |   # en.xml (at least an english translation file must exist)
  |   |   |
  |   |   # class.hdd_stats.inc.php (this is the core file of the plugin,
- |   |   |                          name must consists of 'class' +
- |   |   |                          name from PSI_PLUGINS + '.inc.php')
- |   |   # hdd_stats.config.php (configuration file for the plugin, name must have
- |   |                    the same name, like the plugin in PSI_PLUGINS +
- |   |                    '.config.php')
+ |   |                              name must consists of 'class' +
+ |   |                              name from PSI_PLUGINS + '.inc.php')
 
 other files or directorys can be included in the plugin directory, but then
 its up to the developer to include them in the plugin. So it might be possible
@@ -78,9 +75,9 @@ class.hdd_stats.inc.php - this file MUST include a class with the plugin name
          such a class exist and also extends 'psi_plugin' will be included in
          the near future. And if the check fails the plugin won't be loaded.
          The psi_plugin class checks the existens of the js and the en.xml
-         files. Also an extra configuration file for the plugin is loaded
-         automatically, if present. This configuration file is a normal ini
-         file. Through the extension of the psi_plugin class there is a need to
+         files. Also an extra configuration of the plugin is loaded
+         automatically from phpsysinfo.ini, if present. 
+         Through the extension of the psi_plugin class there is a need to
          include at least two public function. These are the execute() function
          and the xml() function. Other functions can be exist, that depends on
          the plugin needs or the author of the class. The execute() function is

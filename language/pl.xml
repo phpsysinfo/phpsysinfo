@@ -85,7 +85,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>Nawiązane połączenia sieciowe</exp>
   </expression>
   <expression id="027" name="memusage">
-    <exp>Obciążenie pamięci</exp>
+    <exp>Wykorzystanie pamięci</exp>
   </expression>
   <expression id="028" name="phymem">
     <exp>Pamięć fizyczna</exp>
