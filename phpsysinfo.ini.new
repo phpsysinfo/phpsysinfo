@@ -239,7 +239,7 @@ HIDE_DISKS=""
 HIDE_NETWORK_INTERFACE=""
 
 
-; Show network interfaces infos for Linux, FreeBSD, Haiku and WinNT (experimental)
+; Show network interfaces infos for Linux, FreeBSD, Haiku and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
 SHOW_NETWORK_INFOS=false
