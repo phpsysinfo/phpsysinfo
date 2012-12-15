@@ -1,4 +1,4 @@
 .travis.yml export-ignore
-samples export-ignore
+sample export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
