@@ -9,7 +9,7 @@ script: for i in `find . -name "*.php"`; do php -l $i; done;
 
 branches:
   only:
-    - "unstable"
+    - "master"
 
 notifications:
   email: false
