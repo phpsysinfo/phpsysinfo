@@ -122,12 +122,16 @@ class Parser
                     }
                 }
                 foreach ($df as $df_line) {
-                    $df_buf1 = preg_split("/(\%\s)/", $df_line, 2);
-                    if (count($df_buf1) != 2) {
+                    $df_buf1 = preg_split("/(\%\s)/", $df_line, 3);
+                    if (count($df_buf1) < 2) {
                         continue;
                     }
                     if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
-                        $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[1]);
+                        if (count($df_buf1) == 3) {
+                            $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[2]);
+                        } else {
+                            $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[1]);
+                        }
                         if (count($df_buf) == 6) {
                             $df_buf[5] = trim($df_buf[5]);
                             $dev = new DiskDevice();

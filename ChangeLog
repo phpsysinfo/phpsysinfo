@@ -11,6 +11,7 @@ phpSysInfo 3.1.0
  
  - [FIX] Fixed UTF8 encoding for Linux
  - [FIX] SMART plugin doesn't display for some results
+ - [FIX] Incorrect display of mountpoint on Mac OS X
 
 phpSysInfo 3.0.20
 
