@@ -300,7 +300,7 @@ class Darwin extends BSDCommon
                 if (trim($arrLine[0]) === "System Version") {
                     $distro = trim($arrLine[1]);
 
-                    if (preg_match('/^Mac OS/', $distro)) {
+                    if (preg_match('/(^Mac OS)|(^OS X)/', $distro)) {
                         $this->sys->setDistributionIcon('Apple.png');
                     }
 
