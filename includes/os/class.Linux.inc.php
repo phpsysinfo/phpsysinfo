@@ -691,6 +691,27 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
+                } else
+                if (file_exists($filename="/usr/bin/crux")){
+                    if (!CommonFunctions::executeProgram("crux", '2>/dev/null', $buf, PSI_DEBUG)) {
+                        $buf = "";
+                    }
+                    if (isset($list['CRUX']['Image'])) {
+                        $this->sys->setDistributionIcon($list['CRUX']['Image']);
+                    }
+                    if (isset($list['CRUX']['Name'])) {
+                        if ( is_null($buf) || (trim($buf) == "")) {
+                            $this->sys->setDistribution($list['CRUX']['Name']);
+                        } else {
+                            $this->sys->setDistribution($list['CRUX']['Name']." ".trim($buf));
+                        }
+                    } else {
+                        if ( is_null($buf) || (trim($buf) == "") ) {
+                            $this->sys->setDistribution('CRUX');
+                        } else {
+                            $this->sys->setDistribution(trim($buf));
+                        }
+                    }
                 }
             }
             /* restore error level */
