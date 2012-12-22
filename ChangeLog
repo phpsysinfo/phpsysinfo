@@ -1,6 +1,6 @@
 phpSysInfo 3.1.0
 
- - [ADD] Turbolinux, Oracle Linux, PCLinuxOS, StartOS, Trisquel, CRUX, Zorin and elementary OS to detected distros
+ - [ADD] Turbolinux, Oracle Linux, CloudLinux, PCLinuxOS, StartOS, Trisquel, CRUX, Zorin and elementary OS to detected distros
  - [ADD] Show System Language and Code Page on Linux, Haiku and WINNT
  - [ADD] Minor support of ReactOS
  - [ADD] apcupsd-cgi support (thanks to duhast)
