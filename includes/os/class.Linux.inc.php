@@ -476,8 +476,8 @@ class Linux extends OS
      */
     private function _memory()
     {
-        if (CommonFunctions::rfts('/proc/meminfo', $bufr)) {
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+        if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
+            $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemTotal($ar_buf[1] * 1024);
@@ -494,8 +494,8 @@ class Linux extends OS
             if ($this->sys->getMemCache() !== null && $this->sys->getMemBuffer() !== null) {
                 $this->sys->setMemApplication($this->sys->getMemUsed() - $this->sys->getMemCache() - $this->sys->getMemBuffer());
             }
-            if (CommonFunctions::rfts('/proc/swaps', $bufr)) {
-                $swaps = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            if (CommonFunctions::rfts('/proc/swaps', $sbuf)) {
+                $swaps = preg_split("/\n/", $sbuf, -1, PREG_SPLIT_NO_EMPTY);
                 unset($swaps[0]);
                 foreach ($swaps as $swap) {
                     $ar_buf = preg_split('/\s+/', $swap, 5);
