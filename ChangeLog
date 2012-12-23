@@ -9,6 +9,7 @@ phpSysInfo 3.1.0
  - [UPD] Plugin ipmi ranamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)
  - [UPD] Case-insensitive for most of parameters
  - [UPD] Detection of Mac OS X and Linux distribution
+ - [UPD] CPU detection on Mac OS X
  
  - [FIX] Fixed UTF8 encoding for Linux
  - [FIX] SMART plugin doesn't display for some results
@@ -123,7 +124,7 @@ phpSysInfo 3.0.9
  - [FIX] Fix the long load time with many CPU core on Linux
 
 phpSysInfo 3.0.8
- - [ADD] Added cpuinfo virtualization flags (vmx/smv) 
+ - [ADD] Added cpuinfo virtualization flags (vmx/svm) 
 
  - [FIX] Fix the refresh break when cookie is empty with JQTreeTable plugin
  - [FIX] Fix UPS info display if multiple UPSes present and configured (thanks to namiltd)

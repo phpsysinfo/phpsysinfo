@@ -126,6 +126,19 @@ class Darwin extends BSDCommon
                     }
                 }
             }
+            $buf=$this->grabkey('machdep.cpu.brand_string');
+            if ( !is_null($buf) && (trim($buf) != "")  ) {
+                $dev->setModel(trim($buf));
+            }
+            $buf=$this->grabkey('machdep.cpu.features');
+            if ( !is_null($buf) && (trim($buf) != "")  ) {
+                if(preg_match("/ VMX/",$buf)) {
+                    $dev->setVirt("vmx");
+                }
+                else if(preg_match("/ SVM/",$buf)) {
+                    $dev->setVirt("svm");
+                }
+            }
         }
         $dev->setCpuSpeed(round($this->grabkey('hw.cpufrequency') / 1000000));
         $dev->setBusSpeed(round($this->grabkey('hw.busfrequency') / 1000000));
