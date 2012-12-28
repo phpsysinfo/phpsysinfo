@@ -208,6 +208,7 @@ class Linux extends OS
             foreach ($processors as $processor) {
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
+                $notwas = true;
                 foreach ($details as $detail) {
                     $arrBuff = preg_split('/\s+:\s+/', trim($detail));
                     if (count($arrBuff) == 2) {
@@ -216,29 +217,37 @@ class Linux extends OS
                             if(PSI_LOAD_BAR) {
                                 $dev->setLoad($this->_parseProcStat('cpu'.trim($arrBuff[1])));
                             }
+                            $notwas = false;
                             break;
                         case 'model name':
                         case 'cpu':
                             $dev->setModel($arrBuff[1]);
+                            $notwas = false;
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            if ($arrBuff[1] > 0) //openSUSE fix
+                            if ($arrBuff[1] > 0) { //openSUSE fix
                                 $dev->setCpuSpeed($arrBuff[1]);
+                            }
+                            $notwas = false;
                             break;
                         case 'cycle frequency [hz]':
                             $dev->setCpuSpeed($arrBuff[1] / 1000000);
+                            $notwas = false;
                             break;
                         case 'cpu0clktck':
                             $dev->setCpuSpeed(hexdec($arrBuff[1]) / 1000000); // Linux sparc64
+                            $notwas = false;
                             break;
                         case 'l2 cache':
                         case 'cache size':
                             $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff[1]) * 1024);
+                            $notwas = false;
                             break;
                         case 'bogomips':
                         case 'cpu0bogo':
                             $dev->setBogomips($arrBuff[1]);
+                            $notwas = false;
                             break;
                         case 'flags':
                             if(preg_match("/ vmx/",$arrBuff[1])) {
@@ -247,6 +256,7 @@ class Linux extends OS
                             else if(preg_match("/ svm/",$arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
+                            $notwas = false;
                             break;
                         }
                     }
@@ -271,10 +281,12 @@ class Linux extends OS
                             switch (strtolower($arrBuff[0])) {
                             case 'processor':
                                 $dev->setModel($arrBuff[1]);
+                                $notwas = false;
                                 break;
                             case 'bogomips':
                                 $dev->setCpuSpeed($arrBuff[1]); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                                 $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
+                                $notwas = false;
                                 break;
                             case 'i size':
                             case 'd size':
@@ -283,19 +295,21 @@ class Linux extends OS
                                 } else {
                                     $dev->setCache($dev->getCache() + ($arrBuff[1] * 1024));
                                 }
+                                $notwas = false;
                                 break;
                             }
                         }
                     }
                 }
-                if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
-                    $dev->setTemp(substr($buf, 25, 2));
+                if (!$notwas) {
+                    if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
+                        $dev->setTemp(substr($buf, 25, 2));
+                    }
+                    if ($dev->getModel() === "") {
+                        $dev->setModel("unknown");
+                    }
+                    $this->sys->setCpus($dev);
                 }
-
-                if ($dev->getModel() === "") {
-                    $dev->setModel("unknown");
-                }
-                $this->sys->setCpus($dev);
             }
         }
     }
@@ -449,6 +463,7 @@ class Linux extends OS
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG))) {
                         $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($bufe2 as $buf2) {
+//                            if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                             if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                              || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
