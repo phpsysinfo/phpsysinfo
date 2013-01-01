@@ -114,7 +114,7 @@ class CommonFunctions
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
         if (is_resource($process)) {
-            $strBuffer .= self::_timeoutfgets($pipes, $strBuffer, $strError);
+            self::_timeoutfgets($pipes, $strBuffer, $strError);
             $return_value = proc_close($process);
         }
         $strError = trim($strError);
