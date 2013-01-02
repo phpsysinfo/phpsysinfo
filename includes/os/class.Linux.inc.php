@@ -62,7 +62,7 @@ class Linux extends OS
         if (PSI_USE_VHOST === true) {
             $this->sys->setIp(gethostbyname($this->sys->getHostname()));
         } else {
-            if (!($result = $_SERVER['SERVER_ADDR'])) {
+            if (!isset($_SERVER['SERVER_ADDR']) || !($result = $_SERVER['SERVER_ADDR'])) {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname()));
             } else {
                 $this->sys->setIp($result);

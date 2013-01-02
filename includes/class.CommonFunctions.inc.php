@@ -119,17 +119,11 @@ class CommonFunctions
         }
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
-        if (! empty($strError) && $return_value <> 0) {
-            if ($booErrorRep) {
-                $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
-            }
-            return false;
-        }
         if (! empty($strError)) {
             if ($booErrorRep) {
                 $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
             }
-            return true;
+            return $return_value == 0;
         }
         return true;
     }
