@@ -53,7 +53,12 @@ if (!defined('PSI_CONFIG_FILE')){
             $contents = @file_get_contents('/etc/locale.conf');
         } else if  (file_exists ('/etc/sysconfig/language')){
             $contents = @file_get_contents('/etc/sysconfig/language');
-        } else $contents = false;
+        } else {
+            $contents = false;
+            if  (file_exists ('/system/build.prop')){ //Android
+                define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+            }           
+        }
         if ($contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
            || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
             if (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) {
