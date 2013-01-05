@@ -1,12 +1,13 @@
 phpSysInfo 3.1.0
 
+ - [NEW] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
+
  - [ADD] Turbolinux, Oracle Linux, CloudLinux, PCLinuxOS, StartOS, Trisquel, CRUX, Slax, Android, Zorin and elementary OS to detected distros
  - [ADD] Show System Language and Code Page on Linux, Haiku and WINNT
  - [ADD] Minor support of ReactOS
  - [ADD] apcupsd-cgi support (thanks to duhast)
 
- - [UPD] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
- - [UPD] Plugin ipmi ranamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)
+ - [UPD] Plugin ipmi renamed to IPMIInfo and Update-Notifier to UpdateNotifier (to avoid name conflicts)
  - [UPD] Case-insensitive for most of parameters
  - [UPD] Detection of Mac OS X and Linux distribution
  - [UPD] CPU detection on Mac OS X
@@ -29,7 +30,7 @@ phpSysInfo 3.0.19
  - [ADD] Added Greek language (gr)
  - [ADD] Alpine and Puppy to detected distros
 
- - [Fix] Fixed LMSensor sensors detection 
+ - [FIX] Fixed LMSensor sensors detection 
  - [FIX] Fix CPU detection on Linux and BSD
  - [FIX] Fix wrong values display on STATIC page
 
@@ -40,9 +41,9 @@ phpSysInfo 3.0.18
  - [ADD] Added 'B' (Bytes) for PSI_BYTE_FORMAT units
  - [ADD] Added Thai language (th)
 
- - [Fix] Fixed Bug [ 3526949 ] Listening IP shows blank if USE_VHOST = true (thanks to NHellFire)
- - [Fix] Fixed some cases on network statistics on Windows
- - [Fix] Fixed language files for missing values
+ - [FIX] Fixed Bug [ 3526949 ] Listening IP shows blank if USE_VHOST = true (thanks to NHellFire)
+ - [FIX] Fixed some cases on network statistics on Windows
+ - [FIX] Fixed language files for missing values
 
 phpSysInfo 3.0.17
 
@@ -52,7 +53,7 @@ phpSysInfo 3.0.17
  - [UPD] Updated jQuery plugin to 1.7.2
  - [UPD] Language files (pl, cz)
 
- - [Fix] Fix SMART Plugin crash on some systems
+ - [FIX] Fix SMART Plugin crash on some systems
  - [FIX] Fix SCSI, USB and IDE devices detection on FreeBSD
  - [FIX] Fix PCI, IDE, SCSI, USB and CPU detection on Mac OS X
  - [FIX] Optimization for _timeoutfgets
@@ -73,8 +74,8 @@ phpSysInfo 3.0.15
  - [UPD] Updated jQuery plugin to 1.7
  - [UPD] JSMin replaced by JavaScriptPacker compression method 'None'
  
- - [Fix] Fix incorrect behavior when using the compression JavaScriptPacker on Firefox 4 or above
- - [Fix] CSS fix for Internet Explorer 6
+ - [FIX] Fix incorrect behavior when using the compression JavaScriptPacker on Firefox 4 or above
+ - [FIX] CSS fix for Internet Explorer 6
  
 phpSysInfo 3.0.14
 
