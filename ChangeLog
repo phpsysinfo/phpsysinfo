@@ -2,7 +2,7 @@ phpSysInfo 3.1.0
 
  - [NEW] Configuration moved from config.php and subdirs of "plugins" to one file phpsysinfo.ini
 
- - [ADD] Turbolinux, Oracle Linux, CloudLinux, PCLinuxOS, StartOS, Trisquel, CRUX, Slax, Android, Zorin and elementary OS to detected distros
+ - [ADD] Turbolinux, Oracle Linux, CloudLinux, PCLinuxOS, StartOS, Trisquel, CRUX, Slax, Pear, Android, Zorin and elementary OS to detected distros
  - [ADD] Show System Language and Code Page on Linux, Haiku and WINNT
  - [ADD] Minor support of ReactOS
  - [ADD] apcupsd-cgi support (thanks to duhast)
