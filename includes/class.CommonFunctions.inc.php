@@ -115,7 +115,17 @@ class CommonFunctions
         $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
         if (is_resource($process)) {
             self::_timeoutfgets($pipes, $strBuffer, $strError);
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            // It is important that you close any pipes before calling
+            // proc_close in order to avoid a deadlock
             $return_value = proc_close($process);
+        } else {
+            if ($booErrorRep) {
+                $error->addError($strProgram, "\nOpen process error");
+            }
+            return false;
         }
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
