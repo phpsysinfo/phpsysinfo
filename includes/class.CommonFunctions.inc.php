@@ -256,7 +256,6 @@ class CommonFunctions
             die();
         }
     }
-
     
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
@@ -268,36 +267,17 @@ class CommonFunctions
      *
      * @return void
      */
-    private static function _timeoutfgets($pipes, &$out, &$err, $sek = 10)
+    private static function _timeoutfgets($pipes, &$out, &$err, $sek = 30)
     {
         // fill output string
         $time = $sek;
         $w = null;
         $e = null;
-        
-        while ($time >= 0) {
-            $read = array($pipes[1]);
-/*
-            while (!feof($read[0]) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0 && strlen($c = fgetc($read[0])) > 0) {
-                $out .= $c;
-*/
-            while (!feof($read[0]) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
-                $out .= fread($read[0], 4096);
-            }
-            --$time;
-        }
-        // fill error string
-        $time = $sek;
-        while ($time >= 0) {
-            $read = array($pipes[2]);
-/*
-            while (!feof($read[0]) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0 && strlen($c = fgetc($read[0])) > 0) {
-                $err .= $c;
-*/
-            while (!feof($read[0]) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
-                $err .= fread($read[0], 4096);
-            }
-            --$time;
+
+        $read = array($pipes[1],$pipes[2]);
+        while (!(feof($pipes[1])&& feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
+                $out .= fread($pipes[1], 4096);
+                $err .= fread($pipes[2], 4096);
         }
     }
     
