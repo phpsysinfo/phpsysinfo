@@ -1,6 +1,6 @@
 phpSysInfo 3.1.1
 
- - [ADD] SolusOS to detected distros
+ - [ADD] SolusOS and antiX to detected distros
  - [ADD] Simplified Chinese translation
 
  - [UPD] jQuery 1.9.0
