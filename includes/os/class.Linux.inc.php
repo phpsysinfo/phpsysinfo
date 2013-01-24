@@ -305,6 +305,13 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
                     }
+                    
+                    // android specific code follows
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$dev->getModel().'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeed($buf / 1024);
+                    }
+                    // android specific code ends
+                    
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
