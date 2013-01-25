@@ -205,31 +205,45 @@ class Linux extends OS
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
+            $procname = "";
             foreach ($processors as $processor) {
+                $proc = "";
+                $arch = "";
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
-                $notwas = true;
                 foreach ($details as $detail) {
                     $arrBuff = preg_split('/\s+:\s+/', trim($detail));
                     if (count($arrBuff) == 2) {
                         switch (strtolower($arrBuff[0])) {
                         case 'processor':
-                            if(PSI_LOAD_BAR) {
-                                $dev->setLoad($this->_parseProcStat('cpu'.trim($arrBuff[1])));
+                            $proc = $arrBuff[1];
+                            if (is_numeric($proc)) {
+                                // android specific code follows
+                                if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                                    $dev->setCpuSpeed($buf / 1024);
+                                }
+                                // android specific code ends
+                                if(PSI_LOAD_BAR) {
+                                    $dev->setLoad($this->_parseProcStat('cpu'.$proc));
+                                }
+                                if (strlen($procname)>0) {
+                                    $dev->setModel($procname);
+                                }
+                            } else {
+                                $procname = $proc;
+                                $dev->setModel($procname);
                             }
-                            $notwas = false;
                             break;
                         case 'model name':
+                        case 'cpu model':
                         case 'cpu':
                             $dev->setModel($arrBuff[1]);
-                            $notwas = false;
                             break;
                         case 'cpu mhz':
                         case 'clock':
                             if ($arrBuff[1] > 0) { //openSUSE fix
                                 $dev->setCpuSpeed($arrBuff[1]);
                             }
-                            $notwas = false;
                             break;
                         case 'cycle frequency [hz]':
                             $dev->setCpuSpeed($arrBuff[1] / 1000000);
@@ -237,17 +251,14 @@ class Linux extends OS
                             break;
                         case 'cpu0clktck':
                             $dev->setCpuSpeed(hexdec($arrBuff[1]) / 1000000); // Linux sparc64
-                            $notwas = false;
                             break;
                         case 'l2 cache':
                         case 'cache size':
                             $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff[1]) * 1024);
-                            $notwas = false;
                             break;
                         case 'bogomips':
                         case 'cpu0bogo':
                             $dev->setBogomips($arrBuff[1]);
-                            $notwas = false;
                             break;
                         case 'flags':
                             if(preg_match("/ vmx/",$arrBuff[1])) {
@@ -256,7 +267,17 @@ class Linux extends OS
                             else if(preg_match("/ svm/",$arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
-                            $notwas = false;
+                            break;
+                        case 'i size':
+                        case 'd size':
+                            if ($dev->getCache() === null) {
+                                $dev->setCache($arrBuff[1] * 1024);
+                            } else {
+                                $dev->setCache($dev->getCache() + ($arrBuff[1] * 1024));
+                            }
+                            break;
+                        case'cpu architecture':
+                            $arch = $arrBuff[1]; 
                             break;
                         }
                     }
@@ -274,44 +295,15 @@ class Linux extends OS
                 // sparc64 specific code ends
 
                 // XScale detection code
-                if ($dev->getModel() === "") {
-                    foreach ($details as $detail) {
-                        $arrBuff = preg_split('/\s+:\s+/', trim($detail));
-                        if (count($arrBuff) == 2) {
-                            switch (strtolower($arrBuff[0])) {
-                            case 'processor':
-                                $dev->setModel($arrBuff[1]);
-                                $notwas = false;
-                                break;
-                            case 'bogomips':
-                                $dev->setCpuSpeed($arrBuff[1]); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
-                                $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
-                                $notwas = false;
-                                break;
-                            case 'i size':
-                            case 'd size':
-                                if ($dev->getCache() === null) {
-                                    $dev->setCache($arrBuff[1] * 1024);
-                                } else {
-                                    $dev->setCache($dev->getCache() + ($arrBuff[1] * 1024));
-                                }
-                                $notwas = false;
-                                break;
-                            }
-                        }
-                    }
+                if ($arch === "5TE") {
+                    $dev->setCpuSpeed(getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
+                    $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
                 }
-                if (!$notwas) {
+                
+                if ($proc != "") {
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
-                    }
-                    
-                    // android specific code follows
-                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$dev->getModel().'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
-                        $dev->setCpuSpeed($buf / 1024);
-                    }
-                    // android specific code ends
-                    
+                    }                                      
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
