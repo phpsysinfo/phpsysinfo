@@ -277,7 +277,7 @@ class Linux extends OS
                             }
                             break;
                         case 'cpu architecture':
-                            $arch = $arrBuff[1]; 
+                            $arch = trim($arrBuff[1]); 
                             break;
                         }
                     }
