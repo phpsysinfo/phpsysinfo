@@ -212,7 +212,7 @@ class Linux extends OS
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s+:\s+/', trim($detail));
+                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
                     if (count($arrBuff) == 2) {
                         switch (strtolower($arrBuff[0])) {
                         case 'processor':
@@ -276,7 +276,7 @@ class Linux extends OS
                                 $dev->setCache($dev->getCache() + ($arrBuff[1] * 1024));
                             }
                             break;
-                        case'cpu architecture':
+                        case 'cpu architecture':
                             $arch = $arrBuff[1]; 
                             break;
                         }
