@@ -205,10 +205,10 @@ class Linux extends OS
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
-            $procname = "";
+            $procname = null;
             foreach ($processors as $processor) {
-                $proc = "";
-                $arch = "";
+                $proc = null;
+                $arch = null;
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
@@ -216,7 +216,7 @@ class Linux extends OS
                     if (count($arrBuff) == 2) {
                         switch (strtolower($arrBuff[0])) {
                         case 'processor':
-                            $proc = $arrBuff[1];
+                            $proc = trim($arrBuff[1]);
                             if (is_numeric($proc)) {
                                 // android specific code follows
                                 if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
@@ -300,7 +300,7 @@ class Linux extends OS
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
                 }
                 
-                if ($proc != "") {
+                if ($proc != null) {
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
                     }                                      
