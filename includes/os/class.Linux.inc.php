@@ -295,8 +295,8 @@ class Linux extends OS
                 // sparc64 specific code ends
 
                 // XScale detection code
-                if ($arch === "5TE") {
-                    $dev->setCpuSpeed(getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
+                if (($arch === "5TE") && ($dev->getBogomips() != null))  {
+                    $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
                 }
                 
