@@ -10,7 +10,6 @@ script: for i in `find . -name "*.php"`; do php -l $i; done;
 branches:
   only:
     - "master"
-    - "3.1dev"
 
 notifications:
   email: false
