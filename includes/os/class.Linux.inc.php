@@ -563,7 +563,7 @@ class Linux extends OS
                 }
             }
             if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) {
-                if ( !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") ) {
+                if ( isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") ) {
                     $this->sys->setDistribution(trim($distro_tmp[0]));
                     if ( preg_match('/^(\S+)\s*/', $distro_tmp[0], $id_buf)
                         && isset($list[trim($id_buf[1])]['Image'])) {
