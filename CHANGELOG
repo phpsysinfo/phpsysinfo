@@ -1,3 +1,7 @@
+phpSysInfo 3.1.2
+
+ - [ADD] Tempsensor for Raspberry Pi
+
 phpSysInfo 3.1.1
 
  - [ADD] SolusOS, Deepin and antiX to detected distros
