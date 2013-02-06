@@ -148,6 +148,7 @@ TEMP_FORMAT="c"
 ; - Coretemp
 ; - IPMI       http://openipmi.sourceforge.net/
 ; - K8Temp     http://hur.st/k8temp/
+; - PiTemp     No addon tool neded
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;
 SENSOR_PROGRAM=false
@@ -165,6 +166,7 @@ SENSOR_PROGRAM=false
 ; - Coretemp   command
 ; - IPMI       command
 ; - K8Temp     command
+; - PiTemp     command
 ;
 SENSOR_ACCESS="command"
 
