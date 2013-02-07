@@ -297,7 +297,7 @@ class Linux extends OS
                         $proc = 0;
                     }
                     // arm specific code follows
-                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                    if (($arch === "7")&&(CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false))) {
                         $dev->setCpuSpeed($buf / 1000);
                     }
                     // arm specific code ends
