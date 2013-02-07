@@ -2,7 +2,7 @@ phpSysInfo 3.1.2
 
  - [ADD] Tempsensor for Raspberry Pi
 
- - [FIX] Incorrect display of chunk size for the plug mdstatus for some results
+ - [FIX] Incorrect display of chunk size for the plugin mdstatus for some results
  
 phpSysInfo 3.1.1
 
