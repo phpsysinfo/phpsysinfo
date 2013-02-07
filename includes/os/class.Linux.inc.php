@@ -218,14 +218,6 @@ class Linux extends OS
                         case 'processor':
                             $proc = trim($arrBuff[1]);
                             if (is_numeric($proc)) {
-                                // android specific code follows
-                                if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
-                                    $dev->setCpuSpeed($buf / 1024);
-                                }
-                                // android specific code ends
-                                if(PSI_LOAD_BAR) {
-                                    $dev->setLoad($this->_parseProcStat('cpu'.$proc));
-                                }
                                 if (strlen($procname)>0) {
                                     $dev->setModel($procname);
                                 }
@@ -233,21 +225,6 @@ class Linux extends OS
                                 $procname = $proc;
                                 $dev->setModel($procname);
                             }
-                            break;
-                        // Raspberry Pi specific code follows (by Marc Hillesheim - hawkeyexp@gmail.com)
-                        case 'hardware':
-                            $proc = trim($arrBuff[1]);
-                            if ($proc == "BCM2708") {
-                                if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
-                                    $dev->setCpuSpeed($buf / 1000);
-                                    $procname = $proc;
-                                    $dev->setModel($procname);
-                                }
-                                if(PSI_LOAD_BAR) {
-                                    $dev->setLoad($this->_parseProcStat('cpu'.'0'));
-                                }
-                            }
-                        // Raspberry Pi specific code ends
                             break;
                         case 'model name':
                         case 'cpu model':
@@ -314,11 +291,23 @@ class Linux extends OS
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
                 }
-                
+
                 if ($proc != null) {
+                    if (!is_numeric($proc)) {
+                        $proc = 0;
+                    }
+                    // arm specific code follows
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeed($buf / 1000);
+                    }
+                    // arm specific code ends
+                    if(PSI_LOAD_BAR) {
+                            $dev->setLoad($this->_parseProcStat('cpu'.$proc));
+                    }
+
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
-                    }                                      
+                    }
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
