@@ -234,6 +234,21 @@ class Linux extends OS
                                 $dev->setModel($procname);
                             }
                             break;
+                        // Raspberry Pi specific code follows (by Marc Hillesheim - hawkeyexp@gmail.com)
+                        case 'hardware':
+                            $proc = trim($arrBuff[1]);
+                            if ("$proc" == "BCM2708") {
+                                if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                                    $dev->setCpuSpeed($buf / 1000);
+                                    $procname = $proc;
+                                    $dev->setModel($procname);
+                                }
+                                if(PSI_LOAD_BAR) {
+                                    $dev->setLoad($this->_parseProcStat('cpu'.'0'));
+                                }
+                            }
+                        // Raspberry Pi specific code ends
+                            break;
                         case 'model name':
                         case 'cpu model':
                         case 'cpu':
