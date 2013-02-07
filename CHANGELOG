@@ -1,6 +1,6 @@
 phpSysInfo 3.1.2
 
- - [ADD] Tempsensor for Raspberry Pi
+ - [ADD] Tempsensor and CPU frequency for Raspberry Pi (thanks to hawkeyexp)
 
  - [FIX] Incorrect display of chunk size for the plugin mdstatus for some results
  
