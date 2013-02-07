@@ -237,7 +237,7 @@ class Linux extends OS
                         // Raspberry Pi specific code follows (by Marc Hillesheim - hawkeyexp@gmail.com)
                         case 'hardware':
                             $proc = trim($arrBuff[1]);
-                            if ("$proc" == "BCM2708") {
+                            if ($proc == "BCM2708") {
                                 if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
                                     $dev->setCpuSpeed($buf / 1000);
                                     $procname = $proc;
