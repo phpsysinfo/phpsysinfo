@@ -622,7 +622,7 @@ class Linux extends OS
         }
         if (defined('PSI_OS') && (PSI_OS == 'Android')) {
             $buf = "";
-            if (CommonFunctions::rfts($filename, $lines, 0, 4096, false)
+            if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
                 && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                     $buf = $ar_buf[1];
             }
