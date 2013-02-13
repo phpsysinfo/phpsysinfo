@@ -1,7 +1,5 @@
 <?php 
 if (!defined('PSI_CONFIG_FILE')){
-define('PSI_OS', 'Android');
-
     /**
      * phpSysInfo version
      */

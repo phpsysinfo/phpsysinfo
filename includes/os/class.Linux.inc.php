@@ -540,9 +540,9 @@ class Linux extends OS
     private function _filesystems()
     {
         if (defined('PSI_OS') && (PSI_OS == 'Android')) {
-            if (CommonFunctions::executeProgram('_df', '', $df, PSI_DEBUG)) {
+            if (CommonFunctions::executeProgram('df', '', $df, PSI_DEBUG)) {
                 $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
-                if (CommonFunctions::executeProgram('_mount', '', $mount, PSI_DEBUG)) {
+                if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
                     $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($mount as $mount_line) {
                         $mount_buf = preg_split('/\s+/', $mount_line);
