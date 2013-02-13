@@ -1,5 +1,7 @@
 <?php 
 if (!defined('PSI_CONFIG_FILE')){
+define('PSI_OS', 'Android');
+
     /**
      * phpSysInfo version
      */
@@ -56,8 +58,9 @@ if (!defined('PSI_CONFIG_FILE')){
         } else {
             $contents = false;
             if  (file_exists ('/system/build.prop')){ //Android
+                define('PSI_OS', 'Android');
                 define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
-            }           
+            }
         }
         if ($contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
            || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
