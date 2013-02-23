@@ -19,6 +19,11 @@
 ;
 DEBUG=false
 
+; Turn on logging of functions executeProgram() and rfts()
+; Example : LOG="/tmp/phpsysinfo.log"
+;
+LOG=false
+
 ; Turn on/off compression for JavaScript file
 ; - JS_COMPRESSION=false  //no compression (recommended with slow processor)
 ; - JS_COMPRESSION="None"  //code minimizing

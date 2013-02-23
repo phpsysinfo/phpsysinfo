@@ -147,6 +147,9 @@ class CommonFunctions
         }
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
+        if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+            error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
+        }
         if (! empty($strError)) {
             if ($booErrorRep) {
                 $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
@@ -184,6 +187,9 @@ class CommonFunctions
                 }
                 fclose($fd);
                 $strRet = $strFile;
+                if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+                    error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                }
             } else {
                 if ($booErrorRep) {
                     $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
