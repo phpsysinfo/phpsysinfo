@@ -35,32 +35,24 @@ if (isset($_GET['plugin'])) {
     $plugin = basename(htmlspecialchars($_GET['plugin']));
     if ($plugin == "complete") {
         $output = new WebpageXML(true, null);
-        
-        if(isset($_GET['json'])){
-            $sxml = simplexml_load_string($output->getXMLString());
-            echo json_encode($sxml);
-        }
-        else {
-            $output->run();
-        }
+        show($output);
     } elseif ($plugin != "") {
         $output = new WebpageXML(false, $plugin);
-        if(isset($_GET['json'])){
-            $sxml = simplexml_load_string($output->getXMLString());
-            echo json_encode($sxml);
-        }
-        else {
-            $output->run();
-        }
+        show($output);
     }
 } else {
     $output = new WebpageXML(false, null);
-    
-    if(isset($_GET['json'])){
-        $sxml = simplexml_load_string($output->getXMLString());
-        echo json_encode($sxml);
-    }
-    else {
+    show($output);
+}
+
+function show(WebpageXML $output) 
+{
+    if (isset($_GET['json']) || isset($_GET['jsonp'])) {
+        $json = json_encode(
+            simplexml_load_string($output->getXMLString())
+        );
+        echo (isset($_GET['jsonp'])) ? $_GET['callback'] . '('.$json.')' : $json;
+    } else {
         $output->run();
     }
 }
