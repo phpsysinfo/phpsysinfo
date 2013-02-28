@@ -1,0 +1,12 @@
+Processor       : Feroceon 88FR131 rev 1 (v5l)
+BogoMIPS        : 797.90
+Features        : swp half thumb fastmult edsp 
+CPU implementer : 0x56
+CPU architecture: 5TE
+CPU variant     : 0x2
+CPU part        : 0x131
+CPU revision    : 1
+
+Hardware        : LaCie Internet Space v2
+Revision        : 0000
+Serial          : 0000000000000000

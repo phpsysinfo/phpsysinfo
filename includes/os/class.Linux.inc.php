@@ -218,14 +218,6 @@ class Linux extends OS
                         case 'processor':
                             $proc = trim($arrBuff[1]);
                             if (is_numeric($proc)) {
-                                // android specific code follows
-                                if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
-                                    $dev->setCpuSpeed($buf / 1024);
-                                }
-                                // android specific code ends
-                                if(PSI_LOAD_BAR) {
-                                    $dev->setLoad($this->_parseProcStat('cpu'.$proc));
-                                }
                                 if (strlen($procname)>0) {
                                     $dev->setModel($procname);
                                 }
@@ -299,11 +291,23 @@ class Linux extends OS
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
                 }
-                
+
                 if ($proc != null) {
+                    if (!is_numeric($proc)) {
+                        $proc = 0;
+                    }
+                    // arm specific code follows
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeed($buf / 1000);
+                    }
+                    // arm specific code ends
+                    if(PSI_LOAD_BAR) {
+                            $dev->setLoad($this->_parseProcStat('cpu'.$proc));
+                    }
+
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
-                    }                                      
+                    }
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
@@ -535,9 +539,73 @@ class Linux extends OS
      */
     private function _filesystems()
     {
-        $arrResult = Parser::df("-P 2>/dev/null");
-        foreach ($arrResult as $dev) {
-            $this->sys->setDiskDevices($dev);
+        if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+            if (CommonFunctions::executeProgram('df', '', $df, PSI_DEBUG)) {
+                $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
+                if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
+                    $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($mount as $mount_line) {
+                        $mount_buf = preg_split('/\s+/', $mount_line);
+                        if (count($mount_buf) == 6){
+                            $mount_parm[$mount_buf[1]]['fstype'] = $mount_buf[2];
+                            if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[1]]['options'] = $mount_buf[3];
+                            $mount_parm[$mount_buf[1]]['mountdev'] = $mount_buf[0];
+                        }
+                    }
+                    foreach ($df as $df_line) {
+                        if (preg_match("/(\S*)(\s+)(([0-9]+)([KMGT])(\s+)([0-9]+)([KMGT])(\s+)([0-9]+)([KMGT])(\s+)([0-9]+)$)/", $df_line, $df_buf)) {
+                            if (preg_match('/^\/mnt\/asec\/com\./', $df_buf[1])) break;
+
+                            $dev = new DiskDevice();
+                            if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[1]);
+                            if ($df_buf[5] == 'K') $dev->setTotal($df_buf[4] * 1024);
+                            elseif ($df_buf[5] == 'M') $dev->setTotal($df_buf[4] * 1024*1024);
+                            elseif ($df_buf[5] == 'G') $dev->setTotal($df_buf[4] * 1024*1024*1024);
+                            elseif ($df_buf[5] == 'T') $dev->setTotal($df_buf[4] * 1024*1024*1024*1024);
+
+                            if ($df_buf[8] == 'K') $dev->setUsed($df_buf[7] * 1024);
+                            elseif ($df_buf[8] == 'M') $dev->setUsed($df_buf[7] * 1024*1024);
+                            elseif ($df_buf[8] == 'G') $dev->setUsed($df_buf[7] * 1024*1024*1024);
+                            elseif ($df_buf[8] == 'T') $dev->setUsed($df_buf[7] * 1024*1024*1024*1024);
+
+                            if ($df_buf[11] == 'K') $dev->setFree($df_buf[10] * 1024);
+                            elseif ($df_buf[11] == 'M') $dev->setFree($df_buf[10] * 1024*1024);
+                            elseif ($df_buf[11] == 'G') $dev->setFree($df_buf[10] * 1024*1024*1024);
+                            elseif ($df_buf[11] == 'T') $dev->setFree($df_buf[10] * 1024*1024*1024*1024);
+
+                            if(isset($mount_parm[$df_buf[1]])) {
+                                $dev->setFsType($mount_parm[$df_buf[1]]['fstype']);
+                                $dev->setName($mount_parm[$df_buf[1]]['mountdev']);
+
+                                if (PSI_SHOW_MOUNT_OPTION) {
+                                    if (PSI_SHOW_MOUNT_CREDENTIALS) {
+                                        $dev->setOptions($mount_parm[$df_buf[1]]['options']);
+                                    } else {
+                                        $mpo=$mount_parm[$df_buf[1]]['options'];
+
+                                        $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
+                                        $mpo=preg_replace('/,guest,/i', ',', $mpo);
+
+                                        $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
+                                        $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                        $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
+                                        $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
+
+                                        $dev->setOptions($mpo);
+                                    }
+                                }
+                            }
+                            $this->sys->setDiskDevices($dev);
+                        }
+                    }
+                }
+            }
+        } else {
+            $arrResult = Parser::df("-P 2>/dev/null");
+            foreach ($arrResult as $dev) {
+                $this->sys->setDiskDevices($dev);
+            }
         }
     }
     /**
@@ -552,8 +620,30 @@ class Linux extends OS
         if (!$list) {
             return;
         }
+        if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+            $buf = "";
+            if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
+                && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
+                    $buf = $ar_buf[1];
+            }
+            if (isset($list['Android']['Image'])) {
+                $this->sys->setDistributionIcon($list['Android']['Image']);
+            }
+            if (isset($list['Android']['Name'])) {
+                if ( is_null($buf) || (trim($buf) == "")) {
+                    $this->sys->setDistribution($list['Android']['Name']);
+                } else {
+                    $this->sys->setDistribution($list['Android']['Name']." ".trim($buf));
+                }
+            } else {
+                if ( is_null($buf) || (trim($buf) == "") ) {
+                    $this->sys->setDistribution('Android');
+                } else {
+                    $this->sys->setDistribution(trim($buf));
+                }
+            }
         // We have the '2>/dev/null' because Ubuntu gives an error on this command which causes the distro to be unknown
-        if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen(trim($distro_info)) > 0)) {
+        } else if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen(trim($distro_info)) > 0)) {
             $distro_tmp = preg_split("/\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);
@@ -705,29 +795,6 @@ class Linux extends OS
                     } else {
                         if ( is_null($buf) || (trim($buf) == "") ) {
                             $this->sys->setDistribution('Debian');
-                        } else {
-                            $this->sys->setDistribution(trim($buf));
-                        }
-                    }
-                } else
-                if (file_exists($filename="/system/build.prop")){
-                    $buf = "";
-                    if (CommonFunctions::rfts($filename, $lines, 0, 4096, false)
-                        && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
-                            $buf = $ar_buf[1];
-                    }
-                    if (isset($list['Android']['Image'])) {
-                        $this->sys->setDistributionIcon($list['Android']['Image']);
-                    }
-                    if (isset($list['Android']['Name'])) {
-                        if ( is_null($buf) || (trim($buf) == "")) {
-                            $this->sys->setDistribution($list['Android']['Name']);
-                        } else {
-                            $this->sys->setDistribution($list['Android']['Name']." ".trim($buf));
-                        }
-                    } else {
-                        if ( is_null($buf) || (trim($buf) == "") ) {
-                            $this->sys->setDistribution('Android');
                         } else {
                             $this->sys->setDistribution(trim($buf));
                         }

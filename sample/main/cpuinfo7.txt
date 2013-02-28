@@ -1,0 +1,24 @@
+Processor: ARM926EJ-S rev 0 (v5l)
+BogoMIPS: 956.82
+Features: swp half thumb fastmult vfp edsp 
+CPU implementer: 0x41
+CPU architecture: 5TE
+CPU variant: 0x1
+CPU part: 0x926
+CPU revision: 0
+Cache type: write-back
+Cache clean: cp15 c7 ops
+Cache lockdown: format C
+Cache format: Harvard
+I size: 32768
+I assoc: 4
+I line length: 32
+I sets: 256
+D size: 32768
+D assoc: 4
+D line length: 32
+D sets: 256
+
+Hardware: Feroceon-MV78XX0
+Revision: 0000
+Serial: 0000000000000000

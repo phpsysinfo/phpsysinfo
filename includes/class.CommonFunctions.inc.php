@@ -52,7 +52,11 @@ class CommonFunctions
         }
         //add some default paths if we still have no paths here
         if ( empty($arrPath) && PHP_OS != 'WINNT') {
-            array_push($arrPath, '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
+            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+                array_push($arrPath, '/system/bin');
+            } else {
+                array_push($arrPath, '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
+            }
         }
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
         if ((bool)ini_get('open_basedir')) {
@@ -60,7 +64,8 @@ class CommonFunctions
         }
         foreach ($arrPath as $strPath) {
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
-            if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) || !is_dir($strPath)) {
+            if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) ||
+             !((defined('PSI_OS') && (PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
                 continue;
             }
             if (PHP_OS == 'WINNT') {
@@ -112,15 +117,28 @@ class CommonFunctions
             }
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-        $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
+        if (defined('PSI_OS') && (PSI_OS == 'Android')) { //proc_open() replacement for Android
+            $process = $pipes[1] = popen($strProgram." ".$strArgs." 2>/dev/null", "r");
+        } else {
+            $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
+        }
         if (is_resource($process)) {
+            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+                $pipes[0] = null;
+                $pipes[2] = fopen("/dev/null", "r");
+            }
             self::_timeoutfgets($pipes, $strBuffer, $strError);
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-            // It is important that you close any pipes before calling
-            // proc_close in order to avoid a deadlock
-            $return_value = proc_close($process);
+            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+                fclose($pipes[2]);
+                $return_value = pclose($pipes[1]);
+            } else {
+                fclose($pipes[0]);
+                fclose($pipes[1]);
+                fclose($pipes[2]);
+                // It is important that you close any pipes before calling
+                // proc_close in order to avoid a deadlock
+                $return_value = proc_close($process);
+            }
         } else {
             if ($booErrorRep) {
                 $error->addError($strProgram, "\nOpen process error");
@@ -129,6 +147,9 @@ class CommonFunctions
         }
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
+        if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+            error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
+        }
         if (! empty($strError)) {
             if ($booErrorRep) {
                 $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
@@ -166,6 +187,9 @@ class CommonFunctions
                 }
                 fclose($fd);
                 $strRet = $strFile;
+                if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+                    error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                }
             } else {
                 if ($booErrorRep) {
                     $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');

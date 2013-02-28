@@ -123,8 +123,8 @@ class MDStatus extends PSI_Plugin
                 }
                 $count++;
                 $optionline = $this->_filecontent[$count - 1].$this->_filecontent[$count];
-                if ($pos = strpos($optionline, "k chunk")) {
-                    $this->_result['devices'][$dev]['chunk_size'] = trim(substr($optionline, $pos - 3, 3));
+                if (preg_match('/([^\sk]*)k chunk/', $optionline, $chunksize)) {
+                    $this->_result['devices'][$dev]['chunk_size'] = $chunksize[1];
                 } else {
                     $this->_result['devices'][$dev]['chunk_size'] = -1;
                 }
