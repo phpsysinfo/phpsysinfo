@@ -160,6 +160,9 @@ class Parser
                                         $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
                                         $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
 
+                                        $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                        $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
+
                                         $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
                                         $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
 
