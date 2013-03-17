@@ -823,6 +823,18 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
+                } else
+                if (file_exists($filename="/etc/system-release")){ //last chance
+                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                        $buf = "";
+                    }
+                    if ( !is_null($buf) && (trim($buf) != "")) {
+                        $this->sys->setDistribution(trim($buf));
+                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                            && isset($list[trim($id_buf[1])]['Image'])) {
+                                $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        }
+                   }
                 }
             }
             /* restore error level */
