@@ -1,23 +1,10 @@
 <?php
-/**
- * BAT Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_BAT
- * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
  /**
  * BAT Plugin, which displays battery state
  *
  * @category  PHP
  * @package   PSI_Plugin_BAT
- * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
+ * @author    Erkan VALENTIN
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @version   $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
