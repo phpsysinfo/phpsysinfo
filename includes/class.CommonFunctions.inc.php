@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * common Functions class
  *
@@ -78,7 +78,7 @@ class CommonFunctions
             }
         }
     }
-    
+
     /**
      * Execute a system program. return a trim()'d result.
      * does very crude pipe checking.  you need ' | ' for it to work
@@ -158,7 +158,7 @@ class CommonFunctions
         }
         return true;
     }
-    
+
     /**
      * read a file and return the content as a string
      *
@@ -204,7 +204,7 @@ class CommonFunctions
         }
         return true;
     }
-    
+
     /**
      * reads a directory and return the name of the files and directorys in it
      *
@@ -237,7 +237,7 @@ class CommonFunctions
         }
         return $arrDirectoryContent;
     }
-    
+
     /**
      * Check for needed php extensions
      *
@@ -280,7 +280,7 @@ class CommonFunctions
             die();
         }
     }
-    
+
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
@@ -304,7 +304,7 @@ class CommonFunctions
                 $err .= fread($pipes[2], 4096);
         }
     }
-    
+
     /**
      * get all configured plugins from config.php (file must be included before calling this function)
      *

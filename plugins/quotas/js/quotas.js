@@ -35,7 +35,7 @@ var quotas_show = false, quotas_table;
  */
 function quotas_populate(xml) {
     quotas_table.fnClearTable();
-    
+
     $("Plugins Plugin_Quotas Quota", xml).each(function quotas_getquota(id) {
         var user = "", bused = 0, bsoft = 0, bhard = 0, bpuse = 0, fpuse = 0, fused = 0, fsoft = 0, fhard = 0;
         user = $(this).attr("User");
@@ -47,7 +47,7 @@ function quotas_populate(xml) {
         fsoft = parseInt($(this).attr("FileSoft"), 10);
         fhard = parseInt($(this).attr("FileHard"), 10);
         fpuse = parseInt($(this).attr("FilePercentUsed"), 10);
-        
+
         quotas_table.fnAddData(["<span style=\"display:none;\">" + user + "</span>" + user, "<span style=\"display:none;\">" + bused + "</span>" + formatBytes(bused, xml), "<span style=\"display:none;\">" + bsoft + "</span>" + formatBytes(bsoft, xml), "<span style=\"display:none;\">" + bhard + "</span>" + formatBytes(bhard, xml), "<span style=\"display:none;\">" + bpuse + "</span>" + createBar(bpuse), "<span style=\"display:none;\">" + fused + "</span>" + fused, "<span style=\"display:none;\">" + fsoft + "</span>" + fsoft, "<span style=\"display:none;\">" + fhard + "</span>" + fhard, "<span style=\"display:none;\">" + fpuse + "</span>" + createBar(fpuse)]);
         quotas_show = true;
     });
@@ -58,7 +58,7 @@ function quotas_populate(xml) {
  */
 function quotas_buildTable() {
     var html = "";
-    
+
     html += "<table id=\"Plugin_QuotasTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
@@ -76,9 +76,9 @@ function quotas_buildTable() {
     html += "  <tbody>\n";
     html += "  </tbody>\n";
     html += "</table>\n";
-    
+
     $("#Plugin_Quotas").append(html);
-    
+
     quotas_table = $("#Plugin_QuotasTable").dataTable({
         "bPaginate": false,
         "bLengthChange": false,
@@ -134,11 +134,11 @@ function quotas_request() {
 $(document).ready(function quotas_buildpage() {
     $("#footer").before(buildBlock("Quotas", 1, true));
     $("#Plugin_Quotas").css("width", "915px");
-    
+
     quotas_buildTable();
-    
+
     quotas_request();
-    
+
     $("#Reload_QuotasTable").click(function quotas_reload(id) {
         quotas_request();
         $("#Reload_QuotasTable").attr("title",datetime());

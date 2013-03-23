@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MBM5 sensor class
  *
@@ -33,14 +33,14 @@ class MBM5 extends Sensors
      */
     private $_buf_label = array();
 
-    
+
     /**
      * array withe the values
      *
      * @var array
      */
     private $_buf_value = array();
-    
+
     /**
      * read the MBM5.csv file and fill the private arrays
      */
@@ -63,7 +63,7 @@ class MBM5 extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -83,7 +83,7 @@ class MBM5 extends Sensors
             $this->mbinfo->setMbTemp($dev);
         }
     }
-    
+
     /**
      * get fan information
      *
@@ -103,7 +103,7 @@ class MBM5 extends Sensors
             $this->mbinfo->setMbFan($dev);
         }
     }
-    
+
     /**
      * get voltage information
      *
@@ -122,7 +122,7 @@ class MBM5 extends Sensors
             $this->mbinfo->setMbVolt($dev);
         }
     }
-    
+
     /**
      * get the information
      *

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic Output Functions
  *

@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (!defined('PSI_CONFIG_FILE')){
     /**
      * phpSysInfo version
@@ -18,7 +18,7 @@ if (!defined('PSI_CONFIG_FILE')){
     $old_err_rep = error_reporting();
     error_reporting(E_ERROR);
 
-    /* get git revision */ 
+    /* get git revision */
     if (file_exists (APP_ROOT.'/.git/HEAD')){
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {

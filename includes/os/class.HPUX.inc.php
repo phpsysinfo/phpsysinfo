@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * HP-UX System Class
  *
@@ -41,7 +41,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Virtual Host Name
      *
@@ -59,7 +59,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * HP-UX Version
      *
@@ -71,7 +71,7 @@ class HPUX extends OS
             $this->sys->setKernel($ret);
         }
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -89,7 +89,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * Number of Users
      *
@@ -102,7 +102,7 @@ class HPUX extends OS
             $this->sys->setUsers($who[1]);
         }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -117,7 +117,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * CPU information
      * All of the tags here are highly architecture dependant
@@ -163,7 +163,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * PCI devices
      *
@@ -190,7 +190,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * IDE devices
      *
@@ -214,7 +214,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * SCSI devices
      *
@@ -240,7 +240,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * USB devices
      *
@@ -269,7 +269,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * Network devices
      * includes also rx/tx bytes
@@ -294,7 +294,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * Physical memory information and Swap Space information
      *
@@ -332,7 +332,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * filesystem information
      *
@@ -364,7 +364,7 @@ class HPUX extends OS
             }
         }
     }
-    
+
     /**
      * Distribution
      *
@@ -376,7 +376,7 @@ class HPUX extends OS
         $this->sys->setDistributionIcon('HPUX.png');
     }
 
-    
+
     /**
      * get the information
      *

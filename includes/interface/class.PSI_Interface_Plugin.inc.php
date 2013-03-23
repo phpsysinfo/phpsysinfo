@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic Plugin Functions
  *
@@ -33,7 +33,7 @@ interface PSI_Interface_Plugin
      * @return void
      */
     function execute();
-    
+
     /**
      * build the xml
      *

@@ -14,23 +14,23 @@
   </expression>
   <expression id="plugin_bat_003" name="bat_design_capacity">
     <exp>Konstrukční kapacita</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_004" name="bat_remaining_capacity">
     <exp>Zbývající kapacita</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_005" name="bat_design_voltage">
     <exp>Konstrukční napětí</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_006" name="bat_present_voltage">
     <exp>Aktuální napětí</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_item">
     <exp>Položky</exp>
-  </expression>   
+  </expression>
   <expression id="plugin_bat_008" name="bat_value">
     <exp>Hodnoty</exp>
   </expression>
   <expression id="plugin_bat_009" name="bat_charging_state">
     <exp>Stav nabíjení</exp>
-  </expression>     
+  </expression>
 </tns:translationPlugin>

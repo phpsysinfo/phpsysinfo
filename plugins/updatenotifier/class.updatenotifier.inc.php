@@ -45,7 +45,7 @@ class UpdateNotifier extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
-        
+
         CommonFunctions::rfts(PSI_PLUGIN_UPDATENOTIFIER_FILE, $buffer_info);
         // Remove blank lines
         $this->_filecontent = preg_split("/\n/", $buffer_info, -1, PREG_SPLIT_NO_EMPTY);
@@ -62,7 +62,7 @@ class UpdateNotifier extends PSI_Plugin
         if (empty($this->_filecontent)) {
             return;
         }
-        
+
         if (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true) {
             /*
              Ubuntu Landscape format:

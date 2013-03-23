@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic OS Class
  *
@@ -31,14 +31,14 @@ abstract class Sensors implements PSI_Interface_Sensor
      * @var Error
      */
     protected $error;
-    
+
     /**
      * object for the information
      *
      * @var MBInfo
      */
     protected $mbinfo;
-    
+
     /**
      * build the global Error object
      */
@@ -47,7 +47,7 @@ abstract class Sensors implements PSI_Interface_Sensor
         $this->error = Error::singleton();
         $this->mbinfo = new MBInfo();
     }
-    
+
     /**
      * get the filled or unfilled (with default values) MBInfo object
      *

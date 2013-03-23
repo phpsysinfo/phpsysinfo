@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Haiku System Class
  *
@@ -32,7 +32,7 @@ class Haiku extends OS
      * @var array
      */
     private $_dmesg = array();
-    
+
     /**
      * call parent constructor
      */
@@ -40,7 +40,7 @@ class Haiku extends OS
     {
         parent::__construct();
     }
-    
+
     /**
      * get the cpu information
      *
@@ -83,7 +83,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * PCI devices
      * get the pci device information
@@ -96,7 +96,7 @@ class Haiku extends OS
 //            $devices = preg_split("/^device |\ndevice /", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $devices = preg_split("/^device /m", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($devices as $device) {
-                $ar_buf = preg_split("/\n/", $device); 
+                $ar_buf = preg_split("/\n/", $device);
                 if (count($ar_buf) >= 3) {
                     if (preg_match("/^([^\(\[\n]*)/", $device, $ar_buf2)) {
                         if (preg_match("/^[^\(]*\((.*)\)/", $device, $ar_buf3)) {
@@ -138,7 +138,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * Haiku Version
      *
@@ -150,7 +150,7 @@ class Haiku extends OS
                $this->sys->setKernel($ret);
         }
     }
-    
+
     /**
      * Distribution
      *
@@ -165,7 +165,7 @@ class Haiku extends OS
 
         $this->sys->setDistributionIcon('Haiku.png');
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -210,7 +210,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * Number of Users
      *
@@ -220,7 +220,7 @@ class Haiku extends OS
     {
         $this->sys->setUsers(1);
     }
-    
+
     /**
      * Virtual Host Name
      *
@@ -239,7 +239,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Virtual Host Name
      *
@@ -287,7 +287,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * filesystem information
      *
@@ -299,7 +299,7 @@ class Haiku extends OS
       if (CommonFunctions::executeProgram('df', '-b', $df, PSI_DEBUG)){
           $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
           foreach ($df as $df_line) {
-              $ar_buf = preg_split("/\s+/", $df_line); 
+              $ar_buf = preg_split("/\s+/", $df_line);
               if ((substr($df_line,0 ,1 ) == "/") && (count($ar_buf) == 6 )) {
                   $dev = new DiskDevice();
                   $dev->setMountPoint($ar_buf[0]);
@@ -369,7 +369,7 @@ class Haiku extends OS
             }
         }
     }
-    
+
     /**
      * get the information
      *

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * start page for webaccess
  *
@@ -31,28 +31,28 @@ class Webpage extends Output implements PSI_Interface_Output
      * @var String
      */
     private $_language;
-    
+
     /**
      * configured template
      *
      * @var String
      */
     private $_template;
-    
+
     /**
      * all available templates
      *
      * @var Array
      */
     private $_templates = array();
-    
+
     /**
      * all available languages
      *
      * @var Array
      */
     private $_languages = array();
-    
+
     /**
      * check for all extensions that are needed, initialize needed vars and read config.php
      */
@@ -62,7 +62,7 @@ class Webpage extends Output implements PSI_Interface_Output
         $this->_getTemplateList();
         $this->_getLanguageList();
     }
-    
+
     /**
      * checking config.php setting for template, if not supportet set phpsysinfo.css as default
      * checking config.php setting for language, if not supported set en as default
@@ -75,13 +75,13 @@ class Webpage extends Output implements PSI_Interface_Output
         if (!file_exists(APP_ROOT.'/templates/'.$this->_template.".css")) {
             $this->_template = 'phpsysinfo';
         }
-        
+
         $this->_language = trim(strtolower(PSI_DEFAULT_LANG));
         if (!file_exists(APP_ROOT.'/language/'.$this->_language.".xml")) {
             $this->_language = 'en';
         }
     }
-    
+
     /**
      * get all available tamplates and store them in internal array
      *
@@ -99,7 +99,7 @@ class Webpage extends Output implements PSI_Interface_Output
             }
         }
     }
-    
+
     /**
      * get all available translations and store them in internal array
      *
@@ -117,7 +117,7 @@ class Webpage extends Output implements PSI_Interface_Output
             }
         }
     }
-    
+
     /**
      * render the page
      *
@@ -126,14 +126,14 @@ class Webpage extends Output implements PSI_Interface_Output
     public function run()
     {
         $this->_checkTemplateLanguage();
-        
+
         $tpl = new Template("/templates/html/index_dynamic.html");
-        
+
         $tpl->set("template", $this->_template);
         $tpl->set("templates", $this->_templates);
         $tpl->set("language", $this->_language);
         $tpl->set("languages", $this->_languages);
-        
+
         echo $tpl->fetch();
     }
 }

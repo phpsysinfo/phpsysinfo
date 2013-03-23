@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * parser Class
  *
@@ -49,7 +49,7 @@ class Parser
         }
         return $arrResults;
     }
-    
+
     /**
      * parsing the output of pciconf command
      *
@@ -80,7 +80,7 @@ class Parser
         }
         return $arrResults;
     }
-    
+
     /**
      * parsing the output of df command
      *

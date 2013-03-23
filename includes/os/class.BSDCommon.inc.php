@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * BSDCommon Class
  *
@@ -33,49 +33,49 @@ abstract class BSDCommon extends OS
      * @var array
      */
     private $_dmesg = array();
-    
+
     /**
      * regexp1 for cpu information out of the syslog
      *
      * @var string
      */
     private $_CPURegExp1 = "";
-    
+
     /**
      * regexp2 for cpu information out of the syslog
      *
      * @var string
      */
     private $_CPURegExp2 = "";
-    
+
     /**
      * regexp1 for scsi information out of the syslog
      *
      * @var string
      */
     private $_SCSIRegExp1 = "";
-    
+
     /**
      * regexp2 for scsi information out of the syslog
      *
      * @var string
      */
     private $_SCSIRegExp2 = "";
-    
+
     /**
      * regexp1 for pci information out of the syslog
      *
      * @var string
      */
     private $_PCIRegExp1 = "";
-    
+
     /**
      * regexp1 for pci information out of the syslog
      *
      * @var string
      */
     private $_PCIRegExp2 = "";
-    
+
     /**
      * call parent constructor
      */
@@ -83,7 +83,7 @@ abstract class BSDCommon extends OS
     {
         parent::__construct();
     }
-    
+
     /**
      * setter for cpuregexp1
      *
@@ -95,7 +95,7 @@ abstract class BSDCommon extends OS
     {
         $this->_CPURegExp1 = $value;
     }
-    
+
     /**
      * setter for cpuregexp2
      *
@@ -107,7 +107,7 @@ abstract class BSDCommon extends OS
     {
         $this->_CPURegExp2 = $value;
     }
-    
+
     /**
      * setter for scsiregexp1
      *
@@ -119,7 +119,7 @@ abstract class BSDCommon extends OS
     {
         $this->_SCSIRegExp1 = $value;
     }
-    
+
     /**
      * setter for scsiregexp2
      *
@@ -131,7 +131,7 @@ abstract class BSDCommon extends OS
     {
         $this->_SCSIRegExp2 = $value;
     }
-    
+
     /**
      * setter for pciregexp1
      *
@@ -143,7 +143,7 @@ abstract class BSDCommon extends OS
     {
         $this->_PCIRegExp1 = $value;
     }
-    
+
     /**
      * setter for pciregexp2
      *
@@ -155,7 +155,7 @@ abstract class BSDCommon extends OS
     {
         $this->_PCIRegExp2 = $value;
     }
-    
+
     /**
      * read /var/run/dmesg.boot, but only if we haven't already
      *
@@ -173,7 +173,7 @@ abstract class BSDCommon extends OS
         }
         return $this->_dmesg;
     }
-    
+
     /**
      * get a value from sysctl command
      *
@@ -190,7 +190,7 @@ abstract class BSDCommon extends OS
             return '';
         }
     }
-    
+
     /**
      * Virtual Host Name
      *
@@ -206,7 +206,7 @@ abstract class BSDCommon extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Canonical Host Name
      *
@@ -224,7 +224,7 @@ abstract class BSDCommon extends OS
             }
         }
     }
-    
+
     /**
      * Kernel Version
      *
@@ -236,7 +236,7 @@ abstract class BSDCommon extends OS
         $a = preg_split('/:/', $s);
         $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
     }
-    
+
     /**
      * Number of Users
      *
@@ -248,7 +248,7 @@ abstract class BSDCommon extends OS
             $this->sys->setUsers($buf);
         }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -279,7 +279,7 @@ abstract class BSDCommon extends OS
             }
         }
     }
-    
+
     /**
      * CPU information
      *
@@ -318,7 +318,7 @@ abstract class BSDCommon extends OS
             $this->sys->setCpus($dev);
         }
     }
-    
+
     /**
      * SCSI devices
      * get the scsi device information out of dmesg
@@ -356,7 +356,7 @@ abstract class BSDCommon extends OS
                         $finddev->setName(substr(strstr($finddev->getName(), ': ', false),2));
         }
     }
-    
+
     /**
      * PCI devices
      * get the pci device information out of dmesg
@@ -382,7 +382,7 @@ abstract class BSDCommon extends OS
             $this->sys->setPciDevices($dev);
         }
     }
-    
+
     /**
      * IDE devices
      * get the ide device information out of dmesg
@@ -429,7 +429,7 @@ abstract class BSDCommon extends OS
                         $finddev->setName(substr(strstr($finddev->getName(), ': ', false),2));
         }
     }
-    
+
     /**
      * Physical memory information and Swap Space information
      *
@@ -455,7 +455,7 @@ abstract class BSDCommon extends OS
             }
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
-            
+
             if (((PHP_OS == 'OpenBSD' || PHP_OS == 'NetBSD') && CommonFunctions::executeProgram('swapctl', '-l -k', $swapstat, PSI_DEBUG)) || CommonFunctions::executeProgram('swapinfo', '-k', $swapstat, PSI_DEBUG)) {
                 $lines = preg_split("/\n/", $swapstat, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
@@ -491,7 +491,7 @@ abstract class BSDCommon extends OS
                     $dev->setName($ar_buf[2]);
                     $this->sys->setUSBDevices($dev);
             }
-        }   
+        }
      }
 
     /**
@@ -506,7 +506,7 @@ abstract class BSDCommon extends OS
             $this->sys->setDiskDevices($dev);
         }
     }
-    
+
     /**
      * Distribution
      *
@@ -519,7 +519,7 @@ abstract class BSDCommon extends OS
         }
     }
 
-    
+
     /**
      * get the information
      *

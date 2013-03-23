@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Linux System Class
  *
@@ -119,7 +119,7 @@ class Linux extends OS
     private function _users()
     {
         if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
-            if (strlen(trim($strBuf)) > 0) { 
+            if (strlen(trim($strBuf)) > 0) {
                 $lines = preg_split('/\n/', $strBuf);
                 $this->sys->setUsers(count($lines));
             }
@@ -269,7 +269,7 @@ class Linux extends OS
                             }
                             break;
                         case 'cpu architecture':
-                            $arch = trim($arrBuff[1]); 
+                            $arch = trim($arrBuff[1]);
                             break;
                         }
                     }
@@ -289,7 +289,7 @@ class Linux extends OS
                 // XScale detection code
                 if (($arch === "5TE") && ($dev->getBogomips() != null))  {
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
-                    $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS 
+                    $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS
                 }
 
                 if ($proc != null) {
@@ -716,7 +716,7 @@ class Linux extends OS
             // Otherwise, if no files found
             if ($this->sys->getDistribution() == "Linux") {
                 if ( file_exists($filename="/etc/lsb-release")
-                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false) 
+                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRIB_ID="?([^"\n]*)"?/m', $buf, $id_buf) ) {
                     if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]*)"?/m', $buf, $desc_buf)) {
                         $this->sys->setDistribution(trim($desc_buf[1]));
@@ -737,7 +737,7 @@ class Linux extends OS
                     }
                 } else
                 if ( file_exists($filename="/etc/DISTRO_SPECS")
-                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false) 
+                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf) ) {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
                         $dist = trim($list[trim($id_buf[1])]['Name']);
@@ -842,7 +842,7 @@ class Linux extends OS
             /* restore error handler */
             if (function_exists('errorHandlerPsi')) {
                 set_error_handler('errorHandlerPsi');
-            } 
+            }
         }
     }
     /**

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * XML Generator class
  *
@@ -31,28 +31,28 @@ class WebpageXML extends Output implements PSI_Interface_Output
      * @var XML
      */
     private $_xml;
-    
+
     /**
      * only plugin xml
      *
      * @var boolean
      */
     private $_pluginRequest = false;
-    
+
     /**
      * complete xml
      *
      * @var boolean
      */
     private $_completeXML = false;
-    
+
     /**
      * name of the plugin
      *
      * @var string
      */
     private $_pluginName = null;
-    
+
     /**
      * generate the output
      *
@@ -65,7 +65,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             if (!file_exists(APP_ROOT.'/includes/os/class.'.PHP_OS.'.inc.php')) {
                 $this->error->addError("file_exists(class.".PHP_OS.".inc.php)", PHP_OS." is not currently supported");
             }
-            
+
             // check if there is a valid sensor configuration in config.php
             $found = false;
             if (PSI_SENSOR_PROGRAM !== false) {
@@ -82,7 +82,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
              * @var boolean
              */
             define('PSI_MBINFO', $found);
-            
+
             // check if there is a valid hddtemp configuration in config.php
             $found = false;
             if (PSI_HDD_TEMP !== false) {
@@ -94,7 +94,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
              * @var boolean
              */
             define('PSI_HDDTEMP', $found);
-            
+
             // check if there is a valid ups configuration in config.php
             $found = false;
             if (PSI_UPS_PROGRAM !== false) {
@@ -111,13 +111,13 @@ class WebpageXML extends Output implements PSI_Interface_Output
              * @var boolean
              */
             define('PSI_UPSINFO', $found);
-            
+
             // if there are errors stop executing the script until they are fixed
             if ($this->error->errorsExist()) {
                 $this->error->errorsAsXML();
             }
         }
-        
+
         // Create the XML
         if ($this->_pluginRequest) {
             $this->_xml = new XML(false, $this->_pluginName);
@@ -125,7 +125,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             $this->_xml = new XML($this->_completeXML);
         }
     }
-    
+
     /**
      * render the output
      *
@@ -138,7 +138,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
         $xml = $this->_xml->getXml();
         echo $xml->asXML();
     }
-    
+
     /**
      * get XML as pure string
      *
@@ -149,7 +149,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
         $xml = $this->_xml->getXml();
         return $xml->asXML();
     }
-    
+
     /**
      * set parameters for the XML generation process
      *

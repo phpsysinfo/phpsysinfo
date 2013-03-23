@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Minix System Class
  *
@@ -32,7 +32,7 @@ class Minix extends OS
      * @var array
      */
     private $_dmesg = array();
-    
+
     /**
      * call parent constructor
      */
@@ -40,7 +40,7 @@ class Minix extends OS
     {
         parent::__construct();
     }
-    
+
     /**
      * read /var/log/messages, but only if we haven't already
      *
@@ -57,7 +57,7 @@ class Minix extends OS
         }
         return $this->_dmesg;
     }
-    
+
     /**
      * get the cpu information
      *
@@ -118,7 +118,7 @@ class Minix extends OS
           }
         }
     }
-    
+
     /**
      * PCI devices
      * get the pci device information out of dmesg
@@ -144,14 +144,14 @@ class Minix extends OS
                $this->sys->setPciDevices($dev);
            }
         }
-        if ((!is_array($arrResults))&&(is_array($results = Parser::lspci()))) { 
+        if ((!is_array($arrResults))&&(is_array($results = Parser::lspci()))) {
            /* if access error: chmod 4755 /usr/bin/lspci */
            foreach ($results as $dev) {
               $this->sys->setPciDevices($dev);
            }
         }
     }
-    
+
     /**
      * Minix Version
      *
@@ -171,7 +171,7 @@ class Minix extends OS
                $this->sys->setKernel($ret);
         }
     }
-    
+
     /**
      * Distribution
      *
@@ -186,7 +186,7 @@ class Minix extends OS
 
         $this->sys->setDistributionIcon('Minix.png');
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -209,7 +209,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -224,7 +224,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * Number of Users
      *
@@ -238,7 +238,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * Virtual Host Name
      *
@@ -257,7 +257,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Virtual Host Name
      *
@@ -293,7 +293,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * filesystem information
      *
@@ -306,7 +306,7 @@ class Minix extends OS
          $this->sys->setDiskDevices($dev);
      }
     }
-    
+
     /**
      * get the information
      *

@@ -287,7 +287,7 @@ AlloVince allo.vince@gmail.com http://avnpc.com/
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>虚拟化</exp> 
+    <exp>虚拟化</exp>
   </expression>
   <expression id="095" name="lastboot">
     <exp>上次启动</exp>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * hwsensors sensor class
  *
@@ -31,7 +31,7 @@ class HWSensors extends Sensors
      * @var array
      */
     private $_lines = array();
-    
+
     /**
      * fill the private content var through tcp or file access
      */
@@ -49,7 +49,7 @@ class HWSensors extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -68,7 +68,7 @@ class HWSensors extends Sensors
             }
         }
     }
-    
+
     /**
      * get fan information
      *
@@ -86,7 +86,7 @@ class HWSensors extends Sensors
             }
         }
     }
-    
+
     /**
      * get voltage information
      *
@@ -105,7 +105,7 @@ class HWSensors extends Sensors
         }
     }
 
-    
+
     /**
      * get the information
      *

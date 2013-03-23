@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * XML Generation class
  *
@@ -31,54 +31,54 @@ class XML
      * @var PSI_Interface_OS
      */
     private $_sysinfo;
-    
+
     /**
      * @var System
      */
     private $_sys = null;
-    
+
     /**
      * xml object with the xml content
      *
      * @var SimpleXMLExtended
      */
     private $_xml;
-    
+
     /**
      * object for error handling
      *
      * @var Error
      */
     private $_errors;
-    
+
     /**
      * array with all enabled plugins (name)
      *
      * @var array
      */
     private $_plugins;
-    
+
     /**
      * plugin name if pluginrequest
      *
      * @var string
      */
     private $_plugin = '';
-    
+
     /**
      * generate a xml for a plugin or for the main app
      *
      * @var boolean
      */
     private $_plugin_request = false;
-    
+
     /**
      * generate the entire xml with all plugins or only a part of the xml (main or plugin)
      *
      * @var boolean
      */
     private $_complete_request = false;
-    
+
     /**
      * doing some initial tasks
      * - generate the xml structure with the right header elements
@@ -110,7 +110,7 @@ class XML
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
-    
+
     /**
      * generate common information
      *
@@ -137,7 +137,7 @@ class XML
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
     }
-    
+
     /**
      * generate the network information
      *
@@ -163,12 +163,12 @@ class XML
                 $device->addAttribute('TxBytes', $dev->getTxBytes());
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() ) 
+                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() )
                     $device->addAttribute('Info', $dev->getInfo());
             }
         }
     }
-    
+
     /**
      * generate the hardware information
      *
@@ -236,7 +236,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the memory information
      *
@@ -275,7 +275,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * fill a xml element with atrributes from a disk device
      *
@@ -290,7 +290,7 @@ class XML
         $mount->addAttribute('MountPointID', $i);
         $mount->addAttribute('FSType', $dev->getFsType());
         $mount->addAttribute('Name', $dev->getName());
-        $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));    
+        $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
         $mount->addAttribute('Percent', $dev->getPercentUsed());
@@ -306,7 +306,7 @@ class XML
             $mount->addAttribute('MountPoint', $dev->getMountPoint());
         }
     }
-    
+
     /**
      * generate the filesysteminformation
      *
@@ -345,7 +345,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the motherboard information
      *
@@ -398,7 +398,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the ups information
      *
@@ -451,7 +451,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the xml document
      *
@@ -492,7 +492,7 @@ class XML
         $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
-    
+
     /**
      * get the xml object
      *
@@ -503,7 +503,7 @@ class XML
         $this->_buildXml();
         return $this->_xml->getSimpleXmlElement();
     }
-    
+
     /**
      * include xml-trees of the plugins to the main xml
      *
@@ -527,7 +527,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * build the xml structure where the content can be inserted
      *
@@ -542,7 +542,7 @@ class XML
         $root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/phpsysinfo3.xsd');
         $dom->appendChild($root);
         $this->_xml = new SimpleXMLExtended(simplexml_import_dom($dom), $this->_sysinfo->getEncoding());
-        
+
         $generation = $this->_xml->addChild('Generation');
         $generation->addAttribute('version', PSI_VERSION_STRING);
         $generation->addAttribute('timestamp', time());

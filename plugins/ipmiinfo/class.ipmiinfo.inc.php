@@ -13,7 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
 /**
- * ipmiinfo plugin, which displays all ipmi informations available 
+ * ipmiinfo plugin, which displays all ipmi informations available
  *
  * @category  PHP
  * @package   PSI_Plugin_ipmiinfo

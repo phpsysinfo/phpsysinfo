@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * DiskDevice TO class
  *
@@ -31,56 +31,56 @@ class DiskDevice
      * @var String
      */
     private $_name = "";
-    
+
     /**
      * type of the filesystem on the disk device
      *
      * @var String
      */
     private $_fsType = "";
-    
+
     /**
      * diskspace that is free in bytes
      *
      * @var Integer
      */
     private $_free = 0;
-    
+
     /**
      * diskspace that is used in bytes
      *
      * @var Integer
      */
     private $_used = 0;
-    
+
     /**
      * total diskspace
      *
      * @var Integer
      */
     private $_total = 0;
-    
+
     /**
      * mount point of the disk device if available
      *
      * @var String
      */
     private $_mountPoint = null;
-    
+
     /**
      * additional options of the device, like mount options
      *
      * @var String
      */
     private $_options = null;
-    
+
     /**
      * inodes usage in percent if available
      *
      * @var
      */
     private $_percentInodesUsed = null;
-    
+
     /**
      * Returns PercentUsed calculated when function is called from internal values
      *
@@ -98,7 +98,7 @@ class DiskDevice
         }
     }
 
-    
+
     /**
      * Returns $_PercentInodesUsed.
      *
@@ -110,7 +110,7 @@ class DiskDevice
     {
         return $this->_percentInodesUsed;
     }
-    
+
     /**
      * Sets $_PercentInodesUsed.
      *
@@ -124,7 +124,7 @@ class DiskDevice
     {
         $this->_percentInodesUsed = $percentInodesUsed;
     }
-    
+
     /**
      * Returns $_free.
      *
@@ -136,7 +136,7 @@ class DiskDevice
     {
         return $this->_free;
     }
-    
+
     /**
      * Sets $_free.
      *
@@ -150,7 +150,7 @@ class DiskDevice
     {
         $this->_free = $free;
     }
-    
+
     /**
      * Returns $_fsType.
      *
@@ -162,7 +162,7 @@ class DiskDevice
     {
         return $this->_fsType;
     }
-    
+
     /**
      * Sets $_fsType.
      *
@@ -176,7 +176,7 @@ class DiskDevice
     {
         $this->_fsType = $fsType;
     }
-    
+
     /**
      * Returns $_mountPoint.
      *
@@ -188,7 +188,7 @@ class DiskDevice
     {
         return $this->_mountPoint;
     }
-    
+
     /**
      * Sets $_mountPoint.
      *
@@ -202,7 +202,7 @@ class DiskDevice
     {
         $this->_mountPoint = $mountPoint;
     }
-    
+
     /**
      * Returns $_name.
      *
@@ -214,7 +214,7 @@ class DiskDevice
     {
         return $this->_name;
     }
-    
+
     /**
      * Sets $_name.
      *
@@ -228,7 +228,7 @@ class DiskDevice
     {
         $this->_name = $name;
     }
-    
+
     /**
      * Returns $_options.
      *
@@ -240,7 +240,7 @@ class DiskDevice
     {
         return $this->_options;
     }
-    
+
     /**
      * Sets $_options.
      *
@@ -254,7 +254,7 @@ class DiskDevice
     {
         $this->_options = $options;
     }
-    
+
     /**
      * Returns $_total.
      *
@@ -266,7 +266,7 @@ class DiskDevice
     {
         return $this->_total;
     }
-    
+
     /**
      * Sets $_total.
      *
@@ -280,7 +280,7 @@ class DiskDevice
     {
         $this->_total = $total;
     }
-    
+
     /**
      * Returns $_used.
      *
@@ -292,7 +292,7 @@ class DiskDevice
     {
         return $this->_used;
     }
-    
+
     /**
      * Sets $_used.
      *

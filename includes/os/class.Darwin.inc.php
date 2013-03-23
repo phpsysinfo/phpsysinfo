@@ -99,7 +99,7 @@ class Darwin extends BSDCommon
             $tmp = explode(" ", $a);
             if ($tmp[0]=="{") { /* kern.boottime= { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004 */
               $data = trim($tmp[3],",");
-              $this->sys->setUptime(time() - $data); 
+              $this->sys->setUptime(time() - $data);
             } else { /* kern.boottime= 1096732600 */
               $this->sys->setUptime(time() - $a);
             }

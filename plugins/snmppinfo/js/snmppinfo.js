@@ -33,9 +33,9 @@ var snmppinfo_show = false;
  */
 function snmppinfo_buildTable(xml) {
     var html = "", tree = [], closed = [];
-    
+
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
-    
+
     html += "  <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "    <tr>\n";
@@ -46,7 +46,7 @@ function snmppinfo_buildTable(xml) {
     html += "   </thead>\n";
     html += "   <tbody class=\"tree\">\n";
 
-    var lastdev="", index = 0 ;    
+    var lastdev="", index = 0 ;
     $("Plugins Plugin_SNMPPInfo Printer MarkerSupplies", xml).each(function snmppinfo_getprinters(id) {
         var close = 0, name = "", device = "", desc = "", unit = 0, max = 0, level = 0, percent = 0, units = "";
         name = $(this).parent().attr("Name");
@@ -60,7 +60,7 @@ function snmppinfo_buildTable(xml) {
         if (max>0 && (level>=0) && (level<=max) ) {
             percent = Math.round(100*level/max);
             units = level+" / "+max;
-        } else if (level==-3) { 
+        } else if (level==-3) {
             percent = 100;
             units = genlang(6, false, "SNMPPInfo")
         } else {
@@ -78,12 +78,12 @@ function snmppinfo_buildTable(xml) {
         tree.push(index);
         snmppinfo_show = true;
     });
-    
+
     html += "   </tbody>\n";
     html += "  </table>\n";
-    
+
     $("#Plugin_SNMPPInfo").append(html);
-    
+
     $("#Plugin_SNMPPInfoTable").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
         shutImg: "./gfx/treeTable/tv-expandable.gif",
@@ -99,7 +99,7 @@ function snmppinfo_buildTable(xml) {
         highlight: false,
         state: false
     });
-    
+
 }
 
 /**
@@ -126,9 +126,9 @@ function snmppinfo_request() {
 $(document).ready(function snmppinfo_buildpage() {
     $("#footer").before(buildBlock("SNMPPInfo", 1, true));
     $("#Plugin_SNMPPInfo").css("width", "451px");
-    
+
     snmppinfo_request();
-    
+
     $("#Reload_SNMPPInfoTable").click(function snmppinfo_reload(id) {
         snmppinfo_request();
         $("#Reload_SNMPPInfoTable").attr("title",datetime());

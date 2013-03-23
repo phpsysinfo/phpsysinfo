@@ -76,7 +76,7 @@ class.hdd_stats.inc.php - this file MUST include a class with the plugin name
          the near future. And if the check fails the plugin won't be loaded.
          The psi_plugin class checks the existens of the js and the en.xml
          files. Also an extra configuration of the plugin is loaded
-         automatically from phpsysinfo.ini, if present. 
+         automatically from phpsysinfo.ini, if present.
          Through the extension of the psi_plugin class there is a need to
          include at least two public function. These are the execute() function
          and the xml() function. Other functions can be exist, that depends on

@@ -264,9 +264,9 @@ function filesystemtable() {
     html += "          <tbody>\n";
     html += "          </tbody>\n";
     html += "        </table>\n";
-    
+
     $("#filesystem").append(html);
-    
+
     filesystemTable = $("#filesystemTable").dataTable({
         "bPaginate": false,
         "bLengthChange": false,
@@ -334,7 +334,7 @@ function displayPage(xml) {
     $("#container").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
     $("#version").html(versioni);
-    
+
     $("Options", xml).each(function getOptions(id) {
         var showPickListLang = "", showPickListTemplate = "";
         showPickListLang = $(this).attr("showPickListLang");
@@ -400,11 +400,11 @@ function formatHertz(mhertz) {
  */
 function formatBytes(bytes, xml) {
     var byteFormat = "", show = "";
-    
+
     $("Options", xml).each(function getByteFormat(id) {
         byteFormat = $(this).attr("byteFormat");
     });
-    
+
     switch (byteFormat.toLowerCase()) {
     case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
@@ -529,11 +529,11 @@ function formatBytes(bytes, xml) {
  */
 function formatTemp(degreeC, xml) {
     var tempFormat = "", degree = 0;
-    
+
     $("Options", xml).each(function getOptions(id) {
         tempFormat = $(this).attr("tempFormat").toString().toLowerCase();
     });
-    
+
     degree = parseFloat(degreeC);
     if (isNaN(degreeC)) {
         return "---";
@@ -709,34 +709,34 @@ function refreshHardware(xml) {
     html += "<h2>" + genlang(10, false) + "</h2>\n";
     html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <tbody class=\"tree\">\n";
-    
+
     html += "    <tr><td colspan=\"2\"><b>" + genlang(11, false) + "</b></td></tr>\n";
     html += fillCpu(xml, tree, tree.push(0), closed);
-    
+
     html += "    <tr><td colspan=\"2\"><b>" + genlang(17, false) + "</b></td></tr>\n";
     index = tree.push(0);
     closed.push(index);
     html += fillHWDevice(xml, 'PCI', tree, index);
-    
+
     html += "    <tr><td colspan=\"2\"><b>" + genlang(18, false) + "</b></td></tr>\n";
     index = tree.push(0);
     closed.push(index);
     html += fillHWDevice(xml, 'IDE', tree, index);
-    
+
     html += "    <tr><td colspan=\"2\"><b>" + genlang(19, false) + "</b></td></tr>\n";
     index = tree.push(0);
     closed.push(index);
     html += fillHWDevice(xml, 'SCSI', tree, index);
-    
+
     html += "    <tr><td colspan=\"2\"><b>" + genlang(20, false) + "</b></td></tr>\n";
     index = tree.push(0);
     closed.push(index);
     html += fillHWDevice(xml, 'USB', tree, index);
-    
+
     html += "   </tbody>\n";
     html += "  </table>\n";
     $("#hardware").append(html);
-    
+
     $("#HardwareTree").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
         shutImg: "./gfx/treeTable/tv-expandable.gif",
@@ -781,9 +781,9 @@ function refreshNetwork(xml) {
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
         html +="<tr><td>" + name + "</td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/" + dr.toString() + "</td></tr>";
-        
+
         networkindex = tree.push(0);
-        
+
         info = $(this).attr("Info");
         if ( (info !== undefined) && (info != "") ) {
            var i =0, infos = info.split(";");
@@ -829,7 +829,7 @@ function refreshNetwork(xml) {
  */
 function refreshMemory(xml) {
     var html = "", tree = [], closed = [];
-    
+
     $("#memory").empty();
     html += "<h2>" + genlang(27, false) + "</h2>\n";
     html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
@@ -843,7 +843,7 @@ function refreshMemory(xml) {
     html += "    </tr>\n";
     html += "   </thead>\n";
     html += "   <tbody class=\"tree\">\n";
-    
+
     $("Memory", xml).each(function getMemory(id) {
         var free = 0, total = 0, used = 0, percent = 0, memoryindex = 0;
         free = parseInt($(this).attr("Free"), 10);
@@ -852,7 +852,7 @@ function refreshMemory(xml) {
         percent = parseInt($(this).attr("Percent"), 10);
         html += "<tr><td style=\"width:200px;\">" + genlang(28, false) + "</td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
         memoryindex = tree.push(0);
-        
+
         $("Memory Details", xml).each(function getMemorydetails(id) {
             var app = 0, appp = 0, buff = 0, buffp = 0, cached = 0, cachedp = 0;
             app = parseInt($(this).attr("App"), 10);
@@ -886,7 +886,7 @@ function refreshMemory(xml) {
         percent = parseInt($(this).attr("Percent"), 10);
         html += "<tr><td style=\"width:200px;\">" + genlang(29, false) + "</td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
         swapindex = tree.push(0);
-        
+
         $("Memory Swap Mount", xml).each(function getDevices(id) {
             var free = 0, total = 0, used = 0, percent = 0, mpoint = "", mpid = 0;
             closed.push(swapindex);
@@ -896,20 +896,20 @@ function refreshMemory(xml) {
             percent = parseInt($(this).attr("Percent"), 10);
             mpid = parseInt($(this).attr("MountPointID"), 10);
             mpoint = $(this).attr("MountPoint");
-            
+
             if (mpoint === undefined) {
                 mpoint = mpid;
             }
-            
+
             html += "<tr><td style=\"width:184px;\">" + mpoint + "</td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
             tree.push(swapindex);
         });
     });
-    
+
     html += "   </tbody>\n";
     html += "  </table>\n";
     $("#memory").append(html);
-    
+
     $("#MemoryTree").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
         shutImg: "./gfx/treeTable/tv-expandable.gif",
@@ -925,7 +925,7 @@ function refreshMemory(xml) {
         highlight: false,
         state: false
     });
-    
+
 }
 
 /**
@@ -936,9 +936,9 @@ function refreshMemory(xml) {
  */
 function refreshFilesystems(xml) {
     var total_usage = 0, total_used = 0, total_free = 0, total_size = 0;
-    
+
     filesystemTable.fnClearTable();
-    
+
     $("FileSystem Mount", xml).each(function getMount(mid) {
         var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "";
         mpid = parseInt($(this).attr("MountPointID"), 10);
@@ -951,7 +951,7 @@ function refreshFilesystems(xml) {
         options = $(this).attr("MountOptions");
         inodes = parseInt($(this).attr("Inodes"), 10);
         mpoint = $(this).attr("MountPoint");
-        
+
         if (mpoint === undefined) {
             mpoint = mpid;
         }
@@ -961,15 +961,15 @@ function refreshFilesystems(xml) {
         if (!isNaN(inodes)) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
-        
+
         filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
-        
+
         total_used += used;
         total_free += free;
         total_size += size;
         total_usage = round((total_used / total_size) * 100, 2);
     });
-    
+
     $("#s_fs_total").html(createBar(total_usage));
     $("#s_fs_tfree").html(formatBytes(total_free, xml));
     $("#s_fs_tused").html(formatBytes(total_used, xml));
@@ -1073,7 +1073,7 @@ function refreshUps(xml) {
     html += "<h2>" + genlang(68, false) + "</h2>\n";
     html += "        <table class=\"tablemain\" id=\"UPSTree\">\n";
     html += "          <tbody class=\"tree\">\n";
-    
+
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
         var name = "", model = "", mode = "", start_time = "", upsstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", load_percent = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
@@ -1082,7 +1082,7 @@ function refreshUps(xml) {
         mode = $(this).attr("Mode");
         start_time = $(this).attr("StartTime");
         upsstatus = $(this).attr("Status");
-        
+
         temperature = $(this).attr("Temperature");
         outages_count = $(this).attr("OutagesCount");
         last_outage = $(this).attr("LastOutage");
@@ -1092,7 +1092,7 @@ function refreshUps(xml) {
         battery_voltage = $(this).attr("BatteryVoltage");
         battery_charge_percent = parseInt($(this).attr("BatteryChargePercent"), 10);
         time_left_minutes = $(this).attr("TimeLeftMinutes");
-        
+
         html += "<tr><td colspan=\"2\"><strong>" + name + " (" + mode + ")</strong></td></tr>\n";
         index = tree.push(0);
         html += "<tr><td style=\"width:160px\">" + genlang(70, false) + "</td><td>" + model + "</td></tr>\n";
@@ -1144,9 +1144,9 @@ function refreshUps(xml) {
     if (add_apcupsd_cgi_links){
         html += " (<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
     }
-    
+
     $("#ups").append(html);
-    
+
     if (values) {
         $("#UPSTree").jqTreeTable(tree, {
             openImg: "./gfx/treeTable/tv-collapsable.gif",
@@ -1190,7 +1190,7 @@ function reload() {
             refreshFan(xml);
             refreshTemp(xml);
             refreshUps(xml);
-            
+
             $('.stripeMe tr:nth-child(even)').addClass('even');
             langcounter = 1;
         }
@@ -1221,7 +1221,7 @@ if (cookie_template) {
 
 $(document).ready(function buildpage() {
     filesystemtable();
-    
+
     $.ajax({
         url: 'xml.php',
         dataType: 'xml',
@@ -1232,7 +1232,7 @@ $(document).ready(function buildpage() {
         },
         success: function buildblocks(xml) {
             populateErrors(xml);
-            
+
             refreshVitals(xml);
             refreshHardware(xml);
             refreshNetwork(xml);
@@ -1242,18 +1242,18 @@ $(document).ready(function buildpage() {
             refreshVoltage(xml);
             refreshFan(xml);
             refreshUps(xml);
-            
+
             changeLanguage();
             displayPage(xml);
             settimer(xml);
-            
+
             $('.stripeMe tr:nth-child(even)').addClass('even');
             langcounter = 1;
         }
     });
-    
+
     $("#errors").nyroModal();
-    
+
     $("#lang").change(function changeLang() {
         var language = "", i = 0;
         language = $("#lang").val().toString();
@@ -1265,7 +1265,7 @@ $(document).ready(function buildpage() {
         }
         return false;
     });
-    
+
     $("#template").change(function changeTemplate() {
         switchStyle($("#template").val().toString());
         return false;
@@ -1339,14 +1339,14 @@ function datetime() {
     year = date.getFullYear();
     hour = date.getHours();
     minute = date.getMinutes();
-    
+
     // format values smaller that 10 with a leading 0
     days = (day < 10) ? "0" + day.toString() : day.toString();
     months = (month < 10) ? "0" + month.toString() : month.toString();
     years = (year < 1000) ? year.toString() : year.toString();
     minutes = (minute < 10) ? "0" + minute.toString() : minute.toString();
     hours = (hour < 10) ? "0" + hour.toString() : hour.toString();
-    
+
     return days + "." + months + "." + years + " - " + hours + ":" + minutes;
 }
 

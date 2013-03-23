@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic Plugin Functions
  *
@@ -35,28 +35,28 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      * @var string
      */
     private $_plugin_name = "";
-    
+
     /**
      * full directory path of the plugin
      *
      * @var string
      */
     private $_plugin_base = "";
-    
+
     /**
      * global object for error handling
      *
      * @var Error
      */
     protected $global_error = "";
-    
+
     /**
      * xml tamplate with header
      *
      * @var SimpleXMLExtended
      */
     protected $xml;
-    
+
     /**
      * build the global Error object, read the configuration and check if all files are available
      * for a minimalistic function of the plugin
@@ -79,7 +79,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
         }
         $this->_createXml($enc);
     }
-    
+
     /**
      * read the plugin configuration file, if we have one in the plugin directory
      *
@@ -92,7 +92,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
                 $this->global_error->addError("config.ini", "Config for plugin ".$this->_plugin_name." not exist!");
         }
     }
-    
+
     /**
      * check if there is a default translation file availabe and also the required js file for
      * appending the content of the plugin to the main webpage
@@ -116,7 +116,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
             }
         }
     }
-    
+
     /**
      * create the xml template where plugin information are added to
      *

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * NetDevice TO class
  *
@@ -31,42 +31,42 @@ class NetDevice
      * @var String
      */
     private $_name = "";
-    
+
     /**
      * transmitted bytes
      *
      * @var Integer
      */
     private $_txBytes = 0;
-    
+
     /**
      * received bytes
      *
      * @var Integer
      */
     private $_rxBytes = 0;
-    
+
     /**
      * counted error packages
      *
      * @var Integer
      */
     private $_errors = 0;
-    
+
     /**
      * counted droped packages
      *
      * @var Integer
      */
     private $_drops = 0;
-    
+
     /**
      * string with info
      *
      * @var String
      */
     private $_info = null;
-    
+
     /**
      * Returns $_drops.
      *
@@ -78,7 +78,7 @@ class NetDevice
     {
         return $this->_drops;
     }
-    
+
     /**
      * Sets $_drops.
      *
@@ -92,7 +92,7 @@ class NetDevice
     {
         $this->_drops = $drops;
     }
-    
+
     /**
      * Returns $_errors.
      *
@@ -104,7 +104,7 @@ class NetDevice
     {
         return $this->_errors;
     }
-    
+
     /**
      * Sets $_errors.
      *
@@ -118,7 +118,7 @@ class NetDevice
     {
         $this->_errors = $errors;
     }
-    
+
     /**
      * Returns $_name.
      *
@@ -130,7 +130,7 @@ class NetDevice
     {
         return $this->_name;
     }
-    
+
     /**
      * Sets $_name.
      *
@@ -144,7 +144,7 @@ class NetDevice
     {
         $this->_name = $name;
     }
-    
+
     /**
      * Returns $_rxBytes.
      *
@@ -156,7 +156,7 @@ class NetDevice
     {
         return $this->_rxBytes;
     }
-    
+
     /**
      * Sets $_rxBytes.
      *
@@ -170,7 +170,7 @@ class NetDevice
     {
         $this->_rxBytes = $rxBytes;
     }
-    
+
     /**
      * Returns $_txBytes.
      *
@@ -182,7 +182,7 @@ class NetDevice
     {
         return $this->_txBytes;
     }
-    
+
     /**
      * Sets $_txBytes.
      *
@@ -196,7 +196,7 @@ class NetDevice
     {
         $this->_txBytes = $txBytes;
     }
-    
+
     /**
      * Returns $_info.
      *
@@ -208,7 +208,7 @@ class NetDevice
     {
         return $this->_info;
     }
-    
+
     /**
      * Sets $_info.
      *

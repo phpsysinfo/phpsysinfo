@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * CpuDevice TO class
  *
@@ -31,14 +31,14 @@ class CpuDevice
      * @var String
      */
     private $_model = "";
-    
+
     /**
      * speed of the cpu in hertz
      *
      * @var Integer
      */
     private $_cpuSpeed = 0;
-    
+
     /**
      * cache size in bytes, if available
      *
@@ -51,36 +51,36 @@ class CpuDevice
      *
      * @var String
      */
-    private $_virt = null;    
-    
+    private $_virt = null;
+
     /**
      * busspeed in hertz, if available
      *
      * @var Integer
      */
     private $_busSpeed = null;
-    
+
     /**
      * temperature of the cpu, if available
      *
      * @var Integer
      */
     private $_temp = null;
-    
+
     /**
      * bogomips of the cpu, if available
      *
      * @var Integer
      */
     private $_bogomips = null;
-    
+
     /**
      * current load in percent of the cpu, if available
      *
      * @var Integer
      */
     private $_load = null;
-    
+
     /**
      * Returns $_bogomips.
      *
@@ -92,7 +92,7 @@ class CpuDevice
     {
         return $this->_bogomips;
     }
-    
+
     /**
      * Sets $_bogomips.
      *
@@ -106,7 +106,7 @@ class CpuDevice
     {
         $this->_bogomips = $bogomips;
     }
-    
+
     /**
      * Returns $_busSpeed.
      *
@@ -118,7 +118,7 @@ class CpuDevice
     {
         return $this->_busSpeed;
     }
-    
+
     /**
      * Sets $_busSpeed.
      *
@@ -132,7 +132,7 @@ class CpuDevice
     {
         $this->_busSpeed = $busSpeed;
     }
-    
+
     /**
      * Returns $_cache.
      *
@@ -144,7 +144,7 @@ class CpuDevice
     {
         return $this->_cache;
     }
-    
+
     /**
      * Sets $_cache.
      *
@@ -158,7 +158,7 @@ class CpuDevice
     {
         $this->_cache = $cache;
     }
-    
+
     /**
      * Returns $_virt.
      *
@@ -170,7 +170,7 @@ class CpuDevice
     {
         return $this->_virt;
     }
-    
+
     /**
      * Sets $_virt.
      *
@@ -183,8 +183,8 @@ class CpuDevice
     public function setVirt($virt)
     {
         $this->_virt = $virt;
-    }    
-    
+    }
+
     /**
      * Returns $_cpuSpeed.
      *
@@ -196,7 +196,7 @@ class CpuDevice
     {
         return $this->_cpuSpeed;
     }
-    
+
     /**
      * Sets $_cpuSpeed.
      *
@@ -210,7 +210,7 @@ class CpuDevice
     {
         $this->_cpuSpeed = $cpuSpeed;
     }
-    
+
     /**
      * Returns $_model.
      *
@@ -222,7 +222,7 @@ class CpuDevice
     {
         return $this->_model;
     }
-    
+
     /**
      * Sets $_model.
      *
@@ -236,7 +236,7 @@ class CpuDevice
     {
         $this->_model = $model;
     }
-    
+
     /**
      * Returns $_temp.
      *
@@ -248,7 +248,7 @@ class CpuDevice
     {
         return $this->_temp;
     }
-    
+
     /**
      * Sets $_temp.
      *
@@ -262,7 +262,7 @@ class CpuDevice
     {
         $this->_temp = $temp;
     }
-    
+
     /**
      * Returns $_load.
      *
@@ -274,7 +274,7 @@ class CpuDevice
     {
         return $this->_load;
     }
-    
+
     /**
      * Sets $_load.
      *

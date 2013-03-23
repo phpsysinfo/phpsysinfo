@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MBInfo TO class
  *
@@ -33,7 +33,7 @@ class UPSInfo
      * @var Array
      */
     private $_upsDevices = array();
-    
+
     /**
      * Returns $_upsDevices.
      *
@@ -45,7 +45,7 @@ class UPSInfo
     {
         return $this->_upsDevices;
     }
-    
+
     /**
      * Sets $_upsDevices.
      *

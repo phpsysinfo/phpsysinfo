@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * SunOS System Class
  *
@@ -32,7 +32,7 @@ class SunOS extends OS
     public function __construct()
     {
     }
-    
+
     /**
      * Extract kernel values via kstat() interface
      *
@@ -49,7 +49,7 @@ class SunOS extends OS
             return '';
         }
     }
-    
+
     /**
      * Virtual Host Name
      *
@@ -68,7 +68,7 @@ class SunOS extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Virtual Host Name
      *
@@ -86,7 +86,7 @@ class SunOS extends OS
             }
         }
     }
-    
+
     /**
      * Kernel Version
      *
@@ -102,7 +102,7 @@ class SunOS extends OS
             }
         }
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -113,7 +113,7 @@ class SunOS extends OS
     {
         $this->sys->setUptime(time() - $this->_kstat('unix:0:system_misc:boot_time'));
     }
-    
+
     /**
      * Number of Users
      *
@@ -126,7 +126,7 @@ class SunOS extends OS
             $this->sys->setUsers($who[1]);
         }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -140,7 +140,7 @@ class SunOS extends OS
         $load15 = $this->_kstat('unix:0:system_misc:avenrun_15min');
         $this->sys->setLoad(round($load1 / 256, 2).' '.round($load5 / 256, 2).' '.round($load15 / 256, 2));
     }
-    
+
     /**
      * CPU information
      *
@@ -156,7 +156,7 @@ class SunOS extends OS
         $dev->setCache($this->_kstat('cpu_info:0:cpu_info0:cpu_type') * 1024);
         $this->sys->setCpus($dev);
     }
-    
+
     /**
      * Network devices
      *
@@ -191,7 +191,7 @@ class SunOS extends OS
             }
         }
     }
-    
+
     /**
      * Physical memory information and Swap Space information
      *
@@ -211,7 +211,7 @@ class SunOS extends OS
         $dev->setFree($this->_kstat('unix:0:vminfo:swap_free') / 1024);
         $this->sys->setSwapDevices($dev);
     }
-    
+
     /**
      * filesystem information
      *
@@ -243,7 +243,7 @@ class SunOS extends OS
             }
         }
     }
-    
+
     /**
      * Distribution Icon
      *
@@ -254,7 +254,7 @@ class SunOS extends OS
         $this->sys->setDistribution('SunOS');
         $this->sys->setDistributionIcon('SunOS.png');
     }
-    
+
     /**
      * get the information
      *

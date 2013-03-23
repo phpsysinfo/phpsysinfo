@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * start page for webaccess
  *
@@ -32,7 +32,7 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
     {
         parent::__construct(false, null);
     }
-    
+
     /**
      * generate the static page
      *

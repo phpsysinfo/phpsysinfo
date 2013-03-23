@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Apcupsd class
  *
@@ -32,7 +32,7 @@ class Apcupsd extends UPS
      * @var Array
      */
     private $_output = array();
-    
+
     /**
      * get all information from all configured ups in config.php and store output in internal array
      */
@@ -53,7 +53,7 @@ class Apcupsd extends UPS
             }
         }
     }
-    
+
     /**
      * parse the input and store data in resultset for xml generation
      *
@@ -62,9 +62,9 @@ class Apcupsd extends UPS
     private function _info()
     {
         foreach ($this->_output as $ups) {
-        
+
             $dev = new UPSDevice();
-        
+
             // General info
             if (preg_match('/^UPSNAME\s*:\s*(.*)$/m', $ups, $data)) {
                 $dev->setName(trim($data[1]));
@@ -119,7 +119,7 @@ class Apcupsd extends UPS
             $this->upsinfo->setUpsDevices($dev);
         }
     }
-    
+
     /**
      * get the information
      *

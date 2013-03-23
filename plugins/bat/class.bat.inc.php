@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * BAT Plugin
  *
@@ -30,13 +30,13 @@ class BAT extends PSI_Plugin
      * @var array
      */
     private $_filecontent = array();
-    
+
     /**
      * variable, which holds the result before the xml is generated out of this array
      * @var array
      */
     private $_result = array();
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *
@@ -61,7 +61,7 @@ class BAT extends PSI_Plugin
         $this->_filecontent['info'] = preg_split("/\n/", $buffer_info, -1, PREG_SPLIT_NO_EMPTY);
         $this->_filecontent['state'] = preg_split("/\n/", $buffer_state, -1, PREG_SPLIT_NO_EMPTY);
     }
-    
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array
@@ -94,7 +94,7 @@ class BAT extends PSI_Plugin
         }
         $this->_result[0] = $bat;
     }
-    
+
     /**
      * generates the XML content for the plugin
      *

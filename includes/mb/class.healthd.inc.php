@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * healthd sensor class
  *
@@ -31,7 +31,7 @@ class Healthd extends Sensors
      * @var array
      */
     private $_lines = array();
-    
+
     /**
      * fill the private content var through tcp or file access
      */
@@ -49,7 +49,7 @@ class Healthd extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -74,7 +74,7 @@ class Healthd extends Sensors
         $dev3->setMax(70);
         $this->mbinfo->setMbTemp($dev3);
     }
-    
+
     /**
      * get fan information
      *
@@ -99,7 +99,7 @@ class Healthd extends Sensors
         $dev3->setMin(3000);
         $this->mbinfo->setMbFan($dev3);
     }
-    
+
     /**
      * get voltage information
      *
@@ -137,7 +137,7 @@ class Healthd extends Sensors
         $dev7->setValue($ar_buf[13]);
         $this->mbinfo->setMbVolt($dev7);
     }
-    
+
     /**
      * get the information
      *

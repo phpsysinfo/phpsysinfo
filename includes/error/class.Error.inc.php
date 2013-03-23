@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Error class
  *
@@ -32,21 +32,21 @@ class Error
      * @var object
      */
     private static $_instance;
-    
+
     /**
      * holds the error messages
      *
      * @var array
      */
     private $_arrErrorList = array();
-    
+
     /**
      * current number ob errors
      *
      * @var integer
      */
     private $_errors = 0;
-    
+
     /**
      * initalize some used vars
      */
@@ -55,7 +55,7 @@ class Error
         $this->_errors = 0;
         $this->_arrErrorList = array();
     }
-    
+
     /**
      * Singleton function
      *
@@ -69,7 +69,7 @@ class Error
         }
         return self::$_instance;
     }
-    
+
     /**
      * triggers an error when somebody tries to clone the object
      *
@@ -79,7 +79,7 @@ class Error
     {
         trigger_error("Can't be cloned", E_USER_ERROR);
     }
-    
+
     /**
      * adds an phpsysinfo error to the internal list
      *
@@ -90,10 +90,10 @@ class Error
      */
     public function addError($strCommand, $strMessage)
     {
-		$this->_addError($strCommand, $this->_trace($strMessage));
+        $this->_addError($strCommand, $this->_trace($strMessage));
     }
-	
-	/**
+
+    /**
      * adds an error to the internal list
      *
      * @param string $strCommand Command, which cause the Error
@@ -108,7 +108,7 @@ class Error
         $this->_arrErrorList[$index]['message'] = $strMessage;
         $this->_errors++;
     }
-    
+
     /**
      * add a config error to the internal list
      *
@@ -121,8 +121,8 @@ class Error
     {
         $this->_addError($strCommand, "Wrong Value in config.php for ".$strMessage);
     }
-    
-	/**
+
+    /**
      * add a php error to the internal list
      *
      * @param object $strCommand Command, which cause the Error
@@ -134,7 +134,7 @@ class Error
     {
         $this->_addError($strCommand, "PHP throws a error\n".$strMessage);
     }
-	
+
     /**
      * adds a waraning to the internal list
      *
@@ -148,7 +148,7 @@ class Error
         $this->_arrErrorList[$index]['command'] = "WARN";
         $this->_arrErrorList[$index]['message'] = $strMessage;
     }
-    
+
     /**
      * converts the internal error and warning list to a XML file
      *

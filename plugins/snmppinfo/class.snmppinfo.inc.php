@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * SNMPPInfo Plugin
  *
@@ -30,13 +30,13 @@ class SNMPPInfo extends PSI_Plugin
      * @var array
      */
     private $_filecontent = array();
-    
+
     /**
      * variable, which holds the result before the xml is generated out of this array
      * @var array
      */
     private $_result = array();
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *
@@ -77,7 +77,7 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        if (! PSI_DEBUG) restore_error_handler(); 
+                        if (! PSI_DEBUG) restore_error_handler();
                         $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5");
                         if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                         if (! empty($bufferarr)) {
@@ -85,8 +85,8 @@ class SNMPPInfo extends PSI_Plugin
                             foreach ($bufferarr as $id=>$string) {
                                 $buffer=$buffer.$id." = ".$string."\n";
                             }
-                            if (! PSI_DEBUG) restore_error_handler(); 
-                            $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1");    
+                            if (! PSI_DEBUG) restore_error_handler();
+                            $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1");
                             if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                             if (! empty($bufferarr2)) {
                                 foreach ($bufferarr2 as $id=>$string) {
@@ -122,7 +122,7 @@ class SNMPPInfo extends PSI_Plugin
                 break;
         }
     }
-    
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array
@@ -155,7 +155,7 @@ class SNMPPInfo extends PSI_Plugin
             }
         }
     }
-    
+
     /**
      * generates the XML content for the plugin
      *
@@ -171,7 +171,7 @@ class SNMPPInfo extends PSI_Plugin
                     $xmlsnmppinfo_printer->addAttribute("Name", $snmppinfo_item['prtMarkerSuppliesDescription']);
                 } else {
                     $xmlsnmppinfo = $xmlsnmppinfo_printer->addChild("MarkerSupplies");
-                    if (isset($snmppinfo_item['prtMarkerSuppliesDescription'])) 
+                    if (isset($snmppinfo_item['prtMarkerSuppliesDescription']))
                         $xmlsnmppinfo->addAttribute("Description", $snmppinfo_item['prtMarkerSuppliesDescription']);
                     else
                         $xmlsnmppinfo->addAttribute("Description",""); /* empty on some devices */

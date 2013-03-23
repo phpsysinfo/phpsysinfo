@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * mbmon sensor class
  *
@@ -31,7 +31,7 @@ class MBMon extends Sensors
      * @var array
      */
     private $_lines = array();
-    
+
     /**
      * fill the private content var through tcp or file access
      */
@@ -60,7 +60,7 @@ class MBMon extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -82,7 +82,7 @@ class MBMon extends Sensors
             }
         }
     }
-    
+
     /**
      * get fan information
      *
@@ -102,7 +102,7 @@ class MBMon extends Sensors
             }
         }
     }
-    
+
     /**
      * get voltage information
      *
@@ -121,7 +121,7 @@ class MBMon extends Sensors
             }
         }
     }
-    
+
     /**
      * get the information
      *

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * coretemp sensor class
  *
@@ -46,7 +46,7 @@ class Coretemp extends Sensors
             }
         }
     }
-    
+
     /**
      * get the information
      *

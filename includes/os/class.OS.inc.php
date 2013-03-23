@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic OS Class
  *
@@ -31,12 +31,12 @@ abstract class OS implements PSI_Interface_OS
      * @var Error
      */
     protected $error;
-    
+
     /**
      * @var System
      */
     protected $sys;
-    
+
     /**
      * build the global Error object
      */
@@ -45,7 +45,7 @@ abstract class OS implements PSI_Interface_OS
         $this->error = Error::singleton();
         $this->sys = new System();
     }
-    
+
     /**
      * get os specific encoding
      *
@@ -68,7 +68,7 @@ abstract class OS implements PSI_Interface_OS
     {
         return PSI_SYSTEM_SYSLANG;
     }
-    
+
     /**
      * get the filled or unfilled (with default values) System object
      *

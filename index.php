@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * start page for webaccess
  * redirect the user to the supported page type by the users webbrowser (js available or not)

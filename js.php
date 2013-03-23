@@ -55,7 +55,7 @@ if ($script != null && file_exists($script) && is_readable($script)) {
                     $packer = new JavaScriptPacker($filecontent,0);
                     echo $packer->pack();
                     break;
-                default: 
+                default:
                     echo $filecontent;
                     break;
             }

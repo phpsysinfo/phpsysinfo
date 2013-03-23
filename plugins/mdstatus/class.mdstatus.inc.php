@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MDStatus Plugin
  *
@@ -35,13 +35,13 @@ class MDStatus extends PSI_Plugin
      * @var array
      */
     private $_filecontent = "";
-    
+
     /**
      * variable, which holds the result before the xml is generated out of this array
      * @var array
      */
     private $_result = array();
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *
@@ -68,7 +68,7 @@ class MDStatus extends PSI_Plugin
             $this->_filecontent = array();
         }
     }
-    
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array<br>the array is build like a tree,
@@ -175,7 +175,7 @@ class MDStatus extends PSI_Plugin
             $this->_result['unused_devs'] = -1;
         }
     }
-    
+
     /**
      * generates the XML content for the plugin
      *

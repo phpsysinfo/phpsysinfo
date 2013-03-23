@@ -36,7 +36,7 @@ var mdstatus_show = false;
  */
 function mdstatus_buildinfos(xml, id) {
     var html = "", devstatus = "", devlevel = "", devchunk = 0, devsuper = 0, devalgo = 0, devactive = 0, devregis = 0, button = "";
-    
+
     devstatus = $(xml).attr("Disk_Status");
     devlevel = $(xml).attr("Level");
     devchunk = parseInt($(xml).attr("Chunk_Size"), 10);
@@ -134,9 +134,9 @@ function mdstatus_diskicon(xml) {
  */
 function mdstatus_populate(xml) {
     var htmltypes = "";
-    
+
     $("#Plugin_MDStatusTable").empty();
-    
+
     $("Plugins Plugin_MDStatus Supported_Types Type", xml).each(function mdstatus_getsupportedtypes(id) {
         htmltypes += "<li>" + $(this).attr("Name") + "</li>";
     });
@@ -145,7 +145,7 @@ function mdstatus_populate(xml) {
         $("#Plugin_MDStatusTable").append("<tr><td style=\"width:160px;\">" + genlang(2, false, "MDStatus") + "</td><td>" + htmltypes + "</td></tr>");
         mdstatus_show = true;
     }
-    
+
     $("Plugins Plugin_MDStatus Raid", xml).each(function mdstatus_getdevice(id) {
         var htmldisks = "", htmldisklist = "", topic = "", name = "", buildedaction = "";
         name = $(this).attr("Device_Name");
@@ -177,7 +177,7 @@ function mdstatus_populate(xml) {
         });
         mdstatus_show = true;
     });
-    
+
     if ($("Plugins Plugin_MDStatus Unused_Devices", xml).length > 0) {
         $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, false, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
         mdstatus_show = true;
@@ -207,16 +207,16 @@ function mdstatus_request() {
 
 $(document).ready(function mdstatus_buildpage() {
     var html = "";
-    
+
     $("#footer").before(buildBlock("MDStatus", 1, true));
     html += "        <table id=\"Plugin_MDStatusTable\" style=\"border-spacing:0;\">\n";
     html += "        </table>\n";
     $("#Plugin_MDStatus").append(html);
-    
+
     $("#Plugin_MDStatus").css("width", "915px");
-    
+
     mdstatus_request();
-    
+
     $("#Reload_MDStatusTable").click(function mdstatus_reload(id) {
         mdstatus_request();
         $("#Reload_MDStatusTable").attr("title",datetime());

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * generate the xml
  *
@@ -12,7 +12,7 @@
  * @version   SVN: $Id: xml.php 614 2012-07-28 09:02:59Z jacky672 $
  * @link      http://phpsysinfo.sourceforge.net
  */
- 
+
  /**
  * application root path
  *

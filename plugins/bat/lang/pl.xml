@@ -14,23 +14,23 @@
   </expression>
   <expression id="plugin_bat_003" name="bat_design_capacity">
     <exp>Pojemność znamionowa</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_004" name="bat_remaining_capacity">
     <exp>Pojemność aktualna</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_005" name="bat_design_voltage">
     <exp>Napięcie znamionowe</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_006" name="bat_present_voltage">
     <exp>Napięcie aktualne</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_item">
     <exp>Sztuki</exp>
-  </expression>   
+  </expression>
   <expression id="plugin_bat_008" name="bat_value">
     <exp>Wartości</exp>
   </expression>
   <expression id="plugin_bat_009" name="bat_charging_state">
     <exp>Stan ładowania</exp>
-  </expression>     
+  </expression>
 </tns:translationPlugin>

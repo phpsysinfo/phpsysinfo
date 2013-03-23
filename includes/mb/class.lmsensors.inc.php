@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * lmsensor sensor class
  *
@@ -31,7 +31,7 @@ class LMSensors extends Sensors
      * @var array
      */
     private $_lines = array();
-    
+
     /**
      * fill the private content var through tcp or file access
      */
@@ -60,7 +60,7 @@ class LMSensors extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -117,7 +117,7 @@ class LMSensors extends Sensors
             $this->mbinfo->setMbTemp($dev);
         }
     }
-    
+
     /**
      * get fan information
      *
@@ -168,7 +168,7 @@ class LMSensors extends Sensors
             $this->mbinfo->setMbFan($dev);
         }
     }
-    
+
     /**
      * get voltage information
      *
@@ -227,7 +227,7 @@ class LMSensors extends Sensors
             }
         }
     }
-    
+
     /**
      * get the information
      *

@@ -230,7 +230,7 @@
                                     </h2>
                                     <xsl:for-each select="CPU">
                                         <table border="0" style="border-spacing:0;"
-                                    	    width="100%">
+                                            width="100%">
                                             <tbody>
                                                 <tr class="odd">
                                                     <td style="width:160px;">
@@ -484,8 +484,8 @@
                                             <xsl:text>Memory Usage</xsl:text>
                                         </span>
                                     </h2>
-                                    <table border="0" 
-                            		style="border-spacing:0;">
+                                    <table border="0"
+                                    style="border-spacing:0;">
                                         <thead>
                                             <tr>
                                                 <th style="width:200px;">
@@ -847,8 +847,8 @@
                                         <xsl:text>Mounted Filesystems</xsl:text>
                                     </span>
                                 </h2>
-                                <table style="border-spacing:0;" 
-                            	    class="stripMe" id="filesystemTable">
+                                <table style="border-spacing:0;"
+                                    class="stripMe" id="filesystemTable">
                                     <thead>
                                         <tr>
                                             <th style="width:100px;">
@@ -974,7 +974,7 @@
                                     </span>
                                 </h2>
                                 <table style="border-spacing:0;"
-                            	    class="stripMe" id="networkTable">
+                                    class="stripMe" id="networkTable">
                                     <thead>
                                         <tr>
                                             <th>

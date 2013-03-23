@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * ipmi sensor class
  *
@@ -31,7 +31,7 @@ class IPMI extends Sensors
      * @var array
      */
     private $_lines = array();
-    
+
     /**
      * fill the private content var through tcp or file access
      */
@@ -49,7 +49,7 @@ class IPMI extends Sensors
             break;
         }
     }
-    
+
     /**
      * get temperature information
      *
@@ -68,7 +68,7 @@ class IPMI extends Sensors
             }
         }
     }
-    
+
     /**
      * get voltage information
      *
@@ -88,7 +88,7 @@ class IPMI extends Sensors
             }
         }
     }
-    
+
     /**
      * get the information
      *

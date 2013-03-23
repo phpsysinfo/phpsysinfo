@@ -33,7 +33,7 @@ phpSysInfo 3.1.0
  - [UPD] Case-insensitive for most of parameters
  - [UPD] Detection of Mac OS X and Linux distribution
  - [UPD] CPU detection on Mac OS X
- 
+
  - [FIX] Fixed UTF8 encoding for Linux
  - [FIX] SMART plugin doesn't display for some results
  - [FIX] Incorrect display of mountpoint on Mac OS X

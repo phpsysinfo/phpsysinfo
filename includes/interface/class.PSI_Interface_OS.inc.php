@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic OS Functions
  *
@@ -33,14 +33,14 @@ interface PSI_Interface_OS
      * @return string
      */
     function getEncoding();
-    
+
     /**
      * build the os information
      *
      * @return void
      */
     function build();
-    
+
     /**
      * get the filled or unfilled (with default values) system object
      *
