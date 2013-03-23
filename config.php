@@ -55,7 +55,7 @@ if (!defined('PSI_CONFIG_FILE')){
             $contents = @file_get_contents('/etc/sysconfig/language');
         } else {
             $contents = false;
-            if  (file_exists ('/system/build.prop')){ //Android
+            if (file_exists ('/system/build.prop')){ //Android
                 define('PSI_OS', 'Android');
                 define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
             }
