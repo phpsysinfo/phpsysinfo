@@ -13,13 +13,13 @@ if (!defined('PSI_CONFIG_FILE')){
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
     }
-    
+
     /* fatal errors only */
     $old_err_rep = error_reporting();
     error_reporting(E_ERROR);
-    
+
     /* get git revision */ 
-    if  (file_exists (APP_ROOT.'/.git/HEAD')){
+    if (file_exists (APP_ROOT.'/.git/HEAD')){
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
             $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
@@ -31,7 +31,7 @@ if (!defined('PSI_CONFIG_FILE')){
         }
     }
     /* get svn revision */
-    if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))){ 
+    if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))){
         $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
@@ -39,19 +39,19 @@ if (!defined('PSI_CONFIG_FILE')){
             define('PSI_VERSION_STRING', PSI_VERSION);
         }
     }
-    if (!defined('PSI_VERSION_STRING')){ 
+    if (!defined('PSI_VERSION_STRING')){
         define('PSI_VERSION_STRING', PSI_VERSION);
     }
 
     /* get Linux code page */
     if (PHP_OS == 'Linux'){
-        if  (file_exists ('/etc/sysconfig/i18n')){
+        if (file_exists ('/etc/sysconfig/i18n')){
             $contents = @file_get_contents('/etc/sysconfig/i18n');
-        } else if  (file_exists ('/etc/default/locale')){
+        } else if (file_exists ('/etc/default/locale')){
             $contents = @file_get_contents('/etc/default/locale');
-        } else if  (file_exists ('/etc/locale.conf')){
+        } else if (file_exists ('/etc/locale.conf')){
             $contents = @file_get_contents('/etc/locale.conf');
-        } else if  (file_exists ('/etc/sysconfig/language')){
+        } else if (file_exists ('/etc/sysconfig/language')){
             $contents = @file_get_contents('/etc/sysconfig/language');
         } else {
             $contents = false;
@@ -113,17 +113,17 @@ if (!defined('PSI_CONFIG_FILE')){
                 }
             }
     }
-    
-    if (!defined('PSI_SYSTEM_SYSLANG')){ 
+
+    if (!defined('PSI_SYSTEM_SYSLANG')){
         define('PSI_SYSTEM_SYSLANG', null);
     }
-    if (!defined('PSI_SYSTEM_CODEPAGE')){ 
+    if (!defined('PSI_SYSTEM_CODEPAGE')){
         define('PSI_SYSTEM_CODEPAGE', null);
     }
-    
+
     /* restore error level */
     error_reporting($old_err_rep);
-    
+
     /* restore error handler */
     if (function_exists('errorHandlerPsi')) {
         set_error_handler('errorHandlerPsi');
