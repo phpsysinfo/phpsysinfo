@@ -117,18 +117,18 @@ class CommonFunctions
             }
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-        if (defined('PSI_OS') && (PSI_OS == 'Android')) { //proc_open() replacement for Android
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             $process = $pipes[1] = popen($strProgram." ".$strArgs." 2>/dev/null", "r");
         } else {
             $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
-            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
                 $pipes[0] = null;
                 $pipes[2] = fopen("/dev/null", "r");
             }
             self::_timeoutfgets($pipes, $strBuffer, $strError);
-            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
                 fclose($pipes[2]);
                 $return_value = pclose($pipes[1]);
             } else {

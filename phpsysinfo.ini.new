@@ -24,6 +24,12 @@ DEBUG=false
 ;
 LOG=false
 
+; Use popen() PHP function to execute commands
+; - MODE_POPEN=false  //use proc_open() function - default
+; - MODE_POPEN=true  //use popen() function - no stderr error handling
+;
+MODE_POPEN=false
+
 ; Turn on/off compression for JavaScript file
 ; - JS_COMPRESSION=false  //no compression (recommended with slow processor)
 ; - JS_COMPRESSION="None"  //code minimizing
