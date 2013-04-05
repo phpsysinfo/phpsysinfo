@@ -31,4 +31,3 @@ class PiTemp extends Sensors
         $this->_temperature();
     }
 }
-?>

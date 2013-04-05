@@ -35,7 +35,7 @@ class HWSensors extends Sensors
     /**
      * fill the private content var through tcp or file access
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
@@ -105,7 +105,6 @@ class HWSensors extends Sensors
         }
     }
 
-
     /**
      * get the information
      *
@@ -120,4 +119,3 @@ class HWSensors extends Sensors
         $this->_fans();
     }
 }
-?>

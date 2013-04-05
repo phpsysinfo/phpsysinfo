@@ -60,4 +60,3 @@ class UPSInfo
         array_push($this->_upsDevices, $upsDevices);
     }
 }
-?>

@@ -53,7 +53,6 @@ class SensorDevice
      */
     private $_min = 'NaN';
 
-
     /**
      * Returns $_max.
      *
@@ -158,4 +157,3 @@ class SensorDevice
         $this->_value = $value;
     }
 }
-?>

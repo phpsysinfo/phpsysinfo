@@ -171,6 +171,7 @@ abstract class BSDCommon extends OS
                 }
             }
         }
+
         return $this->_dmesg;
     }
 
@@ -298,7 +299,7 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 if (preg_match("/ Origin| Features/", $line, $ar_buf)) {
-                       if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)){
+                       if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
                            $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                            foreach ($feats as $feat) {
                                 if (($feat=="vmx")||($feat=="svm")) {
@@ -336,7 +337,7 @@ abstract class BSDCommon extends OS
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
-                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])){
+                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])) {
                         $finddev->setCapacity($ar_buf[2] * 2048 * 1.049);
                         $notwas = false;
                         break;
@@ -409,7 +410,7 @@ abstract class BSDCommon extends OS
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getIdeDevices() as $finddev) {
-                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])){
+                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])) {
                         $finddev->setCapacity($ar_buf[2] * 1024);
                         $notwas = false;
                         break;
@@ -519,7 +520,6 @@ abstract class BSDCommon extends OS
         }
     }
 
-
     /**
      * get the information
      *
@@ -527,7 +527,7 @@ abstract class BSDCommon extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->distro();
         $this->memory();
@@ -544,4 +544,3 @@ abstract class BSDCommon extends OS
         $this->usb();
     }
 }
-?>

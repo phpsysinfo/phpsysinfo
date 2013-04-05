@@ -376,7 +376,6 @@ class HPUX extends OS
         $this->sys->setDistributionIcon('HPUX.png');
     }
 
-
     /**
      * get the information
      *
@@ -384,7 +383,7 @@ class HPUX extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_distro();
         $this->_hostname();
@@ -403,4 +402,3 @@ class HPUX extends OS
         $this->_filesystems();
     }
 }
-?>

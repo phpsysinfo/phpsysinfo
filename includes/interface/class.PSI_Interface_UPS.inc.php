@@ -31,13 +31,12 @@ interface PSI_Interface_UPS
      *
      * @return void
      */
-    function build();
+    public function build();
 
     /**
      * get the filled or unfilled (with default values) UPSInfo object
      *
      * @return UPSInfo
      */
-    function getUPSInfo();
+    public function getUPSInfo();
 }
-?>

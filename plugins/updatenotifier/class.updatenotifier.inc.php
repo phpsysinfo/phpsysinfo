@@ -70,16 +70,14 @@ class UpdateNotifier extends PSI_Plugin
              - line 2: security packages to update
              */
             if (count($this->_filecontent) == 2) {
-                foreach($this->_filecontent as $line) {
+                foreach ($this->_filecontent as $line) {
                     list($num, $text) = explode(" ", $line, 2);
                     $this->_result[] = $num;
                 }
-            }
-            else {
+            } else {
                 $this->global_error->addWarning("Unable to parse UpdateNotifier file");
             }
-        }
-        else {
+        } else {
             /*
              Universal format: A;B
              - A: packages to update
@@ -87,8 +85,7 @@ class UpdateNotifier extends PSI_Plugin
              */
             if (count($this->_filecontent) == 1 && strpos($this->_filecontent[0], ";") !== false) {
                 $this->_result = explode(";", $this->_filecontent[0]);
-            }
-            else {
+            } else {
                 $this->global_error->addWarning("Unable to parse UpdateNotifier file");
             }
         }
@@ -110,4 +107,3 @@ class UpdateNotifier extends PSI_Plugin
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

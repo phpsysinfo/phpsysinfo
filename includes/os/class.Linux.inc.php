@@ -172,7 +172,7 @@ class Linux extends OS
             }
         }
         // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-        if(PSI_LOAD_BAR) {
+        if (PSI_LOAD_BAR) {
             sleep(1);
         }
         if (CommonFunctions::rfts('/proc/stat', $buf)) {
@@ -193,6 +193,7 @@ class Linux extends OS
         if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
             return (100 * ($load2 - $load)) / ($total2 - $total);
         }
+
         return 0;
     }
     /**
@@ -253,10 +254,9 @@ class Linux extends OS
                             $dev->setBogomips($arrBuff[1]);
                             break;
                         case 'flags':
-                            if(preg_match("/ vmx/",$arrBuff[1])) {
+                            if (preg_match("/ vmx/",$arrBuff[1])) {
                                 $dev->setVirt("vmx");
-                            }
-                            else if(preg_match("/ svm/",$arrBuff[1])) {
+                            } elseif (preg_match("/ svm/",$arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
                             break;
@@ -287,7 +287,7 @@ class Linux extends OS
                 // sparc64 specific code ends
 
                 // XScale detection code
-                if (($arch === "5TE") && ($dev->getBogomips() != null))  {
+                if (($arch === "5TE") && ($dev->getBogomips() != null)) {
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS
                 }
@@ -301,7 +301,7 @@ class Linux extends OS
                         $dev->setCpuSpeed($buf / 1000);
                     }
                     // arm specific code ends
-                    if(PSI_LOAD_BAR) {
+                    if (PSI_LOAD_BAR) {
                             $dev->setLoad($this->_parseProcStat('cpu'.$proc));
                     }
 
@@ -477,8 +477,7 @@ class Linux extends OS
                                     } else {
                                          $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                                     }
-                                 }
-                            else if (preg_match('/^\s+inet\saddr:(\S+)/i', $buf2, $ar_buf2)
+                                 } elseif (preg_match('/^\s+inet\saddr:(\S+)/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2)
                                   || preg_match('/^'.trim($dev_name).':\s+ip\s+(\S+)\s+mask/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet6\saddr:\s([^\/]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
@@ -546,7 +545,7 @@ class Linux extends OS
                     $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($mount as $mount_line) {
                         $mount_buf = preg_split('/\s+/', $mount_line);
-                        if (count($mount_buf) == 6){
+                        if (count($mount_buf) == 6) {
                             $mount_parm[$mount_buf[1]]['fstype'] = $mount_buf[2];
                             if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[1]]['options'] = $mount_buf[3];
                             $mount_parm[$mount_buf[1]]['mountdev'] = $mount_buf[0];
@@ -573,7 +572,7 @@ class Linux extends OS
                             elseif ($df_buf[11] == 'G') $dev->setFree($df_buf[10] * 1024*1024*1024);
                             elseif ($df_buf[11] == 'T') $dev->setFree($df_buf[10] * 1024*1024*1024*1024);
 
-                            if(isset($mount_parm[$df_buf[1]])) {
+                            if (isset($mount_parm[$df_buf[1]])) {
                                 $dev->setFsType($mount_parm[$df_buf[1]]['fstype']);
                                 $dev->setName($mount_parm[$df_buf[1]]['mountdev']);
 
@@ -646,7 +645,7 @@ class Linux extends OS
                 }
             }
         // We have the '2>/dev/null' because Ubuntu gives an error on this command which causes the distro to be unknown
-        } else if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen(trim($distro_info)) > 0)) {
+        } elseif (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen(trim($distro_info)) > 0)) {
             $distro_tmp = preg_split("/\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);
@@ -666,7 +665,7 @@ class Linux extends OS
             } else {
                 if (isset($distro['Description'])) {
                     $this->sys->setDistribution($distro['Description']);
-                } else if (isset($distro['Distributor ID'])) {
+                } elseif (isset($distro['Distributor ID'])) {
                     $this->sys->setDistribution($distro['Distributor ID']);
                 }
                 if (isset($distro['Distributor ID']) && isset($list[$distro['Distributor ID']]['Image'])) {
@@ -782,7 +781,7 @@ class Linux extends OS
                         }
                     }
                 } else
-                if (file_exists($filename="/etc/debian_version")){
+                if (file_exists($filename="/etc/debian_version")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
@@ -803,7 +802,7 @@ class Linux extends OS
                         }
                     }
                 } else
-                if (file_exists($filename="/usr/bin/crux")){
+                if (file_exists($filename="/usr/bin/crux")) {
                     if (!CommonFunctions::executeProgram("crux", '2>/dev/null', $buf, PSI_DEBUG)) {
                         $buf = "";
                     }
@@ -824,7 +823,7 @@ class Linux extends OS
                         }
                     }
                 } else
-                if (file_exists($filename="/etc/system-release")){ //last chance
+                if (file_exists($filename="/etc/system-release")) { //last chance
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
@@ -852,7 +851,7 @@ class Linux extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_distro();
         $this->_hostname();
@@ -871,4 +870,3 @@ class Linux extends OS
         $this->_loadavg();
     }
 }
-?>

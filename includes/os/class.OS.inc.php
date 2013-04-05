@@ -76,10 +76,10 @@ abstract class OS implements PSI_Interface_OS
      *
      * @return System
      */
-    public final function getSys()
+    final public function getSys()
     {
         $this->build();
+
         return $this->sys;
     }
 }
-?>

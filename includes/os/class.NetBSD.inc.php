@@ -119,7 +119,7 @@ class NetBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -127,4 +127,3 @@ class NetBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

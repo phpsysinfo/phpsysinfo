@@ -231,6 +231,7 @@ class System
                 }
             }
         }
+
         return $result;
     }
 
@@ -329,8 +330,10 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $free += $dev->getFree();
             }
+
             return $free;
         }
+
         return null;
     }
 
@@ -349,6 +352,7 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $total += $dev->getTotal();
             }
+
             return $total;
         } else {
             return null;
@@ -370,6 +374,7 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $used += $dev->getUsed();
             }
+
             return $used;
         } else {
             return null;
@@ -658,7 +663,6 @@ class System
         array_push($this->_cpus, $cpus);
     }
 
-
     /**
      * Returns $_pciDevices.
      *
@@ -686,7 +690,6 @@ class System
         array_push($this->_pciDevices, $pciDevices);
     }
 
-
     /**
      * Returns $_netDevices.
      *
@@ -713,7 +716,6 @@ class System
     {
         array_push($this->_netDevices, $netDevices);
     }
-
 
     /**
      * Returns $_ideDevices.
@@ -796,7 +798,6 @@ class System
         array_push($this->_usbDevices, $usbDevices);
     }
 
-
     /**
      * Returns $_diskDevices.
      *
@@ -823,7 +824,6 @@ class System
     {
         array_push($this->_diskDevices, $diskDevices);
     }
-
 
     /**
      * Returns $_memApplication.
@@ -1008,4 +1008,3 @@ class System
         array_push($this->_swapDevices, $swapDevices);
     }
 }
-?>

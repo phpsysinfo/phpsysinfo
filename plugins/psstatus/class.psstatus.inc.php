@@ -61,8 +61,7 @@ class PSStatus extends PSI_Plugin
                     foreach ($process_wmi as $process) {
                         $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
                     }
-                }
-                catch(Exception $e) {
+                } catch (Exception $e) {
                 }
             } else {
                 if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
@@ -136,6 +135,7 @@ class PSStatus extends PSI_Plugin
             $xmlps->addAttribute("Name", $ps[0]);
             $xmlps->addAttribute("Status", $ps[1] ? 1 : 0);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 
@@ -154,7 +154,7 @@ class PSStatus extends PSI_Plugin
                 return true;
             }
         }
+
         return false;
     }
 }
-?>

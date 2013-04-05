@@ -31,6 +31,5 @@ interface PSI_Interface_Output
      *
      * @return void
      */
-    function run();
+    public function run();
 }
-?>

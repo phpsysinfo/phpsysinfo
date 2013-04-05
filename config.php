@@ -1,5 +1,5 @@
 <?php
-if (!defined('PSI_CONFIG_FILE')){
+if (!defined('PSI_CONFIG_FILE')) {
     /**
      * phpSysInfo version
      */
@@ -19,7 +19,7 @@ if (!defined('PSI_CONFIG_FILE')){
     error_reporting(E_ERROR);
 
     /* get git revision */
-    if (file_exists (APP_ROOT.'/.git/HEAD')){
+    if (file_exists (APP_ROOT.'/.git/HEAD')) {
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
             $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
@@ -31,7 +31,7 @@ if (!defined('PSI_CONFIG_FILE')){
         }
     }
     /* get svn revision */
-    if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))){
+    if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))) {
         $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
@@ -39,23 +39,23 @@ if (!defined('PSI_CONFIG_FILE')){
             define('PSI_VERSION_STRING', PSI_VERSION);
         }
     }
-    if (!defined('PSI_VERSION_STRING')){
+    if (!defined('PSI_VERSION_STRING')) {
         define('PSI_VERSION_STRING', PSI_VERSION);
     }
 
     /* get Linux code page */
-    if (PHP_OS == 'Linux'){
-        if (file_exists ('/etc/sysconfig/i18n')){
+    if (PHP_OS == 'Linux') {
+        if (file_exists ('/etc/sysconfig/i18n')) {
             $contents = @file_get_contents('/etc/sysconfig/i18n');
-        } else if (file_exists ('/etc/default/locale')){
+        } elseif (file_exists ('/etc/default/locale')) {
             $contents = @file_get_contents('/etc/default/locale');
-        } else if (file_exists ('/etc/locale.conf')){
+        } elseif (file_exists ('/etc/locale.conf')) {
             $contents = @file_get_contents('/etc/locale.conf');
-        } else if (file_exists ('/etc/sysconfig/language')){
+        } elseif (file_exists ('/etc/sysconfig/language')) {
             $contents = @file_get_contents('/etc/sysconfig/language');
         } else {
             $contents = false;
-            if (file_exists ('/system/build.prop')){ //Android
+            if (file_exists ('/system/build.prop')) { //Android
                 define('PSI_OS', 'Android');
                 define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
             }
@@ -74,12 +74,12 @@ if (!defined('PSI_CONFIG_FILE')){
                 foreach ($lines as $line) {
                     if (preg_match('/^LC_MESSAGES="?([^\."@]*)/', $line, $matches2)) {
                         $lang = "";
-                        if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
+                        if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
                             if (isset($langdata['Linux']['_'.$matches2[1]])) {
                                 $lang = $langdata['Linux']['_'.$matches2[1]];
                             }
                         }
-                        if ($lang == ""){
+                        if ($lang == "") {
                             $lang = 'Unknown';
                         }
                         define('PSI_SYSTEM_SYSLANG', $lang.' ('.$matches2[1].')');
@@ -89,22 +89,22 @@ if (!defined('PSI_CONFIG_FILE')){
             }
 
         }
-    } else if (PHP_OS == 'Haiku'){
+    } elseif (PHP_OS == 'Haiku') {
             if (@exec('locale -m 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
-                        if ( isset($matches2[2]) && !is_null($matches2[2]) && (trim($matches2[2]) != "") ){
+                        if ( isset($matches2[2]) && !is_null($matches2[2]) && (trim($matches2[2]) != "") ) {
                             define('PSI_SYSTEM_CODEPAGE', $matches2[2]);
                         }
 
                         $lang = "";
-                        if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
+                        if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
                             if (isset($langdata['Linux']['_'.$matches2[1]])) {
                                 $lang = $langdata['Linux']['_'.$matches2[1]];
                             }
                         }
-                        if ($lang == ""){
+                        if ($lang == "") {
                             $lang = 'Unknown';
                         }
                         define('PSI_SYSTEM_SYSLANG', $lang.' ('.$matches2[1].')');
@@ -114,10 +114,10 @@ if (!defined('PSI_CONFIG_FILE')){
             }
     }
 
-    if (!defined('PSI_SYSTEM_SYSLANG')){
+    if (!defined('PSI_SYSTEM_SYSLANG')) {
         define('PSI_SYSTEM_SYSLANG', null);
     }
-    if (!defined('PSI_SYSTEM_CODEPAGE')){
+    if (!defined('PSI_SYSTEM_CODEPAGE')) {
         define('PSI_SYSTEM_CODEPAGE', null);
     }
 
@@ -131,7 +131,7 @@ if (!defined('PSI_CONFIG_FILE')){
 
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
-    if ((!is_readable(PSI_CONFIG_FILE)) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))){
+    if ((!is_readable(PSI_CONFIG_FILE)) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
         $tpl = new Template("/templates/html/error_config.html");
         echo $tpl->fetch();
         die();
@@ -143,9 +143,9 @@ if (!defined('PSI_CONFIG_FILE')){
                 $name_prefix='PSI_PLUGIN_'.strtoupper($name).'_';
             }
             foreach ($group as $param=>$value) {
-                if ($value===""){
+                if ($value==="") {
                     define($name_prefix.strtoupper($param), false);
-                } else if ($value==1){
+                } elseif ($value==1) {
                     define($name_prefix.strtoupper($param), true);
                 } else {
                     if (strstr($value, ',')) {
@@ -158,4 +158,3 @@ if (!defined('PSI_CONFIG_FILE')){
         }
     }
 }
-?>

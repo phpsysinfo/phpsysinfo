@@ -33,7 +33,6 @@ class MBM5 extends Sensors
      */
     private $_buf_label = array();
 
-
     /**
      * array withe the values
      *
@@ -44,7 +43,7 @@ class MBM5 extends Sensors
     /**
      * read the MBM5.csv file and fill the private arrays
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
@@ -137,4 +136,3 @@ class MBM5 extends Sensors
         $this->_voltage();
     }
 }
-?>

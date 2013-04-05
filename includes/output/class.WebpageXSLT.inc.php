@@ -52,4 +52,3 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
         echo $xsltproc->transformToXML($domxml);
     }
 }
-?>

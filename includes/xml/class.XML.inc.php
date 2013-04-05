@@ -461,7 +461,7 @@ class XML
     {
         if (!$this->_plugin_request || $this->_complete_request) {
             if ($this->_sys === null) {
-                if (PSI_DEBUG === true){
+                if (PSI_DEBUG === true) {
                     // Safe mode check
                     $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
                     if ($safe_mode) {
@@ -475,7 +475,7 @@ class XML
                             $include_path = ".";
                         }
                     }
-                    if ($include_path != "." ) {
+                    if ($include_path != ".") {
                         $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
                     }
                 }
@@ -501,6 +501,7 @@ class XML
     public function getXml()
     {
         $this->_buildXml();
+
         return $this->_xml->getSimpleXmlElement();
     }
 
@@ -550,9 +551,9 @@ class XML
         $options->addAttribute('tempFormat', defined('PSI_TEMP_FORMAT') ? strtolower(PSI_TEMP_FORMAT) : 'c');
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
         if ( defined('PSI_REFRESH') ) {
-            if ( PSI_REFRESH === false) {
+            if (PSI_REFRESH === false) {
                 $options->addAttribute('refresh', 0);
-            } else if ( PSI_REFRESH === true) {
+            } elseif (PSI_REFRESH === true) {
                 $options->addAttribute('refresh', 1);
             } else {
                 $options->addAttribute('refresh', PSI_REFRESH);
@@ -572,4 +573,3 @@ class XML
         }
     }
 }
-?>

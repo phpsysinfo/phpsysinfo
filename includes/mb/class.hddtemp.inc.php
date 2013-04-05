@@ -133,4 +133,3 @@ class HDDTemp extends Sensors
         $this->_temperature();
     }
 }
-?>

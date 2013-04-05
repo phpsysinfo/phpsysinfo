@@ -55,10 +55,10 @@ abstract class UPS implements PSI_Interface_UPS
      *
      * @return UPSInfo
      */
-    public final function getUPSInfo()
+    final public function getUPSInfo()
     {
         $this->build();
+
         return $this->upsinfo;
     }
 }
-?>

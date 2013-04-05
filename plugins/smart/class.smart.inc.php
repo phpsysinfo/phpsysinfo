@@ -90,7 +90,7 @@ class SMART extends PSI_Plugin
                     $dn=0;
                     foreach ($disks as $disk) {
                         $buffer="";
-                        if ((CommonFunctions::rfts(APP_ROOT."/data/smart{$dn}.txt", $buffer))&&(!empty($buffer))){
+                        if ((CommonFunctions::rfts(APP_ROOT."/data/smart{$dn}.txt", $buffer))&&(!empty($buffer))) {
                             $this->_filecontent[$disk] = $buffer;
                         }
                         $dn++;
@@ -179,7 +179,7 @@ class SMART extends PSI_Plugin
                     preg_match('/read\: (.*)\n/', $result, $lines);
                     if ((!empty($lines))&&(!empty($lines[0]))) {
                         $values=preg_split('/[\s,]+/',$lines[0]);
-                        if ((!empty($values))&&($values[7]!=null)){
+                        if ((!empty($values))&&($values[7]!=null)) {
                             $this->_result[$disk][0]['id'] = 1;
                             $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
                             $this->_result[$disk][0]['raw_value'] = $values[7];
@@ -190,7 +190,7 @@ class SMART extends PSI_Plugin
                     preg_match('/Elements in grown defect list\: (.*)\n/', $result, $lines);
                     if ((!empty($lines))&&(!empty($lines[0]))) {
                         $values=preg_split('/[\s,]+/',$lines[0]);
-                        if ((!empty($values))&&($values[5]!=null)){
+                        if ((!empty($values))&&($values[5]!=null)) {
                             $this->_result[$disk][1]['id'] = 5;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
                             $this->_result[$disk][1]['raw_value'] = $values[5];
@@ -201,7 +201,7 @@ class SMART extends PSI_Plugin
                     preg_match('/ number of hours powered up = (.*)\n/', $result, $lines);
                     if ((!empty($lines))&&(!empty($lines[0]))) {
                         $values=preg_split('/[\s,.]+/',$lines[0]);
-                        if ((!empty($values))&&($values[7]!=null)){
+                        if ((!empty($values))&&($values[7]!=null)) {
                             $this->_result[$disk][2]['id'] = 9;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $values[7];
@@ -212,7 +212,7 @@ class SMART extends PSI_Plugin
                     preg_match('/Current Drive Temperature\: (.*)\n/', $result, $lines);
                     if ((!empty($lines))&&(!empty($lines[0]))) {
                         $values=preg_split('/[\s,]+/',$lines[0]);
-                        if ((!empty($values))&&($values[3]!=null)){
+                        if ((!empty($values))&&($values[3]!=null)) {
                             $this->_result[$disk][3]['id'] = 194;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = $values[3];
@@ -274,7 +274,7 @@ class SMART extends PSI_Plugin
                 }
             }
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

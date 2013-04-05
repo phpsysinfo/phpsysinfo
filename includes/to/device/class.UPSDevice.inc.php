@@ -487,4 +487,3 @@ class UPSDevice
         $this->_timeLeft = $timeLeft;
     }
 }
-?>

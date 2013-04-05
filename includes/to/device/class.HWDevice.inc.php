@@ -114,7 +114,6 @@ class HWDevice
         $this->_name = $name;
     }
 
-
     /**
      * Returns $_count.
      *
@@ -141,4 +140,3 @@ class HWDevice
         $this->_count = $count;
     }
 }
-?>

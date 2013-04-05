@@ -147,6 +147,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
     public function getXMLString()
     {
         $xml = $this->_xml->getXml();
+
         return $xml->asXML();
     }
 
@@ -173,4 +174,3 @@ class WebpageXML extends Output implements PSI_Interface_Output
         $this->_prepare();
     }
 }
-?>

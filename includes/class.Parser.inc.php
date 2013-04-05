@@ -47,6 +47,7 @@ class Parser
                 $arrResults[] = $dev;
             }
         }
+
         return $arrResults;
     }
 
@@ -78,6 +79,7 @@ class Parser
                 $arrResults[] = $dev;
             }
         }
+
         return $arrResults;
     }
 
@@ -146,7 +148,7 @@ class Parser
                             }
                             if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
 
-                            if(isset($mount_parm[$df_buf[5]])) {
+                            if (isset($mount_parm[$df_buf[5]])) {
                                 $dev->setFsType($mount_parm[$df_buf[5]]['fstype']);
                                 if (PSI_SHOW_MOUNT_OPTION) {
                                     if (PSI_SHOW_MOUNT_CREDENTIALS) {
@@ -179,7 +181,7 @@ class Parser
                 }
             }
         }
+
         return $arrResult;
     }
 }
-?>

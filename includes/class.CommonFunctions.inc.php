@@ -59,7 +59,7 @@ class CommonFunctions
             }
         }
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
-        if ((bool)ini_get('open_basedir')) {
+        if ((bool) ini_get('open_basedir')) {
             $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
         }
         foreach ($arrPath as $strPath) {
@@ -85,10 +85,10 @@ class CommonFunctions
      * ie $program = CommonFunctions::executeProgram('netstat', '-anp | grep LIST');
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
-     * @param string  $strProgramname name of the program
-     * @param string  $strArgs        arguments to the program
+     * @param string $strProgramname name of the program
+     * @param string $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
-     * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
+     * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
      */
@@ -103,6 +103,7 @@ class CommonFunctions
             if ($booErrorRep) {
                 $error->addError('find_program('.$strProgramname.')', 'program not found on the machine');
             }
+
             return false;
         }
         // see if we've gotten a |, if we have we need to do path checking on the cmd
@@ -143,6 +144,7 @@ class CommonFunctions
             if ($booErrorRep) {
                 $error->addError($strProgram, "\nOpen process error");
             }
+
             return false;
         }
         $strError = trim($strError);
@@ -154,15 +156,17 @@ class CommonFunctions
             if ($booErrorRep) {
                 $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
             }
+
             return $return_value == 0;
         }
+
         return true;
     }
 
     /**
      * read a file and return the content as a string
      *
-     * @param string  $strFileName name of the file which should be read
+     * @param string $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
      * @param integer $intLines    control how many lines should be read
      * @param integer $intBytes    control how many bytes of each line should be read
@@ -194,14 +198,17 @@ class CommonFunctions
                 if ($booErrorRep) {
                     $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
                 }
+
                 return false;
             }
         } else {
             if ($booErrorRep) {
                 $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
             }
+
             return false;
         }
+
         return true;
     }
 
@@ -235,6 +242,7 @@ class CommonFunctions
                 $error->addError('is_dir('.$strPath.')', 'directory does not exist on your machine');
             }
         }
+
         return $arrDirectoryContent;
     }
 
@@ -284,10 +292,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array   $pipes array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param array $pipes array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out  target string for the output message (reference)
      * @param string  &$err  target string for the error message (reference)
-     * @param integer $sek   timeout value in seconds
+     * @param integer $sek timeout value in seconds
      *
      * @return void
      */
@@ -323,4 +331,3 @@ class CommonFunctions
         }
     }
 }
-?>

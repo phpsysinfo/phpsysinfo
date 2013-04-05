@@ -44,11 +44,11 @@ class Template
      *
      * @param String $file the template file name
      */
-    public function __construct($file=null) {
+    public function __construct($file=null)
+    {
         $this->_file = $file;
         $this->_vars = array();
     }
-
 
     /**
      * Set a template variable.
@@ -56,11 +56,10 @@ class Template
      * @param string variable name
      * @param string variable value
      */
-    function set($name, $value) {
+    public function set($name, $value)
+    {
         $this->_vars[$name] = is_object($value) ? $value->fetch() : $value;
     }
-
-
 
     /**
      * Open, parse, and return the template file.
@@ -69,8 +68,9 @@ class Template
      *
      * @return string
      */
-    function fetch($file=null) {
-        if(!$file) {
+    public function fetch($file=null)
+    {
+        if (!$file) {
             $file = $this->_file;
         }
 
@@ -91,4 +91,3 @@ class Template
         return $contents;
     }
 }
-?>

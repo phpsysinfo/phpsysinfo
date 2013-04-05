@@ -32,6 +32,7 @@ function __autoload($class_name)
     foreach ($dirs as $dir) {
         if (file_exists(APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php')) {
             include_once APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php';
+
             return;
         }
     }
@@ -42,6 +43,7 @@ function __autoload($class_name)
     foreach ($dirs as $dir) {
         if (file_exists(APP_ROOT.$dir.'class.'.$class_name.'.inc.php')) {
             include_once APP_ROOT.$dir.'class.'.$class_name.'.inc.php';
+
             return;
         }
     }
@@ -69,4 +71,3 @@ function errorHandlerPsi($level, $message, $file, $line)
 }
 
 set_error_handler('errorHandlerPsi');
-?>

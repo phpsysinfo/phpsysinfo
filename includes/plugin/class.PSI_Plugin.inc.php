@@ -132,4 +132,3 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
         $this->xml = new SimpleXMLExtended(simplexml_import_dom($dom), $enc);
     }
 }
-?>

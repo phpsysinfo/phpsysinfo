@@ -44,6 +44,7 @@ class SunOS extends OS
     {
         if (CommonFunctions::executeProgram('kstat', '-p d '.$key, $m, PSI_DEBUG)) {
             list($key, $value) = preg_split("/\t/", trim($m), 2);
+
             return $value;
         } else {
             return '';
@@ -262,7 +263,7 @@ class SunOS extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->error->addError("WARN", "The SunOS version of phpSysInfo is work in progress, some things currently don't work");
         $this->_hostname();
@@ -278,4 +279,3 @@ class SunOS extends OS
         $this->_filesystems();
     }
 }
-?>

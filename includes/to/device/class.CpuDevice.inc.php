@@ -289,4 +289,3 @@ class CpuDevice
         $this->_load = $load;
     }
 }
-?>

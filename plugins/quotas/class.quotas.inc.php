@@ -126,7 +126,7 @@ class Quotas extends PSI_Plugin
             $quotaChild->addAttribute("FileHard", $quota['file_hard']);
             $quotaChild->addAttribute("FilePercentUsed", $quota['file_percent_used']);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

@@ -78,8 +78,7 @@ class PS extends PSI_Plugin
                             $this->_filecontent[] = trim($process->ProcessId)." ".trim($process->ParentProcessId)." ".$memusage." ".$ps;
                         }
                     }
-                }
-                catch(Exception $e) {
+                } catch (Exception $e) {
                 }
             } else {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,args", $buffer, PSI_DEBUG);
@@ -134,17 +133,18 @@ class PS extends PSI_Plugin
      */
     public function xml()
     {
-        if ($this->_result){
+        if ($this->_result) {
             $positions = array(0=>0);
             $xml = $this->_addchild($this->_result['childs'], $this->xml, $positions);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
     /**
      * recursive function to allow appending child processes to a parent process
      *
-     * @param Array             $child      part of the array which should be appended to the XML
-     * @param SimpleXMLExtended $xml        XML-Object to which the array content is appended
+     * @param Array             $child part of the array which should be appended to the XML
+     * @param SimpleXMLExtended $xml   XML-Object to which the array content is appended
      * @param Array             &$positions array with parent positions in xml structure
      *
      * @return SimpleXMLExtended Object with the appended array content
@@ -176,7 +176,7 @@ class PS extends PSI_Plugin
                 }
             }
         }
+
         return $xml;
     }
 }
-?>

@@ -109,6 +109,7 @@ class SimpleXMLExtended
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8), $this->_encoding);
         } else {
             $valueUtf8 = htmlspecialchars($this->_toUTF8($value));
+
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8, $valueUtf8), $this->_encoding);
         }
     }
@@ -128,6 +129,7 @@ class SimpleXMLExtended
         $domnode = dom_import_simplexml($node);
         $no = $domnode->ownerDocument;
         $domnode->appendChild($no->createCDATASection($cdata));
+
         return new SimpleXMLExtended($node, $this->_encoding);
     }
 
@@ -179,6 +181,7 @@ class SimpleXMLExtended
                        if ($strc < 128) $strr.=$strc;
                                    else $strr.=$_CP437toUTF8Table[$strc-128];
                  }
+
                  return $strr;
             } else {
                  return trim($str);
@@ -189,11 +192,9 @@ class SimpleXMLExtended
                  $enclist = mb_list_encodings();
                  if (in_array($this->_encoding, $enclist)) {
                      return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
-                 }
-                 else if (function_exists("iconv")) {
+                 } elseif (function_exists("iconv")) {
                      return iconv($this->_encoding, 'UTF-8', trim($str));
-                 }
-                 else {
+                 } else {
                      return mb_convert_encoding(trim($str), 'UTF-8');
                }
             } else return trim($str);
@@ -212,4 +213,3 @@ class SimpleXMLExtended
         return $this->_SimpleXmlElement;
     }
 }
-?>

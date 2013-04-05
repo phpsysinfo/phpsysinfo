@@ -102,4 +102,3 @@ class IPMI extends Sensors
         $this->_voltage();
     }
 }
-?>

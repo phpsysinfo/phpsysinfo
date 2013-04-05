@@ -32,13 +32,12 @@ interface PSI_Interface_Plugin
      *
      * @return void
      */
-    function execute();
+    public function execute();
 
     /**
      * build the xml
      *
      * @return SimpleXMLObject entire XML content for the plugin which than can be appended to the main XML
      */
-    function xml();
+    public function xml();
 }
-?>

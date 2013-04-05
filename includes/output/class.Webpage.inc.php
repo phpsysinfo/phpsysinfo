@@ -137,4 +137,3 @@ class Webpage extends Output implements PSI_Interface_Output
         echo $tpl->fetch();
     }
 }
-?>

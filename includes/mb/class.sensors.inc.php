@@ -55,10 +55,10 @@ abstract class Sensors implements PSI_Interface_Sensor
      *
      * @return MBInfo
      */
-    public final function getMBInfo()
+    final public function getMBInfo()
     {
         $this->build();
+
         return $this->mbinfo;
     }
 }
-?>

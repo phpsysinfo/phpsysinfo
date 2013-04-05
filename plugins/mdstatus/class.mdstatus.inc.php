@@ -218,7 +218,7 @@ class MDStatus extends PSI_Plugin
             $unDev = $this->xml->addChild("Unused_Devices");
             $unDev->addAttribute("Devices", $this->_result['unused_devs']);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

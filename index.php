@@ -36,7 +36,7 @@ require_once APP_ROOT.'/includes/autoloader.inc.php';
 // Load configuration
 require_once APP_ROOT.'/config.php';
 
-if (!defined('PSI_CONFIG_FILE')||(!defined('PSI_DEBUG'))){
+if (!defined('PSI_CONFIG_FILE')||(!defined('PSI_DEBUG'))) {
     $tpl = new Template("/templates/html/error_config.html");
     echo $tpl->fetch();
     die();
@@ -62,4 +62,3 @@ default:
     echo $tpl->fetch();
     break;
 }
-?>

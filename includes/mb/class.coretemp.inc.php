@@ -59,4 +59,3 @@ class Coretemp extends Sensors
         $this->_temperature();
     }
 }
-?>

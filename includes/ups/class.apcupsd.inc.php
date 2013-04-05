@@ -127,9 +127,8 @@ class Apcupsd extends UPS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_info();
     }
 }
-?>

@@ -99,14 +99,12 @@ class FreeBSD extends BSDCommon
                                 $dev->setInfo(preg_replace('/:/', '-', $ar_buf[3]));
                             }
                          }
-                    }
-                    else if (!is_null($dev)) {
+                    } elseif (!is_null($dev)) {
                         if ($dev->getName() == $ar_buf[0]) { /* other infos */
                             if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (!preg_match('/^fe80::/i',$ar_buf[3]))) {
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf[3]);
                             }
-                        }
-                        else { /* something wrong */
+                        } else { /* something wrong */
                              $this->sys->setNetDevices($dev);
                              $dev = NULL;
                         }
@@ -142,7 +140,6 @@ class FreeBSD extends BSDCommon
         $this->sys->setMemBuffer($this->sys->getMemUsed() - $this->sys->getMemApplication() - $this->sys->getMemCache());
     }
 
-
     /**
      * get the information
      *
@@ -150,7 +147,7 @@ class FreeBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_memoryadditional();
@@ -159,4 +156,3 @@ class FreeBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

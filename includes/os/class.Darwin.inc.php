@@ -51,6 +51,7 @@ class Darwin extends BSDCommon
         if (CommonFunctions::executeProgram('sysctl', $key, $s, PSI_DEBUG)) {
             $s = preg_replace('/'.$key.': /', '', $s);
             $s = preg_replace('/'.$key.' = /', '', $s);
+
             return $s;
         } else {
             return '';
@@ -81,6 +82,7 @@ class Darwin extends BSDCommon
                     $out .= $line."\n";
                }
             }
+
             return $out;
         } else {
             return '';
@@ -132,10 +134,9 @@ class Darwin extends BSDCommon
             }
             $buf=$this->grabkey('machdep.cpu.features');
             if ( !is_null($buf) && (trim($buf) != "")  ) {
-                if(preg_match("/ VMX/",$buf)) {
+                if (preg_match("/ VMX/",$buf)) {
                     $dev->setVirt("vmx");
-                }
-                else if(preg_match("/ SVM/",$buf)) {
+                } elseif (preg_match("/ SVM/",$buf)) {
                     $dev->setVirt("svm");
                 }
             }
@@ -318,6 +319,7 @@ class Darwin extends BSDCommon
                     }
 
                     $this->sys->setDistribution($distro);
+
                     return;
                 }
             }
@@ -331,11 +333,10 @@ class Darwin extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_uptime();
         $this->_network();
     }
 }
-?>

@@ -35,7 +35,7 @@ class LMSensors extends Sensors
     /**
      * fill the private content var through tcp or file access
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
@@ -235,11 +235,10 @@ class LMSensors extends Sensors
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_temperature();
         $this->_voltage();
         $this->_fans();
     }
 }
-?>

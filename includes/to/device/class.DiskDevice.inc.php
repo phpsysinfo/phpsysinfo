@@ -98,7 +98,6 @@ class DiskDevice
         }
     }
 
-
     /**
      * Returns $_PercentInodesUsed.
      *
@@ -307,4 +306,3 @@ class DiskDevice
         $this->_used = $used;
     }
 }
-?>

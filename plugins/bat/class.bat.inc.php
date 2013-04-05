@@ -97,7 +97,7 @@ class BAT extends PSI_Plugin
             $xmlbat->addAttribute("PresentVoltage", $bat_item['present_voltage']);
             $xmlbat->addAttribute("ChargingState", $bat_item['charging_state']);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

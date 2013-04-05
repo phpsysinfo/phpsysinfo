@@ -152,4 +152,3 @@ class Healthd extends Sensors
         $this->_voltage();
     }
 }
-?>

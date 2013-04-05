@@ -45,7 +45,7 @@ if ($script != null && file_exists($script) && is_readable($script)) {
     if (defined("PSI_DEBUG") && PSI_DEBUG === true) {
         echo $filecontent;
     } else {
-        if(defined("PSI_JS_COMPRESSION")) {
+        if (defined("PSI_JS_COMPRESSION")) {
             switch (strtolower(PSI_JS_COMPRESSION)) {
                 case "normal":
                     $packer = new JavaScriptPacker($filecontent);
@@ -64,4 +64,3 @@ if ($script != null && file_exists($script) && is_readable($script)) {
         }
     }
 }
-?>

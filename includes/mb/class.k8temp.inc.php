@@ -35,7 +35,7 @@ class K8Temp extends Sensors
     /**
      * fill the private array
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
@@ -84,4 +84,3 @@ class K8Temp extends Sensors
         $this->_temperature();
     }
 }
-?>

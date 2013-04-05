@@ -130,4 +130,3 @@ class MBInfo
         array_push($this->_mbVolt, $mbVolt);
     }
 }
-?>

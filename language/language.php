@@ -68,4 +68,3 @@ if ($plugin == null) {
         echo file_get_contents(APP_ROOT.'/plugins/'.strtolower($plugin).'/lang/en.xml');
     }
 }
-?>

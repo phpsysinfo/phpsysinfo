@@ -78,7 +78,6 @@ class OpenBSD extends BSDCommon
         }
     }
 
-
     /**
      * IDE information
      *
@@ -136,7 +135,7 @@ class OpenBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -144,4 +143,3 @@ class OpenBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

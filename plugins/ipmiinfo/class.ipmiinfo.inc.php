@@ -23,10 +23,12 @@
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class ipmiinfo extends PSI_Plugin {
+class ipmiinfo extends PSI_Plugin
+{
     private $_lines;
 
-    public function __construct($enc) {
+    public function __construct($enc)
+    {
         parent::__construct(__CLASS__, $enc);
 
         $this->_lines = array();
@@ -51,6 +53,7 @@ class ipmiinfo extends PSI_Plugin {
                 $i++;
             }
         }
+
         return $result;
     }
 
@@ -73,6 +76,7 @@ class ipmiinfo extends PSI_Plugin {
                 $i++;
             }
         }
+
         return $result;
     }
 
@@ -96,6 +100,7 @@ class ipmiinfo extends PSI_Plugin {
                 $i++;
             }
         }
+
         return $result;
     }
 
@@ -117,10 +122,12 @@ class ipmiinfo extends PSI_Plugin {
                 $i++;
             }
         }
+
         return $result;
     }
 
-    public function execute() {
+    public function execute()
+    {
         $this->_lines = array();
         switch (strtolower(PSI_PLUGIN_IPMIINFO_ACCESS)) {
             case 'command':
@@ -187,8 +194,8 @@ class ipmiinfo extends PSI_Plugin {
                 $item->addAttribute('State', $arrValue['state']);
             }
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 
 }
-?>

@@ -136,4 +136,3 @@ class MBMon extends Sensors
         $this->_fans();
     }
 }
-?>

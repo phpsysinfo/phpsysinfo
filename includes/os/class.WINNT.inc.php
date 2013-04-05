@@ -74,8 +74,7 @@ class WINNT extends OS
             } else {
                 $this->_wmi = $objLocator->ConnectServer($strHostname, 'rootcimv2', $strHostname.'\\'.$strUser, $strPassword);
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }
         $this->_getCodeSet();
@@ -92,12 +91,12 @@ class WINNT extends OS
         if ($buffer) {
             $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
             $lang = "";
-            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
+            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
                 if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
                     $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
                 }
             }
-            if ($lang == ""){
+            if ($lang == "") {
                 $lang = 'Unknown';
             }
             $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
@@ -141,13 +140,13 @@ class WINNT extends OS
                     }
                     $arrData[] = $arrInstance;
                 }
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 if (PSI_DEBUG) {
                     $this->error->addError($e->getCode(), $e->getMessage());
                 }
             }
         }
+
         return $arrData;
     }
 
@@ -169,6 +168,7 @@ class WINNT extends OS
                 $list[] = $device['Name'];
             }
         }
+
         return $list;
     }
 
@@ -290,12 +290,12 @@ class WINNT extends OS
             else
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
-        } else if (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
-                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)){
+        } elseif (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
+                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
-                } else if (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)){
+                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution($ar_temp[1]);
                     $this->sys->setKernel($ar_temp[2]);
                     $this->sys->setDistributionIcon('Win2000.png');
@@ -500,15 +500,15 @@ class WINNT extends OS
             }
             $this->sys->setDiskDevices($dev);
         }
-        if ((!$buffer) && ($this->sys->getDistribution()=="ReactOS")){
+        if ((!$buffer) && ($this->sys->getDistribution()=="ReactOS")) {
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
-                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)){
+                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {
                    if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/',$out_value, $out_dig )) {
                        $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
                        $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
                        $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
-                       if ($used + $free == $size ) {
+                       if ($used + $free == $size) {
                            $dev = new DiskDevice();
                            $dev->setMountPoint($letter.":");
                            $dev->setFsType('Unknown');
@@ -530,7 +530,7 @@ class WINNT extends OS
      *
      * @return string
      */
-    function getEncoding()
+    public function getEncoding()
     {
         return $this->_codepage;
     }
@@ -542,7 +542,7 @@ class WINNT extends OS
      *
      * @return string
      */
-    function getLanguage()
+    public function getLanguage()
     {
         return $this->_syslang;
     }
@@ -554,7 +554,7 @@ class WINNT extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_hostname();
         $this->_ip();
@@ -569,4 +569,3 @@ class WINNT extends OS
         $this->_loadavg();
     }
 }
-?>

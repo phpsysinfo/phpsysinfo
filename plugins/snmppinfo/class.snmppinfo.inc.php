@@ -60,7 +60,7 @@ class SNMPPInfo extends PSI_Plugin
                                CommonFunctions::executeProgram("snmpwalk", "-On -c public -v 1 ".$printer." 1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen(trim($buffer2)) > 0) {
                                $this->_filecontent[$printer] = $buffer."\n".$buffer2;
-                            }else{
+                            } else {
                                 $this->_filecontent[$printer] = $buffer;
                             }
                         }
@@ -110,7 +110,7 @@ class SNMPPInfo extends PSI_Plugin
                     $pn=0;
                     foreach ($printers as $printer) {
                         $buffer="";
-                        if ((CommonFunctions::rfts(APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer))&&(!empty($buffer))){
+                        if ((CommonFunctions::rfts(APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer))&&(!empty($buffer))) {
                             $this->_filecontent[$printer] = $buffer;
                         }
                         $pn++;
@@ -181,7 +181,7 @@ class SNMPPInfo extends PSI_Plugin
                }
             }
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

@@ -114,7 +114,7 @@ class DragonFly extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -122,4 +122,3 @@ class DragonFly extends BSDCommon
         $this->_uptime();
     }
 }
-?>

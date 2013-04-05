@@ -67,6 +67,7 @@ class Error
             $c = __CLASS__;
             self::$_instance = new $c;
         }
+
         return self::$_instance;
     }
 
@@ -191,6 +192,7 @@ class Error
             $error = $xmlerr->addCData('Error', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
+
         return $xmlerr->getSimpleXmlElement();
     }
     /**
@@ -244,6 +246,7 @@ class Error
             }
             $strBacktrace .= "\n";
         }
+
         return $strBacktrace;
     }
     /**
@@ -258,6 +261,7 @@ class Error
         if (is_string($var)) {
             $search = array("\x00", "\x0a", "\x0d", "\x1a", "\x09");
             $replace = array('\0', '\n', '\r', '\Z', '\t');
+
             return ('"'.str_replace($search, $replace, $var).'"');
         } elseif (is_bool($var)) {
             if ($var) {
@@ -273,10 +277,10 @@ class Error
                 $strComma = ', ';
             }
             $strResult .= ' )';
+
             return ($strResult);
         }
         // anything else, just let php try to print it
         return (var_export($var, true));
     }
 }
-?>

@@ -223,4 +223,3 @@ class NetDevice
         $this->_info = $info;
     }
 }
-?>
