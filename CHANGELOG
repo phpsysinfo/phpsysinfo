@@ -5,6 +5,8 @@ phpSysInfo 3.1.3
 
  - [UPD] Added "username" to filtered mount credentials
 
+ - [FIX] Run php-cs-fixer on php files (PSR-2 fixer)
+
 phpSysInfo 3.1.2
 
  - [ADD] Tempsensor and CPU frequency for Raspberry Pi (thanks to hawkeyexp)
