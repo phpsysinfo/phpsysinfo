@@ -44,7 +44,7 @@ if (isset($_GET['plugin'])) {
     $output = new WebpageXML(false, null);
 }
 // if $output is correct generate output in proper type
-if (isset($output)&&is_object($output)) {
+if (isset($output) && is_object($output)) {
     if (isset($_GET['json']) || isset($_GET['jsonp'])) {
         $json = json_encode(
             simplexml_load_string($output->getXMLString())

@@ -19,7 +19,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     error_reporting(E_ERROR);
 
     /* get git revision */
-    if (file_exists (APP_ROOT.'/.git/HEAD')) {
+    if (file_exists(APP_ROOT.'/.git/HEAD')) {
         $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
             $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
@@ -31,7 +31,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
     /* get svn revision */
-    if (!defined('PSI_VERSION_STRING') && file_exists (APP_ROOT.'/.svn/entries')) {
+    if (!defined('PSI_VERSION_STRING') && file_exists(APP_ROOT.'/.svn/entries')) {
         $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
@@ -45,17 +45,17 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     /* get Linux code page */
     if (PHP_OS == 'Linux') {
-        if (file_exists ('/etc/sysconfig/i18n')) {
+        if (file_exists('/etc/sysconfig/i18n')) {
             $contents = @file_get_contents('/etc/sysconfig/i18n');
-        } elseif (file_exists ('/etc/default/locale')) {
+        } elseif (file_exists('/etc/default/locale')) {
             $contents = @file_get_contents('/etc/default/locale');
-        } elseif (file_exists ('/etc/locale.conf')) {
+        } elseif (file_exists('/etc/locale.conf')) {
             $contents = @file_get_contents('/etc/locale.conf');
-        } elseif (file_exists ('/etc/sysconfig/language')) {
+        } elseif (file_exists('/etc/sysconfig/language')) {
             $contents = @file_get_contents('/etc/sysconfig/language');
         } else {
             $contents = false;
-            if (file_exists ('/system/build.prop')) { //Android
+            if (file_exists('/system/build.prop')) { //Android
                 define('PSI_OS', 'Android');
                 define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
             }
