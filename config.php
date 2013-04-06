@@ -24,7 +24,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
             $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
             if ($contents && preg_match("/^([^\s]*)/m", $contents, $revision)) {
-                define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]."-".$revision[1]);
+                define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]."-".substr($revision[1],0,7));
             } else {
                 define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]);
             }
