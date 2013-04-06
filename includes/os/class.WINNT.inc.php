@@ -411,7 +411,7 @@ class WINNT extends OS
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
                        foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                           if (($ipaddres!="0.0.0.0")&&(!preg_match('/^fe80::/i',$ipaddres)))
+                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
                                  $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
 
                        break;
@@ -500,7 +500,7 @@ class WINNT extends OS
             }
             $this->sys->setDiskDevices($dev);
         }
-        if ((!$buffer) && ($this->sys->getDistribution()=="ReactOS")) {
+        if (!$buffer && ($this->sys->getDistribution()=="ReactOS")) {
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {

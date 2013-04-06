@@ -469,7 +469,7 @@ class XML
                     }
                     // Include path check
                     $include_path = @ini_get("include_path");
-                    if (($include_path)&&($include_path!="")) {
+                    if ($include_path && ($include_path!="")) {
                         $include_path = preg_replace("/(:)|(;)/", "\n", $include_path);
                         if (preg_match("/^\.$/m", $include_path)) {
                             $include_path = ".";

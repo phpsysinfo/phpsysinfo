@@ -132,11 +132,11 @@ class ipmiinfo extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_IPMIINFO_ACCESS)) {
             case 'command':
                 $lines = "";
-                if ((CommonFunctions::executeProgram('ipmitool', 'sensor', $lines))&&(!empty($lines)))
+                if (CommonFunctions::executeProgram('ipmitool', 'sensor', $lines) && !empty($lines))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
-                if ((CommonFunctions::rfts(APP_ROOT."/data/ipmiinfo.txt", $lines))&&(!empty($lines)))
+                if (CommonFunctions::rfts(APP_ROOT."/data/ipmiinfo.txt", $lines) && !empty($lines)))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:

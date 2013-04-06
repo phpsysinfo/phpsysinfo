@@ -31,7 +31,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
     /* get svn revision */
-    if ((!defined('PSI_VERSION_STRING'))&&(file_exists (APP_ROOT.'/.svn/entries'))) {
+    if (!defined('PSI_VERSION_STRING') && file_exists (APP_ROOT.'/.svn/entries')) {
         $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
@@ -131,7 +131,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
-    if ((!is_readable(PSI_CONFIG_FILE)) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
+    if (!is_readable(PSI_CONFIG_FILE) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
         $tpl = new Template("/templates/html/error_config.html");
         echo $tpl->fetch();
         die();

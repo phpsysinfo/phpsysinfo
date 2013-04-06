@@ -302,7 +302,7 @@ abstract class BSDCommon extends OS
                        if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
                            $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                            foreach ($feats as $feat) {
-                                if (($feat=="vmx")||($feat=="svm")) {
+                                if (($feat=="vmx") || ($feat=="svm")) {
                                    $dev->setVirt($feat);
                                    break 2;
                                 }
