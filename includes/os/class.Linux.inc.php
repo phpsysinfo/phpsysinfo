@@ -663,10 +663,15 @@ class Linux extends OS
                     }
                 }
             } else {
-                if (isset($distro['Description'])) {
+                if (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
                     $this->sys->setDistribution($distro['Description']);
                 } elseif (isset($distro['Distributor ID'])) {
                     $this->sys->setDistribution($distro['Distributor ID']);
+                    if (isset($distro['Release'])) {
+                        $this->sys->setDistribution(trim($distro['Distributor ID']." ".trim($distro['Release'])));
+                    } else {
+                        $this->sys->setDistribution($distro['Distributor ID']);
+                    }
                 }
                 if (isset($distro['Distributor ID']) && isset($list[$distro['Distributor ID']]['Image'])) {
                     $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
