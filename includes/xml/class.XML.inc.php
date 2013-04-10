@@ -540,7 +540,7 @@ class XML
         $root = $dom->createElement("tns:phpsysinfo");
         $root->setAttribute('xmlns:tns', 'http://phpsysinfo.sourceforge.net/');
         $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/phpsysinfo3.xsd');
+        $root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/ phpsysinfo3.xsd');
         $dom->appendChild($root);
         $this->_xml = new SimpleXMLExtended(simplexml_import_dom($dom), $this->_sysinfo->getEncoding());
 
