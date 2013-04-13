@@ -651,7 +651,7 @@ class Linux extends OS
                 $info_tmp = preg_split('/:/', $info, 2);
                 if ( isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") &&
                      isset($distro_tmp[1]) && !is_null($distro_tmp[1]) && (trim($distro_tmp[1]) != "") ) {
-                    $distro[$info_tmp[0]] = trim($info_tmp[1]);
+                    $distro[trim($info_tmp[0])] = trim($info_tmp[1]);
                 }
             }
             if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) {
@@ -665,15 +665,16 @@ class Linux extends OS
             } else {
                 if (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
                     $this->sys->setDistribution($distro['Description']);
-                } elseif (isset($distro['Distributor ID'])) {
+                } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
                     $this->sys->setDistribution($distro['Distributor ID']);
-                    if (isset($distro['Release'])) {
-                        $this->sys->setDistribution(trim($distro['Distributor ID']." ".trim($distro['Release'])));
-                    } else {
-                        $this->sys->setDistribution($distro['Distributor ID']);
+                    if (isset($distro['Release']) && ($distro['Release'] != "n/a")) {
+                        $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                    }
+                    if (isset($distro['Codename']) && ($distro['Codename'] != "n/a")) {
+                        $this->sys->setDistribution($this->sys->getDistribution()." (".$distro['Codename'].")");
                     }
                 }
-                if (isset($distro['Distributor ID']) && isset($list[$distro['Distributor ID']]['Image'])) {
+                if (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a") && isset($list[$distro['Distributor ID']]['Image'])) {
                     $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
                 }
             }
@@ -739,8 +740,7 @@ class Linux extends OS
                     if (isset($list[trim($id_buf[1])]['Image'])) {
                         $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                     }
-                } else
-                if ( file_exists($filename="/etc/DISTRO_SPECS")
+                } elseif ( file_exists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf) ) {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -760,8 +760,7 @@ class Linux extends OS
                             $this->sys->setDistributionIcon($list['Puppy']['Image']);
                         }
                     }
-                } else
-                if (file_exists($filename="/etc/redhat-release")) {
+                } elseif (file_exists($filename="/etc/redhat-release")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
@@ -785,8 +784,7 @@ class Linux extends OS
                             }
                         }
                     }
-                } else
-                if (file_exists($filename="/etc/debian_version")) {
+                } elseif (file_exists($filename="/etc/debian_version")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
@@ -806,8 +804,18 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
-                } else
-                if (file_exists($filename="/usr/bin/crux")) {
+                } elseif (file_exists($filename="/etc/distro-release")) {
+                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                        $buf = "";
+                    }
+                    if ( !is_null($buf) && (trim($buf) != "")) {
+                        $this->sys->setDistribution(trim($buf));
+                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                            && isset($list[trim($id_buf[1])]['Image'])) {
+                                $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        }
+                   }
+                } elseif (file_exists($filename="/usr/bin/crux")) {
                     if (!CommonFunctions::executeProgram("crux", '2>/dev/null', $buf, PSI_DEBUG)) {
                         $buf = "";
                     }
@@ -827,8 +835,7 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
-                } else
-                if (file_exists($filename="/etc/system-release")) { //last chance
+                } elseif (file_exists($filename="/etc/system-release")) { //last chance
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
