@@ -58,6 +58,35 @@ if (!defined('PSI_CONFIG_FILE')) {
             if (file_exists('/system/build.prop')) { //Android
                 define('PSI_OS', 'Android');
                 define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+                if (!function_exists("proc_open")) { //proc_open function test by execyting 'pwd' command
+                    define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling
+                } else {
+                    $out = '';
+                    $err = '';
+                    $pipes = array();
+                    $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+                    $process = proc_open("pwd 2>/dev/null ", $descriptorspec, $pipes);
+                    if (!is_resource($process)) {
+                        define('PSI_MODE_POPEN', true);
+                    } else {
+                        $w = null;
+                        $e = null;
+                        $read = array($pipes[1],$pipes[2]);
+                        while (!(feof($pipes[1])&& feof($pipes[2])) && ($n = stream_select($read, $w, $e, 5)) !== false && $n > 0) {
+                            $out .= fread($pipes[1], 4096);
+                            $err .= fread($pipes[2], 4096);
+                        }
+                        if (is_null($out) || (trim($out) == "") || (substr(trim($out),0 ,1) != "/")) {
+                            define('PSI_MODE_POPEN', true);
+                        }
+                        fclose($pipes[0]);
+                        fclose($pipes[1]);
+                        fclose($pipes[2]);
+                        // It is important that you close any pipes before calling
+                        // proc_close in order to avoid a deadlock
+                        proc_close($process);
+                    }
+                }
             }
         }
         if ($contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
