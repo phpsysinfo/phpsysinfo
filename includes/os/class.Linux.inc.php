@@ -686,61 +686,63 @@ class Linux extends OS
             /* fatal errors only */
             $old_err_rep = error_reporting();
             error_reporting(E_ERROR);
-
-            // Fall back in case 'lsb_release' does not exist
-            foreach ($list as $section=>$distribution) {
-                if (!isset($distribution['Files'])) {
-                    continue;
+            
+            // Fall back in case 'lsb_release' does not exist but exist /etc/lsb-release
+            if ( file_exists($filename="/etc/lsb-release")
+               && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+               && preg_match('/^DISTRIB_ID="?([^"\n]*)"?/m', $buf, $id_buf) ) {
+                if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]*)"?/m', $buf, $desc_buf)) {
+                    $this->sys->setDistribution(trim($desc_buf[1]));
                 } else {
-                    foreach (preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
-                        if (file_exists($filename)) {
-                            if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
-                                $buf = "";
-                            }
-                            if (isset($distribution['Image'])) {
-                                $this->sys->setDistributionIcon($distribution['Image']);
-                            }
-                            if (isset($distribution['Name'])) {
-                                if (($distribution['Name'] == 'Synology') || is_null($buf) || (trim($buf) == "")) {
-                                    $this->sys->setDistribution($distribution['Name']);
-                                } else {
-                                    $this->sys->setDistribution($distribution['Name']." ".trim($buf));
+                    if (isset($list[trim($id_buf[1])]['Name'])) {
+                        $dist = trim($list[trim($id_buf[1])]['Name']);
+                    } else {
+                        $dist = trim($id_buf[1]);
+                    }
+                    if (preg_match('/^DISTRIB_RELEASE="?([^"\n]*)"?/m', $buf, $vers_buf)) {
+                        $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
+                    } else {
+                        $this->sys->setDistribution($dist);
+                    }
+                }
+                if (isset($list[trim($id_buf[1])]['Image'])) {
+                    $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                }
+            } else { // otherwise find files specific for distribution
+                foreach ($list as $section=>$distribution) {
+                    if (!isset($distribution['Files'])) {
+                        continue;
+                    } else {
+                        foreach (preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
+                            if (file_exists($filename)) {
+                                if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                                    $buf = "";
                                 }
-                            } else {
-                                if ( is_null($buf) || (trim($buf) == "") ) {
-                                    $this->sys->setDistribution($section);
-                                } else {
-                                    $this->sys->setDistribution(trim($buf));
+                                if (isset($distribution['Image'])) {
+                                    $this->sys->setDistributionIcon($distribution['Image']);
                                 }
+                                if (isset($distribution['Name'])) {
+                                    if (($distribution['Name'] == 'Synology') || is_null($buf) || (trim($buf) == "")) {
+                                        $this->sys->setDistribution($distribution['Name']);
+                                    } else {
+                                        $this->sys->($distribution['Name']." ".trim($buf));
+                                    }
+                                } else {
+                                    if ( is_null($buf) || (trim($buf) == "") ) {
+                                        $this->sys->setDistribution($section);
+                                    } else {
+                                        $this->sys->setDistribution(trim($buf));
+                                    }
+                                }
+                                break 2;
                             }
-                            break 2;
                         }
                     }
                 }
             }
-            // Otherwise, if no files found
+            // if the distribution is still unknown
             if ($this->sys->getDistribution() == "Linux") {
-                if ( file_exists($filename="/etc/lsb-release")
-                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^DISTRIB_ID="?([^"\n]*)"?/m', $buf, $id_buf) ) {
-                    if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]*)"?/m', $buf, $desc_buf)) {
-                        $this->sys->setDistribution(trim($desc_buf[1]));
-                    } else {
-                        if (isset($list[trim($id_buf[1])]['Name'])) {
-                            $dist = trim($list[trim($id_buf[1])]['Name']);
-                        } else {
-                            $dist = trim($id_buf[1]);
-                        }
-                        if (preg_match('/^DISTRIB_RELEASE="?([^"\n]*)"?/m', $buf, $vers_buf)) {
-                            $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
-                        } else {
-                            $this->sys->setDistribution($dist);
-                        }
-                    }
-                    if (isset($list[trim($id_buf[1])]['Image'])) {
-                        $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                    }
-                } elseif ( file_exists($filename="/etc/DISTRO_SPECS")
+                if ( file_exists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf) ) {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -835,7 +837,7 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
-                } elseif (file_exists($filename="/etc/system-release")) { //last chance
+                } elseif (file_exists($filename="/etc/system-release")) { // last chance
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
