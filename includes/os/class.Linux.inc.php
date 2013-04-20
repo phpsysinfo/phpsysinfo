@@ -725,7 +725,7 @@ class Linux extends OS
                                     if (($distribution['Name'] == 'Synology') || is_null($buf) || (trim($buf) == "")) {
                                         $this->sys->setDistribution($distribution['Name']);
                                     } else {
-                                        $this->sys->($distribution['Name']." ".trim($buf));
+                                        $this->sys->setDistribution($distribution['Name']." ".trim($buf));
                                     }
                                 } else {
                                     if ( is_null($buf) || (trim($buf) == "") ) {
