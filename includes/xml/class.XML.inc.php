@@ -478,6 +478,10 @@ class XML
                     if ($include_path != ".") {
                         $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
                     }
+                    // popen mode check
+                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                        $this->_errors->addError("WARN", "Installed version of PHP does not support proc_open() function, popen() is used");
+                    }
                 }
                 $this->_sys = $this->_sysinfo->getSys();
             }
