@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Error class
  *
@@ -32,21 +32,21 @@ class Error
      * @var object
      */
     private static $_instance;
-    
+
     /**
      * holds the error messages
      *
      * @var array
      */
     private $_arrErrorList = array();
-    
+
     /**
      * current number ob errors
      *
      * @var integer
      */
     private $_errors = 0;
-    
+
     /**
      * initalize some used vars
      */
@@ -55,7 +55,7 @@ class Error
         $this->_errors = 0;
         $this->_arrErrorList = array();
     }
-    
+
     /**
      * Singleton function
      *
@@ -67,9 +67,10 @@ class Error
             $c = __CLASS__;
             self::$_instance = new $c;
         }
+
         return self::$_instance;
     }
-    
+
     /**
      * triggers an error when somebody tries to clone the object
      *
@@ -79,7 +80,7 @@ class Error
     {
         trigger_error("Can't be cloned", E_USER_ERROR);
     }
-    
+
     /**
      * adds an phpsysinfo error to the internal list
      *
@@ -90,10 +91,10 @@ class Error
      */
     public function addError($strCommand, $strMessage)
     {
-		$this->_addError($strCommand, $this->_trace($strMessage));
+        $this->_addError($strCommand, $this->_trace($strMessage));
     }
-	
-	/**
+
+    /**
      * adds an error to the internal list
      *
      * @param string $strCommand Command, which cause the Error
@@ -108,7 +109,7 @@ class Error
         $this->_arrErrorList[$index]['message'] = $strMessage;
         $this->_errors++;
     }
-    
+
     /**
      * add a config error to the internal list
      *
@@ -121,8 +122,8 @@ class Error
     {
         $this->_addError($strCommand, "Wrong Value in config.php for ".$strMessage);
     }
-    
-	/**
+
+    /**
      * add a php error to the internal list
      *
      * @param object $strCommand Command, which cause the Error
@@ -134,7 +135,7 @@ class Error
     {
         $this->_addError($strCommand, "PHP throws a error\n".$strMessage);
     }
-	
+
     /**
      * adds a waraning to the internal list
      *
@@ -148,7 +149,7 @@ class Error
         $this->_arrErrorList[$index]['command'] = "WARN";
         $this->_arrErrorList[$index]['message'] = $strMessage;
     }
-    
+
     /**
      * converts the internal error and warning list to a XML file
      *
@@ -191,6 +192,7 @@ class Error
             $error = $xmlerr->addCData('Error', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
+
         return $xmlerr->getSimpleXmlElement();
     }
     /**
@@ -244,6 +246,7 @@ class Error
             }
             $strBacktrace .= "\n";
         }
+
         return $strBacktrace;
     }
     /**
@@ -258,6 +261,7 @@ class Error
         if (is_string($var)) {
             $search = array("\x00", "\x0a", "\x0d", "\x1a", "\x09");
             $replace = array('\0', '\n', '\r', '\Z', '\t');
+
             return ('"'.str_replace($search, $replace, $var).'"');
         } elseif (is_bool($var)) {
             if ($var) {
@@ -273,10 +277,10 @@ class Error
                 $strComma = ', ';
             }
             $strResult .= ' )';
+
             return ($strResult);
         }
         // anything else, just let php try to print it
         return (var_export($var, true));
     }
 }
-?>

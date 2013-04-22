@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Nut class
  *
@@ -33,7 +33,7 @@ class Nut extends UPS
      * @var array
      */
     private $_output = array();
-    
+
     /**
      * get all information from all configured ups and store output in internal array
      */
@@ -47,7 +47,7 @@ class Nut extends UPS
             $this->_output[$value] = $temp;
         }
     }
-    
+
     /**
      * check if a specific value is set in an array
      *
@@ -60,7 +60,7 @@ class Nut extends UPS
     {
         return isset($hash[$key]) ? $hash[$key] : '';
     }
-    
+
     /**
      * parse the input and store data in resultset for xml generation
      *
@@ -82,20 +82,20 @@ class Nut extends UPS
                 $dev->setModel($this->_checkIsSet($ups_data, 'ups.model'));
                 $dev->setMode($this->_checkIsSet($ups_data, 'driver.name'));
                 $dev->setStatus($this->_checkIsSet($ups_data, 'ups.status'));
-                
+
                 //Line
                 $dev->setLineVoltage($this->_checkIsSet($ups_data, 'input.voltage'));
                 $dev->setLoad($this->_checkIsSet($ups_data, 'ups.load'));
-                
+
                 //Battery
                 $dev->setBatteryVoltage($this->_checkIsSet($ups_data, 'battery.voltage'));
                 $dev->setBatterCharge($this->_checkIsSet($ups_data, 'battery.charge'));
-                
+
                 $this->upsinfo->setUpsDevices($dev);
             }
         }
     }
-    
+
     /**
      * get the information
      *
@@ -103,9 +103,8 @@ class Nut extends UPS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_info();
     }
 }
-?>

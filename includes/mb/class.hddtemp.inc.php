@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * hddtemp sensor class
  *
@@ -120,7 +120,7 @@ class HDDTemp extends Sensors
             }
         }
     }
-    
+
     /**
      * get the information
      *
@@ -133,4 +133,3 @@ class HDDTemp extends Sensors
         $this->_temperature();
     }
 }
-?>

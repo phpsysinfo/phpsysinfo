@@ -14,17 +14,17 @@
   </expression>
   <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
     <exp>Drukarka</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
     <exp>Procent</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
     <exp>Jednostek</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
     <exp>dość</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
     <exp>nieznany</exp>
-  </expression> 
+  </expression>
 </tns:translationPlugin>

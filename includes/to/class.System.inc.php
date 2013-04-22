@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * System TO class
  *
@@ -31,63 +31,63 @@ class System
      * @var String
      */
     private $_hostname = "localhost";
-    
+
     /**
      * ip of the host where phpSysInfo runs
      *
      * @var String
      */
     private $_ip = "127.0.0.1";
-    
+
     /**
      * detailed Information about the kernel
      *
      * @var String
      */
     private $_kernel = "Unknown";
-    
+
     /**
      * name of the distribution
      *
      * @var String
      */
     private $_distribution = "Unknown";
-    
+
     /**
      * icon of the distribution (must be available in phpSysInfo)
      *
      * @var String
      */
     private $_distributionIcon = "unknown.png";
-    
+
     /**
      * time in sec how long the system is running
      *
      * @var Integer
      */
     private $_uptime = 0;
-    
+
     /**
      * count of users that are currently logged in
      *
      * @var Integer
      */
     private $_users = 0;
-    
+
     /**
      * load of the system
      *
      * @var String
      */
     private $_load = "";
-    
+
     /**
      * load of the system in percent (all cpus, if more than one)
      *
      * @var Integer
      */
     private $_loadPercent = null;
-    
+
     /**
      * array with cpu devices
      *
@@ -96,7 +96,7 @@ class System
      * @var Array
      */
     private $_cpus = array();
-    
+
     /**
      * array with network devices
      *
@@ -105,7 +105,7 @@ class System
      * @var Array
      */
     private $_netDevices = array();
-    
+
     /**
      * array with scsi devices
      *
@@ -114,7 +114,7 @@ class System
      * @var Array
      */
     private $_scsiDevices = array();
-    
+
     /**
      * array with pci devices
      *
@@ -123,7 +123,7 @@ class System
      * @var Array
      */
     private $_pciDevices = array();
-    
+
     /**
      * array with usb devices
      *
@@ -132,7 +132,7 @@ class System
      * @var Array
      */
     private $_usbDevices = array();
-    
+
     /**
      * array with ide devices
      *
@@ -141,7 +141,7 @@ class System
      * @var Array
      */
     private $_ideDevices = array();
-    
+
     /**
      * array with disk devices
      *
@@ -150,49 +150,49 @@ class System
      * @var Array
      */
     private $_diskDevices = array();
-    
+
     /**
      * free memory in bytes
      *
      * @var Integer
      */
     private $_memFree = 0;
-    
+
     /**
      * total memory in bytes
      *
      * @var Integer
      */
     private $_memTotal = 0;
-    
+
     /**
      * used memory in bytes
      *
      * @var Integer
      */
     private $_memUsed = 0;
-    
+
     /**
      * used memory by applications in bytes
      *
      * @var Integer
      */
     private $_memApplication = null;
-    
+
     /**
      * used memory for buffers in bytes
      *
      * @var Integer
      */
     private $_memBuffer = null;
-    
+
     /**
      * used memory for cache in bytes
      *
      * @var Integer
      */
     private $_memCache = null;
-    
+
     /**
      * array with swap devices
      *
@@ -201,7 +201,7 @@ class System
      * @var Array
      */
     private $_swapDevices = array();
-    
+
     /**
      * remove duplicate Entries and Count
      *
@@ -231,9 +231,10 @@ class System
                 }
             }
         }
+
         return $result;
     }
-    
+
     /**
      * return percent of used memory
      *
@@ -250,7 +251,7 @@ class System
             return 0;
         }
     }
-    
+
     /**
      * return percent of used memory for applications
      *
@@ -271,7 +272,7 @@ class System
             return null;
         }
     }
-    
+
     /**
      * return percent of used memory for cache
      *
@@ -292,7 +293,7 @@ class System
             return null;
         }
     }
-    
+
     /**
      * return percent of used memory for buffer
      *
@@ -313,7 +314,7 @@ class System
             return null;
         }
     }
-    
+
     /**
      * Returns total free swap space
      *
@@ -329,11 +330,13 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $free += $dev->getFree();
             }
+
             return $free;
         }
+
         return null;
     }
-    
+
     /**
      * Returns total swap space
      *
@@ -349,12 +352,13 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $total += $dev->getTotal();
             }
+
             return $total;
         } else {
             return null;
         }
     }
-    
+
     /**
      * Returns total used swap space
      *
@@ -370,12 +374,13 @@ class System
             foreach ($this->_swapDevices as $dev) {
                 $used += $dev->getUsed();
             }
+
             return $used;
         } else {
             return null;
         }
     }
-    
+
     /**
      * return percent of total swap space used
      *
@@ -396,7 +401,7 @@ class System
             return null;
         }
     }
-    
+
     /**
      * Returns $_distribution.
      *
@@ -408,7 +413,7 @@ class System
     {
         return $this->_distribution;
     }
-    
+
     /**
      * Sets $_distribution.
      *
@@ -422,7 +427,7 @@ class System
     {
         $this->_distribution = $distribution;
     }
-    
+
     /**
      * Returns $_distributionIcon.
      *
@@ -434,7 +439,7 @@ class System
     {
         return $this->_distributionIcon;
     }
-    
+
     /**
      * Sets $_distributionIcon.
      *
@@ -448,7 +453,7 @@ class System
     {
         $this->_distributionIcon = $distributionIcon;
     }
-    
+
     /**
      * Returns $_hostname.
      *
@@ -460,7 +465,7 @@ class System
     {
         return $this->_hostname;
     }
-    
+
     /**
      * Sets $_hostname.
      *
@@ -474,7 +479,7 @@ class System
     {
         $this->_hostname = $hostname;
     }
-    
+
     /**
      * Returns $_ip.
      *
@@ -486,7 +491,7 @@ class System
     {
         return $this->_ip;
     }
-    
+
     /**
      * Sets $_ip.
      *
@@ -500,7 +505,7 @@ class System
     {
         $this->_ip = $ip;
     }
-    
+
     /**
      * Returns $_kernel.
      *
@@ -512,7 +517,7 @@ class System
     {
         return $this->_kernel;
     }
-    
+
     /**
      * Sets $_kernel.
      *
@@ -526,7 +531,7 @@ class System
     {
         $this->_kernel = $kernel;
     }
-    
+
     /**
      * Returns $_load.
      *
@@ -538,7 +543,7 @@ class System
     {
         return $this->_load;
     }
-    
+
     /**
      * Sets $_load.
      *
@@ -552,7 +557,7 @@ class System
     {
         $this->_load = $load;
     }
-    
+
     /**
      * Returns $_loadPercent.
      *
@@ -564,7 +569,7 @@ class System
     {
         return $this->_loadPercent;
     }
-    
+
     /**
      * Sets $_loadPercent.
      *
@@ -578,7 +583,7 @@ class System
     {
         $this->_loadPercent = $loadPercent;
     }
-    
+
     /**
      * Returns $_uptime.
      *
@@ -590,7 +595,7 @@ class System
     {
         return $this->_uptime;
     }
-    
+
     /**
      * Sets $_uptime.
      *
@@ -604,7 +609,7 @@ class System
     {
         $this->_uptime = $uptime;
     }
-    
+
     /**
      * Returns $_users.
      *
@@ -616,7 +621,7 @@ class System
     {
         return $this->_users;
     }
-    
+
     /**
      * Sets $_users.
      *
@@ -630,7 +635,7 @@ class System
     {
         $this->_users = $users;
     }
-    
+
     /**
      * Returns $_cpus.
      *
@@ -642,7 +647,7 @@ class System
     {
         return $this->_cpus;
     }
-    
+
     /**
      * Sets $_cpus.
      *
@@ -658,7 +663,6 @@ class System
         array_push($this->_cpus, $cpus);
     }
 
-    
     /**
      * Returns $_pciDevices.
      *
@@ -670,7 +674,7 @@ class System
     {
         return $this->_pciDevices;
     }
-    
+
     /**
      * Sets $_pciDevices.
      *
@@ -686,7 +690,6 @@ class System
         array_push($this->_pciDevices, $pciDevices);
     }
 
-    
     /**
      * Returns $_netDevices.
      *
@@ -698,7 +701,7 @@ class System
     {
         return $this->_netDevices;
     }
-    
+
     /**
      * Sets $_netDevices.
      *
@@ -714,7 +717,6 @@ class System
         array_push($this->_netDevices, $netDevices);
     }
 
-    
     /**
      * Returns $_ideDevices.
      *
@@ -726,7 +728,7 @@ class System
     {
         return $this->_ideDevices;
     }
-    
+
     /**
      * Sets $_ideDevices.
      *
@@ -741,7 +743,7 @@ class System
     {
         array_push($this->_ideDevices, $ideDevices);
     }
-    
+
     /**
      * Returns $_scsiDevices.
      *
@@ -753,7 +755,7 @@ class System
     {
         return $this->_scsiDevices;
     }
-    
+
     /**
      * Sets $_scsiDevices.
      *
@@ -768,7 +770,7 @@ class System
     {
         array_push($this->_scsiDevices, $scsiDevices);
     }
-    
+
     /**
      * Returns $_usbDevices.
      *
@@ -780,7 +782,7 @@ class System
     {
         return $this->_usbDevices;
     }
-    
+
     /**
      * Sets $_usbDevices.
      *
@@ -796,7 +798,6 @@ class System
         array_push($this->_usbDevices, $usbDevices);
     }
 
-    
     /**
      * Returns $_diskDevices.
      *
@@ -808,7 +809,7 @@ class System
     {
         return $this->_diskDevices;
     }
-    
+
     /**
      * Sets $_diskDevices.
      *
@@ -824,7 +825,6 @@ class System
         array_push($this->_diskDevices, $diskDevices);
     }
 
-    
     /**
      * Returns $_memApplication.
      *
@@ -836,7 +836,7 @@ class System
     {
         return $this->_memApplication;
     }
-    
+
     /**
      * Sets $_memApplication.
      *
@@ -850,7 +850,7 @@ class System
     {
         $this->_memApplication = $memApplication;
     }
-    
+
     /**
      * Returns $_memBuffer.
      *
@@ -862,7 +862,7 @@ class System
     {
         return $this->_memBuffer;
     }
-    
+
     /**
      * Sets $_memBuffer.
      *
@@ -876,7 +876,7 @@ class System
     {
         $this->_memBuffer = $memBuffer;
     }
-    
+
     /**
      * Returns $_memCache.
      *
@@ -888,7 +888,7 @@ class System
     {
         return $this->_memCache;
     }
-    
+
     /**
      * Sets $_memCache.
      *
@@ -902,7 +902,7 @@ class System
     {
         $this->_memCache = $memCache;
     }
-    
+
     /**
      * Returns $_memFree.
      *
@@ -914,7 +914,7 @@ class System
     {
         return $this->_memFree;
     }
-    
+
     /**
      * Sets $_memFree.
      *
@@ -928,7 +928,7 @@ class System
     {
         $this->_memFree = $memFree;
     }
-    
+
     /**
      * Returns $_memTotal.
      *
@@ -940,7 +940,7 @@ class System
     {
         return $this->_memTotal;
     }
-    
+
     /**
      * Sets $_memTotal.
      *
@@ -954,7 +954,7 @@ class System
     {
         $this->_memTotal = $memTotal;
     }
-    
+
     /**
      * Returns $_memUsed.
      *
@@ -966,7 +966,7 @@ class System
     {
         return $this->_memUsed;
     }
-    
+
     /**
      * Sets $_memUsed.
      *
@@ -980,7 +980,7 @@ class System
     {
         $this->_memUsed = $memUsed;
     }
-    
+
     /**
      * Returns $_swapDevices.
      *
@@ -992,7 +992,7 @@ class System
     {
         return $this->_swapDevices;
     }
-    
+
     /**
      * Sets $_swapDevices.
      *
@@ -1008,4 +1008,3 @@ class System
         array_push($this->_swapDevices, $swapDevices);
     }
 }
-?>

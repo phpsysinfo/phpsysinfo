@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * WINNT System Class
  *
@@ -33,28 +33,28 @@ class WINNT extends OS
      * @var Object
      */
     private $_wmi = null;
-    
+
     /**
      * holds all devices, which are in the system
      *
      * @var array
      */
     private $_wmidevices;
-    
+
     /**
      * store language encoding of the system to convert some output to utf-8
      *
      * @var string
      */
     private $_codepage = null;
-    
+
     /**
      * store language of the system
      *
      * @var string
      */
     private $_syslang = null;
-    
+
     /**
      * build the global Error object and create the WMI connection
      */
@@ -64,7 +64,7 @@ class WINNT extends OS
         // don't set this params for local connection, it will not work
         $strHostname = '';
         $strUser = '';
-        $strPassword = '';       
+        $strPassword = '';
         try {
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
@@ -74,13 +74,12 @@ class WINNT extends OS
             } else {
                 $this->_wmi = $objLocator->ConnectServer($strHostname, 'rootcimv2', $strHostname.'\\'.$strUser, $strPassword);
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }
         $this->_getCodeSet();
     }
-    
+
     /**
      * store the codepage of the os for converting some strings to utf-8
      *
@@ -92,18 +91,18 @@ class WINNT extends OS
         if ($buffer) {
             $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
             $lang = "";
-            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))){
+            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
                 if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
                     $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
                 }
             }
-            if ($lang == ""){
+            if ($lang == "") {
                 $lang = 'Unknown';
             }
             $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
         }
     }
-    
+
     /**
      * function for getting a list of values in the specified context
      * optionally filter this list, based on the list from second parameter
@@ -141,16 +140,16 @@ class WINNT extends OS
                     }
                     $arrData[] = $arrInstance;
                 }
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 if (PSI_DEBUG) {
                     $this->error->addError($e->getCode(), $e->getMessage());
                 }
             }
         }
+
         return $arrData;
     }
-    
+
     /**
      * retrieve different device types from the system based on selector
      *
@@ -169,9 +168,10 @@ class WINNT extends OS
                 $list[] = $device['Name'];
             }
         }
+
         return $list;
     }
-    
+
     /**
      * Host Name
      *
@@ -194,7 +194,7 @@ class WINNT extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Canonical Host Name
      *
@@ -203,7 +203,7 @@ class WINNT extends OS
     private function _ip()
     {
         if (PSI_USE_VHOST === true) {
-            if ( (($hnm=$this->sys->getHostname()) != 'localhost') && 
+            if ( (($hnm=$this->sys->getHostname()) != 'localhost') &&
                  (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
         } else {
             $buffer = $this->_getWMI('Win32_ComputerSystem', array('Name'));
@@ -211,12 +211,12 @@ class WINNT extends OS
                 $result = $buffer[0]['Name'];
                 $this->sys->setIp(gethostbyname($result));
             } else {
-            if ( (($hnm=$this->sys->getHostname()) != 'localhost') && 
+            if ( (($hnm=$this->sys->getHostname()) != 'localhost') &&
                  (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
             }
         }
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -245,9 +245,9 @@ class WINNT extends OS
             $localtime = mktime($lhour, $lminute, $lseconds, $lmonth, $lday, $lyear);
             $result = $localtime - $boottime;
             $this->sys->setUptime($result);
-        }   
+        }
     }
-    
+
     /**
      * Number of Users
      *
@@ -264,7 +264,7 @@ class WINNT extends OS
         }
         $this->sys->setUsers($users);
     }
-    
+
     /**
      * Distribution
      *
@@ -285,17 +285,17 @@ class WINNT extends OS
                 $icon = 'Win2000.png';
             elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif (substr($kernel,0,4) == "6.2.") 
+            elseif (substr($kernel,0,4) == "6.2.")
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
-        } else if (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
-                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)){
+        } elseif (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
+                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
-                } else if (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)){ 
+                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution($ar_temp[1]);
                     $this->sys->setKernel($ar_temp[2]);
                     $this->sys->setDistributionIcon('Win2000.png');
@@ -308,7 +308,7 @@ class WINNT extends OS
             $this->sys->setDistributionIcon('Win2000.png');
        }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -330,7 +330,7 @@ class WINNT extends OS
             $this->sys->setLoadPercent($sum / count($buffer));
         }
     }
-    
+
     /**
      * CPU information
      *
@@ -354,7 +354,7 @@ class WINNT extends OS
             }
         }
     }
-    
+
     /**
      * Hardwaredevices
      *
@@ -367,26 +367,26 @@ class WINNT extends OS
             $dev->setName($pciDev);
             $this->sys->setPciDevices($dev);
         }
-        
+
         foreach ($this->_devicelist('IDE') as $ideDev) {
             $dev = new HWDevice();
             $dev->setName($ideDev);
             $this->sys->setIdeDevices($dev);
         }
-        
+
         foreach ($this->_devicelist('SCSI') as $scsiDev) {
             $dev = new HWDevice();
             $dev->setName($scsiDev);
             $this->sys->setScsiDevices($dev);
         }
-        
+
         foreach ($this->_devicelist('USB') as $usbDev) {
             $dev = new HWDevice();
             $dev->setName($usbDev);
             $this->sys->setUsbDevices($dev);
         }
     }
-    
+
     /**
      * Network devices
      *
@@ -397,21 +397,21 @@ class WINNT extends OS
         $allDevices = $this->_getWMI('Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS)
            $allNetworkAdapterConfigurations = $this->_getWMI('Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress'));
-    
+
         foreach ($allDevices as $device) {
            $dev = new NetDevice();
            $name=$device['Name'];
-           
+
            $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
-           if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name)) 
+           if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
                 $name=substr($name,0,strlen($name)-strlen($ar_name[0]));
            $dev->setName($name);
-           
+
            if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
                        foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                           if (($ipaddres!="0.0.0.0")&&(!preg_match('/^fe80::/i',$ipaddres)))
+                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
                                  $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
 
                        break;
@@ -445,7 +445,7 @@ class WINNT extends OS
             $this->sys->setNetDevices($dev);
         }
     }
-    
+
     /**
      * Physical memory information and Swap Space information
      *
@@ -473,7 +473,7 @@ class WINNT extends OS
             $this->sys->setSwapDevices($dev);
         }
     }
-    
+
     /**
      * filesystem information
      *
@@ -500,15 +500,15 @@ class WINNT extends OS
             }
             $this->sys->setDiskDevices($dev);
         }
-        if ((!$buffer) && ($this->sys->getDistribution()=="ReactOS")){
+        if (!$buffer && ($this->sys->getDistribution()=="ReactOS")) {
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
-                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)){
+                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {
                    if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/',$out_value, $out_dig )) {
                        $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
                        $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
                        $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
-                       if ($used + $free == $size ) {
+                       if ($used + $free == $size) {
                            $dev = new DiskDevice();
                            $dev->setMountPoint($letter.":");
                            $dev->setFsType('Unknown');
@@ -516,13 +516,13 @@ class WINNT extends OS
                            $dev->setFree($free);
                            $dev->setUsed($used);
                            $this->sys->setDiskDevices($dev);
-                       }                      
+                       }
                    }
                 }
             }
         }
     }
-    
+
     /**
      * get os specific encoding
      *
@@ -530,11 +530,11 @@ class WINNT extends OS
      *
      * @return string
      */
-    function getEncoding()
+    public function getEncoding()
     {
         return $this->_codepage;
     }
-    
+
     /**
      * get os specific language
      *
@@ -542,11 +542,11 @@ class WINNT extends OS
      *
      * @return string
      */
-    function getLanguage()
+    public function getLanguage()
     {
         return $this->_syslang;
     }
-    
+
     /**
      * get the information
      *
@@ -554,7 +554,7 @@ class WINNT extends OS
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         $this->_hostname();
         $this->_ip();
@@ -569,4 +569,3 @@ class WINNT extends OS
         $this->_loadavg();
     }
 }
-?>

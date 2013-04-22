@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * DragonFly System Class
  *
@@ -38,7 +38,7 @@ class DragonFly extends BSDCommon
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) (pci|legacypci)[0-9]$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [0-9\.]+$/");
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -51,7 +51,7 @@ class DragonFly extends BSDCommon
         preg_match("/sec = ([0-9]+)/", $a, $buf);
         $this->sys->setUptime(time() - $buf[1]);
     }
-    
+
     /**
      * get network information
      *
@@ -77,7 +77,7 @@ class DragonFly extends BSDCommon
             }
         }
     }
-    
+
     /**
      * get the ide information
      *
@@ -96,7 +96,7 @@ class DragonFly extends BSDCommon
             }
         }
     }
-    
+
     /**
      * get icon name
      *
@@ -106,7 +106,7 @@ class DragonFly extends BSDCommon
     {
         $this->sys->setDistributionIcon('DragonFly.png');
     }
-    
+
     /**
      * get the information
      *
@@ -114,7 +114,7 @@ class DragonFly extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -122,4 +122,3 @@ class DragonFly extends BSDCommon
         $this->_uptime();
     }
 }
-?>

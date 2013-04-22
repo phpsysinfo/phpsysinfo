@@ -1,23 +1,10 @@
-<?php 
-/**
- * BAT Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_BAT
- * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
+<?php
  /**
  * BAT Plugin, which displays battery state
  *
  * @category  PHP
  * @package   PSI_Plugin_BAT
- * @author    Erkan VALENTIN <jacky672@users.sourceforge.net>
+ * @author    Erkan V
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @version   $Id: class.bat.inc.php 661 2012-08-27 11:26:39Z namiltd $
@@ -30,13 +17,13 @@ class BAT extends PSI_Plugin
      * @var array
      */
     private $_filecontent = array();
-    
+
     /**
      * variable, which holds the result before the xml is generated out of this array
      * @var array
      */
     private $_result = array();
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *
@@ -61,7 +48,7 @@ class BAT extends PSI_Plugin
         $this->_filecontent['info'] = preg_split("/\n/", $buffer_info, -1, PREG_SPLIT_NO_EMPTY);
         $this->_filecontent['state'] = preg_split("/\n/", $buffer_state, -1, PREG_SPLIT_NO_EMPTY);
     }
-    
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array
@@ -94,7 +81,7 @@ class BAT extends PSI_Plugin
         }
         $this->_result[0] = $bat;
     }
-    
+
     /**
      * generates the XML content for the plugin
      *
@@ -110,7 +97,7 @@ class BAT extends PSI_Plugin
             $xmlbat->addAttribute("PresentVoltage", $bat_item['present_voltage']);
             $xmlbat->addAttribute("ChargingState", $bat_item['charging_state']);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
-?>

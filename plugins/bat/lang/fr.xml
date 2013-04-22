@@ -14,23 +14,23 @@
   </expression>
   <expression id="plugin_bat_003" name="bat_design_capacity">
     <exp>Capacité d'origine</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_004" name="bat_remaining_capacity">
     <exp>Capacité restante</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_005" name="bat_design_voltage">
     <exp>Tension d'origine</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_bat_006" name="bat_present_voltage">
     <exp>Tension actuelle</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_item">
     <exp>Elements</exp>
-  </expression>   
+  </expression>
   <expression id="plugin_bat_008" name="bat_value">
     <exp>Valeurs</exp>
   </expression>
   <expression id="plugin_bat_009" name="bat_charging_state">
     <exp>Etat</exp>
-  </expression>   
+  </expression>
 </tns:translationPlugin>

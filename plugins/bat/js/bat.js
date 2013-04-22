@@ -33,7 +33,7 @@ var bat_show = false, bat_table;
 function bat_populate(xml) {
 
     bat_table.fnClearTable();
-    
+
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
         var DesignCapacity = "", DesignVoltage = "", RemainingCapacity = "", PresentVoltage = "", ChargingState = "";
         DesignCapacity = $(this).attr("DesignCapacity");
@@ -41,13 +41,13 @@ function bat_populate(xml) {
         RemainingCapacity = $(this).attr("RemainingCapacity");
         PresentVoltage = $(this).attr("PresentVoltage");
         ChargingState = $(this).attr("ChargingState");
-        
+
         bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity, '&nbsp;']);
         bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
         bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);
         bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage, '&nbsp;']);
         bat_table.fnAddData([genlang(6, true, "BAT"), PresentVoltage, '&nbsp;']);
-        
+
         bat_show = true;
     });
 }
@@ -57,7 +57,7 @@ function bat_populate(xml) {
  */
 function bat_buildTable() {
     var html = "";
-    
+
     html += "<table id=\"Plugin_BATTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
@@ -69,9 +69,9 @@ function bat_buildTable() {
     html += "  <tbody>\n";
     html += "  </tbody>\n";
     html += "</table>\n";
-    
+
     $("#Plugin_BAT").append(html);
-    
+
 }
 
 /**
@@ -98,9 +98,9 @@ function bat_request() {
 $(document).ready(function bat_buildpage() {
     $("#footer").before(buildBlock("BAT", 1, true));
     $("#Plugin_BAT").css("width", "451px");
-    
+
     bat_buildTable();
-    
+
     bat_table = $("#Plugin_BATTable").dataTable({
         "bPaginate": false,
         "bLengthChange": false,
@@ -118,9 +118,9 @@ $(document).ready(function bat_buildpage() {
             "sType": 'span-string'
         }]
     });
-    
+
     bat_request();
-    
+
     $("#Reload_BATTable").click(function bat_reload(id) {
         bat_request();
         $("#Reload_BATTable").attr("title",datetime());

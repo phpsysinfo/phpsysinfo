@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic Sensor Functions
  *
@@ -32,13 +32,12 @@ interface PSI_Interface_Sensor
      *
      * @return void
      */
-    function build();
-    
+    public function build();
+
     /**
      * get the filled or unfilled (with default values) MBInfo object
      *
      * @return MBInfo
      */
-    function getMBInfo();
+    public function getMBInfo();
 }
-?>

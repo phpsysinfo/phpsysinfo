@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * FreeBSD System Class
  *
@@ -39,7 +39,7 @@ class FreeBSD extends BSDCommon
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [.0-9]+ irq/");
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -52,7 +52,7 @@ class FreeBSD extends BSDCommon
         $a = preg_replace('/,/', '', $s[3]);
         $this->sys->setUptime(time() - $a);
     }
-    
+
     /**
      * get network information
      *
@@ -75,7 +75,7 @@ class FreeBSD extends BSDCommon
                             if (isset($ar_buf[11])) { /* Idrop column exist*/
                               $dev->setTxBytes($ar_buf[9]);
                               $dev->setRxBytes($ar_buf[6]);
-                              $dev->setErrors($ar_buf[4] + $ar_buf[8]); 
+                              $dev->setErrors($ar_buf[4] + $ar_buf[8]);
                               $dev->setDrops($ar_buf[11] + $ar_buf[5]);
                             } else {
                               $dev->setTxBytes($ar_buf[8]);
@@ -99,14 +99,12 @@ class FreeBSD extends BSDCommon
                                 $dev->setInfo(preg_replace('/:/', '-', $ar_buf[3]));
                             }
                          }
-                    }
-                    else if (!is_null($dev)) {
+                    } elseif (!is_null($dev)) {
                         if ($dev->getName() == $ar_buf[0]) { /* other infos */
                             if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (!preg_match('/^fe80::/i',$ar_buf[3]))) {
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf[3]);
                             }
-                        }
-                        else { /* something wrong */
+                        } else { /* something wrong */
                              $this->sys->setNetDevices($dev);
                              $dev = NULL;
                         }
@@ -118,7 +116,7 @@ class FreeBSD extends BSDCommon
 
         }
     }
-    
+
     /**
      * get icon name
      *
@@ -128,7 +126,7 @@ class FreeBSD extends BSDCommon
     {
         $this->sys->setDistributionIcon('FreeBSD.png');
     }
-    
+
     /**
      * extend the memory information with additional values
      *
@@ -142,7 +140,6 @@ class FreeBSD extends BSDCommon
         $this->sys->setMemBuffer($this->sys->getMemUsed() - $this->sys->getMemApplication() - $this->sys->getMemCache());
     }
 
-    
     /**
      * get the information
      *
@@ -150,7 +147,7 @@ class FreeBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_memoryadditional();
@@ -159,4 +156,3 @@ class FreeBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

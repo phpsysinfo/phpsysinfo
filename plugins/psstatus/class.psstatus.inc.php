@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * PSStatus Plugin
  *
@@ -36,13 +36,13 @@ class PSStatus extends PSI_Plugin
      * @var array
      */
     private $_filecontent = array();
-    
+
     /**
      * variable, which holds the result before the xml is generated out of this array
      * @var array
      */
     private $_result = array();
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *
@@ -61,8 +61,7 @@ class PSStatus extends PSI_Plugin
                     foreach ($process_wmi as $process) {
                         $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
                     }
-                }
-                catch(Exception $e) {
+                } catch (Exception $e) {
                 }
             } else {
                 if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
@@ -95,7 +94,7 @@ class PSStatus extends PSI_Plugin
             break;
         }
     }
-    
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array<br>the array is build like a tree,
@@ -123,7 +122,7 @@ class PSStatus extends PSI_Plugin
             }
         }
     }
-    
+
     /**
      * generates the XML content for the plugin
      *
@@ -136,9 +135,10 @@ class PSStatus extends PSI_Plugin
             $xmlps->addAttribute("Name", $ps[0]);
             $xmlps->addAttribute("Status", $ps[1] ? 1 : 0);
         }
+
         return $this->xml->getSimpleXmlElement();
     }
-    
+
     /**
      * checks an array recursive if an value is in, extended version of in_array()
      *
@@ -154,7 +154,7 @@ class PSStatus extends PSI_Plugin
                 return true;
             }
         }
+
         return false;
     }
 }
-?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic Output Functions
  *
@@ -31,6 +31,5 @@ interface PSI_Interface_Output
      *
      * @return void
      */
-    function run();
+    public function run();
 }
-?>

@@ -14,17 +14,17 @@
   </expression>
   <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
     <exp>Tiskárna</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
     <exp>Procenta</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
     <exp>Jednotky</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
     <exp>dostatek</exp>
-  </expression> 
+  </expression>
   <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
     <exp>neznámé</exp>
-  </expression> 
+  </expression>
 </tns:translationPlugin>

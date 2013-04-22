@@ -2,5 +2,5 @@ FILE        CONTENT OF
 cpuinfo     cat /proc/cpuinfo
 df          df -P
 mount       mount
-dev         cat /proc/net/dev 
+dev         cat /proc/net/dev
 swaps       cat /proc/swaps

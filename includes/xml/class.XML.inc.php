@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * XML Generation class
  *
@@ -31,54 +31,54 @@ class XML
      * @var PSI_Interface_OS
      */
     private $_sysinfo;
-    
+
     /**
      * @var System
      */
     private $_sys = null;
-    
+
     /**
      * xml object with the xml content
      *
      * @var SimpleXMLExtended
      */
     private $_xml;
-    
+
     /**
      * object for error handling
      *
      * @var Error
      */
     private $_errors;
-    
+
     /**
      * array with all enabled plugins (name)
      *
      * @var array
      */
     private $_plugins;
-    
+
     /**
      * plugin name if pluginrequest
      *
      * @var string
      */
     private $_plugin = '';
-    
+
     /**
      * generate a xml for a plugin or for the main app
      *
      * @var boolean
      */
     private $_plugin_request = false;
-    
+
     /**
      * generate the entire xml with all plugins or only a part of the xml (main or plugin)
      *
      * @var boolean
      */
     private $_complete_request = false;
-    
+
     /**
      * doing some initial tasks
      * - generate the xml structure with the right header elements
@@ -110,7 +110,7 @@ class XML
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
-    
+
     /**
      * generate common information
      *
@@ -137,7 +137,7 @@ class XML
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
     }
-    
+
     /**
      * generate the network information
      *
@@ -163,12 +163,12 @@ class XML
                 $device->addAttribute('TxBytes', $dev->getTxBytes());
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() ) 
+                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() )
                     $device->addAttribute('Info', $dev->getInfo());
             }
         }
     }
-    
+
     /**
      * generate the hardware information
      *
@@ -236,7 +236,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the memory information
      *
@@ -275,7 +275,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * fill a xml element with atrributes from a disk device
      *
@@ -290,7 +290,7 @@ class XML
         $mount->addAttribute('MountPointID', $i);
         $mount->addAttribute('FSType', $dev->getFsType());
         $mount->addAttribute('Name', $dev->getName());
-        $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));    
+        $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
         $mount->addAttribute('Percent', $dev->getPercentUsed());
@@ -306,7 +306,7 @@ class XML
             $mount->addAttribute('MountPoint', $dev->getMountPoint());
         }
     }
-    
+
     /**
      * generate the filesysteminformation
      *
@@ -345,7 +345,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the motherboard information
      *
@@ -398,7 +398,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the ups information
      *
@@ -451,7 +451,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * generate the xml document
      *
@@ -461,7 +461,7 @@ class XML
     {
         if (!$this->_plugin_request || $this->_complete_request) {
             if ($this->_sys === null) {
-                if (PSI_DEBUG === true){
+                if (PSI_DEBUG === true) {
                     // Safe mode check
                     $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
                     if ($safe_mode) {
@@ -469,14 +469,18 @@ class XML
                     }
                     // Include path check
                     $include_path = @ini_get("include_path");
-                    if (($include_path)&&($include_path!="")) {
+                    if ($include_path && ($include_path!="")) {
                         $include_path = preg_replace("/(:)|(;)/", "\n", $include_path);
                         if (preg_match("/^\.$/m", $include_path)) {
                             $include_path = ".";
                         }
                     }
-                    if ($include_path != "." ) {
+                    if ($include_path != ".") {
                         $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
+                    }
+                    // popen mode check
+                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                        $this->_errors->addError("WARN", "Installed version of PHP does not support proc_open() function, popen() is used");
                     }
                 }
                 $this->_sys = $this->_sysinfo->getSys();
@@ -492,7 +496,7 @@ class XML
         $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
-    
+
     /**
      * get the xml object
      *
@@ -501,9 +505,10 @@ class XML
     public function getXml()
     {
         $this->_buildXml();
+
         return $this->_xml->getSimpleXmlElement();
     }
-    
+
     /**
      * include xml-trees of the plugins to the main xml
      *
@@ -527,7 +532,7 @@ class XML
             }
         }
     }
-    
+
     /**
      * build the xml structure where the content can be inserted
      *
@@ -539,10 +544,10 @@ class XML
         $root = $dom->createElement("tns:phpsysinfo");
         $root->setAttribute('xmlns:tns', 'http://phpsysinfo.sourceforge.net/');
         $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/phpsysinfo3.xsd');
+        $root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/ phpsysinfo3.xsd');
         $dom->appendChild($root);
         $this->_xml = new SimpleXMLExtended(simplexml_import_dom($dom), $this->_sysinfo->getEncoding());
-        
+
         $generation = $this->_xml->addChild('Generation');
         $generation->addAttribute('version', PSI_VERSION_STRING);
         $generation->addAttribute('timestamp', time());
@@ -550,9 +555,9 @@ class XML
         $options->addAttribute('tempFormat', defined('PSI_TEMP_FORMAT') ? strtolower(PSI_TEMP_FORMAT) : 'c');
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
         if ( defined('PSI_REFRESH') ) {
-            if ( PSI_REFRESH === false) {
+            if (PSI_REFRESH === false) {
                 $options->addAttribute('refresh', 0);
-            } else if ( PSI_REFRESH === true) {
+            } elseif (PSI_REFRESH === true) {
                 $options->addAttribute('refresh', 1);
             } else {
                 $options->addAttribute('refresh', PSI_REFRESH);
@@ -572,4 +577,3 @@ class XML
         }
     }
 }
-?>

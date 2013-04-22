@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * OpenBSD System Class
  *
@@ -39,7 +39,7 @@ class OpenBSD extends BSDCommon
         $this->setPCIRegExp1("/(.*) at pci[0-9] .* \"(.*)\"/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -51,7 +51,7 @@ class OpenBSD extends BSDCommon
         $a = $this->grabkey('kern.boottime');
         $this->sys->setUptime(time() - $a);
     }
-    
+
     /**
      * get network information
      *
@@ -78,7 +78,6 @@ class OpenBSD extends BSDCommon
         }
     }
 
-    
     /**
      * IDE information
      *
@@ -100,7 +99,7 @@ class OpenBSD extends BSDCommon
             }
         }
     }
-    
+
     /**
      * get CPU information
      *
@@ -118,7 +117,7 @@ class OpenBSD extends BSDCommon
             $this->sys->setCpus($dev);
         }
     }
-    
+
     /**
      * get icon name
      *
@@ -128,7 +127,7 @@ class OpenBSD extends BSDCommon
     {
         $this->sys->setDistributionIcon('OpenBSD.png');
     }
-    
+
     /**
      * get the information
      *
@@ -136,7 +135,7 @@ class OpenBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -144,4 +143,3 @@ class OpenBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

@@ -4,7 +4,7 @@ phpSysInfo
 * Copyright (c), 1999-2008, Uriah Welcome (precision@users.sf.net)
 * Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
 * Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
-* Copyright (c), 2007-2013, Erkan Valentin (jacky672@users.sf.net)
+* Copyright (c), 2007-2013, Erkan Valentin
 * Copyright (c), 2009-2013, Mieczyslaw Nalewaj (namiltd@users.sf.net)
 * Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
 
@@ -65,7 +65,7 @@ PLATFORM SPECIFIC ISSUES
 	  an authentication mechanism for the directory in the IIS admin
 	  interface for the directory where phpSysInfo is installed. Then you
 	  will be asked for an user and a password when opening the page. At this
-	  point it is necassary to log in with an user that will be able to 
+	  point it is necassary to log in with an user that will be able to
 	  connect to the WMI interface. If you use the wrong user and/or password
 	  you might get an "ACCESS DENIED ERROR".
 
@@ -82,12 +82,12 @@ WHAT TO DO IF IT DOESN'T WORK
 	First make sure you've read this file completely, especially the
 	"INSTALLATION AND CONFIGURATION" section.  If it still doesn't work then
 	you can:
-	
+
 	Submit a bug on SourceForge. (preferred)
 		(http://sourceforge.net/projects/phpsysinfo/)
 	Ask for help in the forum
 		(http://sourceforge.net/projects/phpsysinfo/)
-	
+
 	!! If you have any problems, please set PSI_DEBUG to true in config.php
 	   and include any error messages in your bug report / help request !!!
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * parser Class
  *
@@ -47,9 +47,10 @@ class Parser
                 $arrResults[] = $dev;
             }
         }
+
         return $arrResults;
     }
-    
+
     /**
      * parsing the output of pciconf command
      *
@@ -78,9 +79,10 @@ class Parser
                 $arrResults[] = $dev;
             }
         }
+
         return $arrResults;
     }
-    
+
     /**
      * parsing the output of df command
      *
@@ -146,7 +148,7 @@ class Parser
                             }
                             if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
 
-                            if(isset($mount_parm[$df_buf[5]])) {
+                            if (isset($mount_parm[$df_buf[5]])) {
                                 $dev->setFsType($mount_parm[$df_buf[5]]['fstype']);
                                 if (PSI_SHOW_MOUNT_OPTION) {
                                     if (PSI_SHOW_MOUNT_CREDENTIALS) {
@@ -159,6 +161,9 @@ class Parser
 
                                         $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
                                         $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                        $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                        $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
 
                                         $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
                                         $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
@@ -176,7 +181,7 @@ class Parser
                 }
             }
         }
+
         return $arrResult;
     }
 }
-?>

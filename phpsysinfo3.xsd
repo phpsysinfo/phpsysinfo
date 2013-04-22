@@ -48,7 +48,7 @@
     		<element name="NetDevice" type="tns:NetDevice" minOccurs="0" maxOccurs="unbounded"></element>
     	</sequence>
     </complexType>
-    
+
 
     <complexType name="HWDevice">
     	<attribute name="Name" type="string" use="required"></attribute>
@@ -97,7 +97,7 @@
     		<element name="CpuCore" type="tns:CpuCore" minOccurs="0" maxOccurs="unbounded"></element>
     	</sequence>
     </complexType>
-    
+
     <complexType name="CpuCore">
     	<attribute name="Model" type="string" use="required"></attribute>
     	<attribute name="CpuSpeed" use="required">
@@ -209,7 +209,7 @@
     		</simpleType>
     	</attribute>
     </complexType>
-    
+
     <complexType name="Details">
     	<attribute name="App" use="optional">
     		<simpleType>
@@ -288,7 +288,7 @@
     		</simpleType>
     	</attribute>
     </complexType>
-    
+
     <complexType name="DiskDevice">
     	<attribute name="MountPointID" use="required">
     		<simpleType>
@@ -351,7 +351,7 @@
     		<element name="Voltage" type="tns:Voltage" minOccurs="0" maxOccurs="1"></element>
     	</sequence>
     </complexType>
-    
+
     <complexType name="Sensor">
     	<attribute name="Label" type="string" use="required"></attribute>
     	<attribute name="Value" use="required">

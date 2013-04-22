@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * pitemp sensor class
  *
@@ -31,4 +31,3 @@ class PiTemp extends Sensors
         $this->_temperature();
     }
 }
-?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * NetBSD System Class
  *
@@ -39,7 +39,7 @@ class NetBSD extends BSDCommon
         $this->setPCIRegExp1("/(.*) at pci[0-9] dev [0-9]* function [0-9]*: (.*)$/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -51,7 +51,7 @@ class NetBSD extends BSDCommon
         $a = $this->grabkey('kern.boottime');
         $this->sys->setUptime(time() - $a);
     }
-    
+
     /**
      * get network information
      *
@@ -77,7 +77,7 @@ class NetBSD extends BSDCommon
             }
         }
     }
-    
+
     /**
      * IDE information
      *
@@ -101,7 +101,7 @@ class NetBSD extends BSDCommon
             }
         }
     }
-    
+
     /**
      * get icon name
      *
@@ -111,7 +111,7 @@ class NetBSD extends BSDCommon
     {
         $this->sys->setDistributionIcon('NetBSD.png');
     }
-    
+
     /**
      * get the information
      *
@@ -119,7 +119,7 @@ class NetBSD extends BSDCommon
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
         parent::build();
         $this->_distroicon();
@@ -127,4 +127,3 @@ class NetBSD extends BSDCommon
         $this->_uptime();
     }
 }
-?>

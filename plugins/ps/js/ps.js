@@ -33,9 +33,9 @@ var ps_show = false;
  */
 function ps_buildTable(xml) {
     var html = "", tree = [], closed = [2];
-    
+
     $("#Plugin_PS #Plugin_PSTable").remove();
-    
+
     html += "  <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "    <tr>\n";
@@ -46,7 +46,7 @@ function ps_buildTable(xml) {
     html += "    </tr>\n";
     html += "   </thead>\n";
     html += "   <tbody class=\"tree\">\n";
-    
+
     $("Plugins Plugin_PS Process", xml).each(function ps_getprocess(id) {
         var close = 0, pid = 0, ppid = 0, name = "", percent = 0, parentId = 0;
         name = $(this).attr("Name");
@@ -54,7 +54,7 @@ function ps_buildTable(xml) {
         pid = parseInt($(this).attr("PID"), 10);
         ppid = parseInt($(this).attr("PPID"), 10);
         percent = parseInt($(this).attr("MemoryUsage"), 10);
-        
+
         html += "    <tr><td>" + name + "</td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
         close = tree.push(parentId);
         if (parentId === 1) {
@@ -62,12 +62,12 @@ function ps_buildTable(xml) {
         }
         ps_show = true;
     });
-    
+
     html += "   </tbody>\n";
     html += "  </table>\n";
-    
+
     $("#Plugin_PS").append(html);
-    
+
     $("#Plugin_PSTable").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
         shutImg: "./gfx/treeTable/tv-expandable.gif",
@@ -109,9 +109,9 @@ function ps_request() {
 $(document).ready(function ps_buildpage() {
     $("#footer").before(buildBlock("PS", 1, true));
     $("#Plugin_PS").css("width", "915px");
-    
+
     ps_request();
-    
+
     $("#Reload_PSTable").click(function ps_reload(id) {
         ps_request();
         $("#Reload_PSTable").attr("title",datetime());

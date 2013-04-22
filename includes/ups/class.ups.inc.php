@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Basic UPS Class
  *
@@ -31,14 +31,14 @@ abstract class UPS implements PSI_Interface_UPS
      * @var Error
      */
     protected $error;
-    
+
     /**
      * main object for ups information
      *
      * @var UPSInfo
      */
     protected $upsinfo;
-    
+
     /**
      * build the global Error object
      */
@@ -47,7 +47,7 @@ abstract class UPS implements PSI_Interface_UPS
         $this->error = Error::singleton();
         $this->upsinfo = new UPSInfo();
     }
-    
+
     /**
      * build and return the ups information
      *
@@ -55,10 +55,10 @@ abstract class UPS implements PSI_Interface_UPS
      *
      * @return UPSInfo
      */
-    public final function getUPSInfo()
+    final public function getUPSInfo()
     {
         $this->build();
+
         return $this->upsinfo;
     }
 }
-?>

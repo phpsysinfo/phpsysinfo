@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Minix System Class
  *
@@ -32,7 +32,7 @@ class Minix extends OS
      * @var array
      */
     private $_dmesg = array();
-    
+
     /**
      * call parent constructor
      */
@@ -40,7 +40,7 @@ class Minix extends OS
     {
         parent::__construct();
     }
-    
+
     /**
      * read /var/log/messages, but only if we haven't already
      *
@@ -55,9 +55,10 @@ class Minix extends OS
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             }
         }
+
         return $this->_dmesg;
     }
-    
+
     /**
      * get the cpu information
      *
@@ -91,10 +92,9 @@ class Minix extends OS
                             $_s = $arrBuff[1];
                             break;
                         case 'flags':
-                            if(preg_match("/ vmx/",$arrBuff[1])) {
+                            if (preg_match("/ vmx/",$arrBuff[1])) {
                                 $dev->setVirt("vmx");
-                            }
-                            else if(preg_match("/ svm/",$arrBuff[1])) {
+                            } elseif (preg_match("/ svm/",$arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
                         break;
@@ -118,7 +118,7 @@ class Minix extends OS
           }
         }
     }
-    
+
     /**
      * PCI devices
      * get the pci device information out of dmesg
@@ -144,14 +144,14 @@ class Minix extends OS
                $this->sys->setPciDevices($dev);
            }
         }
-        if ((!is_array($arrResults))&&(is_array($results = Parser::lspci()))) { 
+        if (!is_array($arrResults) && is_array($results = Parser::lspci())) {
            /* if access error: chmod 4755 /usr/bin/lspci */
            foreach ($results as $dev) {
               $this->sys->setPciDevices($dev);
            }
         }
     }
-    
+
     /**
      * Minix Version
      *
@@ -171,7 +171,7 @@ class Minix extends OS
                $this->sys->setKernel($ret);
         }
     }
-    
+
     /**
      * Distribution
      *
@@ -186,7 +186,7 @@ class Minix extends OS
 
         $this->sys->setDistributionIcon('Minix.png');
     }
-    
+
     /**
      * UpTime
      * time the system is running
@@ -201,15 +201,14 @@ class Minix extends OS
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
-            }
-            else if (preg_match("/up (\d+):(\d+),/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up (\d+):(\d+),/", $buf, $ar_buf)) {
                 $min = $ar_buf[2];
                 $hours = $ar_buf[1];
                 $this->sys->setUptime($hours * 3600 + $min * 60);
             }
         }
     }
-    
+
     /**
      * Processor Load
      * optionally create a loadbar
@@ -224,7 +223,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * Number of Users
      *
@@ -238,7 +237,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * Virtual Host Name
      *
@@ -257,7 +256,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * IP of the Virtual Host Name
      *
@@ -293,7 +292,7 @@ class Minix extends OS
             }
         }
     }
-    
+
     /**
      * filesystem information
      *
@@ -306,15 +305,15 @@ class Minix extends OS
          $this->sys->setDiskDevices($dev);
      }
     }
-    
+
     /**
      * get the information
      *
      * @return Void
      */
-    function build()
+    public function build()
     {
-        $this->error->addError("WARN", "The Minix version of phpSysInfo is work in progress, some things currently don't work");
+        $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_hostname();
         $this->_ip();
         $this->_distro();
@@ -328,4 +327,3 @@ class Minix extends OS
         $this->_filesystems();
     }
 }
-?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * basic output functions
  *
@@ -31,7 +31,7 @@ abstract class Output
      * @var Error
      */
     protected $error;
-    
+
     /**
      * call the parent constructor and check for needed extensions
      */
@@ -43,7 +43,7 @@ abstract class Output
 //        $this->error = Error::singleton();
 //        $this->_checkConfig();
     }
-    
+
     /**
      * read the config file and check for existence
      *
@@ -61,4 +61,3 @@ abstract class Output
         }
     }
 }
-?>

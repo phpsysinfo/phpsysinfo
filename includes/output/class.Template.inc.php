@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * basic output functions
  *
@@ -31,64 +31,63 @@ class Template
      * @Array
      */
     private $_vars;
-    
+
     /**
      * Template file
      *
      * @String
      */
     private $_file;
-    
+
     /**
      * Constructor
      *
      * @param String $file the template file name
      */
-    public function __construct($file=null) {
+    public function __construct($file=null)
+    {
         $this->_file = $file;
         $this->_vars = array();
     }
-    
-    
+
     /**
      * Set a template variable.
      *
      * @param string variable name
      * @param string variable value
      */
-    function set($name, $value) {
+    public function set($name, $value)
+    {
         $this->_vars[$name] = is_object($value) ? $value->fetch() : $value;
     }
-    
-    
-    
+
     /**
      * Open, parse, and return the template file.
      *
      * @param string $file
      *
-     * @return string 
+     * @return string
      */
-    function fetch($file=null) {
-        if(!$file) {
+    public function fetch($file=null)
+    {
+        if (!$file) {
             $file = $this->_file;
         }
-        
+
         // Extract the vars to local namespace
         extract($this->_vars);
-        
+
         // Start output buffering
-        ob_start(); 
-        
+        ob_start();
+
         include(APP_ROOT.$file);
-        
+
         // Get the contents of the buffer
         $contents = ob_get_contents();
-        
+
         // End buffering and discard
         ob_end_clean();
-        
+
         return $contents;
     }
 }
-?>

@@ -17,5 +17,5 @@
   </expression>
   <expression id="plugin_updatenotifier_004" name="updatenotifier_security">
     <exp>balíčků obsahuje bezpečnostní aktualizace.</exp>
-  </expression> 
+  </expression>
 </tns:translationPlugin>

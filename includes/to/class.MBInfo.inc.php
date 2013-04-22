@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * MBInfo TO class
  *
@@ -33,7 +33,7 @@ class MBInfo
      * @var Array
      */
     private $_mbTemp = array();
-    
+
     /**
      * array with SensorDevices for fans
      *
@@ -42,7 +42,7 @@ class MBInfo
      * @var Array
      */
     private $_mbFan = array();
-    
+
     /**
      * array with SensorDevices for voltages
      *
@@ -51,7 +51,7 @@ class MBInfo
      * @var Array
      */
     private $_mbVolt = array();
-    
+
     /**
      * Returns $_mbFan.
      *
@@ -63,7 +63,7 @@ class MBInfo
     {
         return $this->_mbFan;
     }
-    
+
     /**
      * Sets $_mbFan.
      *
@@ -77,7 +77,7 @@ class MBInfo
     {
         array_push($this->_mbFan, $mbFan);
     }
-    
+
     /**
      * Returns $_mbTemp.
      *
@@ -89,7 +89,7 @@ class MBInfo
     {
         return $this->_mbTemp;
     }
-    
+
     /**
      * Sets $_mbTemp.
      *
@@ -103,7 +103,7 @@ class MBInfo
     {
         array_push($this->_mbTemp, $mbTemp);
     }
-    
+
     /**
      * Returns $_mbVolt.
      *
@@ -115,7 +115,7 @@ class MBInfo
     {
         return $this->_mbVolt;
     }
-    
+
     /**
      * Sets $_mbVolt.
      *
@@ -130,4 +130,3 @@ class MBInfo
         array_push($this->_mbVolt, $mbVolt);
     }
 }
-?>

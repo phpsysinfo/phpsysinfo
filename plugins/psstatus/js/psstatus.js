@@ -35,9 +35,9 @@ var psstatus_show = false, psstatus_table;
  */
 function psstatus_populate(xml) {
     var name = "", status = 0, state = "";
-    
+
     psstatus_table.fnClearTable();
-    
+
     $("Plugins Plugin_PSStatus Process", xml).each(function psstatus_getprocess(idp) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("Status"), 10);
@@ -57,7 +57,7 @@ function psstatus_populate(xml) {
  */
 function psstatus_buildTable() {
     var html = "";
-    
+
     html += "<table id=\"Plugin_PSStatusTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
@@ -68,9 +68,9 @@ function psstatus_buildTable() {
     html += "  <tbody>\n";
     html += "  </tbody>\n";
     html += "</table>\n";
-    
+
     $("#Plugin_PSStatus").append(html);
-    
+
     psstatus_table = $("#Plugin_PSStatusTable").dataTable({
         "bPaginate": false,
         "bLengthChange": false,
@@ -112,11 +112,11 @@ function psstatus_request() {
 $(document).ready(function psstatus_buildpage() {
     $("#footer").before(buildBlock("PSStatus", 1, true));
     $("#Plugin_PSStatus").css("width", "451px");
-    
+
     psstatus_buildTable();
-    
+
     psstatus_request();
-    
+
     $("#Reload_PSStatusTable").click(function psstatus_reload(id) {
         psstatus_request();
         $("#Reload_PSStatusTable").attr("title",datetime());

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * HWDevice TO class
  *
@@ -31,21 +31,21 @@ class HWDevice
      * @var String
      */
     private $_name = "";
-    
+
     /**
      * capacity of the device, if not available it will be null
      *
      * @var Integer
      */
     private $_capacity = null;
-    
+
     /**
      * count of the device
      *
      * @var Integer
      */
     private $_count = 1;
-    
+
     /**
      * compare a given device with the internal one
      *
@@ -61,7 +61,7 @@ class HWDevice
             return false;
         }
     }
-    
+
     /**
      * Returns $_capacity.
      *
@@ -73,7 +73,7 @@ class HWDevice
     {
         return $this->_capacity;
     }
-    
+
     /**
      * Sets $_capacity.
      *
@@ -87,7 +87,7 @@ class HWDevice
     {
         $this->_capacity = $capacity;
     }
-    
+
     /**
      * Returns $_name.
      *
@@ -99,7 +99,7 @@ class HWDevice
     {
         return $this->_name;
     }
-    
+
     /**
      * Sets $_name.
      *
@@ -114,7 +114,6 @@ class HWDevice
         $this->_name = $name;
     }
 
-    
     /**
      * Returns $_count.
      *
@@ -126,7 +125,7 @@ class HWDevice
     {
         return $this->_count;
     }
-    
+
     /**
      * Sets $_count.
      *
@@ -141,4 +140,3 @@ class HWDevice
         $this->_count = $count;
     }
 }
-?>

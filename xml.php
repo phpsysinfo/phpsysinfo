@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * generate the xml
  *
@@ -12,7 +12,7 @@
  * @version   SVN: $Id: xml.php 614 2012-07-28 09:02:59Z jacky672 $
  * @link      http://phpsysinfo.sourceforge.net
  */
- 
+
  /**
  * application root path
  *
@@ -35,18 +35,16 @@ if (isset($_GET['plugin'])) {
     $plugin = basename(htmlspecialchars($_GET['plugin']));
     if ($plugin == "complete") {
         $output = new WebpageXML(true, null);
-        show($output);
     } elseif ($plugin != "") {
         $output = new WebpageXML(false, $plugin);
-        show($output);
+    } else {
+        unset($output);
     }
 } else {
     $output = new WebpageXML(false, null);
-    show($output);
 }
-
-function show(WebpageXML $output) 
-{
+// if $output is correct generate output in proper type
+if (isset($output) && is_object($output)) {
     if (isset($_GET['json']) || isset($_GET['jsonp'])) {
         $json = json_encode(
             simplexml_load_string($output->getXMLString())
@@ -56,4 +54,3 @@ function show(WebpageXML $output)
         $output->run();
     }
 }
-?>
