@@ -263,7 +263,7 @@ class System
     public function getMemPercentApplication()
     {
         if ($this->_memApplication !== null) {
-            if ($this->_memApplication > 0) {
+            if (($this->_memApplication > 0) && ($this->_memTotal > 0)) {
                 return ceil($this->_memApplication / $this->_memTotal * 100);
             } else {
                 return 0;
@@ -284,7 +284,7 @@ class System
     public function getMemPercentCache()
     {
         if ($this->_memCache !== null) {
-            if ($this->_memCache > 0) {
+            if (($this->_memCache > 0) && ($this->_memTotal > 0)){
                 return ceil($this->_memCache / $this->_memTotal * 100);
             } else {
                 return 0;
@@ -305,7 +305,7 @@ class System
     public function getMemPercentBuffer()
     {
         if ($this->_memBuffer !== null) {
-            if ($this->_memBuffer > 0) {
+            if (($this->_memBuffer > 0) && ($this->_memTotal > 0)) {
                 return ceil($this->_memBuffer / $this->_memTotal * 100);
             } else {
                 return 0;
