@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI BSDCommon OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -18,7 +18,7 @@
  * no need to implement in every class the same methods
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI BSDCommon OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -164,7 +164,7 @@ abstract class BSDCommon extends OS
     protected function readdmesg()
     {
         if (count($this->_dmesg) === 0) {
-            if (PHP_OS != "Darwin") {
+            if (PSI_OS != "Darwin") {
                 if (CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {
                     $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
@@ -438,7 +438,7 @@ abstract class BSDCommon extends OS
      */
     protected function memory()
     {
-        if (PHP_OS == 'FreeBSD' || PHP_OS == 'OpenBSD') {
+        if (PSI_OS == 'FreeBSD' || PSI_OS == 'OpenBSD') {
             // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
             // I should probably add some version checking here, but for now
             // we only support fbsd 4.4
@@ -449,7 +449,7 @@ abstract class BSDCommon extends OS
         if (CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
             $ar_buf = preg_split("/\s+/", trim($lines[2]), 19);
-            if (PHP_OS == 'NetBSD' || PHP_OS == 'DragonFly') {
+            if (PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
                 $this->sys->setMemFree($ar_buf[4] * 1024);
             } else {
                 $this->sys->setMemFree($ar_buf[4] * $pagesize);
@@ -457,7 +457,7 @@ abstract class BSDCommon extends OS
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
 
-            if (((PHP_OS == 'OpenBSD' || PHP_OS == 'NetBSD') && CommonFunctions::executeProgram('swapctl', '-l -k', $swapstat, PSI_DEBUG)) || CommonFunctions::executeProgram('swapinfo', '-k', $swapstat, PSI_DEBUG)) {
+            if (((PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD') && CommonFunctions::executeProgram('swapctl', '-l -k', $swapstat, PSI_DEBUG)) || CommonFunctions::executeProgram('swapinfo', '-k', $swapstat, PSI_DEBUG)) {
                 $lines = preg_split("/\n/", $swapstat, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
                     $ar_buf = preg_split("/\s+/", $line, 6);

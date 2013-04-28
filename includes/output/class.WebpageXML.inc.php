@@ -62,8 +62,8 @@ class WebpageXML extends Output implements PSI_Interface_Output
     {
         if (!$this->_pluginRequest) {
             // Figure out which OS we are running on, and detect support
-            if (!file_exists(APP_ROOT.'/includes/os/class.'.PHP_OS.'.inc.php')) {
-                $this->error->addError("file_exists(class.".PHP_OS.".inc.php)", PHP_OS." is not currently supported");
+            if (!file_exists(APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
+                $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
             }
 
             // check if there is a valid sensor configuration in config.php

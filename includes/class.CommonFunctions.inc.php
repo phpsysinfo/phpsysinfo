@@ -37,7 +37,7 @@ class CommonFunctions
     private static function _findProgram($strProgram)
     {
         $arrPath = array();
-        if (PHP_OS == 'WINNT') {
+        if (PSI_OS == 'WINNT') {
             $strProgram .= '.exe';
             $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
         } else {
@@ -51,8 +51,8 @@ class CommonFunctions
             }
         }
         //add some default paths if we still have no paths here
-        if ( empty($arrPath) && PHP_OS != 'WINNT') {
-            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+        if (empty($arrPath) && PSI_OS != 'WINNT') {
+            if (PSI_OS == 'Android') {
                 array_push($arrPath, '/system/bin');
             } else {
                 array_push($arrPath, '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
@@ -65,10 +65,10 @@ class CommonFunctions
         foreach ($arrPath as $strPath) {
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
             if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) ||
-             !((defined('PSI_OS') && (PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
+             !(((PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
                 continue;
             }
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 $strProgrammpath = rtrim($strPath,'\\').'\\'.$strProgram;
             } else {
                 $strProgrammpath = rtrim($strPath,"/")."/".$strProgram;
@@ -261,9 +261,9 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if ( (PHP_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8") )
+        if ((PSI_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8"))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        else if (PHP_OS == "WINNT")
+        elseif (PSI_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
         else
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom');

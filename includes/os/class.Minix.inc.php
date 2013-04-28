@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI Minix OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -17,7 +17,7 @@
  * get all the required information from Minix system
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI Minix OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License

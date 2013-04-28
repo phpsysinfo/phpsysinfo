@@ -105,7 +105,7 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        $os = PHP_OS;
+        $os = PSI_OS;
         $this->_sysinfo = new $os();
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();

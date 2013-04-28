@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI Haiku OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -17,7 +17,7 @@
  * get all the required information from Haiku system
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI Haiku OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -346,9 +346,9 @@ class Haiku extends OS
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             if (preg_match('/\sEthernet,\s+Address:\s(\S*)/i', $line, $ar_buf2))
                                     $dev->setInfo(preg_replace('/:/', '-', $ar_buf2[1]));
-                            else if (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2))
+                            elseif (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2))
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
-                                 else if (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2))
+                                 elseif (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2))
                                           if (!preg_match('/^fe80::/i',$ar_buf2[1]))
                                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }

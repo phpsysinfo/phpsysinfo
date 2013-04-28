@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI WINNT OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -18,7 +18,7 @@
  * information are retrieved through the WMI interface
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI WINNT OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -559,6 +559,9 @@ class WINNT extends OS
         $this->_hostname();
         $this->_ip();
         $this->_distro();
+        if ($this->sys->getDistribution()=="ReactOS") {
+            $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
+        }
         $this->_users();
         $this->_uptime();
         $this->_cpuinfo();
