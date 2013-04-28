@@ -19,8 +19,11 @@
 ;
 DEBUG=false
 
-; Turn on logging of functions executeProgram() and rfts()
-; Example : LOG="/tmp/phpsysinfo.log"
+; Turn on logging/unlogging of functions executeProgram() and rfts()
+; example : executeProgram () and rfts () record the results to the "/tmp/phpsysinfo.log" file 
+; LOG="/tmp/phpsysinfo.log"
+; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
+; LOG="-/tmp/phpsysinfo.log"
 ;
 LOG=false
 
