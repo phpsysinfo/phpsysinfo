@@ -37,6 +37,7 @@ class CommonFunctions
                         $startIndex = $matches[0][1]+1;
                         if (preg_match("/^\-\-\-[^-\n]+\-\-\- /m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
                             $stopIndex = $matches[0][1];
+
                             return substr($contents, $startIndex, $stopIndex-$startIndex );
                         } else {
                             return substr($contents, $startIndex );
@@ -121,9 +122,11 @@ class CommonFunctions
             $out = self::_parse_log_file("Executing: ".$strProgramname.' '.$strArgs);
             if ($out == false) {
                 $strBuffer = '';
+
                 return false;
             } else {
                 $strBuffer = $out;
+
                 return true;
             }
         } else {
@@ -214,9 +217,11 @@ class CommonFunctions
             $out = self::_parse_log_file("Reading: ".$strFileName);
             if ($out == false) {
                 $strRet = '';
+
                 return false;
             } else {
                 $strRet = $out;
+
                 return true;
             }
         } else {

@@ -284,7 +284,7 @@ class System
     public function getMemPercentCache()
     {
         if ($this->_memCache !== null) {
-            if (($this->_memCache > 0) && ($this->_memTotal > 0)){
+            if (($this->_memCache > 0) && ($this->_memTotal > 0)) {
                 return ceil($this->_memCache / $this->_memTotal * 100);
             } else {
                 return 0;
