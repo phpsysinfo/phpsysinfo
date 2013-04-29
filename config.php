@@ -44,7 +44,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     }
 
     /* get Linux code page */
-    if (PSI_OS == 'Linux') {
+    if (PHP_OS == 'Linux') {
         if (file_exists('/etc/sysconfig/i18n')) {
             $contents = @file_get_contents('/etc/sysconfig/i18n');
         } elseif (file_exists('/etc/default/locale')) {
@@ -118,7 +118,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
 
         }
-    } elseif (PSI_OS == 'Haiku') {
+    } elseif (PHP_OS == 'Haiku') {
             if (@exec('locale -m 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {

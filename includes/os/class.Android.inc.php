@@ -35,6 +35,24 @@ class Android extends Linux
     }
 
     /**
+     * Kernel Version
+     *
+     * @return void
+     */
+    private function _kernel()
+    {
+        if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
+            if (preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
+                $result = $ar_buf[1];
+                if (preg_match('/SMP/', $strBuf)) {
+                    $result .= ' (SMP)';
+                }
+                $this->sys->setKernel($result);
+            }
+        }
+    }
+
+    /**
      * Number of Users
      *
      * @return void

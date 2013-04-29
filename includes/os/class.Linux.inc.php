@@ -77,7 +77,7 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _kernel()
+    private function _kernel()
     {
         if (CommonFunctions::executeProgram('uname', '-r', $strBuf, PSI_DEBUG)) {
             $result = trim($strBuf);
@@ -529,7 +529,7 @@ class Linux extends OS
             if ($this->sys->getMemCache() !== null && $this->sys->getMemBuffer() !== null) {
                 $this->sys->setMemApplication($this->sys->getMemUsed() - $this->sys->getMemCache() - $this->sys->getMemBuffer());
             }
-            if (CommonFunctions::rfts('/proc/swaps', $sbuf)) {
+            if (CommonFunctions::rfts('/proc/swaps', $sbuf, 0, 4096, false)) {
                 $swaps = preg_split("/\n/", $sbuf, -1, PREG_SPLIT_NO_EMPTY);
                 unset($swaps[0]);
                 foreach ($swaps as $swap) {
