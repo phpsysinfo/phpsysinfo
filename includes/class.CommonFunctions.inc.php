@@ -109,10 +109,10 @@ class CommonFunctions
      * ie $program = CommonFunctions::executeProgram('netstat', '-anp | grep LIST');
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
-     * @param string $strProgramname name of the program
-     * @param string $strArgs        arguments to the program
+     * @param string  $strProgramname name of the program
+     * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
-     * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
+     * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
      */
@@ -203,7 +203,7 @@ class CommonFunctions
     /**
      * read a file and return the content as a string
      *
-     * @param string $strFileName name of the file which should be read
+     * @param string  $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
      * @param integer $intLines    control how many lines should be read
      * @param integer $intBytes    control how many bytes of each line should be read
@@ -342,10 +342,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array $pipes array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param array   $pipes array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out  target string for the output message (reference)
      * @param string  &$err  target string for the error message (reference)
-     * @param integer $sek timeout value in seconds
+     * @param integer $sek   timeout value in seconds
      *
      * @return void
      */

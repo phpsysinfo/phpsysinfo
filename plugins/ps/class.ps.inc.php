@@ -143,8 +143,8 @@ class PS extends PSI_Plugin
     /**
      * recursive function to allow appending child processes to a parent process
      *
-     * @param Array             $child part of the array which should be appended to the XML
-     * @param SimpleXMLExtended $xml   XML-Object to which the array content is appended
+     * @param Array             $child      part of the array which should be appended to the XML
+     * @param SimpleXMLExtended $xml        XML-Object to which the array content is appended
      * @param Array             &$positions array with parent positions in xml structure
      *
      * @return SimpleXMLExtended Object with the appended array content
