@@ -266,6 +266,8 @@ class Linux extends OS
                                 $dev->setVirt("vmx");
                             } elseif (preg_match("/ svm/",$arrBuff[1])) {
                                 $dev->setVirt("svm");
+                            } elseif (preg_match("/ hypervisor/",$arrBuff[1])) {
+                                $dev->setVirt("hypervisor");
                             }
                             break;
                         case 'i size':
