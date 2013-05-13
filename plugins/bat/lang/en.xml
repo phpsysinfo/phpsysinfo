@@ -33,4 +33,13 @@
   <expression id="plugin_bat_009" name="bat_charging_state">
     <exp>Charging state</exp>
   </expression>
+  <expression id="plugin_bat_010" name="bat_battery_type">
+    <exp>Battery Type</exp>
+  </expression>
+  <expression id="plugin_bat_011" name="bat_battery_temperature">
+    <exp>Battery Temperature</exp>
+  </expression>
+  <expression id="plugin_bat_012" name="bat_battery_condition">
+    <exp>Battery Condition</exp>
+  </expression>
 </tns:translationPlugin>

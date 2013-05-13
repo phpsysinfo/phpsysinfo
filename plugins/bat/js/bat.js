@@ -35,18 +35,42 @@ function bat_populate(xml) {
     bat_table.fnClearTable();
 
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
-        var DesignCapacity = "", DesignVoltage = "", RemainingCapacity = "", PresentVoltage = "", ChargingState = "";
+        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "";
         DesignCapacity = $(this).attr("DesignCapacity");
         DesignVoltage = $(this).attr("DesignVoltage");
+        BatteryType = $(this).attr("BatteryType");
         RemainingCapacity = $(this).attr("RemainingCapacity");
         PresentVoltage = $(this).attr("PresentVoltage");
         ChargingState = $(this).attr("ChargingState");
+        BatteryTemperature = $(this).attr("BatteryTemperature");
+        BatteryCondition = $(this).attr("BatteryCondition");
 
-        bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity, '&nbsp;']);
-        bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
-        bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);
-        bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage, '&nbsp;']);
-        bat_table.fnAddData([genlang(6, true, "BAT"), PresentVoltage, '&nbsp;']);
+        if (DesignCapacity == "") {
+            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, '&nbsp;']);
+        } else if (DesignCapacity == "%") {
+            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(RemainingCapacity, 10)), '&nbsp;']);
+        } else {
+            bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity, '&nbsp;']);
+            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
+        }
+        if (ChargingState != "") {
+            bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);
+        }
+        if (DesignVoltage != "") {
+            bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage, '&nbsp;']);
+        }
+        if (PresentVoltage != "") {
+            bat_table.fnAddData([genlang(6, true, "BAT"), PresentVoltage, '&nbsp;']);
+        }
+        if (BatteryType != "") {
+            bat_table.fnAddData([genlang(10, true, "BAT"), BatteryType, '&nbsp;']);
+        }
+        if (BatteryTemperature != "") {
+            bat_table.fnAddData([genlang(11, true, "BAT"), BatteryTemperature, '&nbsp;']);
+        }
+        if (BatteryCondition != "") {
+            bat_table.fnAddData([genlang(12, true, "BAT"), BatteryCondition, '&nbsp;']);
+        }
 
         bat_show = true;
     });

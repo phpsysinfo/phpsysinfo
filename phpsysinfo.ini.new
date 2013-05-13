@@ -292,11 +292,12 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 ; define how to access the battery statistic data
 ; - "command" read /proc/acpi/battery/BAT0/info and read /proc/acpi/battery/BAT0/state
+;             or for Android some files from /sys/class/power_supply/battery
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "bat_info.txt" and "bat_state.txt"; content is the output from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
 ;
 ACCESS="command"
 
-; define the battery device
+; define the battery device (no matter for Android)
 ;
 DEVICE="BAT0"
 
