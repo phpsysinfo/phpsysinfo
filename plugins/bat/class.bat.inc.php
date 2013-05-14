@@ -46,6 +46,9 @@ class BAT extends PSI_Plugin
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/batt_vol', $buffer1, 1, 4096, false)) {
                    $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.($buffer1*1000)."\n";
                 }
+                if (CommonFunctions::rfts('/sys/class/power_supply/battery/voltage_max_design', $buffer1, 1, 4096, false)) {
+                   $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.($buffer1*1000)."\n";
+                }
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/technology', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_TECHNOLOGY='.$buffer1;
                 }
@@ -99,6 +102,8 @@ class BAT extends PSI_Plugin
                 $bat['battery_temperature'] = $data[1]/10;
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_NOW\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['present_voltage'] = $data[1]/1000000;
+            } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MAX_DESIGN\s*=\s*(.*)$/m', trim($roworig), $data)) {
+                $bat['design_voltage'] = $data[1]/1000000;
             } elseif (preg_match('/^POWER_SUPPLY_TECHNOLOGY\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_STATUS\s*=\s*(.*)$/m', trim($roworig), $data)) {
@@ -123,6 +128,8 @@ class BAT extends PSI_Plugin
                 $bat['battery_temperature'] = $data[1]/10;
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_NOW\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['present_voltage'] = $data[1]/1000000;
+            } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MAX_DESIGN\s*=\s*(.*)$/m', trim($roworig), $data)) {
+                $bat['design_voltage'] = $data[1]/1000000;
             } elseif (preg_match('/^POWER_SUPPLY_TECHNOLOGY\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_STATUS\s*=\s*(.*)$/m', trim($roworig), $data)) {
