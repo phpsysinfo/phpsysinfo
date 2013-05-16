@@ -357,7 +357,7 @@ class CommonFunctions
         $e = null;
 
         $read = array($pipes[1],$pipes[2]);
-        while (!(feof($pipes[1])&& feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
+        while (!(feof($pipes[1]) && feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
                 $out .= fread($pipes[1], 4096);
                 $err .= fread($pipes[2], 4096);
         }
