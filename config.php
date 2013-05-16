@@ -120,7 +120,8 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-            if ($contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
+            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_SYSLANG')) //also if both not overloaded in phpsysinfo.ini
+               && $contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
                 if (!defined('PSI_SYSTEM_CODEPAGE') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                     foreach ($lines as $line) {
@@ -149,7 +150,8 @@ if (!defined('PSI_CONFIG_FILE')) {
                 }
             }
         } elseif (PHP_OS == 'Haiku') {
-            if (@exec('locale -m 2>/dev/null', $lines)) {
+            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_SYSLANG')) //also if both not overloaded in phpsysinfo.ini
+                && @exec('locale -m 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
