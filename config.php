@@ -120,7 +120,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_SYSLANG')) //also if both not overloaded in phpsysinfo.ini
+            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
                && $contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
                 if (!defined('PSI_SYSTEM_CODEPAGE') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
@@ -131,7 +131,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                         }
                     }
                 }
-                if (!defined('PSI_SYSTEM_SYSLANG') && @exec($matches[1].' locale 2>/dev/null', $lines)) { //also if not overloaded in phpsysinfo.ini
+                if (!defined('PSI_SYSTEM_LANG') && @exec($matches[1].' locale 2>/dev/null', $lines)) { //also if not overloaded in phpsysinfo.ini
                     foreach ($lines as $line) {
                         if (preg_match('/^LC_MESSAGES="?([^\."@]*)/', $line, $matches2)) {
                             $lang = "";
@@ -143,14 +143,14 @@ if (!defined('PSI_CONFIG_FILE')) {
                             if ($lang == "") {
                                 $lang = 'Unknown';
                             }
-                            define('PSI_SYSTEM_SYSLANG', $lang.' ('.$matches2[1].')');
+                            define('PSI_SYSTEM_LANG', $lang.' ('.$matches2[1].')');
                             break;
                         }
                     }
                 }
             }
         } elseif (PHP_OS == 'Haiku') {
-            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_SYSLANG')) //also if both not overloaded in phpsysinfo.ini
+            if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
                 && @exec('locale -m 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
@@ -159,7 +159,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                             define('PSI_SYSTEM_CODEPAGE', $matches2[2]);
                         }
 
-                        if (!defined('PSI_SYSTEM_SYSLANG')) { //if not overloaded in phpsysinfo.ini
+                        if (!defined('PSI_SYSTEM_LANG')) { //if not overloaded in phpsysinfo.ini
                             $lang = "";
                             if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
                                 if (isset($langdata['Linux']['_'.$matches2[1]])) {
@@ -169,7 +169,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                             if ($lang == "") {
                                 $lang = 'Unknown';
                             }
-                            define('PSI_SYSTEM_SYSLANG', $lang.' ('.$matches2[1].')');
+                            define('PSI_SYSTEM_LANG', $lang.' ('.$matches2[1].')');
                         }
                         break;
                     }
@@ -186,8 +186,8 @@ if (!defined('PSI_CONFIG_FILE')) {
         define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
     }
 
-    if (!defined('PSI_SYSTEM_SYSLANG')) {
-        define('PSI_SYSTEM_SYSLANG', null);
+    if (!defined('PSI_SYSTEM_LANG')) {
+        define('PSI_SYSTEM_LANG', null);
     }
     if (!defined('PSI_SYSTEM_CODEPAGE')) {
         define('PSI_SYSTEM_CODEPAGE', null);

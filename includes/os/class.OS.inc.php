@@ -66,7 +66,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function getLanguage()
     {
-        return PSI_SYSTEM_SYSLANG;
+        return PSI_SYSTEM_LANG;
     }
 
     /**
