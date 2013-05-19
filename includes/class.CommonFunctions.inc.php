@@ -27,7 +27,7 @@ class CommonFunctions
 {
     private static function _parse_log_file($string)
     {
-        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)=="-")) {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $log_file = substr(PSI_LOG, 1);
             if (file_exists($log_file)) {
                 $contents = @file_get_contents($log_file);
@@ -118,86 +118,88 @@ class CommonFunctions
      */
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
     {
-        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)=="-")) {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Executing: ".$strProgramname.' '.$strArgs);
             if ($out == false) {
-                $strBuffer = '';
+                if (substr(PSI_LOG, 0, 1)=="-") {
+                    $strBuffer = '';
 
-                return false;
+                    return false;
+                }
             } else {
                 $strBuffer = $out;
 
                 return true;
             }
+        }
+        
+        $strBuffer = '';
+        $strError = '';
+        $pipes = array();
+        $strProgram = self::_findProgram($strProgramname);
+        $error = Error::singleton();
+        if (!$strProgram) {
+            if ($booErrorRep) {
+                $error->addError('find_program('.$strProgramname.')', 'program not found on the machine');
+            }
+
+            return false;
+        }
+        // see if we've gotten a |, if we have we need to do path checking on the cmd
+        if ($strArgs) {
+            $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
+            for ($i = 0, $cnt_args = count($arrArgs); $i < $cnt_args; $i++) {
+                if ($arrArgs[$i] == '|') {
+                    $strCmd = $arrArgs[$i + 1];
+                    $strNewcmd = self::_findProgram($strCmd);
+                    $strArgs = preg_replace("/\| ".$strCmd.'/', "| ".$strNewcmd, $strArgs);
+                }
+            }
+        }
+        $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+            $process = $pipes[1] = popen($strProgram." ".$strArgs." 2>/dev/null", "r");
         } else {
-            $strBuffer = '';
-            $strError = '';
-            $pipes = array();
-            $strProgram = self::_findProgram($strProgramname);
-            $error = Error::singleton();
-            if (!$strProgram) {
-                if ($booErrorRep) {
-                    $error->addError('find_program('.$strProgramname.')', 'program not found on the machine');
-                }
-
-                return false;
-            }
-            // see if we've gotten a |, if we have we need to do path checking on the cmd
-            if ($strArgs) {
-                $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
-                for ($i = 0, $cnt_args = count($arrArgs); $i < $cnt_args; $i++) {
-                    if ($arrArgs[$i] == '|') {
-                        $strCmd = $arrArgs[$i + 1];
-                        $strNewcmd = self::_findProgram($strCmd);
-                        $strArgs = preg_replace("/\| ".$strCmd.'/', "| ".$strNewcmd, $strArgs);
-                    }
-                }
-            }
-            $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+            $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
+        }
+        if (is_resource($process)) {
             if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                $process = $pipes[1] = popen($strProgram." ".$strArgs." 2>/dev/null", "r");
+                $pipes[0] = null;
+                $pipes[2] = fopen("/dev/null", "r");
+            }
+            self::_timeoutfgets($pipes, $strBuffer, $strError);
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                fclose($pipes[2]);
+                $return_value = pclose($pipes[1]);
             } else {
-                $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
+                fclose($pipes[0]);
+                fclose($pipes[1]);
+                fclose($pipes[2]);
+                // It is important that you close any pipes before calling
+                // proc_close in order to avoid a deadlock
+                $return_value = proc_close($process);
             }
-            if (is_resource($process)) {
-                if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                    $pipes[0] = null;
-                    $pipes[2] = fopen("/dev/null", "r");
-                }
-                self::_timeoutfgets($pipes, $strBuffer, $strError);
-                if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                    fclose($pipes[2]);
-                    $return_value = pclose($pipes[1]);
-                } else {
-                    fclose($pipes[0]);
-                    fclose($pipes[1]);
-                    fclose($pipes[2]);
-                    // It is important that you close any pipes before calling
-                    // proc_close in order to avoid a deadlock
-                    $return_value = proc_close($process);
-                }
-            } else {
-                if ($booErrorRep) {
-                    $error->addError($strProgram, "\nOpen process error");
-                }
-
-                return false;
-            }
-            $strError = trim($strError);
-            $strBuffer = trim($strBuffer);
-            if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-")) {
-                error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
-            }
-            if (! empty($strError)) {
-                if ($booErrorRep) {
-                    $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
-                }
-
-                return $return_value == 0;
+        } else {
+            if ($booErrorRep) {
+                $error->addError($strProgram, "\nOpen process error");
             }
 
-            return true;
-         }
+            return false;
+        }
+        $strError = trim($strError);
+        $strBuffer = trim($strBuffer);
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
+            error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
+        }
+        if (! empty($strError)) {
+            if ($booErrorRep) {
+                $error->addError($strProgram, $strError."\nReturn value: ".$return_value);
+            }
+
+            return $return_value == 0;
+        }
+
+        return true;
     }
 
     /**
@@ -213,53 +215,55 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
-        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)=="-")) {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Reading: ".$strFileName);
             if ($out == false) {
-                $strRet = '';
+                if (substr(PSI_LOG, 0, 1)=="-") {
+                    $strRet = '';
 
-                return false;
+                    return false;
+                }
             } else {
                 $strRet = $out;
 
                 return true;
             }
-        } else {
-            $strFile = "";
-            $intCurLine = 1;
-            $error = Error::singleton();
-            if (file_exists($strFileName)) {
-                if ($fd = fopen($strFileName, 'r')) {
-                    while (!feof($fd)) {
-                        $strFile .= fgets($fd, $intBytes);
-                        if ($intLines <= $intCurLine && $intLines != 0) {
-                            break;
-                        } else {
-                            $intCurLine++;
-                        }
+        }
+        
+        $strFile = "";
+        $intCurLine = 1;
+        $error = Error::singleton();
+        if (file_exists($strFileName)) {
+            if ($fd = fopen($strFileName, 'r')) {
+                while (!feof($fd)) {
+                    $strFile .= fgets($fd, $intBytes);
+                    if ($intLines <= $intCurLine && $intLines != 0) {
+                        break;
+                    } else {
+                        $intCurLine++;
                     }
-                    fclose($fd);
-                    $strRet = $strFile;
-                    if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-")) {
-                        error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
-                    }
-                } else {
-                    if ($booErrorRep) {
-                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
-                    }
-
-                    return false;
+                }
+                fclose($fd);
+                $strRet = $strFile;
+                if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
+                    error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
                 }
             } else {
                 if ($booErrorRep) {
-                    $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+                    $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
                 }
 
                 return false;
             }
+        } else {
+            if ($booErrorRep) {
+                $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+            }
 
-            return true;
+            return false;
         }
+
+        return true;
     }
 
     /**
