@@ -151,14 +151,30 @@ class BAT extends PSI_Plugin
     {
         foreach ($this->_result as $bat_item) {
             $xmlbat = $this->xml->addChild("Bat");
-            $xmlbat->addAttribute("DesignCapacity", isset($bat_item['design_capacity'])?$bat_item['design_capacity']:'');
-            $xmlbat->addAttribute("DesignVoltage", isset($bat_item['design_voltage'])?$bat_item['design_voltage']:'');
-            $xmlbat->addAttribute("RemainingCapacity", isset($bat_item['remaining_capacity'])?$bat_item['remaining_capacity']:'');
-            $xmlbat->addAttribute("PresentVoltage", isset($bat_item['present_voltage'])?$bat_item['present_voltage']:'');
-            $xmlbat->addAttribute("ChargingState", isset($bat_item['charging_state'])?$bat_item['charging_state']:'');
-            $xmlbat->addAttribute("BatteryType", isset($bat_item['battery_type'])?$bat_item['battery_type']:'');
-            $xmlbat->addAttribute("BatteryTemperature", isset($bat_item['battery_temperature'])?$bat_item['battery_temperature']:'');
-            $xmlbat->addAttribute("BatteryCondition", isset($bat_item['battery_condition'])?$bat_item['battery_condition']:'');
+            if (isset($bat_item['design_capacity'])) {
+                $xmlbat->addAttribute("DesignCapacity", $bat_item['design_capacity']);
+            }
+            if (isset($bat_item['design_voltage'])) {
+                $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage']);
+            }
+            if (isset($bat_item['remaining_capacity'])) {
+                $xmlbat->addAttribute("RemainingCapacity", $bat_item['remaining_capacity']);
+            }
+            if (isset($bat_item['present_voltage'])) {
+                $xmlbat->addAttribute("PresentVoltage", $bat_item['present_voltage']);
+            }
+            if (isset($bat_item['charging_state'])) {
+                $xmlbat->addAttribute("ChargingState", $bat_item['charging_state']);
+            }
+            if (isset($bat_item['battery_type'])) {
+                $xmlbat->addAttribute("BatteryType", $bat_item['battery_type']);
+            }
+            if (isset($bat_item['battery_temperature'])) {
+                $xmlbat->addAttribute("BatteryTemperature", $bat_item['battery_temperature']);
+            }
+            if (isset($bat_item['battery_condition'])) {
+                $xmlbat->addAttribute("BatteryCondition", $bat_item['battery_condition']);
+            }
         }
 
         return $this->xml->getSimpleXmlElement();

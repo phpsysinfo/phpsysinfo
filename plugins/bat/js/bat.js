@@ -45,30 +45,30 @@ function bat_populate(xml) {
         BatteryTemperature = $(this).attr("BatteryTemperature");
         BatteryCondition = $(this).attr("BatteryCondition");
 
-        if (DesignCapacity == "") {
-            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, '&nbsp;']);
+        if (DesignCapacity == undefined) {
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, '&nbsp;']);
         } else if (DesignCapacity == "%") {
-            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(RemainingCapacity, 10)), '&nbsp;']);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(RemainingCapacity, 10)), '&nbsp;']);
         } else {
             bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity, '&nbsp;']);
-            if (RemainingCapacity != "") bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
         }
-        if (ChargingState != "") {
+        if (ChargingState != undefined) {
             bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);
         }
-        if (DesignVoltage != "") {
+        if (DesignVoltage != undefined) {
             bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage, '&nbsp;']);
         }
-        if (PresentVoltage != "") {
+        if (PresentVoltage != undefined) {
             bat_table.fnAddData([genlang(6, true, "BAT"), PresentVoltage, '&nbsp;']);
         }
-        if (BatteryType != "") {
+        if (BatteryType != undefined) {
             bat_table.fnAddData([genlang(10, true, "BAT"), BatteryType, '&nbsp;']);
         }
-        if (BatteryTemperature != "") {
+        if (BatteryTemperature != undefined) {
             bat_table.fnAddData([genlang(11, true, "BAT"), BatteryTemperature, '&nbsp;']);
         }
-        if (BatteryCondition != "") {
+        if (BatteryCondition != undefined) {
             bat_table.fnAddData([genlang(12, true, "BAT"), BatteryCondition, '&nbsp;']);
         }
 
