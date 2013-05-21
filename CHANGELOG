@@ -1,6 +1,7 @@
 phpSysInfo 3.1.4
 
  - [ADD] Option for reading the results of functions executeProgram() and rfts() from log
+ - [ADD] Show CPU frequancy max and min for variable speed processors for Linux and Android
 
  - [UPD] BAT plugin - added temperature, condition and type of battery, Android support
 

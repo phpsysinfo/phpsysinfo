@@ -622,10 +622,12 @@ function refreshVitals(xml) {
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
-        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, cpucoreposition = 0, virt = "";
+        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
         cpucount += 1;
         model = $(this).attr("Model");
         speed = parseInt($(this).attr("CpuSpeed"), 10);
+        speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
+        speedmin = parseInt($(this).attr("CpuSpeedMin"), 10);
         cache = parseInt($(this).attr("Cache"), 10);
         virt = $(this).attr("Virt");
         bus = parseInt($(this).attr("BusSpeed"), 10);
@@ -635,11 +637,20 @@ function fillCpu(xml, tree, rootposition, collapsed) {
 
         html += "<tr><td colspan=\"2\">" + model + "</td></tr>\n";
         cpucoreposition = tree.push(rootposition);
+        collapsed.push(cpucoreposition);
         if (!isNaN(speed)) {
             html += "<tr><td style=\"width:50%\">" + genlang(13, true) + ":</td><td>" + formatHertz(speed) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        collapsed.push(cpucoreposition);
+        if (!isNaN(speedmax)) {
+            html += "<tr><td style=\"width:50%\">" + genlang(100, true) + ":</td><td>" + formatHertz(speedmax) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+        if (!isNaN(speedmin)) {
+            html += "<tr><td style=\"width:50%\">" + genlang(101, true) + ":</td><td>" + formatHertz(speedmin) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+//        collapsed.push(cpucoreposition);
         if (!isNaN(cache)) {
             html += "<tr><td style=\"width:50%\">" + genlang(15, true) + ":</td><td>" + formatBytes(cache) + "</td></tr>\n";
             tree.push(cpucoreposition);

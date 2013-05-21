@@ -303,4 +303,10 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
   <expression id="099" name="details">
     <exp>Details</exp>
   </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>CPU Speed Max</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>CPU Speed Min</exp>
+  </expression>
 </tns:translation>

@@ -216,6 +216,12 @@ class XML
             if ($oneCpu->getCpuSpeed() !== 0) {
                 $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
             }
+            if ($oneCpu->getCpuSpeedMax() !== 0) {
+                $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
+            }
+            if ($oneCpu->getCpuSpeedMin() !== 0) {
+                $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
+            }
             if ($oneCpu->getTemp() !== null) {
                 $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
             }

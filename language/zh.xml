@@ -304,4 +304,10 @@ AlloVince allo.vince@gmail.com http://avnpc.com/
   <expression id="099" name="details">
     <exp>详细信息</exp>
   </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>CPU Speed Max</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>CPU Speed Min</exp>
+  </expression>
 </tns:translation>

@@ -282,6 +282,48 @@
                                                         </tr>
                                                     </xsl:if>
                                                     <xsl:if
+                                                        test="count(@CpuSpeedMax )&gt;0">
+                                                        <tr>
+                                                            <td
+                                                                style="width:160px;">
+                                                                <span>
+                                                                    <xsl:text>CPU Speed Max</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <xsl:if
+                                                                    test="count(@CpuSpeedMax )&gt;0">
+                                                                    <xsl:value-of
+                                                                        select="@CpuSpeedMax" />
+                                                                    <span>
+                                                                        <xsl:text> MHz</xsl:text>
+                                                                    </span>
+                                                                </xsl:if>
+                                                            </td>
+                                                        </tr>
+                                                    </xsl:if>
+                                                    <xsl:if
+                                                        test="count(@CpuSpeedMin )&gt;0">
+                                                        <tr>
+                                                            <td
+                                                                style="width:160px;">
+                                                                <span>
+                                                                    <xsl:text>CPU Speed Min</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <xsl:if
+                                                                    test="count(@CpuSpeedMin )&gt;0">
+                                                                    <xsl:value-of
+                                                                        select="@CpuSpeedMin" />
+                                                                    <span>
+                                                                        <xsl:text> MHz</xsl:text>
+                                                                    </span>
+                                                                </xsl:if>
+                                                            </td>
+                                                        </tr>
+                                                    </xsl:if>
+                                                    <xsl:if
                                                         test="count(@BusSpeed )&gt;0">
                                                         <tr class="odd">
                                                             <td

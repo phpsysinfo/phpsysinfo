@@ -245,8 +245,12 @@ CPU revision	: 5
 Hardware	: SEMC Delta
 Revision	: 0000
 Serial		: 0000000000000000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+604800
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
 864000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq
+122880
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/uevent
 POWER_SUPPLY_NAME=battery
 POWER_SUPPLY_TYPE=Battery

@@ -306,11 +306,19 @@ class Linux extends OS
                     if (!is_numeric($proc)) {
                         $proc = 0;
                     }
-                    // arm specific code follows
-                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                    // variable speed processors specific code follows
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_cur_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeed($buf / 1000);
+                    } elseif (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/scaling_cur_freq', $buf, 1, 4096, false)) {
                         $dev->setCpuSpeed($buf / 1000);
                     }
-                    // arm specific code ends
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeedMax($buf / 1000);
+                    }
+                    if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_min_freq', $buf, 1, 4096, false)) {
+                        $dev->setCpuSpeedMin($buf / 1000);
+                    }
+                    // variable speed processors specific code ends
                     if (PSI_LOAD_BAR) {
                             $dev->setLoad($this->_parseProcStat('cpu'.$proc));
                     }
