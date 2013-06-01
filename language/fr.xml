@@ -295,13 +295,13 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Langue du système</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Codage de la page</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Détails</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
     <exp>CPU Speed Max</exp>
