@@ -112,6 +112,10 @@ th, td, h3 {
     background-color: #2F659B;
 }
 
+.barwarn {
+    background-color: #9B2F65;
+}
+
 p {
     padding: 4px 10px 2px 10px;
     line-height: 1.6;

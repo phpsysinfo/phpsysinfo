@@ -93,6 +93,10 @@ th, td, h3 {
     background-color: #8B272A;
 }
 
+.barwarn {
+    background-color: #88278B;
+}
+
 #vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #ups {
     float: left;
     width: 451px;

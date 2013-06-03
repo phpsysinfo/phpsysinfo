@@ -124,6 +124,10 @@ h3 {
     background: #C1DC70 url("../gfx/html.gif");
 }
 
+.barwarn {
+    background: #DC8B70 url("../gfx/htmlwarn.gif");
+}
+
 p {
     padding: 4px 10px 2px 10px;
     line-height: 1.6;

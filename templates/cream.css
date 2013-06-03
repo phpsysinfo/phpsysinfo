@@ -144,6 +144,10 @@ a:hover {
     background-color: #58626D;
 }
 
+.barwarn {
+    background-color: #9B2F65;
+}
+
 .right {
     padding-right: 20px;
     text-align: right;
