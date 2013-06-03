@@ -1,26 +1,18 @@
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /etc/centos-release
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Reading: /etc/centos-release
 CentOS release 6.3 (Final)
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/sys/kernel/hostname
-sfp-web-9.v30.ch3.sourceforge.com
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/sys/kernel/hostname
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Reading: /proc/sys/kernel/hostname
 sfp-web-6.v30.ch3.sourceforge.com
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: uname -m
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Executing: uname -r
+2.6.32-358.6.1.el6.sog20130514.x86_64
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Executing: uname -v
+#1 SMP Tue May 14 17:31:39 UTC 2013
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: uname -m
 x86_64
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/uptime
-4694343.04 24830083.19
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: who 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/uptime
+1694267.18 4577690.73
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: who 
 
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: who 
-
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/cpuinfo
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/cpuinfo
 processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
@@ -173,160 +165,9 @@ cache_alignment	: 64
 address sizes	: 44 bits physical, 48 bits virtual
 power management:
 
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s mysqld
 
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: lspci 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lspci 
 00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
 00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
 00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
@@ -334,387 +175,80 @@ power management:
 00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
 00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
 00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/scsi/scsi
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/scsi/scsi
 Attached devices:
 Host: scsi0 Channel: 00 Id: 00 Lun: 00
   Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
   Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: lsusb 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s explorer.exe
 
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: lsusb 
-
-dev
-Inter-|   Receive                                                |  Transmit
- face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:57031881706922 485446922623    0    0    0     0          0         0 57031881706922 485446922623    0    0    0     0       0          0
-  eth0:11706063113653 21022826822    0    0    0     0          0         0 5424371891084 19646280307    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:485446924202 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:485446924202 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:57031881892246 (51.8 TiB)  TX bytes:57031881892246 (51.8 TiB)
-   0    0     0       0          0
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:302834566327 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:302834566327 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:36569712414124 (33.2 TiB)  TX bytes:36569712414124 (33.2 TiB)
-      RX bytes:11706063165262 (10.6 TiB)  TX bytes:5424371957059 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:42  
-          inet addr:172.29.30.66  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e42/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:20581112655 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19229885023 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:11643117901279 (10.5 TiB)  TX bytes:5364055233997 (4.8 TiB)
-0 kB
-Shmem:               676 kB
-Slab:            1710128 kB
-SReclaimable:    1156212 kB
-SUnreclaim:       553916 kB
-KernelStack:        2728 kB
-PageTables:        21108 kB
-NFS_Unstable:       1272 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    2084664 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359690808 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    403456 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          676844 kB
-Buffers:           19844 kB
-Cached:          5200896 kB
-SwapCached:         4576 kB
-Active:          2870740 kB
-Inactive:        3105648 kB
-Active(anon):     372012 kB
-Inactive(anon):   384312 kB
-Active(file):    2498728 kB
-Inactive(file):  2721336 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:       1015800 kB
-SwapFree:         980552 kB
-Dirty:              7816 kB
-Writeback:             0 kB
-AnonPages:        751572 kB
-Mapped:           175096 kB
-Shmem:               668 kB
-Slab:            1286916 kB
-SReclaimable:     865300 kB
-SUnreclaim:       421616 kB
-KernelStack:        2584 kB
-PageTables:        12608 kB
-NFS_Unstable:       1388 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    1488508 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359692080 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    309248 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Reading: /proc/swaps
-Filename				Type		Size	Used	Priority
-/dev/dm-0                               partition	1015800	35248	-1
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: df -i -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: df -i -P 2>/dev/null
-
-ype proc (rw)
----Sun, 28 Apr 2013 10:07:14 +0000 GMT--- Reading: /proc/loadavg
-3.72 3.58 3.33 5/333 16963
----Sun, 28 Apr 2013 10:07:13 +0000 GMT--- Executing: mount 
-proc on /proc type proc (rw)
----Sun, 28 Apr 2013 10:07:14 +0000 GMT--- Reading: /proc/loadavg
-1.31 1.50 1.79 2/316 19749
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /etc/centos-release
-CentOS release 6.3 (Final)
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /proc/sys/kernel/hostname
-sfp-web-10.v30.ch3.sourceforge.com
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: uname -m
-x86_64
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /proc/uptime
-4685160.81 27261085.24
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: who 
-
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: lspci 
-00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
-00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
-00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /proc/scsi/scsi
-Attached devices:
-Host: scsi0 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/quotas.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/quotas.txt
 Mon Dec  6 09:00:00 EST 2004
                         1K Block limits               File limits
 User                used        soft        hard  grace    used  soft  hard  grace
 cherylstaff--     2755724           0           0          15678     0     0       
 brucestaff	--     5738512           0           0           7830     0     0       
----Sun, 28 Apr 2013 10:07:32 +0000 GMT--- Executing: pidof -s mysqld
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lsusb 
 
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: pidof -s sshd
-30741
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: pidof -s explorer.exe
-
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: lsusb 
-
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Reading: /proc/net/dev
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/net/dev
 Inter-|   Receive                                                |  Transmit
  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:24006840135225 190652485171    0    0    0     0          0         0 24006840135225 190652485171    0    0    0     0       0          0
-  eth0:11667493600604 20831536885    0    0    0     0          0         0 5419118682915 19565515962    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
+    lo:27320003601847 234655896121    0    0    0     0          0         0 27320003601847 234655896121    0    0    0     0       0          0
+  eth0:4165329584450 11931631683    0    0    0     0          0         0 3108966577870 13127032084    0    0    0     0       0          0
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
 lo        Link encap:Local Loopback  
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:190652485171 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:190652485171 errors:0 dropped:0 overruns:0 carrier:0
+          RX packets:234655903698 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:234655903698 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0 
-          RX bytes:24006840135225 (21.8 TiB)  TX bytes:24006840135225 (21.8 TiB)
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:46  
-          inet addr:172.29.30.70  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e46/64 Scope:Link
+          RX bytes:27320004466384 (24.8 TiB)  TX bytes:27320004466384 (24.8 TiB)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
+eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:42  
+          inet addr:172.29.30.66  Bcast:172.29.30.255  Mask:255.255.255.0
+          inet6 addr: fe80::acff:fe1d:1e42/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:20831537005 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19565516112 errors:0 dropped:0 overruns:0 carrier:0
+          RX packets:11931632533 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13127033096 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000 
-          RX bytes:11667493622912 (10.6 TiB)  TX bytes:5419118709139 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          395708 kB
-Buffers:           22512 kB
-Cached:          5168444 kB
-SwapCached:         5168 kB
-Active:          3222496 kB
-Inactive:        2890336 kB
-Active(anon):     648900 kB
-Inactive(anon):   273656 kB
-Active(file):    2573596 kB
-Inactive(file):  2616680 kB
+          RX bytes:4165329803095 (3.7 TiB)  TX bytes:3108966767181 (2.8 TiB)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/meminfo
+MemTotal:        8059140 kB
+MemFree:          648372 kB
+Buffers:           22880 kB
+Cached:          4231260 kB
+SwapCached:         2492 kB
+Active:          3013816 kB
+Inactive:        3212256 kB
+Active(anon):     946280 kB
+Inactive(anon):  1026516 kB
+Active(file):    2067536 kB
+Inactive(file):  2185740 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:       1015800 kB
-SwapFree:         790940 kB
-Dirty:              5620 kB
-Writeback:             0 kB
-AnonPages:        916808 kB
-Mapped:           217560 kB
-Shmem:               652 kB
-Slab:            1422508 kB
-SReclaimable:     981360 kB
-SUnreclaim:       441148 kB
-KernelStack:        2632 kB
-PageTables:        20144 kB
-NFS_Unstable:       1096 kB
+SwapFree:         963348 kB
+Dirty:             13700 kB
+Writeback:             4 kB
+AnonPages:       1969672 kB
+Mapped:           175844 kB
+Shmem:               812 kB
+Slab:            1073848 kB
+SReclaimable:     711992 kB
+SUnreclaim:       361856 kB
+KernelStack:        2928 kB
+PageTables:        33512 kB
+NFS_Unstable:        148 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    1897692 kB
+CommitLimit:     5045368 kB
+Committed_AS:    3170052 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:       26224 kB
-VmallocChunk:   34359692080 kB
+VmallocChunk:   34359683252 kB
 HardwareCorrupted:     0 kB
-AnonHugePages:    151552 kB
+AnonHugePages:     77824 kB
 HugePages_Total:       0
 HugePages_Free:        0
 HugePages_Rsvd:        0
@@ -722,18 +256,14 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:        8180 kB
 DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Reading: /proc/swaps
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/swaps
 Filename				Type		Size	Used	Priority
-/dev/dm-0                               partition	1015800	224860	-1
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: df -k -P 2>/dev/null
+/dev/dm-0                               partition	1015800	52452	-1
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: df -k -P 2>/dev/null
 
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: df -i -P 2>/dev/null
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: df -i -P 2>/dev/null
 
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Executing: mount 
-proc on /proc type proc (rw)
----Sun, 28 Apr 2013 10:07:33 +0000 GMT--- Reading: /proc/loadavg
-3.49 3.23 2.91 3/322 32653
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/smart0.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/smart0.txt
 smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
 Home page is http://smartmontools.sourceforge.net/
 
@@ -777,13 +307,17 @@ Num  Test              Status                 segment  LifeTime  LBA_first_err [
 # 1  Background long   Interrupted ('-X' switch)   -   14371                 - [-   -    -]
 
 Long (extended) Self Test duration: 1367 seconds [22.8 minutes]
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/mdstat.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: mount 
+proc on /proc type proc (rw)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/loadavg
+14.01 16.10 16.01 18/358 6013
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/mdstat.txt
 Personalities : [linear] [raid0] [raid1] [raid5] [hsm] 
 read_ahead 1024 sectors 
 md0 : active raid5 sdd1[3] sdc6[2] sdb6[1] sda5[0] 633984 blocks
  level 5, 32k chunk, algorithm 2 [4/4] [UUUU] 
 unused devices: <none>
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_info.txt
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_info.txt
 present:                 yes
 design capacity:         50000 mWh
 last full capacity:      50000 mWh
@@ -797,7 +331,14 @@ model number:            1
 serial number:           0
 battery type:            VBOX
 OEM info:                innotek
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/ipmiinfo.txt
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_state.txt
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mW
+remaining capacity:      50000 mWh
+present voltage:         10000 mV
+---Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/ipmiinfo.txt
 BB +1.2V Vtt     | 1.197      | Volts      | ok    | na        | 1.096     | 1.134     | 1.285     | 1.323     | na        
 BB +1.5V AUX     | 1.490      | Volts      | ok    | na        | 1.334     | 1.373     | 1.622     | 1.669     | na        
 BB +1.5V         | 1.469      | Volts      | ok    | na        | 1.326     | 1.365     | 1.625     | 1.677     | na        
@@ -862,14 +403,7 @@ B1 Sparing Enb   | na         | discrete   | na    | na        | na        | na 
 B1 Spare Redun   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
 B01 Mirror Enbl  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
 B01 MirrorRedun  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_state.txt
-present:                 yes
-capacity state:          ok
-charging state:          charged
-present rate:            0 mW
-remaining capacity:      50000 mWh
-present voltage:         10000 mV
----Sun, 28 Apr 2013 10:07:34 +0000 GMT--- Executing: ps axo pid,ppid,pmem,args
+---Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Executing: ps axo pid,ppid,pmem,args
 PID  PPID %MEM COMMAND
     1     0  0.0 /sbin/init
     2     0  0.0 [kthreadd]
@@ -995,10 +529,12 @@ PID  PPID %MEM COMMAND
   127     2  0.0 [kpsmoused]
   128     2  0.0 [usbhid_resumer]
   159     2  0.0 [kstriped]
-  258     2  0.0 [scsi_eh_0]
-  261     2  0.0 [scsi_eh_1]
+  257     2  0.0 [scsi_eh_0]
+  258     2  0.0 [scsi_eh_1]
+  313     2  0.0 [kdmflush]
   315     2  0.0 [kdmflush]
-  317     2  0.0 [kdmflush]
+  330  4796  1.8 /usr/sbin/httpd
+  335     2  0.0 [flush-253:1]
   349     2  0.0 [jbd2/dm-1-8]
   350     2  0.0 [ext4-dio-unwrit]
   351     2  0.0 [ext4-dio-unwrit]
@@ -1008,1159 +544,154 @@ PID  PPID %MEM COMMAND
   355     2  0.0 [ext4-dio-unwrit]
   356     2  0.0 [ext4-dio-unwrit]
   357     2  0.0 [ext4-dio-unwrit]
-  405     2  0.0 [kauditd]
-  444     1  0.0 /sbin/udevd -d
-  621     2  0.0 [virtio-net]
-  637     2  0.0 [vballoon]
-  792     2  0.0 [kdmflush]
-  795     2  0.0 [kdmflush]
-  798     2  0.0 [kdmflush]
-  802     2  0.0 [kdmflush]
-  852     2  0.0 [kjournald]
-  853     2  0.0 [jbd2/dm-2-8]
+  442     1  0.0 /sbin/udevd -d
+  610     2  0.0 [virtio-net]
+  624     2  0.0 [vballoon]
+  726 30335  0.0 ping 10.0.2.2
+  773     2  0.0 [kdmflush]
+  776     2  0.0 [kdmflush]
+  779     2  0.0 [kdmflush]
+  782   442  0.0 /sbin/udevd -d
+  784     2  0.0 [kdmflush]
+  812     2  0.0 [flush-253:4]
+  837     2  0.0 [kjournald]
+  838     2  0.0 [jbd2/dm-2-8]
+  839     2  0.0 [ext4-dio-unwrit]
+  840     2  0.0 [ext4-dio-unwrit]
+  841     2  0.0 [ext4-dio-unwrit]
+  842     2  0.0 [ext4-dio-unwrit]
+  843     2  0.0 [ext4-dio-unwrit]
+  844     2  0.0 [ext4-dio-unwrit]
+  845     2  0.0 [ext4-dio-unwrit]
+  846     2  0.0 [ext4-dio-unwrit]
+  847     2  0.0 [jbd2/dm-3-8]
+  848     2  0.0 [ext4-dio-unwrit]
+  849     2  0.0 [ext4-dio-unwrit]
+  850     2  0.0 [ext4-dio-unwrit]
+  851     2  0.0 [ext4-dio-unwrit]
+  852     2  0.0 [ext4-dio-unwrit]
+  853     2  0.0 [ext4-dio-unwrit]
   854     2  0.0 [ext4-dio-unwrit]
   855     2  0.0 [ext4-dio-unwrit]
-  856     2  0.0 [ext4-dio-unwrit]
+  856     2  0.0 [jbd2/dm-4-8]
   857     2  0.0 [ext4-dio-unwrit]
   858     2  0.0 [ext4-dio-unwrit]
   859     2  0.0 [ext4-dio-unwrit]
   860     2  0.0 [ext4-dio-unwrit]
   861     2  0.0 [ext4-dio-unwrit]
-  862     2  0.0 [jbd2/dm-3-8]
+  862     2  0.0 [ext4-dio-unwrit]
   863     2  0.0 [ext4-dio-unwrit]
   864     2  0.0 [ext4-dio-unwrit]
-  865     2  0.0 [ext4-dio-unwrit]
+  865     2  0.0 [jbd2/dm-5-8]
   866     2  0.0 [ext4-dio-unwrit]
   867     2  0.0 [ext4-dio-unwrit]
   868     2  0.0 [ext4-dio-unwrit]
   869     2  0.0 [ext4-dio-unwrit]
   870     2  0.0 [ext4-dio-unwrit]
-  871     2  0.0 [jbd2/dm-4-8]
+  871     2  0.0 [ext4-dio-unwrit]
   872     2  0.0 [ext4-dio-unwrit]
   873     2  0.0 [ext4-dio-unwrit]
-  874     2  0.0 [ext4-dio-unwrit]
-  875     2  0.0 [ext4-dio-unwrit]
-  876     2  0.0 [ext4-dio-unwrit]
-  877     2  0.0 [ext4-dio-unwrit]
-  878     2  0.0 [ext4-dio-unwrit]
-  879     2  0.0 [ext4-dio-unwrit]
-  880     2  0.0 [jbd2/dm-5-8]
-  881     2  0.0 [ext4-dio-unwrit]
-  882     2  0.0 [ext4-dio-unwrit]
-  883     2  0.0 [ext4-dio-unwrit]
-  884     2  0.0 [ext4-dio-unwrit]
-  885     2  0.0 [ext4-dio-unwrit]
-  886     2  0.0 [ext4-dio-unwrit]
-  887     2  0.0 [ext4-dio-unwrit]
-  888     2  0.0 [ext4-dio-unwrit]
- 1055     2  0.0 [flush-253:1]
- 1058     2  0.0 [flush-253:4]
- 1112     1  0.0 /sbin/portreserve
- 1120     2  0.0 [rpciod/0]
- 1121     2  0.0 [rpciod/1]
- 1122     2  0.0 [rpciod/2]
- 1123     2  0.0 [rpciod/3]
- 1124     2  0.0 [rpciod/4]
- 1125     2  0.0 [rpciod/5]
- 1126     2  0.0 [rpciod/6]
- 1127     2  0.0 [rpciod/7]
- 1136     1  0.0 /sbin/rsyslogd -i /var/run/syslogd.pid -c 5
- 1148     1  0.0 irqbalance
- 1162     1  0.0 rpcbind
- 1180     1  0.0 rpc.statd
- 1201     1  0.0 rpc.idmapd
- 1302     1  0.0 sh -c /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f | /usr/local/sbin/filter-varnish-log
- 1303  1302  2.2 /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f
- 1304  1302  0.0 /usr/bin/perl /usr/local/sbin/filter-varnish-log
- 4035     1  0.0 dbus-daemon --system
- 4064     1  0.0 hald
- 4065  4064  0.0 hald-runner
- 4094  4065  0.0 hald-addon-input: Listening on /dev/input/event1
- 4115     1  0.0 /usr/sbin/nscd
- 4130     1  0.0 /usr/sbin/snmpd -LSnd -Lf /dev/null -p /var/run/snmpd.pid -a -c /etc/snmp/snmpd.sfinc-utils.conf
- 4151     1  0.0 xinetd -stayalive -pidfile /var/run/xinetd.pid
- 4160     1  0.0 ntpd -u ntp:ntp -p /var/run/ntpd.pid -g
- 4196     1  0.0 /usr/sbin/abrtd
- 4204     1  0.0 abrt-dump-oops -d /var/spool/abrt -rwx /var/log/messages
- 4223     1  0.0 /usr/sbin/atd
- 4920     1  0.0 /sbin/agetty /dev/ttyS0 115200 vt100-nav
- 4921     1  0.0 /sbin/mingetty /dev/tty1
- 4923     1  0.0 /sbin/mingetty /dev/tty2
- 4925     1  0.0 /sbin/mingetty /dev/tty3
- 4927     1  0.0 /sbin/mingetty /dev/tty4
- 4929     1  0.0 /sbin/mingetty /dev/tty5
- 4931     1  0.0 /sbin/mingetty /dev/tty6
- 4970     1  0.0 auditd
- 6956 13432  0.0 /usr/sbin/cronolog --symlink=/var/local/log/error_log /var/local/log/%Y/%m/%d/error.log
- 6958 13432  0.0 /usr/sbin/cronolog --symlink=/var/local/log/access_log /var/local/log/%Y/%m/%d/access_log
-10221     2  0.0 [flush-0:19]
-11871     1  0.0 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
-13432     1  0.3 /usr/sbin/httpd
-13554     2  0.0 [kslowd000]
-13555     2  0.0 [kslowd001]
-13556     2  0.0 [nfsiod]
-13557     2  0.0 [lockd]
-14967     1  0.0 /var/ossec/bin/ossec-execd
-14971     1  0.0 /var/ossec/bin/ossec-agentd
-14975     1  0.0 /var/ossec/bin/ossec-logcollector
-14979     1  0.0 /var/ossec/bin/ossec-syscheckd
-15038     1  1.5 /usr/local/sbin/omnifuse-projects -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-projects.json --log-file=/var/log/omnifuse-projects.log /chroots/prweb/home/project-web
-15071     1  0.0 /usr/local/sbin/omnifuse-users -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-users.json --log-file=/var/log/omnifuse-users.log /chroots/prweb/home/user-web
-15202     1  0.0 /usr/bin/monit
-15236     1  0.2 /usr/bin/perl /var/local/mastertree/host/sfp-web/scripts/split-varnish-log
-16618 11871  3.3 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
-17566     2  0.0 [bluetooth]
-17574   444  0.0 /sbin/udevd -d
-17575   444  0.0 /sbin/udevd -d
-19055     1  0.0 crond
-21156     1  0.0 /usr/sbin/sshd
-26543 13432  0.3 /usr/sbin/httpd
-26801     2  0.0 [flush-253:5]
-27630 13432  0.4 /usr/sbin/httpd
-28901 13432  0.6 /usr/sbin/httpd
-29311     2  0.0 [flush-253:2]
-30751 13432  0.6 /usr/sbin/httpd
-30752 13432  0.5 /usr/sbin/httpd
-31219 13432  0.6 /usr/sbin/httpd
-31721 13432  0.5 /usr/sbin/httpd
-31860 13432  0.4 /usr/sbin/httpd
-31991 13432  0.4 /usr/sbin/httpd
-32079 13432  0.5 /usr/sbin/httpd
-32101 13432  0.4 /usr/sbin/httpd
-32113 13432  0.5 /usr/sbin/httpd
-32216 31721  0.4 python /home/project-web/tmda/cgi-bin/moin.cgi
-32223 31860  0.4 python /home/project-web/tmda/cgi-bin/moin.cgi
-32266 13432  0.4 /usr/sbin/httpd
-32356 13432  0.6 /usr/sbin/httpd
-32377 13432  0.4 /usr/sbin/httpd
-32384 13432  0.3 /usr/sbin/httpd
-32385 13432  0.4 /usr/sbin/httpd
-32658 32384  0.0 /bin/ps axo pid,ppid,pmem,args
-32759 13432  0.3 /usr/sbin/httpd
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Reading: /etc/centos-release
-CentOS release 6.3 (Final)
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Reading: /etc/centos-release
-CentOS release 6.3 (Final)
-rceforge.com
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
-urceforge.com
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Executing: uname -m
-x86_64
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Reading: /proc/uptime
-4699599.99 23692258.24
----Sun, 28 Apr 2013 10:07:35 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: who 
-
--v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: uname -m
-x86_64
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/uptime
-4697834.55 25096609.81
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: lspci 
-00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
-00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
-00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/scsi/scsi
-Attached devices:
-Host: scsi0 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: who 
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: lspci 
-00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
-00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
-00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/scsi/scsi
-Attached devices:
-Host: scsi0 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: lsusb 
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/net/dev
-Inter-|   Receive                                                |  Transmit
- face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:33579456568042 276121574630    0    0    0     0          0         0 33579456568042 276121574630    0    0    0     0       0          0
-  eth0:11859244205400 21065740862    0    0    0     0          0         0 5444309979955 19707771544    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:276121574637 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:276121574637 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:33579456579272 (30.5 TiB)  TX bytes:33579456579272 (30.5 TiB)
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:3D  
-          inet addr:172.29.30.61  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e3d/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:21065740949 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19707771630 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:11859244233760 (10.7 TiB)  TX bytes:5444309999563 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          408932 kB
-Buffers:           32716 kB
-Cached:          5281180 kB
-SwapCached:         8180 kB
-Active:          3126096 kB
-Inactive:        3018544 kB
-Active(anon):     575792 kB
-Inactive(anon):   255636 kB
-Active(file):    2550304 kB
-Inactive(file):  2762908 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:       1015800 kB
-SwapFree:         728300 kB
-Dirty:             18452 kB
-Writeback:             4 kB
-AnonPages:        822672 kB
-Mapped:           189392 kB
-Shmem:               644 kB
-Slab:            1382564 kB
-SReclaimable:     924496 kB
-SUnreclaim:       458068 kB
-KernelStack:        2592 kB
-PageTables:        16220 kB
-NFS_Unstable:       1400 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    1735004 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359692080 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    212992 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/swaps
-Filename				Type		Size	Used	Priority
-/dev/dm-0                               partition	1015800	287500	-1
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/net/dev
-Inter-|   Receive                                                |  Transmit
- face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:36426146651312 301480990926    0    0    0     0          0         0 36426146651312 301480990926    0    0    0     0       0          0
-  eth0:11649199866206 20833028335    0    0    0     0          0         0 5423300843004 19532128537    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:301480993056 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:301480993056 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:36426146889872 (33.1 TiB)  TX bytes:36426146889872 (33.1 TiB)
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:3F  
-          inet addr:172.29.30.63  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e3f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:20833028432 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19532128641 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:11649199883398 (10.5 TiB)  TX bytes:5423300863216 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          328080 kB
-Buffers:           20428 kB
-Cached:          4903540 kB
-SwapCached:         8296 kB
-Active:          3192972 kB
-Inactive:        3002612 kB
-Active(anon):     821092 kB
-Inactive(anon):   451208 kB
-Active(file):    2371880 kB
-Inactive(file):  2551404 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:       1015800 kB
-SwapFree:         986556 kB
-Dirty:              4888 kB
-Writeback:             0 kB
-AnonPages:       1263288 kB
-Mapped:           229464 kB
-Shmem:               664 kB
-Slab:            1410056 kB
-SReclaimable:     982160 kB
-SUnreclaim:       427896 kB
-KernelStack:        2624 kB
-PageTables:        18972 kB
-NFS_Unstable:       1244 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    1960600 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359691120 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    288768 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/loadavg
-2.19 2.37 2.24 5/316 19817
-riority
-/dev/dm-0                               partition	1015800	29244	-1
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: df -i -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Executing: mount 
-proc on /proc type proc (rw)
----Sun, 28 Apr 2013 10:07:36 +0000 GMT--- Reading: /proc/loadavg
-3.48 3.38 3.17 5/320 19175
----Sun, 28 Apr 2013 10:07:51 +0000 GMT--- Reading: /etc/centos-release
-CentOS release 6.3 (Final)
----Sun, 28 Apr 2013 10:07:51 +0000 GMT--- Reading: /proc/sys/kernel/hostname
-sfp-web-7.v30.ch3.sourceforge.com
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: uname -m
-x86_64
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/uptime
-4694092.20 26219427.62
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: who 
-
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: lspci 
-00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
-00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
-00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/scsi/scsi
-Attached devices:
-Host: scsi0 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: lsusb 
-
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/net/dev
-Inter-|   Receive                                                |  Transmit
- face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:30550784675098 249161402975    0    0    0     0          0         0 30550784675098 249161402975    0    0    0     0       0          0
-  eth0:11761092626520 20886715959    0    0    0     0          0         0 5420917445068 19553194491    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:249161403904 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:249161403904 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:30550784779731 (27.7 TiB)  TX bytes:30550784779731 (27.7 TiB)
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:43  
-          inet addr:172.29.30.67  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e43/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:20886716139 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19553194699 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:11761092668595 (10.6 TiB)  TX bytes:5420917482304 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          927116 kB
-Buffers:           20932 kB
-Cached:          4541072 kB
-SwapCached:         7468 kB
-Active:          2961624 kB
-Inactive:        2843944 kB
-Active(anon):     832244 kB
-Inactive(anon):   412676 kB
-Active(file):    2129380 kB
-Inactive(file):  2431268 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:       1015800 kB
-SwapFree:         964284 kB
-Dirty:             11084 kB
-Writeback:             4 kB
-AnonPages:       1237340 kB
-Mapped:           208736 kB
-Shmem:               676 kB
-Slab:            1198988 kB
-SReclaimable:     828176 kB
-SUnreclaim:       370812 kB
-KernelStack:        2640 kB
-PageTables:        19508 kB
-NFS_Unstable:       1000 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    2023440 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359694936 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    256000 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/swaps
-Filename				Type		Size	Used	Priority
-/dev/dm-0                               partition	1015800	51516	-1
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: df -i -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Executing: mount 
-proc on /proc type proc (rw)
----Sun, 28 Apr 2013 10:07:53 +0000 GMT--- Reading: /proc/loadavg
-3.40 3.30 3.33 8/324 4951
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /etc/centos-release
-CentOS release 6.3 (Final)
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/sys/kernel/hostname
-sfp-web-7.v30.ch3.sourceforge.com
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: uname -r
-2.6.32-279.14.1.el6.x86_64
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: uname -v
-#1 SMP Tue Nov 6 23:43:09 UTC 2012
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: uname -m
-x86_64
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/uptime
-4694096.10 26219444.93
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: who 
-
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 1
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 2
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 3
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 4
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 5
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 6
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
-processor	: 7
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 13
-model name	: QEMU Virtual CPU version (cpu64-rhel6)
-stepping	: 3
-cpu MHz		: 1994.999
-cache size	: 4096 KB
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 4
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
-bogomips	: 3989.99
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 44 bits physical, 48 bits virtual
-power management:
-
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: lspci 
-00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
-00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
-00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
-00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
-00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
-00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
-00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/scsi/scsi
-Attached devices:
-Host: scsi0 Channel: 00 Id: 00 Lun: 00
-  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
-  Type:   Direct-Access                    ANSI  SCSI revision: 05
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: lsusb 
-
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/net/dev
-Inter-|   Receive                                                |  Transmit
- face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
-    lo:30550814502695 249161624449    0    0    0     0          0         0 30550814502695 249161624449    0    0    0     0       0          0
-  eth0:11761102884198 20886742854    0    0    0     0          0         0 5420926836425 19553222811    0    0    0     0       0          0
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:16436  Metric:1
-          RX packets:249161625069 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:249161625069 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:30550814578374 (27.7 TiB)  TX bytes:30550814578374 (27.7 TiB)
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
-eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:43  
-          inet addr:172.29.30.67  Bcast:172.29.30.255  Mask:255.255.255.0
-          inet6 addr: fe80::acff:fe1d:1e43/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:20886743029 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:19553223009 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:11761102925321 (10.6 TiB)  TX bytes:5420926913638 (4.9 TiB)
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/meminfo
-MemTotal:        8059300 kB
-MemFree:          922868 kB
-Buffers:           20948 kB
-Cached:          4548804 kB
-SwapCached:         7468 kB
-Active:          2957216 kB
-Inactive:        2851880 kB
-Active(anon):     827520 kB
-Inactive(anon):   412688 kB
-Active(file):    2129696 kB
-Inactive(file):  2439192 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:       1015800 kB
-SwapFree:         964284 kB
-Dirty:             11608 kB
-Writeback:             0 kB
-AnonPages:       1232248 kB
-Mapped:           208744 kB
-Shmem:               676 kB
-Slab:            1199048 kB
-SReclaimable:     828176 kB
-SUnreclaim:       370872 kB
-KernelStack:        2640 kB
-PageTables:        19256 kB
-NFS_Unstable:       1040 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     5045448 kB
-Committed_AS:    2019028 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       26224 kB
-VmallocChunk:   34359694936 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:    256000 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:        8180 kB
-DirectMap2M:     8380416 kB
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/swaps
-Filename				Type		Size	Used	Priority
-/dev/dm-0                               partition	1015800	51516	-1
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: df -k -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: df -i -P 2>/dev/null
-
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Executing: mount 
-proc on /proc type proc (rw)
----Sun, 28 Apr 2013 10:07:57 +0000 GMT--- Reading: /proc/loadavg
-3.53 3.32 3.34 4/323 4969
+  934     2  0.0 [kauditd]
+  956   330  0.0 ping 10.0.2.2
+ 1132     1  0.0 auditd
+ 1150     1  0.0 /sbin/portreserve
+ 1158     2  0.0 [rpciod/0]
+ 1159     2  0.0 [rpciod/1]
+ 1160     2  0.0 [rpciod/2]
+ 1161     2  0.0 [rpciod/3]
+ 1162     2  0.0 [rpciod/4]
+ 1163     2  0.0 [rpciod/5]
+ 1164     2  0.0 [rpciod/6]
+ 1165     2  0.0 [rpciod/7]
+ 1174     1  0.0 /sbin/rsyslogd -i /var/run/syslogd.pid -c3
+ 1186     1  0.0 irqbalance
+ 1201     1  0.0 rpcbind
+ 1219     1  0.0 rpc.statd
+ 1241     1  0.0 rpc.idmapd
+ 1364     2  0.0 [flush-253:2]
+ 2117 30665  0.3 python /home/project-web/tmda/cgi-bin/moin.cgi
+ 2133  4796  0.5 /usr/sbin/httpd
+ 2246  4796  0.5 /usr/sbin/httpd
+ 2302  4796  0.4 /usr/sbin/httpd
+ 2317  4796  0.5 /usr/sbin/httpd
+ 2318  4796  0.5 /usr/sbin/httpd
+ 2336  4796  0.5 /usr/sbin/httpd
+ 2337  4796  0.5 /usr/sbin/httpd
+ 2338  4796  0.5 /usr/sbin/httpd
+ 2339  4796  0.4 /usr/sbin/httpd
+ 2460  4796  0.5 /usr/sbin/httpd
+ 2669  4796  0.5 /usr/sbin/httpd
+ 3375 24425  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4372  4796  0.6 /usr/sbin/httpd
+ 4429     1  0.0 dbus-daemon --system
+ 4453     2  0.0 [kslowd000]
+ 4454     2  0.0 [kslowd001]
+ 4455     2  0.0 [nfsiod]
+ 4456     2  0.0 [lockd]
+ 4481  4796  0.5 /usr/sbin/httpd
+ 4602     1  0.0 hald
+ 4603  4602  0.0 hald-runner
+ 4632  4603  0.0 hald-addon-input: Listening on /dev/input/event1
+ 4667     1  0.0 /usr/sbin/nscd
+ 4682     1  0.0 /usr/sbin/snmpd -LSnd -Lf /dev/null -p /var/run/snmpd.pid -a -c /etc/snmp/snmpd.sfinc-utils.conf
+ 4694     1  0.0 /usr/sbin/sshd
+ 4702     1  0.0 xinetd -stayalive -pidfile /var/run/xinetd.pid
+ 4710     1  0.0 ntpd -u ntp:ntp -p /var/run/ntpd.pid -g
+ 4726     1  1.4 /usr/local/sbin/omnifuse-projects -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-projects.json --log-file=/var/log/omnifuse-projects.log /chroots/prweb/home/project-web
+ 4741     1  0.0 /usr/local/sbin/omnifuse-users -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-users.json --log-file=/var/log/omnifuse-users.log /chroots/prweb/home/user-web
+ 4765     1  0.0 /usr/sbin/abrtd
+ 4769  2302  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4773     1  0.0 abrt-dump-oops -d /var/spool/abrt -rwx /var/log/messages
+ 4780  4796  0.3 /usr/sbin/httpd
+ 4796     1  0.4 /usr/sbin/httpd
+ 4812     1  0.0 crond
+ 4867     2  0.0 [flush-0:19]
+ 4870     1  0.0 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
+ 4896     1  0.0 sh -c /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f | /usr/local/sbin/filter-varnish-log
+ 4898  4896  3.0 /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f
+ 4899  4896  0.0 /usr/bin/perl /usr/local/sbin/filter-varnish-log
+ 4912     1  0.0 /usr/sbin/atd
+ 4921     1  0.0 /usr/bin/monit
+ 4928 24370  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4956     1  0.0 /var/ossec/bin/ossec-execd
+ 4960     1  0.0 /var/ossec/bin/ossec-agentd
+ 4964     1  0.0 /var/ossec/bin/ossec-logcollector
+ 4968     1  0.0 /var/ossec/bin/ossec-syscheckd
+ 5079  4796  0.4 /usr/sbin/httpd
+ 5161  4796  0.4 /usr/sbin/httpd
+ 5656     1  0.0 /sbin/mingetty /dev/tty1
+ 5658     1  0.0 /sbin/mingetty /dev/tty2
+ 5660     1  0.0 /sbin/mingetty /dev/tty3
+ 5661     1  0.0 /sbin/agetty /dev/ttyS0 115200 vt100-nav
+ 5663     1  0.0 /sbin/mingetty /dev/tty4
+ 5665     1  0.0 /sbin/mingetty /dev/tty5
+ 5667     1  0.0 /sbin/mingetty /dev/tty6
+ 5676  4796  0.4 /usr/sbin/httpd
+ 5883  4796  1.8 /usr/sbin/httpd
+ 5969 27819  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 6026  5161  0.0 /bin/ps axo pid,ppid,pmem,args
+ 6043  4796  0.0 /usr/sbin/cronolog --symlink=/var/local/log/error_log /var/local/log/%Y/%m/%d/error.log
+ 6047  4796  0.0 /usr/sbin/cronolog --symlink=/var/local/log/access_log /var/local/log/%Y/%m/%d/access_log
+ 6799     2  0.0 [flush-253:5]
+ 7454  5883  0.0 ping 10.0.2.2
+ 9254   442  0.0 /sbin/udevd -d
+ 9403     1  0.2 /usr/bin/perl /var/local/mastertree/host/sfp-web/scripts/split-varnish-log
+13285  4796  0.6 /usr/sbin/httpd
+13704  4796  0.5 /usr/sbin/httpd
+14612  4796  0.2 /usr/sbin/httpd
+14835  4796  0.2 /usr/sbin/httpd
+16052  4796  0.4 /usr/sbin/httpd
+21740  4870  2.4 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
+24370  4796  0.5 /usr/sbin/httpd
+24425  4796  0.4 /usr/sbin/httpd
+25544  4796  0.4 /usr/sbin/httpd
+27739  4796  0.5 /usr/sbin/httpd
+27816  4796  0.4 /usr/sbin/httpd
+27819  4796  0.5 /usr/sbin/httpd
+29216  4796  0.5 /usr/sbin/httpd
+30189  4796  1.8 /usr/sbin/httpd
+30335  4796  1.8 /usr/sbin/httpd
+30645 30189  0.0 ping 10.0.2.2
+30665  4796  0.5 /usr/sbin/httpd
+32343  4796  1.8 /usr/sbin/httpd
+32414 32343  0.0 ping 10.0.2.2
