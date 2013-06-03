@@ -93,7 +93,7 @@ SHOW_PICKLIST_TEMPLATE=true
 ; Define the interval for refreshing data in ms
 ; - 0 = disabled
 ; - 1000 = 1 second
-; - Default is 60 seconds
+; Default is 60 seconds
 ;
 REFRESH=60000
 
@@ -236,6 +236,13 @@ HIDE_FS_TYPES=""
 ; Example : HIDE_DISKS="rootfs"
 ;
 HIDE_DISKS=""
+
+; Filesystem usage warning threshold in percent
+; - 0 = disabled
+; - 90 = 90%
+; Default is 95%
+;
+FS_USAGE_THRESHOLD=95
 
 
 ; ********************************

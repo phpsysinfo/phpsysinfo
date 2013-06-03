@@ -2,7 +2,7 @@ phpSysInfo 3.1.4
 
  - [ADD] Option for reading the results of functions executeProgram() and rfts() from log
  - [ADD] Show CPU frequency max and min for variable speed processors for Linux and Android
- - [ADD] Display disk usage of more than 94% in color warning
+ - [ADD] Filesystem usage warning on defined threshold FS_USAGE_THRESHOLD
 
  - [UPD] BAT plugin - added temperature, condition and type of battery, Android support
  - [UPD] jQuery 2.0.2 and jQuery 1.10.1
