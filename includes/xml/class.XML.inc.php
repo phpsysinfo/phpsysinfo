@@ -574,11 +574,11 @@ class XML
         if ( defined('PSI_FS_USAGE_THRESHOLD') ) {
             if (PSI_FS_USAGE_THRESHOLD === true) {
                 $options->addAttribute('threshold', 1);
-            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD > 0) && (PSI_FS_USAGE_THRESHOLD < 100) ) {
+            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD >= 1) && (PSI_FS_USAGE_THRESHOLD <= 99) ) {
                 $options->addAttribute('threshold', PSI_FS_USAGE_THRESHOLD);
             }
         } else {
-            $options->addAttribute('threshold', 95);
+            $options->addAttribute('threshold', 90);
         }
         $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
         $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');

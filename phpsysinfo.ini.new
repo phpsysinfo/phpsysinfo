@@ -240,9 +240,9 @@ HIDE_DISKS=""
 ; Filesystem usage warning threshold in percent
 ; - 0 = disabled
 ; - 90 = 90%
-; Default is 95%
+; Default is 90%
 ;
-FS_USAGE_THRESHOLD=95
+FS_USAGE_THRESHOLD=90
 
 
 ; ********************************
