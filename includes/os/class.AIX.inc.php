@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI AIX OS class
  * @author    Krzysztof Paz (kpaz@gazeta.pl) based on HPUX of Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2011 Krzysztof Paz
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -17,7 +17,7 @@
 * get all the required information from IBM AIX system
 *
 * @category  PHP
-* @package   PSI_OS
+* @package   PSI AIX OS class
 * @author    Krzysztof Paz (kpaz@gazeta.pl) based on Michael Cramer <BigMichi1@users.sourceforge.net>
 * @copyright 2011 Krzysztof Paz
 * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License

@@ -25,12 +25,21 @@
     <exp>Napięcie aktualne</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_item">
-    <exp>Sztuki</exp>
+    <exp>Parametry</exp>
   </expression>
   <expression id="plugin_bat_008" name="bat_value">
     <exp>Wartości</exp>
   </expression>
   <expression id="plugin_bat_009" name="bat_charging_state">
     <exp>Stan ładowania</exp>
+  </expression>
+  <expression id="plugin_bat_010" name="bat_battery_type">
+    <exp>Typ ogniw</exp>
+  </expression>
+  <expression id="plugin_bat_011" name="bat_battery_temperature">
+    <exp>Temperatura ogniw</exp>
+  </expression>
+  <expression id="plugin_bat_012" name="bat_battery_condition">
+    <exp>Kondycja ogniw</exp>
   </expression>
 </tns:translationPlugin>

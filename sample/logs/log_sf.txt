@@ -1,0 +1,697 @@
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Reading: /etc/centos-release
+CentOS release 6.3 (Final)
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Reading: /proc/sys/kernel/hostname
+sfp-web-6.v30.ch3.sourceforge.com
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Executing: uname -r
+2.6.32-358.6.1.el6.sog20130514.x86_64
+---Mon, 03 Jun 2013 11:37:11 +0000 GMT--- Executing: uname -v
+#1 SMP Tue May 14 17:31:39 UTC 2013
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: uname -m
+x86_64
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/uptime
+1694267.18 4577690.73
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: who 
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 13
+model name	: QEMU Virtual CPU version (cpu64-rhel6)
+stepping	: 3
+cpu MHz		: 1994.999
+cache size	: 4096 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 4
+wp		: yes
+flags		: fpu de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm unfair_spinlock pni cx16 hypervisor lahf_lm
+bogomips	: 3989.99
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 44 bits physical, 48 bits virtual
+power management:
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s mysqld
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lspci 
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
+00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
+00:01.2 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
+00:01.3 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 03)
+00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
+00:04.0 RAM memory: Red Hat, Inc Virtio memory balloon
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: ATA      Model: QEMU HARDDISK    Rev: 0.12
+  Type:   Direct-Access                    ANSI  SCSI revision: 05
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s explorer.exe
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/quotas.txt
+Mon Dec  6 09:00:00 EST 2004
+                        1K Block limits               File limits
+User                used        soft        hard  grace    used  soft  hard  grace
+cherylstaff--     2755724           0           0          15678     0     0       
+brucestaff	--     5738512           0           0           7830     0     0       
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lsusb 
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/net/dev
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:27320003601847 234655896121    0    0    0     0          0         0 27320003601847 234655896121    0    0    0     0       0          0
+  eth0:4165329584450 11931631683    0    0    0     0          0         0 3108966577870 13127032084    0    0    0     0       0          0
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:234655903698 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:234655903698 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:27320004466384 (24.8 TiB)  TX bytes:27320004466384 (24.8 TiB)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
+eth0      Link encap:Ethernet  HWaddr 02:00:AC:1D:1E:42  
+          inet addr:172.29.30.66  Bcast:172.29.30.255  Mask:255.255.255.0
+          inet6 addr: fe80::acff:fe1d:1e42/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:11931632533 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13127033096 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:4165329803095 (3.7 TiB)  TX bytes:3108966767181 (2.8 TiB)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/meminfo
+MemTotal:        8059140 kB
+MemFree:          648372 kB
+Buffers:           22880 kB
+Cached:          4231260 kB
+SwapCached:         2492 kB
+Active:          3013816 kB
+Inactive:        3212256 kB
+Active(anon):     946280 kB
+Inactive(anon):  1026516 kB
+Active(file):    2067536 kB
+Inactive(file):  2185740 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1015800 kB
+SwapFree:         963348 kB
+Dirty:             13700 kB
+Writeback:             4 kB
+AnonPages:       1969672 kB
+Mapped:           175844 kB
+Shmem:               812 kB
+Slab:            1073848 kB
+SReclaimable:     711992 kB
+SUnreclaim:       361856 kB
+KernelStack:        2928 kB
+PageTables:        33512 kB
+NFS_Unstable:        148 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     5045368 kB
+Committed_AS:    3170052 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:       26224 kB
+VmallocChunk:   34359683252 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:     77824 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:        8180 kB
+DirectMap2M:     8380416 kB
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/swaps
+Filename				Type		Size	Used	Priority
+/dev/dm-0                               partition	1015800	52452	-1
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: df -k -P 2>/dev/null
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: df -i -P 2>/dev/null
+
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/smart0.txt
+smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
+
+Device: SEAGATE  ST3146855LW      Version: 0003
+Serial number: 3LN1GA[rest of serial number redacted]
+Device type: disk
+Transport protocol: Parallel SCSI (SPI-4)
+Local Time is: Sat Jan 30 21:59:56 2010 CET
+Device supports SMART and is Enabled
+Temperature Warning Enabled
+SMART Health Status: OK
+
+Current Drive Temperature:     39 C
+Drive Trip Temperature:        68 C
+Elements in grown defect list: 0
+Vendor (Seagate) cache information
+  Blocks sent to initiator = 1490558074
+  Blocks received from initiator = 624662611
+  Blocks read from cache and sent to initiator = 2900209651
+  Number of read and write commands whose size <= segment size = 386699414
+  Number of read and write commands whose size > segment size = 28
+Vendor (Seagate/Hitachi) factory information
+  number of hours powered up = 14959.20
+  number of minutes until next internal SMART test = 44
+
+Error counter log:
+           Errors Corrected by           Total   Correction     Gigabytes    Total
+               ECC          rereads/    errors   algorithm      processed    uncorrected
+           fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
+read:    6663270        0         0   6663270    6663270       5100.626           0
+write:         0        0         0         0          0   12594895028.099           0
+verify:    22626        0         0     22626      22626         28.314           0
+
+Non-medium error count:        3
+
+[GLTSD (Global Logging Target Save Disable) set. Enable Save with '-S on']
+
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Interrupted ('-X' switch)   -   14371                 - [-   -    -]
+
+Long (extended) Self Test duration: 1367 seconds [22.8 minutes]
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: mount 
+proc on /proc type proc (rw)
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/loadavg
+14.01 16.10 16.01 18/358 6013
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/mdstat.txt
+Personalities : [linear] [raid0] [raid1] [raid5] [hsm] 
+read_ahead 1024 sectors 
+md0 : active raid5 sdd1[3] sdc6[2] sdb6[1] sda5[0] 633984 blocks
+ level 5, 32k chunk, algorithm 2 [4/4] [UUUU] 
+unused devices: <none>
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_info.txt
+present:                 yes
+design capacity:         50000 mWh
+last full capacity:      50000 mWh
+battery technology:      rechargeable
+design voltage:          10000 mV
+design capacity warning: 100 mWh
+design capacity low:     50 mWh
+capacity granularity 1:  1 mWh
+capacity granularity 2:  1 mWh
+model number:            1
+serial number:           0
+battery type:            VBOX
+OEM info:                innotek
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_state.txt
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mW
+remaining capacity:      50000 mWh
+present voltage:         10000 mV
+---Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/ipmiinfo.txt
+BB +1.2V Vtt     | 1.197      | Volts      | ok    | na        | 1.096     | 1.134     | 1.285     | 1.323     | na        
+BB +1.5V AUX     | 1.490      | Volts      | ok    | na        | 1.334     | 1.373     | 1.622     | 1.669     | na        
+BB +1.5V         | 1.469      | Volts      | ok    | na        | 1.326     | 1.365     | 1.625     | 1.677     | na        
+BB +1.8V         | 1.802      | Volts      | ok    | na        | 1.638     | 1.689     | 1.926     | 1.988     | na        
+BB +3.3V         | 3.320      | Volts      | ok    | na        | 2.941     | 3.027     | 3.578     | 3.681     | na        
+BB +3.3V STB     | 3.337      | Volts      | ok    | na        | 3.027     | 3.113     | 3.509     | 3.612     | na        
+BB +1.5V ESB     | 1.490      | Volts      | ok    | na        | 1.357     | 1.404     | 1.591     | 1.638     | na        
+BB +5V           | 5.122      | Volts      | ok    | na        | 4.446     | 4.576     | 5.408     | 5.564     | na        
+BB +12V AUX      | 12.090     | Volts      | ok    | na        | 10.416    | 10.726    | 13.144    | 13.578    | na        
+BB 0.9V          | 0.902      | Volts      | ok    | na        | 0.811     | 0.835     | 0.950     | 0.979     | na        
+Baseboard Temp   | 29.000     | degrees C  | ok    | na        | 5.000     | 10.000    | 61.000    | 66.000    | na        
+P1 Therm Margin  | -32.000    | degrees C  | ok    | na        | na        | na        | na        | na        | na        
+P1 Therm Ctrl %  | 0.000      | unspecified | ok    | na        | na        | na        | na        | 49.530    | na        
+Proc 1 Vcc       | 1.203      | Volts      | ok    | na        | na        | na        | na        | na        | na        
+Power Unit       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+BMC Watchdog     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Scrty Violation  | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+F-P Diag Int     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+System Event Log | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Session Audit    | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+System Event     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+BB Vbat          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+SysACPIPowerStat | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+Button           | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+SMI Timeout      | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+NMI State        | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+SMI State        | 0x0        | discrete   | 0x0100| na        | na        | na        | na        | na        | na        
+Processor 1 Stat | 0x0        | discrete   | 0x8000| na        | na        | na        | na        | na        | na        
+Processor 2 Stat | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link0       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link1       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link2       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link3       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link4       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link5       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link6       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link7       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link8       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link9       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link10      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link11      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link12      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+PCIe Link13      | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+Proc1 VRD Hot    | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+CPU1 Vcc OOR     | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+CPU Popula Error | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM A1          | 0x0        | discrete   | 0x0400| na        | na        | na        | na        | na        | na        
+DIMM A2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM B1          | 0x0        | discrete   | 0x0400| na        | na        | na        | na        | na        | na        
+DIMM B2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM C1          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM C2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM D1          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+DIMM D2          | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemA Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemB Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemC Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+MemD Error       | 0x0        | discrete   | 0x0000| na        | na        | na        | na        | na        | na        
+B0 Sparing Enb   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B0 Spare Redun   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B1 Sparing Enb   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B1 Spare Redun   | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B01 Mirror Enbl  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+B01 MirrorRedun  | na         | discrete   | na    | na        | na        | na        | na        | na        | na        
+---Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Executing: ps axo pid,ppid,pmem,args
+PID  PPID %MEM COMMAND
+    1     0  0.0 /sbin/init
+    2     0  0.0 [kthreadd]
+    3     2  0.0 [migration/0]
+    4     2  0.0 [ksoftirqd/0]
+    5     2  0.0 [migration/0]
+    6     2  0.0 [watchdog/0]
+    7     2  0.0 [migration/1]
+    8     2  0.0 [migration/1]
+    9     2  0.0 [ksoftirqd/1]
+   10     2  0.0 [watchdog/1]
+   11     2  0.0 [migration/2]
+   12     2  0.0 [migration/2]
+   13     2  0.0 [ksoftirqd/2]
+   14     2  0.0 [watchdog/2]
+   15     2  0.0 [migration/3]
+   16     2  0.0 [migration/3]
+   17     2  0.0 [ksoftirqd/3]
+   18     2  0.0 [watchdog/3]
+   19     2  0.0 [migration/4]
+   20     2  0.0 [migration/4]
+   21     2  0.0 [ksoftirqd/4]
+   22     2  0.0 [watchdog/4]
+   23     2  0.0 [migration/5]
+   24     2  0.0 [migration/5]
+   25     2  0.0 [ksoftirqd/5]
+   26     2  0.0 [watchdog/5]
+   27     2  0.0 [migration/6]
+   28     2  0.0 [migration/6]
+   29     2  0.0 [ksoftirqd/6]
+   30     2  0.0 [watchdog/6]
+   31     2  0.0 [migration/7]
+   32     2  0.0 [migration/7]
+   33     2  0.0 [ksoftirqd/7]
+   34     2  0.0 [watchdog/7]
+   35     2  0.0 [events/0]
+   36     2  0.0 [events/1]
+   37     2  0.0 [events/2]
+   38     2  0.0 [events/3]
+   39     2  0.0 [events/4]
+   40     2  0.0 [events/5]
+   41     2  0.0 [events/6]
+   42     2  0.0 [events/7]
+   43     2  0.0 [cgroup]
+   44     2  0.0 [khelper]
+   45     2  0.0 [netns]
+   46     2  0.0 [async/mgr]
+   47     2  0.0 [pm]
+   48     2  0.0 [sync_supers]
+   49     2  0.0 [bdi-default]
+   50     2  0.0 [kintegrityd/0]
+   51     2  0.0 [kintegrityd/1]
+   52     2  0.0 [kintegrityd/2]
+   53     2  0.0 [kintegrityd/3]
+   54     2  0.0 [kintegrityd/4]
+   55     2  0.0 [kintegrityd/5]
+   56     2  0.0 [kintegrityd/6]
+   57     2  0.0 [kintegrityd/7]
+   58     2  0.0 [kblockd/0]
+   59     2  0.0 [kblockd/1]
+   60     2  0.0 [kblockd/2]
+   61     2  0.0 [kblockd/3]
+   62     2  0.0 [kblockd/4]
+   63     2  0.0 [kblockd/5]
+   64     2  0.0 [kblockd/6]
+   65     2  0.0 [kblockd/7]
+   66     2  0.0 [ata/0]
+   67     2  0.0 [ata/1]
+   68     2  0.0 [ata/2]
+   69     2  0.0 [ata/3]
+   70     2  0.0 [ata/4]
+   71     2  0.0 [ata/5]
+   72     2  0.0 [ata/6]
+   73     2  0.0 [ata/7]
+   74     2  0.0 [ata_aux]
+   75     2  0.0 [ksuspend_usbd]
+   76     2  0.0 [khubd]
+   77     2  0.0 [kseriod]
+   78     2  0.0 [md/0]
+   79     2  0.0 [md/1]
+   80     2  0.0 [md/2]
+   81     2  0.0 [md/3]
+   82     2  0.0 [md/4]
+   83     2  0.0 [md/5]
+   84     2  0.0 [md/6]
+   85     2  0.0 [md/7]
+   86     2  0.0 [md_misc/0]
+   87     2  0.0 [md_misc/1]
+   88     2  0.0 [md_misc/2]
+   89     2  0.0 [md_misc/3]
+   90     2  0.0 [md_misc/4]
+   91     2  0.0 [md_misc/5]
+   92     2  0.0 [md_misc/6]
+   93     2  0.0 [md_misc/7]
+   94     2  0.0 [khungtaskd]
+   95     2  0.0 [kswapd0]
+   96     2  0.0 [ksmd]
+   97     2  0.0 [khugepaged]
+   98     2  0.0 [aio/0]
+   99     2  0.0 [aio/1]
+  100     2  0.0 [aio/2]
+  101     2  0.0 [aio/3]
+  102     2  0.0 [aio/4]
+  103     2  0.0 [aio/5]
+  104     2  0.0 [aio/6]
+  105     2  0.0 [aio/7]
+  106     2  0.0 [crypto/0]
+  107     2  0.0 [crypto/1]
+  108     2  0.0 [crypto/2]
+  109     2  0.0 [crypto/3]
+  110     2  0.0 [crypto/4]
+  111     2  0.0 [crypto/5]
+  112     2  0.0 [crypto/6]
+  113     2  0.0 [crypto/7]
+  118     2  0.0 [kthrotld/0]
+  119     2  0.0 [kthrotld/1]
+  120     2  0.0 [kthrotld/2]
+  121     2  0.0 [kthrotld/3]
+  122     2  0.0 [kthrotld/4]
+  123     2  0.0 [kthrotld/5]
+  124     2  0.0 [kthrotld/6]
+  125     2  0.0 [kthrotld/7]
+  127     2  0.0 [kpsmoused]
+  128     2  0.0 [usbhid_resumer]
+  159     2  0.0 [kstriped]
+  257     2  0.0 [scsi_eh_0]
+  258     2  0.0 [scsi_eh_1]
+  313     2  0.0 [kdmflush]
+  315     2  0.0 [kdmflush]
+  330  4796  1.8 /usr/sbin/httpd
+  335     2  0.0 [flush-253:1]
+  349     2  0.0 [jbd2/dm-1-8]
+  350     2  0.0 [ext4-dio-unwrit]
+  351     2  0.0 [ext4-dio-unwrit]
+  352     2  0.0 [ext4-dio-unwrit]
+  353     2  0.0 [ext4-dio-unwrit]
+  354     2  0.0 [ext4-dio-unwrit]
+  355     2  0.0 [ext4-dio-unwrit]
+  356     2  0.0 [ext4-dio-unwrit]
+  357     2  0.0 [ext4-dio-unwrit]
+  442     1  0.0 /sbin/udevd -d
+  610     2  0.0 [virtio-net]
+  624     2  0.0 [vballoon]
+  726 30335  0.0 ping 10.0.2.2
+  773     2  0.0 [kdmflush]
+  776     2  0.0 [kdmflush]
+  779     2  0.0 [kdmflush]
+  782   442  0.0 /sbin/udevd -d
+  784     2  0.0 [kdmflush]
+  812     2  0.0 [flush-253:4]
+  837     2  0.0 [kjournald]
+  838     2  0.0 [jbd2/dm-2-8]
+  839     2  0.0 [ext4-dio-unwrit]
+  840     2  0.0 [ext4-dio-unwrit]
+  841     2  0.0 [ext4-dio-unwrit]
+  842     2  0.0 [ext4-dio-unwrit]
+  843     2  0.0 [ext4-dio-unwrit]
+  844     2  0.0 [ext4-dio-unwrit]
+  845     2  0.0 [ext4-dio-unwrit]
+  846     2  0.0 [ext4-dio-unwrit]
+  847     2  0.0 [jbd2/dm-3-8]
+  848     2  0.0 [ext4-dio-unwrit]
+  849     2  0.0 [ext4-dio-unwrit]
+  850     2  0.0 [ext4-dio-unwrit]
+  851     2  0.0 [ext4-dio-unwrit]
+  852     2  0.0 [ext4-dio-unwrit]
+  853     2  0.0 [ext4-dio-unwrit]
+  854     2  0.0 [ext4-dio-unwrit]
+  855     2  0.0 [ext4-dio-unwrit]
+  856     2  0.0 [jbd2/dm-4-8]
+  857     2  0.0 [ext4-dio-unwrit]
+  858     2  0.0 [ext4-dio-unwrit]
+  859     2  0.0 [ext4-dio-unwrit]
+  860     2  0.0 [ext4-dio-unwrit]
+  861     2  0.0 [ext4-dio-unwrit]
+  862     2  0.0 [ext4-dio-unwrit]
+  863     2  0.0 [ext4-dio-unwrit]
+  864     2  0.0 [ext4-dio-unwrit]
+  865     2  0.0 [jbd2/dm-5-8]
+  866     2  0.0 [ext4-dio-unwrit]
+  867     2  0.0 [ext4-dio-unwrit]
+  868     2  0.0 [ext4-dio-unwrit]
+  869     2  0.0 [ext4-dio-unwrit]
+  870     2  0.0 [ext4-dio-unwrit]
+  871     2  0.0 [ext4-dio-unwrit]
+  872     2  0.0 [ext4-dio-unwrit]
+  873     2  0.0 [ext4-dio-unwrit]
+  934     2  0.0 [kauditd]
+  956   330  0.0 ping 10.0.2.2
+ 1132     1  0.0 auditd
+ 1150     1  0.0 /sbin/portreserve
+ 1158     2  0.0 [rpciod/0]
+ 1159     2  0.0 [rpciod/1]
+ 1160     2  0.0 [rpciod/2]
+ 1161     2  0.0 [rpciod/3]
+ 1162     2  0.0 [rpciod/4]
+ 1163     2  0.0 [rpciod/5]
+ 1164     2  0.0 [rpciod/6]
+ 1165     2  0.0 [rpciod/7]
+ 1174     1  0.0 /sbin/rsyslogd -i /var/run/syslogd.pid -c3
+ 1186     1  0.0 irqbalance
+ 1201     1  0.0 rpcbind
+ 1219     1  0.0 rpc.statd
+ 1241     1  0.0 rpc.idmapd
+ 1364     2  0.0 [flush-253:2]
+ 2117 30665  0.3 python /home/project-web/tmda/cgi-bin/moin.cgi
+ 2133  4796  0.5 /usr/sbin/httpd
+ 2246  4796  0.5 /usr/sbin/httpd
+ 2302  4796  0.4 /usr/sbin/httpd
+ 2317  4796  0.5 /usr/sbin/httpd
+ 2318  4796  0.5 /usr/sbin/httpd
+ 2336  4796  0.5 /usr/sbin/httpd
+ 2337  4796  0.5 /usr/sbin/httpd
+ 2338  4796  0.5 /usr/sbin/httpd
+ 2339  4796  0.4 /usr/sbin/httpd
+ 2460  4796  0.5 /usr/sbin/httpd
+ 2669  4796  0.5 /usr/sbin/httpd
+ 3375 24425  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4372  4796  0.6 /usr/sbin/httpd
+ 4429     1  0.0 dbus-daemon --system
+ 4453     2  0.0 [kslowd000]
+ 4454     2  0.0 [kslowd001]
+ 4455     2  0.0 [nfsiod]
+ 4456     2  0.0 [lockd]
+ 4481  4796  0.5 /usr/sbin/httpd
+ 4602     1  0.0 hald
+ 4603  4602  0.0 hald-runner
+ 4632  4603  0.0 hald-addon-input: Listening on /dev/input/event1
+ 4667     1  0.0 /usr/sbin/nscd
+ 4682     1  0.0 /usr/sbin/snmpd -LSnd -Lf /dev/null -p /var/run/snmpd.pid -a -c /etc/snmp/snmpd.sfinc-utils.conf
+ 4694     1  0.0 /usr/sbin/sshd
+ 4702     1  0.0 xinetd -stayalive -pidfile /var/run/xinetd.pid
+ 4710     1  0.0 ntpd -u ntp:ntp -p /var/run/ntpd.pid -g
+ 4726     1  1.4 /usr/local/sbin/omnifuse-projects -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-projects.json --log-file=/var/log/omnifuse-projects.log /chroots/prweb/home/project-web
+ 4741     1  0.0 /usr/local/sbin/omnifuse-users -odev,allow_other --log-info --json-config=/var/local/config/omnifuse-users.json --log-file=/var/log/omnifuse-users.log /chroots/prweb/home/user-web
+ 4765     1  0.0 /usr/sbin/abrtd
+ 4769  2302  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4773     1  0.0 abrt-dump-oops -d /var/spool/abrt -rwx /var/log/messages
+ 4780  4796  0.3 /usr/sbin/httpd
+ 4796     1  0.4 /usr/sbin/httpd
+ 4812     1  0.0 crond
+ 4867     2  0.0 [flush-0:19]
+ 4870     1  0.0 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
+ 4896     1  0.0 sh -c /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f | /usr/local/sbin/filter-varnish-log
+ 4898  4896  3.0 /usr/bin/varnishncsa -P /var/run/varnishncsa.pid -f
+ 4899  4896  0.0 /usr/bin/perl /usr/local/sbin/filter-varnish-log
+ 4912     1  0.0 /usr/sbin/atd
+ 4921     1  0.0 /usr/bin/monit
+ 4928 24370  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 4956     1  0.0 /var/ossec/bin/ossec-execd
+ 4960     1  0.0 /var/ossec/bin/ossec-agentd
+ 4964     1  0.0 /var/ossec/bin/ossec-logcollector
+ 4968     1  0.0 /var/ossec/bin/ossec-syscheckd
+ 5079  4796  0.4 /usr/sbin/httpd
+ 5161  4796  0.4 /usr/sbin/httpd
+ 5656     1  0.0 /sbin/mingetty /dev/tty1
+ 5658     1  0.0 /sbin/mingetty /dev/tty2
+ 5660     1  0.0 /sbin/mingetty /dev/tty3
+ 5661     1  0.0 /sbin/agetty /dev/ttyS0 115200 vt100-nav
+ 5663     1  0.0 /sbin/mingetty /dev/tty4
+ 5665     1  0.0 /sbin/mingetty /dev/tty5
+ 5667     1  0.0 /sbin/mingetty /dev/tty6
+ 5676  4796  0.4 /usr/sbin/httpd
+ 5883  4796  1.8 /usr/sbin/httpd
+ 5969 27819  0.3 python /home/project-web/openucf/cgi-bin/moin.cgi
+ 6026  5161  0.0 /bin/ps axo pid,ppid,pmem,args
+ 6043  4796  0.0 /usr/sbin/cronolog --symlink=/var/local/log/error_log /var/local/log/%Y/%m/%d/error.log
+ 6047  4796  0.0 /usr/sbin/cronolog --symlink=/var/local/log/access_log /var/local/log/%Y/%m/%d/access_log
+ 6799     2  0.0 [flush-253:5]
+ 7454  5883  0.0 ping 10.0.2.2
+ 9254   442  0.0 /sbin/udevd -d
+ 9403     1  0.2 /usr/bin/perl /var/local/mastertree/host/sfp-web/scripts/split-varnish-log
+13285  4796  0.6 /usr/sbin/httpd
+13704  4796  0.5 /usr/sbin/httpd
+14612  4796  0.2 /usr/sbin/httpd
+14835  4796  0.2 /usr/sbin/httpd
+16052  4796  0.4 /usr/sbin/httpd
+21740  4870  2.4 /usr/sbin/varnishd -P /var/run/varnish.pid -a :6081,:50025,:50026,:50041 -T 127.0.0.1:6082 -f /etc/varnish/default.vcl -t 120 -u varnish -g varnish -S /etc/varnish/secret -s file,/var/lib/varnish/varnish_storage.bin,1G
+24370  4796  0.5 /usr/sbin/httpd
+24425  4796  0.4 /usr/sbin/httpd
+25544  4796  0.4 /usr/sbin/httpd
+27739  4796  0.5 /usr/sbin/httpd
+27816  4796  0.4 /usr/sbin/httpd
+27819  4796  0.5 /usr/sbin/httpd
+29216  4796  0.5 /usr/sbin/httpd
+30189  4796  1.8 /usr/sbin/httpd
+30335  4796  1.8 /usr/sbin/httpd
+30645 30189  0.0 ping 10.0.2.2
+30665  4796  0.5 /usr/sbin/httpd
+32343  4796  1.8 /usr/sbin/httpd
+32414 32343  0.0 ping 10.0.2.2

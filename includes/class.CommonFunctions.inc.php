@@ -25,6 +25,30 @@
  */
 class CommonFunctions
 {
+    private static function _parse_log_file($string)
+    {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
+            $log_file = substr(PSI_LOG, 1);
+            if (file_exists($log_file)) {
+                $contents = @file_get_contents($log_file);
+                if ($contents && preg_match("/^\-\-\-[^-\n]+\-\-\- ".preg_quote($string, '/')."\n/m", $contents, $matches, PREG_OFFSET_CAPTURE)) {
+                    $findIndex = $matches[0][1];
+                    if (preg_match("/\n/m", $contents, $matches, PREG_OFFSET_CAPTURE, $findIndex)) {
+                        $startIndex = $matches[0][1]+1;
+                        if (preg_match("/^\-\-\-[^-\n]+\-\-\- /m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
+                            $stopIndex = $matches[0][1];
+
+                            return substr($contents, $startIndex, $stopIndex-$startIndex );
+                        } else {
+                            return substr($contents, $startIndex );
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Find a system program, do also path checking when not running on WINNT
@@ -37,7 +61,7 @@ class CommonFunctions
     private static function _findProgram($strProgram)
     {
         $arrPath = array();
-        if (PHP_OS == 'WINNT') {
+        if (PSI_OS == 'WINNT') {
             $strProgram .= '.exe';
             $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
         } else {
@@ -51,8 +75,8 @@ class CommonFunctions
             }
         }
         //add some default paths if we still have no paths here
-        if ( empty($arrPath) && PHP_OS != 'WINNT') {
-            if (defined('PSI_OS') && (PSI_OS == 'Android')) {
+        if (empty($arrPath) && PSI_OS != 'WINNT') {
+            if (PSI_OS == 'Android') {
                 array_push($arrPath, '/system/bin');
             } else {
                 array_push($arrPath, '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
@@ -65,10 +89,10 @@ class CommonFunctions
         foreach ($arrPath as $strPath) {
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
             if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) ||
-             !((defined('PSI_OS') && (PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
+             !(((PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
                 continue;
             }
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 $strProgrammpath = rtrim($strPath,'\\').'\\'.$strProgram;
             } else {
                 $strProgrammpath = rtrim($strPath,"/")."/".$strProgram;
@@ -85,15 +109,30 @@ class CommonFunctions
      * ie $program = CommonFunctions::executeProgram('netstat', '-anp | grep LIST');
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
-     * @param string $strProgramname name of the program
-     * @param string $strArgs        arguments to the program
+     * @param string  $strProgramname name of the program
+     * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
-     * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
+     * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
      */
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
     {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
+            $out = self::_parse_log_file("Executing: ".$strProgramname.' '.$strArgs);
+            if ($out == false) {
+                if (substr(PSI_LOG, 0, 1)=="-") {
+                    $strBuffer = '';
+
+                    return false;
+                }
+            } else {
+                $strBuffer = $out;
+
+                return true;
+            }
+        }
+        
         $strBuffer = '';
         $strError = '';
         $pipes = array();
@@ -149,7 +188,7 @@ class CommonFunctions
         }
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
-        if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
@@ -166,7 +205,7 @@ class CommonFunctions
     /**
      * read a file and return the content as a string
      *
-     * @param string $strFileName name of the file which should be read
+     * @param string  $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
      * @param integer $intLines    control how many lines should be read
      * @param integer $intBytes    control how many bytes of each line should be read
@@ -176,6 +215,21 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
+            $out = self::_parse_log_file("Reading: ".$strFileName);
+            if ($out == false) {
+                if (substr(PSI_LOG, 0, 1)=="-") {
+                    $strRet = '';
+
+                    return false;
+                }
+            } else {
+                $strRet = $out;
+
+                return true;
+            }
+        }
+        
         $strFile = "";
         $intCurLine = 1;
         $error = Error::singleton();
@@ -191,7 +245,7 @@ class CommonFunctions
                 }
                 fclose($fd);
                 $strRet = $strFile;
-                if ( defined('PSI_LOG') && is_string(PSI_LOG) ) {
+                if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
                     error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
                 }
             } else {
@@ -261,9 +315,9 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if ( (PHP_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8") )
+        if ((PSI_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8"))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        else if (PHP_OS == "WINNT")
+        elseif (PSI_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
         else
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom');
@@ -292,10 +346,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array $pipes array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param array   $pipes array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out  target string for the output message (reference)
      * @param string  &$err  target string for the error message (reference)
-     * @param integer $sek timeout value in seconds
+     * @param integer $sek   timeout value in seconds
      *
      * @return void
      */
@@ -307,7 +361,7 @@ class CommonFunctions
         $e = null;
 
         $read = array($pipes[1],$pipes[2]);
-        while (!(feof($pipes[1])&& feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
+        while (!(feof($pipes[1]) && feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
                 $out .= fread($pipes[1], 4096);
                 $err .= fread($pipes[2], 4096);
         }

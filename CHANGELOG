@@ -1,3 +1,12 @@
+phpSysInfo 3.1.4
+
+ - [ADD] Option for reading the results of functions executeProgram() and rfts() from log
+ - [ADD] Show CPU frequency max and min for variable speed processors for Linux and Android
+ - [ADD] Filesystem usage warning on defined threshold FS_USAGE_THRESHOLD
+
+ - [UPD] BAT plugin - added temperature, condition and type of battery, Android support
+ - [UPD] jQuery 2.0.2 and jQuery 1.10.1
+
 phpSysInfo 3.1.3
 
  - [ADD] IPFire, Sabayon, PearOS, ClearOS, Frugalware, Fuduntu, Foresight, Tinycore, ALT Linux, ROSA and RedHatEnterpriseServer to detected distros

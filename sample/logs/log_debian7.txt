@@ -1,0 +1,153 @@
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: lsb_release -a 2>/dev/null
+Distributor ID:	Debian
+Description:	Debian GNU/Linux 7.0 (wheezy)
+Release:	7.0
+Codename:	wheezy
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Reading: /proc/sys/kernel/hostname
+testowy
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: uname -r
+3.2.0-4-amd64
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: uname -v
+#1 SMP Debian 3.2.41-2
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: uname -m
+x86_64
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Reading: /proc/uptime
+163.27 99.71
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: who 
+mietekn  tty7         May  6 14:36 (:0)
+mietekn  pts/0        May  6 14:36 (:0.0)
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Reading: /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz
+stepping	: 9
+cpu MHz		: 2702.529
+cache size	: 6144 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up rep_good nopl pni monitor ssse3 lahf_lm
+bogomips	: 5405.05
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 36 bits physical, 48 bits virtual
+power management:
+
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: lspci 
+00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
+00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
+00:01.1 IDE interface: Intel Corporation 82371AB/EB/MB PIIX4 IDE (rev 01)
+00:02.0 VGA compatible controller: InnoTek Systemberatung GmbH VirtualBox Graphics Adapter
+00:03.0 Ethernet controller: Advanced Micro Devices [AMD] 79c970 [PCnet32 LANCE] (rev 40)
+00:04.0 System peripheral: InnoTek Systemberatung GmbH VirtualBox Guest Service
+00:05.0 Multimedia audio controller: Intel Corporation 82801AA AC'97 Audio Controller (rev 01)
+00:06.0 USB controller: Apple Inc. KeyLargo/Intrepid USB
+00:07.0 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 08)
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: lsusb 
+Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 001 Device 002: ID 80ee:0021 VirtualBox USB Tablet
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Reading: /proc/net/dev
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:  548340     347    0    0    0     0          0         0   548340     347    0    0    0     0       0          0
+  eth0:    2710      14    0    0    0     0          0         0    11766      90    0    0    0     0       0          0
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: ifconfig lo 2>/dev/null
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:347 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:347 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:548340 (535.4 KiB)  TX bytes:548340 (535.4 KiB)
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: ifconfig eth0 2>/dev/null
+eth0      Link encap:Ethernet  HWaddr 08:00:27:da:5a:52  
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:feda:5a52/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:14 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:90 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:2710 (2.6 KiB)  TX bytes:11766 (11.4 KiB)
+          Interrupt:10 Base address:0xd020
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Reading: /proc/meminfo
+MemTotal:        1027016 kB
+MemFree:          416792 kB
+Buffers:           27908 kB
+Cached:           240008 kB
+SwapCached:            0 kB
+Active:           339608 kB
+Inactive:         213396 kB
+Active(anon):     285704 kB
+Inactive(anon):      312 kB
+Active(file):      53904 kB
+Inactive(file):   213084 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:        392188 kB
+SwapFree:         392188 kB
+Dirty:              1032 kB
+Writeback:             0 kB
+AnonPages:        285032 kB
+Mapped:            78396 kB
+Shmem:               972 kB
+Slab:              24632 kB
+SReclaimable:      12076 kB
+SUnreclaim:        12556 kB
+KernelStack:        2272 kB
+PageTables:        18520 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      905696 kB
+Committed_AS:    1393264 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:        5092 kB
+VmallocChunk:   34359733275 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       40896 kB
+DirectMap2M:     1007616 kB
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Reading: /proc/swaps
+Filename				Type		Size	Used	Priority
+/dev/sda5                               partition	392188	0	-1
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: df -k -P 2>/dev/null
+Filesystem                                             1024-blocks    Used Available Capacity Mounted on
+rootfs                                                     7867856 3799840   3668352      51% /
+udev                                                         10240       0     10240       0% /dev
+tmpfs                                                       102704     612    102092       1% /run
+/dev/disk/by-uuid/ba660f60-9c33-4be6-b545-4919e9e0cfcd     7867856 3799840   3668352      51% /
+tmpfs                                                         5120       0      5120       0% /run/lock
+tmpfs                                                       283840     224    283616       1% /run/shm
+/dev/sr0                                                     58094   58094         0     100% /media/cdrom0
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: df -i -P 2>/dev/null
+Filesystem                                             Inodes  IUsed  IFree IUse% Mounted on
+rootfs                                                 499712 152037 347675   31% /
+udev                                                   126863    358 126505    1% /dev
+tmpfs                                                  128377    326 128051    1% /run
+/dev/disk/by-uuid/ba660f60-9c33-4be6-b545-4919e9e0cfcd 499712 152037 347675   31% /
+tmpfs                                                  128377      2 128375    1% /run/lock
+tmpfs                                                  128377      6 128371    1% /run/shm
+/dev/sr0                                                    0      0      0     - /media/cdrom0
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: mount 
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,relatime,size=10240k,nr_inodes=126863,mode=755)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,noexec,relatime,size=102704k,mode=755)
+/dev/disk/by-uuid/ba660f60-9c33-4be6-b545-4919e9e0cfcd on / type ext4 (rw,relatime,errors=remount-ro,user_xattr,barrier=1,data=ordered)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k)
+tmpfs on /run/shm type tmpfs (rw,nosuid,nodev,noexec,relatime,size=283840k)
+rpc_pipefs on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw,relatime)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+/dev/sr0 on /media/cdrom0 type iso9660 (ro,nosuid,nodev,noexec,relatime,user=mietekn)
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Reading: /proc/loadavg
+0.34 0.36 0.15 1/283 3745

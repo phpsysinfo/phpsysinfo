@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -16,7 +16,7 @@
  * Basic OS functions for all OS classes
  *
  * @category  PHP
- * @package   PSI_OS
+ * @package   PSI OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
@@ -66,7 +66,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function getLanguage()
     {
-        return PSI_SYSTEM_SYSLANG;
+        return PSI_SYSTEM_LANG;
     }
 
     /**

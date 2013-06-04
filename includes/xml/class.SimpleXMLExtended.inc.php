@@ -172,7 +172,7 @@ class SimpleXMLExtended
      */
     private function _toUTF8($str)
     {
-        if (PHP_OS == "Minix") {
+        if (PSI_OS == "Minix") {
             if (strcasecmp($this->_encoding,"UTF-8") != 0) {
                  $str = trim($str);
                  $strr = "";

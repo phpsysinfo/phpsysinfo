@@ -9,7 +9,7 @@ DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you
            events, perform animations, and add Ajax interactions to your web pages.
 USED     : used for the entire userinterface
 
-jquery-1.9.js
+jquery-1.js
 ---------
 VERSION  : 1.9.1
 URL      : http://jquery.com/

@@ -554,11 +554,14 @@ function formatTemp(degreeC, xml) {
 
 /**
  * create a visual HTML bar from a given size, the layout of that bar can be costumized through the bar css-class
- * @param {Number} size
+ * @param {Number} size barclass
  * @return {String} HTML string which contains the full layout of the bar
  */
-function createBar(size) {
-    return "<div class=\"bar\" style=\"float:left; width: " + size + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+function createBar(size, barclass) {
+    if (barclass === undefined) {
+        barclass = "bar";
+    }
+    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + size + "px;\">&nbsp;</div>&nbsp;" + size + "%";
 }
 
 /**
@@ -622,10 +625,12 @@ function refreshVitals(xml) {
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
-        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, cpucoreposition = 0, virt = "";
+        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
         cpucount += 1;
         model = $(this).attr("Model");
         speed = parseInt($(this).attr("CpuSpeed"), 10);
+        speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
+        speedmin = parseInt($(this).attr("CpuSpeedMin"), 10);
         cache = parseInt($(this).attr("Cache"), 10);
         virt = $(this).attr("Virt");
         bus = parseInt($(this).attr("BusSpeed"), 10);
@@ -635,11 +640,20 @@ function fillCpu(xml, tree, rootposition, collapsed) {
 
         html += "<tr><td colspan=\"2\">" + model + "</td></tr>\n";
         cpucoreposition = tree.push(rootposition);
+        collapsed.push(cpucoreposition);
         if (!isNaN(speed)) {
             html += "<tr><td style=\"width:50%\">" + genlang(13, true) + ":</td><td>" + formatHertz(speed) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        collapsed.push(cpucoreposition);
+        if (!isNaN(speedmax)) {
+            html += "<tr><td style=\"width:50%\">" + genlang(100, true) + ":</td><td>" + formatHertz(speedmax) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+        if (!isNaN(speedmin)) {
+            html += "<tr><td style=\"width:50%\">" + genlang(101, true) + ":</td><td>" + formatHertz(speedmin) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+//        collapsed.push(cpucoreposition);
         if (!isNaN(cache)) {
             html += "<tr><td style=\"width:50%\">" + genlang(15, true) + ":</td><td>" + formatBytes(cache) + "</td></tr>\n";
             tree.push(cpucoreposition);
@@ -935,9 +949,13 @@ function refreshMemory(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshFilesystems(xml) {
-    var total_usage = 0, total_used = 0, total_free = 0, total_size = 0;
+    var total_usage = 0, total_used = 0, total_free = 0, total_size = 0, threshold = 0;
 
     filesystemTable.fnClearTable();
+
+    $("Options", xml).each(function getThreshold(id) {
+        threshold = parseInt($(this).attr("threshold"), 10);
+    });
 
     $("FileSystem Mount", xml).each(function getMount(mid) {
         var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "";
@@ -962,8 +980,11 @@ function refreshFilesystems(xml) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
 
-        filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
-
+        if (!isNaN(threshold) && (percent >= threshold)) {
+            filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+        } else {
+            filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+        }
         total_used += used;
         total_free += free;
         total_size += size;

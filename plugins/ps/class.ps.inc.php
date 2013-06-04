@@ -50,7 +50,7 @@ class PS extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM("WbemScripting.SWbemLocator");
                     $wmi = $objLocator->ConnectServer();
@@ -91,7 +91,7 @@ class PS extends PSI_Plugin
             $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_PS_ACCESS");
             break;
         }
-        if (PHP_OS != 'WINNT') {
+        if (PSI_OS != 'WINNT') {
             if (trim($buffer) != "") {
                 $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 unset($this->_filecontent[0]);
@@ -143,8 +143,8 @@ class PS extends PSI_Plugin
     /**
      * recursive function to allow appending child processes to a parent process
      *
-     * @param Array             $child part of the array which should be appended to the XML
-     * @param SimpleXMLExtended $xml   XML-Object to which the array content is appended
+     * @param Array             $child      part of the array which should be appended to the XML
+     * @param SimpleXMLExtended $xml        XML-Object to which the array content is appended
      * @param Array             &$positions array with parent positions in xml structure
      *
      * @return SimpleXMLExtended Object with the appended array content

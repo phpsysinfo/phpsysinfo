@@ -12,6 +12,7 @@
     	<attribute name="refresh" type="unsignedInt" use="required"></attribute>
     	<attribute name="showPickListTemplate" type="boolean" use="required"></attribute>
     	<attribute name="showPickListLang" type="boolean" use="required"></attribute>
+    	<attribute name="threshold" type="unsignedInt" use="optional"></attribute>
     </complexType>
 
     <complexType name="UsedPlugins">
@@ -100,7 +101,21 @@
 
     <complexType name="CpuCore">
     	<attribute name="Model" type="string" use="required"></attribute>
-    	<attribute name="CpuSpeed" use="required">
+    	<attribute name="CpuSpeed" use="optional">
+    		<simpleType>
+    			<restriction base="unsignedLong">
+    				<minInclusive value="0"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="CpuSpeedMax" use="optional">
+    		<simpleType>
+    			<restriction base="unsignedLong">
+    				<minInclusive value="0"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="CpuSpeedMin" use="optional">
     		<simpleType>
     			<restriction base="unsignedLong">
     				<minInclusive value="0"></minInclusive>

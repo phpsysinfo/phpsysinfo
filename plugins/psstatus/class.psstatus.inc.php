@@ -53,7 +53,7 @@ class PSStatus extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
         case 'command':
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM("WbemScripting.SWbemLocator");
                     $wmi = $objLocator->ConnectServer();

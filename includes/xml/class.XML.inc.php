@@ -105,7 +105,7 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        $os = PHP_OS;
+        $os = PSI_OS;
         $this->_sysinfo = new $os();
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
@@ -215,6 +215,12 @@ class XML
             $tmp->addAttribute('Model', $oneCpu->getModel());
             if ($oneCpu->getCpuSpeed() !== 0) {
                 $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
+            }
+            if ($oneCpu->getCpuSpeedMax() !== 0) {
+                $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
+            }
+            if ($oneCpu->getCpuSpeedMin() !== 0) {
+                $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
             }
             if ($oneCpu->getTemp() !== null) {
                 $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
@@ -564,6 +570,15 @@ class XML
             }
         } else {
             $options->addAttribute('refresh', 60000);
+        }
+        if ( defined('PSI_FS_USAGE_THRESHOLD') ) {
+            if (PSI_FS_USAGE_THRESHOLD === true) {
+                $options->addAttribute('threshold', 1);
+            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD >= 1) && (PSI_FS_USAGE_THRESHOLD <= 99) ) {
+                $options->addAttribute('threshold', PSI_FS_USAGE_THRESHOLD);
+            }
+        } else {
+            $options->addAttribute('threshold', 90);
         }
         $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
         $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');

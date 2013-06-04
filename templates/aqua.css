@@ -135,6 +135,10 @@ h2 {
     background: #2971a7;
 }
 
+.barwarn {
+    background: #a72971;
+}
+
 p {
     padding: 4px 10px 2px 10px;
     line-height: 1.6;

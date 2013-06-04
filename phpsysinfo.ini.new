@@ -19,8 +19,11 @@
 ;
 DEBUG=false
 
-; Turn on logging of functions executeProgram() and rfts()
-; Example : LOG="/tmp/phpsysinfo.log"
+; Turn on logging/unlogging of functions executeProgram() and rfts()
+; example : executeProgram () and rfts () record the results to the "/tmp/phpsysinfo.log" file 
+; LOG="/tmp/phpsysinfo.log"
+; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
+; LOG="-/tmp/phpsysinfo.log"
 ;
 LOG=false
 
@@ -90,7 +93,7 @@ SHOW_PICKLIST_TEMPLATE=true
 ; Define the interval for refreshing data in ms
 ; - 0 = disabled
 ; - 1000 = 1 second
-; - Default is 60 seconds
+; Default is 60 seconds
 ;
 REFRESH=60000
 
@@ -234,6 +237,13 @@ HIDE_FS_TYPES=""
 ;
 HIDE_DISKS=""
 
+; Filesystem usage warning threshold in percent
+; - 0 = disabled
+; - 90 = 90%
+; Default is 90%
+;
+FS_USAGE_THRESHOLD=90
+
 
 ; ********************************
 ;      NETWORK PARAMETERS
@@ -289,11 +299,12 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 ; define how to access the battery statistic data
 ; - "command" read /proc/acpi/battery/BAT0/info and read /proc/acpi/battery/BAT0/state
+;             or for Android some files from /sys/class/power_supply/battery
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "bat_info.txt" and "bat_state.txt"; content is the output from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
 ;
 ACCESS="command"
 
-; define the battery device
+; define the battery device (no matter for Android)
 ;
 DEVICE="BAT0"
 
