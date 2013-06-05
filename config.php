@@ -23,7 +23,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $name_prefix='PSI_PLUGIN_'.strtoupper($name).'_';
             }
             foreach ($group as $param=>$value) {
-                if (($value==="") || ($value==0)) {
+                if (($value==="") || ($value==="0")) {
                     define($name_prefix.strtoupper($param), false);
                 } elseif ($value==1) {
                     define($name_prefix.strtoupper($param), true);
@@ -37,7 +37,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         }
     }
-    
+
     /* default error handler */
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
