@@ -150,11 +150,11 @@ class LMSensors extends Sensors
         }
         foreach ($ar_buf as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) RPM  \((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM  \((.*)=(.*) RPM,(.*)=(.*)\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM  \((.*)=(.*) RPM\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) RPM[ \t]*$/", $line, $data);
@@ -199,9 +199,9 @@ class LMSensors extends Sensors
         }
         foreach ($ar_buf as $line) {
             $data = array();
-            if (preg_match("/(.*)\:(.*) V  \((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*)\:(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V  \((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) V[ \t]*$/", $line, $data);
