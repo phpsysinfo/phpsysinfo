@@ -76,16 +76,20 @@ function readCookie(name) {
  */
 function round(x, n) {
     var e = 0, k = "";
-    if (n < 1 || n > 14) {
+    if (n < 0 || n > 14) {
         return 0;
     }
-    e = Math.pow(10, n);
-    k = (Math.round(x * e) / e).toString();
-    if (k.indexOf('.') === -1) {
-        k += '.';
+    if (n === 0) {
+        return Math.round(x);
+    } else {
+        e = Math.pow(10, n);
+        k = (Math.round(x * e) / e).toString();
+        if (k.indexOf('.') === -1) {
+            k += '.';
+        }
+        k += e.toString().substring(1);
+        return k.substring(0, k.indexOf('.') + n + 1);
     }
-    k += e.toString().substring(1);
-    return k.substring(0, k.indexOf('.') + n + 1);
 }
 
 /**
