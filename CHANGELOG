@@ -2,6 +2,7 @@ phpSysInfo 3.1.5
 
  - [ADD] Portuguese Translation pt-pt.xml
  - [ADD] Added display of temperature and fan speed for IPMI sensor program
+ - [ADD] Possibility to define multiple SENSOR_PROGRAM
 
  - [FIX] Fixed incorrect display of the minimum fan speed
 

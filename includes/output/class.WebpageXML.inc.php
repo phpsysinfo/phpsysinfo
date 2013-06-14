@@ -67,21 +67,28 @@ class WebpageXML extends Output implements PSI_Interface_Output
             }
 
             // check if there is a valid sensor configuration in config.php
-            $found = false;
-            if (PSI_SENSOR_PROGRAM !== false) {
-                if (!file_exists(APP_ROOT.'/includes/mb/class.'.strtolower(PSI_SENSOR_PROGRAM).'.inc.php')) {
-                    $found = false;
-                    $this->error->addError("file_exists(class.".htmlspecialchars(strtolower(PSI_SENSOR_PROGRAM)).".inc.php)", "specified sensor program is not supported");
+            $foundsp = array();
+            if ( defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM) ) {
+                if (preg_match(ARRAY_EXP, PSI_SENSOR_PROGRAM)) {
+                    $sensorprograms = eval(strtolower(PSI_SENSOR_PROGRAM));
                 } else {
-                    $found = true;
+                    $sensorprograms = array(strtolower(PSI_SENSOR_PROGRAM));
+                }
+                foreach($sensorprograms as $sensorprogram) {
+                    if (!file_exists(APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
+                        $this->error->addError("file_exists(class.".htmlspecialchars($sensorprogram).".inc.php)", "specified sensor program is not supported");
+                    } else {
+                        $foundsp[] = $sensorprogram;
+                    }
                 }
             }
+
             /**
-             * motherboard information available or not
+             * motherboard information
              *
-             * @var boolean
+             * @var serialized array
              */
-            define('PSI_MBINFO', $found);
+            define('PSI_MBINFO', serialize($foundsp));
 
             // check if there is a valid hddtemp configuration in config.php
             $found = false;

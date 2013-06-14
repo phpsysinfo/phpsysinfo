@@ -360,17 +360,18 @@ class XML
     private function _buildMbinfo()
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
-        if (PSI_MBINFO || PSI_HDDTEMP) {
+        if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
             $temp = $mbinfo->addChild('Temperature');
-            if (PSI_MBINFO) {
-                $mbinfoclass = PSI_SENSOR_PROGRAM;
-                $mbinfo_data = new $mbinfoclass();
-                $mbinfo_detail = $mbinfo_data->getMBInfo();
-                foreach ($mbinfo_detail->getMbTemp() as $dev) {
-                    $item = $temp->addChild('Item');
-                    $item->addAttribute('Label', $dev->getName());
-                    $item->addAttribute('Value', $dev->getValue());
-                    $item->addAttribute('Max', $dev->getMax());
+            if (sizeof(unserialize(PSI_MBINFO))>0) {
+                foreach(unserialize(PSI_MBINFO) as $mbinfoclass) {
+                    $mbinfo_data = new $mbinfoclass();
+                    $mbinfo_detail = $mbinfo_data->getMBInfo();
+                    foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                        $item = $temp->addChild('Item');
+                        $item->addAttribute('Label', $dev->getName());
+                        $item->addAttribute('Value', $dev->getValue());
+                        $item->addAttribute('Max', $dev->getMax());
+                    }
                 }
             }
             if (PSI_HDDTEMP) {
@@ -384,7 +385,7 @@ class XML
                 }
             }
         }
-        if (PSI_MBINFO) {
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
             $fan = $mbinfo->addChild('Fans');
             foreach ($mbinfo_detail->getMbFan() as $dev) {
                 $item = $fan->addChild('Item');
@@ -393,7 +394,7 @@ class XML
                 $item->addAttribute('Min', $dev->getMin());
             }
         }
-        if (PSI_MBINFO) {
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
             $volt = $mbinfo->addChild('Voltage');
             foreach ($mbinfo_detail->getMbVolt() as $dev) {
                 $item = $volt->addChild('Item');
