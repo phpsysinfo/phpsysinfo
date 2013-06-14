@@ -59,7 +59,7 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/[ ]+\|[ ]+/", $line);
-            if ($buffer[2] == "degrees C" && $buffer[5] != "na") {
+            if ($buffer[2] == "degrees C" && $buffer[3] != "na") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
@@ -78,7 +78,7 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/[ ]+\|[ ]+/", $line);
-            if ($buffer[2] == "Volts" && $buffer[5] != "na") {
+            if ($buffer[2] == "Volts" && $buffer[3] != "na") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
@@ -90,6 +90,24 @@ class IPMI extends Sensors
     }
 
     /**
+     * get fan information
+     *
+     * @return void
+     */
+    private function _fans()
+    {
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            if ($buffer[2] == "RPM" && $buffer[3] != "na") {
+                $dev = new SensorDevice();
+                $dev->setName($buffer[0]);
+                $dev->setValue($buffer[1]);
+                $dev->setMin($buffer[8]);
+                $this->mbinfo->setMbFan($dev);
+            }
+        }
+    }
+    /**
      * get the information
      *
      * @see PSI_Interface_Sensor::build()
@@ -100,5 +118,6 @@ class IPMI extends Sensors
     {
         $this->_temp();
         $this->_voltage();
+        $this->_fans();
     }
 }

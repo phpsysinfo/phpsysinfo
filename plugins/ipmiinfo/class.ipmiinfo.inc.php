@@ -118,7 +118,7 @@ class ipmiinfo extends PSI_Plugin
             if ($buffer[2] == "discrete" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
-                $result[$i]['state'] = $buffer[3];
+                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
                 $i++;
             }
         }
