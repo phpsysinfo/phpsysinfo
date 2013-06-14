@@ -174,7 +174,7 @@ SENSOR_PROGRAM=false
 ; - MBMon      command, tcp
 ; - MBM5       file
 ; - Coretemp   command
-; - IPMI       command
+; - IPMI       command, file
 ; - K8Temp     command
 ; - PiTemp     command
 ;
