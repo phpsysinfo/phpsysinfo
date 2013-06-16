@@ -671,6 +671,14 @@ class Linux extends OS
                                         $this->sys->setDistribution(trim($buf));
                                     }
                                 }
+                                if (isset($distribution['Files2'])) {
+                                    foreach (preg_split("/;/", $distribution['Files2'], -1, PREG_SPLIT_NO_EMPTY) as $filename2) {
+                                        if (file_exists($filename2) && CommonFunctions::rfts($filename2, $buf, 1, 4096, false)) {
+                                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($buf));
+                                            break;
+                                        }
+                                    }
+                                }
                                 break 2;
                             }
                         }
