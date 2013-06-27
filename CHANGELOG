@@ -6,6 +6,7 @@ phpSysInfo 3.1.5
  - [ADD] openSUSE and Eisfair to detected distros
 
  - [FIX] Fixed incorrect display of the minimum fan speed
+ - [FIX] Fix recovery detection of RAID arrays on debian systems #18
 
 phpSysInfo 3.1.4
 
