@@ -146,7 +146,7 @@ class MDStatus extends PSI_Plugin
                     $this->_result['devices'][$dev]['registered'] = -1;
                     $this->_result['devices'][$dev]['active'] = -1;
                 }
-                if (preg_match(('/([a-z]+)([ ]?)=([ ]?)([0-9\.]+)%/'), $this->_filecontent[$count + 1], $res) || (preg_match(('/([a-z]+)([ ]?)=([ ]?)([0-9\.]+)/'), $optionline, $res))) {
+                if (preg_match(('/([a-z]+)( *)=( *)([0-9.]+)%/'), $this->_filecontent[$count + 1], $res) || (preg_match(('/([a-z]+)( *)=( *)([0-9\.]+)/'), $optionline, $res))) {
                     list($this->_result['devices'][$dev]['action']['name'], $this->_result['devices'][$dev]['action']['percent']) = preg_split("/=/", str_replace("%", "", $res[0]));
                     if (preg_match(('/([a-z]*=[0-9\.]+[a-z]+)/'), $this->_filecontent[$count + 1], $res)) {
                         $time = preg_split("/=/", $res[0]);
