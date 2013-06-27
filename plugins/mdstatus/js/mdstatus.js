@@ -78,7 +78,7 @@ function mdstatus_buildaction(xml) {
         if (parseInt(name, 10) !== -1) {
             time = $(this).attr("Time_To_Finish");
             tunit = $(this).attr("Time_Unit");
-            percent = parseInt($(this).attr("Percent"), 10);
+            percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
             html += genlang(13, false, "MDStatus") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
