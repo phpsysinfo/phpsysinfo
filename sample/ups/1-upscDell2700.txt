@@ -1,0 +1,74 @@
+battery.capacity: 9.00
+battery.charge: 96
+battery.charge.low: 30
+battery.charge.restart: 0
+battery.energysave: no
+battery.runtime: 4963
+battery.runtime.low: 180
+battery.type: PbAc
+device.mfr: DELL
+device.model: Dell UPS Rack/Tower 2700W HV - 230V
+device.serial: 
+device.type: ups
+driver.name: usbhid-ups
+driver.parameter.pollfreq: 30
+driver.parameter.pollinterval: 2
+driver.parameter.port: auto
+driver.version: 2.6.3
+driver.version.data: MGE HID 1.27
+driver.version.internal: 0.35
+input.frequency: 50.0
+input.frequency.nominal: 50
+input.transfer.boost.low: 210
+input.transfer.high: 286
+input.transfer.low: 160
+input.transfer.trim.high: 250
+input.voltage: 226.0
+input.voltage.nominal: 230
+outlet.1.autoswitch.charge.low: 0
+outlet.1.delay.shutdown: 2147483647
+outlet.1.delay.start: 0
+outlet.1.desc: PowerShare Outlet 1
+outlet.1.id: 1
+outlet.1.status: on
+outlet.1.switchable: yes
+outlet.2.autoswitch.charge.low: 0
+outlet.2.delay.shutdown: 2147483647
+outlet.2.delay.start: 1
+outlet.2.desc: PowerShare Outlet 2
+outlet.2.id: 2
+outlet.2.status: on
+outlet.2.switchable: yes
+outlet.desc: Main Outlet
+outlet.id: 0
+outlet.switchable: no
+output.current: 1.40
+output.frequency: 50.0
+output.frequency.nominal: 50
+output.voltage: 226.0
+output.voltage.nominal: 230
+ups.beeper.status: enabled
+ups.date: 2012/11/24
+ups.delay.shutdown: 20
+ups.delay.start: 30
+ups.firmware: 01.14.0003
+ups.load: 13
+ups.load.high: 110
+ups.mfr: DELL
+ups.model: Dell UPS Rack/Tower 2700W HV - 230V
+ups.power: 333
+ups.power.nominal: 2700
+ups.productid: ffff
+ups.realpower: 306
+ups.realpower.nominal: 2700
+ups.serial: 
+ups.start.battery: yes
+ups.start.reboot: yes
+ups.status: OL CHRG
+ups.test.interval: 7776000
+ups.test.result: No test initiated
+ups.time: 22:45:33
+ups.timer.shutdown: 0
+ups.timer.start: 0
+ups.type: offline / line interactive
+ups.vendorid: 047c

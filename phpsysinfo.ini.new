@@ -158,6 +158,7 @@ TEMP_FORMAT="c"
 ; - K8Temp     http://hur.st/k8temp/
 ; - PiTemp     No addon tool neded
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
+;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
 ;
 SENSOR_PROGRAM=false
 
@@ -165,6 +166,7 @@ SENSOR_PROGRAM=false
 ; Define how to access the monitor program
 ; Available methods for the above list are in the following list
 ; default method "command" should be fine for everybody
+; if multiple SENSOR_PROGRAM defined must fit to all
 ; !!! tcp connections are only made local and on the default port !!!
 ; - LMSensors  command, file
 ; - Healthd    command
@@ -172,7 +174,7 @@ SENSOR_PROGRAM=false
 ; - MBMon      command, tcp
 ; - MBM5       file
 ; - Coretemp   command
-; - IPMI       command
+; - IPMI       command, file
 ; - K8Temp     command
 ; - PiTemp     command
 ;

@@ -234,26 +234,34 @@ class CommonFunctions
         $intCurLine = 1;
         $error = Error::singleton();
         if (file_exists($strFileName)) {
-            if ($fd = fopen($strFileName, 'r')) {
-                while (!feof($fd)) {
-                    $strFile .= fgets($fd, $intBytes);
-                    if ($intLines <= $intCurLine && $intLines != 0) {
-                        break;
-                    } else {
-                        $intCurLine++;
+            if (is_readable($strFileName)) {
+                if ($fd = fopen($strFileName, 'r')) {
+                    while (!feof($fd)) {
+                        $strFile .= fgets($fd, $intBytes);
+                        if ($intLines <= $intCurLine && $intLines != 0) {
+                            break;
+                        } else {
+                            $intCurLine++;
+                        }
                     }
-                }
-                fclose($fd);
-                $strRet = $strFile;
-                if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-                    error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                    fclose($fd);
+                    $strRet = $strFile;
+                    if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
+                        error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                    }
+                } else {
+                    if ($booErrorRep) {
+                         $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+                    }
+
+                    return false;
                 }
             } else {
-                if ($booErrorRep) {
-                    $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
-                }
+                    if ($booErrorRep) {
+                         $error->addError('fopen('.$strFileName.')', 'file permission error');
+                    }
 
-                return false;
+                    return false;
             }
         } else {
             if ($booErrorRep) {

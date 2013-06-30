@@ -76,16 +76,20 @@ function readCookie(name) {
  */
 function round(x, n) {
     var e = 0, k = "";
-    if (n < 1 || n > 14) {
+    if (n < 0 || n > 14) {
         return 0;
     }
-    e = Math.pow(10, n);
-    k = (Math.round(x * e) / e).toString();
-    if (k.indexOf('.') === -1) {
-        k += '.';
+    if (n === 0) {
+        return Math.round(x);
+    } else {
+        e = Math.pow(10, n);
+        k = (Math.round(x * e) / e).toString();
+        if (k.indexOf('.') === -1) {
+            k += '.';
+        }
+        k += e.toString().substring(1);
+        return k.substring(0, k.indexOf('.') + n + 1);
     }
-    k += e.toString().substring(1);
-    return k.substring(0, k.indexOf('.') + n + 1);
 }
 
 /**
@@ -1065,13 +1069,13 @@ function refreshFan(xml) {
     var values = false;
     $("#fanTable tbody").empty();
     $("MBInfo Fans Item", xml).each(function getFans(id) {
-        var label = "", value = "", min = 0, _min = "";
+        var label = "", value = 0, min = 0, _min = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value");
+        value = parseFloat($(this).attr("Value"));
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min,0) + "&nbsp;" + genlang(63, true);
-        $("#fanTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        $("#fanTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
     if (values) {
