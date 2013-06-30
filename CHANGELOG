@@ -1,9 +1,9 @@
 phpSysInfo 3.1.5
 
- - [ADD] Portuguese Translation pt-pt.xml
- - [ADD] Added display of temperature and fan speed for IPMI sensor program
  - [ADD] Possibility to define multiple SENSOR_PROGRAM
+ - [ADD] Added display of temperature and fan speed for IPMI sensor program
  - [ADD] openSUSE and Eisfair to detected distros
+ - [ADD] Portuguese Translation pt-pt.xml
 
  - [FIX] Fixed incorrect display of the minimum fan speed
  - [FIX] Fix recovery detection of RAID arrays on debian systems #18
