@@ -137,19 +137,19 @@ class SNMPPInfo extends PSI_Plugin
         foreach ($this->_filecontent as $printer=>$result) {
             $lines = preg_split('/\n/', $result);
             foreach ($lines as $line) {
-                if (preg_match('/^.1.3.6.1.2.1.43.11.1.1.6.1.(.*) = STRING:\s(.*)/', $line, $data)) {
+                if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.11\.1\.1\.6\.1\.(.*) = STRING:\s(.*)/', $line, $data)) {
                     $this->_result[$printer][$data[1]]['prtMarkerSuppliesDescription']=trim($data[2],"\"");
                 }
-                if (preg_match('/^.1.3.6.1.2.1.43.11.1.1.7.1.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.11\.1\.1\.7\.1\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $this->_result[$printer][$data[1]]['prtMarkerSuppliesSupplyUnit']=$data[2];
                 }
-                if (preg_match('/^.1.3.6.1.2.1.43.11.1.1.8.1.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.11\.1\.1\.8\.1\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $this->_result[$printer][$data[1]]['prtMarkerSuppliesMaxCapacity']=$data[2];
                 }
-                if (preg_match('/^.1.3.6.1.2.1.43.11.1.1.9.1.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.11\.1\.1\.9\.1\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $this->_result[$printer][$data[1]]['prtMarkerSuppliesLevel']=$data[2];
                 }
-                if (preg_match('/^.1.3.6.1.2.1.1.5.0 = STRING:\s(.*)/', $line, $data)) {
+                if (preg_match('/^\.1\.3\.6\.1\.2\.1\.1\.5\.0 = STRING:\s(.*)/', $line, $data)) {
                     $this->_result[$printer][0]['prtMarkerSuppliesDescription']=$data[1];
                 }
             }
