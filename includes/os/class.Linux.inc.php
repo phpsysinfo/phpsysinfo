@@ -591,7 +591,7 @@ class Linux extends OS
                     $distro[trim($info_tmp[0])] = trim($info_tmp[1]);
                 }
             }
-            if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) {
+            if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) { // Systems like StartOS
                 if ( isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") ) {
                     $this->sys->setDistribution(trim($distro_tmp[0]));
                     if ( preg_match('/^(\S+)\s*/', $distro_tmp[0], $id_buf)
