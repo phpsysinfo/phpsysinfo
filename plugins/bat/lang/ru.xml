@@ -7,7 +7,7 @@
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_bat_001" name="bat_title">
-    <exp>Состояние батареи</exp>
+    <exp>Статус батареи</exp>
   </expression>
   <expression id="plugin_bat_002" name="bat_date">
     <exp>Последние обновление</exp>

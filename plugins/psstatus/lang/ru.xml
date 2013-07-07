@@ -13,7 +13,7 @@ phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007
     <exp>Последнее обновление</exp>
   </expression>
   <expression id="plugin_psstatus_003" name="ps_name">
-    <exp>Имя</exp>
+    <exp>Имя службы</exp>
   </expression>
   <expression id="plugin_psstatus_004" name="ps_status">
     <exp>Статус</exp>
