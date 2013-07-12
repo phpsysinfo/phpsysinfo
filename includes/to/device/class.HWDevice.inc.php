@@ -53,7 +53,7 @@ class HWDevice
      *
      * @return boolean
      */
-    public function equals($dev)
+    public function equals(HWDevice $dev)
     {
         if ($dev->getName() === $this->_name && $dev->getCapacity() === $this->_capacity) {
             return true;
