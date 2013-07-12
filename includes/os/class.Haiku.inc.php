@@ -27,13 +27,6 @@
 class Haiku extends OS
 {
     /**
-     * content of the syslog
-     *
-     * @var array
-     */
-    private $_dmesg = array();
-
-    /**
      * call parent constructor
      */
     public function __construct()
@@ -289,7 +282,6 @@ class Haiku extends OS
      */
     private function _filesystems()
     {
-      $arrResult = array();
       if (CommonFunctions::executeProgram('df', '-b', $df, PSI_DEBUG)) {
           $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
           foreach ($df as $df_line) {

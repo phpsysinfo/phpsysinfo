@@ -135,7 +135,7 @@ class PS extends PSI_Plugin
     {
         if ($this->_result) {
             $positions = array(0=>0);
-            $xml = $this->_addchild($this->_result['childs'], $this->xml, $positions);
+            $this->_addchild($this->_result['childs'], $this->xml, $positions);
         }
 
         return $this->xml->getSimpleXmlElement();

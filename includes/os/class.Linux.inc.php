@@ -248,7 +248,6 @@ class Linux extends OS
                             break;
                         case 'cycle frequency [hz]':
                             $dev->setCpuSpeed($arrBuff[1] / 1000000);
-                            $notwas = false;
                             break;
                         case 'cpu0clktck':
                             $dev->setCpuSpeed(hexdec($arrBuff[1]) / 1000000); // Linux sparc64
