@@ -1,6 +1,6 @@
 phpSysInfo 3.1.6
 
- - [ADD] Porteus, Peppermint and Manjaro to detected distros
+ - [ADD] Porteus, Peppermint, Manjaro and Netrunner to detected distros
   
  - [UPD] SNMPPInfo plugin, ink level for some of the data
  - [UPD] jQuery 2.0.3 and jQuery 1.10.2
