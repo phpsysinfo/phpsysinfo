@@ -782,9 +782,20 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
+                } elseif (file_exists($filename="/etc/system-release")) {
+                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                        $buf = "";
+                    }
+                    if ( !is_null($buf) && (trim($buf) != "")) {
+                        $this->sys->setDistribution(trim($buf));
+                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                            && isset($list[trim($id_buf[1])]['Image'])) {
+                                $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        }
+                   }
                 } elseif ( file_exists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^NAME="?([^"\n]*)"?/m', $buf, $id_buf) ) {
+                   && preg_match('/^NAME="?([^"\n]*)"?/m', $buf, $id_buf) ) {  // last chance
                     if (preg_match('/^PRETTY_NAME="?([^"\n]*)"?/m', $buf, $desc_buf)) {
                         $this->sys->setDistribution(trim($desc_buf[1]));
                     } else {
@@ -802,17 +813,6 @@ class Linux extends OS
                     if (isset($list[trim($id_buf[1])]['Image'])) {
                         $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                     }
-                } elseif (file_exists($filename="/etc/system-release")) { // last chance
-                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
-                        $buf = "";
-                    }
-                    if ( !is_null($buf) && (trim($buf) != "")) {
-                        $this->sys->setDistribution(trim($buf));
-                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
-                            && isset($list[trim($id_buf[1])]['Image'])) {
-                                $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                        }
-                   }
                 }
             }
             /* restore error level */
