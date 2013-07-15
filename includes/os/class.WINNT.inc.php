@@ -338,7 +338,7 @@ class WINNT extends OS
      */
     private function _cpuinfo()
     {
-        $allCpus = $this->_getWMI('Win32_Processor', array('Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores'));
+        $allCpus = $this->_getWMI('Win32_Processor', array('Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'MaxClockSpeed'));
         foreach ($allCpus as $oneCpu) {
             $coreCount = 1;
             if (isset($oneCpu['NumberOfCores'])) {
@@ -350,6 +350,7 @@ class WINNT extends OS
                 $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
                 $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
                 $cpu->setBusSpeed($oneCpu['ExtClock']);
+                if ($oneCpu['CurrentClockSpeed'] != $oneCpu['MaxClockSpeed']) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 $this->sys->setCpus($cpu);
             }
         }
@@ -410,9 +411,10 @@ class WINNT extends OS
            if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                       foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
-                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                       if (isset($NetworkAdapterConfiguration['IPAddress']) && is_array($NetworkAdapterConfiguration['IPAddress'])) 
+                           foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                               if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
+                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
 
                        break;
                    }
