@@ -350,7 +350,7 @@ class WINNT extends OS
                 $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
                 $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
                 $cpu->setBusSpeed($oneCpu['ExtClock']);
-                if ($oneCpu['CurrentClockSpeed'] != $oneCpu['MaxClockSpeed']) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
+                if ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed']) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 $this->sys->setCpus($cpu);
             }
         }
