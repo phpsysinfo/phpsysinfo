@@ -6,6 +6,7 @@ phpSysInfo 3.1.6
  - [UPD] SNMPPInfo plugin, ink level for some of the data
  - [UPD] jQuery 2.0.3 and jQuery 1.10.2
  - [UPD] Russian Translation ru.xml
+ - [UPD] BAT plugin - WINNT support
  
 phpSysInfo 3.1.5
 

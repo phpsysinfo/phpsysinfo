@@ -25,6 +25,62 @@ class BAT extends PSI_Plugin
     private $_result = array();
 
     /**
+     * holds the COM object that we pull all the WMI data from
+     *
+     * @var Object
+     */
+    private $_wmi = null;
+
+
+    /**
+     * function for getting a list of values in the specified context
+     * optionally filter this list, based on the list from second parameter
+     *
+     * @param string $strClass name of the class where the values are stored
+     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
+     *
+     * @return array content of the class stored in an array
+     */
+    private function _getWMI($strClass, $strValue = array())
+    {
+        $arrData = array();
+        if ($this->_wmi) {
+            $value = "";
+            try {
+                $objWEBM = $this->_wmi->Get($strClass);
+                $arrProp = $objWEBM->Properties_;
+                $arrWEBMCol = $objWEBM->Instances_();
+                foreach ($arrWEBMCol as $objItem) {
+                    if (is_array($arrProp)) {
+                        reset($arrProp);
+                    }
+                    $arrInstance = array();
+                    foreach ($arrProp as $propItem) {
+                        eval("\$value = \$objItem->".$propItem->Name.";");
+                        if ( empty($strValue)) {
+                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                            else $arrInstance[$propItem->Name] = $value;
+                        } else {
+                            if (in_array($propItem->Name, $strValue)) {
+                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                                else $arrInstance[$propItem->Name] = $value;
+                            }
+                        }
+                    }
+                    $arrData[] = $arrInstance;
+                }
+            } catch (Exception $e) {
+                if (PSI_DEBUG) {
+                    $this->error->addError($e->getCode(), $e->getMessage());
+                }
+            }
+        }
+
+        return $arrData;
+    }
+
+    
+    /**
      * read the data into an internal array and also call the parent constructor
      *
      * @param String $enc encoding
@@ -57,6 +113,87 @@ class BAT extends PSI_Plugin
                 }
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/health', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_HEALTH='.$buffer1;
+                }
+            } elseif (PSI_OS == 'WINNT') {
+                // don't set this params for local connection, it will not work
+                $strHostname = '';
+                $strUser = '';
+                $strPassword = '';
+                try {
+                    // initialize the wmi object
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
+                    if ($strHostname == "") {
+                        $this->_wmi = $objLocator->ConnectServer();
+
+                    } else {
+                        $this->_wmi = $objLocator->ConnectServer($strHostname, 'rootcimv2', $strHostname.'\\'.$strUser, $strPassword);
+                    } 
+                } catch (Exception $e) {
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                }                
+                $buffer_info = '';
+                $buffer_state = '';
+                $buffer = $this->_getWMI('Win32_Battery', array('EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                $capacity = '';
+                if (isset($buffer[0]['EstimatedChargeRemaining'])) {
+                    $capacity = $buffer[0]['EstimatedChargeRemaining'];
+                }
+                if (isset($buffer[0]['DesignVoltage'])) {
+                    $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.(1000*$buffer[0]['DesignVoltage'])."\n";
+                }
+                if (isset($buffer[0]['BatteryStatus'])) {
+                    switch ($buffer[0]['BatteryStatus']) {
+                        case  1: $batstat = 'Other'; break;
+                        case  2: $batstat = 'Unknown, not charging'; break;
+                        case  3: $batstat = 'Fully Charged'; break;
+                        case  4: $batstat = 'Low'; break;
+                        case  5: $batstat = 'Critical'; break;
+                        case  6: $batstat = 'Charging'; break;
+                        case  7: $batstat = 'Charging and High'; break;
+                        case  8: $batstat = 'Charging and Low'; break;
+                        case  9: $batstat = 'Charging and Critical'; break;
+                        case 10: $batstat = 'Undefined'; break;
+                        case 11: $batstat = 'Partially Charged'; break;
+                        default: $batstat = '';
+                    }
+                    if ($batstat != '') $buffer_state .= 'POWER_SUPPLY_STATUS='.$batstat."\n";
+                }
+                $techn = '';
+                if (isset($buffer[0]['Chemistry'])) {
+                    switch ($buffer[0]['Chemistry']) {
+                        case 1: $techn = 'Other'; break;
+                        case 2: $techn = 'Unknown'; break;
+                        case 3: $techn = 'PbAc'; break;
+                        case 4: $techn = 'NiCd'; break;
+                        case 5: $techn = 'NiMH'; break;
+                        case 6: $techn = 'Li-ion'; break;
+                        case 7: $techn = 'Zinc-air'; break;
+                        case 8: $techn = 'Li-poly'; break;
+                    }
+                }
+                $buffer = $this->_getWMI('Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity'));
+                if (isset($buffer[0]['DesignVoltage'])) {
+                    $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.(1000*$buffer[0]['DesignVoltage'])."\n";
+                }
+                // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
+                if ((($techn == '') || ($techn == 'Unknown')) && isset($buffer[0]['Chemistry'])) {
+                    switch ($buffer[0]['Chemistry']) {
+                        case 1: $techn = 'Other'; break;
+                        case 2: $techn = 'Unknown'; break;
+                        case 3: $techn = 'PbAc'; break;
+                        case 4: $techn = 'NiCd'; break;
+                        case 5: $techn = 'NiMH'; break;
+                        case 6: $techn = 'Li-ion'; break;
+                        case 7: $techn = 'Zinc-air'; break;
+                        case 8: $techn = 'Li-poly'; break;
+                    }
+                }
+                if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
+                if (isset($buffer[0]['DesignCapacity'])) {
+                    $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity']."\n";
+                    if ($capacity != '') $buffer_state .= 'remaining capacity:'.round($capacity*$buffer[0]['DesignCapacity']/100)."\n";
+                } else {
+                    if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
                 }
             } else {
                 CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/info', $buffer_info);
@@ -101,9 +238,9 @@ class BAT extends PSI_Plugin
             } elseif (preg_match('/^POWER_SUPPLY_TEMP\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_temperature'] = $data[1]/10;
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_NOW\s*=\s*(.*)$/m', trim($roworig), $data)) {
-                $bat['present_voltage'] = $data[1]/1000000;
+                $bat['present_voltage'] = ($data[1]/1000).' mV';
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MAX_DESIGN\s*=\s*(.*)$/m', trim($roworig), $data)) {
-                $bat['design_voltage'] = $data[1]/1000000;
+                $bat['design_voltage'] = ($data[1]/1000).' mV';
             } elseif (preg_match('/^POWER_SUPPLY_TECHNOLOGY\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_STATUS\s*=\s*(.*)$/m', trim($roworig), $data)) {
@@ -127,9 +264,9 @@ class BAT extends PSI_Plugin
             } elseif (preg_match('/^POWER_SUPPLY_TEMP\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_temperature'] = $data[1]/10;
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_NOW\s*=\s*(.*)$/m', trim($roworig), $data)) {
-                $bat['present_voltage'] = $data[1]/1000000;
+                $bat['present_voltage'] = ($data[1]/1000).' mV';
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MAX_DESIGN\s*=\s*(.*)$/m', trim($roworig), $data)) {
-                $bat['design_voltage'] = $data[1]/1000000;
+                $bat['design_voltage'] = ($data[1]/1000).' mV';
             } elseif (preg_match('/^POWER_SUPPLY_TECHNOLOGY\s*=\s*(.*)$/m', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_STATUS\s*=\s*(.*)$/m', trim($roworig), $data)) {
@@ -139,7 +276,7 @@ class BAT extends PSI_Plugin
             }
         }
 
-        $this->_result[0] = $bat;
+        if (isset($bat)) $this->_result[0] = $bat;
     }
 
     /**
