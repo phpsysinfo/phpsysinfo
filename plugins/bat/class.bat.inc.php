@@ -190,8 +190,8 @@ class BAT extends PSI_Plugin
                 }
                 if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
                 if (isset($buffer[0]['DesignCapacity'])) {
-                    $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity']."\n";
-                    if ($capacity != '') $buffer_state .= 'remaining capacity:'.round($capacity*$buffer[0]['DesignCapacity']/100)."\n";
+                    $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity']." mWh\n";
+                    if ($capacity != '') $buffer_state .= 'remaining capacity:'.round($capacity*$buffer[0]['DesignCapacity']/100)." mWh\n";
                 } else {
                     if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
                 }
