@@ -143,8 +143,8 @@ class BAT extends PSI_Plugin
                 }
                 if (isset($buffer[0]['BatteryStatus'])) {
                     switch ($buffer[0]['BatteryStatus']) {
-                        case  1: $batstat = 'Other'; break;
-                        case  2: $batstat = 'Unknown, not charging'; break;
+                        case  1: $batstat = 'Discharging'; break;
+                        case  2: $batstat = 'AC connected, not charging'; break;
                         case  3: $batstat = 'Fully Charged'; break;
                         case  4: $batstat = 'Low'; break;
                         case  5: $batstat = 'Critical'; break;
