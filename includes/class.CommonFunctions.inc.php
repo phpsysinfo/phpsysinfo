@@ -60,13 +60,25 @@ class CommonFunctions
      */
     private static function _findProgram($strProgram)
     {
-        $arrPath = array();
-        if (PSI_OS == 'WINNT') {
-            $strProgram .= '.exe';
-            $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
-        } else {
-            $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+        $path_parts = pathinfo($strProgram);
+        if (empty($path_parts['basename'])) {
+            return;
         }
+        $arrPath = array();
+        if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
+            $strProgram .= '.exe';
+            $path_parts = pathinfo($strProgram);
+        }
+        if (empty($path_parts['dirname']) || ($path_parts['dirname'] == '.')) {
+            if (PSI_OS == 'WINNT') {
+                $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+            }
+        } else {
+            array_push($arrPath, $path_parts['dirname']);
+            $strProgram = $path_parts['basename'];
+        } 
         if ( defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS) ) {
             if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
                 $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
