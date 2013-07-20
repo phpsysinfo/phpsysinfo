@@ -388,6 +388,54 @@ class CommonFunctions
     }
 
     /**
+     * function for getting a list of values in the specified context
+     * optionally filter this list, based on the list from third parameter
+     *
+     * @param string $strClass name of the class where the values are stored
+     * @param string $strClass name of the class where the values are stored
+     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
+     *
+     * @return array content of the class stored in an array
+     */
+    public static function getWMI($wmi, $strClass, $strValue = array())
+    {
+        $arrData = array();
+        if ($wmi) {
+            $value = "";
+            try {
+                $objWEBM = $wmi->Get($strClass);
+                $arrProp = $objWEBM->Properties_;
+                $arrWEBMCol = $objWEBM->Instances_();
+                foreach ($arrWEBMCol as $objItem) {
+                    if (is_array($arrProp)) {
+                        reset($arrProp);
+                    }
+                    $arrInstance = array();
+                    foreach ($arrProp as $propItem) {
+                        eval("\$value = \$objItem->".$propItem->Name.";");
+                        if ( empty($strValue)) {
+                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                            else $arrInstance[$propItem->Name] = $value;
+                        } else {
+                            if (in_array($propItem->Name, $strValue)) {
+                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                                else $arrInstance[$propItem->Name] = $value;
+                            }
+                        }
+                    }
+                    $arrData[] = $arrInstance;
+                }
+            } catch (Exception $e) {
+                if (PSI_DEBUG) {
+                    $this->error->addError($e->getCode(), $e->getMessage());
+                }
+            }
+        }
+
+        return $arrData;
+    }
+
+    /**
      * get all configured plugins from config.php (file must be included before calling this function)
      *
      * @return array

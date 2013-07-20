@@ -30,55 +30,6 @@ class BAT extends PSI_Plugin
      * @var Object
      */
     private $_wmi = null;
-
-
-    /**
-     * function for getting a list of values in the specified context
-     * optionally filter this list, based on the list from second parameter
-     *
-     * @param string $strClass name of the class where the values are stored
-     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
-     *
-     * @return array content of the class stored in an array
-     */
-    private function _getWMI($strClass, $strValue = array())
-    {
-        $arrData = array();
-        if ($this->_wmi) {
-            $value = "";
-            try {
-                $objWEBM = $this->_wmi->Get($strClass);
-                $arrProp = $objWEBM->Properties_;
-                $arrWEBMCol = $objWEBM->Instances_();
-                foreach ($arrWEBMCol as $objItem) {
-                    if (is_array($arrProp)) {
-                        reset($arrProp);
-                    }
-                    $arrInstance = array();
-                    foreach ($arrProp as $propItem) {
-                        eval("\$value = \$objItem->".$propItem->Name.";");
-                        if ( empty($strValue)) {
-                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                            else $arrInstance[$propItem->Name] = $value;
-                        } else {
-                            if (in_array($propItem->Name, $strValue)) {
-                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                                else $arrInstance[$propItem->Name] = $value;
-                            }
-                        }
-                    }
-                    $arrData[] = $arrInstance;
-                }
-            } catch (Exception $e) {
-                if (PSI_DEBUG) {
-                    $this->error->addError($e->getCode(), $e->getMessage());
-                }
-            }
-        }
-
-        return $arrData;
-    }
-
     
     /**
      * read the data into an internal array and also call the parent constructor
@@ -133,7 +84,7 @@ class BAT extends PSI_Plugin
                 }                
                 $buffer_info = '';
                 $buffer_state = '';
-                $buffer = $this->_getWMI('Win32_Battery', array('EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Battery', array('EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
                 $capacity = '';
                 if (isset($buffer[0]['EstimatedChargeRemaining'])) {
                     $capacity = $buffer[0]['EstimatedChargeRemaining'];
@@ -144,7 +95,7 @@ class BAT extends PSI_Plugin
                 if (isset($buffer[0]['BatteryStatus'])) {
                     switch ($buffer[0]['BatteryStatus']) {
                         case  1: $batstat = 'Discharging'; break;
-                        case  2: $batstat = 'AC connected, not charging'; break;
+                        case  2: $batstat = 'AC connected'; break;
                         case  3: $batstat = 'Fully Charged'; break;
                         case  4: $batstat = 'Low'; break;
                         case  5: $batstat = 'Critical'; break;
@@ -171,7 +122,7 @@ class BAT extends PSI_Plugin
                         case 8: $techn = 'Li-poly'; break;
                     }
                 }
-                $buffer = $this->_getWMI('Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity'));
+                $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity'));
                 if (isset($buffer[0]['DesignVoltage'])) {
                     $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.(1000*$buffer[0]['DesignVoltage'])."\n";
                 }
