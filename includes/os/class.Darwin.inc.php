@@ -291,6 +291,19 @@ class Darwin extends BSDCommon
                     if (isset($ar_buf[10])) {
                         $dev->setDrops($ar_buf[10]);
                     }
+                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
+                        $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
+                        foreach ($bufe2 as $buf2) {
+                            if (preg_match('/^\s+ether\s+(\S+)/i', $buf2, $ar_buf2))
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
+                            elseif (preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2))
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                            elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2) 
+                                  || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
+                                  && !preg_match('/^fe80::/i',$ar_buf2[1]))
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                        }
+                    }
                     $this->sys->setNetDevices($dev);
                 }
             }
