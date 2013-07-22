@@ -291,7 +291,7 @@ class XML
      *
      * @return Void
      */
-    private function _fillDevice($mount, $dev, $i)
+    private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
         $mount->addAttribute('MountPointID', $i);
         $mount->addAttribute('FSType', $dev->getFsType());

@@ -258,7 +258,7 @@ FS_USAGE_THRESHOLD=90
 HIDE_NETWORK_INTERFACE=""
 
 
-; Show network interfaces infos for Linux, FreeBSD, Haiku and WinNT
+; Show network interfaces infos for Linux, FreeBSD, Haiku, Darwin and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
 SHOW_NETWORK_INFOS=false

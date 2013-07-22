@@ -135,7 +135,7 @@ class PS extends PSI_Plugin
     {
         if ($this->_result) {
             $positions = array(0=>0);
-            $xml = $this->_addchild($this->_result['childs'], $this->xml, $positions);
+            $this->_addchild($this->_result['childs'], $this->xml, $positions);
         }
 
         return $this->xml->getSimpleXmlElement();
@@ -149,7 +149,7 @@ class PS extends PSI_Plugin
      *
      * @return SimpleXMLExtended Object with the appended array content
      */
-    private function _addchild($child, $xml, &$positions)
+    private function _addchild($child, SimpleXMLExtended $xml, &$positions)
     {
         foreach ($child as $key=>$value) {
             $xmlnode = $xml->addChild("Process");

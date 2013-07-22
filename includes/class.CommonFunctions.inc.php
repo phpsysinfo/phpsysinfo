@@ -60,13 +60,25 @@ class CommonFunctions
      */
     private static function _findProgram($strProgram)
     {
-        $arrPath = array();
-        if (PSI_OS == 'WINNT') {
-            $strProgram .= '.exe';
-            $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
-        } else {
-            $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+        $path_parts = pathinfo($strProgram);
+        if (empty($path_parts['basename'])) {
+            return;
         }
+        $arrPath = array();
+        if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
+            $strProgram .= '.exe';
+            $path_parts = pathinfo($strProgram);
+        }
+        if (empty($path_parts['dirname']) || ($path_parts['dirname'] == '.')) {
+            if (PSI_OS == 'WINNT') {
+                $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+            }
+        } else {
+            array_push($arrPath, $path_parts['dirname']);
+            $strProgram = $path_parts['basename'];
+        } 
         if ( defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS) ) {
             if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
                 $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
@@ -373,6 +385,54 @@ class CommonFunctions
                 $out .= fread($pipes[1], 4096);
                 $err .= fread($pipes[2], 4096);
         }
+    }
+
+    /**
+     * function for getting a list of values in the specified context
+     * optionally filter this list, based on the list from third parameter
+     *
+     * @param $wmi holds the COM object that we pull the WMI data from
+     * @param string $strClass name of the class where the values are stored
+     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
+     *
+     * @return array content of the class stored in an array
+     */
+    public static function getWMI($wmi, $strClass, $strValue = array())
+    {
+        $arrData = array();
+        if ($wmi) {
+            $value = "";
+            try {
+                $objWEBM = $wmi->Get($strClass);
+                $arrProp = $objWEBM->Properties_;
+                $arrWEBMCol = $objWEBM->Instances_();
+                foreach ($arrWEBMCol as $objItem) {
+                    if (is_array($arrProp)) {
+                        reset($arrProp);
+                    }
+                    $arrInstance = array();
+                    foreach ($arrProp as $propItem) {
+                        eval("\$value = \$objItem->".$propItem->Name.";");
+                        if ( empty($strValue)) {
+                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                            else $arrInstance[$propItem->Name] = $value;
+                        } else {
+                            if (in_array($propItem->Name, $strValue)) {
+                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                                else $arrInstance[$propItem->Name] = $value;
+                            }
+                        }
+                    }
+                    $arrData[] = $arrInstance;
+                }
+            } catch (Exception $e) {
+                if (PSI_DEBUG) {
+                    $this->error->addError($e->getCode(), $e->getMessage());
+                }
+            }
+        }
+
+        return $arrData;
     }
 
     /**

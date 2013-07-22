@@ -60,6 +60,9 @@ function snmppinfo_buildTable(xml) {
         if (max>0 && (level>=0) && (level<=max) ) {
             percent = Math.round(100*level/max);
             units = level+" / "+max;
+        } else if (max==-2 && (level>=0) && (level<=100) ) {
+            percent = level;
+            units = level+" / 100";
         } else if (level==-3) {
             percent = 100;
             units = genlang(6, false, "SNMPPInfo")

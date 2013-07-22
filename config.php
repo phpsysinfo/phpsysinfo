@@ -83,6 +83,8 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents('/etc/locale.conf');
             } elseif (file_exists('/etc/sysconfig/language')) {
                 $contents = @file_get_contents('/etc/sysconfig/language');
+            } elseif (file_exists('/etc/profile.d/lang.sh')) {
+                $contents = @file_get_contents('/etc/profile.d/lang.sh');
             } else {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
@@ -122,7 +124,8 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
                && $contents && ( preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
-               || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches))) {
+               || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches)
+               || preg_match('/^export (LANG="?[^"\n]*"?)/m', $contents, $matches))) {
                 if (!defined('PSI_SYSTEM_CODEPAGE') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                     foreach ($lines as $line) {
                         if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {

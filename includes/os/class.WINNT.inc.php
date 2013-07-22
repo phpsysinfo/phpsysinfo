@@ -87,7 +87,7 @@ class WINNT extends OS
      */
     private function _getCodeSet()
     {
-        $buffer = $this->_getWMI('Win32_OperatingSystem', array('CodeSet','OSLanguage'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet','OSLanguage'));
         if ($buffer) {
             $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
             $lang = "";
@@ -104,53 +104,6 @@ class WINNT extends OS
     }
 
     /**
-     * function for getting a list of values in the specified context
-     * optionally filter this list, based on the list from second parameter
-     *
-     * @param string $strClass name of the class where the values are stored
-     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
-     *
-     * @return array content of the class stored in an array
-     */
-    private function _getWMI($strClass, $strValue = array())
-    {
-        $arrData = array();
-        if ($this->_wmi) {
-            $value = "";
-            try {
-                $objWEBM = $this->_wmi->Get($strClass);
-                $arrProp = $objWEBM->Properties_;
-                $arrWEBMCol = $objWEBM->Instances_();
-                foreach ($arrWEBMCol as $objItem) {
-                    if (is_array($arrProp)) {
-                        reset($arrProp);
-                    }
-                    $arrInstance = array();
-                    foreach ($arrProp as $propItem) {
-                        eval("\$value = \$objItem->".$propItem->Name.";");
-                        if ( empty($strValue)) {
-                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                            else $arrInstance[$propItem->Name] = $value;
-                        } else {
-                            if (in_array($propItem->Name, $strValue)) {
-                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                                else $arrInstance[$propItem->Name] = $value;
-                            }
-                        }
-                    }
-                    $arrData[] = $arrInstance;
-                }
-            } catch (Exception $e) {
-                if (PSI_DEBUG) {
-                    $this->error->addError($e->getCode(), $e->getMessage());
-                }
-            }
-        }
-
-        return $arrData;
-    }
-
-    /**
      * retrieve different device types from the system based on selector
      *
      * @param string $strType type of the devices that should be returned
@@ -160,7 +113,7 @@ class WINNT extends OS
     private function _devicelist($strType)
     {
         if ( empty($this->_wmidevices)) {
-            $this->_wmidevices = $this->_getWMI('Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+            $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
         }
         $list = array();
         foreach ($this->_wmidevices as $device) {
@@ -182,7 +135,7 @@ class WINNT extends OS
         if (PSI_USE_VHOST === true) {
             if ($hnm = getenv('SERVER_NAME')) $this->sys->setHostname($hnm);
         } else {
-            $buffer = $this->_getWMI('Win32_ComputerSystem', array('Name'));
+            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
             if ($buffer) {
                 $result = $buffer[0]['Name'];
                 $ip = gethostbyname($result);
@@ -206,7 +159,7 @@ class WINNT extends OS
             if ( (($hnm=$this->sys->getHostname()) != 'localhost') &&
                  (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
         } else {
-            $buffer = $this->_getWMI('Win32_ComputerSystem', array('Name'));
+            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
             if ($buffer) {
                 $result = $buffer[0]['Name'];
                 $this->sys->setIp(gethostbyname($result));
@@ -227,7 +180,7 @@ class WINNT extends OS
     {
         $result = 0;
         date_default_timezone_set('UTC');
-        $buffer = $this->_getWMI('Win32_OperatingSystem', array('LastBootUpTime', 'LocalDateTime'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('LastBootUpTime', 'LocalDateTime'));
         if ($buffer) {
             $byear = intval(substr($buffer[0]['LastBootUpTime'], 0, 4));
             $bmonth = intval(substr($buffer[0]['LastBootUpTime'], 4, 2));
@@ -256,7 +209,7 @@ class WINNT extends OS
     private function _users()
     {
         $users = 0;
-        $buffer = $this->_getWMI('Win32_Process', array('Caption'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
         foreach ($buffer as $process) {
             if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
                 $users++;
@@ -272,7 +225,7 @@ class WINNT extends OS
      */
     private function _distro()
     {
-        $buffer = $this->_getWMI('Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption'));
         if ($buffer) {
             $kernel = $buffer[0]['Version'];
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
@@ -319,7 +272,7 @@ class WINNT extends OS
     {
         $loadavg = "";
         $sum = 0;
-        $buffer = $this->_getWMI('Win32_Processor', array('LoadPercentage'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage'));
         foreach ($buffer as $load) {
             $value = $load['LoadPercentage'];
             $loadavg .= $value.' ';
@@ -338,7 +291,7 @@ class WINNT extends OS
      */
     private function _cpuinfo()
     {
-        $allCpus = $this->_getWMI('Win32_Processor', array('Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores'));
+        $allCpus = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'MaxClockSpeed'));
         foreach ($allCpus as $oneCpu) {
             $coreCount = 1;
             if (isset($oneCpu['NumberOfCores'])) {
@@ -350,6 +303,7 @@ class WINNT extends OS
                 $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
                 $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
                 $cpu->setBusSpeed($oneCpu['ExtClock']);
+                if ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed']) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 $this->sys->setCpus($cpu);
             }
         }
@@ -394,9 +348,9 @@ class WINNT extends OS
      */
     private function _network()
     {
-        $allDevices = $this->_getWMI('Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
+        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS)
-           $allNetworkAdapterConfigurations = $this->_getWMI('Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress'));
+           $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress'));
 
         foreach ($allDevices as $device) {
            $dev = new NetDevice();
@@ -410,9 +364,10 @@ class WINNT extends OS
            if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                       foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
-                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                       if (isset($NetworkAdapterConfiguration['IPAddress'])) 
+                           foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                               if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
+                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
 
                        break;
                    }
@@ -455,13 +410,13 @@ class WINNT extends OS
      */
     private function _memory()
     {
-        $buffer = $this->_getWMI("Win32_OperatingSystem", array('TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, "Win32_OperatingSystem", array('TotalVisibleMemorySize', 'FreePhysicalMemory'));
         if ($buffer) {
             $this->sys->setMemTotal($buffer[0]['TotalVisibleMemorySize'] * 1024);
             $this->sys->setMemFree($buffer[0]['FreePhysicalMemory'] * 1024);
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
         }
-        $buffer = $this->_getWMI('Win32_PageFileUsage');
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PageFileUsage');
         foreach ($buffer as $swapdevice) {
             $dev = new DiskDevice();
             $dev->setName("SWAP");
@@ -483,7 +438,7 @@ class WINNT extends OS
     {
         $typearray = array('Unknown', 'No Root Directory', 'Removable Disk', 'Local Disk', 'Network Drive', 'Compact Disc', 'RAM Disk');
         $floppyarray = array('Unknown', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', 'Other', 'HD', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '8 in.');
-        $buffer = $this->_getWMI('Win32_LogicalDisk', array('Name', 'Size', 'FreeSpace', 'FileSystem', 'DriveType', 'MediaType'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_LogicalDisk', array('Name', 'Size', 'FreeSpace', 'FileSystem', 'DriveType', 'MediaType'));
         foreach ($buffer as $filesystem) {
             $dev = new DiskDevice();
             $dev->setMountPoint($filesystem['Name']);
