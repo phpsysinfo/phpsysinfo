@@ -8,7 +8,9 @@ phpSysInfo 3.1.6
  - [UPD] jQuery 2.0.3 and jQuery 1.10.2
  - [UPD] Russian Translation ru.xml
  - [UPD] BAT plugin - WINNT support
- 
+
+ - [SEC] Fix JSONP
+
 phpSysInfo 3.1.5
 
  - [ADD] Possibility to define multiple SENSOR_PROGRAM
