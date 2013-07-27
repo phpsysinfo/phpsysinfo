@@ -1,6 +1,7 @@
 phpSysInfo 3.1.7
+ - [ADD] Show CPU frequency max and min for for Darwin (Mac OS X)
 
-- [UPD] Network interfaces infos and filesystems infos for FreeBSD
+ - [UPD] Network interfaces infos and filesystems infos for FreeBSD
 
 phpSysInfo 3.1.6
 

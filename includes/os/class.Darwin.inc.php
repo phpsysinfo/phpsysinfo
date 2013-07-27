@@ -143,7 +143,16 @@ class Darwin extends BSDCommon
         }
         $dev->setCpuSpeed(round($this->grabkey('hw.cpufrequency') / 1000000));
         $dev->setBusSpeed(round($this->grabkey('hw.busfrequency') / 1000000));
-        $dev->setCache(round($this->grabkey('hw.l2cachesize')));
+        $bufn=$this->grabkey('hw.cpufrequency_min');
+        $bufx=$this->grabkey('hw.cpufrequency_max');
+        if ( !is_null($bufn) && (trim($bufn) != "") && !is_null($bufx) && (trim($bufx) != "") && ($bufn != $bufx)) {
+            $dev->setCpuSpeedMin(round($bufn / 1000000));
+            $dev->setCpuSpeedMax(round($bufx / 1000000));
+        }
+        $buf=$this->grabkey('hw.l2cachesize');
+        if ( !is_null($buf) && (trim($buf) != "") ) {
+            $dev->setCache(round($buf));
+        }
         $ncpu = $this->grabkey('hw.ncpu');
         if ( is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)) )
             $ncpu = 1;
