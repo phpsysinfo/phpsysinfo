@@ -178,6 +178,23 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
+        } elseif (PHP_OS == 'Darwin') {
+            if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
+                && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
+                $lang = "";
+                if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                    if (isset($langdata['Linux']['_'.$lines[0]])) {
+                        $lang = $langdata['Linux']['_'.$lines[0]];
+                    }
+                }
+                if ($lang == "") {
+                    $lang = 'Unknown';
+                }
+                define('PSI_SYSTEM_LANG', $lang.' ('.$lines[0].')');
+            }
+            if (!defined('PSI_SYSTEM_CODEPAGE')) { //if not overloaded in phpsysinfo.ini
+                define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+            }
         }
     }
 
@@ -185,7 +202,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         define('PSI_OS', PHP_OS);
     }
 
-    if ((PSI_OS=='Android') && !defined('PSI_SYSTEM_CODEPAGE')) { //also if not overloaded in phpsysinfo.ini
+    if ((PSI_OS=='Android') && !defined('PSI_SYSTEM_CODEPAGE')) { //if not overloaded in phpsysinfo.ini
         define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
     }
 
