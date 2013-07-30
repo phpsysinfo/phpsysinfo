@@ -1,5 +1,6 @@
 phpSysInfo 3.1.7
 
+ - [ADD] Ksplice support for Linux
  - [ADD] Show CPU frequency max and min for Darwin (Mac OS X)
  - [ADD] Show System Language and Code Page on Darwin (Mac OS X)
 
