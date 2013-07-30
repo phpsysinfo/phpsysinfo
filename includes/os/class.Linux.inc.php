@@ -80,8 +80,7 @@ class Linux extends OS
     private function _kernel()
     {
         // show effective kernel if ksplice uptrack is installed
-        exec('which uptrack-uname > /dev/null 2>&1', $output, $exitcode); // use exit code of which to determine
-        if ($exitcode == 0 ) {
+        if (CommonFunctions::findProgram('uptrack-uname')) {
             $uname="uptrack-uname";
         } else {
             $uname="uname";
