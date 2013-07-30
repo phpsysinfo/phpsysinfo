@@ -192,9 +192,6 @@ if (!defined('PSI_CONFIG_FILE')) {
                 }
                 define('PSI_SYSTEM_LANG', $lang.' ('.$lines[0].')');
             }
-            if (!defined('PSI_SYSTEM_CODEPAGE')) { //if not overloaded in phpsysinfo.ini
-                define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
-            }
         }
     }
 
@@ -202,15 +199,17 @@ if (!defined('PSI_CONFIG_FILE')) {
         define('PSI_OS', PHP_OS);
     }
 
-    if ((PSI_OS=='Android') && !defined('PSI_SYSTEM_CODEPAGE')) { //if not overloaded in phpsysinfo.ini
-        define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
-    }
-
     if (!defined('PSI_SYSTEM_LANG')) {
         define('PSI_SYSTEM_LANG', null);
     }
-    if (!defined('PSI_SYSTEM_CODEPAGE')) {
-        define('PSI_SYSTEM_CODEPAGE', null);
+    if (!defined('PSI_SYSTEM_CODEPAGE')) { //if not overloaded in phpsysinfo.ini
+        if ((PSI_OS=='Android') || (PSI_OS=='Darwin')) {
+            define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+        } elseif (PSI_OS=='Minix') {
+            define('PSI_SYSTEM_CODEPAGE', 'CP437');
+        } else {
+            define('PSI_SYSTEM_CODEPAGE', null);
+        }
     }
 
     /* restore error level */

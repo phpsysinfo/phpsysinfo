@@ -40,7 +40,7 @@ class SimpleXMLExtended
     private $_SimpleXmlElement = null;
 
     /**
-     * _CP437toUTF8Table for code page conversion for Minix
+     * _CP437toUTF8Table for code page conversion for CP437
      *
      * @var _CP437toUTF8Table array
      */
@@ -172,8 +172,10 @@ class SimpleXMLExtended
      */
     private function _toUTF8($str)
     {
-        if (PSI_OS == "Minix") {
-            if (strcasecmp($this->_encoding,"UTF-8") != 0) {
+        if ($this->_encoding != null) {
+            if (strcasecmp($this->_encoding,"UTF-8") == 0) {
+                return trim($str);
+            } elseif (strcasecmp($this->_encoding,"CP437") == 0) {
                  $str = trim($str);
                  $strr = "";
                  if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {
@@ -184,11 +186,6 @@ class SimpleXMLExtended
 
                  return $strr;
             } else {
-                 return trim($str);
-            }
-        } else
-        if ($this->_encoding != null) {
-            if (strcasecmp($this->_encoding,"UTF-8") != 0) {
                  $enclist = mb_list_encodings();
                  if (in_array($this->_encoding, $enclist)) {
                      return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
@@ -197,7 +194,7 @@ class SimpleXMLExtended
                  } else {
                      return mb_convert_encoding(trim($str), 'UTF-8');
                }
-            } else return trim($str);
+            }
         } else {
             return mb_convert_encoding(trim($str), 'UTF-8');
         }

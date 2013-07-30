@@ -335,7 +335,7 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if ((PSI_OS == "Minix") || (PSI_SYSTEM_CODEPAGE == "UTF-8"))
+        if ((strcasecmp(PSI_SYSTEM_CODEPAGE,"UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE,"CP437") == 0))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PSI_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
