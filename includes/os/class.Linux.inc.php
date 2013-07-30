@@ -633,8 +633,8 @@ class Linux extends OS
             // Fall back in case 'lsb_release' does not exist but exist /etc/lsb-release
             if (file_exists($filename="/etc/lsb-release")
                && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-               && preg_match('/^DISTRIB_ID="?([^"\n]*)"?/m', $buf, $id_buf) ) {
-                if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]*)"?/m', $buf, $desc_buf)) {
+               && preg_match('/^DISTRIB_ID="?([^"\n]+)"?/m', $buf, $id_buf) ) {
+                if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]+)"?/m', $buf, $desc_buf)) {
                     $this->sys->setDistribution(trim($desc_buf[1]));
                 } else {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -642,10 +642,10 @@ class Linux extends OS
                     } else {
                         $this->sys->setDistribution(trim($id_buf[1]));
                     }
-                    if (preg_match('/^DISTRIB_RELEASE="?([^"\n]*)"?/m', $buf, $vers_buf)) {
+                    if (preg_match('/^DISTRIB_RELEASE="?([^"\n]+)"?/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                     }
-                    if (preg_match('/^DISTRIB_CODENAME="?([^"\n]*)"?/m', $buf, $vers_buf)) {
+                    if (preg_match('/^DISTRIB_CODENAME="?([^"\n]+)"?/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                     }
                 }
@@ -704,13 +704,13 @@ class Linux extends OS
             if ($this->sys->getDistribution() == "Linux") {
                 if ( file_exists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^DISTRO_NAME=\'(.*)\'/m', $buf, $id_buf) ) {
+                   && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf) ) {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
                         $dist = trim($list[trim($id_buf[1])]['Name']);
                     } else {
                         $dist = trim($id_buf[1]);
                     }
-                    if (preg_match('/^DISTRO_VERSION=(.*)/m', $buf, $vers_buf)) {
+                    if (preg_match('/^DISTRO_VERSION=(.+)/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
                     } else {
                         $this->sys->setDistribution($dist);
@@ -790,8 +790,8 @@ class Linux extends OS
                    }
                 } elseif ( file_exists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^NAME="?([^"\n]*)"?/m', $buf, $id_buf) ) {  // last chance
-                    if (preg_match('/^PRETTY_NAME="?([^"\n]*)"?/m', $buf, $desc_buf)) {
+                   && preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) {  // last chance
+                    if (preg_match('/^PRETTY_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
                         $this->sys->setDistribution(trim($desc_buf[1]));
                     } else {
                         if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -799,9 +799,9 @@ class Linux extends OS
                         } else {
                             $this->sys->setDistribution(trim($id_buf[1]));
                         }
-                        if (preg_match('/^VERSION="?([^"\n]*)"?/m', $buf, $vers_buf)) {
+                        if (preg_match('/^VERSION="?([^"\n]+)"?/m', $buf, $vers_buf)) {
                             $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                        } elseif (preg_match('/^VERSION_ID="?([^"\n]*)"?/m', $buf, $vers_buf)) {
+                        } elseif (preg_match('/^VERSION_ID="?([^"\n]+)"?/m', $buf, $vers_buf)) {
                             $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                         }
                     }
