@@ -58,7 +58,7 @@ class CommonFunctions
      *
      * @return string complete path and name of the program
      */
-    public static function findProgram($strProgram)
+    private static function _findProgram($strProgram)
     {
         $path_parts = pathinfo($strProgram);
         if (empty($path_parts['basename'])) {
@@ -148,7 +148,7 @@ class CommonFunctions
         $strBuffer = '';
         $strError = '';
         $pipes = array();
-        $strProgram = self::findProgram($strProgramname);
+        $strProgram = self::_findProgram($strProgramname);
         $error = Error::singleton();
         if (!$strProgram) {
             if ($booErrorRep) {

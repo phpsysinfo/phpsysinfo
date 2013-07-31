@@ -79,14 +79,8 @@ class Linux extends OS
      */
     private function _kernel()
     {
-        // show effective kernel if ksplice uptrack is installed
-        if (CommonFunctions::findProgram('uptrack-uname')) {
-            $uname="uptrack-uname";
-        } else {
-            $uname="uname";
-        }
-
-        if (CommonFunctions::executeProgram($uname, '-r', $strBuf, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
+            CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
             $result = trim($strBuf);
             if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
                 if (preg_match('/SMP/', $strBuf)) {
