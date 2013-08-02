@@ -307,6 +307,28 @@ class Minix extends OS
     }
 
     /**
+     * network information
+     *
+     * @return void
+     */
+    private function _network()
+    {
+        if (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($lines as $line) {
+                if (preg_match("/^([^\s:]+):\saddress\s(\S+)\snetmask/", $line, $ar_buf)) {
+                    $dev = new NetDevice();
+                    $dev->setName($ar_buf[1]);
+                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                            $dev->setInfo($ar_buf[2]);
+                    }
+                    $this->sys->setNetDevices($dev);
+                }
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @return Void
@@ -325,5 +347,6 @@ class Minix extends OS
         $this->_cpuinfo();
         $this->_memory();
         $this->_filesystems();
+        $this->_network();
     }
 }
