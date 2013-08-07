@@ -54,10 +54,10 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        CommonFunctions::executeProgram("snmpwalk", "-On -c public -v 1 ".$printer." 1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
+                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." 1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
                         if (strlen(trim($buffer)) > 0) {
                             $this->_filecontent[$printer] = $buffer;
-                               CommonFunctions::executeProgram("snmpwalk", "-On -c public -v 1 ".$printer." 1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
+                               CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." 1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen(trim($buffer2)) > 0) {
                                $this->_filecontent[$printer] = $buffer."\n".$buffer2;
                             } else {
