@@ -369,21 +369,38 @@ class CommonFunctions
      * @param array   $pipes array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out  target string for the output message (reference)
      * @param string  &$err  target string for the error message (reference)
-     * @param integer $sek   timeout value in seconds
+     * @param integer $timeout   timeout value in seconds (default value is 30)
      *
      * @return void
      */
-    private static function _timeoutfgets($pipes, &$out, &$err, $sek = 30)
+    private static function _timeoutfgets($pipes, &$out, &$err, $timeout = 30)
     {
-        // fill output string
-        $time = $sek;
-        $w = null;
-        $e = null;
+        $w = NULL;
+        $e = NULL;
 
-        $read = array($pipes[1],$pipes[2]);
-        while (!(feof($pipes[1]) && feof($pipes[2])) && ($n = stream_select($read, $w, $e, $time)) !== false && $n > 0) {
-                $out .= fread($pipes[1], 4096);
-                $err .= fread($pipes[2], 4096);
+        while (!(feof($pipes[1]) || feof($pipes[2]))) {
+
+            $read = array($pipes[1], $pipes[2]);
+            
+            $n = stream_select($read, $w, $e, $timeout);
+
+            if ($n === FALSE) {
+                error_log('stream_select: failed !');
+                break;
+            }
+            else if ($n === 0) {
+                error_log('stream_select: timeout expired !');
+                break;
+            }
+
+            foreach ($read as $r) {
+                if ($r == $pipes[1]) {
+                    $out .= fread($r, 4096);
+                }
+                if ($r == $pipes[2]) {
+                    $err .= fread($r, 4096);
+                }
+            }
         }
     }
 
