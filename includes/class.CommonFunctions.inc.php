@@ -373,12 +373,16 @@ class CommonFunctions
         $w = NULL;
         $e = NULL;
 
-        while (!(feof($pipes[1]) ||
-         (!(defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) && feof($pipes[2])))) {
-            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                $read = array($pipes[1]);
-            } else {
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true)
+            $pipe2 = false;  
+        } else {
+            $pipe2 = true; 
+        }
+        while (!(feof($pipes[1]) || ($pipe2 && feof($pipes[2])))) {
+            if ($pipe2) {
                 $read = array($pipes[1], $pipes[2]);
+            } else {
+                $read = array($pipes[1]);
             }
 
             $n = stream_select($read, $w, $e, $timeout);
@@ -396,7 +400,7 @@ class CommonFunctions
                 if ($r == $pipes[1]) {
                     $out .= fread($r, 4096);
                 }
-                if (!(defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) && ($r == $pipes[2])) {
+                if ($pipe2 && ($r == $pipes[2])) {
                     $err .= fread($r, 4096);
                 }
             }
