@@ -9,8 +9,7 @@
  * @author    Marc Hillesheim <hawkeyexp@gmail.com>
  * @copyright 2012 Marc Hillesheim
  * @link      http://pi.no-ip.biz
-/**
-*/
+ */
 class PiTemp extends Sensors
 {
     private function _temperature()
