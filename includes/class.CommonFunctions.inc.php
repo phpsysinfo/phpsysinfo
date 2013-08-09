@@ -144,7 +144,7 @@ class CommonFunctions
                 return true;
             }
         }
-        
+
         $strBuffer = '';
         $strError = '';
         $pipes = array();
@@ -175,13 +175,8 @@ class CommonFunctions
             $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
-            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                $pipes[0] = null;
-                $pipes[2] = fopen("/dev/null", "r");
-            }
             self::_timeoutfgets($pipes, $strBuffer, $strError);
             if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-                fclose($pipes[2]);
                 $return_value = pclose($pipes[1]);
             } else {
                 fclose($pipes[0]);
@@ -241,7 +236,7 @@ class CommonFunctions
                 return true;
             }
         }
-        
+
         $strFile = "";
         $intCurLine = 1;
         $error = Error::singleton();
@@ -378,10 +373,14 @@ class CommonFunctions
         $w = NULL;
         $e = NULL;
 
-        while (!(feof($pipes[1]) || feof($pipes[2]))) {
+        while (!(feof($pipes[1]) ||
+         (!(defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) && feof($pipes[2])))) {
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                $read = array($pipes[1]);
+            } else {
+                $read = array($pipes[1], $pipes[2]);
+            }
 
-            $read = array($pipes[1], $pipes[2]);
-            
             $n = stream_select($read, $w, $e, $timeout);
 
             if ($n === FALSE) {
@@ -397,7 +396,7 @@ class CommonFunctions
                 if ($r == $pipes[1]) {
                     $out .= fread($r, 4096);
                 }
-                if ($r == $pipes[2]) {
+                if (!(defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) && ($r == $pipes[2])) {
                     $err .= fread($r, 4096);
                 }
             }
