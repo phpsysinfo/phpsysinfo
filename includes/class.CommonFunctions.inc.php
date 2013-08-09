@@ -373,7 +373,7 @@ class CommonFunctions
         $w = NULL;
         $e = NULL;
 
-        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true)
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             $pipe2 = false;  
         } else {
             $pipe2 = true; 
