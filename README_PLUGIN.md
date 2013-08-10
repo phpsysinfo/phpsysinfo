@@ -1,10 +1,13 @@
 phpSysInfo 3.1 - http://phpsysinfo.sourceforge.net/
+===================================================
+
 Document written by Michael Cramer (bigmichi1 at sourceforge.net)
 
 !!Please read if you want to develop a plugin to understand our plugin system!!
 
+
 Plugins
-=======
+-------
 
 Beginning with phpSysInfo 3.0, phpSysInfo can be extended by Plugins. So here is
 a description that a developer of a plugin must take care of. Plugins can be
@@ -16,9 +19,10 @@ the plugin system used, like creating the object, locate the needed files and
 so on.
 
 So if the name is now specified, phpSysInfo needs a special directory structure
-to find the needed files. The directory structure for the example 'hdd_stats'
+to find the needed files. The directory structure for the example `hdd_stats`
 plugin can be seen here:
 
+```
 -+ phpSysInfo root
  |
  +---+ plugins (directory in that plugins are installed)
@@ -41,6 +45,7 @@ plugin can be seen here:
  |   |   # class.hdd_stats.inc.php (this is the core file of the plugin,
  |   |                              name must consists of 'class' +
  |   |                              name from PSI_PLUGINS + '.inc.php')
+```
 
 other files or directorys can be included in the plugin directory, but then
 its up to the developer to include them in the plugin. So it might be possible
@@ -50,33 +55,33 @@ output.
 If the directory structure is build up, then it's time to start programming.
 
 Files
-=====
+-----
 
 An example implementation is the mdstat plugin, which is shipped with phpSysInfo
 
-en.xml - at least this file must exist to get the translation working, and the
+* en.xml - at least this file must exist to get the translation working, and the
          the first entry in this file is normally the headline of the plugin.
          So one translation migth exists everytime. Other translation files
-         are also in the same directory like the en.xml file.
+         are also in the same directory like the `en.xml` file.
          The id's specified in the translation file SHOULD have the following
-         look 'plugin_hdd_status_001'. First we say that this is a plugin
+         look `plugin_hdd_status_001`. First we say that this is a plugin
          translation, then the name of plugin and at last a increasing number
          for each translation. Please create your id's in that way, so that
          other plugins don't redefine your translations. At the time of writing
          this, there is no check to verify the id's, so be carfull.
 
-hdd_stats.css - here can all custom style sheet informations written down. The
+* hdd_stats.css - here can all custom style sheet informations written down. The
          names of the id's and classes SHOULD also begin, like the translation
-         id's, with 'plugin_' + pluginname. If thats not the case it might be
+         id's, with `'plugin_' + pluginname`. If thats not the case it might be
          possible that another plugin is overwriting your css definitions.
 
-class.hdd_stats.inc.php - this file MUST include a class with the plugin name
+* class.hdd_stats.inc.php - this file MUST include a class with the plugin name
          and also this class MUST extend the 'psi_plugin' class. A check that
          such a class exist and also extends 'psi_plugin' will be included in
          the near future. And if the check fails the plugin won't be loaded.
          The psi_plugin class checks the existens of the js and the en.xml
          files. Also an extra configuration of the plugin is loaded
-         automatically from phpsysinfo.ini, if present.
+         automatically from `phpsysinfo.ini`, if present.
          Through the extension of the psi_plugin class there is a need to
          include at least two public function. These are the execute() function
          and the xml() function. Other functions can be exist, that depends on
@@ -88,38 +93,39 @@ class.hdd_stats.inc.php - this file MUST include a class with the plugin name
          standalone xml. So there is no need to do some special things, only
          create a xml object for the plugin.
 
-hdd_stats.js - this file is called when the page is loaded. A block for the
+* hdd_stats.js - this file is called when the page is loaded. A block for the
         plugin is automatically created. This one is a div container with the
-        id 'plugin_'+ pluginname ("plugin_hdd_stats"). The entire output must be
+        id `'plugin_'+ pluginname ("plugin_hdd_stats")`. The entire output must be
         placed in that container.
         There is a helper function for creating the headline: buildBlock() that
         can be called. This function returns a string with the html code of the
         headline, this code can then be appended to the plugin block. The
         generated headline can provide a reload icon for an ajax request. Only
         the click action of that icon must be created. The id of this icon is
-        'reload_' + pluginname + 'Table' ("reload_hdd_statsTable").
+        `'reload_' + pluginname + 'Table' ("reload_hdd_statsTable")`.
         Everything that then is done to get the html output out of the xml is up
         to the author.
-        To get the xml document the ajax request url is 'xml.php?plugin=' +
-        pluginname (xml.php?plugin=hdd_stats). This xml includes only the xml
+        To get the xml document the ajax request url is `'xml.php?plugin=' +
+        pluginname (xml.php?plugin=hdd_stats)`. This xml includes only the xml
         from the plugin nothing more.
         The last two executed commands should/must be the translation call and
         the unhide of the filled div container.
         The translation function that needs to be called is named
         plugin_traslate() with one argument, that is the pluginname like in
-        PSI_PLUGINS (plugin_translate("hdd_stats");).
+        `PSI_PLUGINS (plugin_translate("hdd_stats");)`.
         To unhide the filled container call the .show() function of it.
-        $("plugin_" + pluginname).show() ($("plugin_hdd_stat").show()).
+        `$("plugin_" + pluginname).show() ($("plugin_hdd_stat").show())`.
 
 FAQ
-===
+---
 
 Q: Is the plugin system ready to use?
+
 A: It can be used, but it might change slightly in the future, if there are some
    special needs.
 
 SUGGESTION
-==========
+----------
 
 If anybody out there has some suggestions in improving the plugin system let us
 know. We are looking forward to get some feedback, suggestions and patches and
