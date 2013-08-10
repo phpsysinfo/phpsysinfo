@@ -103,11 +103,26 @@ if (!defined('PSI_CONFIG_FILE')) {
                             } else {
                                 $w = null;
                                 $e = null;
-                                $read = array($pipes[1],$pipes[2]);
-                                while (!(feof($pipes[1]) && feof($pipes[2])) && ($n = stream_select($read, $w, $e, 5)) !== false && $n > 0) {
-                                    $out .= fread($pipes[1], 4096);
-                                    $err .= fread($pipes[2], 4096);
+
+                                while (!(feof($pipes[1]) || feof($pipes[2]))) {
+                                    $read = array($pipes[1], $pipes[2]);
+
+                                    $n = stream_select($read, $w, $e, 5);
+
+                                    if (($n === FALSE) || ($n === 0)) {
+                                        break;
+                                    }
+
+                                    foreach ($read as $r) {
+                                        if ($r == $pipes[1]) {
+                                            $out .= fread($r, 4096);
+                                        }
+                                        if ($r == $pipes[2]) {
+                                            $err .= fread($r, 4096);
+                                        }
+                                    }
                                 }
+ 
                                 if (is_null($out) || (trim($out) == "") || (substr(trim($out),0 ,1) != "/")) {
                                     define('PSI_MODE_POPEN', true);
                                 }
