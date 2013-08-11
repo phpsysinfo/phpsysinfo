@@ -9,10 +9,12 @@ phpSysInfo 3.1.7
  - [ADD] Ksplice support for Linux
  - [ADD] Show CPU frequency max and min for Darwin (Mac OS X)
  - [ADD] Show System Language and Code Page on Darwin (Mac OS X)
- - [ADD] Show network interfaces infos for Minix
+ - [ADD] Show network interfaces infos for Minix and SunOS
  - [ADD] SMS and gNewSense to detected distros
  
  - [UPD] Network interfaces infos and filesystems infos for FreeBSD
+ - [UPD] Updated support of SunOS
+
 
 phpSysInfo 3.1.6
 ----------------
