@@ -189,7 +189,7 @@ class SunOS extends OS
                         }
                     }
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) { 
-                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0].' inet', $bufr2, PSI_DEBUG)
+                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0], $bufr2, PSI_DEBUG)
                            && !is_null($bufr2) && (trim($bufr2) !== "")) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
@@ -258,9 +258,12 @@ class SunOS extends OS
                     if (CommonFunctions::executeProgram('df', '-n', $dftypes, PSI_DEBUG)) {
                         $mounttypes = preg_split("/\n/", $dftypes, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($mounttypes as $type) {
-                            $ty_buf = preg_split('/:/', $type, 2);
-//                            if ($ty_buf == $dev->getName()) {
+/* for tests on old SunOS versions
+                            $ty_buf = preg_split('/:/', $type, 3);
                             if (trim($ty_buf[0]) == $dev->getName()) {
+*/
+                            $ty_buf = preg_split('/:/', $type, 2);
+                            if ($ty_buf == $dev->getName()) {
                                 $dev->setFsType($ty_buf[1]);
                                 break;
                             }
