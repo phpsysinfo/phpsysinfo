@@ -1018,7 +1018,7 @@ function refreshTemp(xml) {
         limit = parseFloat($(this).attr("Max").replace(/\+/g, ""));
         if (isFinite(limit))
             _limit = formatTemp(limit, xml);
-        $("#tempTable").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        $("#tempTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1086,6 +1086,32 @@ function refreshFan(xml) {
     }
 }
 
+/**
+ * (re)fill the power block with the values from the given xml<br><br>
+ * build the power information into a separate block, if there is no power information available the
+ * entire table will be removed to avoid HTML warnings
+ * @param {jQuery} xml phpSysInfo-XML
+ */
+function refreshPower(xml) {
+    var values = false;
+    $("#powerTable tbody").empty();
+    $("MBInfo Power Item", xml).each(function getPowers(id) {
+        var label = "", value = "", limit = 0, _limit = "";
+        label = $(this).attr("Label");
+        value = $(this).attr("Value").replace(/\+/g, "");
+        limit = parseFloat($(this).attr("Max").replace(/\+/g, ""));
+        if (isFinite(limit))
+            _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
+        $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        values = true;
+    });
+    if (values) {
+        $("#power").show();
+    }
+    else {
+        $("#power").remove();
+    }
+}
 /**
  * (re)fill the ups block with the values from the given xml<br><br>
  * build the ups information into a separate block, if there is no ups information available the
@@ -1214,6 +1240,7 @@ function reload() {
             refreshVoltage(xml);
             refreshFan(xml);
             refreshTemp(xml);
+            refreshPower(xml);
             refreshUps(xml);
 
             $('.stripeMe tr:nth-child(even)').addClass('even');
@@ -1266,6 +1293,7 @@ $(document).ready(function buildpage() {
             refreshTemp(xml);
             refreshVoltage(xml);
             refreshFan(xml);
+            refreshPower(xml);
             refreshUps(xml);
 
             changeLanguage();

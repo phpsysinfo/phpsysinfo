@@ -310,4 +310,10 @@ Giancarlo Gil Ottaviani Raduan graduan at gmail.com
   <expression id="101" name="cpuspeedMin">
     <exp>CPU Speed Min</exp>
   </expression>
+  <expression id="102" name="power">
+    <exp>Power</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
 </tns:translation>

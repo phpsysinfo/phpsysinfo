@@ -404,6 +404,15 @@ class XML
                 $item->addAttribute('Max', $dev->getMax());
             }
         }
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
+            $volt = $mbinfo->addChild('Power');
+            foreach ($mbinfo_detail->getMbPower() as $dev) {
+                $item = $volt->addChild('Item');
+                $item->addAttribute('Label', $dev->getName());
+                $item->addAttribute('Value', $dev->getValue());
+                $item->addAttribute('Max', $dev->getMax());
+            }
+        }
     }
 
     /**

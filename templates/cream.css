@@ -90,7 +90,7 @@ a:hover {
     width: 100px;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #ups {
+#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #ups {
     background-color: #fff;
     float: left;
     margin: 10px 0 0 10px;

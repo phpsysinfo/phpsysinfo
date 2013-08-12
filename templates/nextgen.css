@@ -62,7 +62,7 @@ h1 {
     width: 100px;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #ups {
+#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #ups {
     float: left;
     width: 451px;
     margin: 10px 0 0 10px;
