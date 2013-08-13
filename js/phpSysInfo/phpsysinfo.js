@@ -1127,7 +1127,7 @@ function refreshUps(xml) {
 
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
-        var name = "", model = "", mode = "", start_time = "", upsstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", load_percent = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
+        var name = "", model = "", mode = "", start_time = "", upsstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", load_percent = "", battery_date = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
         name = $(this).attr("Name");
         model = $(this).attr("Model");
         mode = $(this).attr("Mode");
@@ -1140,6 +1140,7 @@ function refreshUps(xml) {
         last_outage_finish = $(this).attr("LastOutageFinish");
         line_voltage = $(this).attr("LineVoltage");
         load_percent = parseInt($(this).attr("LoadPercent"), 10);
+        battery_date = $(this).attr("BatteryDate");
         battery_voltage = $(this).attr("BatteryVoltage");
         battery_charge_percent = parseInt($(this).attr("BatteryChargePercent"), 10);
         time_left_minutes = $(this).attr("TimeLeftMinutes");
@@ -1174,6 +1175,10 @@ function refreshUps(xml) {
         }
         if (!isNaN(load_percent)) {
             html += "<tr><td style=\"width:160px\">" + genlang(78, false) + "</td><td>" + createBar(load_percent) + "</td></tr>\n";
+            tree.push(index);
+        }
+        if (battery_date !== undefined) {
+            html += "<tr><td style=\"width:160px\">" + genlang(104, false) + "</td><td>" + battery_date + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_voltage !== undefined) {

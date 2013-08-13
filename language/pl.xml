@@ -315,4 +315,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Data baterii</exp>
+  </expression>
 </tns:translation>

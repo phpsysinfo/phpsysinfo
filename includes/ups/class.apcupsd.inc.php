@@ -107,6 +107,9 @@ class Apcupsd extends UPS
                 $dev->setLoad(trim($data[1]));
             }
             // Battery
+            if (preg_match('/^BATTDATE\s*:\s*(.*)$/m', $ups, $data)) {
+                $dev->setBatteryDate(trim($data[1]));
+            }
             if (preg_match('/^BATTV\s*:\s*(\d*\.\d*)(.*)$/m', $ups, $data)) {
                 $dev->setBatteryVoltage(trim($data[1]));
             }

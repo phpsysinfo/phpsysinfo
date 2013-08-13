@@ -12,6 +12,7 @@ phpSysInfo 3.1.7
  - [ADD] Show network interfaces infos for Minix and SunOS
  - [ADD] SMS and gNewSense to detected distros
  - [ADD] LMSensors power information
+ - [ADD] Battery installation date for the UPS info
 
  - [UPD] Network interfaces infos and filesystems infos for FreeBSD
  - [UPD] Updated support of SunOS

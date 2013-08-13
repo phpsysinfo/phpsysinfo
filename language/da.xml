@@ -315,4 +315,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Battery date</exp>
+  </expression>
 </tns:translation>

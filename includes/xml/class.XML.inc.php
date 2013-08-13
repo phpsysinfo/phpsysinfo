@@ -467,6 +467,9 @@ class XML
                 if ($ups->getLoad() !== null) {
                     $item->addAttribute('LoadPercent', $ups->getLoad());
                 }
+                if ($ups->getBatteryDate() !== null) {
+                    $item->addAttribute('BatteryDate', $ups->getBatteryDate());
+                }
                 if ($ups->getBatteryVoltage() !== null) {
                     $item->addAttribute('BatteryVoltage', $ups->getBatteryVoltage());
                 }
