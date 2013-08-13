@@ -370,7 +370,9 @@ class XML
                         $item = $temp->addChild('Item');
                         $item->addAttribute('Label', $dev->getName());
                         $item->addAttribute('Value', $dev->getValue());
-                        $item->addAttribute('Max', $dev->getMax());
+                        if ($dev->getMax() !== null) {
+                            $item->addAttribute('Max', $dev->getMax());
+                        }
                     }
                 }
             }
@@ -381,7 +383,9 @@ class XML
                     $item = $temp->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
-                    $item->addAttribute('Max', $dev->getMax());
+                    if ($dev->getMax() !== null) {
+                        $item->addAttribute('Max', $dev->getMax());
+                    }
                 }
             }
         }
@@ -391,7 +395,9 @@ class XML
                 $item = $fan->addChild('Item');
                 $item->addAttribute('Label', $dev->getName());
                 $item->addAttribute('Value', $dev->getValue());
-                $item->addAttribute('Min', $dev->getMin());
+                if ($dev->getMin() !== null) {
+                    $item->addAttribute('Min', $dev->getMin());
+                }
             }
         }
         if (sizeof(unserialize(PSI_MBINFO))>0) {
@@ -400,8 +406,12 @@ class XML
                 $item = $volt->addChild('Item');
                 $item->addAttribute('Label', $dev->getName());
                 $item->addAttribute('Value', $dev->getValue());
-                $item->addAttribute('Min', $dev->getMin());
-                $item->addAttribute('Max', $dev->getMax());
+                if ($dev->getMin() !== null) {
+                    $item->addAttribute('Min', $dev->getMin());
+                }
+                if ($dev->getMax() !== null) {
+                    $item->addAttribute('Max', $dev->getMax());
+                }
             }
         }
         if (sizeof(unserialize(PSI_MBINFO))>0) {
@@ -410,7 +420,9 @@ class XML
                 $item = $volt->addChild('Item');
                 $item->addAttribute('Label', $dev->getName());
                 $item->addAttribute('Value', $dev->getValue());
-                $item->addAttribute('Max', $dev->getMax());
+                if ($dev->getMax() !== null) {
+                    $item->addAttribute('Max', $dev->getMax());
+                }
             }
         }
     }

@@ -1015,7 +1015,7 @@ function refreshTemp(xml) {
         var label = "", value = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value").replace(/\+/g, "");
-        limit = parseFloat($(this).attr("Max").replace(/\+/g, ""));
+        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
         if (isFinite(limit))
             _limit = formatTemp(limit, xml);
         $("#tempTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
@@ -1099,7 +1099,7 @@ function refreshPower(xml) {
         var label = "", value = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value").replace(/\+/g, "");
-        limit = parseFloat($(this).attr("Max").replace(/\+/g, ""));
+        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");

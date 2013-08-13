@@ -44,14 +44,14 @@ class SensorDevice
      *
      * @var Integer
      */
-    private $_max = 'NaN';
+    private $_max = null;
 
     /**
      * minimum value of the sensor
      *
      * @var Integer
      */
-    private $_min = 'NaN';
+    private $_min = null;
 
     /**
      * Returns $_max.
