@@ -255,12 +255,29 @@ class Darwin extends BSDCommon
             // calculate free memory from page sizes (each page = 4MB)
             if ( (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf ))
               && (preg_match('/^Pages speculative:\s+(\S+)/m', $pstat, $spec_buf )) ) {
+                
                 $this->sys->setMemFree(($free_buf[1]+$spec_buf[1]) * 4 * 1024);
+
+                $appMemory = 0;
+                if (preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)) {
+                    $appMemory += $wire_buf[1] * 4 * 1024;
+                }
+                if (preg_match('/^Pages active:\s+(\S+)/m', $pstat, $active_buf)) {
+                    $appMemory += $active_buf[1] * 4 * 1024;
+                }
+                $this->sys->setMemApplication($appMemory);
+
+                if (preg_match('/^Pages inactive:\s+(\S+)/m', $pstat, $inactive_buf)) {
+                    $this->sys->setMemCache($inactive_buf[1] * 4 * 1024);
+                }
+
+                $this->sys->setMemBuffer(0);
             } else {
                 $lines = preg_split("/\n/", $pstat, -1, PREG_SPLIT_NO_EMPTY);
                 $ar_buf = preg_split("/\s+/", $lines[1], 19);
                 $this->sys->setMemFree($ar_buf[2] * 4 * 1024);
             }
+
             $this->sys->setMemTotal($s);
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
 
