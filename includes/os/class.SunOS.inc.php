@@ -258,12 +258,8 @@ class SunOS extends OS
                     if (CommonFunctions::executeProgram('df', '-n', $dftypes, PSI_DEBUG)) {
                         $mounttypes = preg_split("/\n/", $dftypes, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($mounttypes as $type) {
-/* for tests on old SunOS versions
-                            $ty_buf = preg_split('/:/', $type, 3);
-                            if (trim($ty_buf[0]) == $dev->getName()) {
-*/
                             $ty_buf = preg_split('/:/', $type, 2);
-                            if ($ty_buf == $dev->getName()) {
+                            if (trim($ty_buf[0]) == $dev->getMountPoint()) {
                                 $dev->setFsType($ty_buf[1]);
                                 break;
                             }
