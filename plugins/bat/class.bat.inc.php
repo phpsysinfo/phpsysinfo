@@ -167,23 +167,11 @@ class BAT extends PSI_Plugin
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/capacity', $buffer1, 1, 4096, false)) {
                         $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$buffer1;
                     }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/batt_temp', $buffer1, 1, 4096, false)) {
-                        $buffer_state .= 'POWER_SUPPLY_TEMP='.$buffer1;
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/batt_vol', $buffer1, 1, 4096, false)) {
-                       $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.($buffer1*1000)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/voltage_max_design', $buffer1, 1, 4096, false)) {
-                       $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.($buffer1*1000)."\n";
-                    }
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/technology', $buffer1, 1, 4096, false)) {
                         $buffer_state .= 'POWER_SUPPLY_TECHNOLOGY='.$buffer1;
                     }
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/status', $buffer1, 1, 4096, false)) {
                         $buffer_state .= 'POWER_SUPPLY_STATUS='.$buffer1;
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/health', $buffer1, 1, 4096, false)) {
-                        $buffer_state .= 'POWER_SUPPLY_HEALTH='.$buffer1;
                     }
                 }
             }
