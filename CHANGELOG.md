@@ -17,7 +17,7 @@ phpSysInfo 3.1.7
  - [UPD] Network interfaces infos and filesystems infos for FreeBSD
  - [UPD] Updated support of SunOS
  - [UPD] Memory informations on Darwin systems
-
+ - [UPD] BAT plugin - updated Linux support
 
 phpSysInfo 3.1.6
 ----------------
