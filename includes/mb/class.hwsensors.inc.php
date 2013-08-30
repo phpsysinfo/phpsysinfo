@@ -39,7 +39,7 @@ class HWSensors extends Sensors
     {
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
-        case 'tcp':
+        case 'command':
             $lines = "";
             CommonFunctions::executeProgram('sysctl', '-w hw.sensors', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
