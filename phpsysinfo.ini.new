@@ -91,16 +91,16 @@ SHOW_PICKLIST_TEMPLATE=true
 
 
 ; Define the interval for refreshing data in ms
-; - 0 = disabled
-; - 1000 = 1 second
+; - 0 : disabled
+; - 1000 : 1 second
 ; Default is 60 seconds
 ;
 REFRESH=60000
 
 
 ; Show a graph for current cpuload
-; - true = displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
-; - false = will not be displayed
+; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
+; - false : will not be displayed
 ;
 LOAD_BAR=false
 
@@ -115,12 +115,12 @@ USE_VHOST=false
 ; Controls the units & format for network, memory and filesystem
 ; - 1 KiB = 2^10 bytes = 1,024 bytes
 ; - 1 KB = 10^3 bytes = 1,000 bytes
-; - "B"    everything is in Byte
-; - "PiB"    everything is in PeBiByte
-; - "TiB"    everything is in TeBiByte
-; - "GiB"    everything is in GiBiByte
-; - "MiB"    everything is in MeBiByte
-; - "KiB"    everything is in KiBiByte
+; - "B"     everything is in Byte
+; - "PiB"   everything is in PeBiByte
+; - "TiB"   everything is in TeBiByte
+; - "GiB"   everything is in GiBiByte
+; - "MiB"   everything is in MeBiByte
+; - "KiB"   everything is in KiBiByte
 ; - "auto_binary" everything is automatic done if value is to big for, e.g MiB then it will be in GiB
 ; - "PB"    everything is in PetaByte
 ; - "TB"    everything is in TeraByte
@@ -196,28 +196,28 @@ HDD_TEMP=false
 
 
 ; Show mount point
-; - true = show mount point
-; - false = do not show mount point
+; - true : show mount point
+; - false : do not show mount point
 ;
 SHOW_MOUNT_POINT=true
 
 ; Show mount option
-; - true = show mount option
-; - false = do not show mount option
+; - true : show mount option
+; - false : do not show mount option
 ;
 SHOW_MOUNT_OPTION=true
 
 
 ; Show mount credentials
-; - true = show mount credentials
-; - false = do not show mount credentials
+; - true : show mount credentials
+; - false : do not show mount credentials
 ;
 SHOW_MOUNT_CREDENTIALS=false
 
 
 ; Show inode usage
-; - true = display used inodes in percent
-; - false = hide them
+; - true : display used inodes in percent
+; - false : hide them
 ;
 SHOW_INODES=true
 
@@ -240,8 +240,8 @@ HIDE_FS_TYPES=""
 HIDE_DISKS=""
 
 ; Filesystem usage warning threshold in percent
-; - 0 = disabled
-; - 90 = 90%
+; - 0 : disabled
+; - 90 : 90%
 ; Default is 90%
 ;
 FS_USAGE_THRESHOLD=90
@@ -302,7 +302,9 @@ UPS_APCUPSD_CGI_ENABLE=false
 ; define how to access the battery statistic data
 ; - "command" read /proc/acpi/battery/BAT0/info and read /proc/acpi/battery/BAT0/state
 ;             or for Android some files from /sys/class/power_supply/battery
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "bat_info.txt" and "bat_state.txt"; content is the output from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output 
+;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
 ;
 ACCESS="command"
 
@@ -316,8 +318,9 @@ DEVICE="BAT0"
 
 ; define how to access the IPMI statistic data
 ; - "command" ipmitool command is run everytime the block gets refreshed or build
-;     if access error execute first: chmod 666 /dev/ipmi0
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "ipmiinfo.txt"; content is the output from "ipmitool sensor")
+;             if access error execute first: chmod 666 /dev/ipmi0
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;          with the filename "ipmiinfo.txt"; content is the output from "ipmitool sensor")
 ;
 ACCESS="command"
 
@@ -327,7 +330,8 @@ ACCESS="command"
 
 ; define how to access the mdstat statistic data
 ; - "file" /proc/mdstat is read
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "mdstat.txt"; content is the output from "cat /proc/mdstat")
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;         with the filename "mdstat.txt"; content is the output from "cat /proc/mdstat")
 ;
 ACCESS="file"
 
@@ -336,8 +340,10 @@ ACCESS="file"
 ; PS Plugin configuration
 
 ; define how to access the ps statistic data
-; - "command" ps command is run everytime the block gets refreshed or build / on WINNT information is retrieved everytime through WMI
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,args")
+; - "command" ps command is run everytime the block gets refreshed or build / on WINNT 
+;             information is retrieved everytime through WMI
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,args")
 ;
 ACCESS="command"
 
@@ -346,8 +352,10 @@ ACCESS="command"
 ; PSStatus Plugin configuration
 
 ; define how to access the psstatus statistic data
-; - "command" pidof command is run everytime the block gets refreshed or build / on WINNT information is retrieved everytime through WMI
-; - "data" a file must be available in the data directory of the phpsysinfo installation with the filename "psstatus.txt"; content is the output from
+; - "command" pidof command is run everytime the block gets refreshed or build / on WINNT 
+;             information is retrieved everytime through WMI
+; - "data" a file must be available in the data directory of the phpsysinfo installation 
+;          with the filename "psstatus.txt"; content is the output from
 ;   <code>ps=("apache2" "mysqld" "sshd"); for((i=0;i<${#ps};i++)); do echo ${ps[$i]} "|" `pidof -s ${ps[$i]}` ;done</code>
 ;
 ; @var string
@@ -381,8 +389,8 @@ ACCESS="command"
 ;      Not recommended method:
 ;          execute: chmod 4755 /usr/sbin/smartctl
 ; - "data" (a file must be available in the data directory of the
-; phpsysinfo installation with the filename "smart{disk_number}.txt";
-; content is the output from "smartctl --all device")
+;          phpsysinfo installation with the filename "smart{disk_number}.txt";
+;          content is the output from "smartctl --all device")
 ;
 ACCESS="command"
 
@@ -415,7 +423,7 @@ IDS="005-RAW_VALUE,194-RAW_VALUE,4-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW
 ; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
 ; - "command" execute snmpwalk command
 ; - "data" a file must be available in the data directory of the
-; phpsysinfo installation with the filename "snmppinfo{printer_number}.txt";
+;          phpsysinfo installation with the filename "snmppinfo{printer_number}.txt";
 ; content is the output from:
 ;    snmpwalk -On -c public -v 1 {printer_address} 1.3.6.1.2.1.1.5 > snmppinfo{printer_number}.txt
 ;    snmpwalk -On -c public -v 1 {printer_address} 1.3.6.1.2.1.43.11.1.1 >> snmppinfo{printer_number}.txt
