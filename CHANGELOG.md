@@ -18,6 +18,7 @@ phpSysInfo 3.1.7
  - [UPD] Updated support of SunOS
  - [UPD] Memory informations on Darwin systems
  - [UPD] BAT plugin - updated Linux support
+ - [UPD] Updated HWSensors - OpenBSD sensor program
 
 phpSysInfo 3.1.6
 ----------------
