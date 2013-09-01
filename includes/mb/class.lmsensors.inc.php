@@ -95,8 +95,10 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*).C[ \t]+/", $line, $data)) {
+                ;
             } else {
-                (preg_match("/(.*):(.*).C[ \t]*$/", $line, $data));
+                preg_match("/(.*):(.*).C$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
                 if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
@@ -156,8 +158,10 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*) RPM[ \t]+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/(.*):(.*) RPM[ \t]*$/", $line, $data);
+                preg_match("/(.*):(.*) RPM$/", $line, $data);
             }
             $dev = new SensorDevice();
             $dev->setName(trim($data[1]));
@@ -203,8 +207,10 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*) V[ \t]+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/(.*):(.*) V[ \t]*$/", $line, $data);
+                preg_match("/(.*):(.*) V$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
                 if (preg_match("/^\+?([0-9\.]+)$/", trim($value), $newvalue)) {
@@ -265,8 +271,10 @@ class LMSensors extends Sensors
 */
             if (preg_match("/(.*):(.*).W[ ]*\((.*)=(.*).W\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*).W[ \t]+/", $line, $data)) {
+                ;
             } else {
-                (preg_match("/(.*):(.*).W[ \t]*$/", $line, $data));
+                preg_match("/(.*):(.*).W$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
                 if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
