@@ -13,7 +13,7 @@ testowy
 x86_64
 ---Mon, 06 May 2013 12:38:18 +0000 GMT--- Reading: /proc/uptime
 163.27 99.71
----Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: who 
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: who
 mietekn  tty7         May  6 14:36 (:0)
 mietekn  pts/0        May  6 14:36 (:0.0)
 ---Mon, 06 May 2013 12:38:18 +0000 GMT--- Reading: /proc/cpuinfo
@@ -36,7 +36,7 @@ cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
 power management:
 
----Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: lspci 
+---Mon, 06 May 2013 12:38:18 +0000 GMT--- Executing: lspci
 00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
 00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
 00:01.1 IDE interface: Intel Corporation 82371AB/EB/MB PIIX4 IDE (rev 01)
@@ -46,7 +46,7 @@ power management:
 00:05.0 Multimedia audio controller: Intel Corporation 82801AA AC'97 Audio Controller (rev 01)
 00:06.0 USB controller: Apple Inc. KeyLargo/Intrepid USB
 00:07.0 Bridge: Intel Corporation 82371AB/EB/MB PIIX4 ACPI (rev 08)
----Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: lsusb 
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: lsusb
 Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
 Bus 001 Device 002: ID 80ee:0021 VirtualBox USB Tablet
 ---Mon, 06 May 2013 12:38:19 +0000 GMT--- Reading: /proc/net/dev
@@ -137,7 +137,7 @@ tmpfs                                                  128377    326 128051    1
 tmpfs                                                  128377      2 128375    1% /run/lock
 tmpfs                                                  128377      6 128371    1% /run/shm
 /dev/sr0                                                    0      0      0     - /media/cdrom0
----Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: mount 
+---Mon, 06 May 2013 12:38:19 +0000 GMT--- Executing: mount
 sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
 proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
 udev on /dev type devtmpfs (rw,relatime,size=10240k,nr_inodes=126863,mode=755)

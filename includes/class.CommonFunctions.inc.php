@@ -131,7 +131,7 @@ class CommonFunctions
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
     {
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
-            $out = self::_parse_log_file("Executing: ".$strProgramname.' '.$strArgs);
+            $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArgs));
             if ($out == false) {
                 if (substr(PSI_LOG, 0, 1)=="-") {
                     $strBuffer = '';
@@ -196,7 +196,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".$strProgramname.' '.$strArgs."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.' '.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {

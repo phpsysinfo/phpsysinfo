@@ -137,7 +137,7 @@ VmallocUsed:       28128 kB
 VmallocChunk:     178684 kB
 DirectMap4k:           0 kB
 DirectMap4M:           0 kB
----Mon, 29 Apr 2013 07:33:52 +0000 GMT--- Executing: df 2>/dev/null 
+---Mon, 29 Apr 2013 07:33:52 +0000 GMT--- Executing: df 2>/dev/null
 Filesystem             Size   Used   Free   Blksize
 /                      370M   436K   369M   4096
 /mnt                   370M   436K   369M   4096
@@ -154,7 +154,7 @@ Filesystem             Size   Used   Free   Blksize
 /mnt/sdcard/bstfolder/Pictures   149G   123G    25G   4096
 /mnt/sdcard/bstfolder/BstSharedFolder   149G   123G    25G   4096
 /mnt/sdcard/bstfolder/PublicPictures   149G   123G    25G   4096
----Mon, 29 Apr 2013 07:33:52 +0000 GMT--- Executing: mount 
+---Mon, 29 Apr 2013 07:33:52 +0000 GMT--- Executing: mount
 rootfs / rootfs rw 0 0
 proc /proc proc rw,relatime 0 0
 sys /sys sysfs rw,relatime 0 0
