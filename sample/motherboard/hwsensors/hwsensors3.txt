@@ -1,0 +1,15 @@
+hw.sensors.acpitz0.temp0=21.80 degC (zone temperature)
+hw.sensors.it0.temp0=25.00 degC
+hw.sensors.it0.temp1=25.00 degC
+hw.sensors.it0.temp2=28.00 degC
+hw.sensors.it0.fan0=3668 RPM
+hw.sensors.it0.fan2=2033 RPM
+hw.sensors.it0.volt0=1.52 VDC (VCORE_A)
+hw.sensors.it0.volt1=2.54 VDC (VCORE_B)
+hw.sensors.it0.volt2=3.25 VDC (+3.3V)
+hw.sensors.it0.volt3=4.19 VDC (+5V)
+hw.sensors.it0.volt4=12.10 VDC (+12V)
+hw.sensors.it0.volt5=-9.42 VDC (-12V)
+hw.sensors.it0.volt6=-4.68 VDC (-5V)
+hw.sensors.it0.volt7=3.87 VDC (+5VSB)
+hw.sensors.it0.volt8=4.08 VDC (VBAT)

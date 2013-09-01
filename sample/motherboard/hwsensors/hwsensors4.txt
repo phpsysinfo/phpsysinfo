@@ -1,0 +1,17 @@
+hw.sensors.cpu0.temp0=35.00 degC
+hw.sensors.cpu1.temp0=35.00 degC
+hw.sensors.cpu2.temp0=35.00 degC
+hw.sensors.cpu3.temp0=35.00 degC
+hw.sensors.acpitz0.temp0=47.00 degC (zone temperature)
+hw.sensors.acpibat0.volt0=10.80 VDC (voltage)
+hw.sensors.acpibat0.volt1=12.46 VDC (current voltage)
+hw.sensors.acpibat0.amphour0=9.39 Ah (last full capacity)
+hw.sensors.acpibat0.amphour1=0.47 Ah (warning capacity)
+hw.sensors.acpibat0.amphour2=0.02 Ah (low capacity)
+hw.sensors.acpibat0.amphour3=9.39 Ah (remaining capacity), OK
+hw.sensors.acpibat0.raw0=0 (battery full), OK
+hw.sensors.acpibat0.raw1=0 (rate)
+hw.sensors.acpiac0.indicator0=On (power supply)
+hw.sensors.acpithinkpad0.temp0=47.00 degC
+hw.sensors.acpithinkpad0.temp1=47.00 degC
+hw.sensors.acpithinkpad0.temp2=47.00 degC
