@@ -25,7 +25,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             foreach ($group as $param=>$value) {
                 if (($value==="") || ($value==="0")) {
                     define($name_prefix.strtoupper($param), false);
-                } elseif ($value==1) {
+                } elseif ($value==="1") {
                     define($name_prefix.strtoupper($param), true);
                 } else {
                     if (strstr($value, ',')) {
