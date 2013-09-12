@@ -10,7 +10,7 @@ phpSysInfo 3.1.7
  - [ADD] Show CPU frequency max and min for Darwin (Mac OS X)
  - [ADD] Show System Language and Code Page on Darwin (Mac OS X)
  - [ADD] Show network interfaces infos for Minix and SunOS
- - [ADD] SMS and gNewSense to detected distros
+ - [ADD] SMS, gNewSense and Vector to detected distros
  - [ADD] LMSensors power information
  - [ADD] Battery installation date for the UPS info
 
