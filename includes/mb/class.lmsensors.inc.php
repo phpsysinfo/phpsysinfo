@@ -101,8 +101,8 @@ class LMSensors extends Sensors
                 preg_match("/(.*):(.*).C$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
+                if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
+                    $data[$key] = 0+trim($newvalue[1]);
                 } else {
                     $data[$key] = trim($value);
                 }
@@ -213,8 +213,8 @@ class LMSensors extends Sensors
                 preg_match("/(.*):(.*) V$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+)$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
+                if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
+                    $data[$key] = 0+trim($newvalue[1]);
                 } else {
                     $data[$key] = trim($value);
                 }
