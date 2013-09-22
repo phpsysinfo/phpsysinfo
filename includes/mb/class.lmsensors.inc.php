@@ -95,12 +95,14 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*).C[ \t]+/", $line, $data)) {
+                ;
             } else {
-                (preg_match("/(.*):(.*).C[ \t]*$/", $line, $data));
+                preg_match("/(.*):(.*).C$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
+                if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
+                    $data[$key] = 0+trim($newvalue[1]);
                 } else {
                     $data[$key] = trim($value);
                 }
@@ -156,8 +158,10 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*) RPM[ \t]+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/(.*):(.*) RPM[ \t]*$/", $line, $data);
+                preg_match("/(.*):(.*) RPM$/", $line, $data);
             }
             $dev = new SensorDevice();
             $dev->setName(trim($data[1]));
@@ -203,12 +207,14 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*) V[ \t]+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/(.*):(.*) V[ \t]*$/", $line, $data);
+                preg_match("/(.*):(.*) V$/", $line, $data);
             }
             foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+)$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
+                if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
+                    $data[$key] = 0+trim($newvalue[1]);
                 } else {
                     $data[$key] = trim($value);
                 }
@@ -229,6 +235,67 @@ class LMSensors extends Sensors
     }
 
     /**
+     * get power information
+     *
+     * @return void
+     */
+    private function _power()
+    {
+        $ar_buf = array();
+        foreach ($this->_lines as $line) {
+            $data = array();
+            //echo $line." <br> ";
+            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } else {
+                (preg_match("/(.*):(.*)/", $line, $data));
+            }
+            if (count($data) > 1) {
+                $temp = substr(trim($data[2]), -1);
+                switch ($temp) {
+                case "W":
+                    array_push($ar_buf, $line);
+                }
+            }
+        }
+        foreach ($ar_buf as $line) {
+            $data = array();
+/* not tested yet
+            if (preg_match("/(.*):(.*).W[ ]*\((.*)=(.*).W,(.*)=(.*).W\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*).W[ ]*\((.*)=(.*).W,(.*)=(.*).W\)(.*)/", $line, $data)) {
+                ;
+            } else
+*/
+            if (preg_match("/(.*):(.*).W[ ]*\((.*)=(.*).W\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*).W[ \t]+/", $line, $data)) {
+                ;
+            } else {
+                preg_match("/(.*):(.*).W$/", $line, $data);
+            }
+            foreach ($data as $key=>$value) {
+                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
+                    $data[$key] = trim($newvalue[1]);
+                } else {
+                    $data[$key] = trim($value);
+                }
+            }
+            $dev = new SensorDevice();
+            $dev->setName($data[1]);
+            $dev->setValue($data[2]);
+
+            if (isset($data[6]) && $data[2] <= $data[6]) {
+                  $dev->setMax(max($data[4],$data[6]));
+            } elseif (isset($data[4]) && $data[2] <= $data[4]) {
+                   $dev->setMax($data[4]);
+            }
+            $this->mbinfo->setMbPower($dev);
+        }
+    }
+    /**
      * get the information
      *
      * @see PSI_Interface_Sensor::build()
@@ -240,5 +307,6 @@ class LMSensors extends Sensors
         $this->_temperature();
         $this->_voltage();
         $this->_fans();
+        $this->_power();
     }
 }

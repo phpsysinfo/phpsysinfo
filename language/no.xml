@@ -309,4 +309,13 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
   <expression id="101" name="cpuspeedMin">
     <exp>CPU Speed Min</exp>
   </expression>
+  <expression id="102" name="power">
+    <exp>Power</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Battery date</exp>
+  </expression>
 </tns:translation>

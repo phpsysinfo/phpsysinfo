@@ -128,7 +128,7 @@ class Parser
                     if (count($df_buf1) < 2) {
                         continue;
                     }
-                    if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
+                    if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([\-0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
                         if (count($df_buf1) == 3) {
                             $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[2]);
                         } else {
@@ -144,7 +144,9 @@ class Parser
                             } else {
                                 $dev->setTotal($df_buf[1] * 1024);
                                 $dev->setUsed($df_buf[2] * 1024);
-                                $dev->setFree($df_buf[3] * 1024);
+                                if ($df_buf[3]>0) {
+                                    $dev->setFree($df_buf[3] * 1024);
+                                }
                             }
                             if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
 

@@ -85,7 +85,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Aktive Netzwerkverbindungen</exp>
   </expression>
   <expression id="027" name="memusage">
-    <exp>Speicher-Auslastung</exp>
+    <exp>Arbeiteitsspeicher-Auslastung</exp>
   </expression>
   <expression id="028" name="phymem">
     <exp>Physikalischer Speicher</exp>
@@ -157,7 +157,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Minuten</exp>
   </expression>
   <expression id="051" name="temperature">
-    <exp>Temperatur</exp>
+    <exp>Temperaturen</exp>
   </expression>
   <expression id="052" name="voltage">
     <exp>Spannungen</exp>
@@ -286,16 +286,16 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Virtualisation</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Letzter Start</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>System Sprache</exp>
   </expression>
   <expression id="098" name="codepage">
     <exp>Code Page</exp>
@@ -304,9 +304,18 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Details</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>CPU-Geschwindigkeit Max</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>CPU-Geschwindigkeit Min</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>Power</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Battery date</exp>
   </expression>
 </tns:translation>

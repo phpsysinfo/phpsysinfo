@@ -370,7 +370,7 @@ VmallocChunk:     472740 kB
 ---Sun, 12 May 2013 18:32:55 +0000 GMT--- Reading: /proc/swaps
 Filename				Type		Size	Used	Priority
 /dev/block/zram0                        partition	34340	33532	-1
----Sun, 12 May 2013 18:32:56 +0000 GMT--- Executing: df 2>/dev/null 
+---Sun, 12 May 2013 18:32:56 +0000 GMT--- Executing: df 2>/dev/null
 Filesystem               Size     Used     Free   Blksize
 /cache                   5M   996K     4M   4096
 /dev                    93.2M    84K    93.1M   4096
@@ -392,7 +392,7 @@ Filesystem               Size     Used     Free   Blksize
 /mnt/asec/com.skype.raider-1    18M    16.7M     1.3M   4096
 /mnt/asec/pl.vod-1       2M   472K     1.5M   4096
 /mnt/asec/org.mozilla.firefox-1    23M    21.3M     1.7M   4096
----Sun, 12 May 2013 18:32:56 +0000 GMT--- Executing: mount 
+---Sun, 12 May 2013 18:32:56 +0000 GMT--- Executing: mount
 rootfs / rootfs rw,nodiratime,relatime 0 0
 /dev/block/mtdblock1 /cache yaffs2 rw,nosuid,nodev,nodiratime,relatime 0 0
 tmpfs /dev tmpfs rw,nosuid,noatime,mode=755 0 0

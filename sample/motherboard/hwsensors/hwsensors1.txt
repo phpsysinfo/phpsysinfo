@@ -1,0 +1,13 @@
+hw.sensors.0=lm0, VCORE_A, volts_dc, 1.73 V
+hw.sensors.1=lm0, VCORE_B, volts_dc, 1.74 V
+hw.sensors.2=lm0, +3.3V, volts_dc, 3.26 V
+hw.sensors.3=lm0, +5V, volts_dc, 4.91 V
+hw.sensors.4=lm0, +12V, volts_dc, 12.28 V
+hw.sensors.5=lm0, -12V, volts_dc, -11.82 V
+hw.sensors.6=lm0, -5V, volts_dc, 3.55 V
+hw.sensors.7=lm0, +5VSB, volts_dc, 4.92 V
+hw.sensors.8=lm0, VBAT, volts_dc, 3.26 V
+hw.sensors.9=lm0, Temp1, temp, 33.00 degC / 91.40 degF
+hw.sensors.10=lm0, Temp2, temp, 22.50 degC / 72.50 degF
+hw.sensors.11=lm0, Temp3, temp, 127.50 degC / 261.50 degF
+hw.sensors.12=lm0, Fan1, fanrpm, 4891 RPM

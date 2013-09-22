@@ -229,14 +229,14 @@ Committed_AS:    2647024 kB
 VmallocTotal:     696320 kB
 VmallocUsed:       53040 kB
 VmallocChunk:     602116 kB
----Sat, 11 May 2013 09:44:42 +0000 GMT--- Executing: df 2>/dev/null 
+---Sat, 11 May 2013 09:44:42 +0000 GMT--- Executing: df 2>/dev/null
 /dev: 89892K total, 12K used, 89880K available (block size 4096)
 /sqlite_stmt_journals: 4096K total, 8K used, 4088K available (block size 4096)
 /system: 210944K total, 190756K used, 20188K available (block size 4096)
 /data: 216832K total, 117836K used, 98996K available (block size 4096)
 /cache: 51200K total, 15756K used, 35444K available (block size 4096)
 /sdcard: 992860K total, 967764K used, 25096K available (block size 4096)
----Sat, 11 May 2013 09:44:42 +0000 GMT--- Executing: mount 
+---Sat, 11 May 2013 09:44:42 +0000 GMT--- Executing: mount
 rootfs / rootfs ro 0 0
 tmpfs /dev tmpfs rw,mode=755 0 0
 devpts /dev/pts devpts rw,mode=600 0 0

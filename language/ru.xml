@@ -310,4 +310,13 @@ by: Artem Volk
   <expression id="101" name="cpuspeedMin">
     <exp>Минимальная скорость CPU</exp>
   </expression>
+  <expression id="102" name="power">
+    <exp>Power</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Battery date</exp>
+  </expression>
 </tns:translation>

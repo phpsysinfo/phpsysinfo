@@ -4,6 +4,7 @@ php:
   - 5.2
   - 5.3
   - 5.4
+  - 5.5
 
 script: for i in `find . -name "*.php"`; do php -l $i; done;
 

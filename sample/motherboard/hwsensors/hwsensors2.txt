@@ -1,0 +1,13 @@
+hw.sensors.0=it0, Fan1, 2445 RPM
+hw.sensors.3=it0, VCORE_A, 1.62 V DC
+hw.sensors.4=it0, VCORE_B, 2.66 V DC
+hw.sensors.5=it0, +3.3V, 3.23 V DC
+hw.sensors.6=it0, +5V, 4.84 V DC
+hw.sensors.7=it0, +12V, 12.42 V DC
+hw.sensors.8=it0, Unused, -2.80 V DC
+hw.sensors.9=it0, -12V, -6.62 V DC
+hw.sensors.10=it0, +5VSB, 4.84 V DC
+hw.sensors.11=it0, VBAT, 0.00 V DC
+hw.sensors.12=it0, Temp 1, 35.00 degC
+hw.sensors.13=it0, Temp 2, 29.00 degC
+hw.sensors.14=it0, Temp 3, 45.00 degC

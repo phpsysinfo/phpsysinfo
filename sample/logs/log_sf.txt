@@ -10,7 +10,7 @@ sfp-web-6.v30.ch3.sourceforge.com
 x86_64
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/uptime
 1694267.18 4577690.73
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: who 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: who
 
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/cpuinfo
 processor	: 0
@@ -167,7 +167,7 @@ power management:
 
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s mysqld
 
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lspci 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lspci
 00:00.0 Host bridge: Intel Corporation 440FX - 82441FX PMC [Natoma] (rev 02)
 00:01.0 ISA bridge: Intel Corporation 82371SB PIIX3 ISA [Natoma/Triton II]
 00:01.1 IDE interface: Intel Corporation 82371SB PIIX3 IDE [Natoma/Triton II]
@@ -188,7 +188,7 @@ Mon Dec  6 09:00:00 EST 2004
 User                used        soft        hard  grace    used  soft  hard  grace
 cherylstaff--     2755724           0           0          15678     0     0       
 brucestaff	--     5738512           0           0           7830     0     0       
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lsusb 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: lsusb
 
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/net/dev
 Inter-|   Receive                                                |  Transmit
@@ -307,7 +307,7 @@ Num  Test              Status                 segment  LifeTime  LBA_first_err [
 # 1  Background long   Interrupted ('-X' switch)   -   14371                 - [-   -    -]
 
 Long (extended) Self Test duration: 1367 seconds [22.8 minutes]
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: mount 
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: mount
 proc on /proc type proc (rw)
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/loadavg
 14.01 16.10 16.01 18/358 6013
