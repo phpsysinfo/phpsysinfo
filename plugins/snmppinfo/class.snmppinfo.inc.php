@@ -164,10 +164,10 @@ class SNMPPInfo extends PSI_Plugin
                     $this->_result[$printer][$data[1]]['prtMarkerSuppliesLevel']=$data[2];
                 }
                 if (preg_match('/^\.1\.3\.6\.1\.2\.1\.1\.5\.0 = STRING:\s(.*)/', $line, $data)) {
-                    $this->_result[$printer][0]['prtMarkerSuppliesDescription']=$data[1];
+                    $this->_result[$printer][0]['prtMarkerSuppliesDescription']=trim($data[1],"\"");;
                 }
                 if (preg_match('/^\.1\.3\.6\.1\.2\.1\.43\.18\.1\.1\.8\.1\.(.*) = STRING:\s(.*)/', $line, $data)) {
-                    $this->_result[$printer][99][]=$data[2];
+                    $this->_result[$printer][99][]=trim($data[2],"\"");
                 }
             }
         }
