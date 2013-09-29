@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.8
+----------------
+
+ - [ADD] Add printers messages in the XML output
+
 phpSysInfo 3.1.7
 ----------------
 
