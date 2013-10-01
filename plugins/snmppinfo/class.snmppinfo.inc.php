@@ -81,7 +81,9 @@ class SNMPPInfo extends PSI_Plugin
                     }
                     foreach ($printers as $printer) {
                         if (! PSI_DEBUG) restore_error_handler();
-                        $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5");
+                        $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5", 1000000, 1);
+                        if($bufferarr === FALSE) return;
+                        
                         if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                         if (! empty($bufferarr)) {
                             $buffer="";
