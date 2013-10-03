@@ -82,17 +82,15 @@ class SNMPPInfo extends PSI_Plugin
                     foreach ($printers as $printer) {
                         if (! PSI_DEBUG) restore_error_handler();
                         $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5", 1000000, 1);
-                        if($bufferarr === FALSE) return;
-                        
                         if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                         if (! empty($bufferarr)) {
                             $buffer="";
                             foreach ($bufferarr as $id=>$string) {
                                 $buffer=$buffer.$id." = ".$string."\n";
                             }
-                            if (! PSI_DEBUG) restore_error_handler();
-                            
-                            $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1");
+
+                            if (! PSI_DEBUG) restore_error_handler();                            
+                            $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1", 1000000, 1);
                             if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                             if (! empty($bufferarr2)) {
                                 foreach ($bufferarr2 as $id=>$string) {
@@ -100,7 +98,8 @@ class SNMPPInfo extends PSI_Plugin
                                 }
                             }
                             
-                            $bufferarr3=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.18.1.1");
+                            if (! PSI_DEBUG) restore_error_handler();                                                        
+                            $bufferarr3=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.18.1.1", 1000000, 1);
                             if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                             if (! empty($bufferarr3)) {
                                 foreach ($bufferarr3 as $id=>$string) {
