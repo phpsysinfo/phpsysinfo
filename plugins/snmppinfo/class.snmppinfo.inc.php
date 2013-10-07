@@ -193,9 +193,9 @@ class SNMPPInfo extends PSI_Plugin
                     $xmlsnmppinfo_printer->addAttribute("Name", $snmppinfo_item['prtMarkerSuppliesDescription']);
                 } 
                 else if ($marker==99) {
-                    foreach($snmppinfo_item as $item=>$iarr) {
-                        $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
+                    foreach($snmppinfo_item as $item=>$iarr) {                           
                         if($iarr["message"] != "") {
+                            $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
                             $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
                             $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
                         }
