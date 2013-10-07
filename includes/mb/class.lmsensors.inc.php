@@ -111,8 +111,9 @@ class LMSensors extends Sensors
             
             if(strlen($data[1]) == 4) {
                 if($data[1][0] == "T") {
+                    
                     if($data[1][1] == "A") {
-                        $data[1] = $data[1] . " Ambiant";
+                        $data[1] = $data[1] . " Ambient";
                     }
                     else if ($data[1][1] == "C") {
                         $data[1] = $data[1] . " CPU";
@@ -137,13 +138,12 @@ class LMSensors extends Sensors
                     if($data[1][3] == "H") {
                         $data[1] = $data[1] . " Heatsink";
                     }
-                    else if ($data[1][1] == "P") {
-                        $data[1] = $data[1] . "";
+                    else if ($data[1][3] == "P") {
+                        $data[1] = $data[1] . " Proximity";
                     }
-                    else if ($data[1][1] == "D") {
+                    else if ($data[1][3] == "D") {
                         $data[1] = $data[1] . " Die";
                     }
-                   
 
                 }
 
