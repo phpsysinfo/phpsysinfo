@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
+-->
+<tns:translation language="hebrew" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>מידע המערכת</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>נתוני מערכת</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>שם השרת</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>כתובת אינטר\אינרה-נט</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>גרסת הליבה</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>הפצה</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>זמן ריצה</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>משתמשים מחוברים</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>עומס ממוצע</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>מידע על החומרה</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>מעבדים</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>דגם</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>מהירות מעבד</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>מהירות חריץ הרחבה</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>גודל מטמון</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>System Bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>התקני PCI</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>התקני IDE</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>שירותי SCSI</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>התקנים אוניברסליים (USB)</exp>
+  </expression>
+ <expression id="021" name="netusage">
+    <exp>ניצולת רשת</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>התקן</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>התקבל</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>נשלח</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>נפילות\תקלות</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>חיבורים קיימים</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>זיכרון בשימוש</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>זיכרון פיזי</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>דיסק החלפה</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>מערכות קבצים מחוברות</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>נקודת חיבור</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>מחיצה</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>בשימוש</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>סוג</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>פנוי</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>משומש</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>גודל</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>סה"כ</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>KB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>none</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>נפח</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>תבנית</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>שפה</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>שליחה</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>נוצר על ידי</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>ימים</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>שעות</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>דקות</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>טמפרטורה</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>מתח</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>מאווררים</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>ערך</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>מינימאלי</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>מקסימאלי</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Hysteresis</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>גבול</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>תווית</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>ליבה ותוכנה</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>אוגר</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>Cached</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>קפוץ ל</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>מידע אל פסק</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>שם</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>דגם</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>מצב</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>זמן הפעלה</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>מצב</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>הפסקות חשבמל</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>הפסקת חשמל אחרונה</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>חתימת זמן של הפסקת חשמל אחרונה</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>מתח הקו</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>אחוזי עומס</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>מתח סוללה</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>אחות טעינת סוללה</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>זמן שנשאר לשימוש בסוללה</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>דקות</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>טמפרטורה</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>הדמיה (וירטואליזציה)</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>עליית מערכת אחרוה</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+  <expression id="097" name="syslang">
+    <exp>שפת מערכת ההפעלה</exp>
+  </expression>
+  <expression id="098" name="codepage">
+    <exp>קוד שפה</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>פרטים</exp>
+  </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>מהירות מעבד הגבוהה ביותר</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>מהירות המעבד הנמוכה ביותר</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>כוח</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>תאריך סוללה</exp>
+  </expression>
+</tns:translation>
