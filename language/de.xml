@@ -310,12 +310,12 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>CPU-Geschwindigkeit Min</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Leistung</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Akku Datum</exp>
   </expression>
 </tns:translation>
