@@ -8,6 +8,7 @@ phpSysInfo 3.1.8
 
  - [ADD] Add printers messages in the XML output
  - [UPD] LMSensors sensors name for Mac hardware
+ - [UPD] Fix battery plugin
 
 phpSysInfo 3.1.7
 ----------------
