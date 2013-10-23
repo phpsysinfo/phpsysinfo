@@ -212,9 +212,9 @@ class BAT extends PSI_Plugin
             return;
         }
         foreach ($this->_filecontent['info'] as $roworig) {
-            if (preg_match('/^design capacity\s*:\s*(.*)$/', trim($roworig), $data)) {
+            if (preg_match('/^design capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity'] = $data[1];
-            } elseif (preg_match('/^design voltage\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^design voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_voltage'] = $data[1];
             } elseif (preg_match('/^battery type\s*:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
@@ -244,9 +244,9 @@ class BAT extends PSI_Plugin
             }
         }
         foreach ($this->_filecontent['state'] as $roworig) {
-            if (preg_match('/^remaining capacity\s*:\s*(.*)$/', trim($roworig), $data)) {
+            if (preg_match('/^remaining capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['remaining_capacity'] = $data[1];
-            } elseif (preg_match('/^present voltage\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['present_voltage'] = $data[1];
             } elseif (preg_match('/^charging state\s*:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['charging_state'] = $data[1];
