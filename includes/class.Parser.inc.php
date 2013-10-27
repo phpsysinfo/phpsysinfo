@@ -138,63 +138,61 @@ class Parser
                     }
                 }
             }
-            if (isset($mount_parm)) {
-                foreach ($df as $df_line) {
-                    $df_buf1 = preg_split("/(\%\s)/", $df_line, 3);
-                    if (count($df_buf1) < 2) {
-                        continue;
+            foreach ($df as $df_line) {
+                $df_buf1 = preg_split("/(\%\s)/", $df_line, 3);
+                if (count($df_buf1) < 2) {
+                    continue;
+                }
+                if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([\-0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
+                    if (count($df_buf1) == 3) {
+                        $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[2]);
+                    } else {
+                        $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[1]);
                     }
-                    if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([\-0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
-                        if (count($df_buf1) == 3) {
-                            $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[2]);
+                    if (count($df_buf) == 6) {
+                        $df_buf[5] = trim($df_buf[5]);
+                        $dev = new DiskDevice();
+                        $dev->setName(trim($df_buf[0]));
+                        if ($df_buf[2] < 0) {
+                            $dev->setTotal($df_buf[3] * 1024);
+                            $dev->setUsed($df_buf[3] * 1024);
                         } else {
-                            $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[1]);
+                            $dev->setTotal($df_buf[1] * 1024);
+                            $dev->setUsed($df_buf[2] * 1024);
+                            if ($df_buf[3]>0) {
+                                $dev->setFree($df_buf[3] * 1024);
+                            }
                         }
-                        if (count($df_buf) == 6) {
-                            $df_buf[5] = trim($df_buf[5]);
-                            $dev = new DiskDevice();
-                            $dev->setName(trim($df_buf[0]));
-                            if ($df_buf[2] < 0) {
-                                $dev->setTotal($df_buf[3] * 1024);
-                                $dev->setUsed($df_buf[3] * 1024);
-                            } else {
-                                $dev->setTotal($df_buf[1] * 1024);
-                                $dev->setUsed($df_buf[2] * 1024);
-                                if ($df_buf[3]>0) {
-                                    $dev->setFree($df_buf[3] * 1024);
+                        if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
+
+                        if (isset($mount_parm[$df_buf[5]])) {
+                            $dev->setFsType($mount_parm[$df_buf[5]]['fstype']);
+                            if (PSI_SHOW_MOUNT_OPTION) {
+                                if (PSI_SHOW_MOUNT_CREDENTIALS) {
+                                    $dev->setOptions($mount_parm[$df_buf[5]]['options']);
+                                } else {
+                                    $mpo=$mount_parm[$df_buf[5]]['options'];
+
+                                    $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,guest,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
+
+                                    $dev->setOptions($mpo);
                                 }
                             }
-                            if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
-
-                            if (isset($mount_parm[$df_buf[5]])) {
-                                $dev->setFsType($mount_parm[$df_buf[5]]['fstype']);
-                                if (PSI_SHOW_MOUNT_OPTION) {
-                                    if (PSI_SHOW_MOUNT_CREDENTIALS) {
-                                        $dev->setOptions($mount_parm[$df_buf[5]]['options']);
-                                    } else {
-                                        $mpo=$mount_parm[$df_buf[5]]['options'];
-
-                                        $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
-                                        $mpo=preg_replace('/,guest,/i', ',', $mpo);
-
-                                        $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
-                                        $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
-
-                                        $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
-                                        $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
-
-                                        $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
-                                        $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
-
-                                        $dev->setOptions($mpo);
-                                    }
-                                }
-                            }
-                            if (PSI_SHOW_INODES && isset($df_inodes[trim($df_buf[0])])) {
-                                $dev->setPercentInodesUsed($df_inodes[trim($df_buf[0])]);
-                            }
-                            $arrResult[] = $dev;
                         }
+                        if (PSI_SHOW_INODES && isset($df_inodes[trim($df_buf[0])])) {
+                            $dev->setPercentInodesUsed($df_inodes[trim($df_buf[0])]);
+                        }
+                        $arrResult[] = $dev;
                     }
                 }
             }
