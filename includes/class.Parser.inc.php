@@ -93,6 +93,38 @@ class Parser
     public static function df($df_param = "")
     {
         $arrResult = array();
+        if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
+            $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($mount as $mount_line) {
+                if (preg_match("/(\S+) on ([\S ]+) type (.*) \((.*)\)/", $mount_line, $mount_buf)) {
+                    $mount_parm[$mount_buf[2]]['fstype'] = $mount_buf[3];
+                    $mount_parm[$mount_buf[2]]['name'] = $mount_buf[1];
+                    if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[2]]['options'] = $mount_buf[4];
+                } elseif (preg_match("(/\S+) is (.*) mounted on (\S+) \(type (.*)\)/", $mount_line, $mount_buf)) {
+                    $mount_parm[$mount_buf[3]]['fstype'] = $mount_buf[4];
+                    $mount_parm[$mount_buf[3]]['name'] = $mount_buf[1];
+                    if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[3]]['options'] = $mount_buf[2];
+                } elseif (preg_match("/(\S+) (.*) on (\S+) \((.*)\)/", $mount_line, $mount_buf)) {
+                    $mount_parm[$mount_buf[3]]['fstype'] = $mount_buf[2];
+                    $mount_parm[$mount_buf[3]]['name'] = $mount_buf[1];
+                    if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[3]]['options'] = $mount_buf[4];
+                } elseif (preg_match("/(\S+) on ([\S ]+) \((\S+)(,\s(.*))?\)/", $mount_line, $mount_buf)) {
+                    $mount_parm[$mount_buf[2]]['fstype'] = $mount_buf[3];
+                    $mount_parm[$mount_buf[2]]['name'] = $mount_buf[1];
+                    if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[2]]['options'] = isset($mount_buf[5]) ? $mount_buf[5] : '';
+                }
+            }
+        } elseif (CommonFunctions::rfts("/etc/mtab", $mount)) {
+            $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($mount as $mount_line) {
+                if (preg_match("/(\S+) (\S+) (\S+) (\S+) ([0-9]+) ([0-9]+)/", $mount_line, $mount_buf)) {
+                    $mount_point = preg_replace("/\\\\040/i", ' ', $mount_buf[2]); //space as \040
+                    $mount_parm[$mount_point]['fstype'] = $mount_buf[3];
+                    $mount_parm[$mount_point]['name'] = $mount_buf[1];
+                    if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_point]['options'] = $mount_buf[4];
+                }
+            }
+        }
         if (CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG)) {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (PSI_SHOW_INODES) {
@@ -106,23 +138,7 @@ class Parser
                     }
                 }
             }
-            if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
-                $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($mount as $mount_line) {
-                    if (preg_match("/\S+ on (\S+) type (.*) \((.*)\)/", $mount_line, $mount_buf)) {
-                        $mount_parm[$mount_buf[1]]['fstype'] = $mount_buf[2];
-                        if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[1]]['options'] = $mount_buf[3];
-                    } elseif (preg_match("/\S+ is (.*) mounted on (\S+) \(type (.*)\)/", $mount_line, $mount_buf)) {
-                        $mount_parm[$mount_buf[2]]['fstype'] = $mount_buf[3];
-                        if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[2]]['options'] = $mount_buf[1];
-                    } elseif (preg_match("/\S+ (.*) on (\S+) \((.*)\)/", $mount_line, $mount_buf)) {
-                        $mount_parm[$mount_buf[2]]['fstype'] = $mount_buf[1];
-                        if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[2]]['options'] = $mount_buf[3];
-                    } elseif (preg_match("/\S+ on ([\S ]+) \((\S+)(,\s(.*))?\)/", $mount_line, $mount_buf)) {
-                        $mount_parm[$mount_buf[1]]['fstype'] = $mount_buf[2];
-                        if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[1]]['options'] = isset($mount_buf[4]) ? $mount_buf[4] : '';
-                    }
-                }
+            if (isset($mount_parm)) {
                 foreach ($df as $df_line) {
                     $df_buf1 = preg_split("/(\%\s)/", $df_line, 3);
                     if (count($df_buf1) < 2) {
@@ -179,6 +195,51 @@ class Parser
                             }
                             $arrResult[] = $dev;
                         }
+                    }
+                }
+            }
+        } else {
+            if (isset($mount_parm)) {
+                foreach ($mount_parm as $mount_point=>$mount_param) {
+                    $total = disk_total_space($mount_point);
+                    if (($mount_param['fstype'] != 'none') && ($total > 0)) {
+                        $dev = new DiskDevice();
+                        $dev->setName($mount_param['name']);
+                        $dev->setFsType($mount_param['fstype']);
+
+                        if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($mount_point);
+
+                        $dev->setTotal($total);
+                        $free = disk_free_space($mount_point);
+                        if ($free > 0) {
+                            $dev->setFree($free);
+                        } else {
+                            $free = 0;
+                        }
+                        if ($total > $free) $dev->setUsed($total - $free);
+
+                        if (PSI_SHOW_MOUNT_OPTION) {
+                            if (PSI_SHOW_MOUNT_CREDENTIALS) {
+                                $dev->setOptions($mount_param['options']);
+                            } else {
+                                $mpo=$mount_param['options'];
+
+                                $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
+                                $mpo=preg_replace('/,guest,/i', ',', $mpo);
+
+                                $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
+                                $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
+
+                                $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
+                                $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
+
+                                $dev->setOptions($mpo);
+                            }
+                        }
+                        $arrResult[] = $dev;
                     }
                 }
             }
