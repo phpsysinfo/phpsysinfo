@@ -362,6 +362,12 @@ ACCESS="command"
 ;
 ACCESS="command"
 
+; Regular expression search in the process name (e.g. "ddclient.*")
+; - true : Regular expression search (used pgrep command)
+; - false : Normal search (used pidof command)
+;
+USE_REGEX=false
+
 ; controls which processes are checked if they are running
 ;
 ; @var string contains a list of process names that are checked, names are seperated by a comma (on WINNT names must end with '.exe')
