@@ -9,6 +9,7 @@ phpSysInfo 3.1.8
  - [ADD] Add printers messages in the XML output
  - [ADD] Hebrew Translation he.xml
  - [ADD] PSStatus plugin - added optional regular expression search in the process name
+ - [ADD] RedHatEnterpriseClient distro icon #40
 
  - [UPD] LMSensors sensors name for Mac hardware
  - [UPD] Fix battery plugin
