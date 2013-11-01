@@ -73,6 +73,7 @@ class SNMPPInfo extends PSI_Plugin
         case 'php-snmp':
                 snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
                 snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
+
                 if ( defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES) ) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SNMPPINFO_DEVICES)) {
                         $printers = eval(PSI_PLUGIN_SNMPPINFO_DEVICES);
@@ -80,27 +81,21 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        if (! PSI_DEBUG) restore_error_handler();
                         $bufferarr=snmprealwalk($printer, "public", "1.3.6.1.2.1.1.5", 1000000, 1);
-                        if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                         if (! empty($bufferarr)) {
                             $buffer="";
                             foreach ($bufferarr as $id=>$string) {
                                 $buffer=$buffer.$id." = ".$string."\n";
                             }
 
-                            if (! PSI_DEBUG) restore_error_handler();
                             $bufferarr2=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.11.1.1", 1000000, 1);
-                            if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                             if (! empty($bufferarr2)) {
                                 foreach ($bufferarr2 as $id=>$string) {
                                     $buffer=$buffer.$id." = ".$string."\n";
                                 }
                             }
                             
-                            if (! PSI_DEBUG) restore_error_handler();
                             $bufferarr3=snmprealwalk($printer, "public", "1.3.6.1.2.1.43.18.1.1", 1000000, 1);
-                            if (! PSI_DEBUG) set_error_handler('errorHandlerPsi');
                             if (! empty($bufferarr3)) {
                                 foreach ($bufferarr3 as $id=>$string) {
                                     $buffer=$buffer.$id." = ".$string."\n";
@@ -194,7 +189,7 @@ class SNMPPInfo extends PSI_Plugin
                 } 
                 else if ($marker==99) {
                     foreach($snmppinfo_item as $item=>$iarr) {                           
-                        if($iarr["message"] != "") {
+                        if(isset($iarr["message"]) && $iarr["message"] != "") {
                             $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
                             $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
                             $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
