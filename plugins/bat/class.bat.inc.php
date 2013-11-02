@@ -42,7 +42,7 @@ class BAT extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
             if (PSI_OS == 'Android') {
-                CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer_info);
+                CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer_info, 0, 4096, PSI_DEBUG);
                 $buffer_state = '';
                 if (CommonFunctions::rfts('/sys/class/power_supply/battery/capacity', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$buffer1;
@@ -156,7 +156,7 @@ class BAT extends PSI_Plugin
                 $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/info', $buffer_info, 0, 4096, false);
                 $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/state', $buffer_state, 0, 4096, false);
                 if (!$rfts_bi && !$rfts_bs) {
-                    CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info);
+                    CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info, 0, 4096, PSI_DEBUG);
                     $buffer_state = '';
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/voltage_min_design', $buffer1, 1, 4096, false)) {
                        $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.$buffer1."\n";
