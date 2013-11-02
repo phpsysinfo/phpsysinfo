@@ -215,7 +215,7 @@ class SNMPPInfo extends PSI_Plugin
                 } 
                 else if ($marker==99) {
                     foreach($snmppinfo_item as $item=>$iarr) {                           
-                         if (isset($iarr["message"]) && $iarr["message"] != "") {
+                        if (isset($iarr["message"]) && $iarr["message"] != "") {
                             $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
                             $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
                             $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
