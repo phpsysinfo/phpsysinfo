@@ -70,10 +70,19 @@ class PSStatus extends PSI_Plugin
                     } else {
                         $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                     }
-                    foreach ($processes as $process) {
-                        CommonFunctions::executeProgram("pidof", "-s ".$process, $buffer, PSI_DEBUG);
-                        if (strlen(trim($buffer)) > 0) {
-                            $this->_filecontent[] = array($process, trim($buffer));
+                    if ( defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
+                        foreach ($processes as $process) {
+                            CommonFunctions::executeProgram("pgrep", "-n -x ".$process, $buffer, PSI_DEBUG);
+                            if (strlen(trim($buffer)) > 0) {
+                                $this->_filecontent[] = array($process, trim($buffer));
+                            }
+                        }
+                    } else {
+                        foreach ($processes as $process) {
+                            CommonFunctions::executeProgram("pidof", "-s ".$process, $buffer, PSI_DEBUG);
+                            if (strlen(trim($buffer)) > 0) {
+                                $this->_filecontent[] = array($process, trim($buffer));
+                            }
                         }
                     }
                 }

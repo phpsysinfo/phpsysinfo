@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.8
+----------------
+
+ - [ADD] Add printers messages in the XML output
+ - [ADD] PSStatus plugin - added optional regular expression search in the process name
+ - [ADD] RedHatEnterpriseClient distro icon #40
+ - [ADD] Hebrew Translation he.xml
+
+ - [FIX] BAT plugin - fix for old and new kernel /proc/acpi and /sys/class/power_supply
+
+ - [UPD] LMSensors name for Mac hardware sensors
+
 phpSysInfo 3.1.7
 ----------------
 

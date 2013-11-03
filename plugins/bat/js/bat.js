@@ -35,7 +35,7 @@ function bat_populate(xml) {
     bat_table.fnClearTable();
 
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
-        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "";
+        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "";
         DesignCapacity = $(this).attr("DesignCapacity");
         DesignVoltage = $(this).attr("DesignVoltage");
         BatteryType = $(this).attr("BatteryType");
@@ -44,11 +44,12 @@ function bat_populate(xml) {
         ChargingState = $(this).attr("ChargingState");
         BatteryTemperature = $(this).attr("BatteryTemperature");
         BatteryCondition = $(this).attr("BatteryCondition");
+        Capacity = $(this).attr("Capacity");
 
-        if (DesignCapacity == undefined) {
+        if (Capacity != undefined) {
+            bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(Capacity, 10)), '&nbsp;']);
+        } else if (DesignCapacity == undefined) {
             if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, '&nbsp;']);
-        } else if (DesignCapacity == "%") {
-            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(RemainingCapacity, 10)), '&nbsp;']);
         } else {
             bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity, '&nbsp;']);
             if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity, createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);

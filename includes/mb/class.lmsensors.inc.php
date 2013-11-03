@@ -108,6 +108,47 @@ class LMSensors extends Sensors
                 }
             }
             $dev = new SensorDevice();
+            
+            if(strlen($data[1]) == 4) {
+                if($data[1][0] == "T") {
+                    
+                    if($data[1][1] == "A") {
+                        $data[1] = $data[1] . " Ambient";
+                    }
+                    else if ($data[1][1] == "C") {
+                        $data[1] = $data[1] . " CPU";
+                    }
+                    else if ($data[1][1] == "G") {
+                        $data[1] = $data[1] . " GPU";
+                    }
+                    else if ($data[1][1] == "H") {
+                        $data[1] = $data[1] . " Harddisk";
+                    }
+                    else if ($data[1][1] == "L") {
+                        $data[1] = $data[1] . " LCD";
+                    }
+                    else if ($data[1][1] == "O") {
+                        $data[1] = $data[1] . " ODD";
+                    }
+                    else if ($data[1][1] == "B") {
+                        $data[1] = $data[1] . " Battery";
+                    }
+   
+   
+                    if($data[1][3] == "H") {
+                        $data[1] = $data[1] . " Heatsink";
+                    }
+                    else if ($data[1][3] == "P") {
+                        $data[1] = $data[1] . " Proximity";
+                    }
+                    else if ($data[1][3] == "D") {
+                        $data[1] = $data[1] . " Die";
+                    }
+
+                }
+
+            }
+            
             $dev->setName($data[1]);
             $dev->setValue($data[2]);
 

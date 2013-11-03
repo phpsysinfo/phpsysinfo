@@ -86,7 +86,7 @@ class HDDTemp extends Sensors
             if (trim($strDrives) == "") {
                 break;
             }
-            if (CommonFunctions::executeProgram("hddtemp", $strDrives, $hddtemp_value)) {
+            if (CommonFunctions::executeProgram("hddtemp", $strDrives, $hddtemp_value, PSI_DEBUG)) {
                 $hddtemp_value = preg_split("/\n/", $hddtemp_value, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($hddtemp_value as $line) {
                     $temp = preg_split("/:\s/", $line, 3);
