@@ -11,8 +11,9 @@ phpSysInfo 3.1.8
  - [ADD] RedHatEnterpriseClient distro icon #40
  - [ADD] Hebrew Translation he.xml
 
- - [UPD] LMSensors sensors name for Mac hardware
  - [FIX] BAT plugin - fix for old and new kernel /proc/acpi and /sys/class/power_supply
+
+ - [UPD] LMSensors name for Mac hardware sensors
 
 phpSysInfo 3.1.7
 ----------------
