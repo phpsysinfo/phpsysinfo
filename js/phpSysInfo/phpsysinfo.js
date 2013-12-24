@@ -37,7 +37,12 @@ function createCookie(name, value, days) {
     var date = new Date(), expires = "";
     if (days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
+        if (typeof(lastboot.toUTCString)==="function") {
+            expires = "; expires=" + date.toUTCString();
+        } else {
+            //deprecated
+            expires = "; expires=" + date.toGMTString();
+        }
     }
     else {
         expires = "";
@@ -610,7 +615,12 @@ function refreshVitals(xml) {
         $("#s_kernel").html(kernel);
         $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' height='16' width='16' style='vertical-align:middle;' />&nbsp;" + distro);
         $("#s_uptime").html(uptime);
-        $("#s_lastboot").html(lastboot.toGMTString()); //toGMTString() or toLocaleString()
+        if (typeof(lastboot.toUTCString)==="function") {
+            $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()
+        } else {
+            //deprecated
+            $("#s_lastboot").html(lastboot.toGMTString()); //toGMTString() or toLocaleString()
+        }
         $("#s_users").html(users);
         $("#s_loadavg").html(loadavg);
         $("#s_syslang").html(syslang);
