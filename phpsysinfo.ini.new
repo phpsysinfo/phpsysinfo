@@ -229,7 +229,7 @@ HIDE_MOUNTS=""
 
 
 ; Hide filesystem types
-; Example : HIDE_FS_TYPES="tmpfs,devtmpfs,usbfs"
+; Example : HIDE_FS_TYPES="tmpfs,devtmpfs,usbfs,bstfolder"
 ;
 HIDE_FS_TYPES=""
 
