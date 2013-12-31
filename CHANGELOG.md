@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.1.9
 ----------------
 
- - [ADD] OpenMandriva to detected distros
+ - [ADD] OpenMandriva and SteamOS to detected distros
 
 phpSysInfo 3.1.8
 ----------------
