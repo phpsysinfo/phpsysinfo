@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Zorin
+Description:	Zorin OS 6
+Release:	6
+Codename:	precise
+----------/etc/lsb-release----------
+DISTRIB_ID=Zorin
+DISTRIB_RELEASE=6
+DISTRIB_CODENAME=precise
+DISTRIB_DESCRIPTION="Zorin OS 6"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="12.04.1 LTS, Precise Pangolin"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu precise (12.04.1 LTS)"
+VERSION_ID="12.04"
+----------/etc/debian_version----------
+wheezy/sid

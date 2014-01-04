@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+Distributor ID:	gNewSense
+Description:	gNewSense GNU/Linux 3.0 (parkes)
+Release:	3.0
+Codename:	parkes
+----------/etc/lsb-release----------
+DISTRIB_ID=gNewSense
+DISTRIB_RELEASE=3.0
+DISTRIB_CODENAME=parkes
+DISTRIB_DESCRIPTION="gNewSense GNU/Linux 3.0 (parkes)"
+----------/etc/debian_version----------
+6.0.6

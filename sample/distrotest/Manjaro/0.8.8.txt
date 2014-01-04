@@ -1,0 +1,21 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	ManjaroLinux
+Description:	Manjaro Linux
+Release:	0.8.8
+Codename:	Ascella
+----------/etc/lsb-release----------
+DISTRIB_ID=ManjaroLinux
+DISTRIB_RELEASE=0.8.8
+DISTRIB_CODENAME=Ascella
+DISTRIB_DESCRIPTION="Manjaro Linux"
+----------/etc/manjaro-release----------
+Manjaro Linux
+----------/etc/os-release----------
+NAME="Manjaro Linux"
+ID=manjaro
+PRETTY_NAME="Manjaro Linux"
+ANSI_COLOR="1;32"
+HOME_URL="http://www.manjaro.org/"
+SUPPORT_URL="http://www.manjaro.org/"
+BUG_REPORT_URL="http://bugs.manjaro.org/"

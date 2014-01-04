@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Zorin
+Description:	Zorin OS 8
+Release:	8
+Codename:	saucy
+----------/etc/lsb-release----------
+DISTRIB_ID=Zorin
+DISTRIB_RELEASE=8
+DISTRIB_CODENAME=saucy
+DISTRIB_DESCRIPTION="Zorin OS 8"
+----------/etc/os-release----------
+NAME="Zorin OS"
+VERSION="8"
+ID=Zorin OS
+ID_LIKE=ubuntu
+PRETTY_NAME="Zorin OS 8"
+VERSION_ID="8"
+HOME_URL="http://www.zorin-os.com/"
+SUPPORT_URL="http://www.zorin-os.com/help/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+----------/etc/debian_version----------
+wheezy/sid

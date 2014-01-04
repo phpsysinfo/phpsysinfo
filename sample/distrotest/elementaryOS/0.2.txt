@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	elementary OS
+Description:	elementary OS Luna
+Release:	0.2
+Codename:	luna
+----------/etc/lsb-release----------
+DISTRIB_ID="elementary OS"
+DISTRIB_RELEASE=0.2
+DISTRIB_CODENAME=luna
+DISTRIB_DESCRIPTION="elementary OS Luna"
+----------/etc/os-release----------
+NAME="elementary OS"
+VERSION="0.2 Luna"
+ID=elementary OS
+ID_LIKE=ubuntu
+PRETTY_NAME="elementary OS Luna"
+VERSION_ID="0.2"
+----------/etc/debian_version----------
+wheezy/sid

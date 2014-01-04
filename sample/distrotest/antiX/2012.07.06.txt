@@ -1,0 +1,9 @@
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux wheezy/sid"
+NAME="Debian GNU/Linux"
+ID=debian
+ANSI_COLOR="1;31"
+----------/etc/antix-version----------
+antiX-full Edelweißpiraten 06 August 2012
+----------/etc/debian_version----------
+wheezy/sid

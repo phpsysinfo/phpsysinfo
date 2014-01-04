@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+LSB Version	n/a
+Distributor ID:	openSUSE project
+Description:	openSUSE 13.1 Milestone 3 (x86_64)
+Release:	13.1
+Codename:	Bottle
+----------/etc/SuSE-release----------
+openSUSE 13.1 Milestone 3 (x86_64)
+VERSION = 13.1
+CODENAME = Bottle
+----------/etc/os-release----------
+NAME=openSUSE
+VERSION="13.1 Milestone 3 (Bottle)"
+VERSION_ID="13.1milstone3"
+PRETTY_NAME="openSUSE 13.1 Milestone 3 (Bottle) (x86_64)"
+ID=opensuse
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:opensuse:13.1"

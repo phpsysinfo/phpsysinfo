@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+Distributor ID:	LinuxMint
+Description:	Linux Mint 13 Maya
+Release:	13
+Codename:	maya
+----------/etc/lsb-release----------
+DISTRIB_ID=LinuxMint
+DISTRIB_RELEASE=13
+DISTRIB_CODENAME=maya
+DISTRIB_DESCRIPTION="Linux Mint 13 Maya"
+----------/etc/debian_version----------
+wheezy/sid

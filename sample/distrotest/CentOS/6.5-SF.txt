@@ -1,0 +1,6 @@
+----------/etc/centos-release----------
+CentOS release 6.5 (Final)
+----------/etc/redhat-release----------
+CentOS release 6.5 (Final)
+----------/etc/system-release----------
+CentOS release 6.5 (Final)

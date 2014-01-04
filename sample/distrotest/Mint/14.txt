@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	LinuxMint
+Description:	Linux Mint 14 Nadia
+Release:	14
+Codename:	nadia
+----------/etc/lsb-release----------
+DISTRIB_ID=LinuxMint
+DISTRIB_RELEASE=14
+DISTRIB_CODENAME=nadia
+DISTRIB_DESCRIPTION="Linux Mint 14 Nadia"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="12.10, Quantal Quetzal"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu quantal (12.10)"
+VERSION_ID="12.10"
+----------/etc/debian_version----------
+wheezy/sid

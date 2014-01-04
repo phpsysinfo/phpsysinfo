@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04.3 LTS
+Release:	12.04
+Codename:	precise
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=12.04
+DISTRIB_CODENAME=precise
+DISTRIB_DESCRIPTION="Ubuntu 12.04.3 LTS"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="12.04.3 LTS, Precise Pangolin"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu precise (12.04.3 LTS)"
+VERSION_ID="12.04"
+----------/etc/debian_version----------
+wheezy/sid
