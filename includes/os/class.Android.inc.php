@@ -143,31 +143,17 @@ class Android extends Linux
      */
     private function _distro()
     {
-        $list = @parse_ini_file(APP_ROOT."/data/distros.ini", true);
-        if (!$list) {
-            return;
-        }
         $buf = "";
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = $ar_buf[1];
         }
-        if (isset($list['Android']['Image'])) {
-            $this->sys->setDistributionIcon($list['Android']['Image']);
-        }
-        if (isset($list['Android']['Name'])) {
-            if ( is_null($buf) || (trim($buf) == "")) {
-                $this->sys->setDistribution($list['Android']['Name']);
-            } else {
-                $this->sys->setDistribution($list['Android']['Name']." ".trim($buf));
-            }
+        if ( is_null($buf) || (trim($buf) == "")) {
+            $this->sys->setDistribution('Android');
         } else {
-            if ( is_null($buf) || (trim($buf) == "") ) {
-                $this->sys->setDistribution('Android');
-            } else {
-                $this->sys->setDistribution(trim($buf));
-            }
+            $this->sys->setDistribution('Android '.trim($buf));
         }
+        $this->sys->setDistributionIcon('Android.png');
     }
 
     /**

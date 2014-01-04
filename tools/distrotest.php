@@ -9,8 +9,7 @@ $filemaskarray=array("/etc/*-release",
                      "/etc/eisfair-system",
                      "/usr/share/doc/tc/release.txt",
                      "/etc/synoinfo.conf",
-                     "/etc/salix-update-notifier.conf",
-                     "/system/build.prop");
+                     "/etc/salix-update-notifier.conf");
 $fp = popen("lsb_release -a 2>/dev/null", "r");
 if (is_resource($fp)) {
     $contents="";
