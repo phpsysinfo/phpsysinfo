@@ -13,10 +13,15 @@ $filemaskarray=array("/etc/*-release",
                      "/system/build.prop");
 $fp = popen("lsb_release -a 2>/dev/null", "r");
 if (is_resource($fp)) {
-    echo "----------lsb_release -a----------\n";
     $contents="";
+    $start=true;
     while (!feof($fp)) {
-        echo $contents=fgets($fp, 4096);
+        $contents=fgets($fp, 4096);
+        if ($start && (strlen($contents)>0)) {
+            echo "----------lsb_release -a----------\n";
+            $start=false;
+        }
+        echo $contents;
     }
     if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")){
         echo "<-----no new line at end\n";
