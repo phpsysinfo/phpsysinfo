@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	NetrunnerSE
+Description:	Netrunner 5 SE Enigma (13.06)
+Release:	13.06
+Codename:	enigma-1306
+----------/etc/lsb-release----------
+DISTRIB_ID=NetrunnerSE
+DISTRIB_RELEASE=13.06
+DISTRIB_CODENAME=enigma-1306
+DISTRIB_DESCRIPTION="Netrunner 5 SE Enigma (13.06)"
+----------/etc/os-release----------
+NAME="Netrunner"
+VERSION="13.06, Enigma"
+ID=netrunner
+ID_LIKE=debian
+PRETTY_NAME="Netrunner 5 Enigma (13.06)"
+VERSION_ID="13.06"
+HOME_URL="www.netrunner-os.com"
+SUPPORT_URL="forums.netrunner-os.com"
+BUG_REPORT_URL="https://github.com/netrunner/netrunner-feedback"
+----------/etc/debian_version----------
+wheezy/sid

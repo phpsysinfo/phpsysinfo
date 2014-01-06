@@ -1,0 +1,36 @@
+----------lsb_release -a----------
+LSB Version:	*
+Distributor ID:	Mageia
+Description:	Mageia 4
+Release:	4
+Codename:	thornicroft
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID="Mageia"
+DISTRIB_RELEASE=4
+DISTRIB_CODENAME=thornicroft
+DISTRIB_DESCRIPTION="Mageia 4"
+----------/etc/mageia-release----------
+Mageia release 4 (Cauldron) for x86_64
+----------/etc/mandrake-release----------
+Mageia release 4 (Cauldron) for x86_64
+----------/etc/mandrakelinux-release----------
+Mageia release 4 (Cauldron) for x86_64
+----------/etc/mandriva-release----------
+Mageia release 4 (Cauldron) for x86_64
+----------/etc/os-release----------
+NAME="Mageia"
+VERSION="4"
+ID=mageia
+ID_LIKE="mandriva fedora"
+PRETTY_NAME="Mageia 4"
+ANSI_COLOR="1;36"
+HOME_URL="http://www.mageia.org/"
+SUPPORT_URL="http://www.mageia.org/support/"
+BUG_REPORT_URL="https://bugs.mageia.org/"
+----------/etc/redhat-release----------
+Mageia release 4 (Cauldron) for x86_64
+----------/etc/version----------
+4 0.5 cauldron
+----------/etc/release----------
+Mageia release 4 (Cauldron) for x86_64

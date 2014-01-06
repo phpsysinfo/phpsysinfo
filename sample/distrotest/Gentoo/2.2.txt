@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Gentoo
+Description:	Gentoo Base System release 2.2
+Release:	2.2
+Codename:	n/a
+----------/etc/gentoo-release----------
+Gentoo Base System release 2.2
+----------/etc/lsb-release----------
+DISTRIB_ID="Gentoo"
+----------/etc/os-release----------
+NAME=Gentoo
+ID=gentoo
+PRETTY_NAME="Gentoo/Linux"
+ANSI_COLOR="1;32"
+HOME_URL="http://www.gentoo.org/"
+SUPPORT_URL="http://www.gentoo.org/main/en/support.xml"
+BUG_REPORT_URL="https://bugs.gentoo.org/"
