@@ -1,0 +1,9 @@
+----------/etc/frugalware-release----------
+Frugalware 1.9 (Arcturus)
+----------/etc/os-release----------
+NAME="Frugalware"
+VERSION="1.9 (Arcturus)"
+ID=frugalware
+VERSION_ID="1.9"
+PRETTY_NAME="Frugalware 1.9 (Arcturus)"
+ANSI_COLOR="1;36"

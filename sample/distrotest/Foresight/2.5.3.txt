@@ -1,0 +1,2 @@
+----------/etc/distro-release----------
+Foresight

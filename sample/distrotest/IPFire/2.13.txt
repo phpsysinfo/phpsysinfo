@@ -1,0 +1,2 @@
+----------/etc/system-release----------
+IPFire 2.13 (i586) - core74
