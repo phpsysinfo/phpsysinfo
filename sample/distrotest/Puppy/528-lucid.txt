@@ -1,0 +1,22 @@
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Lucid '
+#A three-digit numeric value, version number of this distribution:
+DISTRO_VERSION=528
+#A two-digit numeric value, minor-version number of this distribution:
+DISTRO_MINOR_VERSION=00
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='ubuntu'
+#Prefix for some filenames: exs: lupusave.2fs, lupu-528.sfs
+DISTRO_FILE_PREFIX='lupu'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='lucid'
+#the kernel pet package used:
+DISTRO_KERNEL_PET='linux_kernel-2.6.33.2-tickless_smp_patched-L3.pet'
+#16-byte alpha-numeric ID-string appended to vmlinuz, lupu_528.sfs, zl528332.sfs and devx.sfs:
+DISTRO_IDSTRING='l528120404231153'
+#Puppy default filenames...
+#Note, the 'SFS' files below are what the 'init' script in initrd.gz searches for,
+#for the partition, path and actual files loaded, see PUPSFS and ZDRV in /etc/rc.d/PUPSTATE
+DISTRO_PUPPYSFS='lupu_528.sfs'
+DISTRO_ZDRVSFS='zl528332.sfs'

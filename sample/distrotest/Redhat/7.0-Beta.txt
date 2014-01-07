@@ -1,0 +1,17 @@
+----------/etc/os-release----------
+NAME="Red Hat Enterprise Linux Everything"
+VERSION="7.0 (Maipo)"
+ID="rhel"
+VERSION_ID="7.0"
+PRETTY_NAME="Red Hat Enterprise Linux Everything 7.0 (Maipo)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:redhat:enterprise_linux:7.0:beta:everything"
+
+REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 7"
+REDHAT_BUGZILLA_PRODUCT_VERSION=7.0
+REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
+REDHAT_SUPPORT_PRODUCT_VERSION=7.0
+----------/etc/redhat-release----------
+Red Hat Enterprise Linux Everything release 7.0 Beta (Maipo)
+----------/etc/system-release----------
+Red Hat Enterprise Linux Everything release 7.0 Beta (Maipo)

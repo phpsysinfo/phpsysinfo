@@ -1,0 +1,23 @@
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Wary Puppy'
+#version number of this distribution:
+DISTRO_VERSION=5.3
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='puppy'
+#Prefix for some filenames: exs: warysave.2fs, wary-5.1.3.4.sfs
+DISTRO_FILE_PREFIX='wary'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='wary5'
+#the kernel pet package used:
+DISTRO_KERNEL_PET='linux_kernel-2.6.32.59-uni-i486-aufs-w5.pet'
+DISTRO_TARGETARCH='x86'
+#16-byte alpha-numeric ID-string appended to vmlinuz, puppy_wary_5.3.sfs, zdrv_wary_5.3.sfs and devx.sfs:
+DISTRO_IDSTRING='w120404071421ZZZZ5.3XXXXXXXXXXXX'
+#Puppy default filenames...
+#Note, the 'SFS' files below are what the 'init' script in initrd.gz searches for,
+#for the partition, path and actual files loaded, see PUPSFS and ZDRV in /etc/rc.d/PUPSTATE
+DISTRO_PUPPYSFS='puppy_wary_5.3.sfs'
+DISTRO_ZDRVSFS='zdrv_wary_5.3.sfs'
+DISTRO_PUPPYDATE='Apr 2012'
+DISTRO_XORG_AUTO='no'

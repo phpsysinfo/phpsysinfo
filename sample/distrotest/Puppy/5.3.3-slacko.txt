@@ -1,0 +1,22 @@
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Slacko Puppy'
+#version number of this distribution:
+DISTRO_VERSION=5.3.3
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='slackware'
+#Prefix for some filenames: exs: slackosave.2fs, slacko-5.3.3.sfs
+DISTRO_FILE_PREFIX='slacko'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='13.37'
+#the kernel pet package used:
+DISTRO_KERNEL_PET='linux_kernel-3.1.10-patched_s_4gA.pet'
+#16-byte alpha-numeric ID-string appended to vmlinuz, puppy_slacko_5.3.3.sfs, zdrv_slacko_5.3.3.sfs and devx.sfs:
+DISTRO_IDSTRING='s120505091759ZZZZ5.3.3XXXXXXXXXX'
+#Puppy default filenames...
+#Note, the 'SFS' files below are what the 'init' script in initrd.gz searches for,
+#for the partition, path and actual files loaded, see PUPSFS and ZDRV in /etc/rc.d/PUPSTATE
+DISTRO_PUPPYSFS='puppy_slacko_5.3.3.sfs'
+DISTRO_ZDRVSFS='zdrv_slacko_5.3.3.sfs'
+DISTRO_PUPPYDATE='May 2012'
+DISTRO_XORG_AUTO='yes'
