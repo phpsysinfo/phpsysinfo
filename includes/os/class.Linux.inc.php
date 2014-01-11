@@ -722,7 +722,7 @@ class Linux extends OS
                                 } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="execute")) {
                                     if (!CommonFunctions::executeProgram($filename, '2>/dev/null', $buf, PSI_DEBUG)) {
                                         $buf = "";
-                                    }                                
+                                    }
                                 } else {
                                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                                         $buf = "";
@@ -785,22 +785,22 @@ class Linux extends OS
                         $buf = "";
                     }
                     if ( is_null($buf) || (trim($buf) == "") ) {
-                        if (isset($list['Red']['Name'])) {
-                            $this->sys->setDistribution(trim($list['Red']['Name']));
+                        if (isset($list['RedHat']['Name'])) {
+                            $this->sys->setDistribution(trim($list['RedHat']['Name']));
                         } else {
-                            $this->sys->setDistribution('Red Hat');
+                            $this->sys->setDistribution('RedHat');
                         }
-                        if (isset($list['Red']['Image'])) {
-                            $this->sys->setDistributionIcon($list['Red']['Image']);
+                        if (isset($list['RedHat']['Image'])) {
+                            $this->sys->setDistributionIcon($list['RedHat']['Image']);
                         }
                     } else {
                         $this->sys->setDistribution(trim($buf));
-                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                        if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
                            && isset($list[trim($id_buf[1])]['Image'])) {
                             $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                         } else {
-                            if (isset($list['Red']['Image'])) {
-                                $this->sys->setDistributionIcon($list['Red']['Image']);
+                            if (isset($list['RedHat']['Image'])) {
+                                $this->sys->setDistributionIcon($list['RedHat']['Image']);
                             }
                         }
                     }
@@ -810,7 +810,7 @@ class Linux extends OS
                     }
                     if ( !is_null($buf) && (trim($buf) != "")) {
                         $this->sys->setDistribution(trim($buf));
-                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                        if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
                             && isset($list[trim($id_buf[1])]['Image'])) {
                                 $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                         }
@@ -821,7 +821,7 @@ class Linux extends OS
                     }
                     if ( !is_null($buf) && (trim($buf) != "")) {
                         $this->sys->setDistribution(trim($buf));
-                        if ( preg_match('/^(\S+)\s*/', $buf, $id_buf)
+                        if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
                             && isset($list[trim($id_buf[1])]['Image'])) {
                                 $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                         }
