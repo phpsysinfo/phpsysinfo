@@ -804,26 +804,6 @@ class Linux extends OS
                             }
                         }
                     }
-                } elseif (file_exists($filename="/etc/debian_version")) {
-                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
-                        $buf = "";
-                    }
-                    if (isset($list['Debian']['Image'])) {
-                        $this->sys->setDistributionIcon($list['Debian']['Image']);
-                    }
-                    if (isset($list['Debian']['Name'])) {
-                        if ( is_null($buf) || (trim($buf) == "")) {
-                            $this->sys->setDistribution($list['Debian']['Name']);
-                        } else {
-                            $this->sys->setDistribution($list['Debian']['Name']." ".trim($buf));
-                        }
-                    } else {
-                        if ( is_null($buf) || (trim($buf) == "") ) {
-                            $this->sys->setDistribution('Debian');
-                        } else {
-                            $this->sys->setDistribution(trim($buf));
-                        }
-                    }
                 } elseif (file_exists($filename="/etc/distro-release")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
@@ -848,7 +828,7 @@ class Linux extends OS
                    }
                 } elseif ( file_exists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) {  // last chance
+                   && preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) {
                     if (preg_match('/^PRETTY_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
                         $this->sys->setDistribution(trim($desc_buf[1]));
                     } else {
@@ -865,6 +845,26 @@ class Linux extends OS
                     }
                     if (isset($list[trim($id_buf[1])]['Image'])) {
                         $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                    }
+                } elseif (file_exists($filename="/etc/debian_version")) {
+                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                        $buf = "";
+                    }
+                    if (isset($list['Debian']['Image'])) {
+                        $this->sys->setDistributionIcon($list['Debian']['Image']);
+                    }
+                    if (isset($list['Debian']['Name'])) {
+                        if ( is_null($buf) || (trim($buf) == "")) {
+                            $this->sys->setDistribution($list['Debian']['Name']);
+                        } else {
+                            $this->sys->setDistribution($list['Debian']['Name']." ".trim($buf));
+                        }
+                    } else {
+                        if ( is_null($buf) || (trim($buf) == "") ) {
+                            $this->sys->setDistribution('Debian');
+                        } else {
+                            $this->sys->setDistribution(trim($buf));
+                        }
                     }
                 }
             }
