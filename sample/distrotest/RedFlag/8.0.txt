@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+LSB Version:	4.1
+Distributor ID:	Red Flag inWise
+Description:	Red Flag Linux
+Release:	v8.0
+Codename:	zhurong
+----------/etc/lsb-release----------
+LSB_VERSION=4.1
+DISTRIB_ID="Red Flag inWise"
+DISTRIB_RELEASE=v8.0
+DISTRIB_DESCRIPTION="Red Flag Linux"
+DISTRIB_CODENAME=zhurong
+----------/etc/os-release----------
+NAME="Red Flag inWise"
+ID=redflag
+PRETTY_NAME="Red Flag inWise"
+ANSI_COLOR="0;36"
+HOME_URL="http://www.redflag-linux.com/"
+SUPPORT_URL="http://www.redflag-linux.com/"
+----------/etc/redflag-release----------
+Red Flag inWise V8.0 (zhurong)
+----------/etc/system-release----------
+Red Flag inWise V8.0 (zhurong) v8.0-13.04.01.1305
