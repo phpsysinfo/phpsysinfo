@@ -1,0 +1,10 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-amd64:core-4.0-ia32:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:	CloudLinuxServer
+Description:	CloudLinux Server release 5.10 (Georgy Beregovoy)
+Release:	5.10
+Codename:	GeorgyBeregovoy
+----------/etc/CloudLinux-release----------
+CloudLinux Server release 5.10 (Georgy Beregovoy)
+----------/etc/redhat-release----------
+CloudLinux Server release 5.10 (Georgy Beregovoy)

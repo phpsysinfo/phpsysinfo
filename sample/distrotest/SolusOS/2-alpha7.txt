@@ -1,0 +1,24 @@
+----------lsb_release -a----------
+Distributor ID:	SolusOS
+Description:	SolusOS 2 Alpha 7
+Release:	Alpha
+Codename:	Two
+----------/etc/lsb-release----------
+DISTRIB_ID=SolusOS
+DISTRIB_RELEASE=Alpha
+DISTRIB_CODENAME=Two
+DISTRIB_DESCRIPTION="SolusOS 2 Alpha 7"
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux 7.0 (wheezy)"
+NAME="Debian GNU/Linux"
+VERSION_ID="7.0"
+VERSION="7.0 (wheezy)"
+ID=ubuntu
+ANSI_COLOR="1;31"
+HOME_URL="http://www.debian.org/"
+SUPPORT_URL="http://www.debian.org/support/"
+BUG_REPORT_URL="http://bugs.debian.org/"
+----------/etc/debian_version----------
+7.0
+----------/etc/solusos_version----------
+SolusOS 2 Alpha

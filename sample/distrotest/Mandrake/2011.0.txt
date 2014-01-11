@@ -1,0 +1,24 @@
+----------lsb_release -a----------
+LSB Version:	*
+Distributor ID:	MandrivaLinux
+Description:	Mandriva Linux 2011.0
+Release:	2011.0
+Codename:	turtle
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID=MandrivaLinux
+DISTRIB_RELEASE=2011.0
+DISTRIB_CODENAME=turtle
+DISTRIB_DESCRIPTION="Mandriva Linux 2011.0"
+----------/etc/mandrake-release----------
+Mandriva Linux release 2011.0 (Official) for x86_64
+----------/etc/mandrakelinux-release----------
+Mandriva Linux release 2011.0 (Official) for x86_64
+----------/etc/mandriva-release----------
+Mandriva Linux release 2011.0 (Official) for x86_64
+----------/etc/redhat-release----------
+Mandriva Linux release 2011.0 (Official) for x86_64
+----------/etc/version----------
+2011.0.0 2 cooker
+----------/etc/release----------
+Mandriva Linux release 2011.0 (Official) for x86_64

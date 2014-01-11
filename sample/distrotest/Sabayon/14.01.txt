@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Sabayon
+Description:	Sabayon Linux amd64 14.01
+Release:	n/a
+Codename:	n/a
+----------/etc/gentoo-release----------
+Gentoo Base System release 2.2
+----------/etc/lsb-release----------
+DISTRIB_ID="Sabayon"
+----------/etc/os-release----------
+NAME=Sabayon
+ID=sabayon
+PRETTY_NAME="Sabayon/Linux"
+ANSI_COLOR="1;32"
+HOME_URL="http://www.sabayon.org/"
+SUPPORT_URL="http://forum.sabayon.org/"
+BUG_REPORT_URL="https://bugs.sabayon.org/"
+----------/etc/sabayon-release----------
+Sabayon Linux amd64 14.01
+----------/etc/system-release----------
+Sabayon Linux amd64 14.01

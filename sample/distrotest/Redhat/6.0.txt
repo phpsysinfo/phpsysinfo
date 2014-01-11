@@ -1,0 +1,10 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:	RedHatEnterpriseServer
+Description:	Red Hat Enterprise Linux Server release 6.0 (Santiago)
+Release:	6.0
+Codename:	Santiago
+----------/etc/redhat-release----------
+Red Hat Enterprise Linux Server release 6.0 (Santiago)
+----------/etc/system-release----------
+Red Hat Enterprise Linux Server release 6.0 (Santiago)

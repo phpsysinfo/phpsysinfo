@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Peppermint
+Description:	Peppermint Four
+Release:	4
+Codename:	raring
+----------/etc/lsb-release----------
+DISTRIB_ID=Peppermint
+DISTRIB_RELEASE=4
+DISTRIB_CODENAME=raring
+DISTRIB_DESCRIPTION="Peppermint Four"
+----------/etc/os-release----------
+NAME="Peppermint"
+VERSION="Four"
+ID=peppermint
+ID_LIKE=debian
+PRETTY_NAME="Peppermint Four"
+VERSION_ID="4"
+HOME_URL="http://peppermintos.com/"
+SUPPORT_URL="http://peppermintos.net/"
+BUG_REPORT_URL="http://bugs.launchpad.net/peppermint/"
+----------/etc/debian_version----------
+wheezy/sid
