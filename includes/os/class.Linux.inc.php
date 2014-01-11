@@ -785,13 +785,13 @@ class Linux extends OS
                         $buf = "";
                     }
                     if ( is_null($buf) || (trim($buf) == "") ) {
-                        if (isset($list['RedHat']['Name'])) {
-                            $this->sys->setDistribution(trim($list['RedHat']['Name']));
+                        if (isset($list['Red']['Name'])) {
+                            $this->sys->setDistribution(trim($list['Red']['Name']));
                         } else {
-                            $this->sys->setDistribution('RedHat');
+                            $this->sys->setDistribution('Red Hat');
                         }
-                        if (isset($list['RedHat']['Image'])) {
-                            $this->sys->setDistributionIcon($list['RedHat']['Image']);
+                        if (isset($list['Red']['Image'])) {
+                            $this->sys->setDistributionIcon($list['Red']['Image']);
                         }
                     } else {
                         $this->sys->setDistribution(trim($buf));
@@ -799,8 +799,8 @@ class Linux extends OS
                            && isset($list[trim($id_buf[1])]['Image'])) {
                             $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                         } else {
-                            if (isset($list['RedHat']['Image'])) {
-                                $this->sys->setDistributionIcon($list['RedHat']['Image']);
+                            if (isset($list['Red']['Image'])) {
+                                $this->sys->setDistributionIcon($list['Red']['Image']);
                             }
                         }
                     }
