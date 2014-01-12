@@ -717,6 +717,7 @@ class Linux extends OS
                     } else {
                         foreach (preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
                             if (file_exists($filename)) {
+                                $distro = $distribution;
                                 if (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="detection")) {
                                     $buf = "";
                                 } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="execute")) {
@@ -726,10 +727,15 @@ class Linux extends OS
                                 } else {
                                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                                         $buf = "";
+                                    } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="analyse")) {
+                                        if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
+                                           && isset($list[trim($id_buf[1])]['Image'])) {
+                                            $distro = $list[trim($id_buf[1])];
+                                        }
                                     }
                                 }
-                                if (isset($distribution['Image'])) {
-                                    $this->sys->setDistributionIcon($distribution['Image']);
+                                if (isset($distro['Image'])) {
+                                    $this->sys->setDistributionIcon($distro['Image']);
                                 }
                                 if (isset($distribution['Name'])) {
                                     if ( is_null($buf) || (trim($buf) == "") ) {
@@ -778,30 +784,6 @@ class Linux extends OS
                     } else {
                         if (isset($list['Puppy']['Image'])) {
                             $this->sys->setDistributionIcon($list['Puppy']['Image']);
-                        }
-                    }
-                } elseif (file_exists($filename="/etc/redhat-release")) {
-                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
-                        $buf = "";
-                    }
-                    if ( is_null($buf) || (trim($buf) == "") ) {
-                        if (isset($list['RedHat']['Name'])) {
-                            $this->sys->setDistribution(trim($list['RedHat']['Name']));
-                        } else {
-                            $this->sys->setDistribution('RedHat');
-                        }
-                        if (isset($list['RedHat']['Image'])) {
-                            $this->sys->setDistributionIcon($list['RedHat']['Image']);
-                        }
-                    } else {
-                        $this->sys->setDistribution(trim($buf));
-                        if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
-                           && isset($list[trim($id_buf[1])]['Image'])) {
-                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                        } else {
-                            if (isset($list['RedHat']['Image'])) {
-                                $this->sys->setDistributionIcon($list['RedHat']['Image']);
-                            }
                         }
                     }
                 } elseif (file_exists($filename="/etc/distro-release")) {
