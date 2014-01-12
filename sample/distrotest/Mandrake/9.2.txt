@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+LSB Version:	1.3
+Distributor ID:	Mandrake
+Description:	Mandrake Linux
+Release:	9.2
+Codename:	FiveStar
+----------/etc/lsb-release----------
+LSB_VERSION=1.3
+DISTRIB_ID=Mandrake
+DISTRIB_RELEASE=9.2
+DISTRIB_CODENAME=FiveStar
+DISTRIB_DESCRIPTION="Mandrake Linux"
+----------/etc/mandrake-release----------
+Mandrake Linux release 9.2 (FiveStar) for i586
+----------/etc/redhat-release----------
+Mandrake Linux release 9.2 (FiveStar) for i586
