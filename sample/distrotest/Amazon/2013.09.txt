@@ -1,0 +1,8 @@
+----------lsb_release -a----------
+LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	AmazonAMI
+Description:	Amazon Linux AMI release 2013.09
+Release:	2013.09
+Codename:	n/a
+----------/etc/system-release----------
+Amazon Linux AMI release 2013.09

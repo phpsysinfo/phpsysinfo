@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.1.9
 ----------------
 
- - [ADD] Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
+ - [ADD] RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
 
  - [UPD] Rebuilding of the Linux distribution detection
  
