@@ -57,15 +57,15 @@ class SNMPPInfo extends PSI_Plugin
                         CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
                         if (strlen(trim($buffer)) > 0) {
                             $this->_filecontent[$printer] = $buffer;
-                            
+
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen(trim($buffer2)) > 0) {
                                $this->_filecontent[$printer] = $this->_filecontent[$printer]."\n".$buffer2;
-                            } 
+                            }
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 ".$printer." .1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
                             if (strlen(trim($buffer3)) > 0) {
                                $this->_filecontent[$printer] =  $this->_filecontent[$printer]."\n".$buffer3;
-                            } 
+                            }
                         }
                     }
                 }
@@ -111,7 +111,7 @@ class SNMPPInfo extends PSI_Plugin
                                     $buffer=$buffer.$id." = ".$string."\n";
                                 }
                             }
-                            
+
                             if (! PSI_DEBUG) {
                                 restore_error_handler(); /* default error handler */
                                 $old_err_rep = error_reporting();
@@ -208,28 +208,25 @@ class SNMPPInfo extends PSI_Plugin
             $xmlsnmppinfo_printer = $this->xml->addChild("Printer");
             $xmlsnmppinfo_printer->addAttribute("Device", $printer);
             foreach ($markersupplies_item as $marker=>$snmppinfo_item) {
-                
-                
+
                 if ($marker==0) {
                     $xmlsnmppinfo_printer->addAttribute("Name", $snmppinfo_item['prtMarkerSuppliesDescription']);
-                } 
-                else if ($marker==99) {
-                    foreach($snmppinfo_item as $item=>$iarr) {                           
+                } elseif ($marker==99) {
+                    foreach ($snmppinfo_item as $item=>$iarr) {
                         if (isset($iarr["message"]) && $iarr["message"] != "") {
                             $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
                             $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
                             $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
                         }
                     }
-               }
-               else {
+               } else {
                     $xmlsnmppinfo = $xmlsnmppinfo_printer->addChild("MarkerSupplies");
-                    
+
                     if (isset($snmppinfo_item['prtMarkerSuppliesDescription']))
                         $xmlsnmppinfo->addAttribute("Description", $snmppinfo_item['prtMarkerSuppliesDescription']);
                     else
                         $xmlsnmppinfo->addAttribute("Description",""); /* empty on some devices */
-                        
+
                     $xmlsnmppinfo->addAttribute("SupplyUnit", $snmppinfo_item['prtMarkerSuppliesSupplyUnit']);
                     $xmlsnmppinfo->addAttribute("MaxCapacity", $snmppinfo_item['prtMarkerSuppliesMaxCapacity']);
                     $xmlsnmppinfo->addAttribute("Level", $snmppinfo_item['prtMarkerSuppliesLevel']);

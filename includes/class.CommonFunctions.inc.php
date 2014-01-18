@@ -78,7 +78,7 @@ class CommonFunctions
         } else {
             array_push($arrPath, $path_parts['dirname']);
             $strProgram = $path_parts['basename'];
-        } 
+        }
         if ( defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS) ) {
             if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
                 $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
@@ -361,10 +361,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array   $pipes array of file pointers for stdin, stdout, stderr (proc_open())
-     * @param string  &$out  target string for the output message (reference)
-     * @param string  &$err  target string for the error message (reference)
-     * @param integer $timeout   timeout value in seconds (default value is 30)
+     * @param array   $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param string  &$out    target string for the output message (reference)
+     * @param string  &$err    target string for the error message (reference)
+     * @param integer $timeout timeout value in seconds (default value is 30)
      *
      * @return void
      */
@@ -374,9 +374,9 @@ class CommonFunctions
         $e = NULL;
 
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            $pipe2 = false;  
+            $pipe2 = false;
         } else {
-            $pipe2 = true; 
+            $pipe2 = true;
         }
         while (!(feof($pipes[1]) || ($pipe2 && feof($pipes[2])))) {
             if ($pipe2) {
@@ -390,8 +390,7 @@ class CommonFunctions
             if ($n === FALSE) {
                 error_log('stream_select: failed !');
                 break;
-            }
-            else if ($n === 0) {
+            } elseif ($n === 0) {
                 error_log('stream_select: timeout expired !');
                 break;
             }

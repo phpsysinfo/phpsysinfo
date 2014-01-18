@@ -363,7 +363,7 @@ class XML
         if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
             $temp = $mbinfo->addChild('Temperature');
             if (sizeof(unserialize(PSI_MBINFO))>0) {
-                foreach(unserialize(PSI_MBINFO) as $mbinfoclass) {
+                foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                     $mbinfo_data = new $mbinfoclass();
                     $mbinfo_detail = $mbinfo_data->getMBInfo();
                     foreach ($mbinfo_detail->getMbTemp() as $dev) {

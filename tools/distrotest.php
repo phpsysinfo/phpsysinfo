@@ -24,7 +24,7 @@ if (is_resource($fp)) {
         }
         echo $contents;
     }
-    if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")){
+    if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")) {
         echo "<-----no new line at end\n";
     }
     pclose($fp);
@@ -34,10 +34,9 @@ foreach ($filemaskarray as $filemask) {
     foreach (glob($filemask) as $filename) {
         echo "----------".$filename."----------\n";
         echo $contents=file_get_contents($filename);
-        if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")){
+        if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")) {
             echo "<-----no new line at end\n";
         }
         //readfile($filename);
     }
 }
-?>
