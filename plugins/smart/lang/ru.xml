@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
+  -->
+<tns:translationPlugin language="russian" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_quotas_001" name="ps_title">
+    <exp>Состояние Квоты</exp>
+  </expression>
+  <expression id="plugin_quotas_002" name="quotas_date">
+    <exp>Последнее обновление</exp>
+  </expression>
+  <expression id="plugin_quotas_003" name="quotas_user">
+    <exp>Пользователь</exp>
+  </expression>
+  <expression id="plugin_quotas_004" name="quotas_bused">
+    <exp>Байт Используется</exp>
+  </expression>
+  <expression id="plugin_quotas_005" name="quotas_bsoft">
+    <exp>Байт Программ</exp>
+  </expression>
+  <expression id="plugin_quotas_006" name="quotas_bhard">
+    <exp>Байтов Жесткий диск</exp>
+  </expression>
+  <expression id="plugin_quotas_007" name="quotas_bpuse">
+    <exp>Байт Используется Проценты</exp>
+  </expression>
+  <expression id="plugin_quotas_008" name="quotas_fused">
+    <exp>Файлы Используемые</exp>
+  </expression>
+  <expression id="plugin_quotas_009" name="quotas_fsoft">
+    <exp>Файлы Программ</exp>
+  </expression>
+  <expression id="plugin_quotas_010" name="quotas_fhard">
+    <exp>Файлы Жесткий диск</exp>
+  </expression>
+  <expression id="plugin_quotas_011" name="quotas_fpuse">
+    <exp>Файлов Используется Проценты</exp>
+  </expression>
+</tns:translationPlugin>

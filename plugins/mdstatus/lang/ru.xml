@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
+  -->
+<tns:translationPlugin language="russian" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_mdstatus_001" name="mdstatus_title">
+    <exp>RAID Статус</exp>
+  </expression>
+  <expression id="plugin_mdstatus_002" name="mdstatus_support">
+    <exp>Поддерживаются типы RAID </exp>
+  </expression>
+  <expression id="plugin_mdstatus_003" name="mdstatus_devices">
+    <exp>RAID-Устройства</exp>
+  </expression>
+  <expression id="plugin_mdstatus_004" name="mdstatus_infos">
+    <exp>Дополнительные сведения </exp>
+  </expression>
+  <expression id="plugin_mdstatus_005" name="mdstatus_status">
+    <exp>Статус</exp>
+  </expression>
+  <expression id="plugin_mdstatus_006" name="mdstatus_level">
+    <exp>RAID-Уровень</exp>
+  </expression>
+  <expression id="plugin_mdstatus_007" name="mdstatus_chunk">
+    <exp>Размер блока</exp>
+  </expression>
+  <expression id="plugin_mdstatus_008" name="mdstatus_algo">
+    <exp>Алгоритм</exp>
+  </expression>
+  <expression id="plugin_mdstatus_009" name="mdstatus_superb">
+    <exp>Постоянный суперблок </exp>
+  </expression>
+  <expression id="plugin_mdstatus_010" name="mdstatus_avail">
+    <exp>доступен</exp>
+  </expression>
+  <expression id="plugin_mdstatus_011" name="mdstatus_navail">
+    <exp>не доступен</exp>
+  </expression>
+  <expression id="plugin_mdstatus_012" name="mdstatus_regact">
+    <exp>Зарегистрировано/Активных Дисков</exp>
+  </expression>
+  <expression id="plugin_mdstatus_013" name="mdstatus_curact">
+    <exp>Текущее действие</exp>
+  </expression>
+  <expression id="plugin_mdstatus_014" name="mdstatus_finishin">
+    <exp>Окончание в</exp>
+  </expression>
+  <expression id="plugin_mdstatus_015" name="mdstatus_unused">
+    <exp>Неиспользуемые диски</exp>
+  </expression>
+  <expression id="plugin_mdstatus_016" name="mdstatus_refresh">
+    <exp>Последнее обновление</exp>
+  </expression>
+</tns:translationPlugin>

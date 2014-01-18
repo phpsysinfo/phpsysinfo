@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+<!--
+phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
+-->
+<tns:translationPlugin language="russian" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_psstatus_001" name="ps_title">
+    <exp>Статус служб</exp>
+  </expression>
+  <expression id="plugin_psstatus_002" name="ps_date">
+    <exp>Последнее обновление</exp>
+  </expression>
+  <expression id="plugin_psstatus_003" name="ps_name">
+    <exp>Имя службы</exp>
+  </expression>
+  <expression id="plugin_psstatus_004" name="ps_status">
+    <exp>Статус</exp>
+  </expression>
+</tns:translationPlugin>
