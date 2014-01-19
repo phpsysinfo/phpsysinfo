@@ -752,8 +752,26 @@ class Linux extends OS
                                 }
                                 if (isset($distribution['Files2'])) {
                                     foreach (preg_split("/;/", $distribution['Files2'], -1, PREG_SPLIT_NO_EMPTY) as $filename2) {
-                                        if (file_exists($filename2) && CommonFunctions::rfts($filename2, $buf, 1, 4096, false)) {
-                                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($buf));
+                                        if (file_exists($filename2) && CommonFunctions::rfts($filename2, $buf, 0, 4096, false)) {
+                                            if (preg_match('/^majorversion="?([^"\n]+)"?/m', $buf, $maj_buf)
+                                               && preg_match('/^minorversion="?([^"\n]+)"?/m', $buf, $min_buf)) {
+                                                $distr2=$maj_buf[1].'.'.$min_buf[1];
+                                                if (preg_match('/^buildphase="?([^"\n]+)"?/m', $buf, $pha_buf) && ($pha_buf[1]!=="0")) {
+                                                    $distr2.='.'.$pha_buf[1];
+                                                }
+                                                if (preg_match('/^buildnumber="?([^"\n]+)"?/m', $buf, $num_buf)) {
+                                                    $distr2.='-'.$num_buf[1];
+                                                }
+                                                if (preg_match('/^builddate="?([^"\n]+)"?/m', $buf, $dat_buf)) {
+                                                    $distr2.=' ('.$dat_buf[1].')';
+                                                }
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".$distr2);
+                                            } else {
+                                                $distr2=trim(substr($buf, 0, strpos($buf, "\n")));
+                                                if ( !is_null($distr2) && ($distr2 != "") ) {
+                                                    $this->sys->setDistribution($this->sys->getDistribution()." ".$distr2);
+                                                }
+                                            }
                                             break;
                                         }
                                     }
