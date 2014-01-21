@@ -96,16 +96,57 @@ class CommonFunctions
         }
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
         if ((bool) ini_get('open_basedir')) {
-            $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
+            if (PSI_OS == 'WINNT') {
+                $open_basedir = preg_split('/;/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
+            }
         }
         foreach ($arrPath as $strPath) {
-            // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
-            if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) ||
-             !(((PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
+            // Path with trailing slash
+            if (PSI_OS == 'WINNT') {
+                $strPathS = rtrim($strPath,"\\")."\\";
+            } else {
+                $strPathS = rtrim($strPath,"/")."/";
+            }
+            if (!((PSI_OS == 'Android') && ($strPath=='/system/bin')) //is_dir('/system/bin') Android patch
+               && !is_dir($strPath)) {
                 continue;
             }
+            // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled//
+            if (isset($open_basedir)) {
+                $inBaseDir = false;
+                if (PSI_OS == 'WINNT') {
+                    foreach ($open_basedir as $openbasedir) {
+                        if (substr($openbasedir,-1)=="\\") {
+                            $str_Path = $strPathS;
+                        } else {
+                            $str_Path = $strPath;
+                        }
+                        if (stripos($str_Path, $openbasedir) === 0) {
+                            $inBaseDir = true;
+                            break;
+                        }
+                    }
+                } else {
+                    foreach ($open_basedir as $openbasedir) {
+                        if (substr($openbasedir,-1)=="/") {
+                            $str_Path = $strPathS;
+                        } else {
+                            $str_Path = $strPath;
+                        }
+                        if (strpos($str_Path, $openbasedir) === 0) {
+                            $inBaseDir = true;
+                            break;
+                        }
+                    }
+                }
+                if ($inBaseDir == false) {
+                    continue;
+                }
+            }
             if (PSI_OS == 'WINNT') {
-                $strProgrammpath = rtrim($strPath,'\\').'\\'.$strProgram;
+                $strProgrammpath = rtrim($strPath,"\\")."\\".$strProgram;
             } else {
                 $strProgrammpath = rtrim($strPath,"/")."/".$strProgram;
             }
