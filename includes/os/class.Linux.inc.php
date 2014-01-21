@@ -257,6 +257,7 @@ class Linux extends OS
                         case 'cache size':
                             $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff[1]) * 1024);
                             break;
+                        case 'initial bogomips':
                         case 'bogomips':
                         case 'cpu0bogo':
                             $dev->setBogomips($arrBuff[1]);

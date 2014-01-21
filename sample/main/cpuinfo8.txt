@@ -1,0 +1,17 @@
+Sigma Designs TangoX
+processor : 0
+cpu model : MIPS 74K V4.9 FPU V0.0
+Initial BogoMIPS : 330.13
+wait instruction : yes
+microsecond timers : yes
+tlb_entries : 32
+extra interrupt vector : yes
+hardware watchpoint : yes
+ASEs implemented : mips16 dsp
+shadow register sets : 1
+VCED exceptions : not available
+VCEI exceptions : not available
+
+System bus frequency : 330750000 Hz
+CPU frequency : 661500000 Hz
+DSP frequency : 330750000 Hz
