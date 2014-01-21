@@ -102,7 +102,9 @@ class CommonFunctions
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
             if ((isset($open_basedir) && !in_array($strPath, $open_basedir)) ||
              !(((PSI_OS == 'Android') && ($strPath=='/system/bin')) || is_dir($strPath))) { //is_dir('/system/bin') Android patch
-                continue;
+                if(ini_get('open_basedir') != "/") {
+                     continue;
+                }
             }
             if (PSI_OS == 'WINNT') {
                 $strProgrammpath = rtrim($strPath,'\\').'\\'.$strProgram;
