@@ -82,10 +82,10 @@ class Android extends Linux
                     }
                 }
                 foreach ($df as $df_line) {
-                    if (preg_match("/^(\/\S+)(\s+)(([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+))/", $df_line, $df_buf) ||
-                        preg_match("/^(\/[^\s\:]+)\:(\s+)(([0-9\.]+)([KMGT])(\s+total\,\s+)([0-9\.]+)([KMGT])(\s+used\,\s+)([0-9\.]+)([KMGT])(\s+available))/", $df_line, $df_buf)) {
-                        if (preg_match('/^\/mnt\/asec\/com\./', $df_buf[1])) break;
-                            $dev = new DiskDevice();
+                    if ((preg_match("/^(\/\S+)(\s+)(([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+))/", $df_line, $df_buf)
+                         || preg_match("/^(\/[^\s\:]+)\:(\s+)(([0-9\.]+)([KMGT])(\s+total\,\s+)([0-9\.]+)([KMGT])(\s+used\,\s+)([0-9\.]+)([KMGT])(\s+available))/", $df_line, $df_buf))
+                         && !preg_match('/^\/mnt\/asec\/com\./', $df_buf[1])) {
+                        $dev = new DiskDevice();
                         if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[1]);
 
                         if ($df_buf[5] == 'K') $dev->setTotal($df_buf[4] * 1024);
