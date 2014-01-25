@@ -814,9 +814,11 @@ class Linux extends OS
                         }
                     }
                 } elseif ( ( file_exists($filename="/etc/distro-release")
-                    || file_exists($filename="/etc/system-release") )
-                    && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
-                    && !is_null($buf) && (trim($buf) != "") ) {
+                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
+                        && !is_null($buf) && (trim($buf) != "") ) 
+                    || ( file_exists($filename="/etc/system-release")
+                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
+                        && !is_null($buf) && (trim($buf) != "") ) ) {
                     $this->sys->setDistribution(trim($buf));
                     if ( preg_match('/^(\S+)\s*/', preg_replace('/^Red\s+/', 'Red', $buf), $id_buf)
                         && isset($list[trim($id_buf[1])]['Image'])) {
