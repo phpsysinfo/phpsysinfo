@@ -672,6 +672,7 @@ class Linux extends OS
                 } elseif (isset($distro['Description'])
                    && ($distro['Description'] != "n/a")
                    && isset($distro['Distributor ID'])
+                   && ($distro['Distributor ID'] != "n/a")
                    && ($distro['Description'] != $distro['Distributor ID'])) {
                    $this->sys->setDistribution($distro['Description']);
                 } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
