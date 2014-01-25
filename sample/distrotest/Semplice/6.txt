@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Semplice
+Description:	Semplice 6
+Release:	6
+Codename:	heaven
+----------/etc/lsb-release----------
+DISTRIB_ID=Semplice
+DISTRIB_RELEASE=6
+DISTRIB_CODENAME=heaven
+DISTRIB_DESCRIPTION="Semplice 6"
+----------/etc/os-release----------
+NAME=Semplice
+VERSION="6"
+ID=semplice
+VERSION_ID=6
+PRETTY_NAME="Semplice 6 (Stairway to Heaven)"
+HOME_URL="http://semplice-linux.org"
+BUG_REPORT_URL="https://github.com/semplice"
+----------/etc/debian_version----------
+jessie/sid
+----------/etc/semplice_version----------
+6
