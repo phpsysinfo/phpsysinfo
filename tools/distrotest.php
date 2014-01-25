@@ -11,6 +11,7 @@ $filemaskarray=array("/etc/*-release",
                      "/usr/share/doc/tc/release.txt",
                      "/etc/synoinfo.conf",
                      "/etc/salix-update-notifier.conf",
+                     "/etc/solydxk/info",
                      "/etc/VERSION");
 $fp = popen("lsb_release -a 2>/dev/null", "r");
 if (is_resource($fp)) {
