@@ -93,7 +93,7 @@ class MDStatus extends PSI_Plugin
             }
         }
         // get disks
-        if (preg_match("/^read_ahead/", $this->_filecontent[2])) {
+        if (preg_match("/^read_ahead/", $this->_filecontent[1])) {
             $count = 2;
         } else {
             $count = 1;
