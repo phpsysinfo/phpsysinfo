@@ -1,0 +1,27 @@
+*** Active Superset
+name : pdc_cifgjhgjdd
+size : 3517532672
+stride : 128
+type : raid10
+status : ok
+subsets: 2
+devs : 4
+spares : 0
+--> Active Subset
+name : pdc_cifgjhgjdd-0
+size : 3517532672
+stride : 128
+type : stripe
+status : ok
+subsets: 0
+devs : 2
+spares : 0
+--> Active Subset
+name : pdc_cifgjhgjdd-1
+size : 3517532672
+stride : 128
+type : stripe
+status : ok
+subsets: 0
+devs : 2
+spares : 0
