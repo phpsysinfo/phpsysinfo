@@ -45,6 +45,7 @@ ADD_PATHS=false
 ; - PLUGINS=false  //no plugins
 ; included plugins:
 ; - MDStatus       - show the raid status and whats currently going on
+; - DMRaid         - show the software raid status
 ; - PS             - show a process tree of all running processes
 ; - PSStatus       - show a graphical representation if a process is running or not
 ; - Quotas         - show a table with all quotas that are active and there current state
@@ -334,6 +335,19 @@ ACCESS="command"
 ;         with the filename "mdstat.txt"; content is the output from "cat /proc/mdstat")
 ;
 ACCESS="file"
+
+
+[dmraid]
+; DMRaid Plugin configuration
+
+; define how to access the dmraid statistic data
+; - "command" dmraid command is run everytime the block gets refreshed or build
+;             if access error try execute first: chmod 4755 /sbin/dmraid
+;             This method is not recommended for safety reasons!
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;         with the filename "dmraid.txt"; content is the output from "dmraid -s -vv 2>&1")
+;
+ACCESS="command"
 
 
 [ps]
