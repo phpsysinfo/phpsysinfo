@@ -84,8 +84,10 @@ class DMRaid extends PSI_Plugin
         if ( empty($this->_filecontent)) {
             return;
         }
+        $group = "";
         foreach ($this->_filecontent as $block) {
             if (preg_match('/^(NOTICE: )|(ERROR: )/m', $block)) {
+                $group = "";
                 $lines = preg_split("/\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
                     if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
@@ -108,23 +110,27 @@ class DMRaid extends PSI_Plugin
                     }
                 }
             } else {
-                if (preg_match('/^Group superset\s+(.+)/m', $block, $arrname)
-                   || preg_match('/^name\s*:\s*(.*)/m', $block, $arrname)) {
-//                if (preg_match('/^Group subnet/m', $block, $partition)) {
-
+                if (preg_match('/^Group superset\s+(.+)/m', $block, $arrname)) {
+                    $group = $arrname[1];
+                }
+                if (preg_match('/^name\s*:\s*(.*)/m', $block, $arrname)) {
+                    if ($group=="") {
+                        $group = $arrname[1];
+                    }
                     if (preg_match('/^type\s*:\s*(.*)/m', $block, $level)) {
-                        $this->_result['devices'][$arrname[1]]['level'] = $level[1];
+                        $this->_result['devices'][$group]['level'] = $level[1];
                     }
                     if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
-                        $this->_result['devices'][$arrname[1]]['registered'] = $devs[1];
+                        $this->_result['devices'][$group]['registered'] = $devs[1];
                     }
                     if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)
-                       && isset($this->_result['devices'][$arrname[1]]['registered'])) {
-                            $this->_result['devices'][$arrname[1]]['active']=$this->_result['devices'][$arrname[1]]['registered']-$spares[1];
+                       && isset($this->_result['devices'][$group]['registered'])) {
+                            $this->_result['devices'][$group]['active']=$this->_result['devices'][$group]['registered']-$spares[1];
                     }
                     if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
-                        $this->_result['devices'][$arrname[1]]['status'] = $status[1];
+                        $this->_result['devices'][$group]['status'] = $status[1];
                     }
+                    $group = "";
                 }
             }
         }
