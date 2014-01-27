@@ -64,7 +64,9 @@ class DMRaid extends PSI_Plugin
         }
         if (trim($buffer) != "") {
 //            $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            $this->_filecontent = preg_split("/\n\*\*\* /", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_filecontent = preg_split("/(\n\*\*\* )|(\n\-\-\> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+//            $this->_filecontent = preg_split("/\n\*\*\* /", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+//            $this->_filecontent = preg_split("/\n--> /", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         } else {
             $this->_filecontent = array();
         }
@@ -125,9 +127,9 @@ class DMRaid extends PSI_Plugin
                     }
                 }
             }
-
         }
 //        $this->_result['unused_devs'] = -1;
+//var_dump($this->_result);
     }
 
     /**
@@ -161,7 +163,7 @@ class DMRaid extends PSI_Plugin
 //            $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
 //            $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
             $disks = $dev->addChild("Disks");
-            foreach ($device['partitions'] as $diskkey=>$disk) {
+            if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                 $disktemp = $disks->addChild("Disk");
                 $disktemp->addAttribute("Name", $diskkey);
                 $disktemp->addAttribute("Status", $disk['status']);
