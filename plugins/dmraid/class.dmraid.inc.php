@@ -116,7 +116,7 @@ class DMRaid extends PSI_Plugin
                     if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
                         $this->_result['devices'][$group]['status'] = $status[1];
                     }
-                    if (preg_match('/^spares\s*:\s*(.*)/m', $block, $subsets)) {
+                    if (preg_match('/^subsets\s*:\s*(.*)/m', $block, $subsets)) {
                         $this->_result['devices'][$group]['subsets'] = $subsets[1];
                     }
                     if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
