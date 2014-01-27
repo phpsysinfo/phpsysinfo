@@ -63,10 +63,7 @@ class DMRaid extends PSI_Plugin
             break;
         }
         if (trim($buffer) != "") {
-//            $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            $this->_filecontent = preg_split("/(\n\*\*\* )|(\n\-\-\> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-//            $this->_filecontent = preg_split("/\n\*\*\* /", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-//            $this->_filecontent = preg_split("/\n--> /", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_filecontent = preg_split("/(\n\*\*\* )|(\n--> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         } else {
             $this->_filecontent = array();
         }
@@ -92,21 +89,10 @@ class DMRaid extends PSI_Plugin
                 foreach ($lines as $line) {
                     if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
                         $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "";
-
-//                        $this->_result['devices'][$partition[2]]['action']['name'] = -1;
-//                        $this->_result['devices'][$partition[2]]['action']['percent'] = -1;
-//                        $this->_result['devices'][$partition[2]]['action']['finish_time'] = -1;
-//                        $this->_result['devices'][$partition[2]]['action']['finish_unit'] = -1;
-//                echo "jest";
                     } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
                         if ($partition[2]=="broken") {
                             $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
                         }
-//                        $this->_result['devices'][$partition[3]]['action']['name'] = -1;
-//                        $this->_result['devices'][$partition[3]]['action']['percent'] = -1;
-//                        $this->_result['devices'][$partition[3]]['action']['finish_time'] = -1;
-//                        $this->_result['devices'][$partition[3]]['action']['finish_unit'] = -1;
-
                     }
                 }
             } else {
@@ -117,25 +103,32 @@ class DMRaid extends PSI_Plugin
                     if ($group=="") {
                         $group = $arrname[1];
                     }
-                    if (preg_match('/^type\s*:\s*(.*)/m', $block, $level)) {
-                        $this->_result['devices'][$group]['level'] = $level[1];
+                    $this->_result['devices'][$group]['name'] = $arrname[1];
+                    if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
+                        $this->_result['devices'][$group]['size'] = $size[1];
                     }
-                    if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
-                        $this->_result['devices'][$group]['registered'] = $devs[1];
+                    if (preg_match('/^stride\s*:\s*(.*)/m', $block, $stride)) {
+                            $this->_result['devices'][$group]['stride'] = $stride[1];
                     }
-                    if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)
-                       && isset($this->_result['devices'][$group]['registered'])) {
-                            $this->_result['devices'][$group]['active']=$this->_result['devices'][$group]['registered']-$spares[1];
+                    if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
+                        $this->_result['devices'][$group]['type'] = $type[1];
                     }
                     if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
                         $this->_result['devices'][$group]['status'] = $status[1];
+                    }
+                    if (preg_match('/^spares\s*:\s*(.*)/m', $block, $subsets)) {
+                        $this->_result['devices'][$group]['subsets'] = $subsets[1];
+                    }
+                    if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
+                        $this->_result['devices'][$group]['devs'] = $devs[1];
+                    }
+                    if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)) {
+                            $this->_result['devices'][$group]['spares'] = $spares[1];
                     }
                     $group = "";
                 }
             }
         }
-//        $this->_result['unused_devs'] = -1;
-//var_dump($this->_result);
     }
 
     /**
@@ -148,39 +141,24 @@ class DMRaid extends PSI_Plugin
         if ( empty($this->_result)) {
             return $this->xml->getSimpleXmlElement();
         }
-/*        $sup = $this->xml->addChild("Supported_Types");
-        foreach ($this->_result['supported_types'] as $type) {
-            $typ = $sup->addChild("Type");
-            $typ->addAttribute("Name", $type);
-        }*/
         foreach ($this->_result['devices'] as $key=>$device) {
             $dev = $this->xml->addChild("Raid");
             $dev->addAttribute("Device_Name", $key);
-            $dev->addAttribute("Level", $device["level"]);
+            $dev->addAttribute("Type", $device["type"]);
             $dev->addAttribute("Disk_Status", $device["status"]);
-//            $dev->addAttribute("Chunk_Size", $device["chunk_size"]);
-//            $dev->addAttribute("Persistend_Superblock", $device["pers_superblock"]);
-//            $dev->addAttribute("Algorithm", $device["algorithm"]);
-            $dev->addAttribute("Disks_Registered", $device["registered"]);
-            $dev->addAttribute("Disks_Active", $device["active"]);
-//            $action = $dev->addChild("Action");
-//            $action->addAttribute("Percent", $device['action']['percent']);
-//            $action->addAttribute("Name", $device['action']['name']);
-//            $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
-//            $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
+            $dev->addAttribute("Name", $device["name"]);
+            $dev->addAttribute("Size", $device["size"]);
+            $dev->addAttribute("Stride", $device["stride"]);
+            $dev->addAttribute("Subsets", $device["subsets"]);
+            $dev->addAttribute("Devs", $device["devs"]);
+            $dev->addAttribute("Spares", $device["spares"]);
             $disks = $dev->addChild("Disks");
             if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                 $disktemp = $disks->addChild("Disk");
                 $disktemp->addAttribute("Name", $diskkey);
                 $disktemp->addAttribute("Status", $disk['status']);
-              //  $disktemp->addAttribute("Index", $disk['raid_index']);
             }
         }
-//        if ($this->_result['unused_devs'] !== - 1) {
-//            $unDev = $this->xml->addChild("Unused_Devices");
-//            $unDev->addAttribute("Devices", $this->_result['unused_devs']);
-//        }
-
         return $this->xml->getSimpleXmlElement();
     }
 }

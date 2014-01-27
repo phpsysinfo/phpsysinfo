@@ -9,49 +9,34 @@
   <expression id="plugin_dmraid_001" name="dmraid_title">
     <exp>RAID Status</exp>
   </expression>
-  <expression id="plugin_dmraid_002" name="dmraid_support">
-    <exp>Supported RAID-Types </exp>
-  </expression>
-  <expression id="plugin_dmraid_003" name="dmraid_devices">
+  <expression id="plugin_dmraid_002" name="dmraid_devices">
     <exp>RAID-Devices</exp>
   </expression>
-  <expression id="plugin_dmraid_004" name="dmraid_infos">
+  <expression id="plugin_dmraid_003" name="dmraid_infos">
     <exp>Additional Information </exp>
+  </expression>
+  <expression id="plugin_dmraid_004" name="dmraid_name">
+    <exp>Name</exp>
   </expression>
   <expression id="plugin_dmraid_005" name="dmraid_status">
     <exp>Status</exp>
   </expression>
-  <expression id="plugin_dmraid_006" name="dmraid_level">
-    <exp>RAID-Level</exp>
+  <expression id="plugin_dmraid_006" name="dmraid_type">
+    <exp>RAID-Type</exp>
   </expression>
-  <expression id="plugin_dmraid_007" name="dmraid_chunk">
-    <exp>Chunk Size</exp>
+  <expression id="plugin_dmraid_007" name="dmraid_size">
+    <exp>Size</exp>
   </expression>
-  <expression id="plugin_dmraid_008" name="dmraid_algo">
-    <exp>Algorithm</exp>
+  <expression id="plugin_dmraid_008" name="dmraid_stride">
+    <exp>Stride</exp>
   </expression>
-  <expression id="plugin_dmraid_009" name="dmraid_superb">
-    <exp>Persistent Superblock </exp>
+  <expression id="plugin_dmraid_009" name="dmraid_subsets">
+    <exp>Subsets</exp>
   </expression>
-  <expression id="plugin_dmraid_010" name="dmraid_avail">
-    <exp>available</exp>
+  <expression id="plugin_dmraid_010" name="dmraid_devs">
+    <exp>Devices</exp>
   </expression>
-  <expression id="plugin_dmraid_011" name="dmraid_navail">
-    <exp>not available</exp>
-  </expression>
-  <expression id="plugin_dmraid_012" name="dmraid_regact">
-    <exp>Registered/Active Disks</exp>
-  </expression>
-  <expression id="plugin_dmraid_013" name="dmraid_curact">
-    <exp>Current Action</exp>
-  </expression>
-  <expression id="plugin_dmraid_014" name="dmraid_finishin">
-    <exp>Finishing in</exp>
-  </expression>
-  <expression id="plugin_dmraid_015" name="dmraid_unused">
-    <exp>Unused Disks</exp>
-  </expression>
-  <expression id="plugin_dmraid_016" name="dmraid_refresh">
-    <exp>Last refresh</exp>
+  <expression id="plugin_dmraid_011" name="dmraid_spares">
+    <exp>Spares</exp>
   </expression>
 </tns:translationPlugin>
