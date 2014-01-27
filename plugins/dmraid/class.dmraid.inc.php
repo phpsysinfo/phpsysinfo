@@ -165,7 +165,7 @@ class DMRaid extends PSI_Plugin
                 $disktemp = $disks->addChild("Disk");
                 $disktemp->addAttribute("Name", $diskkey);
                 $disktemp->addAttribute("Status", $disk['status']);
-                $disktemp->addAttribute("Index", $disk['raid_index']);
+              //  $disktemp->addAttribute("Index", $disk['raid_index']);
             }
         }
 //        if ($this->_result['unused_devs'] !== - 1) {
