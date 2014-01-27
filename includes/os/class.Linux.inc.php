@@ -816,7 +816,7 @@ class Linux extends OS
                     }
                 } elseif ( ( file_exists($filename="/etc/distro-release")
                         && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
-                        && !is_null($buf) && (trim($buf) != "") ) 
+                        && !is_null($buf) && (trim($buf) != "") )
                     || ( file_exists($filename="/etc/system-release")
                         && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
                         && !is_null($buf) && (trim($buf) != "") ) ) {

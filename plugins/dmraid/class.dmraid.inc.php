@@ -159,6 +159,7 @@ class DMRaid extends PSI_Plugin
                 $disktemp->addAttribute("Status", $disk['status']);
             }
         }
+
         return $this->xml->getSimpleXmlElement();
     }
 }
