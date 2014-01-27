@@ -1,3 +1,7 @@
+NOTICE: added /dev/sdd to RAID set "pdc_cifgjhgjdd-1"
+NOTICE: added /dev/sde to RAID set "pdc_cifgjhgjdd-1"
+NOTICE: added /dev/sdc to RAID set "pdc_cifgjhgjdd-0"
+NOTICE: added /dev/sdb to RAID set "pdc_cifgjhgjdd-0"
 *** Active Superset
 name : pdc_cifgjhgjdd
 size : 3517532672
