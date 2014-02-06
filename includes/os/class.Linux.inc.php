@@ -851,23 +851,37 @@ class Linux extends OS
                     }
                 } elseif ( file_exists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) {
-                    if (preg_match('/^PRETTY_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
-                        $this->sys->setDistribution(trim($desc_buf[1]));
-                    } else {
-                        if (isset($list[trim($id_buf[1])]['Name'])) {
-                            $this->sys->setDistribution(trim($list[trim($id_buf[1])]['Name']));
+                   && ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $id_buf)
+                   || preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) ) {
+                    if ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $id_buf) ) {
+                        if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
+                            $this->sys->setDistribution(trim($desc_buf[1])." ".trim($id_buf[1]));
                         } else {
-                            $this->sys->setDistribution(trim($id_buf[1]));
+                            if (isset($list['Tails']['Name'])) {
+                                $this->sys->setDistribution(trim($list['Tails']['Name'])." ".trim($id_buf[1]));
+                            } else {
+                                $this->sys->setDistribution('Tails'." ".trim($id_buf[1]));
+                            }
                         }
-                        if (preg_match('/^VERSION="?([^"\n]+)"?/m', $buf, $vers_buf)) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                        } elseif (preg_match('/^VERSION_ID="?([^"\n]+)"?/m', $buf, $vers_buf)) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                        $this->sys->setDistributionIcon($list['Tails']['Image']);
+                    } else {
+                        if (preg_match('/^PRETTY_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
+                            $this->sys->setDistribution(trim($desc_buf[1]));
+                        } else {
+                            if (isset($list[trim($id_buf[1])]['Name'])) {
+                                $this->sys->setDistribution(trim($list[trim($id_buf[1])]['Name']));
+                            } else {
+                                $this->sys->setDistribution(trim($id_buf[1]));
+                            }
+                            if (preg_match('/^VERSION="?([^"\n]+)"?/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            } elseif (preg_match('/^VERSION_ID="?([^"\n]+)"?/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            }
                         }
-                    }
-                    if (isset($list[trim($id_buf[1])]['Image'])) {
-                        $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        if (isset($list[trim($id_buf[1])]['Image'])) {
+                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                        }
                     }
                 } elseif (file_exists($filename="/etc/debian_version")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
