@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+Distributor ID:	SolusOS
+Description:	SolusOS Eveline 64-bit
+Release:	1.3
+Codename:	Eveline
+----------/etc/lsb-release----------
+DISTRIB_ID=SolusOS
+DISTRIB_RELEASE=1.3
+DISTRIB_CODENAME=Eveline
+DISTRIB_DESCRIPTION="SolusOS Eveline 64-bit"
+----------/etc/debian_version----------
+6.0.6

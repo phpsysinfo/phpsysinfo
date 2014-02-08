@@ -1,0 +1,8 @@
+----------/etc/centos-release----------
+CentOS release 6.5 (Final)
+----------/etc/e-smith-release----------
+SME Server release 9.0beta3
+----------/etc/redhat-release----------
+SME Server release 9.0beta3
+----------/etc/system-release----------
+SME Server release 9.0beta3

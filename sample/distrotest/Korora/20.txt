@@ -1,0 +1,21 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch
+Distributor ID:	Korora
+Description:	Korora release 20 (Peach)
+Release:	20
+Codename:	Peach
+----------/etc/fedora-release----------
+Korora release 20 (Peach)
+----------/etc/os-release----------
+NAME=Korora
+VERSION="20 (Peach)"
+ID=korora
+VERSION_ID=20
+PRETTY_NAME="Korora 20 (Peach)"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:kororaproject:korora:20"
+HOME_URL="https://kororaproject.org/"
+----------/etc/redhat-release----------
+Korora release 20 (Peach)
+----------/etc/system-release----------
+Korora release 20 (Peach)

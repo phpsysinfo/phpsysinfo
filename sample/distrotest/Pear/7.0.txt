@@ -1,0 +1,20 @@
+----------lsb_release -a----------
+Distributor ID:	PearOS
+Description:	Pear OS 7 64 bits
+Release:	7.0
+Codename:	Corella
+----------/etc/lsb-release----------
+DISTRIB_ID="PearOS"
+DISTRIB_RELEASE="7.0"
+DISTRIB_CODENAME="Corella"
+DISTRIB_DESCRIPTION="Pear OS 7 64 bits"
+
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="12.10, Quantal Quetzal"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu quantal (12.10)"
+VERSION_ID="12.10"
+----------/etc/debian_version----------
+wheezy/sid

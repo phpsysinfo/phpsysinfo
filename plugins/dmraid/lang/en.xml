@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: English Created by: Michael Cramer
+  -->
+<tns:translationPlugin language="english" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_dmraid_001" name="dmraid_title">
+    <exp>RAID Status</exp>
+  </expression>
+  <expression id="plugin_dmraid_002" name="dmraid_devices">
+    <exp>RAID-Devices</exp>
+  </expression>
+  <expression id="plugin_dmraid_003" name="dmraid_infos">
+    <exp>Additional Information </exp>
+  </expression>
+  <expression id="plugin_dmraid_004" name="dmraid_name">
+    <exp>Name</exp>
+  </expression>
+  <expression id="plugin_dmraid_005" name="dmraid_status">
+    <exp>Status</exp>
+  </expression>
+  <expression id="plugin_dmraid_006" name="dmraid_type">
+    <exp>RAID-Type</exp>
+  </expression>
+  <expression id="plugin_dmraid_007" name="dmraid_size">
+    <exp>Size</exp>
+  </expression>
+  <expression id="plugin_dmraid_008" name="dmraid_stride">
+    <exp>Stride</exp>
+  </expression>
+  <expression id="plugin_dmraid_009" name="dmraid_subsets">
+    <exp>Subsets</exp>
+  </expression>
+  <expression id="plugin_dmraid_010" name="dmraid_devs">
+    <exp>Devices</exp>
+  </expression>
+  <expression id="plugin_dmraid_011" name="dmraid_spares">
+    <exp>Spares</exp>
+  </expression>
+</tns:translationPlugin>

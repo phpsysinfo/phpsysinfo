@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID:	SteamOS
+Description:	SteamOS 1.0
+Release:	1.0
+Codename:	alchemist
+----------/etc/lsb-release----------
+DISTRIB_ID=SteamOS
+DISTRIB_RELEASE=1.0
+DISTRIB_CODENAME=alchemist
+DISTRIB_DESCRIPTION="SteamOS 1.0"
+----------/etc/os-release----------
+PRETTY_NAME="SteamOS GNU/Linux 7 (alchemist)"
+NAME="SteamOS GNU/Linux"
+VERSION_ID="1"
+VERSION="1 (alchemist)"
+ID=steamos
+ID_LIKE=debian
+ANSI_COLOR="1;31"
+HOME_URL="http://www.steampowered.com/"
+SUPPORT_URL="http://support.steampowered.com/"
+BUG_REPORT_URL="http://support.steampowered.com/"
+----------/etc/debian_version----------
+7.1

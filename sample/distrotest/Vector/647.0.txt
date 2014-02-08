@@ -1,0 +1,4 @@
+----------/etc/slackware-version----------
+Slackware 13.37.0
+----------/etc/vector-version----------
+Vlocity Linux 647.0 STD FINAL built on JUL-12-2012

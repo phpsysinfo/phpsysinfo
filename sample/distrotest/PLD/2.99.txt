@@ -1,0 +1,2 @@
+----------/etc/pld-release----------
+2.99 PLD Linux (Th)

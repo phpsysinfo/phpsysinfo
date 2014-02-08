@@ -364,7 +364,7 @@ class WINNT extends OS
            if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                       if (isset($NetworkAdapterConfiguration['IPAddress'])) 
+                       if (isset($NetworkAdapterConfiguration['IPAddress']))
                            foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);

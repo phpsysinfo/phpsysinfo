@@ -1,0 +1,11 @@
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Puppy'
+#A three-digit numeric value, version number of this distribution:
+DISTRO_VERSION=431
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='puppy'
+#Prefix for some filenames: exs: pupsave.2fs, pup-431.sfs
+DISTRO_FILE_PREFIX='pup'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='4'

@@ -107,10 +107,10 @@
                                                             name="alt" />
                                                     </img>
                                                     <span>
-                                                        <xsl:text>&#160;</xsl:text>
+                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                     </span>
                                                     <span>
-                                                        <xsl:text>&#160;</xsl:text>
+                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                     </span>
                                                     <xsl:value-of
                                                         select="@Distro" />
@@ -172,13 +172,13 @@
                                                             style="float:left; width:{concat(  CPULoad  , &apos;px&apos; )}; "
                                                             class="bar">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                         </div>
                                                         <div
                                                             style="float:left; ">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                             <xsl:value-of
                                                                 select="@CPULoad" />
@@ -572,12 +572,12 @@
                                                         style="float:left; width:{concat(  @Percent  , &apos;px&apos; )}; "
                                                         class="bar">
                                                         <span>
-                                                            <xsl:text>&#160;</xsl:text>
+                                                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                         </span>
                                                     </div>
                                                     <div style="float:left; ">
                                                         <span>
-                                                            <xsl:text>&#160;</xsl:text>
+                                                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                         </span>
                                                         <xsl:value-of
                                                             select="@Percent" />
@@ -630,13 +630,13 @@
                                                                     style="float:left; width:{concat(  @AppPercent  , &apos;px&apos; )}; "
                                                                     class="bar">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                 </div>
                                                                 <div
                                                                     style="float:left; ">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                     <xsl:value-of
                                                                         select="@AppPercent" />
@@ -677,13 +677,13 @@
                                                                     style="float:left; width:{concat(  @BuffersPercent  , &apos;px&apos; )}; "
                                                                     class="bar">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                 </div>
                                                                 <div
                                                                     style="float:left; ">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                     <xsl:value-of
                                                                         select="@BuffersPercent" />
@@ -724,13 +724,13 @@
                                                                     style="float:left; width:{concat(  @CachedPercent  , &apos;px&apos; )}; "
                                                                     class="bar">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                 </div>
                                                                 <div
                                                                     style="float:left; ">
                                                                     <span>
-                                                                        <xsl:text>&#160;</xsl:text>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                     </span>
                                                                     <xsl:value-of
                                                                         select="@CachedPercent" />
@@ -776,13 +776,13 @@
                                                             style="float:left; width:{concat(  @Percent  , &apos;px&apos; )}; "
                                                             class="bar">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                         </div>
                                                         <div
                                                             style="float:left; ">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                             <xsl:value-of
                                                                 select="@Percent" />
@@ -833,13 +833,13 @@
                                                                 style="float:left; width:{concat(  @Percent  , &apos;px&apos; )}; "
                                                                 class="bar">
                                                                 <span>
-                                                                    <xsl:text>&#160;</xsl:text>
+                                                                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                 </span>
                                                             </div>
                                                             <div
                                                                 style="float:left; ">
                                                                 <span>
-                                                                    <xsl:text>&#160;</xsl:text>
+                                                                    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                                 </span>
                                                                 <xsl:value-of
                                                                     select="@Percent" />
@@ -956,13 +956,13 @@
                                                             style="float:left; width:{concat(  @Percent  , &apos;px&apos; )}; "
                                                             class="bar">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                         </div>
                                                         <div
                                                             style="float:left; ">
                                                             <span>
-                                                                <xsl:text>&#160;</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                             <xsl:value-of
                                                                 select="@Percent" />
@@ -1058,7 +1058,7 @@
                                                     </td>
                                                     <td class="right" width="60px">
                                                         <span>
-                                                            <xsl:text>&#160;</xsl:text>
+                                                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                         </span>
                                                         <span>
                                                             <xsl:value-of select="round(@TxBytes div 1024)"/>

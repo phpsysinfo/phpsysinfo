@@ -74,7 +74,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 } else {
                     $sensorprograms = array(strtolower(PSI_SENSOR_PROGRAM));
                 }
-                foreach($sensorprograms as $sensorprogram) {
+                foreach ($sensorprograms as $sensorprogram) {
                     if (!file_exists(APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
                         $this->error->addError("file_exists(class.".htmlspecialchars($sensorprogram).".inc.php)", "specified sensor program is not supported");
                     } else {

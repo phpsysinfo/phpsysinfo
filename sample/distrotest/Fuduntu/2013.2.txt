@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	Fuduntu
+Description:	n/a
+Release:	2013.2
+Codename:	Punny Name Serious Distro
+----------/etc/fedora-release----------
+Fuduntu 2013.2 (Punny Name Serious Distro)
+----------/etc/fuduntu-release----------
+Fuduntu 2013.2 (Punny Name Serious Distro)
+----------/etc/lsb-release----------
+DISTRIB_ID=Fuduntu
+DISTRIB_RELEASE=2013.2
+DISTRIB_CODENAME=Fuduntu
+DISTRIB_DESCRIPTION="Punny Name Serious Distro"
+----------/etc/redhat-release----------
+Fuduntu 2013.2 (Punny Name Serious Distro)
+----------/etc/system-release----------
+Fuduntu 2013.2 (Punny Name Serious Distro)

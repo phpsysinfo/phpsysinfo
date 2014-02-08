@@ -1,0 +1,14 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	ALT
+Description:	ALT Linux 6.0.0 Centaurus  (Cheiron)
+Release:	6.0.0
+Codename:	Cheiron
+----------/etc/altlinux-release----------
+ALT Linux 6.0.0 Centaurus  (Cheiron)
+----------/etc/fedora-release----------
+ALT Linux 6.0.0 Centaurus  (Cheiron)
+----------/etc/redhat-release----------
+ALT Linux 6.0.0 Centaurus  (Cheiron)
+----------/etc/system-release----------
+ALT Linux 6.0.0 Centaurus  (Cheiron)

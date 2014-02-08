@@ -188,7 +188,7 @@ class SunOS extends OS
                             $dev->setRxBytes($cnt);
                         }
                     }
-                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) { 
+                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                         if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0], $bufr2, PSI_DEBUG)
                            && !is_null($bufr2) && (trim($bufr2) !== "")) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
@@ -203,7 +203,7 @@ class SunOS extends OS
                            && !is_null($bufr2) && (trim($bufr2) !== "")) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
-                                if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2) 
+                                if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2)
                                       && !preg_match('/^fe80::/i',$ar_buf2[1]))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }

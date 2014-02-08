@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	Arch
+Description:	Arch Linux
+Release:	rolling
+Codename:	n/a
+----------/etc/arch-release----------
+Arch Linux release
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=Arch
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="Arch Linux"
+----------/etc/os-release----------
+NAME="Arch Linux"
+ID=arch
+PRETTY_NAME="Arch Linux"
+ANSI_COLOR="0;36"
+HOME_URL="https://www.archlinux.org/"
+SUPPORT_URL="https://bbs.archlinux.org/"
+BUG_REPORT_URL="https://bugs.archlinux.org/"
+

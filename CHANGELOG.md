@@ -3,6 +3,16 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.9
+----------------
+
+ - [NEW] New plugin DMRaid - software raid status
+
+ - [ADD] Calculate, Tails, SMEServer, Semplice, SolydXK, Parsix, RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
+ 
+ - [UPD] Rebuilding of the Linux distribution detection
+ - [UPD] jQuery 2.1.0 and jQuery 1.11.0
+
 phpSysInfo 3.1.8
 ----------------
 
@@ -70,7 +80,7 @@ phpSysInfo 3.1.4
 phpSysInfo 3.1.3
 ----------------
 
- - [ADD] IPFire, Sabayon, PearOS, ClearOS, Frugalware, Fuduntu, Foresight, Tinycore, ALT Linux, ROSA and RedHatEnterpriseServer to detected distros
+ - [ADD] IPFire, Sabayon, PearOS, ClearOS, Frugalware, Fuduntu, Foresight, Tinycore, ALT Linux, ROSA Desktop Marathon and RedHatEnterpriseServer to detected distros
 
  - [UPD] Added "username" to filtered mount credentials
  - [UPD] jQuery 2.0 coexistent with jQuery 1.9.1 for old Internet Explorer browser versions (IE 6/7/8)

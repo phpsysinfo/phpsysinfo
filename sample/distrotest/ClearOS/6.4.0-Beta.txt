@@ -1,0 +1,6 @@
+----------/etc/clearos-release----------
+ClearOS Community release 6.4.0 Beta (Beta 2)
+----------/etc/redhat-release----------
+ClearOS Community release 6.4.0 Beta (Beta 2)
+----------/etc/system-release----------
+ClearOS Community release 6.4.0 Beta (Beta 2)

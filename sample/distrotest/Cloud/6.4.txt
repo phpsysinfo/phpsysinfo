@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	CloudLinuxServer
+Description:	CloudLinux Server release 6.4
+Release:	6.4
+Codename:	n/a
+----------/etc/lsb-release----------
+LSB_VERSION=base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+----------/etc/redhat-release----------
+CloudLinux Server release 6.4
+----------/etc/system-release----------
+CloudLinux Server release 6.4

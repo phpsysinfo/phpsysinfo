@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	OracleServer
+Description:	Oracle Linux Server release 6.3
+Release:	6.3
+Codename:	n/a
+----------/etc/oracle-release----------
+Oracle Linux Server release 6.3
+----------/etc/redhat-release----------
+Red Hat Enterprise Linux Server release 6.3 (Santiago)
+----------/etc/system-release----------
+Oracle Linux Server release 6.3

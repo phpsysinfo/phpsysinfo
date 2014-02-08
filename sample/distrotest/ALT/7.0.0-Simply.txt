@@ -1,0 +1,18 @@
+----------/etc/altlinux-release----------
+Simply Linux 7.0.0  (Dory)
+----------/etc/fedora-release----------
+Simply Linux 7.0.0  (Dory)
+----------/etc/os-release----------
+NAME="Simply Linux"
+VERSION="7.0.0 (Dory)"
+ID=altlinux
+VERSION_ID=7.0.0
+PRETTY_NAME="Simply Linux 7.0.0 (Dory)"
+ANSI_COLOR="1;36"
+CPE_NAME="cpe:/o:alt linux:slinux:7.0.0"
+HOME_URL="http://simplylinux.ru/"
+BUG_REPORT_URL="https://bugs.altlinux.org/"
+----------/etc/redhat-release----------
+Simply Linux 7.0.0  (Dory)
+----------/etc/system-release----------
+Simply Linux 7.0.0  (Dory)

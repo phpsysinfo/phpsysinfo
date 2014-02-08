@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Pear Linux
+Description:	Pear Linux 6.1
+Release:	6.1
+Codename:	Bartlett
+----------/etc/lsb-release----------
+DISTRIB_ID="Pear Linux"
+DISTRIB_RELEASE="6.1"
+DISTRIB_CODENAME="Bartlett"
+DISTRIB_DESCRIPTION="Pear Linux 6.1"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="12.04.1 LTS, Precise Pangolin"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu precise (12.04.1 LTS)"
+VERSION_ID="12.04"
+----------/etc/debian_version----------
+wheezy/sid

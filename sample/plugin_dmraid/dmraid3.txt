@@ -1,0 +1,22 @@
+ERROR: pdc: device /dev/hde broken in RAID set "pdc_bfcgjjgge" [1/2]
+ERROR: keeping degraded mirror set "pdc_bfcgjjgge"
+ERROR: pdc: device /dev/hdg broken in RAID set "pdc_dibachbhfh" [1/2]
+ERROR: keeping degraded mirror set "pdc_dibachbhfh"
+*** Set
+name   : pdc_bfcgjjgge
+size   : 78150656
+stride : 128
+type   : mirror
+status : broken
+subsets: 0
+devs   : 1
+spares : 0
+*** Set
+name   : pdc_dibachbhfh
+size   : 78150656
+stride : 128
+type   : mirror
+status : broken
+subsets: 0
+devs   : 1
+spares : 0

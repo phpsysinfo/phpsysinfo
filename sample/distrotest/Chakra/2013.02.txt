@@ -1,0 +1,21 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Chakra
+Description:	Chakra
+Release:	2013.02
+Codename:	Benz
+----------/etc/chakra-release----------
+----------/etc/lsb-release----------
+DISTRIB_ID="Chakra"
+DISTRIB_RELEASE="2013.02"
+DISTRIB_CODENAME="Benz"
+DISTRIB_DESCRIPTION="Chakra"
+----------/etc/os-release----------
+NAME="The Chakra-Project"
+VERSION="Benz"
+ID=chakra
+PRETTY_NAME="The Chakra-Project (Benz)"
+ANSI_COLOR="0;36"
+HOME_URL="http://www.chakra-linux.org/"
+BUG_REPORT_URL="http://chakra-linux.org/bugs/"
+

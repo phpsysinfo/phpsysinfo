@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	lsb-3.1-ia32:lsb-3.1-noarch:*
+Distributor ID:	PCLinuxOS
+Description:	PCLinuxOS
+Release:	2012
+Codename:	PCLinuxOS
+----------/etc/lsb-release----------
+LSB_VERSION=lsb-3.1-ia32:lsb-3.1-noarch:*
+DISTRIB_ID=PCLinuxOS
+DISTRIB_RELEASE=
+DISTRIB_CODENAME=
+DISTRIB_DESCRIPTION="PCLinuxOS"
+----------/etc/version----------
+2012 1 PCLinuxOS
+----------/etc/mandrake-release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586
+----------/etc/mandrakelinux-release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586
+----------/etc/mandriva-release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586
+----------/etc/pclinuxos-release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586
+----------/etc/redhat-release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586
+----------/etc/release----------
+PCLinuxOS release 2012 (PCLinuxOS) for i586

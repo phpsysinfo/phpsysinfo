@@ -1,103 +1,103 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: sl.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: Slovene Created by: Dejan Strancar
+phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained by: Uros Hekic
 -->
 <tns:translation language="slovene" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
   <expression id="001" name="title">
-    <exp>Sistemske Informacije</exp>
+    <exp>Sistemske informacije</exp>
   </expression>
   <expression id="002" name="vitals">
-    <exp>Stanje Sistema</exp>
+    <exp>Stanje sistema</exp>
   </expression>
   <expression id="003" name="hostname">
-    <exp>Ime Strežnika</exp>
+    <exp>Gostitelj</exp>
   </expression>
   <expression id="004" name="ip">
-    <exp>IP Naslov Strežnika</exp>
+    <exp>IP naslov strežnika</exp>
   </expression>
   <expression id="005" name="kversion">
-    <exp>Verzija Jedra</exp>
+    <exp>Verzija jedra</exp>
   </expression>
   <expression id="006" name="dversion">
-    <exp>Ime Distribucije</exp>
+    <exp>Ime distribucije</exp>
   </expression>
   <expression id="007" name="uptime">
-    <exp>Uptime</exp>
+    <exp>Čas neprekinjenega delovanja</exp>
   </expression>
   <expression id="008" name="users">
-    <exp>Trenutni Uporabniki</exp>
+    <exp>Trenutni uporabniki</exp>
   </expression>
   <expression id="009" name="loadavg">
-    <exp>Povprečna Obremenitev</exp>
+    <exp>Povprečna obremenitev</exp>
   </expression>
   <expression id="010" name="hardware">
-    <exp>Informacije O Strojni Opremi</exp>
+    <exp>Informacije o strojni opremi</exp>
   </expression>
   <expression id="011" name="numcpu">
-    <exp>Procesor</exp>
+    <exp>Procesorji</exp>
   </expression>
   <expression id="012" name="cpumodel">
     <exp>Oznaka</exp>
   </expression>
   <expression id="013" name="cpuspeed">
-    <exp>CPE Hitrost</exp>
+    <exp>Takt CPE</exp>
   </expression>
   <expression id="014" name="busspeed">
-    <exp>BUS Hitrost</exp>
+    <exp>Hitrost vodila</exp>
   </expression>
   <expression id="015" name="cache">
-    <exp>Velikost Predpomnilnika</exp>
+    <exp>Velikost predpomnilnika</exp>
   </expression>
   <expression id="016" name="bogomips">
-    <exp>Sistemski Bogomipsi</exp>
+    <exp>BogoMIPS</exp>
   </expression>
   <expression id="017" name="pci">
-    <exp>PCI Naprave</exp>
+    <exp>PCI naprave</exp>
   </expression>
   <expression id="018" name="ide">
-    <exp>IDE Naprave</exp>
+    <exp>IDE naprave</exp>
   </expression>
   <expression id="019" name="scsi">
-    <exp>SCSI Naprave</exp>
+    <exp>SCSI naprave</exp>
   </expression>
   <expression id="020" name="usb">
-    <exp>USB Naprave</exp>
+    <exp>USB naprave</exp>
   </expression>
   <expression id="021" name="netusage">
-    <exp>Stanje Omrežja</exp>
+    <exp>Stanje omrežja</exp>
   </expression>
   <expression id="022" name="device">
     <exp>Naprava</exp>
   </expression>
   <expression id="023" name="received">
-    <exp>Sprejetih</exp>
+    <exp>Prejeto</exp>
   </expression>
   <expression id="024" name="sent">
-    <exp>Poslanih</exp>
+    <exp>Poslano</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Napak/Zavrženih</exp>
+    <exp>Napake/zavrženo</exp>
   </expression>
   <expression id="026" name="connections">
-    <exp>Vzpostavljena Omrežna Povezava</exp>
+    <exp>Vzpostavljena omrežna povezava</exp>
   </expression>
   <expression id="027" name="memusage">
-    <exp>Obremenitev Pomnilnika</exp>
+    <exp>Poraba pomnilnika</exp>
   </expression>
   <expression id="028" name="phymem">
-    <exp>Fizični Pomnilnik(RAM)</exp>
+    <exp>Fizični pomnilnik (RAM)</exp>
   </expression>
   <expression id="029" name="swap">
-    <exp>Izmenljivi Disk(SWAP)</exp>
+    <exp>Izmenjalni pomnilnik (SWAP)</exp>
   </expression>
   <expression id="030" name="fs">
-    <exp>Priklopljeni Datotečni Sistemi</exp>
+    <exp>Vpeti datotečni sistemi</exp>
   </expression>
   <expression id="031" name="mount">
-    <exp>Priklopna Točka</exp>
+    <exp>Priklopna točka</exp>
   </expression>
   <expression id="032" name="partition">
     <exp>Particija</exp>
@@ -112,7 +112,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>Prosto</exp>
   </expression>
   <expression id="036" name="used">
-    <exp>Uporabljeno</exp>
+    <exp>Porabljeno</exp>
   </expression>
   <expression id="037" name="size">
     <exp>Velikost</exp>
@@ -130,7 +130,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>GB</exp>
   </expression>
   <expression id="042" name="none">
-    <exp>Nič</exp>
+    <exp>brez</exp>
   </expression>
   <expression id="043" name="capacity">
     <exp>Kapaciteta</exp>
@@ -145,7 +145,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>Potrdi</exp>
   </expression>
   <expression id="047" name="created">
-    <exp>Ustvarjeno</exp>
+    <exp>Generirano s pomočjo</exp>
   </expression>
   <expression id="048" name="days">
     <exp>dni</exp>
@@ -175,13 +175,13 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>Max</exp>
   </expression>
   <expression id="057" name="hysteresis">
-    <exp>Karateristika</exp>
+    <exp>Histereza</exp>
   </expression>
   <expression id="058" name="s_limit">
     <exp>Omejitev</exp>
   </expression>
   <expression id="059" name="s_label">
-    <exp>Polje</exp>
+    <exp>Oznaka</exp>
   </expression>
   <expression id="060" name="degreec">
     <exp>C</exp>
@@ -202,13 +202,13 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>Medpomnilniki</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>V Predpomnilniku</exp>
+    <exp>Predpomnjeno</exp>
   </expression>
   <expression id="067" name="jumpto">
-    <exp>Skoči Na</exp>
+    <exp>Skoči na</exp>
   </expression>
   <expression id="068" name="ups_title">
-    <exp>UPS Informacije</exp>
+    <exp>UPS informacije</exp>
   </expression>
   <expression id="069" name="ups_name">
     <exp>Ime</exp>
@@ -229,31 +229,31 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>Izpadi</exp>
   </expression>
   <expression id="075" name="ups_last_outage">
-    <exp>Razlog Zadnjega Izpada</exp>
+    <exp>Razlog zadnjega izpada</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Čas Zadnjega Izpada</exp>
+    <exp>Čas zadnjega izpada</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
-    <exp>Napetost</exp>
+    <exp>Omrežna napetost</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Obremenitev V Procentih</exp>
+    <exp>Obremenitev (%)</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
-    <exp>Napetost Baterije</exp>
+    <exp>Napetost baterije</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>Moč Baterije</exp>
+    <exp>Moč baterije</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
-    <exp>Čas Do Izpraznitve</exp>
+    <exp>Čas do izpraznitve</exp>
   </expression>
   <expression id="082" name="ups_voltage_mark">
     <exp>V</exp>
   </expression>
   <expression id="083" name="ups_minutes_mark">
-    <exp>Min</exp>
+    <exp>min</exp>
   </expression>
   <expression id="084" name="ups_temperature">
     <exp>Temparatura</exp>
@@ -286,31 +286,31 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Virtualizacija</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Zadnji zagon</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Sistemski jezik</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Kodiranje</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Podrobnosti</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Takt CPE (max)</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Takt CPE (min)</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Moč</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>

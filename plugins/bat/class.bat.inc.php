@@ -30,7 +30,7 @@ class BAT extends PSI_Plugin
      * @var Object
      */
     private $_wmi = null;
-    
+
     /**
      * read the data into an internal array and also call the parent constructor
      *

@@ -1,0 +1,11 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-amd64:core-4.0-ia32:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:	SMEServer
+Description:	SME Server release 8.1beta3
+Release:	8.1beta3
+Codename:	n/a
+----------/etc/e-smith-release----------
+SME Server release 8.1beta3
+----------/etc/redhat-release----------
+SME Server release 8.1beta3
+

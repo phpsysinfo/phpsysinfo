@@ -255,7 +255,7 @@ class Darwin extends BSDCommon
             // calculate free memory from page sizes (each page = 4MB)
             if ( (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf ))
               && (preg_match('/^Pages speculative:\s+(\S+)/m', $pstat, $spec_buf )) ) {
-                
+
                 $this->sys->setMemFree(($free_buf[1]+$spec_buf[1]) * 4 * 1024);
 
                 $appMemory = 0;
@@ -324,7 +324,7 @@ class Darwin extends BSDCommon
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
                             elseif (preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
-                            elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2) 
+                            elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
                                   && !preg_match('/^fe80::/i',$ar_buf2[1]))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);

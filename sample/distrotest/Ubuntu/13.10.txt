@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Ubuntu 13.10
+Release:	13.10
+Codename:	saucy
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=13.10
+DISTRIB_CODENAME=saucy
+DISTRIB_DESCRIPTION="Ubuntu 13.10"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="13.10, Saucy Salamander"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 13.10"
+VERSION_ID="13.10"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+----------/etc/debian_version----------
+wheezy/sid

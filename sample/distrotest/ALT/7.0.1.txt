@@ -1,0 +1,18 @@
+----------/etc/altlinux-release----------
+ALT Linux 7.0.1 Centaurus  (Pholus)
+----------/etc/fedora-release----------
+ALT Linux 7.0.1 Centaurus  (Pholus)
+----------/etc/os-release----------
+NAME="ALT Linux"
+VERSION="7.0.1  (Pholus)"
+ID=altlinux
+VERSION_ID=6.9.0
+PRETTY_NAME="ALT Linux 7.0.1  Centaurus (Pholus)"
+ANSI_COLOR="1;33"
+CPE_NAME="cpe:/o:alt linux:centaurus:7.0.1"
+HOME_URL="http://altlinux.ru/"
+BUG_REPORT_URL="https://bugs.altlinux.org/"
+----------/etc/redhat-release----------
+ALT Linux 7.0.1 Centaurus  (Pholus)
+----------/etc/system-release----------
+ALT Linux 7.0.1 Centaurus  (Pholus)

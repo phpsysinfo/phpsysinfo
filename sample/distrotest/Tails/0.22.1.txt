@@ -1,0 +1,5 @@
+----------/etc/os-release----------
+TAILS_PRODUCT_NAME="Tails"
+TAILS_VERSION_ID="0.22.1"
+----------/etc/debian_version----------
+6.0.8

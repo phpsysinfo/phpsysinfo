@@ -1,0 +1,11 @@
+----------/etc/pld-release----------
+3.0 PLD Linux (Th)
+----------/etc/os-release----------
+NAME="PLD Linux"
+ID="pld"
+VERSION_ID="3.0"
+PRETTY_NAME="PLD Linux 3.0 (Th)"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:pld-linux:pld:3.0"
+HOME_URL="http://www.pld-linux.org/"
+BUG_REPORT_URL="https://bugs.pld-linux.org/"

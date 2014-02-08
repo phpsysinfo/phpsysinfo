@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+LSB Version:	1.3
+Distributor ID:	FedoraCore
+Description:	Fedora Core release 4 (Stentz)
+Release:	4
+Codename:	Stentz
+----------/etc/fedora-release----------
+Fedora Core release 4 (Stentz)
+----------/etc/lsb-release----------
+LSB_VERSION="1.3"
+----------/etc/redhat-release----------
+Fedora Core release 4 (Stentz)

@@ -1,0 +1,33 @@
+----------lsb_release -a----------
+Distributor ID:	SolydXK
+Description:	SolydXK
+Release:	1
+Codename:	testing
+----------/etc/lsb-release----------
+DISTRIB_ID=SolydXK
+DISTRIB_RELEASE=1
+DISTRIB_CODENAME=testing
+DISTRIB_DESCRIPTION="SolydXK"
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux jessie/sid"
+NAME="Debian GNU/Linux"
+ID=debian
+ANSI_COLOR="1;31"
+HOME_URL="http://www.debian.org/"
+SUPPORT_URL="http://www.debian.org/support/"
+BUG_REPORT_URL="http://bugs.debian.org/"
+----------/etc/debian_version----------
+jessie/sid
+----------/etc/solydxk/info----------
+RELEASE=1
+CODENAME=testing
+EDITION=solydx64
+DESCRIPTION="SolydXK"
+DESKTOP=KDE
+DISTRIB_ID=SolydXK
+TOOLKIT=QT
+NEW_FEATURES_URL=http://www.solydxk.com
+RELEASE_NOTES_URL=http://www.solydxk.com
+USER_GUIDE_URL=http://www.solydxk.com
+GRUB_TITLE=SolydX 64-bit
+

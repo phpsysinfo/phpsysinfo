@@ -1,0 +1,6 @@
+----------/etc/default-release----------
+jessie
+----------/etc/lsb-release----------
+DISTRIB_ID=Debian
+DISTRIB_DESCRIPTION="Debian GNU/Linux installer"
+DISTRIB_RELEASE="8 (jessie) - installer build 20140106-00:05"

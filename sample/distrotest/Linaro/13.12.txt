@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Linaro
+Description:	Linaro 13.12
+Release:	13.12
+Codename:	saucy
+----------/etc/lsb-release----------
+DISTRIB_ID=Linaro
+DISTRIB_RELEASE=13.12
+DISTRIB_CODENAME=saucy
+DISTRIB_DESCRIPTION="Linaro 13.12"
+----------/etc/os-release----------
+NAME="Linaro"
+VERSION="13.12"
+ID=linaro
+ID_LIKE=debian
+PRETTY_NAME="Linaro 13.12"
+VERSION_ID="13.12"
+HOME_URL="http://www.linaro.org/"
+SUPPORT_URL="http://linaro.zendesk.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/linaro-ubuntu"
+----------/etc/debian_version----------
+wheezy/sid

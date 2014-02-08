@@ -1,0 +1,15 @@
+----------/etc/os-release----------
+NAME=SMS
+VERSION="2.0.5"
+ID=sms
+VERSION_ID=2.0.5
+PRETTY_NAME="Superb! Mini Server 2.0"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:superb_mini_server:sms:2.0"
+HOME_URL="http://sms.it-ccs.com/"
+SUPPORT_URL="http://sms.it-ccs.com/forum/"
+BUG_REPORT_URL="http://sms.it-ccs.com/forum/"
+----------/etc/slackware-version----------
+Slackware 14.0
+----------/etc/sms-version----------
+SMS64 2.0.5

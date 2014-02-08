@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	SolydXK
+Description:	SolydXK
+Release:	1
+Codename:	testing
+----------/etc/lsb-release----------
+DISTRIB_ID=SolydXK
+DISTRIB_RELEASE=1
+DISTRIB_CODENAME=testing
+DISTRIB_DESCRIPTION="SolydXK"
+----------/etc/debian_version----------
+jessie/sid
+----------/etc/solydxk/info----------
+RELEASE=1
+CODENAME=testing
+EDITION=solydx64
+DESCRIPTION="SolydXK"
+DESKTOP=Xfce
+DISTRIB_ID=SolydXK
+TOOLKIT=GTK
+NEW_FEATURES_URL=http://www.solydxk.com
+RELEASE_NOTES_URL=http://www.solydxk.com
+USER_GUIDE_URL=http://www.solydxk.com
+GRUB_TITLE=SolydX 64-bit
+

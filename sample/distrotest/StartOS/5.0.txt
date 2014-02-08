@@ -1,0 +1,4 @@
+----------lsb_release -a----------
+StartOS release 5.0 (Braveheart)
+----------/etc/startos-release----------
+StartOS release 5.0 (Braveheart)

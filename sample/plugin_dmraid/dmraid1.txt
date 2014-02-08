@@ -1,0 +1,98 @@
+NOTICE: /dev/sde: asr     discovering
+NOTICE: /dev/sde: ddf1    discovering
+NOTICE: /dev/sde: hpt37x  discovering
+NOTICE: /dev/sde: hpt45x  discovering
+NOTICE: /dev/sde: isw     discovering
+NOTICE: /dev/sde: isw metadata discovered
+NOTICE: /dev/sde: jmicron discovering
+NOTICE: /dev/sde: lsi     discovering
+NOTICE: /dev/sde: nvidia  discovering
+NOTICE: /dev/sde: pdc     discovering
+NOTICE: /dev/sde: sil     discovering
+NOTICE: /dev/sde: via     discovering
+NOTICE: /dev/sdf: asr     discovering
+NOTICE: /dev/sdf: ddf1    discovering
+NOTICE: /dev/sdf: hpt37x  discovering
+NOTICE: /dev/sdf: hpt45x  discovering
+NOTICE: /dev/sdf: isw     discovering
+NOTICE: /dev/sdf: isw metadata discovered
+NOTICE: /dev/sdf: jmicron discovering
+NOTICE: /dev/sdf: lsi     discovering
+NOTICE: /dev/sdf: nvidia  discovering
+NOTICE: /dev/sdf: pdc     discovering
+NOTICE: /dev/sdf: sil     discovering
+NOTICE: /dev/sdf: via     discovering
+NOTICE: /dev/sdb: asr     discovering
+NOTICE: /dev/sdb: ddf1    discovering
+NOTICE: /dev/sdb: hpt37x  discovering
+NOTICE: /dev/sdb: hpt45x  discovering
+NOTICE: /dev/sdb: isw     discovering
+NOTICE: /dev/sdb: isw metadata discovered
+NOTICE: /dev/sdb: jmicron discovering
+NOTICE: /dev/sdb: lsi     discovering
+NOTICE: /dev/sdb: nvidia  discovering
+NOTICE: /dev/sdb: pdc     discovering
+NOTICE: /dev/sdb: sil     discovering
+NOTICE: /dev/sdb: via     discovering
+NOTICE: /dev/sda: asr     discovering
+NOTICE: /dev/sda: ddf1    discovering
+NOTICE: /dev/sda: hpt37x  discovering
+NOTICE: /dev/sda: hpt45x  discovering
+NOTICE: /dev/sda: isw     discovering
+NOTICE: /dev/sda: isw metadata discovered
+NOTICE: /dev/sda: jmicron discovering
+NOTICE: /dev/sda: lsi     discovering
+NOTICE: /dev/sda: nvidia  discovering
+NOTICE: /dev/sda: pdc     discovering
+NOTICE: /dev/sda: sil     discovering
+NOTICE: /dev/sda: via     discovering
+NOTICE: /dev/sdc: asr     discovering
+NOTICE: /dev/sdc: ddf1    discovering
+NOTICE: /dev/sdc: hpt37x  discovering
+NOTICE: /dev/sdc: hpt45x  discovering
+NOTICE: /dev/sdc: isw     discovering
+NOTICE: /dev/sdc: isw metadata discovered
+NOTICE: /dev/sdc: jmicron discovering
+NOTICE: /dev/sdc: lsi     discovering
+NOTICE: /dev/sdc: nvidia  discovering
+NOTICE: /dev/sdc: pdc     discovering
+NOTICE: /dev/sdc: sil     discovering
+NOTICE: /dev/sdc: via     discovering
+NOTICE: /dev/sdd: asr     discovering
+NOTICE: /dev/sdd: ddf1    discovering
+NOTICE: /dev/sdd: hpt37x  discovering
+NOTICE: /dev/sdd: hpt45x  discovering
+NOTICE: /dev/sdd: isw     discovering
+NOTICE: /dev/sdd: isw metadata discovered
+NOTICE: /dev/sdd: jmicron discovering
+NOTICE: /dev/sdd: lsi     discovering
+NOTICE: /dev/sdd: nvidia  discovering
+NOTICE: /dev/sdd: pdc     discovering
+NOTICE: /dev/sdd: sil     discovering
+NOTICE: /dev/sdd: via     discovering
+NOTICE: added /dev/sde to RAID set "isw_jffegbfhc"
+NOTICE: added /dev/sdf to RAID set "isw_jffegbfhc"
+NOTICE: added /dev/sdb to RAID set "isw_deagibdgda"
+NOTICE: added /dev/sda to RAID set "isw_deagibdgda"
+NOTICE: added /dev/sdc to RAID set "isw_jffegbfhc"
+NOTICE: added /dev/sdd to RAID set "isw_jffegbfhc"
+*** Group superset isw_deagibdgda
+--> Active Subset
+name   : isw_deagibdgda_root
+size   : 125040896
+stride : 128
+type   : mirror
+status : ok
+subsets: 0
+devs   : 2
+spares : 0
+*** Group superset isw_jffegbfhc
+--> Active Superset
+name   : isw_jffegbfhc_data
+size   : 3131113472
+stride : 128
+type   : raid01
+status : ok
+subsets: 2
+devs   : 4
+spares : 0

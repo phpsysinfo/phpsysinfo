@@ -1,0 +1,14 @@
+/*
+ $Id: dmraid.css 661 2012-08-27 11:26:39Z namiltd $
+ */
+.plugin_dmraid_biun {
+    text-align: center;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    float: left;
+    width: 64px;
+}
+
+img.plugin_dmraid_biun {
+    margin: auto;
+}

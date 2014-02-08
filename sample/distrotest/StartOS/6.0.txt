@@ -1,0 +1,4 @@
+----------lsb_release -a----------
+StartOS release 6.0 (Dark Knight)
+----------/etc/startos-release----------
+StartOS release 6.0 (Dark Knight)

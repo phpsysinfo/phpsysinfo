@@ -1,0 +1,41 @@
+----------lsb_release -a----------
+LSB Version:	*
+Distributor ID:	OpenMandrivaLinux
+Description:	OpenMandriva Lx 2013.0
+Release:	2013.0
+Codename:	oxygen
+----------/etc/distro-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID=OpenMandrivaLinux
+DISTRIB_RELEASE=2013.0
+DISTRIB_CODENAME=oxygen
+DISTRIB_DESCRIPTION="OpenMandriva Lx 2013.0"
+----------/etc/mandrake-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/mandrakelinux-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/mandriva-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/os-release----------
+NAME="OpenMandriva Lx"
+VERSION="2013.0 RC1 (Oxygen)"
+ID="openmandriva_association"
+VERSION_ID=2013.0
+BUILD_ID=20131104.12
+PRETTY_NAME="OpenMandriva Lx 2013.0 RC1 (Oxygen)"
+ANSI_COLOR="1;43"
+CPE_NAME="cpe:/o:openmandriva_association:openmandriva_lx:2013.0"
+HOME_URL="http://openmandriva.org/"
+BUG_REPORT_URL="https://issues.openmandriva.org/"
+----------/etc/redhat-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/rosa-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/system-release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64
+----------/etc/version----------
+2013.0.0 4 RC1 (Oxygen)
+----------/etc/release----------
+OpenMandriva Lx release 2013.0 RC1 (Oxygen) for x86_64

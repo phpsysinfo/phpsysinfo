@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch
+Distributor ID:	Fedora
+Description:	Fedora release 20 (Heisenbug)
+Release:	20
+Codename:	Heisenbug
+----------/etc/fedora-release----------
+Fedora release 20 (Heisenbug)
+----------/etc/os-release----------
+NAME=Fedora
+VERSION="20 (Heisenbug)"
+ID=fedora
+VERSION_ID=20
+PRETTY_NAME="Fedora 20 (Heisenbug)"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:fedoraproject:fedora:20"
+HOME_URL="https://fedoraproject.org/"
+BUG_REPORT_URL="https://bugzilla.redhat.com/"
+REDHAT_BUGZILLA_PRODUCT="Fedora"
+REDHAT_BUGZILLA_PRODUCT_VERSION=20
+REDHAT_SUPPORT_PRODUCT="Fedora"
+REDHAT_SUPPORT_PRODUCT_VERSION=20
+----------/etc/redhat-release----------
+Fedora release 20 (Heisenbug)
+----------/etc/system-release----------
+Fedora release 20 (Heisenbug)

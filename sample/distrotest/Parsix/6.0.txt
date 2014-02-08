@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Parsix
+Description:	Parsix GNU/Linux 6.0 (trev)
+Release:	6.0
+Codename:	trev
+----------/etc/os-release----------
+PRETTY_NAME="Parsix GNU/Linux 4.0 (gloria)"
+NAME="Parsix GNU/Linux"
+VERSION_ID="4.0"
+VERSION="4.0 (gloria)"
+ID=parsix
+ANSI_COLOR="1;31"
+HOME_URL="http://www.parsix.org/"
+SUPPORT_URL="http://forums.parsix.org/"
+BUG_REPORT_URL="http://bugs.parsix.org/"
+----------/etc/parsix-version----------
+Parsix GNU/Linux 6.0-TEST-1
+----------/etc/debian_version----------
+7.0

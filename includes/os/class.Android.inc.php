@@ -82,10 +82,10 @@ class Android extends Linux
                     }
                 }
                 foreach ($df as $df_line) {
-                    if (preg_match("/^(\/\S+)(\s+)(([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+))/", $df_line, $df_buf) ||
-                        preg_match("/^(\/[^\s\:]+)\:(\s+)(([0-9\.]+)([KMGT])(\s+total\,\s+)([0-9\.]+)([KMGT])(\s+used\,\s+)([0-9\.]+)([KMGT])(\s+available))/", $df_line, $df_buf)) {
-                        if (preg_match('/^\/mnt\/asec\/com\./', $df_buf[1])) break;
-                            $dev = new DiskDevice();
+                    if ((preg_match("/^(\/\S+)(\s+)(([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+)([0-9\.]+)([KMGT])(\s+))/", $df_line, $df_buf)
+                         || preg_match("/^(\/[^\s\:]+)\:(\s+)(([0-9\.]+)([KMGT])(\s+total\,\s+)([0-9\.]+)([KMGT])(\s+used\,\s+)([0-9\.]+)([KMGT])(\s+available))/", $df_line, $df_buf))
+                         && !preg_match('/^\/mnt\/asec\/com\./', $df_buf[1])) {
+                        $dev = new DiskDevice();
                         if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[1]);
 
                         if ($df_buf[5] == 'K') $dev->setTotal($df_buf[4] * 1024);
@@ -143,31 +143,17 @@ class Android extends Linux
      */
     private function _distro()
     {
-        $list = @parse_ini_file(APP_ROOT."/data/distros.ini", true);
-        if (!$list) {
-            return;
-        }
         $buf = "";
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = $ar_buf[1];
         }
-        if (isset($list['Android']['Image'])) {
-            $this->sys->setDistributionIcon($list['Android']['Image']);
-        }
-        if (isset($list['Android']['Name'])) {
-            if ( is_null($buf) || (trim($buf) == "")) {
-                $this->sys->setDistribution($list['Android']['Name']);
-            } else {
-                $this->sys->setDistribution($list['Android']['Name']." ".trim($buf));
-            }
+        if ( is_null($buf) || (trim($buf) == "")) {
+            $this->sys->setDistribution('Android');
         } else {
-            if ( is_null($buf) || (trim($buf) == "") ) {
-                $this->sys->setDistribution('Android');
-            } else {
-                $this->sys->setDistribution(trim($buf));
-            }
+            $this->sys->setDistribution('Android '.trim($buf));
         }
+        $this->sys->setDistributionIcon('Android.png');
     }
 
     /**

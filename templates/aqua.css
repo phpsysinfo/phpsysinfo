@@ -147,24 +147,11 @@ p {
 }
 
 #filesystemTable thead tr .header {
-    background-image: url("../gfx/bg.gif");
-    background-position: right center;
-    background-repeat: no-repeat;
     cursor: pointer;
 }
 
 table tfoot td {
     color: #2E2E2E;
-}
-
-#filesystemTable thead tr .headerSortUp {
-    background-image: url("../gfx/asc.gif");
-    color: #c03000;
-}
-
-#filesystemTable thead tr .headerSortDown {
-    background-image: url("../gfx/desc.gif");
-    color: #c03000;
 }
 
 .right {

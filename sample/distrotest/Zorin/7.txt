@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Zorin
+Description:	Zorin OS 7
+Release:	7
+Codename:	raring
+----------/etc/lsb-release----------
+DISTRIB_ID=Zorin
+DISTRIB_RELEASE=7
+DISTRIB_CODENAME=raring
+DISTRIB_DESCRIPTION="Zorin OS 7"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="13.04, Raring Ringtail"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 13.04"
+VERSION_ID="13.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+----------/etc/debian_version----------
+wheezy/sid

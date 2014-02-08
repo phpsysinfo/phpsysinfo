@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+Distributor ID:	PearLinux
+Description:	Pear Linux 5
+Release:	5.00
+Codename:	sunsprite
+----------/etc/lsb-release----------
+DISTRIB_ID=PearLinux
+DISTRIB_RELEASE=5.00
+DISTRIB_CODENAME=sunsprite
+DISTRIB_DESCRIPTION="Pear Linux 5"
+----------/etc/debian_version----------
+wheezy/sid
