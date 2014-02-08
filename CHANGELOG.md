@@ -9,7 +9,7 @@ phpSysInfo 3.1.9
  - [NEW] New plugin DMRaid - software raid status
 
  - [ADD] Calculate, Tails, SMEServer, Semplice, SolydXK, Parsix, RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
- 
+
  - [UPD] Rebuilding of the Linux distribution detection
  - [UPD] jQuery 2.1.0 and jQuery 1.11.0
 
