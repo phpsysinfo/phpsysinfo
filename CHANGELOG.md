@@ -8,6 +8,8 @@ phpSysInfo 3.1.10
 
  - [ADD] Raspbian to detected distros
 
+ - [FIX] /etc/os-release Linux distro detection
+
 phpSysInfo 3.1.9
 ----------------
 
