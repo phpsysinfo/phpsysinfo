@@ -851,16 +851,16 @@ class Linux extends OS
                     }
                 } elseif ( file_exists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $id_buf)
+                   && ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $tid_buf)
                    || preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) ) {
-                    if ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $id_buf) ) {
+                    if ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $tid_buf) ) {
                         if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)) {
-                            $this->sys->setDistribution(trim($desc_buf[1])." ".trim($id_buf[1]));
+                            $this->sys->setDistribution(trim($desc_buf[1])." ".trim($tid_buf[1]));
                         } else {
                             if (isset($list['Tails']['Name'])) {
-                                $this->sys->setDistribution(trim($list['Tails']['Name'])." ".trim($id_buf[1]));
+                                $this->sys->setDistribution(trim($list['Tails']['Name'])." ".trim($tid_buf[1]));
                             } else {
-                                $this->sys->setDistribution('Tails'." ".trim($id_buf[1]));
+                                $this->sys->setDistribution('Tails'." ".trim($tid_buf[1]));
                             }
                         }
                         $this->sys->setDistributionIcon($list['Tails']['Image']);

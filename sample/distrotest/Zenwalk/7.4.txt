@@ -1,0 +1,11 @@
+----------/etc/os-release----------
+NAME=Zenwalk
+VERSION="7.4"
+ID=Zenwalk
+VERSION_ID="7.4"
+PRETTY_NAME="Zenwalk 7.4"
+HOME_URL="http://www.zenwalk.org/"
+----------/etc/slackware-version----------
+7.4
+----------/etc/zenwalk-version----------
+7.4
