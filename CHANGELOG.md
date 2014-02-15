@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.1.10
 ----------------
 
- - [ADD] Raspbian to detected distros
+ - [ADD] Zenwalk and Raspbian to detected distros
 
  - [FIX] /etc/os-release Linux distro detection
 
