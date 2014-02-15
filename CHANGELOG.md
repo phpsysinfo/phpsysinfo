@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.10
+----------------
+
+ - [ADD] Raspbian to detected distros
+
 phpSysInfo 3.1.9
 ----------------
 
