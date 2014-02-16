@@ -698,7 +698,7 @@ class Linux extends OS
             error_reporting(E_ERROR);
 
             // Fall back in case 'lsb_release' does not exist but exist /etc/lsb-release
-            if (file_exists($filename="/etc/lsb-release")
+            if (CommonFunctions::fileexists($filename="/etc/lsb-release")
                && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                && preg_match('/^DISTRIB_ID="?([^"\n]+)"?/m', $buf, $id_buf) ) {
                 if ( preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]+)"?/m', $buf, $desc_buf)
@@ -726,7 +726,7 @@ class Linux extends OS
                         continue;
                     } else {
                         foreach (preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
-                            if (file_exists($filename)) {
+                            if (CommonFunctions::fileexists($filename)) {
                                 $distro = $distribution;
                                 if (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="detection")) {
                                     $buf = "";
@@ -762,7 +762,7 @@ class Linux extends OS
                                 }
                                 if (isset($distribution['Files2'])) {
                                     foreach (preg_split("/;/", $distribution['Files2'], -1, PREG_SPLIT_NO_EMPTY) as $filename2) {
-                                        if (file_exists($filename2) && CommonFunctions::rfts($filename2, $buf, 0, 4096, false)) {
+                                        if (CommonFunctions::fileexists($filename2) && CommonFunctions::rfts($filename2, $buf, 0, 4096, false)) {
                                             if (preg_match('/^majorversion="?([^"\n]+)"?/m', $buf, $maj_buf)
                                                && preg_match('/^minorversion="?([^"\n]+)"?/m', $buf, $min_buf)) {
                                                 $distr2=$maj_buf[1].'.'.$min_buf[1];
@@ -794,7 +794,7 @@ class Linux extends OS
             }
             // if the distribution is still unknown
             if ($this->sys->getDistribution() == "Linux") {
-                if ( file_exists($filename="/etc/DISTRO_SPECS")
+                if ( CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf) ) {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -814,10 +814,10 @@ class Linux extends OS
                             $this->sys->setDistributionIcon($list['Puppy']['Image']);
                         }
                     }
-                } elseif ( ( file_exists($filename="/etc/distro-release")
+                } elseif ( ( CommonFunctions::fileexists($filename="/etc/distro-release")
                         && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
                         && !is_null($buf) && (trim($buf) != "") )
-                    || ( file_exists($filename="/etc/system-release")
+                    || ( CommonFunctions::fileexists($filename="/etc/system-release")
                         && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
                         && !is_null($buf) && (trim($buf) != "") ) ) {
                     $this->sys->setDistribution(trim($buf));
@@ -825,7 +825,7 @@ class Linux extends OS
                         && isset($list[trim($id_buf[1])]['Image'])) {
                             $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                     }
-                } elseif ( file_exists($filename="/etc/solydxk/info")
+                } elseif ( CommonFunctions::fileexists($filename="/etc/solydxk/info")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRIB_ID="?([^"\n]+)"?/m', $buf, $id_buf) ) {
                     if ( preg_match('/^DESCRIPTION="?([^"\n]+)"?/m', $buf, $desc_buf)
@@ -849,7 +849,7 @@ class Linux extends OS
                     } else {
                         $this->sys->setDistributionIcon($list['SolydXK']['Image']);
                     }
-                } elseif ( file_exists($filename="/etc/os-release")
+                } elseif ( CommonFunctions::fileexists($filename="/etc/os-release")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && ( preg_match('/^TAILS_VERSION_ID="?([^"\n]+)"?/m', $buf, $tid_buf)
                    || preg_match('/^NAME="?([^"\n]+)"?/m', $buf, $id_buf) ) ) {
@@ -883,7 +883,7 @@ class Linux extends OS
                             $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                         }
                     }
-                } elseif (file_exists($filename="/etc/debian_version")) {
+                } elseif (CommonFunctions::fileexists($filename="/etc/debian_version")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                         $buf = "";
                     }
