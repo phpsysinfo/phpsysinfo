@@ -1,0 +1,34 @@
+----------lsb_release -a----------
+LSB Version:	core-2.0-amd64:core-2.0-noarch:core-3.0-amd64:core-3.0-noarch:core-3.1-amd64:core-3.1-noarch:core-3.2-amd64:core-3.2-noarch:core-4.0-amd64:core-4.0-noarch:core-4.1-amd64:core-4.1-noarch:cxx-3.1-amd64:cxx-3.1-noarch:cxx-3.2-amd64:cxx-3.2-noarch:graphics-3.1-amd64:graphics-3.1-noarch:graphics-3.2-amd64:graphics-3.2-noarch:lsb-2.0-amd64:lsb-2.0-noarch:lsb-3.0-amd64:lsb-3.0-noarch:lsb-3.1-amd64:lsb-3.1-noarch:lsb-3.2-amd64:lsb-3.2-noarch:lsb-4.0-amd64:lsb-4.0-noarch:lsb-4.1-amd64:lsb-4.1-noarch
+Distributor ID:	RosaDesktop.Marathon
+Description:	ROSA Linux 2012.0
+Release:	2012.0
+Codename:	marathon
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID=RosaDesktop.Marathon
+DISTRIB_RELEASE=2012.0
+DISTRIB_CODENAME=marathon
+DISTRIB_DESCRIPTION="ROSA Linux 2012.0"
+----------/etc/version----------
+2012.0.0 11 rosalts
+----------/etc/release----------
+ROSA release 2012.0 (LTS) for x86_64
+----------/etc/mandrake-release----------
+ROSA release 2012.0 (LTS) for x86_64
+----------/etc/mandrakelinux-release----------
+ROSA release 2012.0 (LTS) for x86_64
+----------/etc/mandriva-release----------
+ROSA release 2012.0 (LTS) for x86_64
+----------/etc/redhat-release----------
+ROSA release 2012.0 (LTS) for x86_64
+----------/etc/os-release----------
+NAME="ROSA Marathon"
+VERSION="Free 2012.0 LTS"
+ID=rosa
+VERSION_ID=2012lts
+PRETTY_NAME="ROSA Marathon Free 2012.0 LTS"
+ANSI_COLOR="1;43"
+CPE_NAME="cpe:/o:rosa:rosalinux:2012.0"
+HOME_URL="http://www.rosalinux.com/"
+BUG_REPORT_URL="https://bugs.rosalinux.com/"

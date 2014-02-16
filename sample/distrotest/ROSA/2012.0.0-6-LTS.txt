@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+LSB Version:	*
+Distributor ID:	ROSA
+Description:	ROSA Linux 2012.0
+Release:	2012.0
+Codename:	turtle
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID=ROSA MarathonLinux
+DISTRIB_RELEASE=2012.0
+DISTRIB_CODENAME=turtle
+DISTRIB_DESCRIPTION="ROSA Linux 2012.0"
+----------/etc/version----------
+2012.0.0 6 rosalts
+----------/etc/release----------
+ROSA Linux release 2012.0 (LTS) for x86_64
+----------/etc/mandrake-release----------
+ROSA Linux release 2012.0 (LTS) for x86_64
+----------/etc/mandrakelinux-release----------
+ROSA Linux release 2012.0 (LTS) for x86_64
+----------/etc/mandriva-release----------
+ROSA Linux release 2012.0 (LTS) for x86_64
+----------/etc/redhat-release----------
+ROSA Linux release 2012.0 (LTS) for x86_64
+

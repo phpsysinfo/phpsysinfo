@@ -1,0 +1,34 @@
+----------lsb_release -a----------
+LSB Version:	*
+Distributor ID:	RosaDesktop.Fresh
+Description:	ROSA RosaDesktop.Fresh 2012.1
+Release:	2012.1
+Codename:	belka
+----------/etc/lsb-release----------
+LSB_VERSION=
+DISTRIB_ID=RosaDesktop.Fresh
+DISTRIB_RELEASE=2012.1
+DISTRIB_CODENAME=belka
+DISTRIB_DESCRIPTION="ROSA RosaDesktop.Fresh 2012.1"
+----------/etc/version----------
+2012.1.0 20 rosa
+----------/etc/release----------
+ROSA Desktop Fresh R2 release 2012.1 for x86_64
+----------/etc/mandrake-release----------
+ROSA Desktop Fresh R2 release 2012.1 for x86_64
+----------/etc/mandrakelinux-release----------
+ROSA Desktop Fresh R2 release 2012.1 for x86_64
+----------/etc/mandriva-release----------
+ROSA Desktop Fresh R2 release 2012.1 for x86_64
+----------/etc/redhat-release----------
+ROSA Desktop Fresh R2 release 2012.1 for x86_64
+----------/etc/os-release----------
+NAME="ROSA Desktop Fresh"
+VERSION="EE 2012.1 Desktop"
+ID=rosa
+VERSION_ID=2012.1
+PRETTY_NAME="ROSA Desktop Fresh EE 2012.1 Desktop"
+ANSI_COLOR="1;43"
+CPE_NAME="cpe:/o:rosa:rosalinux:2012.1"
+HOME_URL="http://www.rosalinux.com/"
+BUG_REPORT_URL="https://bugs.rosalinux.com/"

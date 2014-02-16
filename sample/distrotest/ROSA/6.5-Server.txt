@@ -1,0 +1,14 @@
+----------lsb_release -a----------
+LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	ROSAEnterpriseServer
+Description:	ROSA Enterprise Linux Server release 6.5 (Helium)
+Release:	6.5
+Codename:	Helium
+----------/etc/lsb-release----------
+LSB_VERSION=base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+----------/etc/redhat-release----------
+ROSA Enterprise Linux Server release 6.5 (Helium)
+----------/etc/rosa-release----------
+ROSA Enterprise Linux Server release 6.5 (Helium)
+----------/etc/system-release----------
+ROSA Enterprise Linux Server release 6.5 (Helium)
