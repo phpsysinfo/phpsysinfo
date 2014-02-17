@@ -124,7 +124,12 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         echo "<td>".$entry.'/'.$sentry."</td>";
                         $lsb = true;
                         $sys=$system->getSys();
-                        echo "<td>".$sys->getDistribution()."</td>";
+                        $distro=$sys->getDistribution();
+                        if ($distro == 'Linux')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
                         $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
@@ -136,7 +141,12 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $sys->setDistributionIcon("");
                         $lsb = false;
                         $sys=$system->getSys();
-                        echo "<td>".$sys->getDistribution()."</td>";
+                        $distro=$sys->getDistribution();
+                        if ($distro == 'Linux')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
                         $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";

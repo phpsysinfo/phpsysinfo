@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.11
+----------------
+
+ - [ADD] Slitaz to detected distros
+
 phpSysInfo 3.1.10
 ----------------
 
