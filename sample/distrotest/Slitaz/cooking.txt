@@ -1,2 +1,0 @@
-----------/etc/slitaz-release----------
-cooking
