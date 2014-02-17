@@ -19,7 +19,8 @@ define('PSI_DEBUG', false);
 define('PSI_LOAD_BAR', false);
 
 $log_file = "";
-$lsb = true;
+$lsb = true; //enable detection lsb_release -a
+$lsbfile = true; //enable detection /etc/lsb-release
 
 class Error
 {
@@ -67,12 +68,18 @@ class CommonFunctions
 
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
-        $strRet=self::_parse_log_file($strFileName);
-        if ($intLines == 1) {
-            $strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
-        }
+        global $lsb;
+        global $lsbfile;
+        if ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release")) {
+            $strRet=self::_parse_log_file($strFileName);
+            if ($strRet && ($intLines == 1)) {
+                $strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
+            }
 
-        return $strRet;
+            return $strRet;
+        } else {
+            return false;
+        }
     }
 
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
@@ -89,7 +96,10 @@ class CommonFunctions
     public static function fileexists($strFileName)
     {
         global $log_file;
+        global $lsb;
+        global $lsbfile;
         if (file_exists($log_file)
+            && ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release"))
             && ($contents = @file_get_contents($log_file))
             && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\n/m", $contents)) {
             return true;
