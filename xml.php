@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 /**
  * generate the xml
  *
