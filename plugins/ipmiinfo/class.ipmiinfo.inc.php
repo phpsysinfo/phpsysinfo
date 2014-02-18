@@ -39,7 +39,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array temperatures in array with label
      */
-    private function temperature()
+    private function temperatures()
     {
         $result = array ();
         $i = 0;
@@ -58,7 +58,7 @@ class ipmiinfo extends PSI_Plugin
     }
 
     /**
-     * get fan information
+     * get fans information
      *
      * @return array fans in array with label
      */
@@ -81,11 +81,11 @@ class ipmiinfo extends PSI_Plugin
     }
 
     /**
-     * get voltage information
+     * get voltages information
      *
      * @return array voltage in array with label
      */
-    private function voltage()
+    private function voltages()
     {
         $result = array ();
         $i = 0;
@@ -97,6 +97,50 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['state'] = $buffer[3];
                 $result[$i]['min'] = $buffer[5];
                 $result[$i]['max'] = $buffer[8];
+                $i++;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * get currents information
+     *
+     * @return array misc in array with label
+     */
+    private function currents()
+    {
+        $result = array ();
+        $i = 0;
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            if ($buffer[2] == "Amps" && $buffer[3] != "na") {
+                $result[$i]['label'] = $buffer[0];
+                $result[$i]['value'] = $buffer[1];
+                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
+                $i++;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * get powers information
+     *
+     * @return array misc in array with label
+     */
+    private function powers()
+    {
+        $result = array ();
+        $i = 0;
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            if ($buffer[2] == "Watts" && $buffer[3] != "na") {
+                $result[$i]['label'] = $buffer[0];
+                $result[$i]['value'] = $buffer[1];
+                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
                 $i++;
             }
         }
@@ -150,9 +194,9 @@ class ipmiinfo extends PSI_Plugin
         if ( empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        $arrBuff = $this->temperature();
+        $arrBuff = $this->temperatures();
         if (sizeof($arrBuff) > 0) {
-            $temp = $this->xml->addChild("Temperature");
+            $temp = $this->xml->addChild("Temperatures");
             foreach ($arrBuff as $arrValue) {
                 $item = $temp->addChild('Item');
                 $item->addAttribute('Label', $arrValue['label']);
@@ -172,9 +216,9 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Min', $arrValue['min']);
             }
         }
-        $arrBuff = $this->voltage();
+        $arrBuff = $this->voltages();
         if (sizeof($arrBuff) > 0) {
-            $volt = $this->xml->addChild('Voltage');
+            $volt = $this->xml->addChild('Voltages');
             foreach ($arrBuff as $arrValue) {
                 $item = $volt->addChild('Item');
                 $item->addAttribute('Label', $arrValue['label']);
@@ -184,6 +228,28 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Max', $arrValue['max']);
             }
         }
+
+        $arrBuff = $this->currents();
+        if (sizeof($arrBuff) > 0) {
+            $misc = $this->xml->addChild('Currents');
+            foreach ($arrBuff as $arrValue) {
+                $item = $misc->addChild('Item');
+                $item->addAttribute('Label', $arrValue['label']);
+                $item->addAttribute('Value', $arrValue['value']);
+                $item->addAttribute('State', $arrValue['state']);
+            }
+        }
+        $arrBuff = $this->powers();
+        if (sizeof($arrBuff) > 0) {
+            $misc = $this->xml->addChild('Powers');
+            foreach ($arrBuff as $arrValue) {
+                $item = $misc->addChild('Item');
+                $item->addAttribute('Label', $arrValue['label']);
+                $item->addAttribute('Value', $arrValue['value']);
+                $item->addAttribute('State', $arrValue['state']);
+            }
+        }
+
         $arrBuff = $this->misc();
         if (sizeof($arrBuff) > 0) {
             $misc = $this->xml->addChild('Misc');

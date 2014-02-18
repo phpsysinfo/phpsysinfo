@@ -57,7 +57,7 @@ function ipmiinfo_populate(xml) {
         ipmiinfo_show = true;
     });
 
-    $("Plugins Plugin_ipmiinfo Voltage Item", xml).each(function ipmiinfo_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Voltages Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
             html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(5, true, "ipmiinfo") + "</th></tr>\n";
         }
@@ -68,6 +68,27 @@ function ipmiinfo_populate(xml) {
         ipmiinfo_show = true;
     });
 
+    $("Plugins Plugin_ipmiinfo Currents Item", xml).each(function ipmiinfo_getitem(idp) {
+        if(idp==0) {
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(7, true, "ipmiinfo") + "</th></tr>\n";
+        }
+        html += "    <tr>\n";
+        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
+        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
+        html += "    </tr>\n";
+        ipmiinfo_show = true;
+    });
+
+    $("Plugins Plugin_ipmiinfo Powers Item", xml).each(function ipmiinfo_getitem(idp) {
+        if(idp==0) {
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(8, true, "ipmiinfo") + "</th></tr>\n";
+        }
+        html += "    <tr>\n";
+        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
+        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Value") + "</td>\n";
+        html += "    </tr>\n";
+        ipmiinfo_show = true;
+    });
     $("Plugins Plugin_ipmiinfo Misc Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
             html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(6, true, "ipmiinfo") + "</th></tr>\n";

@@ -9,8 +9,9 @@ phpSysInfo 3.1.11
  - [ADD] Add Access-Control-Allow-Origin on XML (JSON) interface for Ajax Load PR#47
  - [ADD] SliTaz to detected distros
 
- - [FIX] Reduce execution time on Linux systems when showing load average PR#47
+ - [UPD] Plugin IPMIInfo update, added powers and currents values
 
+ - [FIX] Reduce execution time on Linux systems when showing load average PR#47
 
 phpSysInfo 3.1.10
 ----------------
