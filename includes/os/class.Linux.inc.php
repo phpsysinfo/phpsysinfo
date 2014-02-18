@@ -27,6 +27,11 @@
 class Linux extends OS
 {
     /**
+     * Assoc array of all CPUs loads.
+     */
+    protected $_cpu_loads;
+
+    /**
      * call parent constructor
      */
     public function __construct()
@@ -160,48 +165,59 @@ class Linux extends OS
      */
     protected function _parseProcStat($cpuline)
     {
-        $load = 0;
-        $load2 = 0;
-        $total = 0;
-        $total2 = 0;
-        if (CommonFunctions::rfts('/proc/stat', $buf)) {
-            $lines = preg_split("/\n/", $buf, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($lines as $line) {
-                if (preg_match('/^'.$cpuline.' (.*)/', $line, $matches)) {
-                    $ab = 0;
-                    $ac = 0;
-                    $ad = 0;
-                    $ae = 0;
-                    sscanf($buf, "%*s %Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
-                    $load = $ab + $ac + $ad; // cpu.user + cpu.sys
-                    $total = $ab + $ac + $ad + $ae; // cpu.total
-                    break;
+        if (is_null($this->_cpu_loads)) {
+            $this->_cpu_loads = array();
+
+            if (CommonFunctions::rfts('/proc/stat', $buf)) {
+                if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $line) {
+                        $cpu = $line[1];
+                        $buf2 = $line[2];
+
+                        $this->_cpu_loads[$cpu] = array();
+
+                        $ab = 0;
+                        $ac = 0;
+                        $ad = 0;
+                        $ae = 0;
+                        sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
+                        $this->_cpu_loads[$cpu]['load'] = $ab + $ac + $ad; // cpu.user + cpu.sys
+                        $this->_cpu_loads[$cpu]['total'] = $ab + $ac + $ad + $ae; // cpu.total
+                    }
                 }
             }
-        }
-        // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-        if (PSI_LOAD_BAR) {
-            sleep(1);
-        }
-        if (CommonFunctions::rfts('/proc/stat', $buf)) {
-            $lines = preg_split("/\n/", $buf, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($lines as $line) {
-                if (preg_match('/^'.$cpuline.' (.*)/', $line, $matches)) {
-                    $ab = 0;
-                    $ac = 0;
-                    $ad = 0;
-                    $ae = 0;
-                    sscanf($buf, "%*s %Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
-                    $load2 = $ab + $ac + $ad;
-                    $total2 = $ab + $ac + $ad + $ae;
-                    break;
+            // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
+            if (PSI_LOAD_BAR) {
+                sleep(1);
+            }
+            if (CommonFunctions::rfts('/proc/stat', $buf)) {
+                if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $line) {
+                        $cpu = $line[1];
+                        $buf2 = $line[2];
+
+                        $ab = 0;
+                        $ac = 0;
+                        $ad = 0;
+                        $ae = 0;
+                        sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
+                        $load2 = $ab + $ac + $ad; // cpu.user + cpu.sys
+                        $total2 = $ab + $ac + $ad + $ae; // cpu.total
+                        $total = $this->_cpu_loads[$cpu]['total'];
+                        $load = $this->_cpu_loads[$cpu]['load'];
+                        $this->_cpu_loads[$cpu] = 0;
+                        if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
+                            $this->_cpu_loads[$cpu] = (100 * ($load2 - $load)) / ($total2 - $total);
+                        }
+                    }
                 }
             }
-        }
-        if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
-            return (100 * ($load2 - $load)) / ($total2 - $total);
         }
 
+        
+        if (isset($this->_cpu_loads[$cpuline])) {
+            return $this->_cpu_loads[$cpuline];
+        }
         return 0;
     }
 
