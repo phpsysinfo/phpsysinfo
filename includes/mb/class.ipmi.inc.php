@@ -111,6 +111,25 @@ class IPMI extends Sensors
             }
         }
     }
+
+    /**
+     * get power information
+     *
+     * @return void
+     */
+    private function _power()
+    {
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            if ($buffer[2] == "Watts" && $buffer[3] != "na") {
+                $dev = new SensorDevice();
+                $dev->setName($buffer[0]);
+                $dev->setValue($buffer[1]);
+                $this->mbinfo->setMbPower($dev);
+            }
+        }
+    }
+
     /**
      * get the information
      *
@@ -123,5 +142,6 @@ class IPMI extends Sensors
         $this->_temp();
         $this->_voltage();
         $this->_fans();
+        $this->_power();
     }
 }
