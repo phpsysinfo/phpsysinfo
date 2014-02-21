@@ -44,35 +44,12 @@ class ipmiinfo extends PSI_Plugin
         $result = array ();
         $i = 0;
         foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            $buffer = preg_split("/\s*\|\s*/", $line);
             if ($buffer[2] == "degrees C" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                $result[$i]['limit'] = $buffer[8];
-                $i++;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * get fans information
-     *
-     * @return array fans in array with label
-     */
-    private function fans()
-    {
-        $result = array ();
-        $i = 0;
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
-            if ($buffer[2] == "RPM" && $buffer[3] != "na") {
-                $result[$i]['label'] = $buffer[0];
-                $result[$i]['value'] = $buffer[1];
-                $result[$i]['state'] = $buffer[3];
-                $result[$i]['min'] = $buffer[8];
+                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -90,13 +67,13 @@ class ipmiinfo extends PSI_Plugin
         $result = array ();
         $i = 0;
         foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            $buffer = preg_split("/\s*\|\s*/", $line);
             if ($buffer[2] == "Volts" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                $result[$i]['min'] = $buffer[5];
-                $result[$i]['max'] = $buffer[8];
+                if (buffer[5] != "na") $result[$i]['min'] = $buffer[5];
+                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -105,20 +82,21 @@ class ipmiinfo extends PSI_Plugin
     }
 
     /**
-     * get currents information
+     * get fans information
      *
-     * @return array misc in array with label
+     * @return array fans in array with label
      */
-    private function currents()
+    private function fans()
     {
         $result = array ();
         $i = 0;
         foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
-            if ($buffer[2] == "Amps" && $buffer[3] != "na") {
+            $buffer = preg_split("/\s*\|\s*/", $line);
+            if ($buffer[2] == "RPM" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
-                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
+                $result[$i]['state'] = $buffer[3];
+                if (buffer[8] != "na") $result[$i]['min'] = $buffer[8];
                 $i++;
             }
         }
@@ -136,11 +114,35 @@ class ipmiinfo extends PSI_Plugin
         $result = array ();
         $i = 0;
         foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            $buffer = preg_split("/\s*\|\s*/", $line);
             if ($buffer[2] == "Watts" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
-                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
+                $result[$i]['state'] = $buffer[3];
+                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
+                $i++;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * get currents information
+     *
+     * @return array misc in array with label
+     */
+    private function currents()
+    {
+        $result = array ();
+        $i = 0;
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/\s*\|\s*/", $line);
+            if ($buffer[2] == "Amps" && $buffer[3] != "na") {
+                $result[$i]['label'] = $buffer[0];
+                $result[$i]['value'] = $buffer[1];
+                $result[$i]['state'] = $buffer[3];
+                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -158,11 +160,11 @@ class ipmiinfo extends PSI_Plugin
         $result = array ();
         $i = 0;
         foreach ($this->_lines as $line) {
-            $buffer = preg_split("/[ ]+\|[ ]+/", $line);
+            $buffer = preg_split("/\s*\|\s*/", $line);
             if ($buffer[2] == "discrete" && $buffer[3] != "na") {
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
-                $result[$i]['state'] = strpos($buffer[3],"|")?substr($buffer[3],0,strpos($buffer[3],"|")):$buffer[3];
+                $result[$i]['state'] = $buffer[3];
                 $i++;
             }
         }
@@ -202,7 +204,7 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Label', $arrValue['label']);
                 $item->addAttribute('Value', $arrValue['value']);
                 $item->addAttribute('State', $arrValue['state']);
-                $item->addAttribute('Limit', $arrValue['limit']);
+                $item->addAttribute('Max', $arrValue['Max']);
             }
         }
         $arrBuff = $this->fans();
