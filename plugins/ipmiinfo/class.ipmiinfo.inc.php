@@ -49,7 +49,7 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
+                if ($buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -72,8 +72,8 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                if (buffer[5] != "na") $result[$i]['min'] = $buffer[5];
-                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
+                if ($buffer[5] != "na") $result[$i]['min'] = $buffer[5];
+                if ($buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -96,7 +96,7 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                if (buffer[8] != "na") $result[$i]['min'] = $buffer[8];
+                if ($buffer[8] != "na") $result[$i]['min'] = $buffer[8];
                 $i++;
             }
         }
@@ -119,7 +119,7 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
+                if ($buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }
@@ -142,7 +142,7 @@ class ipmiinfo extends PSI_Plugin
                 $result[$i]['label'] = $buffer[0];
                 $result[$i]['value'] = $buffer[1];
                 $result[$i]['state'] = $buffer[3];
-                if (buffer[8] != "na") $result[$i]['max'] = $buffer[8];
+                if ($buffer[8] != "na") $result[$i]['max'] = $buffer[8];
                 $i++;
             }
         }

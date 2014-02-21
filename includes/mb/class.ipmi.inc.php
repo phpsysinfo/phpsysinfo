@@ -67,7 +67,7 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
-                if (buffer[8] != "na") $dev->setMax($buffer[8]);
+                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
                 $this->mbinfo->setMbTemp($dev);
             }
         }
@@ -86,8 +86,8 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
-                if (buffer[5] != "na") $dev->setMin($buffer[5]);
-                if (buffer[8] != "na") $dev->setMax($buffer[8]);
+                if ($buffer[5] != "na") $dev->setMin($buffer[5]);
+                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
                 $this->mbinfo->setMbVolt($dev);
             }
         }
@@ -106,7 +106,7 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
-                if (buffer[8] != "na") $dev->setMin($buffer[8]);
+                if ($buffer[8] != "na") $dev->setMin($buffer[8]);
                 $this->mbinfo->setMbFan($dev);
             }
         }
@@ -125,7 +125,7 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
-                if (buffer[8] != "na") $dev->setMax($buffer[8]);
+                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
                 $this->mbinfo->setMbPower($dev);
             }
         }
@@ -144,7 +144,7 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
-                if (buffer[8] != "na") $dev->setMax($buffer[8]);
+                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
                 $this->mbinfo->setMbCurrent($dev);
             }
         }
