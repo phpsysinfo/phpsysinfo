@@ -204,18 +204,7 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Label', $arrValue['label']);
                 $item->addAttribute('Value', $arrValue['value']);
                 $item->addAttribute('State', $arrValue['state']);
-                $item->addAttribute('Max', $arrValue['Max']);
-            }
-        }
-        $arrBuff = $this->fans();
-        if (sizeof($arrBuff) > 0) {
-            $fan = $this->xml->addChild('Fans');
-            foreach ($arrBuff as $arrValue) {
-                $item = $fan->addChild('Item');
-                $item->addAttribute('Label', $arrValue['label']);
-                $item->addAttribute('Value', $arrValue['value']);
-                $item->addAttribute('State', $arrValue['state']);
-                $item->addAttribute('Min', $arrValue['min']);
+                if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['Max']);
             }
         }
         $arrBuff = $this->voltages();
@@ -226,19 +215,19 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Label', $arrValue['label']);
                 $item->addAttribute('Value', $arrValue['value']);
                 $item->addAttribute('State', $arrValue['state']);
-                $item->addAttribute('Min', $arrValue['min']);
-                $item->addAttribute('Max', $arrValue['max']);
+                if (isset($arrValue['Min'])) $item->addAttribute('Min', $arrValue['min']);
+                if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
             }
         }
-
-        $arrBuff = $this->currents();
+        $arrBuff = $this->fans();
         if (sizeof($arrBuff) > 0) {
-            $misc = $this->xml->addChild('Currents');
+            $fan = $this->xml->addChild('Fans');
             foreach ($arrBuff as $arrValue) {
-                $item = $misc->addChild('Item');
+                $item = $fan->addChild('Item');
                 $item->addAttribute('Label', $arrValue['label']);
                 $item->addAttribute('Value', $arrValue['value']);
                 $item->addAttribute('State', $arrValue['state']);
+                if (isset($arrValue['Min'])) $item->addAttribute('Min', $arrValue['min']);
             }
         }
         $arrBuff = $this->powers();
@@ -249,9 +238,20 @@ class ipmiinfo extends PSI_Plugin
                 $item->addAttribute('Label', $arrValue['label']);
                 $item->addAttribute('Value', $arrValue['value']);
                 $item->addAttribute('State', $arrValue['state']);
+                if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
             }
         }
-
+        $arrBuff = $this->currents();
+        if (sizeof($arrBuff) > 0) {
+            $misc = $this->xml->addChild('Currents');
+            foreach ($arrBuff as $arrValue) {
+                $item = $misc->addChild('Item');
+                $item->addAttribute('Label', $arrValue['label']);
+                $item->addAttribute('Value', $arrValue['value']);
+                $item->addAttribute('State', $arrValue['state']);
+                if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
+            }
+        }
         $arrBuff = $this->misc();
         if (sizeof($arrBuff) > 0) {
             $misc = $this->xml->addChild('Misc');
