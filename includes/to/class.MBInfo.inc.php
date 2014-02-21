@@ -62,6 +62,15 @@ class MBInfo
     private $_mbPower = array();
 
     /**
+     * array with SensorDevices for apmers
+     *
+     * @see SensorDevice
+     *
+     * @var Array
+     */
+    private $_mbCurrent = array();
+
+    /**
      * Returns $_mbFan.
      *
      * @see System::$_mbFan
@@ -163,5 +172,30 @@ class MBInfo
     public function setMbPower($mbPower)
     {
         array_push($this->_mbPower, $mbPower);
+    }
+    /**
+     * Returns $_mbCurrent.
+     *
+     * @see System::$_mbCurrent
+     *
+     * @return Array
+     */
+    public function getMbCurrent()
+    {
+        return $this->_mbCurrent;
+    }
+
+    /**
+     * Sets $_mbCurrent.
+     *
+     * @param Sensor $mbCurrent current device
+     *
+     * @see System::$_mbCurrent
+     *
+     * @return Void
+     */
+    public function setMbCurrent($mbCurrent)
+    {
+        array_push($this->_mbCurrent, $mbCurrent);
     }
 }

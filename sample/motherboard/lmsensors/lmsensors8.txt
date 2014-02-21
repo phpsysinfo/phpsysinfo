@@ -1,0 +1,24 @@
+﻿coretemp-isa-0000
+Adapter: ISA adapter
+Core 0:      +49.0°C  (high = +74.0°C, crit = +100.0°C)
+Core 1:      +46.0°C  (high = +74.0°C, crit = +100.0°C)
+
+
+fam15h_power-pci-00c4
+Adapter: PCI adapter
+power1:       85.74 W
+
+
+fam15h_power-pci-00c4
+Adapter: PCI adapter
+power1: 71.17 W (crit = 95.04 W)
+
+mcp3021-i2c-0-4d
+Adapter: MPC adapter
+in0:         +0.19 V  (min =  +0.19 V, max =  +0.21 V)
+curr1:      +0.99 A  (min =  +0.93 A, max =  +1.05 A)
+
+mcp3021-i2c-1-4d
+Adapter: MPC adapter
+in0:         +0.40 V  (min =  +0.40 V, max =  +0.41 V)
+curr1:      +2.01 A  (min =  +1.98 A, max =  +2.02 A)

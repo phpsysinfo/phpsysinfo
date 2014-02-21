@@ -317,4 +317,10 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   <expression id="104" name="ups_battery_date">
     <exp>תאריך סוללה</exp>
   </expression>
+  <expression id="105" name="current">
+    <exp>Current</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
 </tns:translation>

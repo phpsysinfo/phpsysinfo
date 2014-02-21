@@ -1122,6 +1122,34 @@ function refreshPower(xml) {
         $("#power").remove();
     }
 }
+
+/**
+ * (re)fill the current block with the values from the given xml<br><br>
+ * build the current information into a separate block, if there is no current information available the
+ * entire table will be removed to avoid HTML warnings
+ * @param {jQuery} xml phpSysInfo-XML
+ */
+function refreshCurrent(xml) {
+    var values = false;
+    $("#currentTable tbody").empty();
+    $("MBInfo Current Item", xml).each(function getCurrents(id) {
+        var label = "", value = "", limit = 0, _limit = "";
+        label = $(this).attr("Label");
+        value = $(this).attr("Value").replace(/\+/g, "");
+        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
+        if (isFinite(limit))
+            _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
+        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        values = true;
+    });
+    if (values) {
+        $("#current").show();
+    }
+    else {
+        $("#current").remove();
+    }
+}
+
 /**
  * (re)fill the ups block with the values from the given xml<br><br>
  * build the ups information into a separate block, if there is no ups information available the
@@ -1256,6 +1284,7 @@ function reload() {
             refreshFan(xml);
             refreshTemp(xml);
             refreshPower(xml);
+            refreshCurrent(xml);
             refreshUps(xml);
 
             $('.stripeMe tr:nth-child(even)').addClass('even');
@@ -1309,6 +1338,7 @@ $(document).ready(function buildpage() {
             refreshVoltage(xml);
             refreshFan(xml);
             refreshPower(xml);
+            refreshCurrent(xml);
             refreshUps(xml);
 
             changeLanguage();

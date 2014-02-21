@@ -425,6 +425,17 @@ class XML
                 }
             }
         }
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
+            $volt = $mbinfo->addChild('Current');
+            foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                $item = $volt->addChild('Item');
+                $item->addAttribute('Label', $dev->getName());
+                $item->addAttribute('Value', $dev->getValue());
+                if ($dev->getMax() !== null) {
+                    $item->addAttribute('Max', $dev->getMax());
+                }
+            }
+        }
     }
 
     /**

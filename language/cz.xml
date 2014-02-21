@@ -318,4 +318,10 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
   <expression id="104" name="ups_battery_date">
     <exp>Battery date</exp>
   </expression>
+  <expression id="105" name="current">
+    <exp>Current</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
 </tns:translation>
