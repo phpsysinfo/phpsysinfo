@@ -48,7 +48,7 @@ class uprecords extends PSI_Plugin
         $i = 0;
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
-                $buffer = preg_split("/[ | ]\s+/", ltrim(ltrim($line, '->'), ' '));
+                $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
                 if (strpos($line, '->') !== false) {
                     $buffer[0] = '-> ' . $buffer[0];
                 }
