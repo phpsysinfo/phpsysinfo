@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: hu.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: Hungary Created by: Bálint Kiss
+phpSysInfo language file Language: Hungarian Created by: Bálint Kiss
 -->
 <tns:translation language="english" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
