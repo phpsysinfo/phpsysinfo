@@ -92,14 +92,6 @@ class uprecords extends PSI_Plugin
         if ( empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        // Fill the xml with column names
-        $columnsChild = $this->xml->addChild('columns');
-        for ($id = 1; $id <= 4; $id++) {
-            $columnChild = $columnsChild->addChild('column');
-            $columnChild->addAttribute('id', $id);
-            $columnChild->addAttribute('name', "");
-        }
-
         $arrBuff = $this->uprecords();
         if (sizeof($arrBuff) > 0) {
             $uprecords = $this->xml->addChild("Uprecords");
