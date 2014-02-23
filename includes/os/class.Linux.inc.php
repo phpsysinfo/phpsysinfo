@@ -682,6 +682,10 @@ class Linux extends OS
                 }
             } else {
                 if (isset($distro['Description'])
+                   && preg_match('/^NAME=\s*(.+)\s*$/', $distro['Description'], $name_tmp)) {
+                   $distro['Description'] = $name_tmp[1];
+                }
+                if (isset($distro['Description'])
                    && ($distro['Description'] != "n/a")
                    && !isset($distro['Distributor ID']) ) {
                     $this->sys->setDistribution($distro['Description']);
