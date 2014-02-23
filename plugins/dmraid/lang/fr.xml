@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+    phpSysInfo language file Language: French Created by: phpsysinfo
+  -->
+<tns:translationPlugin language="french" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_dmraid_001" name="dmraid_title">
+    <exp>Statut RAID</exp>
+  </expression>
+  <expression id="plugin_dmraid_002" name="dmraid_devices">
+    <exp>Périphériques RAID</exp>
+  </expression>
+  <expression id="plugin_dmraid_003" name="dmraid_infos">
+    <exp>Informations additionnelles</exp>
+  </expression>
+  <expression id="plugin_dmraid_004" name="dmraid_name">
+    <exp>Nom</exp>
+  </expression>
+  <expression id="plugin_dmraid_005" name="dmraid_status">
+    <exp>Status</exp>
+  </expression>
+  <expression id="plugin_dmraid_006" name="dmraid_type">
+    <exp>Type de RAID</exp>
+  </expression>
+  <expression id="plugin_dmraid_007" name="dmraid_size">
+    <exp>Taille</exp>
+  </expression>
+  <expression id="plugin_dmraid_008" name="dmraid_stride">
+    <exp>Granularité</exp>
+  </expression>
+  <expression id="plugin_dmraid_009" name="dmraid_subsets">
+    <exp>Sous-ensembles</exp>
+  </expression>
+  <expression id="plugin_dmraid_010" name="dmraid_devs">
+    <exp>Périphériques</exp>
+  </expression>
+  <expression id="plugin_dmraid_011" name="dmraid_spares">
+    <exp>Rechanges</exp>
+  </expression>
+</tns:translationPlugin>

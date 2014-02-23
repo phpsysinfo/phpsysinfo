@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+    phpSysInfo language file Language: French Created by: phpsysinfo
+  -->
+<tns:translationPlugin language="french" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_snmppinfo_001" name="snmppinfo_title">
+    <exp>Imprimantes</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_002" name="snmppinfo_date">
+    <exp>Dernière actualisation</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
+    <exp>Imprimante</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
+    <exp>Pourcent</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
+    <exp>Unité</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
+    <exp>suffisamment</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
+    <exp>inconnu</exp>
+  </expression>
+</tns:translationPlugin>
