@@ -34,7 +34,7 @@ var uprecords_show = false;
 
 function uprecords_populate(xml) {
 
-    var html = "", lastboot = 0;
+    var html = "";// lastboot = 0;
     $("#Plugin_uprecordsTable").html(" ");
 
     $("Plugins Plugin_uprecords uprecords Item", xml).each(function uprecords_getitem(idp) {
@@ -50,13 +50,13 @@ function uprecords_populate(xml) {
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("hash") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Uptime") + "</td>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("System") + "</td>\n";
-        lastboot = new Date($(this).attr("Bootup"));
+/*        lastboot = new Date($(this).attr("Bootup"));
         if (typeof(lastboot.toUTCString)==="function") {
             html += "      <td style=\"font-weight:normal\">" +  lastboot.toUTCString() + "</td>\n";
         } else { //deprecated
             html += "      <td style=\"font-weight:normal\">" +  lastboot.toGMTString() + "</td>\n";
-        }
-        //html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Bootup") + "</td>\n";
+        } */
+        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Bootup") + "</td>\n";
         html += "    </tr>\n";
         uprecords_show = true;
     });
