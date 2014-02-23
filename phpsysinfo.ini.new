@@ -54,6 +54,7 @@ ADD_PATHS=false
 ; - IPMIInfo       - show IPMI status
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
+; - Uprecords      - show uprecords info
 ;
 PLUGINS=false
 
@@ -472,3 +473,15 @@ UBUNTU_LANDSCAPE_FORMAT=true
 ; define the update info file
 ;
 FILE="/var/lib/update-notifier/updates-available"
+
+[uprecords]
+; Uprecords Plugin configuration
+
+; define how to access the uprecords statistic data
+; - "command" uprecords command is run everytime the block gets refreshed or build 
+;             if access error try execute first: chmod 4755 /usr/bin/uprecords
+;             This method is not recommended for safety reasons!
+; - "data" (a file must be available in the data directory of the phpsysinfo installation 
+;          with the filename "uprecords.txt"; content is the output from "uprecords -a -w")
+;
+ACCESS="command"
