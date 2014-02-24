@@ -46,15 +46,31 @@ class uprecords extends PSI_Plugin
     {
         $result = array ();
         $i = 0;
+        /* default error handler */
+        if (function_exists('errorHandlerPsi')) {
+            restore_error_handler();
+        }
+        /* fatal errors only */
+        $old_err_rep = error_reporting();
+                                                                                        error_reporting(E_ERROR);
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
                 if (strpos($line, '->') !== false) {
-                    $buffer[0] = '-> ' . $buffer[0];
+                    $buffer[0] = '-> '.$buffer[0];
+                    
+                    //values for timezone detection
+                    $aktt = time(); 
+                    $aktu = $buffer[1];
+                    if (count($buffer) > 4) {
+                        $aktb = $buffer[3].' '.$buffer[4];
+                    } else {
+                        $aktb = $buffer[3];
+                    }
                 }
 
                 if (count($buffer) > 4) {
-                    $buffer[3] = $buffer[3] . ' ' . $buffer[4];
+                    $buffer[3] = $buffer[3].' '.$buffer[4];
                 }
 
                 $result[$i]['hash'] = $buffer[0];
@@ -63,6 +79,32 @@ class uprecords extends PSI_Plugin
                 $result[$i]['Bootup'] = $buffer[3];
             }
             $i++;
+        }
+        if (isset($aktt)) { //GMT conversion
+            $stop = strToTime($aktb.' GMT') + strToTime('1 Jan 1970 '.$aktu.' GMT');
+            $timediff = round(($stop-$aktt)/1800)/2; //round to 0.5h
+            if (($timediff <= 13) && ($timediff>=-12)) {//valid timezones
+                $timedifftable=explode('.',$timediff);
+                if (isset($timedifftable[1])) {
+                    $diff =  $timedifftable[0].':'.$timedifftable[1]*6;
+                } else {
+                    $diff = $timediff;
+                }
+                if ($timediff > 0) {
+                    $diff = '+'.$diff;
+                } else {
+                    $diff = '-'.$diff;
+                }
+                foreach ($result as $resnr=>$resval) {
+                    $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup'].' '.$diff.' GMT'));
+                }
+            }
+        }
+        /* restore error level */
+        error_reporting($old_err_rep);
+        /* restore error handler */
+        if (function_exists('errorHandlerPsi')) {
+            set_error_handler('errorHandlerPsi');
         }
 
         return $result;
