@@ -51,8 +51,9 @@ class uprecords extends PSI_Plugin
             restore_error_handler();
         }
         /* fatal errors only */
-        $old_err_rep = error_reporting();
-                                                                                        error_reporting(E_ERROR);
+        $old_err_rep = error_reporting();                                                                                        
+        error_reporting(E_ERROR);
+
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
