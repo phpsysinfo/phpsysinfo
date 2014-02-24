@@ -39,11 +39,12 @@ function uprecords_populate(xml) {
 
     $("Plugins Plugin_uprecords uprecords Item", xml).each(function uprecords_getitem(idp) {
         if(idp==0) {
-            html += "<tr>\n";
-            $("Plugins Plugin_uprecords columns column", xml).each(function uprecords_table_header() {
-                html += "      <th style=\"font-weight:bold\">" + genlang(100 + parseInt($(this).attr("id"), 10), true, "uprecords") + "</th>\n";
-            });
-            html += "</tr>\n";
+            html += "    <tr>\n";
+            html += "      <th>" + genlang(101, true, "uprecords") + "</th>\n";
+            html += "      <th>" + genlang(102, true, "uprecords") + "</th>\n";
+            html += "      <th>" + genlang(103, true, "uprecords") + "</th>\n";
+            html += "      <th>" + genlang(104, true, "uprecords") + "</th>\n";
+            html += "    </tr>\n";
         }
 
         html += "    <tr>\n";
