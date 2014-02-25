@@ -51,7 +51,7 @@ class uprecords extends PSI_Plugin
             restore_error_handler();
         }
         /* fatal errors only */
-        $old_err_rep = error_reporting();                                                                                        
+        $old_err_rep = error_reporting();
         error_reporting(E_ERROR);
 
         foreach ($this->_lines as $line) {
@@ -59,9 +59,9 @@ class uprecords extends PSI_Plugin
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
                 if (strpos($line, '->') !== false) {
                     $buffer[0] = '-> '.$buffer[0];
-                    
+
                     //values for timezone detection
-                    $aktt = time(); 
+                    $aktt = time();
                     $aktu = $buffer[1];
                     if (count($buffer) > 4) {
                         $aktb = $buffer[3].' '.$buffer[4];
@@ -82,22 +82,20 @@ class uprecords extends PSI_Plugin
             $i++;
         }
         if (isset($aktt)) { //GMT conversion
-            $stop = strToTime($aktb.' GMT') + strToTime('1 Jan 1970 '.$aktu.' GMT');
+            $stop = strToTime($aktb.' +00:00') + strToTime('1 Jan 1970 '.$aktu.' +00:00');
             $timediff = round(($stop-$aktt)/1800)/2; //round to 0.5h
             if (($timediff <= 13) && ($timediff>=-12)) {//valid timezones
                 $timedifftable=explode('.',$timediff);
                 if (isset($timedifftable[1])) {
                     $diff =  $timedifftable[0].':'.$timedifftable[1]*6;
                 } else {
-                    $diff = $timediff;
+                    $diff = $timediff.':00';
                 }
-                if ($timediff > 0) {
+                if ($timediff >= 0) {
                     $diff = '+'.$diff;
-                } else {
-                    $diff = '-'.$diff;
                 }
                 foreach ($result as $resnr=>$resval) {
-                    $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup'].' '.$diff.' GMT'));
+                    $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup'].' '.$diff));
                 }
             }
         }
