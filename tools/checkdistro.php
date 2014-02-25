@@ -123,8 +123,8 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
     echo "<td>Distro Icon</td>";
     echo "<td>Distro Name (no lsb_release)</td>";
     echo "<td>Distro Icon (no lsb_release)</td>";
-    echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
-    echo "<td>Distro Icon (no lsb_release and no /etclsb-release)</td>";
+    echo "<td>Distro Name (no lsb_release and no //etc//lsb-release)</td>";
+    echo "<td>Distro Icon (no lsb_release and no //etc//lsb-release)</td>";
     echo "</tr>";
     while (false !== ($entry = readdir($handle))) {
         if (($entry!=".")&&($entry!="..")) {
