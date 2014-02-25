@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+LSB Version:	core-3.1-noarch
+Distributor ID:	generations
+Description:	Generations Linux
+Release:	3.1
+Codename:	vortex
+----------/etc/lsb-release----------
+DISTRIB_ID="generations"
+DISTRIB_DESCRIPTION="Generations Linux"
+DISTRIB_RELEASE="3.1"
+DISTRIB_CODENAME="vortex"
+LSB_VERSION="core-3.1-noarch"
+----------/etc/os-release----------
+# http://www.freedesktop.org/software/systemd/man/os-release.html
+NAME="Generations Linux"
+VERSION="3.1 (vortex)"
+ID=generations
+VERSION_ID=3.1
+PRETTY_NAME="$NAME $VERSION"
+HOME_URL="http://softcraft.org"
+BUILD_ID="2013-05-04 1527"
+ANSI_COLOR="1;34"

@@ -7,7 +7,7 @@ phpSysInfo 3.1.11
 ----------------
 
  - [ADD] Add Access-Control-Allow-Origin on XML (JSON) interface for Ajax Load PR#47
- - [ADD] SliTaz to detected distros
+ - [ADD] Generations Linux and SliTaz to detected distros
  - [ADD] IPMI and LMSensors currents information
  - [ADD] Plugin IPMIInfo - added powers and currents values
 
