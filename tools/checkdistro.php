@@ -123,6 +123,8 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
     echo "<td>Distro Icon</td>";
     echo "<td>Distro Name (no lsb_release)</td>";
     echo "<td>Distro Icon (no lsb_release)</td>";
+    echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
+    echo "<td>Distro Icon (no lsb_release and no /etclsb-release)</td>";
     echo "</tr>";
     while (false !== ($entry = readdir($handle))) {
         if (($entry!=".")&&($entry!="..")) {
@@ -132,7 +134,9 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $log_file=APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
+                        
                         $lsb = true;
+                        $lsbfile = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         if ($distro == 'Linux')
@@ -149,7 +153,28 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         echo $icon."</td>";
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("");
+                        
                         $lsb = false;
+                        $lsbfile = true;
+                        $sys=$system->getSys();
+                        $distro=$sys->getDistribution();
+                        if ($distro == 'Linux')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo $icon."</td>";
+                        $sys->setDistribution("");
+                        $sys->setDistributionIcon("");                        
+                        
+                        $lsb = false;
+                        $lsbfile = false;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         if ($distro == 'Linux')
@@ -166,6 +191,7 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         echo $icon."</td>";
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("");
+                        
                         echo "</tr>";
                     }
                 }
