@@ -135,8 +135,8 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
 
-                        $lsb = false;
-                        $lsbfile = false;
+                        $lsb = true;
+                        $lsbfile = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
