@@ -139,12 +139,12 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $lsbfile = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
-                        if ($distro == 'Linux')
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
                         echo $distro."</td>";
-                        $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
@@ -158,12 +158,12 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $lsbfile = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
-                        if ($distro == 'Linux')
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
                         echo $distro."</td>";
-                        $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
@@ -177,12 +177,12 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $lsbfile = false;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
-                        if ($distro == 'Linux')
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
                         echo $distro."</td>";
-                        $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
                             echo "<td style='color:red'>";
                         else
