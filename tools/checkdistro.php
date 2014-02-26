@@ -134,47 +134,11 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                         $log_file=APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
-                        
-                        $lsb = true;
-                        $lsbfile = true;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-                        
-                        $lsb = false;
-                        $lsbfile = true;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");                        
-                        
+
                         $lsb = false;
                         $lsbfile = false;
+                        $sys->setDistribution("");
+                        $sys->setDistributionIcon("unknown.png");
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
@@ -189,9 +153,45 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
                             echo "<td>";
                         echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
                         echo $icon."</td>";
+
+                        $lsb = false;
+                        $lsbfile = true;
                         $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-                        
+                        $sys->setDistributionIcon("unknown.png");
+                        $sys=$system->getSys();
+                        $distro=$sys->getDistribution();
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo $icon."</td>";
+
+                        $lsb = false;
+                        $lsbfile = false;
+                        $sys->setDistribution("");
+                        $sys->setDistributionIcon("unknown.png");
+                        $sys=$system->getSys();
+                        $distro=$sys->getDistribution();
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo $icon."</td>";
+
                         echo "</tr>";
                     }
                 }
