@@ -137,9 +137,9 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
 
                         $lsb = false;
                         $lsbfile = false;
+                        $sys=$system->getSys();
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("unknown.png");
-                        $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
@@ -156,9 +156,9 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
 
                         $lsb = false;
                         $lsbfile = true;
+                        $sys=$system->getSys();
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("unknown.png");
-                        $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
@@ -175,9 +175,9 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
 
                         $lsb = false;
                         $lsbfile = false;
+                        $sys=$system->getSys();
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("unknown.png");
-                        $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
                         if ($icon != $entry.'.png')
