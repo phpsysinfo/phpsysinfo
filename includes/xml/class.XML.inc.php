@@ -136,6 +136,7 @@ class XML
         if ($this->_sysinfo->getEncoding() !== null) {
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
+        $vitals->addAttribute('OS', PSI_OS);
     }
 
     /**
