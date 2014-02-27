@@ -580,8 +580,10 @@ function createBar(size, barclass) {
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
     var syslang = "", codepage = "";
-    var lastboot = 0, timestamp = Number(new Date());
-
+    var lastboot = 0;
+    var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
+    if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
+    
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
         ip = $(this).attr("IPAddr");
