@@ -583,7 +583,7 @@ function refreshVitals(xml) {
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
-    
+ 
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
         ip = $(this).attr("IPAddr");
