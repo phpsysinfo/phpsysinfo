@@ -54,13 +54,9 @@ class uprecords extends PSI_Plugin
         /* fatal errors only */
         $old_err_rep = error_reporting();
         error_reporting(E_ERROR);
+
         $diff = date("O"); //timezone offset
-        /* restore error level */
-        error_reporting($old_err_rep);
-        /* restore error handler */
-        if (function_exists('errorHandlerPsi')) {
-            set_error_handler('errorHandlerPsi');
-        }
+
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
@@ -83,6 +79,13 @@ class uprecords extends PSI_Plugin
             foreach ($result as $resnr=>$resval) {
                 $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup'].' '.$diff));
             }
+        }
+
+        /* restore error level */
+        error_reporting($old_err_rep);
+        /* restore error handler */
+        if (function_exists('errorHandlerPsi')) {
+            set_error_handler('errorHandlerPsi');
         }
 
         return $result;
