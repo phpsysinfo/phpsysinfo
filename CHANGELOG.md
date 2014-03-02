@@ -10,6 +10,7 @@ phpSysInfo 3.1.11
  - [ADD] Generations Linux and SliTaz to detected distros
  - [ADD] IPMI and LMSensors currents information
  - [ADD] Plugin IPMIInfo - added powers and currents values
+ - [ADD] Partial support of QNX
 
  - [FIX] Reduce execution time on Linux systems when showing load average PR#47
 
