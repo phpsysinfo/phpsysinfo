@@ -100,7 +100,7 @@ class Parser
                     $mount_parm[$mount_buf[2]]['fstype'] = $mount_buf[3];
                     $mount_parm[$mount_buf[2]]['name'] = $mount_buf[1];
                     if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[2]]['options'] = $mount_buf[4];
-                } elseif (preg_match("(/\S+) is (.*) mounted on (\S+) \(type (.*)\)/", $mount_line, $mount_buf)) {
+                } elseif (preg_match("/(\S+) is (.*) mounted on (\S+) \(type (.*)\)/", $mount_line, $mount_buf)) {
                     $mount_parm[$mount_buf[3]]['fstype'] = $mount_buf[4];
                     $mount_parm[$mount_buf[3]]['name'] = $mount_buf[1];
                     if (PSI_SHOW_MOUNT_OPTION) $mount_parm[$mount_buf[3]]['options'] = $mount_buf[2];

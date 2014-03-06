@@ -138,22 +138,22 @@ class SMART extends PSI_Plugin
             if ( preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE) )
                $startIndex = $matches[0][1];
 
-            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" (hopefully every output has it!)
-            if ( preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)/', $result, $matches, PREG_OFFSET_CAPTURE) )
+            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!)
+            if ( preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE) )
                $endIndex = $matches[0][1];
 
             if ($startIndex && $endIndex && ($endIndex>$startIndex))
                  $vendorInfos = preg_split("/\n/", substr ( $result, $startIndex, $endIndex - $startIndex ));
 
             if (!empty($vendorInfos)) {
-                $labels = preg_split('/[\s]+/', $vendorInfos[1]);
+                $labels = preg_split('/\s+/', $vendorInfos[1]);
                 foreach ($labels as $k=>$v) {
                     $labels[$k] = str_replace('#', '', strtolower($v));
                 }
                 $i = 0; // Line number
                 foreach ($vendorInfos as $line) {
-                    $line = preg_replace('/^[\s]+/', '', $line);
-                    $values = preg_split('/[\s]+/', $line);
+                    $line = preg_replace('/^\s+/', '', $line);
+                    $values = preg_split('/\s+/', $line);
                     if (count($values) > count($labels)) {
                         $values = array_slice($values, 0, count($labels), true);
                     }
@@ -178,44 +178,48 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
                     preg_match('/read\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/[\s,]+/',$lines[0]);
+                        $values=preg_split('/\s+/',$lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
+                            $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][0]['id'] = 1;
                             $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
-                            $this->_result[$disk][0]['raw_value'] = $values[7];
+                            $this->_result[$disk][0]['raw_value'] = $vals[0];
                         }
                     }
                 }
                 if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
                     preg_match('/Elements in grown defect list\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/[\s,]+/',$lines[0]);
+                        $values=preg_split('/\s+/',$lines[0]);
                         if (!empty($values) && ($values[5]!=null)) {
+                            $vals=preg_split('/[,\.]/', $values[5]);
                             $this->_result[$disk][1]['id'] = 5;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
-                            $this->_result[$disk][1]['raw_value'] = $values[5];
+                            $this->_result[$disk][1]['raw_value'] = $vals[0];
                         }
                     }
                 }
                 if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
                     preg_match('/ number of hours powered up = (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/[\s,.]+/',$lines[0]);
+                        $values=preg_split('/\s+/',$lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
+                            $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][2]['id'] = 9;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
-                            $this->_result[$disk][2]['raw_value'] =  $values[7];
+                            $this->_result[$disk][2]['raw_value'] =  $vals[0];
                         }
                     }
                 }
                 if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
                     preg_match('/Current Drive Temperature\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/[\s,]+/',$lines[0]);
+                        $values=preg_split('/\s+/',$lines[0]);
                         if (!empty($values) && ($values[3]!=null)) {
+                            $vals=preg_split('/[,\.]/', $values[3]);
                             $this->_result[$disk][3]['id'] = 194;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
-                            $this->_result[$disk][3]['raw_value'] = $values[3];
+                            $this->_result[$disk][3]['raw_value'] = $vals[0];
                         }
                     }
                 }

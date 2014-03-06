@@ -327,6 +327,69 @@ class LMSensors extends Sensors
             $this->mbinfo->setMbPower($dev);
         }
     }
+
+    /**
+     * get current information
+     *
+     * @return void
+     */
+    private function _current()
+    {
+        $ar_buf = array();
+        foreach ($this->_lines as $line) {
+            $data = array();
+            //echo $line." <br> ";
+            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } else {
+                (preg_match("/(.*):(.*)/", $line, $data));
+            }
+            if (count($data) > 1) {
+                $temp = substr(trim($data[2]), -1);
+                switch ($temp) {
+                case "A":
+                    array_push($ar_buf, $line);
+                }
+            }
+        }
+        foreach ($ar_buf as $line) {
+            $data = array();
+/* not tested yet
+            if (preg_match("/(.*):(.*).A[ ]*\((.*)=(.*).W,(.*)=(.*).A\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*).A[ ]*\((.*)=(.*).W,(.*)=(.*).A\)(.*)/", $line, $data)) {
+                ;
+            } else
+*/
+            if (preg_match("/(.*):(.*).A[ ]*\((.*)=(.*).A\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*).A[ \t]+/", $line, $data)) {
+                ;
+            } else {
+                preg_match("/(.*):(.*).A$/", $line, $data);
+            }
+            foreach ($data as $key=>$value) {
+                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
+                    $data[$key] = trim($newvalue[1]);
+                } else {
+                    $data[$key] = trim($value);
+                }
+            }
+            $dev = new SensorDevice();
+            $dev->setName($data[1]);
+            $dev->setValue($data[2]);
+
+            if (isset($data[6]) && $data[2] <= $data[6]) {
+                  $dev->setMax(max($data[4],$data[6]));
+            } elseif (isset($data[4]) && $data[2] <= $data[4]) {
+                   $dev->setMax($data[4]);
+            }
+            $this->mbinfo->setMbCurrent($dev);
+        }
+    }
+
     /**
      * get the information
      *
@@ -340,5 +403,6 @@ class LMSensors extends Sensors
         $this->_voltage();
         $this->_fans();
         $this->_power();
+        $this->_current();
     }
 }

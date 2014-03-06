@@ -238,7 +238,7 @@ class WINNT extends OS
                 $icon = 'Win2000.png';
             elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif (substr($kernel,0,4) == "6.2.")
+            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3."))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';

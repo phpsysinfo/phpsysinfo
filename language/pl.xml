@@ -318,4 +318,10 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="104" name="ups_battery_date">
     <exp>Data baterii</exp>
   </expression>
+  <expression id="105" name="current">
+    <exp>Prąd</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
 </tns:translation>

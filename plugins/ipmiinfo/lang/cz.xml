@@ -24,4 +24,10 @@
   <expression id="plugin_ipmiinfo_006" name="ipmiinfo_misc">
     <exp>Různé [0/1]</exp>
   </expression>
+  <expression id="plugin_ipmiinfo_007" name="ipmiinfo_currents">
+    <exp>Currents [A]</exp>
+  </expression>
+  <expression id="plugin_ipmiinfo_008" name="ipmiinfo_powers">
+    <exp>Powers [W]</exp>
+  </expression>
 </tns:translationPlugin>

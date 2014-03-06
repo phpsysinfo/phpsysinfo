@@ -1,5 +1,5 @@
 ----------lsb_release -a----------
-LSB Version	n/a
+LSB Version:	n/a
 Distributor ID:	openSUSE project
 Description:	openSUSE 13.1 Milestone 3 (x86_64)
 Release:	13.1

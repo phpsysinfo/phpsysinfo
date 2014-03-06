@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+    phpSysInfo language file Language: French Created by: phpsysinfo
+  -->
+<tns:translationPlugin language="french" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_uprecords_001" name="uprecords_title">
+    <exp>Uprecords</exp>
+  </expression>
+  <expression id="plugin_uprecords_002" name="uprecords_date">
+    <exp>Dernière actualisation</exp>
+  </expression>
+  <expression id="plugin_uprecords_101" name="uprecords_hash">
+    <exp>#</exp>
+  </expression>
+  <expression id="plugin_uprecords_102" name="uprecords_uptime">
+    <exp>Uptime</exp>
+  </expression>
+  <expression id="plugin_uprecords_103" name="uprecords_system">
+    <exp>Système</exp>
+  </expression>
+  <expression id="plugin_uprecords_104" name="uprecords_bootup">
+    <exp>Démarrage</exp>
+  </expression>
+</tns:translationPlugin>
