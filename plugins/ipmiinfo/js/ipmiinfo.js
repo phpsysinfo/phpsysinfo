@@ -35,7 +35,7 @@ function ipmiinfo_populate(xml) {
     var html = "";
     $("#Plugin_ipmiinfoTable").html(" ");
 
-    $("Plugins Plugin_ipmiinfo Temperature Item", xml).each(function ipmiinfo_getitem(idp) {
+    $("Plugins Plugin_ipmiinfo Temperatures Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
             html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(3, true, "ipmiinfo") + "</th></tr>\n";
         }
