@@ -1,0 +1,21 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	KaOS
+Description:	KaOS
+Release:	2014.0301
+Codename:	n/a
+----------/etc/KaOS-release----------
+KaOS release 2014.0301
+----------/etc/lsb-release----------
+DISTRIB_ID="KaOS"
+DISTRIB_RELEASE="2014.0301"
+DISTRIB_DESCRIPTION="KaOS"
+----------/etc/os-release----------
+NAME="KaOS"
+VERSION="2014"
+ID=kaos
+PRETTY_NAME="KaOS (2014)"
+ANSI_COLOR="0;36"
+HOME_URL="http://kaosx.us/"
+
+
