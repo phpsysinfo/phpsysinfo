@@ -8,6 +8,8 @@ phpSysInfo 3.1.12
 
  - [ADD] KaOS to detected distros
 
+ - [FIX] Fixed incorrect network usage on FreeBSD
+
 phpSysInfo 3.1.11
 ----------------
 
