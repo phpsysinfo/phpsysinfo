@@ -10,6 +10,8 @@ phpSysInfo 3.1.12
 
  - [FIX] Fixed incorrect network usage on FreeBSD
 
+ - [UPD] SMART plugin - Smartctl --device option value setting method
+
 phpSysInfo 3.1.11
 ----------------
 
