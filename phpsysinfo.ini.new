@@ -421,7 +421,7 @@ ACCESS="command"
 ; You also can specify --device option value  for smartctl command surrounded by parentheses eg:
 ; - DEVICES="(marvell)/dev/sda"
 ; or
-; - DEVICES="(megaraid.14)/dev/sda" //comma in --device option value is replaced by a dot
+; - DEVICES="(megaraid.0)/dev/sda" //comma in --device option value is replaced by a dot
 ;
 DEVICES="/dev/sda, /dev/sdb"
 
