@@ -12,6 +12,7 @@ $filemaskarray=array("/etc/*-release",
                      "/etc/synoinfo.conf",
                      "/etc/salix-update-notifier.conf",
                      "/etc/solydxk/info",
+                     "/etc/vortexbox/vortexbox-version",
                      "/etc/VERSION");
 $fp = popen("lsb_release -a 2>/dev/null", "r");
 if (is_resource($fp)) {
