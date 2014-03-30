@@ -55,7 +55,7 @@ class uprecords extends PSI_Plugin
         $old_err_rep = error_reporting();
         error_reporting(E_ERROR);
 
-        $diff = date("O"); //timezone offset
+        $diff = date("O"); //timezone offset, if the format + - is the correct time zone
 
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
@@ -77,7 +77,7 @@ class uprecords extends PSI_Plugin
         }
         if (preg_match('/(\+)|(-)/', $diff)) { //GMT conversion
             foreach ($result as $resnr=>$resval) {
-                $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup'].' '.$diff));
+                $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup']));
             }
         }
 
