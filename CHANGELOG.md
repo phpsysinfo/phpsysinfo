@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.1.12
 ----------------
 
- - [ADD] VortexBox, KaOS and NixOS to detected distros
+ - [ADD] Canaima, VortexBox, KaOS and NixOS to detected distros
 
  - [FIX] Fixed incorrect network usage on FreeBSD
 
