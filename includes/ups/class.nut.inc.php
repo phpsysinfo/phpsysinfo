@@ -110,7 +110,9 @@ class Nut extends UPS
                 //Battery
                 $dev->setBatteryVoltage($this->_checkIsSet($ups_data, 'battery.voltage'));
                 $dev->setBatterCharge($this->_checkIsSet($ups_data, 'battery.charge'));
-                $dev->setTimeLeft($this->_checkIsSet($ups_data, 'battery.runtime') / 60);
+                if (isset($ups_data['battery.runtime'])) {
+                    $dev->setTimeLeft($ups_data['battery.runtime']/60);
+                }
 
                 $this->upsinfo->setUpsDevices($dev);
             }
