@@ -40,11 +40,31 @@ class Nut extends UPS
     public function __construct()
     {
         parent::__construct();
-        CommonFunctions::executeProgram('upsc', '-l', $output);
-        $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($ups_names as $value) {
-            CommonFunctions::executeProgram('upsc', $value, $temp);
-            $this->_output[$value] = $temp;
+        if ( defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST) ) {
+            if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
+                $upses = eval(PSI_UPS_NUT_LIST);
+            } else {
+                $upses = array(PSI_UPS_NUT_LIST);
+            }
+            foreach ($upses as $ups) {
+                CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output);
+                $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($ups_names as $ups_name) {
+                    CommonFunctions::executeProgram('upsc', trim($ups_name).'@'.trim($ups), $temp);
+                    if (! empty($temp)) {
+                        $this->_output[trim($ups_name).'@'.trim($ups)] = $temp;
+                    }
+                }
+            }
+        } else { //use default if address and port not defined
+            CommonFunctions::executeProgram('upsc', '-l', $output);
+            $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($ups_names as $ups_name) {
+                CommonFunctions::executeProgram('upsc', trim($ups_name), $temp);
+                if (! empty($temp)) {
+                    $this->_output[trim($ups_name)] = $temp;
+                }
+            }
         }
     }
 
@@ -90,6 +110,7 @@ class Nut extends UPS
                 //Battery
                 $dev->setBatteryVoltage($this->_checkIsSet($ups_data, 'battery.voltage'));
                 $dev->setBatterCharge($this->_checkIsSet($ups_data, 'battery.charge'));
+                $dev->setTimeLeft($this->_checkIsSet($ups_data, 'battery.runtime') / 60);
 
                 $this->upsinfo->setUpsDevices($dev);
             }

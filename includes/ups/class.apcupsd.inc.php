@@ -51,7 +51,12 @@ class Apcupsd extends UPS
                     $this->_output[] = $temp;
                 }
             }
-        }
+        } else { //use default if address and port not defined
+            CommonFunctions::executeProgram('apcaccess', 'status', $temp);
+            if (! empty($temp)) {
+                $this->_output[] = $temp;
+            }
+        }        
     }
 
     /**

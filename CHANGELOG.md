@@ -9,6 +9,7 @@ phpSysInfo 3.1.12
  - [ADD] BOSS, Canaima, VortexBox, KaOS and NixOS to detected distros
  - [ADD] OpenHardwareMonitor sensor program support
  - [ADD] Possibility to define multiple UPS_PROGRAM
+ - [ADD] UPS_NUT_LIST option
 
  - [FIX] Fixed incorrect network usage on FreeBSD
 
