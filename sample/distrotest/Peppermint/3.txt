@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+Distributor ID:	Peppermint
+Description:	Peppermint Three
+Release:	3
+Codename:	precise
+----------/etc/lsb-release----------
+DISTRIB_ID=Peppermint
+DISTRIB_RELEASE=3
+DISTRIB_CODENAME=precise
+DISTRIB_DESCRIPTION="Peppermint Three"
+----------/etc/debian_version----------
+wheezy/sid
