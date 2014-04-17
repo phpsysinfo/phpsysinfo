@@ -82,6 +82,10 @@ function dmraid_diskicon(xml) {
             img = "harddrivespare.png";
             alt = "spare";
             break;
+        case "W":
+            img = "harddrivewarn.png";
+            alt = "fail";
+            break;
         default:
             alert("--" + diskstatus + "--");
             img = "error.png";
