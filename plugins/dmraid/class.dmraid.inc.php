@@ -156,7 +156,11 @@ class DMRaid extends PSI_Plugin
             if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                 $disktemp = $disks->addChild("Disk");
                 $disktemp->addAttribute("Name", $diskkey);
-                $disktemp->addAttribute("Status", $disk['status']);
+                if ($device["status"]=='ok') {
+                    $disktemp->addAttribute("Status", $disk['status']);
+                } else {
+                    $disktemp->addAttribute("Status", 'F');
+                }
             }
         }
 
