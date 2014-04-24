@@ -159,6 +159,8 @@ TEMP_FORMAT="c"
 ; - IPMI       http://openipmi.sourceforge.net/
 ; - K8Temp     http://hur.st/k8temp/
 ; - PiTemp     No addon tool neded
+; - OHM        http://openhardwaremonitor.org/
+;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
 ;
@@ -179,6 +181,7 @@ SENSOR_PROGRAM=false
 ; - IPMI       command, file
 ; - K8Temp     command
 ; - PiTemp     command
+; - OHM        command
 ;
 SENSOR_ACCESS="command"
 
@@ -276,6 +279,7 @@ SHOW_NETWORK_INFOS=false
 ; - 1. Apcupsd  http://www.apcupsd.com/
 ; - 2. Nut      http://www.networkupstools.org/
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
+;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
 ;
 UPS_PROGRAM=false
 
@@ -283,14 +287,23 @@ UPS_PROGRAM=false
 ; Apcupsd supports multiple UPSes
 ; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3551
 ; See the following parameters in apcupsd.conf: NETSERVER, NISIP, NISPORT
+; It uses the defaults if not specified.
 ;
-UPS_APCUPSD_LIST="127.0.0.1:3551"
+UPS_APCUPSD_LIST=false
 
 
 ; Apcupsd has a CGI monitoring utility called apcupsd-cgi
 ; You can set the parameter below to true if you have it installed - this will add apcupsd-cgi links to the UPS tree
 ;
 UPS_APCUPSD_CGI_ENABLE=false
+
+
+; Nut supports multiple UPSes
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3493
+; See the following parameters in upsd.conf: LISTEN
+; It uses the defaults if not specified.
+;
+UPS_NUT_LIST=false
 
 
 ; ********************************
@@ -418,15 +431,12 @@ ACCESS="command"
 ; Smartctl devices to monitor
 ; If the smartctl support is enabled, those disks information will be displayed
 ; - DEVICES="/dev/hda,/dev/hdb"  //Will display those two disks informations
+; You also can specify --device option value  for smartctl command surrounded by parentheses eg:
+; - DEVICES="(marvell)/dev/sda"
+; or
+; - DEVICES="(megaraid.0)/dev/sda" //comma in --device option value is replaced by a dot
 ;
 DEVICES="/dev/sda, /dev/sdb"
-
-; Smartctl --device option value
-; If the smartctl support is enabled, enter the --device option value for smartctl command
-; - DEVICE=false  //If this option is not needed
-; - DEVICE="marvell"  //If marvell
-;
-DEVICE=false
 
 ; Smartctl ID# and column name from "Vendor Specific SMART Attributes with Thresholds" table
 ; If the smartctl support is enabled, enter the ID#-COLUMN_NAME from "Vendor Specific SMART Attributes with Thresholds" table from smartctl output.

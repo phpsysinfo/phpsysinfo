@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	BOSS
+Description:	BOSS GNU/Linux 5.0 (anokha)
+Release:	5.0
+Codename:	anokha
+----------/etc/os-release----------
+PRETTY_NAME="BOSS GNU/Linux 5.0 (anokha)"
+NAME="BOSS GNU/Linux"
+VERSION_ID="5.0"
+VERSION="5.0 (anokha)"
+ID=debian
+ANSI_COLOR="1;31"
+HOME_URL="http://www.bosslinux.in/"
+SUPPORT_URL="http://www.bosslinux.in/support-centre"
+BUG_REPORT_URL="http://bugzilla.bosslinux.in/"
+----------/etc/boss_version----------
+5.0
+----------/etc/debian_version----------
+7.0

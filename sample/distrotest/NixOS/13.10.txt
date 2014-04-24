@@ -1,0 +1,7 @@
+----------/etc/os-release----------
+NAME=NixOS
+ID=nixos
+VERSION="13.10.35686.3bcfa7b (Aardvark)"
+VERSION_ID="13.10.35686.3bcfa7b"
+PRETTY_NAME="NixOS 13.10.35686.3bcfa7b (Aardvark)"
+HOME_URL="http://nixos.org/"

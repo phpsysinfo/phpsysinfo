@@ -337,7 +337,7 @@ abstract class BSDCommon extends OS
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
-                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])) {
+                    if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         $finddev->setCapacity($ar_buf[2] * 2048 * 1.049);
                         $notwas = false;
                         break;
@@ -353,8 +353,8 @@ abstract class BSDCommon extends OS
         }
         /* cleaning */
         foreach ($this->sys->getScsiDevices() as $finddev) {
-                    if (strstr($finddev->getName(), ': ', true))
-                        $finddev->setName(substr(strstr($finddev->getName(), ': ', false),2));
+                    if (strpos($finddev->getName(), ': ') !== false)
+                        $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
         }
     }
 
@@ -410,7 +410,7 @@ abstract class BSDCommon extends OS
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getIdeDevices() as $finddev) {
-                    if ($notwas && (strstr($finddev->getName(), ': ', true) == $ar_buf[1])) {
+                    if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         $finddev->setCapacity($ar_buf[2] * 1024);
                         $notwas = false;
                         break;
@@ -426,8 +426,8 @@ abstract class BSDCommon extends OS
         }
         /* cleaning */
         foreach ($this->sys->getIdeDevices() as $finddev) {
-                    if (strstr($finddev->getName(), ': ', true))
-                        $finddev->setName(substr(strstr($finddev->getName(), ': ', false),2));
+                    if (strpos($finddev->getName(), ': ') !== false)
+                        $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
         }
     }
 

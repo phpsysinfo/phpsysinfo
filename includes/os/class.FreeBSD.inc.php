@@ -70,7 +70,7 @@ class FreeBSD extends BSDCommon
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[0]);
                         if (strlen($ar_buf[3]) < 17) { /* no Address */
-                            if (isset($ar_buf[11])) { /* Idrop column exist*/
+                            if (isset($ar_buf[11]) && (trim($ar_buf[11]) != '')) { /* Idrop column exist*/
                               $dev->setTxBytes($ar_buf[9]);
                               $dev->setRxBytes($ar_buf[6]);
                               $dev->setErrors($ar_buf[4] + $ar_buf[8]);
@@ -82,7 +82,7 @@ class FreeBSD extends BSDCommon
                               $dev->setDrops($ar_buf[10]);
                             }
                         } else {
-                            if (isset($ar_buf[12])) { /* Idrop column exist*/
+                            if (isset($ar_buf[12]) && (trim($ar_buf[12]) != '')) { /* Idrop column exist*/
                               $dev->setTxBytes($ar_buf[10]);
                               $dev->setRxBytes($ar_buf[7]);
                               $dev->setErrors($ar_buf[5] + $ar_buf[9]);

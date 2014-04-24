@@ -103,21 +103,27 @@ class WebpageXML extends Output implements PSI_Interface_Output
             define('PSI_HDDTEMP', $found);
 
             // check if there is a valid ups configuration in config.php
-            $found = false;
-            if (PSI_UPS_PROGRAM !== false) {
-                if (!file_exists(APP_ROOT.'/includes/ups/class.'.strtolower(PSI_UPS_PROGRAM).'.inc.php')) {
-                    $found = false;
-                    $this->error->addError("file_exists(class.".htmlspecialchars(strtolower(PSI_UPS_PROGRAM)).".inc.php)", "specified UPS program is not supported");
+            $foundup = array();
+            if ( defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM) ) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_PROGRAM)) {
+                    $upsprograms = eval(strtolower(PSI_UPS_PROGRAM));
                 } else {
-                    $found = true;
+                    $upsprograms = array(strtolower(PSI_UPS_PROGRAM));
+                }
+                foreach ($upsprograms as $upsprogram) {
+                    if (!file_exists(APP_ROOT.'/includes/ups/class.'.$upsprogram.'.inc.php')) {
+                        $this->error->addError("file_exists(class.".htmlspecialchars($upsprogram).".inc.php)", "specified UPS program is not supported");
+                    } else {
+                        $foundup[] = $upsprogram;
+                    }
                 }
             }
             /**
-             * ups information available or not
+             * ups information
              *
-             * @var boolean
+             * @var serialized array
              */
-            define('PSI_UPSINFO', $found);
+            define('PSI_UPSINFO', serialize($foundup));
 
             // if there are errors stop executing the script until they are fixed
             if ($this->error->errorsExist()) {

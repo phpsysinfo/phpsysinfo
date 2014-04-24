@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch
+Distributor ID:	EnterpriseEnterpriseServer
+Description:	Enterprise Linux Enterprise Linux Server release 5.10 (Carthage)
+Release:	5.10
+Codename:	Carthage
+----------/etc/enterprise-release----------
+Enterprise Linux Enterprise Linux Server release 5.10 (Carthage)
+----------/etc/oracle-release----------
+Oracle Linux Server release 5.10
+----------/etc/redhat-release----------
+Red Hat Enterprise Linux Server release 5.10 (Tikanga)

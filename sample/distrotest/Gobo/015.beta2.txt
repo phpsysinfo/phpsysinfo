@@ -1,0 +1,2 @@
+----------/etc/GoboLinuxVersion----------
+015.beta2

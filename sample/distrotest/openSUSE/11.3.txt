@@ -1,0 +1,9 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	SUSE LINUX
+Description:	openSUSE 11.3 (x86_64)
+Release:	11.3
+Codename:	n/a
+----------/etc/SuSE-release----------
+openSUSE 11.3 (x86_64)
+VERSION = 11.3

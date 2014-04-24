@@ -1,0 +1,10 @@
+----------lsb_release -a----------
+LSB Version:	core-2.0-noarch:core-3.0-noarch:core-3.1-noarch:core-2.0-ia32:core-3.0-ia32:core-3.1-ia32
+Distributor ID:	BOSS Server Beta
+Description:	BOSS Server Beta GNU/Linux anant
+Release:	anant
+Codename:	1.0
+----------/etc/boss_version----------
+anant
+----------/etc/debian_version----------
+lenny/sid

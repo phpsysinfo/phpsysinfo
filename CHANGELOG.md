@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.12
+----------------
+
+ - [ADD] GoboLinux, UltimateEdition, BOSS, Canaima, VortexBox, KaOS and NixOS to detected distros
+ - [ADD] OpenHardwareMonitor sensor program support
+ - [ADD] Possibility to define multiple UPS_PROGRAM
+ - [ADD] UPS_NUT_LIST option
+
+ - [FIX] Fixed incorrect network usage on FreeBSD
+
+ - [UPD] SMART plugin - Smartctl --device option value setting method
+
 phpSysInfo 3.1.11
 ----------------
 

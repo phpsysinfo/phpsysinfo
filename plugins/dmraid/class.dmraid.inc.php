@@ -92,6 +92,8 @@ class DMRaid extends PSI_Plugin
                     } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
                         if ($partition[2]=="broken") {
                             $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
+                        } else {
+                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'W';
                         }
                     }
                 }
@@ -156,7 +158,11 @@ class DMRaid extends PSI_Plugin
             if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                 $disktemp = $disks->addChild("Disk");
                 $disktemp->addAttribute("Name", $diskkey);
-                $disktemp->addAttribute("Status", $disk['status']);
+                if ($device["status"]=='ok') {
+                    $disktemp->addAttribute("Status", $disk['status']);
+                } else {
+                    $disktemp->addAttribute("Status", 'W');
+                }
             }
         }
 

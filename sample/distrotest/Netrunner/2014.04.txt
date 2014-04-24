@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Netrunner
+Description:	Netrunner Rolling
+Release:	2014.04
+Codename:	Rolling
+----------/etc/lsb-release----------
+DISTRIB_ID=Netrunner
+DISTRIB_RELEASE=2014.04
+DISTRIB_CODENAME=Rolling
+DISTRIB_DESCRIPTION="Netrunner Rolling"
+----------/etc/manjaro-release----------
+Manjaro Linux
+----------/etc/os-release----------
+NAME="Netrunner Rolling"
+ID=netrunner
+PRETTY_NAME="Netrunner Rolling"
+ANSI_COLOR="1;32"
+HOME_URL="www.netrunner-os.com"
+SUPPORT_URL="forums.netrunner-os.com"
+BUG_REPORT_URL="https://github.com/netrunner/netrunner-feedback"
+

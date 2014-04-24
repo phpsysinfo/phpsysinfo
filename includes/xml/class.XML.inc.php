@@ -450,46 +450,47 @@ class XML
         if ( defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
             $upsinfo->addAttribute('ApcupsdCgiLinks', true);
         }
-        if (PSI_UPSINFO) {
-            $upsinfoclass = PSI_UPS_PROGRAM;
-            $upsinfo_data = new $upsinfoclass();
-            $upsinfo_detail = $upsinfo_data->getUPSInfo();
-            foreach ($upsinfo_detail->getUpsDevices() as $ups) {
-                $item = $upsinfo->addChild('UPS');
-                $item->addAttribute('Name', $ups->getName());
-                $item->addAttribute('Model', $ups->getModel());
-                $item->addAttribute('Mode', $ups->getMode());
-                $item->addAttribute('StartTime', $ups->getStartTime());
-                $item->addAttribute('Status', $ups->getStatus());
-                if ($ups->getTemperatur() !== null) {
-                    $item->addAttribute('Temperature', $ups->getTemperatur());
-                }
-                if ($ups->getOutages() !== null) {
-                    $item->addAttribute('OutagesCount', $ups->getOutages());
-                }
-                if ($ups->getLastOutage() !== null) {
-                    $item->addAttribute('LastOutage', $ups->getLastOutage());
-                }
-                if ($ups->getLastOutageFinish() !== null) {
-                    $item->addAttribute('LastOutageFinish', $ups->getLastOutageFinish());
-                }
-                if ($ups->getLineVoltage() !== null) {
-                    $item->addAttribute('LineVoltage', $ups->getLineVoltage());
-                }
-                if ($ups->getLoad() !== null) {
-                    $item->addAttribute('LoadPercent', $ups->getLoad());
-                }
-                if ($ups->getBatteryDate() !== null) {
-                    $item->addAttribute('BatteryDate', $ups->getBatteryDate());
-                }
-                if ($ups->getBatteryVoltage() !== null) {
-                    $item->addAttribute('BatteryVoltage', $ups->getBatteryVoltage());
-                }
-                if ($ups->getBatterCharge() !== null) {
-                    $item->addAttribute('BatteryChargePercent', $ups->getBatterCharge());
-                }
-                if ($ups->getTimeLeft() !== null) {
-                    $item->addAttribute('TimeLeftMinutes', $ups->getTimeLeft());
+        if (sizeof(unserialize(PSI_UPSINFO))>0) {
+            foreach (unserialize(PSI_UPSINFO) as $upsinfoclass) {
+                $upsinfo_data = new $upsinfoclass();
+                $upsinfo_detail = $upsinfo_data->getUPSInfo();
+                foreach ($upsinfo_detail->getUpsDevices() as $ups) {
+                    $item = $upsinfo->addChild('UPS');
+                    $item->addAttribute('Name', $ups->getName());
+                    $item->addAttribute('Model', $ups->getModel());
+                    $item->addAttribute('Mode', $ups->getMode());
+                    $item->addAttribute('StartTime', $ups->getStartTime());
+                    $item->addAttribute('Status', $ups->getStatus());
+                    if ($ups->getTemperatur() !== null) {
+                        $item->addAttribute('Temperature', $ups->getTemperatur());
+                    }
+                    if ($ups->getOutages() !== null) {
+                        $item->addAttribute('OutagesCount', $ups->getOutages());
+                    }
+                    if ($ups->getLastOutage() !== null) {
+                        $item->addAttribute('LastOutage', $ups->getLastOutage());
+                    }
+                    if ($ups->getLastOutageFinish() !== null) {
+                        $item->addAttribute('LastOutageFinish', $ups->getLastOutageFinish());
+                    }
+                    if ($ups->getLineVoltage() !== null) {
+                        $item->addAttribute('LineVoltage', $ups->getLineVoltage());
+                    }
+                    if ($ups->getLoad() !== null) {
+                        $item->addAttribute('LoadPercent', $ups->getLoad());
+                    }
+                    if ($ups->getBatteryDate() !== null) {
+                        $item->addAttribute('BatteryDate', $ups->getBatteryDate());
+                    }
+                    if ($ups->getBatteryVoltage() !== null) {
+                        $item->addAttribute('BatteryVoltage', $ups->getBatteryVoltage());
+                    }
+                    if ($ups->getBatterCharge() !== null) {
+                        $item->addAttribute('BatteryChargePercent', $ups->getBatterCharge());
+                    }
+                    if ($ups->getTimeLeft() !== null) {
+                        $item->addAttribute('TimeLeftMinutes', $ups->getTimeLeft());
+                    }
                 }
             }
         }

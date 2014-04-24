@@ -60,9 +60,20 @@ class SMART extends PSI_Plugin
                         $disks = array(PSI_PLUGIN_SMART_DEVICES);
                     }
                     foreach ($disks as $disk) {
-                        $buffer = "";
-                        if (CommonFunctions::executeProgram('smartctl', '--all'.((PSI_PLUGIN_SMART_DEVICE) ? ' --device '.PSI_PLUGIN_SMART_DEVICE : '').' '.$disk, $buffer, PSI_DEBUG)) {
-                            $this->_filecontent[$disk] = $buffer;
+                        if (trim($disk) != "") {
+                            $diskdev = "";
+                            if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {
+                                $diskname = trim($devdisk[2]);
+                                if (trim($devdisk[1]) != "") {
+                                    $diskdev = "--device ".preg_replace('/\./', ',', trim($devdisk[1]));
+                                }
+                            } else {
+                                $diskname = trim($disk);
+                            }
+                            $buffer = "";
+                            if ( trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
+                                $this->_filecontent[trim($disk)] = $buffer;
+                            }
                         }
                     }
                 }

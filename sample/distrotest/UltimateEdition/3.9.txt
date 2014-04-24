@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Ultimate_Edition
+Description:	Ultimate Edition 3.9
+Release:	3.9
+Codename:	raring
+----------/etc/lsb-release----------
+DISTRIB_ID=Ultimate_Edition
+DISTRIB_RELEASE=3.9
+DISTRIB_CODENAME=raring
+DISTRIB_DESCRIPTION="Ultimate Edition 3.9"
+----------/etc/os-release----------
+NAME="Ultimate_Edition"
+VERSION=ultimate-edition-3.9-x64, "raring"
+ID=ultimate
+ID_LIKE=debian
+PRETTY_NAME="Ultimate_Edition (ultimate-edition-3.9-x64)"
+VERSION_ID=ultimate-edition-3.9-x64
+----------/etc/debian_version----------
+wheezy/sid
