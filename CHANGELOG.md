@@ -7,6 +7,7 @@ phpSysInfo 3.1.13
 ----------------
 
  - [UPD] jQuery 2.1.1 and jQuery 1.11.1
+ - [UPD] Romanian Translation ro.xml
 
 phpSysInfo 3.1.12
 ----------------
