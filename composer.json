@@ -3,6 +3,7 @@
     "description": "phpSysInfo is a customizable PHP Script that parses /proc, and formats information nicely. It will display information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more.",
     "license": "GPL",
     "homepage": "http://phpsysinfo.github.io/phpsysinfo/",
+    "source": "https://github.com/phpsysinfo/phpsysinfo/tree/stable",
     "require": {
         "php": ">=5.2.0"
     }
