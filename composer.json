@@ -12,6 +12,7 @@
     },
     "suggest": {
         "ext-mbstring": "Required for *nix non UTF-8 systems",
-        "ext-com_dotnet": "Required for Windows environments"
+        "ext-com_dotnet": "Required for Windows environments",
+        "ext-xsl": "Required for static mode"
     }
 }
