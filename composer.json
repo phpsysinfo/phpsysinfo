@@ -5,7 +5,9 @@
     "homepage": "http://phpsysinfo.github.io/phpsysinfo/",
     "require": {
         "php": ">=5.2.0",
+        "ext-simplexml": "*",
         "ext-pcre": "*",
+        "ext-xml": "*",
         "ext-dom": "*"
     }
 }
