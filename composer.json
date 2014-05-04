@@ -10,4 +10,8 @@
         "ext-xml": "*",
         "ext-dom": "*"
     }
+    "suggest": {
+        "ext-mbstring": "Required for *nix non UTF-8 systems",
+        "ext-com_dotnet": "Required for Windows environments"
+    }
 }
