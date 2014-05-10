@@ -113,7 +113,7 @@ class CommonFunctions
                && !is_dir($strPath)) {
                 continue;
             }
-            // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled//
+            // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
             if (isset($open_basedir)) {
                 $inBaseDir = false;
                 if (PSI_OS == 'WINNT') {
