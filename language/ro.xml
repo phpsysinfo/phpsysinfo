@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: ro.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Romană Created by: Sorin Gheorghe
@@ -324,5 +324,8 @@ Update by: Iulian Alexe
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>Machine</exp>
   </expression>
 </tns:translation>

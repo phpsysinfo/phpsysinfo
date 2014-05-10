@@ -631,6 +631,7 @@ function refreshVitals(xml) {
     });
 }
 
+
 /**
  * build the cpu information as table rows
  * @param {jQuery} xml phpSysInfo-XML
@@ -739,11 +740,20 @@ function fillHWDevice(xml, type, tree, rootposition) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshHardware(xml) {
-    var html = "", tree = [], closed = [], index = 0;
+    var html = "", tree = [], closed = [], index = 0, machine = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10, false) + "</h2>\n";
     html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <tbody class=\"tree\">\n";
+
+    $("Hardware", xml).each(function getMachine(id) {
+        machine = $(this).attr("Name");
+    });
+    if ( (machine !== undefined) && (machine != "") ) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(107, false) + "</b></td></tr>\n";
+        html += "<tr><td colspan=\"2\">" + machine + "</td></tr>\n";
+        tree.push(tree.push(0));
+    }
 
     html += "    <tr><td colspan=\"2\"><b>" + genlang(11, false) + "</b></td></tr>\n";
     html += fillCpu(xml, tree, tree.push(0), closed);

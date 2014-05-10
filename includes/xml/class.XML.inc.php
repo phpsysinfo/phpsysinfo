@@ -179,6 +179,9 @@ class XML
     {
         $dev = new HWDevice();
         $hardware = $this->_xml->addChild('Hardware');
+        if ($this->_sys->getMachine() != "") {
+            $hardware->addAttribute('Name', $this->_sys->getMachine());
+        }
         $pci = $hardware->addChild('PCI');
         foreach (System::removeDupsAndCount($this->_sys->getPciDevices()) as $dev) {
             $tmp = $pci->addChild('Device');
