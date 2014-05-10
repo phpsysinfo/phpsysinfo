@@ -325,6 +325,6 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Komputer</exp>
+    <exp>Maszyna</exp>
   </expression>
 </tns:translation>
