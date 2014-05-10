@@ -10,6 +10,8 @@ phpSysInfo 3.1.13
  - [UPD] Romanian Translation ro.xml
 
  - [ADD] SHOW_CPUINFO_EXPANDED option
+ - [ADD] Machine detection on Linux, Android and Darwin systems
+
 
 phpSysInfo 3.1.12
 ----------------
