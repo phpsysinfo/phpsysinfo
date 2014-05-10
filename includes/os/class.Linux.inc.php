@@ -44,7 +44,7 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _machine()
+    private function _machine()
     {
         if (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
             && preg_match('/^DMI:\s*(.*)/m', $result, $ar_buf)) {

@@ -161,14 +161,14 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _distro()
+    private function _machine()
     {
         $buf = "";
-        if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false) {
+        if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf .= ' '.$ar_buf[1];
             }
-            if (preg_match('/^ro\.product\.model==([^\n]+)/m', $lines, $ar_buf)) {
+            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf .= ' '.$ar_buf[1];
             }
             if (preg_match('/^ro\.semc\.product\.name=([^\n]+)/m', $lines, $ar_buf)) {
