@@ -126,7 +126,7 @@ class Darwin extends BSDCommon
                     $ar_buf = preg_split("/:/", $line, 3);
                     if (trim($buf) === trim($ar_buf[0])) {
                         $dev->setModel(trim($ar_buf[2]));
-                        $this->sys->setMachine($this->sys->setMachine().' - '.trim($ar_buf[1]));
+                        $this->sys->getMachine($this->sys->setMachine().' - '.trim($ar_buf[1]));
                         break;
                     }
                 }
