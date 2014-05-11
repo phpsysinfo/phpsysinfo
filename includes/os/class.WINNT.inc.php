@@ -310,6 +310,28 @@ class WINNT extends OS
     }
 
     /**
+     * Machine information
+     *
+     * @return void
+     */
+    private function _machine()
+    {
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Manufacturer','Model'));
+        if ($buffer) {
+            $buf = "";
+            if (isset($buffer[0]['Manufacturer'])) {
+                $buf .= ' '.$buffer[0]['Manufacturer'];
+            }
+            if (isset($buffer[0]['Model'])) {
+                $buf .= ' '.$buffer[0]['Model'];
+            }
+            if (trim($buf) != "") {
+                $this->sys->setMachine(trim($buf));
+            }
+        }
+    }
+
+    /**
      * Hardwaredevices
      *
      * @return void
@@ -518,6 +540,7 @@ class WINNT extends OS
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
         $this->_users();
+        $this->_machine();
         $this->_uptime();
         $this->_cpuinfo();
         $this->_network();

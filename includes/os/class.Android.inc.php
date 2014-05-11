@@ -163,8 +163,8 @@ class Android extends Linux
      */
     private function _machine()
     {
-        $buf = "";
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
+            $buf = "";
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf .= ' '.$ar_buf[1];
             }
@@ -175,7 +175,7 @@ class Android extends Linux
                 $buf .= ' '.$ar_buf[1];
             }
             if (trim($buf) != "") {
-                $this->sys->setMachine($buf);
+                $this->sys->setMachine(trim($buf));
             }
         }
     }
