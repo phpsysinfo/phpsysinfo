@@ -370,29 +370,47 @@ class WINNT extends OS
      */
     private function _network()
     {
-        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
-        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS)
-           $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress'));
+        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface');//, array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
+        $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration');//, array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
 
         foreach ($allDevices as $device) {
            $dev = new NetDevice();
            $name=$device['Name'];
 
-           $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
-           if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                $name=substr($name,0,strlen($name)-strlen($ar_name[0]));
-           $dev->setName($name);
-
-           if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                   if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
-                       $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                       if (isset($NetworkAdapterConfiguration['IPAddress']))
-                           foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                               if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
-                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+           if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
+               foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                   if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
+                       $dev->setName($NetworkAdapterConfiguration['Description']);
+                       if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                           $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                           if (isset($NetworkAdapterConfiguration['IPAddress']))
+                               foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                   if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
+                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                       }
 
                        break;
                    }
+               }
+           } else {
+               $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
+               if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
+                    $name=substr($name,0,strlen($name)-strlen($ar_name[0]));
+               $dev->setName($name);
+           
+               if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                   if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
+                       if (!is_null($dev->getInfo())) {
+                           $dev->setInfo(''); //multiple with the same name
+                       } else {
+                           $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                           if (isset($NetworkAdapterConfiguration['IPAddress']))
+                               foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                   if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
+                                       $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                       }
+                   }
+                }
             }
 
             // http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/win32_perfrawdata_tcpip_networkinterface.asp
