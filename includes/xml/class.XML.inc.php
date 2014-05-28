@@ -462,7 +462,9 @@ class XML
                     $item->addAttribute('Name', $ups->getName());
                     $item->addAttribute('Model', $ups->getModel());
                     $item->addAttribute('Mode', $ups->getMode());
-                    $item->addAttribute('StartTime', $ups->getStartTime());
+                    if ($ups->getStartTime() !== "") {
+                        $item->addAttribute('StartTime', $ups->getStartTime());
+                    }
                     $item->addAttribute('Status', $ups->getStatus());
                     if ($ups->getTemperatur() !== null) {
                         $item->addAttribute('Temperature', $ups->getTemperatur());

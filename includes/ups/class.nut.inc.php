@@ -114,6 +114,11 @@ class Nut extends UPS
                     $dev->setTimeLeft($ups_data['battery.runtime']/60);
                 }
 
+                //Temperature
+                if (isset($ups_data['ups.temperature'])) {
+                    $dev->setTemperatur($ups_data['ups.temperature']);
+                }
+
                 $this->upsinfo->setUpsDevices($dev);
             }
         }
