@@ -414,7 +414,7 @@
     	<attribute name="Name" type="string" use="required"></attribute>
     	<attribute name="Model" type="string" use="required"></attribute>
     	<attribute name="Mode" type="string" use="required"></attribute>
-    	<attribute name="StartTime" type="string" use="required"></attribute>
+    	<attribute name="StartTime" type="string" use="optional"></attribute>
     	<attribute name="Status" type="string" use="required"></attribute>
     	<attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
     	<attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>

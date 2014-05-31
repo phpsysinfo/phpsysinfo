@@ -61,6 +61,13 @@ class System
     private $_distributionIcon = "unknown.png";
 
     /**
+     * detailed Information about the machine name
+     *
+     * @var String
+     */
+    private $_machine = "";
+
+    /**
      * time in sec how long the system is running
      *
      * @var Integer
@@ -582,6 +589,32 @@ class System
     public function setLoadPercent($loadPercent)
     {
         $this->_loadPercent = $loadPercent;
+    }
+
+    /**
+     * Returns $_machine.
+     *
+     * @see System::$_machine
+     *
+     * @return String
+     */
+    public function getMachine()
+    {
+        return $this->_machine;
+    }
+
+    /**
+     * Sets $_machine.
+     *
+     * @param Interger $machine machine
+     *
+     * @see System::$_machine
+     *
+     * @return Void
+     */
+    public function setMachine($machine)
+    {
+        $this->_machine = $machine;
     }
 
     /**

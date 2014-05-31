@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: pt-pt.xml 699 2013-06-05 16:00:00Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Portuguese Created by:Rui Rebelo
@@ -323,5 +323,8 @@ phpSysInfo language file Language: Portuguese Created by:Rui Rebelo
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>Machine</exp>
   </expression>
 </tns:translation>

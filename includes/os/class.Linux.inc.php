@@ -40,6 +40,21 @@ class Linux extends OS
     }
 
     /**
+     * Machine
+     *
+     * @return void
+     */
+    private function _machine()
+    {
+        if ( (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false) 
+              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf)) 
+           ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
+              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf)) ) {
+            $this->sys->setMachine(trim($ar_buf[1]));
+        }
+    }
+
+    /**
      * Hostname
      *
      * @return void
@@ -214,7 +229,6 @@ class Linux extends OS
             }
         }
 
-        
         if (isset($this->_cpu_loads[$cpuline])) {
             return $this->_cpu_loads[$cpuline];
         }
@@ -948,6 +962,7 @@ class Linux extends OS
         $this->_hostname();
         $this->_ip();
         $this->_kernel();
+        $this->_machine();
         $this->_uptime();
         $this->_users();
         $this->_cpuinfo();

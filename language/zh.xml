@@ -325,4 +325,7 @@ AlloVince allo.vince@gmail.com http://avnpc.com/
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
+  <expression id="107" name="machine">
+    <exp>Machine</exp>
+  </expression>
 </tns:translation>

@@ -3,6 +3,16 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.13
+----------------
+
+ - [UPD] jQuery 2.1.1 and jQuery 1.11.1
+ - [UPD] Romanian Translation ro.xml
+
+ - [ADD] SHOW_CPUINFO_EXPANDED option
+ - [ADD] Machine detection on WINNT, Linux, Android and Darwin systems
+
+
 phpSysInfo 3.1.12
 ----------------
 

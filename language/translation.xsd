@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
   <!-- $Id: translation.xsd 150 2009-03-20 20:19:23Z bigmichi1 $ -->
 <schema targetNamespace="http://phpsysinfo.sourceforge.net/translation"
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns="http://www.w3.org/2001/XMLSchema">

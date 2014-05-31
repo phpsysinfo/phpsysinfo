@@ -157,6 +157,30 @@ class Android extends Linux
     }
 
     /**
+     * Machine
+     *
+     * @return void
+     */
+    private function _machine()
+    {
+        if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
+            $buf = "";
+            if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
+                $buf .= ' '.$ar_buf[1];
+            }
+            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf)) {
+                $buf .= ' '.$ar_buf[1];
+            }
+            if (preg_match('/^ro\.semc\.product\.name=([^\n]+)/m', $lines, $ar_buf)) {
+                $buf .= ' '.$ar_buf[1];
+            }
+            if (trim($buf) != "") {
+                $this->sys->setMachine(trim($buf));
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_OS::build()
@@ -170,6 +194,7 @@ class Android extends Linux
         $this->_hostname();
         $this->_ip();
         $this->_kernel();
+        $this->_machine();
         $this->_uptime();
         $this->_users();
         $this->_cpuinfo();

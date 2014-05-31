@@ -119,21 +119,25 @@ class Darwin extends BSDCommon
         if (CommonFunctions::executeProgram('hostinfo', '| grep "Processor type"', $buf, PSI_DEBUG)) {
             $dev->setModel(preg_replace('/Processor type: /', '', $buf));
             $buf=$this->grabkey('hw.model');
+            $this->sys->setMachine(trim($buf));
             if (CommonFunctions::rfts(APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
                 $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($buffer as $line) {
-                    $ar_buf = preg_split("/:/", $line, 2);
+                    $ar_buf = preg_split("/:/", $line, 3);
                     if (trim($buf) === trim($ar_buf[0])) {
-                        $dev->setModel(trim($ar_buf[1]));
+                        $dev->setModel(trim($ar_buf[2]));
+                        $this->sys->getMachine($this->sys->setMachine().' - '.trim($ar_buf[1]));
+                        break;
                     }
                 }
             }
             $buf=$this->grabkey('machdep.cpu.brand_string');
-            if ( !is_null($buf) && (trim($buf) != "")  ) {
+            if ( !is_null($buf) && (trim($buf) != "") &&
+                 ( (trim($buf) != "i486 (Intel 80486)") || ($dev->getModel() == "") ) ) {
                 $dev->setModel(trim($buf));
             }
             $buf=$this->grabkey('machdep.cpu.features');
-            if ( !is_null($buf) && (trim($buf) != "")  ) {
+            if ( !is_null($buf) && (trim($buf) != "") ) {
                 if (preg_match("/ VMX/",$buf)) {
                     $dev->setVirt("vmx");
                 } elseif (preg_match("/ SVM/",$buf)) {

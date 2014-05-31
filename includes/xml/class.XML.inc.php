@@ -179,6 +179,9 @@ class XML
     {
         $dev = new HWDevice();
         $hardware = $this->_xml->addChild('Hardware');
+        if ($this->_sys->getMachine() != "") {
+            $hardware->addAttribute('Name', $this->_sys->getMachine());
+        }
         $pci = $hardware->addChild('PCI');
         foreach (System::removeDupsAndCount($this->_sys->getPciDevices()) as $dev) {
             $tmp = $pci->addChild('Device');
@@ -459,7 +462,9 @@ class XML
                     $item->addAttribute('Name', $ups->getName());
                     $item->addAttribute('Model', $ups->getModel());
                     $item->addAttribute('Mode', $ups->getMode());
-                    $item->addAttribute('StartTime', $ups->getStartTime());
+                    if ($ups->getStartTime() !== "") {
+                        $item->addAttribute('StartTime', $ups->getStartTime());
+                    }
                     $item->addAttribute('Status', $ups->getStatus());
                     if ($ups->getTemperatur() !== null) {
                         $item->addAttribute('Temperature', $ups->getTemperatur());
@@ -620,6 +625,7 @@ class XML
         }
         $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
         $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');
+        $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         $plug = $this->_xml->addChild('UsedPlugins');
         if ($this->_complete_request && count($this->_plugins) > 0) {
             foreach ($this->_plugins as $plugin) {
