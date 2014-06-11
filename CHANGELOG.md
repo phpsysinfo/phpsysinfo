@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.14
+----------------
+
+ - [ADD] FreeIPMI sensor program support
+
 phpSysInfo 3.1.13
 ----------------
 

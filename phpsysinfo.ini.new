@@ -162,6 +162,7 @@ TEMP_FORMAT="c"
 ; - MBM5       http://mbm.livewiredev.com/
 ; - Coretemp
 ; - IPMI       http://openipmi.sourceforge.net/
+; - FreeIPMI   https://savannah.gnu.org/projects/freeipmi/
 ; - K8Temp     http://hur.st/k8temp/
 ; - PiTemp     No addon tool neded
 ; - OHM        http://openhardwaremonitor.org/
@@ -184,6 +185,7 @@ SENSOR_PROGRAM=false
 ; - MBM5       file
 ; - Coretemp   command
 ; - IPMI       command, file
+; - FreeIPMI   command, file
 ; - K8Temp     command
 ; - PiTemp     command
 ; - OHM        command
