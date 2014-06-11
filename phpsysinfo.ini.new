@@ -162,7 +162,7 @@ TEMP_FORMAT="c"
 ; - MBM5       http://mbm.livewiredev.com/
 ; - Coretemp
 ; - IPMI       http://openipmi.sourceforge.net/
-; - FreeIPMI   http://savannah.gnu.org/projects/freeipmi/
+; - FreeIPMI   http://www.gnu.org/software/freeipmi/
 ; - K8Temp     http://hur.st/k8temp/
 ; - PiTemp     No addon tool neded
 ; - OHM        http://openhardwaremonitor.org/
