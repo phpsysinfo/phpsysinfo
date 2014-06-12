@@ -108,7 +108,7 @@ class FreeIPMI extends Sensors
                 $dev->setValue($buffer[3]);
                 if ($buffer[6] != "N/A") {
                     $dev->setMin($buffer[6]);
-                } elseif (($buffer[9] != "N/A") && ($buffer[9]<=$buffer[3])){ //max instead min issue
+                } elseif (($buffer[9] != "N/A") && ($buffer[9]<=$buffer[3])) { //max instead min issue
                     $dev->setMin($buffer[9]);
                 }
                 $this->mbinfo->setMbFan($dev);
