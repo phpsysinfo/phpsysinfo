@@ -56,7 +56,7 @@ class Apcupsd extends UPS
             if (! empty($temp)) {
                 $this->_output[] = $temp;
             }
-        }        
+        }
     }
 
     /**
