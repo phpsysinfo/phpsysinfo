@@ -108,7 +108,7 @@ class IPMI extends Sensors
                 $dev->setValue($buffer[1]);
                 if ($buffer[8] != "na") {
                     $dev->setMin($buffer[8]);
-                } elseif (($buffer[5] != "na") && ($buffer[5]<=$buffer[1])) { //max instead min issue
+                } elseif (($buffer[5] != "na") && ($buffer[5]<$buffer[1])) { //max instead min issue
                     $dev->setMin($buffer[5]);
                 }
                 $this->mbinfo->setMbFan($dev);
