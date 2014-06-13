@@ -283,8 +283,9 @@ SHOW_NETWORK_INFOS=false
 
 ; Define the ups monitoring program
 ; We support the following programs so far
-; - 1. Apcupsd  http://www.apcupsd.com/
-; - 2. Nut      http://www.networkupstools.org/
+; - 1. Apcupsd        http://www.apcupsd.com/
+; - 2. Nut            http://www.networkupstools.org/
+; - 3. PowerSoftPlus  http://ever.eu
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
 ;
