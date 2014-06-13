@@ -1202,8 +1202,10 @@ function refreshUps(xml) {
 
         html += "<tr><td colspan=\"2\"><strong>" + name + " (" + mode + ")</strong></td></tr>\n";
         index = tree.push(0);
-        html += "<tr><td style=\"width:160px\">" + genlang(70, false) + "</td><td>" + model + "</td></tr>\n";
-        tree.push(index);
+        if (model !== undefined) {
+            html += "<tr><td style=\"width:160px\">" + genlang(70, false) + "</td><td>" + model + "</td></tr>\n";
+            tree.push(index);
+        }
         if (start_time !== undefined) {
             html += "<tr><td style=\"width:160px\">" + genlang(72, false) + "</td><td>" + start_time + "</td></tr>\n";
             tree.push(index);

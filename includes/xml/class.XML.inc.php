@@ -460,7 +460,9 @@ class XML
                 foreach ($upsinfo_detail->getUpsDevices() as $ups) {
                     $item = $upsinfo->addChild('UPS');
                     $item->addAttribute('Name', $ups->getName());
-                    $item->addAttribute('Model', $ups->getModel());
+                    if ($ups->getModel() !== "") {
+                        $item->addAttribute('Model', $ups->getModel());
+                    }
                     $item->addAttribute('Mode', $ups->getMode());
                     if ($ups->getStartTime() !== "") {
                         $item->addAttribute('StartTime', $ups->getStartTime());
