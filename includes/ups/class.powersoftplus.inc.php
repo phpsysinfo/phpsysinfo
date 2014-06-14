@@ -11,8 +11,8 @@
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @version   SVN: $Id: class.powersoftplus.inc.php 661 2014-06-13 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
- */
- /**
+*/
+/**
  * getting ups information from powersoftplus program
  *
  * @category  PHP
@@ -22,7 +22,7 @@
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
- */
+*/
 class PowerSoftPlus extends UPS
 {
     /**
@@ -59,6 +59,7 @@ class PowerSoftPlus extends UPS
             $dev->setName("EVER");
             $dev->setMode("PowerSoftPlus");
             $maxpwr = 0;
+            $load = null;
             if (preg_match('/^Identifier: UPS Model\s*:\s*(.*)$/m', $ups, $data)) {
                 $dev->setModel(trim($data[1]));
                 if (preg_match('/\s*(\d*)$/', trim($data[1]), $number)) {
@@ -68,9 +69,15 @@ class PowerSoftPlus extends UPS
             if (preg_match('/^Current UPS state\s*:\s*(.*)$/m', $ups, $data)) {
                 $dev->setStatus(trim($data[1]));
             }
-            if (preg_match('/^Effective power\s*:\s*(.*)\s\[W\]$/m', $ups, $data)) {
-                $effpwr = trim($data[1]);
-                if ( $maxpwr!=0 ) $dev->setLoad(round(100.0*$effpwr/$maxpwr,1));
+            if (preg_match('/^Output load\s*:\s*(.*)\s\[\%\]$/m', $ups, $data)) {
+               $load = trim($data[1]);
+            }
+            //wrong Output load issue
+            if (($load == 0) && ( $maxpwr != 0 ) && preg_match('/^Effective power\s*:\s*(.*)\s\[W\]$/m', $ups, $data)) {
+                $load = round(100.0*trim($data[1])/$maxpwr,1);
+            }
+            if ( $load != null ) {
+                $dev->setLoad($load);
             }
             // Battery
             if (preg_match('/^Battery voltage\s*:\s*(.*)\s\[Volt\]$/m', $ups, $data)) {
