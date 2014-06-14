@@ -62,7 +62,7 @@ class PowerSoftPlus extends UPS
             $load = null;
             if (preg_match('/^Identifier: UPS Model\s*:\s*(.*)$/m', $ups, $data)) {
                 $dev->setModel(trim($data[1]));
-                if (preg_match('/\s*(\d+)[^\d]*$/', trim($data[1]), $number)) {
+                if (preg_match('/\s(\d*)[^\d]*$/', trim($data[1]), $number)) {
                     $maxpwr=$number[1]*0.65;
                 }
             }
