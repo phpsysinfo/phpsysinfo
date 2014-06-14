@@ -46,11 +46,45 @@ class Linux extends OS
      */
     private function _machine()
     {
+
         if ( (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
            ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf)) ) {
             $this->sys->setMachine(trim($ar_buf[1]));
+        } else { //data from /sys/devices/virtual/dmi/id/
+            $machine = "";
+            $product = "";
+            $board = "";
+            $bios = "";
+            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                $machine = trim($buf);
+            }
+            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                $product = trim($buf);
+            }
+            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                $board = trim($buf);
+            }
+            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_version', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                $bios = trim($buf);
+            }
+            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_date', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                $bios = trim($bios." ".trim($buf));
+            }
+            if ($product != "") {
+                $machine .= " ".$product;
+            }
+            if ($board != "") {
+                $machine .= "/".$board;
+            }
+            if ($bios != "") {
+                $machine .= ", BIOS ".$bios;
+            }
+
+            if ($machine != "") {
+                $this->sys->setMachine(trim($machine));
+            }
         }
     }
 
