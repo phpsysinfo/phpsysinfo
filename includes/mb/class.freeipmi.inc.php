@@ -40,7 +40,7 @@ class FreeIPMI extends Sensors
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
         case 'command':
-            CommonFunctions::executeProgram('ipmi-sensors', ' --output-sensor-thresholds', $lines);
+            CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'file':
@@ -68,6 +68,9 @@ class FreeIPMI extends Sensors
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
+                    $dev->setEvent(trim($buffer[11],"'"));
+                }
                 $this->mbinfo->setMbTemp($dev);
             }
         }
@@ -88,6 +91,9 @@ class FreeIPMI extends Sensors
                 $dev->setValue($buffer[3]);
                 if ($buffer[6] != "N/A") $dev->setMin($buffer[6]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
+                    $dev->setEvent(trim($buffer[11],"'"));
+                }
                 $this->mbinfo->setMbVolt($dev);
             }
         }
@@ -111,6 +117,9 @@ class FreeIPMI extends Sensors
                 } elseif (($buffer[9] != "N/A") && ($buffer[9]<$buffer[3])) { //max instead min issue
                     $dev->setMin($buffer[9]);
                 }
+                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
+                    $dev->setEvent(trim($buffer[11],"'"));
+                }
                 $this->mbinfo->setMbFan($dev);
             }
         }
@@ -130,6 +139,9 @@ class FreeIPMI extends Sensors
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
+                    $dev->setEvent(trim($buffer[11],"'"));
+                }
                 $this->mbinfo->setMbPower($dev);
             }
         }
@@ -149,6 +161,9 @@ class FreeIPMI extends Sensors
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
+                    $dev->setEvent(trim($buffer[11],"'"));
+                }
                 $this->mbinfo->setMbCurrent($dev);
             }
         }

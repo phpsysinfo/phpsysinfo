@@ -46,8 +46,8 @@ class Linux extends OS
      */
     private function _machine()
     {
-        if ( (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false) 
-              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf)) 
+        if ( (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
+              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
            ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf)) ) {
             $this->sys->setMachine(trim($ar_buf[1]));
@@ -232,6 +232,7 @@ class Linux extends OS
         if (isset($this->_cpu_loads[$cpuline])) {
             return $this->_cpu_loads[$cpuline];
         }
+
         return 0;
     }
 

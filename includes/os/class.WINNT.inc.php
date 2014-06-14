@@ -397,7 +397,7 @@ class WINNT extends OS
                if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
                     $name=substr($name,0,strlen($name)-strlen($ar_name[0]));
                $dev->setName($name);
-           
+
                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                    if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
                        if (!is_null($dev->getInfo())) {

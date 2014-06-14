@@ -402,6 +402,9 @@ class XML
                 if ($dev->getMin() !== null) {
                     $item->addAttribute('Min', $dev->getMin());
                 }
+                if ($dev->getEvent() !== "") {
+                    $item->addAttribute('Event', $dev->getEvent());
+                }
             }
         }
         if (sizeof(unserialize(PSI_MBINFO))>0) {
@@ -416,7 +419,9 @@ class XML
                 if ($dev->getMax() !== null) {
                     $item->addAttribute('Max', $dev->getMax());
                 }
-            }
+                if ($dev->getEvent() !== "") {
+                    $item->addAttribute('Event', $dev->getEvent());
+                }            }
         }
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             $volt = $mbinfo->addChild('Power');
@@ -426,6 +431,9 @@ class XML
                 $item->addAttribute('Value', $dev->getValue());
                 if ($dev->getMax() !== null) {
                     $item->addAttribute('Max', $dev->getMax());
+                }
+                if ($dev->getEvent() !== "") {
+                    $item->addAttribute('Event', $dev->getEvent());
                 }
             }
         }
@@ -437,6 +445,9 @@ class XML
                 $item->addAttribute('Value', $dev->getValue());
                 if ($dev->getMax() !== null) {
                     $item->addAttribute('Max', $dev->getMax());
+                }
+                if ($dev->getEvent() !== "") {
+                    $item->addAttribute('Event', $dev->getEvent());
                 }
             }
         }

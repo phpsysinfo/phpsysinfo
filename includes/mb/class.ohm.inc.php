@@ -30,7 +30,7 @@ class OHM extends Sensors
      *
      * @var Object
      */
-    private $_buf = array(); 
+    private $_buf = array();
 
     /**
      * holds the COM object that we pull all the WMI data from
