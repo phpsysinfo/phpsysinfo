@@ -325,7 +325,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Maschine</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
     <exp>Line frequency</exp>
