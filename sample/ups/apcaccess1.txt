@@ -1,0 +1,53 @@
+APC      : 001,052,1303
+DATE     : 2014-06-15 09:53:19 +0200  
+HOSTNAME : intranet
+VERSION  : 3.14.10 (13 September 2011) redhat
+UPSNAME  : UPS_1
+CABLE    : Custom Cable Smart
+DRIVER   : APC Smart UPS (any)
+UPSMODE  : Stand Alone
+STARTTIME: 2014-05-21 17:17:39 +0200  
+MODEL    : SMART-UPS 700
+STATUS   : ONLINE 
+LINEV    : 231.4 Volts
+LOADPCT  :  23.9 Percent Load Capacity
+BCHARGE  : 100.0 Percent
+TIMELEFT :   6.0 Minutes
+MBATTCHG : 5 Percent
+MINTIMEL : 3 Minutes
+MAXTIME  : 0 Seconds
+MAXLINEV : 232.7 Volts
+MINLINEV : 230.1 Volts
+OUTPUTV  : 231.4 Volts
+SENSE    : High
+DWAKE    : 000 Seconds
+DSHUTD   : 020 Seconds
+DLOWBATT : 02 Minutes
+LOTRANS  : 196.0 Volts
+HITRANS  : 253.0 Volts
+RETPCT   : 000.0 Percent
+ITEMP    : 36.9 C Internal
+ALARMDEL : 5 seconds
+BATTV    : 27.7 Volts
+LINEFREQ : 50.0 Hz
+LASTXFER : Line voltage notch or spike
+NUMXFERS : 8
+XONBATT  : 2014-06-12 13:25:24 +0200  
+TONBATT  : 0 seconds
+CUMONBATT: 13 seconds
+XOFFBATT : 2014-06-12 13:25:26 +0200  
+SELFTEST : NO
+STESTI   : 336
+STATFLAG : 0x07000008 Status Flag
+DIPSW    : 0x00 Dip Switch
+REG1     : 0x00 Register 1
+REG2     : 0x00 Register 2
+REG3     : 0x00 Register 3
+MANDATE  : 12/01/98
+SERIALNO : NS9876543210
+BATTDATE : 08/01/14
+NOMOUTV  : 230 Volts
+NOMBATTV :  24.0 Volts
+EXTBATTS : 0
+FIRMWARE : 50.11.I
+END APC  : 2014-06-15 09:54:07 +0200  
