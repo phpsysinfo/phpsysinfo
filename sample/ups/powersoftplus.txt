@@ -1,0 +1,16 @@
+PowerSoft Plus v.0.1.6 - EVER UPS monitoring software
+===========================================================
+Current UPS state                   : Normal mode
+Alert                               : - 
+-----------------------------------------------------------
+Identifier: UPS Model               : SINLINE 1200 
+Identifier: UPS Version             : Firmware: 1.1 
+Battery state                       : At full capacity 
+Battery voltage                     : 27.2 [Volt]
+Input voltage                       : 228 [Volt]
+Input frequency                     : 50.0 [Hz]
+Output voltage                      : 229 [Volt]
+Output current                      : 0.4 [A]
+Effective power                     : 61 [W]
+Output load                         : 0 [%]
+===========================================================
