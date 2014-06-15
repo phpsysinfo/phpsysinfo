@@ -63,14 +63,12 @@ class FreeIPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Temperature" && $buffer[3] != "N/A" && $buffer[4] == "C") {
+            if ($buffer[2] == "Temperature" && $buffer[11] != "N/A" && $buffer[4] == "C") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
-                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
-                    $dev->setEvent(trim($buffer[11],"'"));
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbTemp($dev);
             }
         }
@@ -85,15 +83,13 @@ class FreeIPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Voltage" && $buffer[3] != "N/A" && $buffer[4] == "V") {
+            if ($buffer[2] == "Voltage" && $buffer[11] != "N/A" && $buffer[4] == "V") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[6] != "N/A") $dev->setMin($buffer[6]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
-                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
-                    $dev->setEvent(trim($buffer[11],"'"));
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbVolt($dev);
             }
         }
@@ -108,7 +104,7 @@ class FreeIPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Fan" && $buffer[3] != "N/A" && $buffer[4] == "RPM") {
+            if ($buffer[2] == "Fan" && $buffer[11] != "N/A" && $buffer[4] == "RPM") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
@@ -117,9 +113,7 @@ class FreeIPMI extends Sensors
                 } elseif (($buffer[9] != "N/A") && ($buffer[9]<$buffer[3])) { //max instead min issue
                     $dev->setMin($buffer[9]);
                 }
-                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
-                    $dev->setEvent(trim($buffer[11],"'"));
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbFan($dev);
             }
         }
@@ -134,14 +128,12 @@ class FreeIPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Current" && $buffer[3] != "N/A" && $buffer[4] == "W") {
+            if ($buffer[2] == "Current" && $buffer[11] != "N/A" && $buffer[4] == "W") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
-                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
-                    $dev->setEvent(trim($buffer[11],"'"));
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbPower($dev);
             }
         }
@@ -156,14 +148,12 @@ class FreeIPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Current" && $buffer[3] != "N/A" && $buffer[4] == "A") {
+            if ($buffer[2] == "Current" && $buffer[11] != "N/A" && $buffer[4] == "A") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
-                if (($buffer[11] != "N/A") && ($buffer[11] != "'OK'")) {
-                    $dev->setEvent(trim($buffer[11],"'"));
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbCurrent($dev);
             }
         }
