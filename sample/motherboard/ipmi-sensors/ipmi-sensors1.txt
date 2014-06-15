@@ -1,0 +1,30 @@
+ID   | Name            | Type                     | Reading    | Units | Lower NR   | Lower C    | Lower NC   | Upper NC   | Upper C    | Upper NR   | Event
+64   | BIOS            | System Firmware Progress | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | N/A
+112  | ACPI State      | System ACPI Power State  | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'S0/G0'
+160  | System Reset    | Module/Board             | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'OK'
+208  | CPU Fan         | Fan                      | 2085.94    | RPM   | N/A        | N/A        | N/A        | N/A        | 771.96     | N/A        | 'OK'
+272  | Rear Fan        | Fan                      | 1463.27    | RPM   | N/A        | N/A        | N/A        | N/A        | 771.96     | N/A        | 'OK'
+336  | System 12V      | Voltage                  | 11.93      | V     | N/A        | 10.02      | N/A        | N/A        | 13.16      | N/A        | 'OK'
+400  | System 5V       | Voltage                  | 5.05       | V     | N/A        | 4.75       | N/A        | N/A        | 5.24       | N/A        | 'OK'
+464  | System AUX 5V   | Voltage                  | 4.94       | V     | N/A        | 4.75       | N/A        | N/A        | 5.24       | N/A        | 'OK'
+528  | System 3.3V     | Voltage                  | 3.22       | V     | N/A        | 3.14       | N/A        | N/A        | 3.47       | N/A        | 'OK'
+592  | System AUX 3.3V | Voltage                  | 3.31       | V     | N/A        | 3.14       | N/A        | N/A        | 3.47       | N/A        | 'OK'
+656  | CPU Vcore       | Voltage                  | 1.16       | V     | N/A        | 0.84       | N/A        | N/A        | 1.61       | N/A        | 'OK'
+720  | CPU Vterm       | Voltage                  | 1.21       | V     | N/A        | 1.15       | N/A        | N/A        | 1.26       | N/A        | 'OK'
+784  | Memory Vcore    | Voltage                  | 1.78       | V     | N/A        | 1.71       | N/A        | N/A        | 1.91       | N/A        | 'OK'
+848  | Memory Vterm    | Voltage                  | 0.89       | V     | N/A        | 0.85       | N/A        | N/A        | 0.94       | N/A        | 'OK'
+912  | AMB/MCH Vcore   | Voltage                  | 1.50       | V     | N/A        | 1.43       | N/A        | N/A        | 1.58       | N/A        | 'OK'
+976  | PCI System Err  | Module/Board             | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | N/A
+1024 | Mem Recover Err | Memory                   | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | N/A
+1072 | MemUnrecover Er | Memory                   | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | N/A
+1120 | RCPU Diode 1    | Temperature              | N/A        | C     | N/A        | N/A        | N/A        | N/A        | 85.00      | N/A        | N/A
+1184 | Ambient         | Temperature              | 27.00      | C     | N/A        | N/A        | N/A        | N/A        | 51.00      | N/A        | 'OK'
+1248 | Local VRD0 Temp | Temperature              | 28.00      | C     | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'OK'
+1504 | CPU Dmn 0 Temp  | Temperature              | 53.00      | C     | N/A        | N/A        | N/A        | N/A        | 85.00      | N/A        | 'OK'
+1632 | Slots Amb       | Temperature              | 33.00      | C     | N/A        | N/A        | N/A        | N/A        | 85.00      | N/A        | 'OK'
+1696 | 1.8V Amb        | Temperature              | 46.00      | C     | N/A        | N/A        | N/A        | N/A        | 85.00      | N/A        | 'OK'
+2080 | Therm-Trip      | Processor                | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'State Deasserted'
+2128 | CPU Prochot     | Temperature              | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'Limit Not Exceeded'
+2176 | LOM Link Status | LAN                      | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'State Asserted'
+2224 | LO100 Present   | Add In Card              | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | 'Device Removed/Device Absent'
+5616 | Watchdog        | Watchdog 2               | N/A        | N/A   | N/A        | N/A        | N/A        | N/A        | N/A        | N/A        | N/A
