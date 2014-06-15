@@ -94,6 +94,9 @@ class PowerSoftPlus extends UPS
             if (preg_match('/^Input voltage\s*:\s*(.*)\s\[Volt\]$/m', $ups, $data)) {
                 $dev->setLineVoltage(trim($data[1]));
             }
+            if (preg_match('/^Input frequency\s*:\s*(.*)\s\[Hz\]$/m', $ups, $data)) {
+                $dev->setLineFrequency(trim($data[1]));
+            }
             $this->upsinfo->setUpsDevices($dev);
         }
     }

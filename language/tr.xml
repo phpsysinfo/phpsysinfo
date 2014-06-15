@@ -327,4 +327,10 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
   <expression id="107" name="machine">
     <exp>Machine</exp>
   </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>Line frequency</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>Hz</exp>
+  </expression>
 </tns:translation>

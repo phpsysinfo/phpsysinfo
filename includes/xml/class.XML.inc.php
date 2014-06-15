@@ -494,6 +494,9 @@ class XML
                     if ($ups->getLineVoltage() !== null) {
                         $item->addAttribute('LineVoltage', $ups->getLineVoltage());
                     }
+                    if ($ups->getLineFrequency() !== null) {
+                        $item->addAttribute('LineFrequency', $ups->getLineFrequency());
+                    }
                     if ($ups->getLoad() !== null) {
                         $item->addAttribute('LoadPercent', $ups->getLoad());
                     }

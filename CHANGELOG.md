@@ -8,6 +8,7 @@ phpSysInfo 3.1.14
 
  - [ADD] FreeIPMI sensor program support
  - [ADD] PowerSoftPlus (EVER) UPS program support
+ - [ADD] Line frequency for the UPS info
 
 phpSysInfo 3.1.13
 ----------------

@@ -105,6 +105,7 @@ class Nut extends UPS
 
                 //Line
                 $dev->setLineVoltage($this->_checkIsSet($ups_data, 'input.voltage'));
+                $dev->setLineFrequency($this->_checkIsSet($ups_data, 'input.frequency'));
                 $dev->setLoad($this->_checkIsSet($ups_data, 'ups.load'));
 
                 //Battery
