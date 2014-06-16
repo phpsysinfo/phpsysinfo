@@ -148,6 +148,9 @@ class LMSensors extends Sensors
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
             }
+            if (preg_match("/\sALARM(\s*)$/", $line)) {
+                $dev->setEvent("Alarm");
+            }
             $this->mbinfo->setMbTemp($dev);
         }
     }
@@ -200,6 +203,9 @@ class LMSensors extends Sensors
             $dev->setValue(trim($data[2]));
             if (isset($data[4])) {
                 $dev->setMin(trim($data[4]));
+            }
+            if (preg_match("/\sALARM(\s*)$/", $line)) {
+                $dev->setEvent("Alarm");
             }
             $this->mbinfo->setMbFan($dev);
         }
@@ -260,6 +266,9 @@ class LMSensors extends Sensors
                 }
                 if (isset($data[6])) {
                     $dev->setMax($data[6]);
+                }
+                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                    $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbVolt($dev);
             }
@@ -324,6 +333,9 @@ class LMSensors extends Sensors
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
             }
+            if (preg_match("/\sALARM(\s*)$/", $line)) {
+                $dev->setEvent("Alarm");
+            }
             $this->mbinfo->setMbPower($dev);
         }
     }
@@ -385,6 +397,9 @@ class LMSensors extends Sensors
                   $dev->setMax(max($data[4],$data[6]));
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
+            }
+            if (preg_match("/\sALARM(\s*)$/", $line)) {
+                $dev->setEvent("Alarm");
             }
             $this->mbinfo->setMbCurrent($dev);
         }
