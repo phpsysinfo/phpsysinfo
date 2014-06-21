@@ -187,6 +187,7 @@ SENSOR_PROGRAM=false
 ; - Coretemp   command
 ; - IPMI       command, file
 ; - FreeIPMI   command, file
+; - IPMIutil   command, file
 ; - K8Temp     command
 ; - PiTemp     command
 ; - OHM        command
