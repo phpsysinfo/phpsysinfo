@@ -1,0 +1,107 @@
+ipmiutil ver 2.93
+sensor: version 2.93
+-- BMC version 0.20, IPMI version 2.0 
+_ID_ SDR_Type_xx ET Own Typ S_Num Sens_Description   Hex & Interp Reading
+0001 SDR Full 01 01 20 a 02 snum 10 BB +1.2V Vtt     = be OK   1.20 Volts
+0002 SDR Full 01 01 20 a 02 snum 12 BB +1.5V AUX     = bd OK   1.47 Volts
+0003 SDR Full 01 01 20 a 02 snum 13 BB +1.5V         = 75 OK   1.52 Volts
+0004 SDR Full 01 01 20 a 02 snum 14 BB +1.8V         = af OK   1.78 Volts
+0005 SDR Full 01 01 20 a 02 snum 15 BB +3.3V         = c1 OK   3.32 Volts
+0006 SDR Full 01 01 20 a 02 snum 16 BB +3.3V STB     = bf OK   3.29 Volts
+0007 SDR Full 01 01 20 a 02 snum 17 BB +1.5V ESB     = be OK   1.48 Volts
+0008 SDR Full 01 01 20 a 02 snum 18 BB +5V           = c3 OK   5.07 Volts
+0009 SDR Full 01 01 20 a 02 snum 1a BB +12V AUX      = c1 OK   11.97 Volts
+000a SDR Full 01 01 20 a 02 snum 1b BB +0.9V         = ba OK   0.89 Volts
+000b SDR Full 01 01 20 a 01 snum 30 Baseboard Temp   = 2d OK   45.00 degrees C
+000c SDR Full 01 01 20 a 01 snum 32 Front Panel Temp = 1a OK   26.00 degrees C
+000d SDR Full 01 01 20 a 01 snum 48 Mem Therm Margin = 00 Init  0.00 degrees C
+000e SDR Full 01 01 20 m 04 snum 50 Fan 1A           = 6f OK   7659.00 RPM
+000f SDR Full 01 01 20 m 04 snum 51 Fan 1B           = 6b OK   5457.00 RPM
+0010 SDR Full 01 01 20 m 04 snum 52 Fan 2A           = 69 OK   7245.00 RPM
+0011 SDR Full 01 01 20 m 04 snum 53 Fan 2B           = 6b OK   5457.00 RPM
+0012 SDR Full 01 01 20 m 04 snum 54 Fan 3A           = 6c OK   7452.00 RPM
+0013 SDR Full 01 01 20 m 04 snum 55 Fan 3B           = 6b OK   5457.00 RPM
+0014 SDR Full 01 01 20 m 04 snum 56 Fan 4A           = 6f OK   7659.00 RPM
+0015 SDR Full 01 01 20 m 04 snum 57 Fan 4B           = 69 OK   5355.00 RPM
+0016 SDR Full 01 01 20 m 04 snum 58 Fan 5            = 63 OK   6534.00 RPM
+0017 SDR Full 01 01 20 a 03 snum 78 PS1 AC Current   = 05 OK   0.31 Amps
+0018 SDR Full 01 01 20 a 03 snum 79 PS2 AC Current   = 16 OK   1.39 Amps
+0019 SDR Full 01 01 20 a 03 snum 7a PS1 +12V Current = 01 OK   0.50 Amps
+001a SDR Full 01 01 20 a 03 snum 7b PS2 +12V Current = 12 OK   9.00 Amps
+001b SDR Full 01 01 20 a 0b snum 7c PS1 +12V Power   = 01 OK   4.00 Watts
+001c SDR Full 01 01 20 a 0b snum 7d PS2 +12V Power   = 1b OK   108.00 Watts
+001d SDR Full 01 01 20 a 01 snum 99 P1 Therm Margin  = c7 OK   -57.00 degrees C
+001e SDR Full 01 01 20 m 01 snum c0 P1 Therm Ctrl %  = 00 OK   0.00 unspecified
+001f SDR Full 01 01 20 a 02 snum d0 Proc 1 Vccp      = b0 OK   1.09 Volts
+0020 SDR Comp 02 6f 20 a 09 snum 01 Power Unit       = 00 c0 00 00 Enabled 
+0021 SDR Comp 02 0b 20 a 09 snum 02 Power Redundancy = 00 c0 01 00 Redundant
+0022 SDR Comp 02 6f 20 a 23 snum 03 BMC Watchdog     = 00 c0 00 00 OK  
+0023 SDR Comp 02 6f 20 a 06 snum 04 Scrty Violation  = 00 c0 00 00 OK  
+0024 SDR Comp 02 6f 20 a 13 snum 07 FP Interrupt     = 00 c0 00 00 OK  
+0025 SDR Comp 02 6f 20 a 10 snum 09 Event Log Clear  = 00 c0 00 00 OK  
+0026 SDR Comp 02 6f 20 a 2a snum 0a Session Audit    = 00 c0 00 00 Activated 
+0027 SDR Comp 02 6f 20 a 12 snum 0b System Event     = 00 c0 00 00 OK  
+0028 SDR Comp 02 6f 20 a 29 snum 1e BB Vbat          = 00 c0 00 00 OK  
+0029 SDR Comp 02 6f 20 a 08 snum 70 PS1 Status       = 00 c0 01 00 Present
+002a SDR Comp 02 6f 20 a 08 snum 71 PS2 Status       = 00 c0 01 00 Present
+002b SDR Comp 02 6f 20 a 22 snum 82 ACPI State       = 00 c0 01 00 Working
+002c SDR Comp 02 6f 20 a 14 snum 84 Button           = 00 c0 00 00 OK  
+002d SDR Comp 02 03 20 a f3 snum 85 SMI Timeout      = 00 c0 01 00 Enabled 
+002e SDR Comp 02 03 20 a c0 snum 87 NMI State        = 00 c0 01 00 Enabled 
+002f SDR Comp 02 03 20 a c0 snum 88 SMI State        = 00 80 01 00 Enabled 
+0030 SDR Comp 02 6f 20 m 07 snum 90 Processor 1 Stat = 00 c0 80 00 ProcPresent
+0031 SDR Comp 02 6f 20 a 13 snum a0 PCIe Link0       = 00 c0 00 00 OK  
+0032 SDR Comp 02 6f 20 a 13 snum a1 PCIe Link1       = 00 c0 00 00 OK  
+0033 SDR Comp 02 6f 20 a 13 snum a2 PCIe Link2       = 00 c0 00 00 OK  
+0034 SDR Comp 02 6f 20 a 13 snum a3 PCIe Link3       = 00 c0 00 00 OK  
+0035 SDR Comp 02 6f 20 a 13 snum a4 PCIe Link4       = 00 c0 00 00 OK  
+0036 SDR Comp 02 6f 20 a 13 snum a5 PCIe Link5       = 00 c0 00 00 OK  
+0037 SDR Comp 02 6f 20 a 13 snum a6 PCIe Link6       = 00 c0 00 00 OK  
+0038 SDR Comp 02 6f 20 a 13 snum a7 PCIe Link7       = 00 c0 00 00 OK  
+0039 SDR Comp 02 6f 20 a 13 snum a8 PCIe Link8       = 00 c0 00 00 OK  
+003a SDR Comp 02 6f 20 a 13 snum a9 PCIe Link9       = 00 c0 00 00 OK  
+003b SDR Comp 02 6f 20 a 13 snum aa PCIe Link10      = 00 c0 00 00 OK  
+003c SDR Comp 02 6f 20 a 13 snum ab PCIe Link11      = 00 c0 00 00 OK  
+003d SDR Comp 02 6f 20 a 13 snum ac PCIe Link12      = 00 c0 00 00 OK  
+003e SDR Comp 02 6f 20 a 13 snum ad PCIe Link13      = 00 c0 00 00 OK  
+003f SDR Comp 02 05 20 m 01 snum c8 CPU1 VRD Temp    = 00 c0 00 00 OK* 
+0040 SDR Comp 02 05 20 a 02 snum d2 CPU1 Vcc OOR     = 00 c0 00 00 OK  
+0041 SDR Comp 02 03 20 a 07 snum d8 CPU Popul Error  = 00 c0 00 00 OK  
+0042 SDR Comp 02 6f 20 a 21 snum e0 DIMM 1A          = 00 c0 04 00 Present
+0043 SDR Comp 02 6f 20 a 21 snum e1 DIMM 2A          = 00 e0 40 00 NotAvailable
+0044 SDR Comp 02 6f 20 a 21 snum e2 DIMM 3A          = 00 e0 40 00 NotAvailable
+0045 SDR Comp 02 6f 20 a 21 snum e3 DIMM 1B          = 00 c0 04 00 Present
+0046 SDR Comp 02 6f 20 a 21 snum e4 DIMM 2B          = 00 e0 40 00 NotAvailable
+0047 SDR Comp 02 6f 20 a 21 snum e5 DIMM 3B          = 00 e0 40 00 NotAvailable
+0048 SDR Comp 02 6f 20 a 0c snum ec Mem A Error      = 00 c0 00 00 OK  
+0049 SDR Comp 02 6f 20 a 0c snum ed Mem B Error      = 00 c0 00 00 OK  
+004a SDR Comp 02 6f 20 a 25 snum f0 DIMM Spare Enb   = 00 e0 40 00 NotAvailable
+004b SDR Comp 02 0b 20 a 0c snum f1 DIMM Spare Redu  = 00 e0 40 00 NotAvailable
+004c SDR FRU  11 18 dev: 20 00 80 00 0c 01 Baseboard FRU
+004d SDR FRU  11 19 dev: 20 02 80 00 15 01 Power Dist FRU
+004e SDR FRU  11 1b dev: 20 03 80 00 0a 01 Pwr Supply 1 FRU
+004f SDR FRU  11 1b dev: 20 04 80 00 0a 02 Pwr Supply 2 FRU
+0050 SDR IPMB 12 1b dev: 20 00 bf 07 01 Basbrd Mgmt Ctlr
+0051 SDR OEM  c0 09 Intel: 02 02 00 01 70 71 
+0052 SDR OEM  c0 05 Intel: 06 01 
+0053 SDR OEM  c0 19 Intel: 0b 01 01 32 14 f0 0a a4 01 96 00 61 00 08 0a 64 00 05 00 00 00 00 
+0054 SDR OEM  c0 19 Intel: 0b 02 01 32 14 f0 0a a4 01 ff ff ff ff 10 14 ff ff 06 00 00 00 00 
+0055 SDR OEM  c0 19 Intel: 0b 01 02 32 14 f0 0a a4 01 96 00 61 00 08 0a 64 00 05 00 00 00 00 
+0056 SDR OEM  c0 19 Intel: 0b 02 02 32 14 f0 0a a4 01 ff ff ff ff 10 14 ff ff 06 00 00 00 00 
+0057 SDR OEM  c0 2c Intel: 0c 01 30 64 64 01 02 03 30 20 32 64 01 90 0d 00 2b 20 30 21 35 22 3a 23 3f 24 43 25 47 26 4c 27 51 28 56 29 5b 2a 60 2b 64 
+0058 SDR OEM  c0 2c Intel: 0c 02 30 64 64 01 02 03 30 20 32 64 01 90 0d 00 2b 20 30 21 35 22 3a 23 3f 24 43 25 47 26 4c 27 51 28 56 29 5b 2a 60 2b 64 
+0059 SDR OEM  c0 2c Intel: 0c 03 30 64 64 01 02 03 30 20 32 64 01 90 0d 00 2b 20 30 21 35 22 3a 23 3f 24 43 25 47 26 4c 27 51 28 56 29 5b 2a 60 2b 64 
+005a SDR OEM  c0 15 Intel: 0c 01 30 64 64 01 02 03 00 20 99 64 02 90 01 06 00 11 
+005b SDR OEM  c0 15 Intel: 0c 01 30 64 64 01 02 03 00 20 48 00 02 b8 01 02 00 00 
+005c SDR OEM  c0 15 Intel: 0c 02 30 64 64 01 02 03 00 20 99 64 02 90 01 06 00 11 
+005d SDR OEM  c0 15 Intel: 0c 03 30 64 64 01 02 03 00 20 30 64 02 90 01 02 3c 00 
+005e SDR OEM  c0 0e Intel: 08 00 00 45 88 45 88 45 88 45 88 
+005f SDR OEM  c0 16 Intel: 09 00 00 90 33 90 33 90 33 90 33 90 33 90 33 68 42 68 42 
+0060 SDR OEM  c0 08 Intel: BMC_TAM0 60 01 03 01 20  nrec=4 cfg=01
+0061 SDR OEM  c0 31 Intel: BMC_TAM1 60 01 13 00 20 41 01 01 01 23 71 93 41 02 01 02 24 72 94 41 03 01 02 24 72 94 21 04 01 01 23 11 02 05 14 31 29 6f 01 13 23 21 09 0b 14 34 
+0062 SDR OEM  c0 31 Intel: BMC_TAM2 60 01 23 00 20 71 07 6f 03 13 23 33 43 55 83 11 08 6f 14 21 09 6f 54 64 20 7c 01 72 94 20 7d 01 72 94 11 21 6f 03 53 23 6f 05 15 25 35 85 
+0063 SDR OEM  c0 17 Intel: BMC_TAM3 60 01 33 00 c0 22 02 00 03 51 22 03 00 03 51 22 04 00 03 51 
+0064 SDR OEM  c0 0e Intel: SDR File 18
+0065 SDR OEM  c0 11 Intel: SDR Package 18
+     SDR IPMI       sensor: Power On Hours 	   = 6923 hours
+ipmiutil sensor, completed successfully

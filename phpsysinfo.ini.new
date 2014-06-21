@@ -163,6 +163,7 @@ TEMP_FORMAT="c"
 ; - Coretemp
 ; - IPMI       http://openipmi.sourceforge.net/
 ; - FreeIPMI   http://www.gnu.org/software/freeipmi/
+; - IPMIutil   http://ipmiutil.sourceforge.net/
 ; - K8Temp     http://hur.st/k8temp/
 ; - PiTemp     No addon tool neded
 ; - OHM        http://openhardwaremonitor.org/
