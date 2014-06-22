@@ -155,18 +155,18 @@ TEMP_FORMAT="c"
 
 ; Define the motherboard monitoring program
 ; We support the following programs so far
-; - LMSensors  http://www.lm-sensors.org/
-; - Healthd    http://healthd.thehousleys.net/
-; - HWSensors  http://www.openbsd.org/
-; - MBMon      http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html
-; - MBM5       http://mbm.livewiredev.com/
-; - Coretemp
-; - IPMI       http://openipmi.sourceforge.net/
-; - FreeIPMI   http://www.gnu.org/software/freeipmi/
-; - IPMIutil   http://ipmiutil.sourceforge.net/
-; - K8Temp     http://hur.st/k8temp/
-; - PiTemp     No addon tool neded
-; - OHM        http://openhardwaremonitor.org/
+; - LMSensors  http://www.lm-sensors.org/ (Linux)
+; - Healthd    http://healthd.thehousleys.net/ (FreeBSD)
+; - HWSensors  http://www.openbsd.org/ (OpenBSD)
+; - MBMon      http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
+; - MBM5       http://mbm.livewiredev.com/ (WinNT)
+; - Coretemp   (FreeBSD)
+; - IPMI       http://openipmi.sourceforge.net/ (Linux)
+; - FreeIPMI   http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
+; - IPMIutil   http://ipmiutil.sourceforge.net/ (FreeBSD/Linux/SunOS/WinNT)
+; - K8Temp     http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
+; - PiTemp     No addon tool neded (Linux)
+; - OHM        http://openhardwaremonitor.org/ (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
