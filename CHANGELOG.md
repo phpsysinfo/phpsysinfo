@@ -10,6 +10,7 @@ phpSysInfo 3.1.14
  - [ADD] IPMIutil sensor program support
  - [ADD] PowerSoftPlus (EVER) UPS program support
  - [ADD] Line frequency for the UPS info
+ - [ADD] SENSOR_EVENTS option - show events of sensors
 
 phpSysInfo 3.1.13
 ----------------
