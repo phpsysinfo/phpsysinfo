@@ -194,6 +194,12 @@ SENSOR_PROGRAM=false
 ;
 SENSOR_ACCESS="command"
 
+; Show events of sensors
+; - true : show events
+; - false : do not show events
+;
+SENSOR_EVENTS=true
+
 
 ; Hddtemp program
 ; If the hddtemp program is available we can read the temperature, if hdd is smart capable

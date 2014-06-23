@@ -1039,12 +1039,15 @@ function refreshTemp(xml) {
     var values = false;
     $("#tempTable tbody").empty();
     $("MBInfo Temperature Item", xml).each(function getTemperatures(id) {
-        var label = "", value = "", limit = 0, _limit = "";
+        var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value").replace(/\+/g, "");
         limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
         if (isFinite(limit))
             _limit = formatTemp(limit, xml);
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " ("+event+")";
         $("#tempTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1066,7 +1069,7 @@ function refreshVoltage(xml) {
     var values = false;
     $("#voltageTable tbody").empty();
     $("MBInfo Voltage Item", xml).each(function getVoltages(id) {
-        var label = "", value = 0, max = 0, min = 0, _min = "", _max = "";
+        var label = "", value = 0, max = 0, min = 0, _min = "", _max = "", event = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
         max = parseFloat($(this).attr("Max"));
@@ -1075,6 +1078,9 @@ function refreshVoltage(xml) {
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(62, true);
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " ("+event+")";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1096,12 +1102,15 @@ function refreshFan(xml) {
     var values = false;
     $("#fanTable tbody").empty();
     $("MBInfo Fans Item", xml).each(function getFans(id) {
-        var label = "", value = 0, min = 0, _min = "";
+        var label = "", value = 0, min = 0, _min = "", event = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min,0) + "&nbsp;" + genlang(63, true);
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " ("+event+")";
         $("#fanTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
@@ -1123,12 +1132,15 @@ function refreshPower(xml) {
     var values = false;
     $("#powerTable tbody").empty();
     $("MBInfo Power Item", xml).each(function getPowers(id) {
-        var label = "", value = "", limit = 0, _limit = "";
+        var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value").replace(/\+/g, "");
         limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " ("+event+")";
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1150,12 +1162,15 @@ function refreshCurrent(xml) {
     var values = false;
     $("#currentTable tbody").empty();
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
-        var label = "", value = "", limit = 0, _limit = "";
+        var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value").replace(/\+/g, "");
         limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " ("+event+")";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });

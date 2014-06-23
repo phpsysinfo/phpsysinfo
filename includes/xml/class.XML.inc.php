@@ -378,6 +378,9 @@ class XML
                         if ($dev->getMax() !== null) {
                             $item->addAttribute('Max', $dev->getMax());
                         }
+                        if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                            $item->addAttribute('Event', $dev->getEvent());
+                        }
                     }
                 }
             }
@@ -406,7 +409,7 @@ class XML
                     if ($dev->getMin() !== null) {
                         $item->addAttribute('Min', $dev->getMin());
                     }
-                    if ($dev->getEvent() !== "") {
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -425,7 +428,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ($dev->getEvent() !== "") {
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -441,7 +444,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ($dev->getEvent() !== "") {
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -457,7 +460,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ($dev->getEvent() !== "") {
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
