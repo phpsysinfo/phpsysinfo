@@ -40,12 +40,12 @@ class IPMIutil extends Sensors
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
         case 'command':
-            CommonFunctions::executeProgram('ipmiutil', 'sensor -st', $lines);
-            $this->_lines = preg_split("/\r?\n/", preg_replace("/\r?\n\t\|/", " |",$lines), -1, PREG_SPLIT_NO_EMPTY);
+            CommonFunctions::executeProgram('ipmiutil', 'sensor -stw', $lines);
+            $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'file':
             if (CommonFunctions::rfts(APP_ROOT.'/data/ipmiutil.txt', $lines)) {
-                $this->_lines = preg_split("/\r?\n/", preg_replace("/\r?\n\t\|/", " |",$lines), -1, PREG_SPLIT_NO_EMPTY);
+                $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
