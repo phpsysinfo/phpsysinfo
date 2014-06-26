@@ -1047,7 +1047,7 @@ function refreshTemp(xml) {
             _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+event;
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
         $("#tempTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1080,7 +1080,7 @@ function refreshVoltage(xml) {
             _min = round(min, 2) + "&nbsp;" + genlang(62, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+event;
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1110,7 +1110,7 @@ function refreshFan(xml) {
             _min = round(min,0) + "&nbsp;" + genlang(63, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+event;
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
         $("#fanTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
@@ -1140,7 +1140,7 @@ function refreshPower(xml) {
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+event;
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1170,7 +1170,7 @@ function refreshCurrent(xml) {
             _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" /> "+event;
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
