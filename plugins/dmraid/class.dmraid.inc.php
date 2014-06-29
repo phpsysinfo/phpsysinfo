@@ -13,12 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * mdstat Plugin, which displays a snapshot of the kernel's RAID/md state
- * a simple view which shows supported types and RAID-Devices which are determined by
- * parsing the "/proc/mdstat" file, another way is to provide
- * a file with the output of the /proc/mdstat file, so there is no need to run a execute by the
- * webserver, the format of the command is written down in the mdstat.config.php file, where also
- * the method of getting the information is configured
+ * dmraid Plugin, which displays software RAID status
  *
  * @category  PHP
  * @package   PSI_Plugin_DMRaid
