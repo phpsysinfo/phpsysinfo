@@ -13,7 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * mdstatus Plugin, which displays a snapshot of the kernel's RAID/md state
+ * mdstat Plugin, which displays a snapshot of the kernel's RAID/md state
  * a simple view which shows supported types and RAID-Devices which are determined by
  * parsing the "/proc/mdstat" file, another way is to provide
  * a file with the output of the /proc/mdstat file, so there is no need to run a execute by the
@@ -188,32 +188,42 @@ class MDStatus extends PSI_Plugin
         if ( empty($this->_result)) {
             return $this->xml->getSimpleXmlElement();
         }
+        $hideRaids = array();
+        if ( defined('PSI_PLUGIN_MDSTATUS_HIDE_RAID_DEVICES') && is_string(PSI_PLUGIN_MDSTATUS_HIDE_RAID_DEVICES) ) {
+            if (preg_match(ARRAY_EXP, PSI_PLUGIN_MDSTATUS_HIDE_RAID_DEVICES)) {
+                $hideRaids = eval(PSI_PLUGIN_MDSTATUS_HIDE_RAID_DEVICES);
+            } else {
+                $hideRaids = array(PSI_PLUGIN_MDSTATUS_HIDE_RAID_DEVICES);
+            }
+        }
         $sup = $this->xml->addChild("Supported_Types");
         foreach ($this->_result['supported_types'] as $type) {
             $typ = $sup->addChild("Type");
             $typ->addAttribute("Name", $type);
         }
         foreach ($this->_result['devices'] as $key=>$device) {
-            $dev = $this->xml->addChild("Raid");
-            $dev->addAttribute("Device_Name", $key);
-            $dev->addAttribute("Level", $device["level"]);
-            $dev->addAttribute("Disk_Status", $device["status"]);
-            $dev->addAttribute("Chunk_Size", $device["chunk_size"]);
-            $dev->addAttribute("Persistend_Superblock", $device["pers_superblock"]);
-            $dev->addAttribute("Algorithm", $device["algorithm"]);
-            $dev->addAttribute("Disks_Registered", $device["registered"]);
-            $dev->addAttribute("Disks_Active", $device["active"]);
-            $action = $dev->addChild("Action");
-            $action->addAttribute("Percent", $device['action']['percent']);
-            $action->addAttribute("Name", $device['action']['name']);
-            $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
-            $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
-            $disks = $dev->addChild("Disks");
-            foreach ($device['partitions'] as $diskkey=>$disk) {
-                $disktemp = $disks->addChild("Disk");
-                $disktemp->addAttribute("Name", $diskkey);
-                $disktemp->addAttribute("Status", $disk['status']);
-                $disktemp->addAttribute("Index", $disk['raid_index']);
+            if (!in_array($key, $hideRaids, true)) {
+                $dev = $this->xml->addChild("Raid");
+                $dev->addAttribute("Device_Name", $key);
+                $dev->addAttribute("Level", $device["level"]);
+                $dev->addAttribute("Disk_Status", $device["status"]);
+                $dev->addAttribute("Chunk_Size", $device["chunk_size"]);
+                $dev->addAttribute("Persistend_Superblock", $device["pers_superblock"]);
+                $dev->addAttribute("Algorithm", $device["algorithm"]);
+                $dev->addAttribute("Disks_Registered", $device["registered"]);
+                $dev->addAttribute("Disks_Active", $device["active"]);
+                $action = $dev->addChild("Action");
+                $action->addAttribute("Percent", $device['action']['percent']);
+                $action->addAttribute("Name", $device['action']['name']);
+                $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
+                $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
+                $disks = $dev->addChild("Disks");
+                foreach ($device['partitions'] as $diskkey=>$disk) {
+                    $disktemp = $disks->addChild("Disk");
+                    $disktemp->addAttribute("Name", $diskkey);
+                    $disktemp->addAttribute("Status", $disk['status']);
+                    $disktemp->addAttribute("Index", $disk['raid_index']);
+                }
             }
         }
         if ($this->_result['unused_devs'] !== - 1) {
