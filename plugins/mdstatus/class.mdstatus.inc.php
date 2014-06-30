@@ -106,6 +106,8 @@ class MDStatus extends PSI_Plugin
                 $details = preg_split('/ /', $parts[1]);
                 if (!strstr($details[0], 'inactive')) {
                     $this->_result['devices'][$dev]['level'] = $details[1];
+                } else {
+                    $this->_result['devices'][$dev]['level'] = "none";
                 }
                 $this->_result['devices'][$dev]['status'] = $details[0];
                 for ($i = 2, $cnt_details = count($details); $i < $cnt_details; $i++) {
