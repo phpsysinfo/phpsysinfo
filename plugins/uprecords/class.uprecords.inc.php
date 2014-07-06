@@ -61,7 +61,8 @@ class uprecords extends PSI_Plugin
                 $result[$i]['hash'] = $buffer[0];
                 $result[$i]['Uptime'] = $buffer[1];
                 $result[$i]['System'] = $buffer[2];
-                $result[$i]['Bootup'] = preg_replace("/^(\S*)\s/", "$1, ", $buffer[3]." GMT"); //Formating
+                //Date formating
+                $result[$i]['Bootup'] = preg_replace("/^(\S+)(\s+)/", "$1,$2", preg_replace("/^(\S+\s+\S+\s+)(\d)(\s+)/", "$1 0$2$3", $buffer[3]." GMT"));
             }
             $i++;
         }
