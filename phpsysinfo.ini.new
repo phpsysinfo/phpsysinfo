@@ -339,7 +339,7 @@ UPS_NUT_LIST=false
 ;
 ACCESS="command"
 
-; define the battery device (no matter for Android)
+; define the battery device (no matter for WinNT and Android<4.4)
 ;
 DEVICE="BAT0"
 

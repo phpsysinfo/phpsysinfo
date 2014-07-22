@@ -42,33 +42,39 @@ class BAT extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
             if (PSI_OS == 'Android') {
-                CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer_info, 0, 4096, PSI_DEBUG);
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info, 0, 4096, false)) {
+                    $bat_name = PSI_PLUGIN_BAT_DEVICE;
+                } else {
+                    $buffer_info = '';
+                    CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer_info, 0, 4096, PSI_DEBUG);
+                    $bat_name = 'battery';
+                }
                 $buffer_state = '';
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/capacity', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/capacity', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$buffer1;
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/batt_temp', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_temp', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_TEMP='.$buffer1;
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/batt_vol', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_vol', $buffer1, 1, 4096, false)) {
                    if ($buffer1<100000) { // uV or mV detection
                         $buffer1 = $buffer1*1000;
                    }
                    $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.$buffer1."\n";
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/voltage_max_design', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_max_design', $buffer1, 1, 4096, false)) {
                    if ($buffer1<100000) { // uV or mV detection
                         $buffer1 = $buffer1*1000;
                    }
                    $buffer_state .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.$buffer1."\n";
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/technology', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/technology', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_TECHNOLOGY='.$buffer1;
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/status', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/status', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_STATUS='.$buffer1;
                 }
-                if (CommonFunctions::rfts('/sys/class/power_supply/battery/health', $buffer1, 1, 4096, false)) {
+                if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/health', $buffer1, 1, 4096, false)) {
                     $buffer_state .= 'POWER_SUPPLY_HEALTH='.$buffer1;
                 }
             } elseif (PSI_OS == 'WINNT') {
