@@ -526,6 +526,10 @@ class Linux extends OS
                     $dev = new HWDevice();
                     $dev->setName(trim($device[6]));
                     $this->sys->setUsbDevices($dev);
+                } elseif (isset($device[5]) && trim($device[5]) != "") {
+                    $dev = new HWDevice();
+                    $dev->setName("unknown");
+                    $this->sys->setUsbDevices($dev);
                 }
             }
         }
