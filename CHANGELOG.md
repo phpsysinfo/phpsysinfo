@@ -12,6 +12,7 @@ phpSysInfo 3.1.14
  - [ADD] Line frequency for the UPS info
  - [ADD] SENSOR_EVENTS option - show events of sensors
  - [ADD] HIDE_RAID_DEVICES option for plugins MDStatus and DMRaid - list of RAID devices to hide
+ - [ADD] idash template
 
 phpSysInfo 3.1.13
 ----------------
