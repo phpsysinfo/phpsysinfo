@@ -1,4 +1,4 @@
-/***************************************************************************
+mdsta/***************************************************************************
  *   Copyright (C) 2008 by phpSysInfo - A PHP System Information Script    *
  *   http://phpsysinfo.sourceforge.net/                                    *
  *                                                                         *
@@ -139,7 +139,7 @@ function mdstatus_populate(xml) {
 
     $("Plugins Plugin_MDStatus Supported_Types Type", xml).each(function mdstatus_getsupportedtypes(id) {
 //        htmltypes += "<li>" + $(this).attr("Name") + "</li>";
-        htmltypes += "<b>" + $(this).attr("Name") + "</b>";
+        htmltypes += "<b>" + $(this).attr("Name") + " </b>";
     });
     if (htmltypes.length > 0) {
         htmltypes = "<ul>" + htmltypes + "</ul>";
