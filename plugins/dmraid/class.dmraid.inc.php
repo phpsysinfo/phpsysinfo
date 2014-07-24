@@ -13,12 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * mdstat Plugin, which displays a snapshot of the kernel's RAID/md state
- * a simple view which shows supported types and RAID-Devices which are determined by
- * parsing the "/proc/mdstat" file, another way is to provide
- * a file with the output of the /proc/mdstat file, so there is no need to run a execute by the
- * webserver, the format of the command is written down in the mdstat.config.php file, where also
- * the method of getting the information is configured
+ * dmraid Plugin, which displays software RAID status
  *
  * @category  PHP
  * @package   PSI_Plugin_DMRaid
@@ -143,25 +138,35 @@ class DMRaid extends PSI_Plugin
         if ( empty($this->_result)) {
             return $this->xml->getSimpleXmlElement();
         }
+        $hideRaids = array();
+        if ( defined('PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES') && is_string(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES) ) {
+            if (preg_match(ARRAY_EXP, PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES)) {
+                $hideRaids = eval(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES);
+            } else {
+                $hideRaids = array(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES);
+            }
+        }
         foreach ($this->_result['devices'] as $key=>$device) {
-            $dev = $this->xml->addChild("Raid");
-            $dev->addAttribute("Device_Name", $key);
-            $dev->addAttribute("Type", $device["type"]);
-            $dev->addAttribute("Disk_Status", $device["status"]);
-            $dev->addAttribute("Name", $device["name"]);
-            $dev->addAttribute("Size", $device["size"]);
-            $dev->addAttribute("Stride", $device["stride"]);
-            $dev->addAttribute("Subsets", $device["subsets"]);
-            $dev->addAttribute("Devs", $device["devs"]);
-            $dev->addAttribute("Spares", $device["spares"]);
-            $disks = $dev->addChild("Disks");
-            if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
-                $disktemp = $disks->addChild("Disk");
-                $disktemp->addAttribute("Name", $diskkey);
-                if ($device["status"]=='ok') {
-                    $disktemp->addAttribute("Status", $disk['status']);
-                } else {
-                    $disktemp->addAttribute("Status", 'W');
+            if (!in_array($key, $hideRaids, true)) {
+                $dev = $this->xml->addChild("Raid");
+                $dev->addAttribute("Device_Name", $key);
+                $dev->addAttribute("Type", $device["type"]);
+                $dev->addAttribute("Disk_Status", $device["status"]);
+                $dev->addAttribute("Name", $device["name"]);
+                $dev->addAttribute("Size", $device["size"]);
+                $dev->addAttribute("Stride", $device["stride"]);
+                $dev->addAttribute("Subsets", $device["subsets"]);
+                $dev->addAttribute("Devs", $device["devs"]);
+                $dev->addAttribute("Spares", $device["spares"]);
+                $disks = $dev->addChild("Disks");
+                if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
+                    $disktemp = $disks->addChild("Disk");
+                    $disktemp->addAttribute("Name", $diskkey);
+                    if ($device["status"]=='ok') {
+                        $disktemp->addAttribute("Status", $disk['status']);
+                    } else {
+                        $disktemp->addAttribute("Status", 'W');
+                    }
                 }
             }
         }

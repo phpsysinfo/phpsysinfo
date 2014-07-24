@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: pl.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Polish Created by: Damian Pasternok
@@ -326,5 +326,11 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   </expression>
   <expression id="107" name="machine">
     <exp>Maszyna</exp>
+  </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>Częstotliwość linii</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>Hz</exp>
   </expression>
 </tns:translation>

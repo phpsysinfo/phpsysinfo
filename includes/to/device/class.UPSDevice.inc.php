@@ -96,6 +96,13 @@ class UPSDevice
     private $_lineVoltage = null;
 
     /**
+     * line freq
+     *
+     * @var Integer
+     */
+    private $_lineFrequency = null;
+
+    /**
      * current load of the ups in percent
      *
      * @var Integer
@@ -284,6 +291,32 @@ class UPSDevice
     public function setLineVoltage($lineVoltage)
     {
         $this->_lineVoltage = $lineVoltage;
+    }
+
+    /**
+     * Returns $_lineFrequency.
+     *
+     * @see UPSDevice::$_lineFrequency
+     *
+     * @return Integer
+     */
+    public function getLineFrequency()
+    {
+        return $this->_lineFrequency;
+    }
+
+    /**
+     * Sets $_lineFrequency.
+     *
+     * @param Integer $lineFrequency line frequency
+     *
+     * @see UPSDevice::$_lineFrequency
+     *
+     * @return Void
+     */
+    public function setLineFrequency($lineFrequency)
+    {
+        $this->_lineFrequency = $lineFrequency;
     }
 
     /**

@@ -47,16 +47,6 @@ class uprecords extends PSI_Plugin
         $result = array ();
         $i = 0;
 
-        /* default error handler */
-        if (function_exists('errorHandlerPsi')) {
-            restore_error_handler();
-        }
-        /* fatal errors only */
-        $old_err_rep = error_reporting();
-        error_reporting(E_ERROR);
-
-        $diff = date("O"); //timezone offset, if the format + - is the correct time zone
-
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
@@ -71,21 +61,10 @@ class uprecords extends PSI_Plugin
                 $result[$i]['hash'] = $buffer[0];
                 $result[$i]['Uptime'] = $buffer[1];
                 $result[$i]['System'] = $buffer[2];
-                $result[$i]['Bootup'] = $buffer[3];
+                //Date formating
+                $result[$i]['Bootup'] = preg_replace("/^(\S+)(\s+)/", "$1,$2", preg_replace("/^(\S+\s+\S+\s+)(\d)(\s+)/", "$1 0$2$3", $buffer[3]." GMT"));
             }
             $i++;
-        }
-        if (preg_match('/(\+)|(-)/', $diff)) { //GMT conversion
-            foreach ($result as $resnr=>$resval) {
-                $result[$resnr]['Bootup']=gmdate('D, d M Y H:i:s \G\M\T', strTotime($result[$resnr]['Bootup']));
-            }
-        }
-
-        /* restore error level */
-        error_reporting($old_err_rep);
-        /* restore error handler */
-        if (function_exists('errorHandlerPsi')) {
-            set_error_handler('errorHandlerPsi');
         }
 
         return $result;
@@ -97,12 +76,15 @@ class uprecords extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
             case 'command':
                 $lines = "";
+                $oldtz=getenv("TZ");
+                putenv("TZ=GMT");
                 if (CommonFunctions::executeProgram('uprecords', '-a -w', $lines) && !empty($lines))
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                putenv("TZ=".$oldtz);
                 break;
             case 'data':
                 if (CommonFunctions::rfts(APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
                 $this->error->addConfigError('__construct()', 'PSI_PLUGIN_UPRECORDS_ACCESS');
@@ -129,5 +111,4 @@ class uprecords extends PSI_Plugin
 
         return $this->xml->getSimpleXmlElement();
     }
-
 }

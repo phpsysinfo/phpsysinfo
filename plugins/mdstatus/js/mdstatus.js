@@ -138,7 +138,8 @@ function mdstatus_populate(xml) {
     $("#Plugin_MDStatusTable").empty();
 
     $("Plugins Plugin_MDStatus Supported_Types Type", xml).each(function mdstatus_getsupportedtypes(id) {
-        htmltypes += "<li>" + $(this).attr("Name") + "</li>";
+//        htmltypes += "<li>" + $(this).attr("Name") + "</li>";
+        htmltypes += "<b>" + $(this).attr("Name") + "</b>";
     });
     if (htmltypes.length > 0) {
         htmltypes = "<ul>" + htmltypes + "</ul>";

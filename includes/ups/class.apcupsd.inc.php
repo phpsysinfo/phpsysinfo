@@ -56,7 +56,7 @@ class Apcupsd extends UPS
             if (! empty($temp)) {
                 $this->_output[] = $temp;
             }
-        }        
+        }
     }
 
     /**
@@ -107,6 +107,9 @@ class Apcupsd extends UPS
             // Line
             if (preg_match('/^LINEV\s*:\s*(\d*\.\d*)(.*)$/m', $ups, $data)) {
                 $dev->setLineVoltage(trim($data[1]));
+            }
+            if (preg_match('/^LINEFREQ\s*:\s*(\d*\.\d*)(.*)$/m', $ups, $data)) {
+                $dev->setLineFrequency(trim($data[1]));
             }
             if (preg_match('/^LOADPCT\s*:\s*(\d*\.\d*)(.*)$/m', $ups, $data)) {
                 $dev->setLoad(trim($data[1]));

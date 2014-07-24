@@ -1,0 +1,217 @@
+ipmiutil ver 2.93
+isensor: version 2.93
+-- BMC version 1.51, IPMI version 2.0 
+ ID  | SDRType | Type            |SNum| Name             |Status| Reading
+0001 | Compact | Event Log       | 72 | SEL              | Absent |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0002 | Compact | Platform Securi | 73 | Intrusion        | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+000b | Full    | Fan             | 30 | Fan1A RPM        | OK   | 1680.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+000c | Full    | Fan             | 31 | Fan1B RPM        | OK   | 1560.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+000d | Full    | Fan             | 32 | Fan2A RPM        | OK   | 2880.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+000e | Full    | Fan             | 33 | Fan2B RPM        | OK   | 2760.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+000f | Full    | Fan             | 34 | Fan3A RPM        | OK   | 2880.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0010 | Full    | Fan             | 35 | Fan3B RPM        | OK   | 2760.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0011 | Full    | Fan             | 36 | Fan4A RPM        | OK   | 2280.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0012 | Full    | Fan             | 37 | Fan4B RPM        | OK   | 2160.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0013 | Full    | Fan             | 38 | Fan5A RPM        | OK   | 2280.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0014 | Full    | Fan             | 39 | Fan5B RPM        | OK   | 2160.00 RPM
+	| Thresholds| lo-noncr 840.00 | lo-crit 720.00 
+0015 | Full    | Temperature     | 04 | Inlet Temp       | OK   | 18.00 C
+	| Thresholds| hi-crit 47.00 | hi-noncr 42.00 | lo-noncr 3.00 | lo-crit -7.00 
+0016 | Compact | Watchdog_2      | 71 | OS Watchdog      | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0017 | Compact | Voltage         | 23 | VCORE PG         | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0018 | Compact | Voltage         | 19 | 3.3V PG          | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0019 | Compact | Voltage         | 1a | 5V PG            | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+001a | Compact | Cable/Interconn | 50 | USB Cable Pres   |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+001b | Compact | Entity Presence | 70 | Dedicated NIC    | Present |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+001c | Compact | Cable/Interconn | 51 | VGA Cable Pres   |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+001d | Compact | Entity Presence | 49 | Presence         | OK*  |
+	| Entity ID 11.2 (Add-in card), Capab: arm=auto thr=none evts=state
+001e | Compact | Entity Presence | 40 | Presence         | OK*  |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+001f | Compact | Voltage         | 25 | PLL PG           | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0020 | Compact | Voltage         | 27 | 1.1V PG          | OK |
+	| Entity ID 0.1 (unspecified), Capab: arm=auto thr=none evts=state
+0021 | Compact | Voltage         | f6 | BP1 5V PG        | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0022 | Compact | Entity Presence | 43 | Presence         | OK*  |
+	| Entity ID 10.2 (Power supply), Capab: arm=auto thr=none evts=state
+0023 | Compact | Voltage         | 2b | VSA PG           | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0024 | Compact | Voltage         | 1e | MEM VDDQ PG      | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0025 | Compact | Cable/Interconn | 4c | LCD Cable Pres   |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0026 | Compact | Voltage         | 20 | VTT PG           | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0027 | Compact | Entity Presence | 48 | Presence         | Present |
+	| Entity ID 11.3 (Add-in card), Capab: arm=auto thr=none evts=state
+0028 | Compact | Processor       | 60 | Status           | ProcPresent |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0029 | Compact | Fan             | 75 | Fan Redundancy   | Redundant |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+002c | Compact | Cable/Interconn | 64 | Riser Config Err |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+002d | Compact | Voltage         | 28 | 1.5V PG          | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+002e | Compact | Voltage         | 2c | PS2 PG Fail      | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+002f | Compact | Voltage         | 2d | PS1 PG Fail      | OK |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0030 | Compact | Voltage         | 14 | MEM VTT PG       | OK |
+	| Entity ID 3.1 (Processor), Capab: arm=auto thr=none evts=state
+0031 | Compact | Entity Presence | 42 | Presence         | OK*  |
+	| Entity ID 10.1 (Power supply), Capab: arm=auto thr=none evts=state
+0032 | Compact | Critical Interr | 90 | PCIe Slot1       | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0033 | Compact | Critical Interr | 91 | PCIe Slot2       | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0034 | Compact | Critical Interr | 92 | PCIe Slot3       | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0035 | Compact | Critical Interr | 93 | PCIe Slot4       | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0036 | Compact | Memory          | c0 | A                | OK   |
+	| Entity ID 32.1 (Memory device ), Capab: arm=auto thr=none evts=state
+0039 | Compact | Board           | fa | vFlash           | OK   |
+	| Entity ID 12.1 (Front panel bd), Capab: arm=auto thr=none evts=state
+003a | Compact | Battery         | 65 | CMOS Battery     | OK   |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+003b | Compact | Entity Presence | 54 | Presence         | OK*  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+003c | Full    | Current         | 6a | Current 1        | OK   | 0.40 A
+	| Thresholds
+003d | Full    | Current         | 6b | Current 2        | OK   | 0.20 A
+	| Thresholds
+003e | Full    | Voltage         | 6c | Voltage 1        | OK   | 228.00 V
+	| Thresholds
+003f | Full    | Voltage         | 6d | Voltage 2        | OK   | 230.00 V
+	| Thresholds
+0040 | Compact | Power Supply    | 74 | PS Redundancy    | Present |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0041 | Compact | Power Supply    | 62 | Status           | Present |
+	| Entity ID 10.1 (Power supply), Capab: arm=auto thr=none evts=state
+0042 | Compact | Power Supply    | 63 | Status           | Present |
+	| Entity ID 10.2 (Power supply), Capab: arm=auto thr=none evts=state
+0043 | Full    | Current         | 77 | Pwr Consumption  | OK   | 84.00 W
+	| Thresholds| hi-crit 728.00 | hi-noncr 658.00 
+0044 | Compact | OEM(c0)         | 76 | Power Optimized  | Asserted |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0045 | Compact | OEM(c9)         | f4 | SD1              |  _  |
+	| Entity ID 11.3 (Add-in card), Capab: arm=auto thr=none evts=state
+0046 | Compact | OEM(c9)         | f5 | SD2              |  _  |
+	| Entity ID 11.3 (Add-in card), Capab: arm=auto thr=none evts=state
+0047 | Compact | OEM(c9)         | 78 | Redundancy       |  _  |
+	| Entity ID 11.3 (Add-in card), Capab: arm=auto thr=none evts=state
+0048 | Compact | Memory          | 01 | ECC Corr Err     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0049 | Compact | Memory          | 02 | ECC Uncorr Err   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004a | Compact | Critical Interr | 03 | I/O Channel Chk  | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004b | Compact | Critical Interr | 04 | PCI Parity Err   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004c | Compact | Critical Interr | 05 | PCI System Err   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004d | Compact | Event Log       | 06 | SBE Log Disabled | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004e | Compact | Event Log       | 07 | Logging Disabled | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+004f | Compact | System Event    | 08 | Unknown          | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0050 | Compact | Processor       | 0a | CPU Protocol Err | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0051 | Compact | Processor       | 0b | CPU Bus PERR     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0052 | Compact | Processor       | 0c | CPU Init Err     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0053 | Compact | Processor       | 0d | CPU Machine Chk  | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0054 | Compact | Memory          | 11 | Memory Spared    | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0055 | Compact | Memory          | 12 | Memory Mirrored  | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0056 | Compact | Memory          | 13 | Memory RAID      | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0057 | Compact | Memory          | 14 | Memory Added     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0058 | Compact | Memory          | 15 | Memory Removed   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0059 | Compact | Memory          | 16 | Memory Cfg Err   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005a | Compact | Memory          | 17 | Mem Redun Gain   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005b | Compact | Critical Interr | 18 | PCIE Fatal Err   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005c | Compact | Critical Interr | 19 | Chipset Err      | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005d | Compact | OEM(c1)         | 1a | Err Reg Pointer  | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005e | Compact | Memory          | 1b | Mem ECC Warning  | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+005f | Compact | Memory          | 1c | Mem CRC Err      | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0060 | Compact | Memory          | 1d | USB Over-current | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0061 | Compact | System Firmware | 1e | POST Err         | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0062 | Compact | Version Change  | 1f | Hdwr version err | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0063 | Compact | Memory          | 20 | Mem Overtemp     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0064 | Compact | Memory          | 21 | Mem Fatal SB CRC | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0065 | Compact | Memory          | 22 | Mem Fatal NB CRC | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0066 | Compact | Watchdog_1      | 71 | OS Watchdog Time | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0067 | Compact | Memory          | 26 | Non Fatal PCI Er | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0068 | Compact | Memory          | 27 | Fatal IO Error   | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+0069 | Compact | Memory          | 28 | MSR Info Log     | Unknown |
+	| Entity ID 34.1 (BIOS), Capab: arm=auto thr=none evts=state
+006a | Compact | Drive Slot      | a0 | Drive 0          | Unused   Faulty |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+006b | Compact | Cable/Interconn | e0 | Cable SAS A      |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+006c | Compact | Cable/Interconn | e1 | Cable SAS B      |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+006d | Compact | Cable/Interconn | e2 | Cable SAS C      |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+006e | Compact | Cable/Interconn | e3 | Cable SAS D      |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+006f | Compact | Cable/Interconn | 58 | Power Cable      |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+0070 | Compact | Cable/Interconn | 59 | Signal Cable     |  _  |
+	| Entity ID 26.1 (Disk Drive Bay), Capab: arm=auto thr=none evts=state
+0071 | Compact | Voltage         | 66 | PFault Fail Safe | Absent |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0072 | Compact | Battery         | 68 | ROMB Battery     | NotAvailable |
+	| Entity ID 11.2 (Add-in card), Capab: arm=auto thr=none evts=state
+0073 | Compact | Battery         | 69 | ROMB Battery     | NotAvailable |
+	| Entity ID 11.4 (Add-in card), Capab: arm=auto thr=none evts=state
+0074 | Compact | Cable/Interconn | 4d | Riser 1 Presence |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0075 | Compact | Cable/Interconn | 4e | Riser 2 Presence |  _  |
+	| Entity ID 7.1 (System board), Capab: arm=auto thr=none evts=state
+0077 | Full    | Temperature     | 0e | Temp             | OK   | 66.00 C
+	| Thresholds| hi-crit 83.00 | hi-noncr 77.00 | lo-noncr 8.00 | lo-crit 3.00 
+ipmiutil sensor, completed successfully

@@ -1,6 +1,6 @@
 <?php
 /**
- * ipmi sensor class
+ * freeipmi sensor class
  *
  * PHP version 5
  *
@@ -9,11 +9,11 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- * @version   SVN: $Id: class.ipmi.inc.php 661 2012-08-27 11:26:39Z namiltd $
+ * @version   SVN: $Id: class.freeipmi.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * getting information from ipmitool
+ * getting information from ipmi-sensors
  *
  * @category  PHP
  * @package   PSI_Sensor
@@ -23,7 +23,7 @@
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class IPMI extends Sensors
+class FreeIPMI extends Sensors
 {
     /**
      * content to parse
@@ -40,11 +40,11 @@ class IPMI extends Sensors
         parent::__construct();
         switch (strtolower(PSI_SENSOR_ACCESS)) {
         case 'command':
-            CommonFunctions::executeProgram('ipmitool', 'sensor', $lines);
+            CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'file':
-            if (CommonFunctions::rfts(APP_ROOT.'/data/ipmi.txt', $lines)) {
+            if (CommonFunctions::rfts(APP_ROOT.'/data/freeipmi.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
@@ -63,16 +63,12 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "degrees C" && $buffer[3] != "na") {
+            if ($buffer[2] == "Temperature" && $buffer[11] != "N/A" && $buffer[4] == "C") {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                }
+                $dev->setName($buffer[1]);
+                $dev->setValue($buffer[3]);
+                if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbTemp($dev);
             }
         }
@@ -87,17 +83,13 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Volts" && $buffer[3] != "na") {
+            if ($buffer[2] == "Voltage" && $buffer[11] != "N/A" && $buffer[4] == "V") {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[5] != "na") $dev->setMin($buffer[5]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                }
+                $dev->setName($buffer[1]);
+                $dev->setValue($buffer[3]);
+                if ($buffer[6] != "N/A") $dev->setMin($buffer[6]);
+                if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbVolt($dev);
             }
         }
@@ -112,20 +104,16 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "RPM" && $buffer[3] != "na") {
+            if ($buffer[2] == "Fan" && $buffer[11] != "N/A" && $buffer[4] == "RPM") {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") {
-                    $dev->setMin($buffer[8]);
-                } elseif (($buffer[5] != "na") && ($buffer[5]<$buffer[1])) { //max instead min issue
-                    $dev->setMin($buffer[5]);
+                $dev->setName($buffer[1]);
+                $dev->setValue($buffer[3]);
+                if ($buffer[6] != "N/A") {
+                    $dev->setMin($buffer[6]);
+                } elseif (($buffer[9] != "N/A") && ($buffer[9]<$buffer[3])) { //max instead min issue
+                    $dev->setMin($buffer[9]);
                 }
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                }
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbFan($dev);
             }
         }
@@ -140,16 +128,12 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Watts" && $buffer[3] != "na") {
+            if ($buffer[2] == "Current" && $buffer[11] != "N/A" && $buffer[4] == "W") {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                }
+                $dev->setName($buffer[1]);
+                $dev->setValue($buffer[3]);
+                if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbPower($dev);
             }
         }
@@ -164,16 +148,12 @@ class IPMI extends Sensors
     {
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Amps" && $buffer[3] != "na") {
+            if ($buffer[2] == "Current" && $buffer[11] != "N/A" && $buffer[4] == "A") {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                }
+                $dev->setName($buffer[1]);
+                $dev->setValue($buffer[3]);
+                if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
+                if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11],"'"));
                 $this->mbinfo->setMbCurrent($dev);
             }
         }

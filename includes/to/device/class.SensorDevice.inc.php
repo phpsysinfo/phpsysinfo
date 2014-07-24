@@ -54,6 +54,13 @@ class SensorDevice
     private $_min = null;
 
     /**
+     * event of the sensor
+     *
+     * @var String
+     */
+    private $_event = "";
+
+    /**
      * Returns $_max.
      *
      * @see Sensor::$_max
@@ -155,5 +162,31 @@ class SensorDevice
     public function setValue($value)
     {
         $this->_value = $value;
+    }
+
+    /**
+     * Returns $_event.
+     *
+     * @see Sensor::$_event
+     *
+     * @return String
+     */
+    public function getEvent()
+    {
+        return $this->_event;
+    }
+
+    /**
+     * Sets $_event.
+     *
+     * @param String $event sensor event
+     *
+     * @see Sensor::$_event
+     *
+     * @return Void
+     */
+    public function setEvent($event)
+    {
+        $this->_event = $event;
     }
 }

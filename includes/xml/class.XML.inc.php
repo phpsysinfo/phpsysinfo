@@ -364,6 +364,7 @@ class XML
     private function _buildMbinfo()
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
+
         if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
             $temp = $mbinfo->addChild('Temperature');
             if (sizeof(unserialize(PSI_MBINFO))>0) {
@@ -376,6 +377,9 @@ class XML
                         $item->addAttribute('Value', $dev->getValue());
                         if ($dev->getMax() !== null) {
                             $item->addAttribute('Max', $dev->getMax());
+                        }
+                        if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                            $item->addAttribute('Event', $dev->getEvent());
                         }
                     }
                 }
@@ -395,48 +399,70 @@ class XML
         }
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             $fan = $mbinfo->addChild('Fans');
-            foreach ($mbinfo_detail->getMbFan() as $dev) {
-                $item = $fan->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMin() !== null) {
-                    $item->addAttribute('Min', $dev->getMin());
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
+                foreach ($mbinfo_detail->getMbFan() as $dev) {
+                    $item = $fan->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
+                    if ($dev->getMin() !== null) {
+                        $item->addAttribute('Min', $dev->getMin());
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
                 }
             }
-        }
-        if (sizeof(unserialize(PSI_MBINFO))>0) {
             $volt = $mbinfo->addChild('Voltage');
-            foreach ($mbinfo_detail->getMbVolt() as $dev) {
-                $item = $volt->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMin() !== null) {
-                    $item->addAttribute('Min', $dev->getMin());
-                }
-                if ($dev->getMax() !== null) {
-                    $item->addAttribute('Max', $dev->getMax());
-                }
-            }
-        }
-        if (sizeof(unserialize(PSI_MBINFO))>0) {
-            $volt = $mbinfo->addChild('Power');
-            foreach ($mbinfo_detail->getMbPower() as $dev) {
-                $item = $volt->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMax() !== null) {
-                    $item->addAttribute('Max', $dev->getMax());
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
+                foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                    $item = $volt->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
+                     if ($dev->getMin() !== null) {
+                        $item->addAttribute('Min', $dev->getMin());
+                    }
+                    if ($dev->getMax() !== null) {
+                        $item->addAttribute('Max', $dev->getMax());
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
                 }
             }
-        }
-        if (sizeof(unserialize(PSI_MBINFO))>0) {
-            $volt = $mbinfo->addChild('Current');
-            foreach ($mbinfo_detail->getMbCurrent() as $dev) {
-                $item = $volt->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMax() !== null) {
-                    $item->addAttribute('Max', $dev->getMax());
+            $power = $mbinfo->addChild('Power');
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
+                foreach ($mbinfo_detail->getMbPower() as $dev) {
+                    $item = $power->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
+                    if ($dev->getMax() !== null) {
+                        $item->addAttribute('Max', $dev->getMax());
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
+                }
+            }
+            $current = $mbinfo->addChild('Current');
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
+                foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                    $item = $current->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
+                    if ($dev->getMax() !== null) {
+                        $item->addAttribute('Max', $dev->getMax());
+                    }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
                 }
             }
         }
@@ -460,7 +486,9 @@ class XML
                 foreach ($upsinfo_detail->getUpsDevices() as $ups) {
                     $item = $upsinfo->addChild('UPS');
                     $item->addAttribute('Name', $ups->getName());
-                    $item->addAttribute('Model', $ups->getModel());
+                    if ($ups->getModel() !== "") {
+                        $item->addAttribute('Model', $ups->getModel());
+                    }
                     $item->addAttribute('Mode', $ups->getMode());
                     if ($ups->getStartTime() !== "") {
                         $item->addAttribute('StartTime', $ups->getStartTime());
@@ -480,6 +508,9 @@ class XML
                     }
                     if ($ups->getLineVoltage() !== null) {
                         $item->addAttribute('LineVoltage', $ups->getLineVoltage());
+                    }
+                    if ($ups->getLineFrequency() !== null) {
+                        $item->addAttribute('LineFrequency', $ups->getLineFrequency());
                     }
                     if ($ups->getLoad() !== null) {
                         $item->addAttribute('LoadPercent', $ups->getLoad());

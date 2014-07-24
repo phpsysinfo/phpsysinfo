@@ -1,14 +1,12 @@
-/*
- $Id: nextgen.css 518 2011-10-28 08:09:07Z namiltd $
- */
+/* NextGen Remixed by iDash.pl */
 a {
     text-decoration: none;
-    color: #00A;
+    color: #006;
 }
 
 a:hover {
     text-decoration: underline;
-    color: #7D9100;
+    color: #5A7000;
 }
 
 * {
@@ -18,7 +16,7 @@ a:hover {
 
 html {
     height: 100%;
-    background: url("nextgen/nextgen_bg.png") repeat-x scroll center top #F3F1E9;
+    background: url("idash/bg.png") repeat-x scroll center top #111;
 }
 
 body {
@@ -29,13 +27,13 @@ body {
     overflow: auto;
     margin: 0 auto;
     padding: 20px 20px 0 20px;
-    font: 0.75em arial, tahoma, helvetica, sans-serif;
-    color: #000;
+    font: 0.75em tahoma, arial, sans-serif;
+    color: #CCC;
 }
 
 div#container {
     margin: -20px -10px 0 -10px;
-    padding: 116px 0 0 0;
+    padding: 95px 0 0 0;
 }
 
 h1 {
@@ -46,7 +44,7 @@ h1 {
     padding: 0px 10px;
     font-size: 2em;
     font-weight: normal;
-    color: #fff;
+    color: #FFF;
 }
 
 #select {
@@ -78,7 +76,7 @@ h2 {
     font-weight: bold;
     letter-spacing: 0.0em;
     text-transform: uppercase;
-    color: #C9DE55; /* #7D9100; */
+    color: #FFF; /* #7D9100; */
     background: #354242;
 }
 
@@ -111,7 +109,7 @@ h3 {
 }
 
 .even {
-    background: #DDD;
+    background: #333;
 }
 
 #footer {
@@ -128,11 +126,11 @@ h3 {
 }
 
 .bar {
-    background: #C1DC70 url("../gfx/html.gif");
+    background: #34DA64 url("idash/html.gif");
 }
 
 .barwarn {
-    background: #DC8B70 url("../gfx/htmlwarn.gif");
+    background: #e69575 url("idash/htmlwarn.gif");
 }
 
 p {
@@ -150,3 +148,4 @@ p {
 #pciTable, #ideTable, #scsiTable, #usbTable {
     padding: 0px 30px;
 }
+#lang_047{color:444}
