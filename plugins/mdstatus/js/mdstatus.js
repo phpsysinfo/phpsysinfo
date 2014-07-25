@@ -1,4 +1,4 @@
-mdsta/***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2008 by phpSysInfo - A PHP System Information Script    *
  *   http://phpsysinfo.sourceforge.net/                                    *
  *                                                                         *
