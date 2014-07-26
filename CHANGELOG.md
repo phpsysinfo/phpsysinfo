@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.15
+----------------
+
+ - [ADD] CoreOS to detected distros
+
 phpSysInfo 3.1.14
 ----------------
 
