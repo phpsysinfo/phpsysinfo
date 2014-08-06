@@ -24,6 +24,9 @@ DEBUG=false
 ; LOG="/tmp/phpsysinfo.log"
 ; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
 ; LOG="-/tmp/phpsysinfo.log"
+; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
+; LOG="+/tmp/phpsysinfo.log", if lack in the log file it runs normally
+
 ;
 LOG=false
 
