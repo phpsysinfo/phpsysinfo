@@ -267,6 +267,11 @@ class Darwin extends BSDCommon
                         $this->sys->setMemFree($free_buf[1] * 4 * 1024);
                         $this->sys->setMemApplication(($anon_buf[1]+$wire_buf[1]) * 4 * 1024);
                         $this->sys->setMemCache($fileb_buf[1] * 4 * 1024);
+                        if (preg_match('/^Pages occupied by compressor:\s+(\S+)/m', $pstat, $compr_buf)) {
+                            $this->sys->setMemBuffer($compr_buf[1] * 4 * 1024);
+                        } else {
+                            $this->sys->setMemBuffer(0);
+                        }
                 } else {
                     if (preg_match('/^Pages speculative:\s+(\S+)/m', $pstat, $spec_buf)) {
                         $this->sys->setMemFree(($free_buf[1]+$spec_buf[1]) * 4 * 1024);
@@ -285,8 +290,9 @@ class Darwin extends BSDCommon
                     if (preg_match('/^Pages inactive:\s+(\S+)/m', $pstat, $inactive_buf)) {
                         $this->sys->setMemCache($inactive_buf[1] * 4 * 1024);
                     }
+
+                    $this->sys->setMemBuffer(0);
                 }
-                $this->sys->setMemBuffer(0);
             } else {
                 $lines = preg_split("/\n/", $pstat, -1, PREG_SPLIT_NO_EMPTY);
                 $ar_buf = preg_split("/\s+/", $lines[1], 19);
