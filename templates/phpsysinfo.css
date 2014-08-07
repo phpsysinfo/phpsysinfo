@@ -45,11 +45,8 @@ h1 {
 }
 
 #select {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    width: 370px;
     text-align: right;
+    padding: 10px;
 }
 
 #select select {

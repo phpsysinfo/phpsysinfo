@@ -7,6 +7,7 @@ phpSysInfo 3.1.15
 ----------------
 
  - [ADD] CoreOS to detected distros
+ - [FIX] Small CSS fix
 
 phpSysInfo 3.1.14
 ----------------
