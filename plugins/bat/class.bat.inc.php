@@ -134,7 +134,7 @@ class BAT extends PSI_Plugin
                         case 8: $techn = 'Li-poly'; break;
                     }
                 }
-                $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity'));
+                $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity'));
                 if (isset($buffer[0]['DesignVoltage'])) {
                     $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.(1000*$buffer[0]['DesignVoltage'])."\n";
                 }
@@ -152,7 +152,10 @@ class BAT extends PSI_Plugin
                     }
                 }
                 if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
-                if (isset($buffer[0]['DesignCapacity'])) {
+                if (isset($buffer[0]['FullChargeCapacity'])) {
+                    $buffer_info .= 'design capacity:'.$buffer[0]['FullChargeCapacity'].' mWh';
+                    if ($capacity != '') $buffer_state .= 'remaining capacity:'.(round($capacity*$buffer[0]['FullChargeCapacity']/100).' mWh');
+                } elseif (isset($buffer[0]['DesignCapacity'])) {
                     $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity'].' mWh';
                     if ($capacity != '') $buffer_state .= 'remaining capacity:'.(round($capacity*$buffer[0]['DesignCapacity']/100).' mWh');
                 } else {
