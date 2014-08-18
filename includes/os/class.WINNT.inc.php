@@ -72,7 +72,7 @@ class WINNT extends OS
                 $this->_wmi = $objLocator->ConnectServer();
 
             } else {
-                $this->_wmi = $objLocator->ConnectServer($strHostname, 'rootcimv2', $strHostname.'\\'.$strUser, $strPassword);
+                $this->_wmi = $objLocator->ConnectServer($strHostname, 'root\CIMv2', $strHostname.'\\'.$strUser, $strPassword);
             }
         } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
