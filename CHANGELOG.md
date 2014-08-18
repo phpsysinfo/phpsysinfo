@@ -14,7 +14,6 @@ phpSysInfo 3.1.15
  - [UPD] Memory informations on Darwin systems
  - [UPD] BAT plugin - Darwin support
 
-
 phpSysInfo 3.1.14
 ----------------
 
