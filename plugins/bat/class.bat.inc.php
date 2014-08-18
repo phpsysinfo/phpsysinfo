@@ -297,8 +297,7 @@ class BAT extends PSI_Plugin
                 if ($data[1]>0) $bat['battery_temperature'] = $data[1]/100;
             } elseif (preg_match('/^\"DesignCapacity\"\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity_max'] = $data[1];
-
-
+            /* auxiary */
             } elseif (preg_match('/^\"FullyCharged\"\s*=\s*Yes$/', trim($roworig), $data)) {
                 $bat['charging_state_f'] = true;
             } elseif (preg_match('/^\"IsCharging\"\s*=\s*Yes$/', trim($roworig), $data)) {
