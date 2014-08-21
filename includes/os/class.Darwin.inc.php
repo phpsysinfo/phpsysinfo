@@ -174,19 +174,19 @@ class Darwin extends BSDCommon
      */
     protected function pci()
     {
-        if ($arrResults = Parser::lspci(false)) { //lspci port
-            foreach ($arrResults as $dev) {
-                $this->sys->setPciDevices($dev);
-            }
-        } else {
+        if (!$arrResults = Parser::lspci(false)) { //no lspci port
             $s = $this->_grabioreg('IOPCIDevice');
             $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
-                    $dev = new HWDevice();
-                    if (!preg_match('/"IOName" = "([^"]*)"/', $line, $ar_buf ))
-                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
-                    $dev->setName(trim($ar_buf[1]));
-                    $this->sys->setPciDevices($dev);
+                $dev = new HWDevice();
+                if (!preg_match('/"IOName" = "([^"]*)"/', $line, $ar_buf ))
+                    $ar_buf = preg_split("/[\s@]+/", $line, 19);
+                $dev->setName(trim($ar_buf[1]));
+                $this->sys->setPciDevices($dev);
+            }
+        } else {
+            foreach ($arrResults as $dev) {
+                $this->sys->setPciDevices($dev);
             }
         }
     }
