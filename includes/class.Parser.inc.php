@@ -30,10 +30,10 @@ class Parser
      *
      * @return Array
      */
-    public static function lspci()
+    public static function lspci($debug = PSI_DEBUG)
     {
         $arrResults = array();
-        if (CommonFunctions::executeProgram("lspci", "", $strBuf, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram("lspci", "", $strBuf, $debug)) {
             $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($arrLines as $strLine) {
                 $arrParams = preg_split('/ /', trim($strLine), 2);
