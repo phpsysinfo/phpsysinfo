@@ -1,0 +1,15 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	PisiLinux
+Description:	Pisi GNU/Linux 1.0
+Release:	1.0
+Codename:	n/a
+----------/etc/lsb-release----------
+DISTRIB_ID="PisiLinux"
+DISTRIB_RELEASE="1.0"
+DISTRIB_DESCRIPTION="Pisi GNU/Linux 1.0"
+DISTRIB_CODENAME=""
+----------/etc/pisilinux-release----------
+Pisi_Linux 1.0
+----------/etc/system-release----------
+Pisi_Linux 1.0

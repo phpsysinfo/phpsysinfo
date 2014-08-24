@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.1.15
 ----------------
 
- - [ADD] CoreOS to detected distros
+ - [ADD] CoreOS and Pisi Linux to detected distros
  - [ADD] pmset - UPS support on Darwin (thanks to pelletierr)
  - [ADD] lspci support on Darwin
 
