@@ -9,6 +9,7 @@ phpSysInfo 3.1.15
  - [ADD] CoreOS and Pisi Linux to detected distros
  - [ADD] pmset - UPS support on Darwin (thanks to pelletierr)
  - [ADD] lspci support on Darwin
+ - [ADD] SHOW_CPULIST_EXPANDED option
 
  - [FIX] Small CSS fix
 

@@ -642,8 +642,10 @@ function refreshVitals(xml) {
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     var showCPUInfoExpanded = "";
+    var showCPUListExpanded = "";
     $("Options", xml).each(function getOptions(id) {
         showCPUInfoExpanded = $(this).attr("showCPUInfoExpanded");
+        showCPUListExpanded = $(this).attr("showCPUListExpanded");
     });
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
         var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
@@ -659,6 +661,9 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         bogo = parseInt($(this).attr("Bogomips"), 10);
         load = parseInt($(this).attr("Load"), 10);
 
+        if (showCPUListExpanded === 'false') {
+            collapsed.push(rootposition);
+        }
         html += "<tr><td colspan=\"2\">" + model + "</td></tr>\n";
         cpucoreposition = tree.push(rootposition);
         if (showCPUInfoExpanded !== 'true') {

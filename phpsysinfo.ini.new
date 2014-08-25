@@ -95,6 +95,11 @@ SHOW_PICKLIST_LANG=true
 SHOW_PICKLIST_TEMPLATE=true
 
 
+; Show CPU list expanded
+;
+SHOW_CPULIST_EXPANDED=true
+
+
 ; Show CPU info expanded
 ;
 SHOW_CPUINFO_EXPANDED=false
