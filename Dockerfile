@@ -1,9 +1,13 @@
 # phpSysInfo
-# VERSION       1
+# VERSION       2
 
 FROM ubuntu:14.04
 
 MAINTAINER phpSysInfo
+
+# Update sources
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+RUN apt-get update
 
 RUN apt-get install -y apache2 php5 git
 
