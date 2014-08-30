@@ -13,7 +13,7 @@ RUN apt-get install -y apache2 php5 git pciutils
 
 RUN git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/html/phpsysinfo
 #RUN cp /var/www/html/phpsysinfo/phpsysinfo.ini.new /var/www/html/phpsysinfo/phpsysinfo.ini
-RUN cat /var/www/html/phpsysinfo/phpsysinfo.ini.new | sed 's/^LOAD_BAR=false/LOAD_BAR=true' | sed 's/^SHOW_NETWORK_INFOS=false/SHOW_NETWORK_INFOS=true' >/var/www/html/phpsysinfo/phpsysinfo.ini
+RUN cat /var/www/html/phpsysinfo/phpsysinfo.ini.new | sed 's/^LOAD_BAR=false/LOAD_BAR=true/' | sed 's/^SHOW_NETWORK_INFOS=false/SHOW_NETWORK_INFOS=true/' >/var/www/html/phpsysinfo/phpsysinfo.ini
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
