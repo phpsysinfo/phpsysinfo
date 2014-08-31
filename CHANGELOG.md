@@ -10,6 +10,7 @@ phpSysInfo 3.1.15
  - [ADD] pmset - UPS support on Darwin (thanks to pelletierr)
  - [ADD] lspci support on Darwin
  - [ADD] SHOW_CPULIST_EXPANDED option
+ - [ADD] lxc/docker detection on Linux
 
  - [FIX] Small CSS fix
 
