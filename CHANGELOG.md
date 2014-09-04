@@ -11,6 +11,7 @@ phpSysInfo 3.1.15
  - [ADD] lspci support on Darwin
  - [ADD] SHOW_CPULIST_EXPANDED option
  - [ADD] lxc/docker detection on Linux
+ - [ADD] ability to hide all disks and all network interfaces
 
  - [FIX] Small CSS fix
 

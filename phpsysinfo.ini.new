@@ -263,7 +263,8 @@ HIDE_FS_TYPES=""
 
 
 ; Hide partitions
-; Example : HIDE_DISKS="rootfs"
+; Example : HIDE_DISKS="rootfs,/dev/sda1"
+;           HIDE_DISKS=true  //hide all partitions
 ;
 HIDE_DISKS=""
 
@@ -282,6 +283,7 @@ FS_USAGE_THRESHOLD=90
 
 ; Hide network interfaces
 ; Example : HIDE_NETWORK_INTERFACE="eth0,sit0"
+;           HIDE_NETWORK_INTERFACE=true  //hide all network interfaces
 ;
 HIDE_NETWORK_INTERFACE=""
 

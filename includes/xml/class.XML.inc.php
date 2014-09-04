@@ -147,11 +147,15 @@ class XML
     private function _buildNetwork()
     {
         $network = $this->_xml->addChild('Network');
-        if ( defined('PSI_HIDE_NETWORK_INTERFACE') && is_string(PSI_HIDE_NETWORK_INTERFACE) ) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
-                $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
-            } else {
-                $hideDevices = array(PSI_HIDE_NETWORK_INTERFACE);
+        if (defined('PSI_HIDE_NETWORK_INTERFACE')) {
+            if (is_string(PSI_HIDE_NETWORK_INTERFACE)) {
+                if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
+                    $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
+                } else {
+                    $hideDevices = array(PSI_HIDE_NETWORK_INTERFACE);
+                }
+            } elseif (PSI_HIDE_NETWORK_INTERFACE === true) {
+                return;
             }
         } else {
             $hideDevices = array();
@@ -340,11 +344,15 @@ class XML
                 $hideFstypes = array(PSI_HIDE_FS_TYPES);
             }
         }
-        if ( defined('PSI_HIDE_DISKS') && is_string(PSI_HIDE_DISKS) ) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_DISKS)) {
-                $hideDisks = eval(PSI_HIDE_DISKS);
-            } else {
-                $hideDisks = array(PSI_HIDE_DISKS);
+        if (defined('PSI_HIDE_DISKS')) {
+            if (is_string(PSI_HIDE_DISKS)) {
+                if (preg_match(ARRAY_EXP, PSI_HIDE_DISKS)) {
+                    $hideDisks = eval(PSI_HIDE_DISKS);
+                } else {
+                    $hideDisks = array(PSI_HIDE_DISKS);
+                }
+            } elseif (PSI_HIDE_DISKS === true) {
+                return;
             }
         }
         $fs = $this->_xml->addChild('FileSystem');
