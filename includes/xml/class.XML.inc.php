@@ -146,6 +146,7 @@ class XML
      */
     private function _buildNetwork()
     {
+        $hideDevices = array();
         $network = $this->_xml->addChild('Network');
         if (defined('PSI_HIDE_NETWORK_INTERFACE')) {
             if (is_string(PSI_HIDE_NETWORK_INTERFACE)) {
@@ -157,8 +158,6 @@ class XML
             } elseif (PSI_HIDE_NETWORK_INTERFACE === true) {
                 return;
             }
-        } else {
-            $hideDevices = array();
         }
         foreach ($this->_sys->getNetDevices() as $dev) {
             if (!in_array(trim($dev->getName()), $hideDevices)) {
