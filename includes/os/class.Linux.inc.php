@@ -143,17 +143,27 @@ class Linux extends OS
             if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
                 $result .= ' '.trim($strBuf);
             }
-            $this->sys->setKernel($result);
-        } else {
-            if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-                if (preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
-                    $result = $ar_buf[1];
-                    if (preg_match('/SMP/', $strBuf)) {
-                        $result .= ' (SMP)';
-                    }
-                    $this->sys->setKernel($result);
+            if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
+                if (preg_match('/:\/lxc\//m', $strBuf2)) {
+                    $result .= ' [lxc]';
+                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
+                    $result .= ' [docker]';
                 }
             }
+            $this->sys->setKernel($result);
+        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) &&  preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
+            $result = $ar_buf[1];
+            if (preg_match('/SMP/', $strBuf)) {
+                $result .= ' (SMP)';
+            }
+            if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
+                if (preg_match('/:\/lxc\//m', $strBuf2)) {
+                    $result .= ' [lxc]';
+                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
+                    $result .= ' [docker]';
+                }
+            }
+            $this->sys->setKernel($result);
         }
     }
 

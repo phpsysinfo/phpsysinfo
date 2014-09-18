@@ -24,6 +24,9 @@ DEBUG=false
 ; LOG="/tmp/phpsysinfo.log"
 ; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
 ; LOG="-/tmp/phpsysinfo.log"
+; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
+; LOG="+/tmp/phpsysinfo.log", if lack in the log file it runs normally
+
 ;
 LOG=false
 
@@ -90,6 +93,11 @@ SHOW_PICKLIST_LANG=true
 ; Show or hide template picklist
 ;
 SHOW_PICKLIST_TEMPLATE=true
+
+
+; Show CPU list expanded
+;
+SHOW_CPULIST_EXPANDED=true
 
 
 ; Show CPU info expanded
@@ -165,7 +173,7 @@ TEMP_FORMAT="c"
 ; - FreeIPMI   http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil   http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp     http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
-; - PiTemp     No addon tool neded (Linux)
+; - PiTemp     No addon tool neded (Raspberry Pi - Linux)
 ; - OHM        http://openhardwaremonitor.org/ (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
@@ -255,7 +263,8 @@ HIDE_FS_TYPES=""
 
 
 ; Hide partitions
-; Example : HIDE_DISKS="rootfs"
+; Example : HIDE_DISKS="rootfs,/dev/sda1"
+;           HIDE_DISKS=true  //hide all partitions
 ;
 HIDE_DISKS=""
 
@@ -274,6 +283,7 @@ FS_USAGE_THRESHOLD=90
 
 ; Hide network interfaces
 ; Example : HIDE_NETWORK_INTERFACE="eth0,sit0"
+;           HIDE_NETWORK_INTERFACE=true  //hide all network interfaces
 ;
 HIDE_NETWORK_INTERFACE=""
 
@@ -294,6 +304,7 @@ SHOW_NETWORK_INFOS=false
 ; - 1. Apcupsd        http://www.apcupsd.com/
 ; - 2. Nut            http://www.networkupstools.org/
 ; - 3. PowerSoftPlus  http://ever.eu
+; - 4. pmset          based on the result of the command "pmset -g batt" on Darwin system
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
 ;

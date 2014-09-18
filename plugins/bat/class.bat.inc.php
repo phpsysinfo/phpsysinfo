@@ -89,7 +89,7 @@ class BAT extends PSI_Plugin
                         $this->_wmi = $objLocator->ConnectServer();
 
                     } else {
-                        $this->_wmi = $objLocator->ConnectServer($strHostname, 'rootcimv2', $strHostname.'\\'.$strUser, $strPassword);
+                        $this->_wmi = $objLocator->ConnectServer($strHostname, 'root\CIMv2', $strHostname.'\\'.$strUser, $strPassword);
                     }
                 } catch (Exception $e) {
                     $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
@@ -97,67 +97,98 @@ class BAT extends PSI_Plugin
                 $buffer_info = '';
                 $buffer_state = '';
                 $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Battery', array('EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
-                $capacity = '';
-                if (isset($buffer[0]['EstimatedChargeRemaining'])) {
-                    $capacity = $buffer[0]['EstimatedChargeRemaining'];
-                }
-                if (isset($buffer[0]['DesignVoltage'])) {
-                    $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.(1000*$buffer[0]['DesignVoltage'])."\n";
-                }
-                if (isset($buffer[0]['BatteryStatus'])) {
-                    switch ($buffer[0]['BatteryStatus']) {
-                        case  1: $batstat = 'Discharging'; break;
-                        case  2: $batstat = 'AC connected'; break;
-                        case  3: $batstat = 'Fully Charged'; break;
-                        case  4: $batstat = 'Low'; break;
-                        case  5: $batstat = 'Critical'; break;
-                        case  6: $batstat = 'Charging'; break;
-                        case  7: $batstat = 'Charging and High'; break;
-                        case  8: $batstat = 'Charging and Low'; break;
-                        case  9: $batstat = 'Charging and Critical'; break;
-                        case 10: $batstat = 'Undefined'; break;
-                        case 11: $batstat = 'Partially Charged'; break;
-                        default: $batstat = '';
+                if (sizeof($buffer)>0) {
+                    $capacity = '';
+                    if (isset($buffer[0]['EstimatedChargeRemaining'])) {
+                        $capacity = $buffer[0]['EstimatedChargeRemaining'];
                     }
-                    if ($batstat != '') $buffer_state .= 'POWER_SUPPLY_STATUS='.$batstat."\n";
-                }
-                $techn = '';
-                if (isset($buffer[0]['Chemistry'])) {
-                    switch ($buffer[0]['Chemistry']) {
-                        case 1: $techn = 'Other'; break;
-                        case 2: $techn = 'Unknown'; break;
-                        case 3: $techn = 'PbAc'; break;
-                        case 4: $techn = 'NiCd'; break;
-                        case 5: $techn = 'NiMH'; break;
-                        case 6: $techn = 'Li-ion'; break;
-                        case 7: $techn = 'Zinc-air'; break;
-                        case 8: $techn = 'Li-poly'; break;
+                    if (isset($buffer[0]['DesignVoltage'])) {
+                        $buffer_state .= 'POWER_SUPPLY_VOLTAGE_NOW='.(1000*$buffer[0]['DesignVoltage'])."\n";
+                    }
+                    if (isset($buffer[0]['BatteryStatus'])) {
+                        switch ($buffer[0]['BatteryStatus']) {
+                            case  1: $batstat = 'Discharging'; break;
+                            case  2: $batstat = 'AC connected'; break;
+                            case  3: $batstat = 'Fully Charged'; break;
+                            case  4: $batstat = 'Low'; break;
+                            case  5: $batstat = 'Critical'; break;
+                            case  6: $batstat = 'Charging'; break;
+                            case  7: $batstat = 'Charging and High'; break;
+                            case  8: $batstat = 'Charging and Low'; break;
+                            case  9: $batstat = 'Charging and Critical'; break;
+                            case 10: $batstat = 'Undefined'; break;
+                            case 11: $batstat = 'Partially Charged'; break;
+                            default: $batstat = '';
+                        }
+                        if ($batstat != '') $buffer_state .= 'POWER_SUPPLY_STATUS='.$batstat."\n";
+                    }
+                    $techn = '';
+                    if (isset($buffer[0]['Chemistry'])) {
+                        switch ($buffer[0]['Chemistry']) {
+                            case 1: $techn = 'Other'; break;
+                            case 2: $techn = 'Unknown'; break;
+                            case 3: $techn = 'PbAc'; break;
+                            case 4: $techn = 'NiCd'; break;
+                            case 5: $techn = 'NiMH'; break;
+                            case 6: $techn = 'Li-ion'; break;
+                            case 7: $techn = 'Zinc-air'; break;
+                            case 8: $techn = 'Li-poly'; break;
+                        }
+                    }
+                    $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity'));
+                    if (isset($buffer[0]['DesignVoltage'])) {
+                        $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.(1000*$buffer[0]['DesignVoltage'])."\n";
+                    }
+                    // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
+                    if ((($techn == '') || ($techn == 'Unknown')) && isset($buffer[0]['Chemistry'])) {
+                        switch ($buffer[0]['Chemistry']) {
+                            case 1: $techn = 'Other'; break;
+                            case 2: $techn = 'Unknown'; break;
+                            case 3: $techn = 'PbAc'; break;
+                            case 4: $techn = 'NiCd'; break;
+                            case 5: $techn = 'NiMH'; break;
+                            case 6: $techn = 'Li-ion'; break;
+                            case 7: $techn = 'Zinc-air'; break;
+                            case 8: $techn = 'Li-poly'; break;
+                        }
+                    }
+                    if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
+                    if (!isset($buffer[0]['FullChargeCapacity'])) {
+                        $strHostname2 = '';
+                        $strUser2 = '';
+                        $strPassword2 = '';
+                        try {
+                            // initialize the wmi object
+                            $objLocator2 = new COM('WbemScripting.SWbemLocator');
+                            if ($strHostname2 == "") {
+                                $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI');
+
+                            } else {
+                                $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI', $strHostname2.'\\'.$strUser2, $strPassword2);
+                            }
+                            $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
+                            if (isset($buffer2[0]['FullChargedCapacity'])) {
+                                $buffer[0]['FullChargeCapacity'] = $buffer2[0]['FullChargedCapacity'];
+                            }
+                        } catch (Exception $e) {
+                        }
+                    }
+                    if (isset($buffer[0]['FullChargeCapacity'])) {
+                        $buffer_info .= 'design capacity:'.$buffer[0]['FullChargeCapacity']." mWh\n";
+                        if ($capacity != '') $buffer_state .= 'remaining capacity:'.(round($capacity*$buffer[0]['FullChargeCapacity']/100)." mWh\n");
+                        if (isset($buffer[0]['DesignCapacity']) && ($buffer[0]['DesignCapacity']!=0))
+                            $buffer_state .= 'POWER_SUPPLY_ENERGY_FULL_MAX='.($buffer[0]['DesignCapacity']*1000)."\n";
+                     } elseif (isset($buffer[0]['DesignCapacity'])) {
+                        $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity']." mWh\n";
+                        if ($capacity != '') $buffer_state .= 'remaining capacity:'.(round($capacity*$buffer[0]['DesignCapacity']/100)." mWh\n");
+                    } else {
+                        if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
                     }
                 }
-                $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity'));
-                if (isset($buffer[0]['DesignVoltage'])) {
-                    $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.(1000*$buffer[0]['DesignVoltage'])."\n";
-                }
-                // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
-                if ((($techn == '') || ($techn == 'Unknown')) && isset($buffer[0]['Chemistry'])) {
-                    switch ($buffer[0]['Chemistry']) {
-                        case 1: $techn = 'Other'; break;
-                        case 2: $techn = 'Unknown'; break;
-                        case 3: $techn = 'PbAc'; break;
-                        case 4: $techn = 'NiCd'; break;
-                        case 5: $techn = 'NiMH'; break;
-                        case 6: $techn = 'Li-ion'; break;
-                        case 7: $techn = 'Zinc-air'; break;
-                        case 8: $techn = 'Li-poly'; break;
-                    }
-                }
-                if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
-                if (isset($buffer[0]['DesignCapacity'])) {
-                    $buffer_info .= 'design capacity:'.$buffer[0]['DesignCapacity'].' mWh';
-                    if ($capacity != '') $buffer_state .= 'remaining capacity:'.(round($capacity*$buffer[0]['DesignCapacity']/100).' mWh');
-                } else {
-                    if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
-                }
+            } elseif (PSI_OS == 'Darwin') {
+                $buffer_info = '';
+                $buffer_state = '';
+                CommonFunctions::executeProgram('ioreg', '-w0 -l -n AppleSmartBattery -r', $buffer_info, false);
             } else {
                 $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/info', $buffer_info, 0, 4096, false);
                 $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.PSI_PLUGIN_BAT_DEVICE.'/state', $buffer_state, 0, 4096, false);
@@ -231,6 +262,11 @@ class BAT extends PSI_Plugin
                 $bat['design_capacity'] = ($data[1]/1000);
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_NOW\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['remaining_capacity'] = ($data[1]/1000);
+                $bat['capacity'] = -1;
+
+            /* auxiary */
+            } elseif (preg_match('/^POWER_SUPPLY_ENERGY_FULL_MAX\s*=\s*(.*)$/', trim($roworig), $data)) {
+                $bat['design_capacity_max'] = ($data[1]/1000);
 
             /* Android */
             } elseif (preg_match('/^POWER_SUPPLY_CAPACITY\s*=\s*(.*)$/', trim($roworig), $data) && !isset($bat['remaining_capacity'])) {
@@ -247,11 +283,33 @@ class BAT extends PSI_Plugin
                 $bat['charging_state'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_HEALTH\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['battery_condition'] = $data[1];
+
+            /* Darwin */
+            } elseif (preg_match('/^\"MaxCapacity\"\s*=\s*(.*)$/', trim($roworig), $data)) {
+                $bat['design_capacity'] = $data[1];
+            } elseif (preg_match('/^\"CurrentCapacity\"\s*=\s*(.*)$/', trim($roworig), $data)) {
+                $bat['remaining_capacity'] = $data[1];
+            } elseif (preg_match('/^\"Voltage\"\s*=\s*(.*)$/', trim($roworig), $data)) {
+                $bat['present_voltage'] = $data[1];
+            } elseif (preg_match('/^\"BatteryType\"\s*=\s*\"(.*)\"$/', trim($roworig), $data)) {
+                $bat['battery_type'] = $data[1];
+            } elseif (preg_match('/^\"Temperature\"\s*=\s*(.*)$/', trim($roworig), $data)) {
+                if ($data[1]>0) $bat['battery_temperature'] = $data[1]/100;
+            } elseif (preg_match('/^\"DesignCapacity\"\s*=\s*(.*)$/', trim($roworig), $data)) {
+                $bat['design_capacity_max'] = $data[1];
+            /* auxiary */
+            } elseif (preg_match('/^\"FullyCharged\"\s*=\s*Yes$/', trim($roworig), $data)) {
+                $bat['charging_state_f'] = true;
+            } elseif (preg_match('/^\"IsCharging\"\s*=\s*Yes$/', trim($roworig), $data)) {
+                $bat['charging_state_i'] = true;
+            } elseif (preg_match('/^\"ExternalConnected\"\s*=\s*Yes$/', trim($roworig), $data)) {
+                $bat['charging_state_e'] = true;
             }
         }
         foreach ($this->_filecontent['state'] as $roworig) {
             if (preg_match('/^remaining capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['remaining_capacity'] = $data[1];
+                $bat['capacity'] = -1;
             } elseif (preg_match('/^present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['present_voltage'] = $data[1];
             } elseif (preg_match('/^charging state\s*:\s*(.*)$/', trim($roworig), $data)) {
@@ -263,6 +321,7 @@ class BAT extends PSI_Plugin
                 $bat['design_capacity'] = ($data[1]/1000);
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_NOW\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['remaining_capacity'] = ($data[1]/1000);
+                $bat['capacity'] = -1;
 
             /* Android */
             } elseif (preg_match('/^POWER_SUPPLY_CAPACITY\s*=\s*(.*)$/', trim($roworig), $data) && !isset($bat['remaining_capacity'])) {
@@ -303,7 +362,7 @@ class BAT extends PSI_Plugin
             if (isset($bat_item['remaining_capacity'])) {
                 $xmlbat->addAttribute("RemainingCapacity", $bat_item['remaining_capacity']);
             }
-            if (isset($bat_item['capacity'])) {
+            if (isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
                 $xmlbat->addAttribute("Capacity", $bat_item['capacity']);
             }
             if (isset($bat_item['present_voltage'])) {
@@ -311,6 +370,16 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['charging_state'])) {
                 $xmlbat->addAttribute("ChargingState", $bat_item['charging_state']);
+            } else {
+                if (isset($bat_item['charging_state_i'])) {
+                    $xmlbat->addAttribute("ChargingState", 'Charging');
+                } elseif (!isset($bat_item['charging_state_e'])) {
+                    $xmlbat->addAttribute("ChargingState", 'Discharging');
+                } elseif (isset($bat_item['charging_state_f'])) {
+                    $xmlbat->addAttribute("ChargingState", 'Fully Charged');
+                } else {
+                    $xmlbat->addAttribute("ChargingState", 'Unknown state');
+                }
             }
             if (isset($bat_item['battery_type'])) {
                 $xmlbat->addAttribute("BatteryType", $bat_item['battery_type']);
@@ -320,7 +389,8 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['battery_condition'])) {
                 $xmlbat->addAttribute("BatteryCondition", $bat_item['battery_condition']);
-            }
+            } elseif (isset($bat_item['design_capacity']) && isset($bat_item['design_capacity_max']) && ($bat_item['design_capacity_max']!=0))
+                $xmlbat->addAttribute("BatteryCondition", round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max'])."%");
         }
 
         return $this->xml->getSimpleXmlElement();

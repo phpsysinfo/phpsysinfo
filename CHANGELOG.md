@@ -3,6 +3,21 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.15
+----------------
+
+ - [ADD] CoreOS and Pisi Linux to detected distros
+ - [ADD] pmset - UPS support on Darwin (thanks to pelletierr)
+ - [ADD] lspci support on Darwin
+ - [ADD] SHOW_CPULIST_EXPANDED option
+ - [ADD] lxc/docker detection on Linux
+ - [ADD] ability to hide all disks and all network interfaces
+
+ - [FIX] Small CSS fix
+
+ - [UPD] Memory informations on Darwin systems
+ - [UPD] BAT plugin - Darwin support
+
 phpSysInfo 3.1.14
 ----------------
 

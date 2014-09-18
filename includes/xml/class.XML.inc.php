@@ -147,11 +147,15 @@ class XML
     private function _buildNetwork()
     {
         $network = $this->_xml->addChild('Network');
-        if ( defined('PSI_HIDE_NETWORK_INTERFACE') && is_string(PSI_HIDE_NETWORK_INTERFACE) ) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
-                $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
-            } else {
-                $hideDevices = array(PSI_HIDE_NETWORK_INTERFACE);
+        if (defined('PSI_HIDE_NETWORK_INTERFACE')) {
+            if (is_string(PSI_HIDE_NETWORK_INTERFACE)) {
+                if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
+                    $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
+                } else {
+                    $hideDevices = array(PSI_HIDE_NETWORK_INTERFACE);
+                }
+            } elseif (PSI_HIDE_NETWORK_INTERFACE === true) {
+                return;
             }
         } else {
             $hideDevices = array();
@@ -340,11 +344,15 @@ class XML
                 $hideFstypes = array(PSI_HIDE_FS_TYPES);
             }
         }
-        if ( defined('PSI_HIDE_DISKS') && is_string(PSI_HIDE_DISKS) ) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_DISKS)) {
-                $hideDisks = eval(PSI_HIDE_DISKS);
-            } else {
-                $hideDisks = array(PSI_HIDE_DISKS);
+        if (defined('PSI_HIDE_DISKS')) {
+            if (is_string(PSI_HIDE_DISKS)) {
+                if (preg_match(ARRAY_EXP, PSI_HIDE_DISKS)) {
+                    $hideDisks = eval(PSI_HIDE_DISKS);
+                } else {
+                    $hideDisks = array(PSI_HIDE_DISKS);
+                }
+            } elseif (PSI_HIDE_DISKS === true) {
+                return;
             }
         }
         $fs = $this->_xml->addChild('FileSystem');
@@ -656,6 +664,7 @@ class XML
         }
         $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
         $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');
+        $options->addAttribute('showCPUListExpanded', defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
         $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         $plug = $this->_xml->addChild('UsedPlugins');
         if ($this->_complete_request && count($this->_plugins) > 0) {

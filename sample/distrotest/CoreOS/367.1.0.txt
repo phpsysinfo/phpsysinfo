@@ -1,0 +1,15 @@
+----------/etc/lsb-release----------
+DISTRIB_ID=CoreOS
+DISTRIB_RELEASE=367.1.0
+DISTRIB_CODENAME="Red Dog"
+DISTRIB_DESCRIPTION="CoreOS 367.1.0"
+----------/etc/os-release----------
+NAME=CoreOS
+ID=coreos
+VERSION=367.1.0
+VERSION_ID=367.1.0
+BUILD_ID=
+PRETTY_NAME="CoreOS 367.1.0"
+ANSI_COLOR="1;32"
+HOME_URL="https://coreos.com/"
+BUG_REPORT_URL="https://github.com/coreos/bugs/issues"

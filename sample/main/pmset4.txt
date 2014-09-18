@@ -1,0 +1,2 @@
+Currently drawing from 'UPS Power'
+ -Back-UPS BR 800 FW:9.o4 .D USB FW:o4 98%; discharging; 0:21 remaining
