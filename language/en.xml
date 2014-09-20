@@ -333,4 +333,7 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
 </tns:translation>

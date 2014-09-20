@@ -304,13 +304,13 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>Détails</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Vitesse CPU Max</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Vitesse CPU Min</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Puissance</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
@@ -332,5 +332,8 @@ phpSysInfo language file Language: French Created by: Cyril Servant
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processus</exp>
   </expression>
 </tns:translation>

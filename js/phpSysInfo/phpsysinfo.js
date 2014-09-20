@@ -578,7 +578,7 @@ function createBar(size, barclass) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVitals(xml) {
-    var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "", processes = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -600,6 +600,10 @@ function refreshVitals(xml) {
         if ($(this).attr("SysLang") !== undefined) {
             syslang = $(this).attr("SysLang");
             document.getElementById("s_syslang_tr").style.display='';
+        }
+        if ($(this).attr("Processes") !== undefined) {
+            processes = parseInt($(this).attr("Processes"), 10);
+            document.getElementById("s_processes_tr").style.display='';
         }
         if ($(this).attr("CodePage") !== undefined) {
             codepage = $(this).attr("CodePage");
@@ -628,6 +632,7 @@ function refreshVitals(xml) {
         $("#s_syslang").html(syslang);
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
+        $("#s_processes").html(processes);
     });
 }
 

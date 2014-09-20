@@ -136,6 +136,9 @@ class XML
         if ($this->_sysinfo->getEncoding() !== null) {
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
+        if ($this->_sys->getProcessTotal() !== null) {
+            $vitals->addAttribute('Processes', $this->_sys->getProcessTotal());
+        }
         $vitals->addAttribute('OS', PSI_OS);
     }
 

@@ -997,6 +997,15 @@ class Linux extends OS
         }
     }
 
+
+    protected function _process()
+    {
+        $process = glob('/proc/*/status', GLOB_NOSORT);
+        $number = count($process);
+        $this->sys->setProcessTotal($number);
+    }
+
+
     /**
      * get the information
      *
@@ -1022,5 +1031,6 @@ class Linux extends OS
         $this->_memory();
         $this->_filesystems();
         $this->_loadavg();
+        $this->_process();
     }
 }

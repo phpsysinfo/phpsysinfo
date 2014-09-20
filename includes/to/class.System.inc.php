@@ -210,6 +210,14 @@ class System
     private $_swapDevices = array();
 
     /**
+     * number of process
+     *
+     * @var Integer
+     */
+    private $_processTotal = null;
+
+
+    /**
      * remove duplicate Entries and Count
      *
      * @param Array $arrDev list of HWDevices
@@ -1039,5 +1047,21 @@ class System
     public function setSwapDevices($swapDevices)
     {
         array_push($this->_swapDevices, $swapDevices);
+    }
+
+    /**
+     * @return int
+     */
+    public function getProcessTotal()
+    {
+        return $this->_processTotal;
+    }
+
+    /**
+     * @param int $processTotal
+     */
+    public function setProcessTotal($processTotal)
+    {
+        $this->_processTotal = $processTotal;
     }
 }
