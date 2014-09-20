@@ -578,7 +578,8 @@ function createBar(size, barclass) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVitals(xml) {
-    var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "", processes = 0;
+    var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -601,10 +602,7 @@ function refreshVitals(xml) {
             syslang = $(this).attr("SysLang");
             document.getElementById("s_syslang_tr").style.display='';
         }
-        if ($(this).attr("Processes") !== undefined) {
-            processes = parseInt($(this).attr("Processes"), 10);
-            document.getElementById("s_processes_tr").style.display='';
-        }
+
         if ($(this).attr("CodePage") !== undefined) {
             codepage = $(this).attr("CodePage");
             if ($(this).attr("SysLang") !== undefined) {
@@ -613,6 +611,25 @@ function refreshVitals(xml) {
                 document.getElementById("s_codepage_tr2").style.display='';
             }
         }
+
+        //processes
+        if ($(this).attr("Processes") !== undefined) {
+            processes = parseInt($(this).attr("Processes"), 10);
+            document.getElementById("s_processes_tr").style.display='';
+        }
+        if ($(this).attr("ProcessesRunning") !== undefined) {
+            processesRunning = parseInt($(this).attr("ProcessesRunning"), 10);
+        }
+        if ($(this).attr("ProcessesSleeping") !== undefined) {
+            processesSleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
+        }
+        if ($(this).attr("ProcessesStopped") !== undefined) {
+            processesStopped = parseInt($(this).attr("ProcessesStopped"), 10);
+        }
+        if ($(this).attr("ProcessesZombie") !== undefined) {
+            processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
+        }
+
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
         $("#s_ip_title").html(ip);
@@ -633,6 +650,12 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes").html(processes);
+        $("#s_processes").append(
+            "<br/>(" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
+            + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
+            + processesStopped + "&nbsp;" + genlang(113, true) + ", "
+            + processesZombie + "&nbsp;" + genlang(114, true)
+            + ")");
     });
 }
 

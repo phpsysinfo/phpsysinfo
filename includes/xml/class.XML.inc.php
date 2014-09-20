@@ -136,9 +136,25 @@ class XML
         if ($this->_sysinfo->getEncoding() !== null) {
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
-        if ($this->_sys->getProcessTotal() !== null) {
-            $vitals->addAttribute('Processes', $this->_sys->getProcessTotal());
+
+        //processes
+        if ($this->_sys->getProcesses() !== null) {
+            $vitals->addAttribute('Processes', $this->_sys->getProcesses());
+
         }
+        if ($this->_sys->getProcessesRunning() !== null) {
+            $vitals->addAttribute('ProcessesRunning', $this->_sys->getProcessesRunning());
+        }
+        if ($this->_sys->getProcessesSleeping() !== null) {
+            $vitals->addAttribute('ProcessesSleeping', $this->_sys->getProcessesSleeping());
+        }
+        if ($this->_sys->getProcessesStopped() !== null) {
+            $vitals->addAttribute('ProcessesStopped', $this->_sys->getProcessesStopped());
+        }
+        if ($this->_sys->getProcessesZombie() !== null) {
+            $vitals->addAttribute('ProcessesZombie', $this->_sys->getProcessesZombie());
+        }
+
         $vitals->addAttribute('OS', PSI_OS);
     }
 
