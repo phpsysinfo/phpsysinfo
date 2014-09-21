@@ -615,7 +615,12 @@ function refreshVitals(xml) {
         //processes
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
-            document.getElementById("s_processes_tr").style.display='';
+            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") == undefined)) ||
+                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined)))
+                document.getElementById("s_processes_tr1").style.display='';
+            } else {
+                document.getElementById("s_processes_tr2").style.display='';
+            }
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
             processesRunning = parseInt($(this).attr("ProcessesRunning"), 10);
