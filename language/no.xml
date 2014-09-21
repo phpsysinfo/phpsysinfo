@@ -324,12 +324,6 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
-  <expression id="105" name="current">
-    <exp>Current</exp>
-  </expression>
-  <expression id="106" name="current_mark">
-    <exp>A</exp>
-  </expression>
   <expression id="107" name="machine">
     <exp>Machine</exp>
   </expression>
@@ -338,5 +332,20 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>running</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>sleeping</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>stopped</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
   </expression>
 </tns:translation>
