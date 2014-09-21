@@ -616,7 +616,7 @@ function refreshVitals(xml) {
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
             if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") == undefined)) ||
-                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined)))
+                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined))) {
                 document.getElementById("s_processes_tr1").style.display='';
             } else {
                 document.getElementById("s_processes_tr2").style.display='';
@@ -654,8 +654,15 @@ function refreshVitals(xml) {
         $("#s_syslang").html(syslang);
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
-        $("#s_processes").html(processes);
-        $("#s_processes").append(
+        $("#s_processes_1").html(processes);
+        $("#s_processes_1").append(
+            "<br/>(" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
+            + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
+            + processesStopped + "&nbsp;" + genlang(113, true) + ", "
+            + processesZombie + "&nbsp;" + genlang(114, true)
+            + ")");
+        $("#s_processes_2").html(processes);
+        $("#s_processes_2").append(
             "<br/>(" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
             + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
             + processesStopped + "&nbsp;" + genlang(113, true) + ", "
