@@ -579,7 +579,7 @@ function createBar(size, barclass) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
-    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0;
+    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesUSleeping = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -634,6 +634,9 @@ function refreshVitals(xml) {
         if ($(this).attr("ProcessesZombie") !== undefined) {
             processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
         }
+        if ($(this).attr("ProcessesUSleeping") !== undefined) {
+            processesUSleeping = parseInt($(this).attr("ProcessesUSleeping"), 10);
+        }
 
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
@@ -655,18 +658,18 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
-        $("#s_processes_1").append(
-            "<br/>(" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
+        $("#s_processes_1").append(" (" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
             + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
             + processesStopped + "&nbsp;" + genlang(113, true) + ", "
-            + processesZombie + "&nbsp;" + genlang(114, true)
+            + processesZombie + "&nbsp;" + genlang(114, true) + ", "
+            + processesUSleeping + "&nbsp;" + genlang(115, true)
             + ")");
         $("#s_processes_2").html(processes);
-        $("#s_processes_2").append(
-            "<br/>(" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
+        $("#s_processes_2").append(" (" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
             + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
             + processesStopped + "&nbsp;" + genlang(113, true) + ", "
-            + processesZombie + "&nbsp;" + genlang(114, true)
+            + processesZombie + "&nbsp;" + genlang(114, true) + ", "
+            + processesUSleeping + "&nbsp;" + genlang(115, true)
             + ")");
     });
 }

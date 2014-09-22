@@ -1009,7 +1009,7 @@ class Linux extends OS
         $total = count($process);
         $this->sys->setProcesses($total);
 
-        $running = $sleeping = $stopped = $zombie = 0;
+        $running = $sleeping = $stopped = $zombie = $usleep = 0;
         $buf = "";
 
         for ($i = 0; $i < $total; $i++) {
@@ -1030,6 +1030,9 @@ class Linux extends OS
                     case 'Z':
                         $zombie++;
                         break;
+                    case 'D':
+                        $usleep++;
+                        break;
                 }
             }
         }
@@ -1038,6 +1041,7 @@ class Linux extends OS
         $this->sys->setProcessesSleeping($sleeping);
         $this->sys->setProcessesStopped($stopped);
         $this->sys->setProcessesZombie($zombie);
+        $this->sys->setProcessesUSleeping($usleep);
     }
 
 
