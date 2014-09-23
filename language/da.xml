@@ -348,4 +348,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
+  <expression id="115" name="ProcessesUSleeping">
+    <exp>uninterruptible sleeping</exp>
+  </expression>
 </tns:translation>
