@@ -583,8 +583,9 @@ function refreshVitals(xml) {
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
+    var not_first = false;
     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
- 
+
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
         ip = $(this).attr("IPAddr");
@@ -658,19 +659,49 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
-        $("#s_processes_1").append(" (" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
-            + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
-            + processesStopped + "&nbsp;" + genlang(113, true) + ", "
-            + processesZombie + "&nbsp;" + genlang(114, true) + ", "
-            + processesUSleeping + "&nbsp;" + genlang(115, true)
-            + ")");
-        $("#s_processes_2").html(processes);
-        $("#s_processes_2").append(" (" + processesRunning + "&nbsp;" + genlang(111, true) + ", "
-            + processesSleeping + "&nbsp;" + genlang(112, true) + ", "
-            + processesStopped + "&nbsp;" + genlang(113, true) + ", "
-            + processesZombie + "&nbsp;" + genlang(114, true) + ", "
-            + processesUSleeping + "&nbsp;" + genlang(115, true)
-            + ")");
+        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesUSleeping) {
+            $("#s_processes_1").append(" (");
+            not_first = false;
+
+            if (processesRunning) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesRunning + "&nbsp;" + genlang(111, true));
+                not_first = true;
+            }
+            if (processesSleeping) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesSleeping + "&nbsp;" + genlang(112, true));
+                not_first = true;
+            }
+            if (processesStopped) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesStopped + "&nbsp;" + genlang(113, true));
+                not_first = true;
+            }
+            if (processesZombie) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
+                not_first = true;
+            }
+            if (processesUSleeping) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesUSleeping + "&nbsp;" + genlang(115, true));
+                not_first = true;
+            }
+
+            $("#s_processes_1").append(") ");
+        }
+        $("#s_processes_2").html($("#s_processes_1").html());
     });
 }
 
