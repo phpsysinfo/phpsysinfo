@@ -153,8 +153,8 @@ class XML
         if ($this->_sys->getProcessesZombie() !== null) {
             $vitals->addAttribute('ProcessesZombie', $this->_sys->getProcessesZombie());
         }
-        if ($this->_sys->getProcessesUSleeping() !== null) {
-            $vitals->addAttribute('ProcessesUSleeping', $this->_sys->getProcessesUSleeping());
+        if ($this->_sys->getProcessesOther() !== null) {
+            $vitals->addAttribute('ProcessesOther', $this->_sys->getProcessesOther());
         }
         $vitals->addAttribute('OS', PSI_OS);
     }

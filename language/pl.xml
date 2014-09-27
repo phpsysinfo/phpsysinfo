@@ -348,7 +348,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="114" name="ProcessesZombie">
     <exp>zombi</exp>
   </expression>
-  <expression id="115" name="ProcessesUSleeping">
-    <exp>nieprzerywalnie uśpione</exp>
+  <expression id="115" name="ProcessesOther">
+    <exp>inne</exp>
   </expression>
 </tns:translation>

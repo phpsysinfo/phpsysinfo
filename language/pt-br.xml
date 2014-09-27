@@ -348,7 +348,7 @@ phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gi
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
-  <expression id="115" name="ProcessesUSleeping">
-    <exp>uninterruptible sleeping</exp>
+  <expression id="115" name="ProcessesOther">
+    <exp>other</exp>
   </expression>
 </tns:translation>

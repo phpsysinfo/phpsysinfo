@@ -1007,14 +1007,13 @@ class Linux extends OS
     {
         $process = glob('/proc/*/status', GLOB_NOSORT);
         $total = count($process);
-        $this->sys->setProcesses($total);
 
-        $running = $sleeping = $stopped = $zombie = $usleep = 0;
+        $currtotal = $running = $sleeping = $stopped = $zombie = $other = 0;
         $buf = "";
 
         for ($i = 0; $i < $total; $i++) {
             if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
-
+                $currtotal++;
                 preg_match('/^State:\s+(\w)/m', $buf, $state);
 
                 switch ($state[1]) {
@@ -1030,18 +1029,21 @@ class Linux extends OS
                     case 'Z':
                         $zombie++;
                         break;
-                    case 'D':
-                        $usleep++;
-                        break;
+                    default:
+                        $other++;
                 }
             }
         }
-
+        if ($currtotal>0) {
+            $this->sys->setProcesses($currtotal);
+        } else {
+            $this->sys->setProcesses($total);
+        }
         $this->sys->setProcessesRunning($running);
         $this->sys->setProcessesSleeping($sleeping);
         $this->sys->setProcessesStopped($stopped);
         $this->sys->setProcessesZombie($zombie);
-        $this->sys->setProcessesUSleeping($usleep);
+        $this->sys->setProcessesOther($other);
     }
 
 

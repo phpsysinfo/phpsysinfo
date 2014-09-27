@@ -245,11 +245,11 @@ class System
     private $_processesZombie = null;
 
     /**
-     * number of uninterruptible sleeping processes
+     * number of other processes
      *
      * @var null
      */
-    private $_processesUSleeping = null;
+    private $_processesOther = null;
 
     /**
      * remove duplicate Entries and Count
@@ -1167,16 +1167,16 @@ class System
     /**
      * @return null
      */
-    public function getProcessesUSleeping()
+    public function getProcessesOther()
     {
-        return $this->_processesUSleeping;
+        return $this->_processesOther;
     }
 
     /**
-     * @param null $processesUSleeping
+     * @param null $processesOther
      */
-    public function setProcessesUSleeping($processesUSleeping)
+    public function setProcessesOther($processesOther)
     {
-        $this->_processesUSleeping = $processesUSleeping;
+        $this->_processesOther = $processesOther;
     }
 }
