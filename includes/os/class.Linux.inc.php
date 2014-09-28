@@ -1007,10 +1007,9 @@ class Linux extends OS
         $process = glob('/proc/*/status', GLOB_NOSORT);
         if (($total = count($process)) > 0) {
 
-            $processes = array();
+            $processes['*'] = 0;
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
-                $processes['*'] = 0;
                 if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
                     $processes['*']++; //current total
                     if (preg_match('/^State:\s+(\w)/m', $buf, $state)) {
