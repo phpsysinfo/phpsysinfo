@@ -636,7 +636,7 @@ function refreshVitals(xml) {
             processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
         }
         if ($(this).attr("ProcessesWaiting") !== undefined) {
-            processesOther = parseInt($(this).attr("ProcessesWaiting"), 10);
+            processesWaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
         }
         if ($(this).attr("ProcessesOther") !== undefined) {
             processesOther = parseInt($(this).attr("ProcessesOther"), 10);
