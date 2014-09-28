@@ -244,5 +244,6 @@ class Android extends Linux
         $this->_memory();
         $this->_filesystems();
         $this->_loadavg();
+        $this->_processes();
     }
 }

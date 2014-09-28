@@ -579,7 +579,7 @@ function createBar(size, barclass) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
-    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesOther = 0;
+    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesWaiting = 0, processesOther = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -635,6 +635,9 @@ function refreshVitals(xml) {
         if ($(this).attr("ProcessesZombie") !== undefined) {
             processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
         }
+        if ($(this).attr("ProcessesWaiting") !== undefined) {
+            processesOther = parseInt($(this).attr("ProcessesWaiting"), 10);
+        }
         if ($(this).attr("ProcessesOther") !== undefined) {
             processesOther = parseInt($(this).attr("ProcessesOther"), 10);
         }
@@ -659,7 +662,7 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
-        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesOther) {
+        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
             $("#s_processes_1").append(" (");
             not_first = false;
 
@@ -691,11 +694,18 @@ function refreshVitals(xml) {
                 $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
                 not_first = true;
             }
+            if (processesWaiting) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesWaiting + "&nbsp;" + genlang(115, true));
+                not_first = true;
+            }
             if (processesOther) {
                 if (not_first) {
                     $("#s_processes_1").append(",&nbsp;");
                 }
-                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(115, true));
+                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(116, true));
                 not_first = true;
             }
 

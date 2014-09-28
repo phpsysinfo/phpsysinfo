@@ -1005,44 +1005,23 @@ class Linux extends OS
     protected function _processes()
     {
         $process = glob('/proc/*/status', GLOB_NOSORT);
-        $total = count($process);
+        if (($total = count($process)) > 0) {
 
-        $currtotal = $running = $sleeping = $stopped = $zombie = $other = 0;
-        $buf = "";
-
-        for ($i = 0; $i < $total; $i++) {
-            if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
-                $currtotal++;
-                preg_match('/^State:\s+(\w)/m', $buf, $state);
-
-                switch ($state[1]) {
-                    case 'R':
-                        $running++;
-                        break;
-                    case 'S':
-                        $sleeping++;
-                        break;
-                    case 'T':
-                        $stopped++;
-                        break;
-                    case 'Z':
-                        $zombie++;
-                        break;
-                    default:
-                        $other++;
+            $processes = array();
+            $buf = "";
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
+                    $processes['*']++; //current total
+                    if (preg_match('/^State:\s+(\w)/m', $buf, $state)) {
+                        $processes[$state[1]]++;
+                    }
                 }
             }
+            if (!($processes['*'] > 0)) {
+                $processes['*'] = $processes[' '] = $total; //all unknown
+            }
+            $this->sys->setProcesses($processes);
         }
-        if ($currtotal>0) {
-            $this->sys->setProcesses($currtotal);
-        } else {
-            $this->sys->setProcesses($total);
-        }
-        $this->sys->setProcessesRunning($running);
-        $this->sys->setProcessesSleeping($sleeping);
-        $this->sys->setProcessesStopped($stopped);
-        $this->sys->setProcessesZombie($zombie);
-        $this->sys->setProcessesOther($other);
     }
 
     /**

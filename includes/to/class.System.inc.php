@@ -210,46 +210,11 @@ class System
     private $_swapDevices = array();
 
     /**
-     * number of processes
+     * array of types of processes
      *
-     * @var Integer
+     * @var Array
      */
-    private $_processes = null;
-
-    /**
-     * number of running processes
-     *
-     * @var null
-     */
-    private $_processesRunning = null;
-
-    /**
-     * number of sleeping processes
-     *
-     * @var null
-     */
-    private $_processesSleeping = null;
-
-    /**
-     * number of stopped processes
-     *
-     * @var null
-     */
-    private $_processesStopped = null;
-
-    /**
-     * number of zombie processes
-     *
-     * @var null
-     */
-    private $_processesZombie = null;
-
-    /**
-     * number of other processes
-     *
-     * @var null
-     */
-    private $_processesOther = null;
+    private $_processes = array();
 
     /**
      * remove duplicate Entries and Count
@@ -1084,7 +1049,11 @@ class System
     }
 
     /**
-     * @return int
+     * Returns $_processes.
+     *
+     * @see System::$_processes
+     *
+     * @return Array
      */
     public function getProcesses()
     {
@@ -1092,90 +1061,21 @@ class System
     }
 
     /**
-     * @param int $processTotal
+     * Sets $_proceses.
+     *
+     * @param $processes array of types of processes
+     *
+     * @see System::$_processes
+     *
+     * @return Void
      */
     public function setProcesses($processes)
     {
         $this->_processes = $processes;
-    }
-
-    /**
-     * @return null
-     */
-    public function getProcessesRunning()
-    {
-        return $this->_processesRunning;
-    }
-
-    /**
-     * @param null $processesRunning
-     */
-    public function setProcessesRunning($processesRunning)
-    {
-        $this->_processesRunning = $processesRunning;
-    }
-
-    /**
-     * @return null
-     */
-    public function getProcessesSleeping()
-    {
-        return $this->_processesSleeping;
-    }
-
-    /**
-     * @param null $processesSleeping
-     */
-    public function setProcessesSleeping($processesSleeping)
-    {
-        $this->_processesSleeping = $processesSleeping;
-    }
-
-    /**
-     * @return null
-     */
-    public function getProcessesStopped()
-    {
-        return $this->_processesStopped;
-    }
-
-    /**
-     * @param null $processesStopped
-     */
-    public function setProcessesStopped($processesStopped)
-    {
-        $this->_processesStopped = $processesStopped;
-    }
-
-    /**
-     * @return null
-     */
-    public function getProcessesZombie()
-    {
-        return $this->_processesZombie;
-    }
-
-    /**
-     * @param null $processesZombie
-     */
-    public function setProcessesZombie($processesZombie)
-    {
-        $this->_processesZombie = $processesZombie;
-    }
-
-    /**
-     * @return null
-     */
-    public function getProcessesOther()
-    {
-        return $this->_processesOther;
-    }
-
-    /**
-     * @param null $processesOther
-     */
-    public function setProcessesOther($processesOther)
-    {
-        $this->_processesOther = $processesOther;
+/*
+        foreach ($processes as $proc_type=>$proc_count) {
+            $this->_processes[$proc_type] = $proc_count;
+        }
+*/
     }
 }

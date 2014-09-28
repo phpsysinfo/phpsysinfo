@@ -138,23 +138,36 @@ class XML
         }
 
         //processes
-        if ($this->_sys->getProcesses() !== null) {
-            $vitals->addAttribute('Processes', $this->_sys->getProcesses());
-        }
-        if ($this->_sys->getProcessesRunning() !== null) {
-            $vitals->addAttribute('ProcessesRunning', $this->_sys->getProcessesRunning());
-        }
-        if ($this->_sys->getProcessesSleeping() !== null) {
-            $vitals->addAttribute('ProcessesSleeping', $this->_sys->getProcessesSleeping());
-        }
-        if ($this->_sys->getProcessesStopped() !== null) {
-            $vitals->addAttribute('ProcessesStopped', $this->_sys->getProcessesStopped());
-        }
-        if ($this->_sys->getProcessesZombie() !== null) {
-            $vitals->addAttribute('ProcessesZombie', $this->_sys->getProcessesZombie());
-        }
-        if ($this->_sys->getProcessesOther() !== null) {
-            $vitals->addAttribute('ProcessesOther', $this->_sys->getProcessesOther());
+        if (($procss = $this->_sys->getProcesses()) !== null) {
+            if (($procall = $procss['*']) > 0) {
+                $vitals->addAttribute('Processes', $procall);
+                if (!($procss[' '] > 0)) { // not unknown
+                    $procsum = 0;
+                    if (($proctmp = $procss['R']) > 0) {
+                        $vitals->addAttribute('ProcessesRunning', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procss['S']) > 0) {
+                        $vitals->addAttribute('ProcessesSleeping', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procss['T']) > 0) {
+                        $vitals->addAttribute('ProcessesStopped', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procss['Z']) > 0) {
+                        $vitals->addAttribute('ProcessesZombie', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procss['D']) > 0) {
+                        $vitals->addAttribute('ProcessesWaiting', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procall - $procsum) > 0) {
+                        $vitals->addAttribute('ProcessesOther', $proctmp);
+                    }
+                }
+            }
         }
         $vitals->addAttribute('OS', PSI_OS);
     }

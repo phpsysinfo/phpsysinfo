@@ -348,7 +348,10 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
-  <expression id="115" name="ProcessesOther">
+  <expression id="115" name="ProcessesWaiting">
+    <exp>waiting</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
 </tns:translation>
