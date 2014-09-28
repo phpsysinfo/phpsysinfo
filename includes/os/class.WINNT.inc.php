@@ -542,6 +542,18 @@ class WINNT extends OS
         return $this->_syslang;
     }
 
+	public function _processes()
+	{
+        $processes['*'] = 0;
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+
+        foreach ($buffer as $process) {
+			$processes['*']++;
+        }
+        $this->sys->setProcesses($processes);
+	}
+	
+	
     /**
      * get the information
      *
@@ -566,5 +578,6 @@ class WINNT extends OS
         $this->_filesystems();
         $this->_memory();
         $this->_loadavg();
+		$this->_processes();
     }
 }
