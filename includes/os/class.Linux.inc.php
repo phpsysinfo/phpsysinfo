@@ -997,7 +997,6 @@ class Linux extends OS
         }
     }
 
-
     /**
      * Processes
      *
@@ -1045,7 +1044,6 @@ class Linux extends OS
         $this->sys->setProcessesZombie($zombie);
         $this->sys->setProcessesOther($other);
     }
-
 
     /**
      * get the information

@@ -1099,7 +1099,6 @@ class System
         $this->_processes = $processes;
     }
 
-
     /**
      * @return null
      */
