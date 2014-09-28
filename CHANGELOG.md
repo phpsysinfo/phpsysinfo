@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.1.16
 ----------------
- - [ADD] Show number of process for Linux
+ - [ADD] Show number of process for Linux, Windows, Minix and Android
 
 
 phpSysInfo 3.1.15
