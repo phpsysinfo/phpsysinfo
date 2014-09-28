@@ -141,25 +141,25 @@ class XML
         if (($procss = $this->_sys->getProcesses()) !== null) {
             if (($procall = $procss['*']) > 0) {
                 $vitals->addAttribute('Processes', $procall);
-                if (!($procss[' '] > 0)) { // not unknown
+                if (!isset($procss[' ']) || !($procss[' '] > 0)) { // not unknown
                     $procsum = 0;
-                    if (($proctmp = $procss['R']) > 0) {
+                    if (isset($procss['R']) && (($proctmp = $procss['R']) > 0)) {
                         $vitals->addAttribute('ProcessesRunning', $proctmp);
                         $procsum += $proctmp;
                     }
-                    if (($proctmp = $procss['S']) > 0) {
+                    if (isset($procss['S']) && (($proctmp = $procss['S']) > 0)) {
                         $vitals->addAttribute('ProcessesSleeping', $proctmp);
                         $procsum += $proctmp;
                     }
-                    if (($proctmp = $procss['T']) > 0) {
+                    if (isset($procss['T']) && (($proctmp = $procss['T']) > 0)) {
                         $vitals->addAttribute('ProcessesStopped', $proctmp);
                         $procsum += $proctmp;
                     }
-                    if (($proctmp = $procss['Z']) > 0) {
+                    if (isset($procss['Z']) && (($proctmp = $procss['Z']) > 0)) {
                         $vitals->addAttribute('ProcessesZombie', $proctmp);
                         $procsum += $proctmp;
                     }
-                    if (($proctmp = $procss['D']) > 0) {
+                    if (isset($procss['D']) && (($proctmp = $procss['D']) > 0)) {
                         $vitals->addAttribute('ProcessesWaiting', $proctmp);
                         $procsum += $proctmp;
                     }

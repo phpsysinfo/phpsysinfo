@@ -1010,10 +1010,15 @@ class Linux extends OS
             $processes = array();
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
+                $processes['*'] = 0;
                 if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
                     $processes['*']++; //current total
                     if (preg_match('/^State:\s+(\w)/m', $buf, $state)) {
-                        $processes[$state[1]]++;
+                        if (isset($processes[$state[1]])) {
+                            $processes[$state[1]]++;
+                        } else {
+                            $processes[$state[1]] = 1;
+                        }
                     }
                 }
             }
