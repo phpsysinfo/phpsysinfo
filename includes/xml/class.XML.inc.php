@@ -139,7 +139,7 @@ class XML
 
         //processes
         if (($procss = $this->_sys->getProcesses()) !== null) {
-            if (($procall = $procss['*']) > 0) {
+            if (isset($procss['*']) && (($procall = $procss['*']) > 0)) {
                 $vitals->addAttribute('Processes', $procall);
                 if (!isset($procss[' ']) || !($procss[' '] > 0)) { // not unknown
                     $procsum = 0;
