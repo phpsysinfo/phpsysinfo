@@ -312,6 +312,7 @@ class Linux extends OS
                             break;
                         case 'model name':
                         case 'cpu model':
+                        case 'cpu type':
                         case 'cpu':
                             $dev->setModel($arrBuff[1]);
                             break;
