@@ -550,6 +550,7 @@ class WINNT extends OS
         foreach ($buffer as $process) {
             $processes['*']++;
         }
+        $processes[' '] = $processes['*'];
         $this->sys->setProcesses($processes);
     }
 
