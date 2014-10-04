@@ -343,7 +343,7 @@ class Minix extends OS
                     $processes['*']++;
                     $state = $ar_buf[1];
                     if ($state == 'W') $state = 'D'; //linux format
-                    elseif ($state == 'D') $state = '_D'; //invalid
+                    elseif ($state == 'D') $state = 'd'; //invalid
                     if (isset($processes[$state])) {
                         $processes[$state]++;
                     } else {

@@ -404,7 +404,7 @@ class Darwin extends BSDCommon
                     $state = $ar_buf[1];
                     if ($state == 'U') $state = 'D'; //linux format
                     elseif ($state == 'I') $state = 'S';
-                    elseif ($state == 'D') $state = '_D'; //invalid
+                    elseif ($state == 'D') $state = 'd'; //invalid
                     if (isset($processes[$state])) {
                         $processes[$state]++;
                     } else {
