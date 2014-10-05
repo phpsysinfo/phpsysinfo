@@ -1,5 +1,5 @@
-Processes state translation table 
-----Linux (Android)
+Processes state translation table
+-----Linux (Android)
 [R] R   Running
 [S] S   Sleeping in an interruptible wait
 [D] D   Waiting in uninterruptible disk sleep
@@ -30,29 +30,29 @@ Processes state translation table
 [T] T   Marks a stopped process.
     U   Marks a suspended process.
 [Z] Z   Marks a dead process (a ``zombie'').
-----OpenBSD
+-----OpenBSD
 [D] D   Marks a process in	disk (or other short term, uninterruptible) wait.
 [S] I   Marks a process that is idle (sleeping for	longer than about	20 seconds).
 [R] R   Marks a runnable process.
 [S] S   Marks a process that is sleeping for less than about 20 seconds.
 [T] T   Marks a stopped process.
 [Z] Z   Marks a dead process (a ``zombie'').
-----Darwin
+-----Darwin
 [S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
 [R] R   Marks a runnable process.
 [S] S   Marks a process that is sleeping for less than about 20 seconds.
 [T] T   Marks a stopped process.
 [D] U   Marks a process in uninterruptible wait.
 [Z] Z   Marks a dead process (a ``zombie'').
-[d] D  [invalid state]  
-----Minix
+[d] D  [invalid state]
+-----Minix
 [R] R   runnable
 [S] S   sleeping (i.e.,suspended on PM or VFS)
 [T] T   stopped
 [D] W   waiting (on a message)
 [Z] Z   zombie
-[d] D  [invalid state]  
-----DragonFly
+[d] D  [invalid state]
+-----DragonFly
     B   Marks a blocked kernel thread.
 [D] D   Marks a process in disk (or other short term, uninterruptible) wait.
 [S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
@@ -61,3 +61,11 @@ Processes state translation table
 [S] S   Marks a process that is sleeping for less than about 20 seconds.
 [T] T   Marks a stopped process.
 [Z] Z   Marks a dead process (a ``zombie'').
+-----SunOS
+[R] O   Process is running on a	processor.
+[S] S   Sleeping: process is waiting for an event to complete.
+[R] R   Runnable: process is on	run queue.
+[T] T   Process is stopped, either by a job control signal or because it is	being traced.
+[D] W   Waiting: process is waiting for CPU usage to drop to the CPU-caps enforced limits
+[Z] Z   Zombie state: process  terminated  and	parent not waiting.
+[d] D  [invalid state]
