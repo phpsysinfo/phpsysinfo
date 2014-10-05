@@ -52,3 +52,12 @@ Processes state translation table
 [D] W   waiting (on a message)
 [Z] Z   zombie
 [d] D  [invalid state]  
+----DragonFly
+    B   Marks a blocked kernel thread.
+[D] D   Marks a process in disk (or other short term, uninterruptible) wait.
+[S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
+    J   Marks a process which is in jail(2).  The hostname of the prison can be found in /proc/<pid>/status.
+[R] R   Marks a runnable process and is followed by the CPU number.
+[S] S   Marks a process that is sleeping for less than about 20 seconds.
+[T] T   Marks a stopped process.
+[Z] Z   Marks a dead process (a ``zombie'').
