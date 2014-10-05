@@ -14,7 +14,7 @@ Processes state translation table
     P   Parked (Linux 3.9 to 3.13 only)
 -----FreeBSD
 [D] D   Marks a process in disk (or other short term, uninterruptible) wait.
-[S] I   Marks a process that is idle (sleeping for longer than about 20	seconds).
+[S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
 [D] L   Marks a process that is waiting to acquire a lock.
 [R] R   Marks a runnable process.
 [S] S   Marks a process that is sleeping for less than about 20 seconds.
@@ -22,7 +22,7 @@ Processes state translation table
     W   Marks an idle interrupt thread.
 [Z] Z   Marks a dead process (a ``zombie'').
 -----NetBSD
-[D] D   Marks a process in	disk (or other short term, uninterruptible) wait.
+[D] D   Marks a process in disk (or other short term, uninterruptible) wait.
 [S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
 [R] O   Marks a process running on a processor.
 [R] R   Marks a runnable process, or one that is in the process of creation.
@@ -31,8 +31,8 @@ Processes state translation table
     U   Marks a suspended process.
 [Z] Z   Marks a dead process (a ``zombie'').
 -----OpenBSD
-[D] D   Marks a process in	disk (or other short term, uninterruptible) wait.
-[S] I   Marks a process that is idle (sleeping for	longer than about	20 seconds).
+[D] D   Marks a process in disk (or other short term, uninterruptible) wait.
+[S] I   Marks a process that is idle (sleeping for longer than about 20 seconds).
 [R] R   Marks a runnable process.
 [S] S   Marks a process that is sleeping for less than about 20 seconds.
 [T] T   Marks a stopped process.
@@ -62,10 +62,10 @@ Processes state translation table
 [T] T   Marks a stopped process.
 [Z] Z   Marks a dead process (a ``zombie'').
 -----SunOS
-[R] O   Process is running on a	processor.
+[R] O   Process is running on a processor.
 [S] S   Sleeping: process is waiting for an event to complete.
-[R] R   Runnable: process is on	run queue.
-[T] T   Process is stopped, either by a job control signal or because it is	being traced.
+[R] R   Runnable: process is on run queue.
+[T] T   Process is stopped, either by a job control signal or because it is being traced.
 [D] W   Waiting: process is waiting for CPU usage to drop to the CPU-caps enforced limits
-[Z] Z   Zombie state: process  terminated  and	parent not waiting.
+[Z] Z   Zombie state: process  terminated  and parent not waiting.
 [d] D  [invalid state]
