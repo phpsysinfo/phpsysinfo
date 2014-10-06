@@ -300,7 +300,7 @@ class Minix extends OS
      */
     private function _filesystems()
     {
-      $arrResult = Parser::df("-P");
+      $arrResult = Parser::df("-P 2>/dev/null");
       foreach ($arrResult as $dev) {
          $this->sys->setDiskDevices($dev);
      }

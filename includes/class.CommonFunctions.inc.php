@@ -444,7 +444,7 @@ class CommonFunctions
         } else {
             $pipe2 = true;
         }
-        while (!(feof($pipes[1]) || ($pipe2 && feof($pipes[2])))) {
+        while (!(feof($pipes[1]) && (!$pipe2 || feof($pipes[2])))) {
             if ($pipe2) {
                 $read = array($pipes[1], $pipes[2]);
             } else {
