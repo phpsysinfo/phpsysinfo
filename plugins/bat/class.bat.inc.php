@@ -353,17 +353,18 @@ class BAT extends PSI_Plugin
     {
         foreach ($this->_result as $bat_item) {
             $xmlbat = $this->xml->addChild("Bat");
-            if (isset($bat_item['design_capacity'])) {
-                $xmlbat->addAttribute("DesignCapacity", $bat_item['design_capacity']);
+            if (isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
+                $xmlbat->addAttribute("Capacity", $bat_item['capacity']);
+            } else {
+                if (isset($bat_item['design_capacity'])) {
+                    $xmlbat->addAttribute("DesignCapacity", $bat_item['design_capacity']);
+                }
+                if (isset($bat_item['remaining_capacity'])) {
+                    $xmlbat->addAttribute("RemainingCapacity", $bat_item['remaining_capacity']);
+                }
             }
             if (isset($bat_item['design_voltage'])) {
                 $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage']);
-            }
-            if (isset($bat_item['remaining_capacity'])) {
-                $xmlbat->addAttribute("RemainingCapacity", $bat_item['remaining_capacity']);
-            }
-            if (isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
-                $xmlbat->addAttribute("Capacity", $bat_item['capacity']);
             }
             if (isset($bat_item['present_voltage'])) {
                 $xmlbat->addAttribute("PresentVoltage", $bat_item['present_voltage']);
