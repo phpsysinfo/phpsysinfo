@@ -267,7 +267,7 @@ class BAT extends PSI_Plugin
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_NOW\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['remaining_capacity'] = ($data[1]/1000);
                 $bat['capacity'] = -1;
-            } elseif (preg_match('/^POWER_SUPPLY_CHARGE_NOW\s*=\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^POWER_SUPPLY_CHARGE_NOW\s*=\s*(.*)$/', trim($roworig), $data) && (PSI_OS != 'Android')) {
                 $bat['remaining_capacity'] = ($data[1]/1000);
                 $bat['capacity'] = -1;
 
@@ -276,6 +276,7 @@ class BAT extends PSI_Plugin
                 $bat['design_capacity_max'] = ($data[1]/1000);
             } elseif (preg_match('/^POWER_SUPPLY_CHARGE_FULL_DESIGN\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity_max'] = ($data[1]/1000);
+
             /* Android */
             } elseif (preg_match('/^POWER_SUPPLY_CAPACITY\s*=\s*(.*)$/', trim($roworig), $data) && !isset($bat['remaining_capacity'])) {
                 $bat['capacity'] = $data[1];
