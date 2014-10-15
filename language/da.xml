@@ -79,7 +79,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
     <exp>Sendt</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Fejl/tabt</exp>
+    <exp>Fejl/Tabt</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Etablerede netværskforbindelser</exp>

@@ -79,7 +79,7 @@ phpSysInfo language file Language: Romană Created by: Sorin Gheorghe Update by:
     <exp>Trimis</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Erori</exp>
+    <exp>Erori/Drop</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Conexiuni Rețea Stabilite</exp>
