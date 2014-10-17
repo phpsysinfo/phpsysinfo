@@ -7,7 +7,7 @@ phpSysInfo 3.1.16
 ----------------
 
  - [ADD] Show number of process
- - [ADD] 4MLinux to detected distros
+ - [ADD] Lunar and 4MLinux to detected distros
 
 phpSysInfo 3.1.15
 ----------------
