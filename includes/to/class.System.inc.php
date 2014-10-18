@@ -210,6 +210,13 @@ class System
     private $_swapDevices = array();
 
     /**
+     * array of types of processes
+     *
+     * @var Array
+     */
+    private $_processes = array();
+
+    /**
      * remove duplicate Entries and Count
      *
      * @param Array $arrDev list of HWDevices
@@ -1039,5 +1046,36 @@ class System
     public function setSwapDevices($swapDevices)
     {
         array_push($this->_swapDevices, $swapDevices);
+    }
+
+    /**
+     * Returns $_processes.
+     *
+     * @see System::$_processes
+     *
+     * @return Array
+     */
+    public function getProcesses()
+    {
+        return $this->_processes;
+    }
+
+    /**
+     * Sets $_proceses.
+     *
+     * @param $processes array of types of processes
+     *
+     * @see System::$_processes
+     *
+     * @return Void
+     */
+    public function setProcesses($processes)
+    {
+        $this->_processes = $processes;
+/*
+        foreach ($processes as $proc_type=>$proc_count) {
+            $this->_processes[$proc_type] = $proc_count;
+        }
+*/
     }
 }

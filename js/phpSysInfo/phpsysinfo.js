@@ -579,11 +579,13 @@ function createBar(size, barclass) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesWaiting = 0, processesOther = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
+    var not_first = false;
     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
- 
+
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
         ip = $(this).attr("IPAddr");
@@ -601,6 +603,7 @@ function refreshVitals(xml) {
             syslang = $(this).attr("SysLang");
             document.getElementById("s_syslang_tr").style.display='';
         }
+
         if ($(this).attr("CodePage") !== undefined) {
             codepage = $(this).attr("CodePage");
             if ($(this).attr("SysLang") !== undefined) {
@@ -609,6 +612,36 @@ function refreshVitals(xml) {
                 document.getElementById("s_codepage_tr2").style.display='';
             }
         }
+
+        //processes
+        if ($(this).attr("Processes") !== undefined) {
+            processes = parseInt($(this).attr("Processes"), 10);
+            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") == undefined)) ||
+                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined))) {
+                document.getElementById("s_processes_tr1").style.display='';
+            } else {
+                document.getElementById("s_processes_tr2").style.display='';
+            }
+        }
+        if ($(this).attr("ProcessesRunning") !== undefined) {
+            processesRunning = parseInt($(this).attr("ProcessesRunning"), 10);
+        }
+        if ($(this).attr("ProcessesSleeping") !== undefined) {
+            processesSleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
+        }
+        if ($(this).attr("ProcessesStopped") !== undefined) {
+            processesStopped = parseInt($(this).attr("ProcessesStopped"), 10);
+        }
+        if ($(this).attr("ProcessesZombie") !== undefined) {
+            processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
+        }
+        if ($(this).attr("ProcessesWaiting") !== undefined) {
+            processesWaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
+        }
+        if ($(this).attr("ProcessesOther") !== undefined) {
+            processesOther = parseInt($(this).attr("ProcessesOther"), 10);
+        }
+
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
         $("#s_ip_title").html(ip);
@@ -628,6 +661,57 @@ function refreshVitals(xml) {
         $("#s_syslang").html(syslang);
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
+        $("#s_processes_1").html(processes);
+        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
+            $("#s_processes_1").append(" (");
+            not_first = false;
+
+            if (processesRunning) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesRunning + "&nbsp;" + genlang(111, true));
+                not_first = true;
+            }
+            if (processesSleeping) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesSleeping + "&nbsp;" + genlang(112, true));
+                not_first = true;
+            }
+            if (processesStopped) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesStopped + "&nbsp;" + genlang(113, true));
+                not_first = true;
+            }
+            if (processesZombie) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
+                not_first = true;
+            }
+            if (processesWaiting) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesWaiting + "&nbsp;" + genlang(115, true));
+                not_first = true;
+            }
+            if (processesOther) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(116, true));
+                not_first = true;
+            }
+
+            $("#s_processes_1").append(") ");
+        }
+        $("#s_processes_2").html($("#s_processes_1").html());
     });
 }
 
@@ -830,7 +914,7 @@ function refreshNetwork(xml) {
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
-        html +="<tr><td>" + name + "</td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/" + dr.toString() + "</td></tr>";
+        html +="<tr><td>" + name + "</td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/&#8203;" + dr.toString() + "</td></tr>";
 
         networkindex = tree.push(0);
 

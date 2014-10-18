@@ -52,7 +52,7 @@ function bat_populate(xml) {
             if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' mWh', '&nbsp;']);
         } else {
             bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity+' mWh', '&nbsp;']);
-            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' mWh', createBar(parseInt(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 10))]);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' mWh', createBar(round(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0))]);
         }
         if (ChargingState != undefined) {
             bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);

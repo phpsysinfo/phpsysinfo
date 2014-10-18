@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: he.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
 -->
@@ -331,5 +332,26 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>running</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>sleeping</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>stopped</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>waiting</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>other</exp>
   </expression>
 </tns:translation>

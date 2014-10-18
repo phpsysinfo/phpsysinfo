@@ -238,7 +238,7 @@ class WINNT extends OS
                 $icon = 'Win2000.png';
             elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3."))
+            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4."))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';
@@ -542,6 +542,19 @@ class WINNT extends OS
         return $this->_syslang;
     }
 
+    public function _processes()
+    {
+        $processes['*'] = 0;
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+
+        foreach ($buffer as $process) {
+            $processes['*']++;
+        }
+        $processes[' '] = $processes['*'];
+        $this->sys->setProcesses($processes);
+    }
+
+
     /**
      * get the information
      *
@@ -566,5 +579,6 @@ class WINNT extends OS
         $this->_filesystems();
         $this->_memory();
         $this->_loadavg();
+        $this->_processes();
     }
 }

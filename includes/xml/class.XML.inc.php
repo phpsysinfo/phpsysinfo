@@ -136,6 +136,39 @@ class XML
         if ($this->_sysinfo->getEncoding() !== null) {
             $vitals->addAttribute('CodePage', $this->_sysinfo->getEncoding());
         }
+
+        //processes
+        if (($procss = $this->_sys->getProcesses()) !== null) {
+            if (isset($procss['*']) && (($procall = $procss['*']) > 0)) {
+                $vitals->addAttribute('Processes', $procall);
+                if (!isset($procss[' ']) || !($procss[' '] > 0)) { // not unknown
+                    $procsum = 0;
+                    if (isset($procss['R']) && (($proctmp = $procss['R']) > 0)) {
+                        $vitals->addAttribute('ProcessesRunning', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (isset($procss['S']) && (($proctmp = $procss['S']) > 0)) {
+                        $vitals->addAttribute('ProcessesSleeping', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (isset($procss['T']) && (($proctmp = $procss['T']) > 0)) {
+                        $vitals->addAttribute('ProcessesStopped', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (isset($procss['Z']) && (($proctmp = $procss['Z']) > 0)) {
+                        $vitals->addAttribute('ProcessesZombie', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (isset($procss['D']) && (($proctmp = $procss['D']) > 0)) {
+                        $vitals->addAttribute('ProcessesWaiting', $proctmp);
+                        $procsum += $proctmp;
+                    }
+                    if (($proctmp = $procall - $procsum) > 0) {
+                        $vitals->addAttribute('ProcessesOther', $proctmp);
+                    }
+                }
+            }
+        }
         $vitals->addAttribute('OS', PSI_OS);
     }
 

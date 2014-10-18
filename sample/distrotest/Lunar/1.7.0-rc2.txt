@@ -1,0 +1,13 @@
+----------/etc/lsb-release----------
+DISTRIB_ID="Lunar Linux"
+DISTRIB_RELEASE="1.7.0-rc2-x86_64"
+DISTRIB_CODENAME="Sinus Successus"
+DISTRIB_DESCRIPTION="Lunar Linux 1.7.0-rc2-x86_64 (Sinus Successus - 20140913)"
+----------/etc/os-release----------
+NAME="Lunar Linux"
+VERSION="1.7.0-rc2-x86_64 (Sinus Successus)"
+ID=lunar
+VERSION_ID=1.7.0-rc2-x86_64
+PRETTY_NAME="Lunar Linux 1.7.0-rc2-x86_64 (Sinus Successus - 20140913)"
+ANSI_COLOR="1;34"
+HOME_URL="http://lunar-linux.org/"

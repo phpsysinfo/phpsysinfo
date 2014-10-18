@@ -1,0 +1,20 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/uevent
+POWER_SUPPLY_NAME=battery
+POWER_SUPPLY_TYPE=Battery
+POWER_SUPPLY_STATUS=Charging
+POWER_SUPPLY_PRESENT=1
+POWER_SUPPLY_HEALTH=Good
+POWER_SUPPLY_TECHNOLOGY=Li-poly
+POWER_SUPPLY_CAPACITY=100
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/capacity
+100
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/batt_temp
+330
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/batt_vol
+4181
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/technology
+Li-poly
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/status
+Charging
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/health
+Good

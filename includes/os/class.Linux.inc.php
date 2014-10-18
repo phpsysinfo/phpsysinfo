@@ -312,6 +312,7 @@ class Linux extends OS
                             break;
                         case 'model name':
                         case 'cpu model':
+                        case 'cpu type':
                         case 'cpu':
                             $dev->setModel($arrBuff[1]);
                             break;
@@ -998,6 +999,37 @@ class Linux extends OS
     }
 
     /**
+     * Processes
+     *
+     * @return void
+     */
+    protected function _processes()
+    {
+        $process = glob('/proc/*/status', GLOB_NOSORT);
+        if (($total = count($process)) > 0) {
+
+            $processes['*'] = 0;
+            $buf = "";
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
+                    $processes['*']++; //current total
+                    if (preg_match('/^State:\s+(\w)/m', $buf, $state)) {
+                        if (isset($processes[$state[1]])) {
+                            $processes[$state[1]]++;
+                        } else {
+                            $processes[$state[1]] = 1;
+                        }
+                    }
+                }
+            }
+            if (!($processes['*'] > 0)) {
+                $processes['*'] = $processes[' '] = $total; //all unknown
+            }
+            $this->sys->setProcesses($processes);
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_OS::build()
@@ -1022,5 +1054,6 @@ class Linux extends OS
         $this->_memory();
         $this->_filesystems();
         $this->_loadavg();
+        $this->_processes();
     }
 }

@@ -1,0 +1,31 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/uevent
+POWER_SUPPLY_NAME=BAT0
+POWER_SUPPLY_STATUS=Unknown
+POWER_SUPPLY_PRESENT=1
+POWER_SUPPLY_TECHNOLOGY=Unknown
+POWER_SUPPLY_CYCLE_COUNT=0
+POWER_SUPPLY_VOLTAGE_MIN_DESIGN=10000000
+POWER_SUPPLY_VOLTAGE_NOW=10000000
+POWER_SUPPLY_POWER_NOW=0
+POWER_SUPPLY_ENERGY_FULL_DESIGN=50000000
+POWER_SUPPLY_ENERGY_FULL=50000000
+POWER_SUPPLY_ENERGY_NOW=49000000
+POWER_SUPPLY_CAPACITY=98
+POWER_SUPPLY_CAPACITY_LEVEL=Normal
+POWER_SUPPLY_MODEL_NAME=1
+POWER_SUPPLY_MANUFACTURER=innotek
+POWER_SUPPLY_SERIAL_NUMBER=0
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/voltage_min_design
+10000000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/voltage_now
+10000000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/energy_full
+50000000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/energy_now
+49000000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/capacity
+98
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/technology
+Unknown
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/status
+Unknown

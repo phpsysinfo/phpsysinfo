@@ -1,0 +1,31 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/uevent
+POWER_SUPPLY_NAME=battery
+POWER_SUPPLY_STATUS=Charging
+POWER_SUPPLY_CHARGE_TYPE=Fast
+POWER_SUPPLY_HEALTH=Good
+POWER_SUPPLY_PRESENT=1
+POWER_SUPPLY_ONLINE=3
+POWER_SUPPLY_TECHNOLOGY=Li-ion
+POWER_SUPPLY_VOLTAGE_MAX_DESIGN=4350000
+POWER_SUPPLY_VOLTAGE_MIN_DESIGN=3400000
+POWER_SUPPLY_VOLTAGE_NOW=3926715
+POWER_SUPPLY_CAPACITY=14
+POWER_SUPPLY_CURRENT_MAX=1000000
+POWER_SUPPLY_CURRENT_NOW=736500
+POWER_SUPPLY_TEMP=308
+POWER_SUPPLY_ENERGY_FULL=1940000000
+POWER_SUPPLY_CHARGE_NOW=46573
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/capacity
+14
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/batt_temp_adc
+308
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/batt_vfocv
+3920
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/voltage_max_design
+4350000
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/technology
+Li-ion
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/status
+Charging
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/health
+Good

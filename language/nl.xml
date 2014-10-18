@@ -333,4 +333,25 @@ phpSysInfo language file Language: Dutch Created by: Jaap Struyk
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>running</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>sleeping</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>stopped</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>waiting</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>other</exp>
+  </expression>
 </tns:translation>

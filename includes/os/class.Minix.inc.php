@@ -329,6 +329,35 @@ class Minix extends OS
     }
 
     /**
+     * Processes
+     *
+     * @return void
+     */
+    protected function _processes()
+    {
+        if (CommonFunctions::executeProgram('ps', 'alx', $bufr, PSI_DEBUG)) {
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $processes['*'] = 0;
+            foreach ($lines as $line) {
+                if (preg_match("/^\s(\w)\s/", $line, $ar_buf)) {
+                    $processes['*']++;
+                    $state = $ar_buf[1];
+                    if ($state == 'W') $state = 'D'; //linux format
+                    elseif ($state == 'D') $state = 'd'; //invalid
+                    if (isset($processes[$state])) {
+                        $processes[$state]++;
+                    } else {
+                        $processes[$state] = 1;
+                    }
+                }
+            }
+            if ($processes['*'] > 0) {
+                $this->sys->setProcesses($processes);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @return Void
@@ -348,5 +377,6 @@ class Minix extends OS
         $this->_memory();
         $this->_filesystems();
         $this->_network();
+        $this->_processes();
     }
 }

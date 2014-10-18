@@ -1,0 +1,10 @@
+machine         : SH7785LCR
+processor       : 0
+cpu family      : sh4a
+cpu type        : SH7785
+cut             : 7.x
+cpu flags       : fpu perfctr llsc
+cache type      : split (harvard)
+icache size     : 32KiB (4-way)
+dcache size     : 32KiB (4-way)
+bogomips        : 599.99

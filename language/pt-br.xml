@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: pt-br.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: Brazilian Portuguese Created by:
-Giancarlo Gil Ottaviani Raduan graduan at gmail.com
+phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gil Ottaviani Raduan graduan at gmail.com
 -->
 <tns:translation language="french" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -80,7 +79,7 @@ Giancarlo Gil Ottaviani Raduan graduan at gmail.com
     <exp>Enviado</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Erro/Perdido</exp>
+    <exp>Erro/&#8203;Perdido</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Conexoes de Rede Estabilizadas</exp>
@@ -333,5 +332,26 @@ Giancarlo Gil Ottaviani Raduan graduan at gmail.com
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>running</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>sleeping</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>stopped</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>waiting</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>other</exp>
   </expression>
 </tns:translation>
