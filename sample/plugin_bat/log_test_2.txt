@@ -1,0 +1,22 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /proc/acpi/battery/BAT0/state
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mW
+remaining capacity:      70380 mWh
+present voltage:         12400 mV
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /proc/acpi/battery/BAT0/info
+present:                 yes
+design capacity:         82280 mWh
+last full capacity:      72420 mWh
+battery technology:      rechargeable
+design voltage:          10800 mV
+design capacity warning: 3621 mWh
+design capacity low:     200 mWh
+cycle count:             0
+capacity granularity 1:  1 mWh
+capacity granularity 2:  1 mWh
+model number:            92P1137
+serial number:           999
+battery type:            LION
+OEM info:                SANYO

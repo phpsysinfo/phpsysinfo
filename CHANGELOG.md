@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.17
+----------------
+
+ - [UPD] BAT plugin - capacity unit
+
 phpSysInfo 3.1.16
 ----------------
 
