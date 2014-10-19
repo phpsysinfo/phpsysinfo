@@ -175,12 +175,12 @@ class BAT extends PSI_Plugin
                     }
                     if (isset($buffer[0]['FullChargeCapacity'])) {
                         $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL='.($buffer[0]['FullChargeCapacity']*1000)."\n";
-                        if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$buffer[0]['FullChargeCapacity']/100)."\n");
+                        if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$buffer[0]['FullChargeCapacity']*10)."\n");
                         if (isset($buffer[0]['DesignCapacity']) && ($buffer[0]['DesignCapacity']!=0))
                             $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($buffer[0]['DesignCapacity']*1000)."\n";
                      } elseif (isset($buffer[0]['DesignCapacity'])) {
                         $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($buffer[0]['DesignCapacity']*1000)."\n";
-                        if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$buffer[0]['DesignCapacity']/100)."\n");
+                        if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$buffer[0]['DesignCapacity']*10)."\n");
                      } else {
                         if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
                      }
