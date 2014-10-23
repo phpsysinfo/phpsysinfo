@@ -153,25 +153,27 @@ class BAT extends PSI_Plugin
                         }
                     }
                     if ($techn != '') $buffer_info .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
-                    if (!isset($buffer[0]['FullChargeCapacity'])) {
-                        $strHostname2 = '';
-                        $strUser2 = '';
-                        $strPassword2 = '';
-                        try {
-                            // initialize the wmi object
-                            $objLocator2 = new COM('WbemScripting.SWbemLocator');
-                            if ($strHostname2 == "") {
-                                $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI');
 
-                            } else {
-                                $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI', $strHostname2.'\\'.$strUser2, $strPassword2);
-                            }
-                            $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
-                            if (isset($buffer2[0]['FullChargedCapacity'])) {
-                                $buffer[0]['FullChargeCapacity'] = $buffer2[0]['FullChargedCapacity'];
-                            }
-                        } catch (Exception $e) {
+                    $strHostname2 = '';
+                    $strUser2 = '';
+                    $strPassword2 = '';
+                    try {
+                        // initialize the wmi object
+                        $objLocator2 = new COM('WbemScripting.SWbemLocator');
+                        if ($strHostname2 == "") {
+                            $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI');
+
+                        } else {
+                            $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI', $strHostname2.'\\'.$strUser2, $strPassword2);
                         }
+                        $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryFullChargedCapacity', array('FullChargedCapacity', 'BatteryCycleCount'));
+                        if (!isset($buffer[0]['FullChargeCapacity']) && isset($buffer2[0]['FullChargedCapacity'])) {
+                            $buffer[0]['FullChargeCapacity'] = $buffer2[0]['FullChargedCapacity'];
+                        }
+                        if (isset($buffer2[0]['BatteryCycleCount']) && ($buffer2[0]['BatteryCycleCount'] > 0)) {
+                            $buffer_info .= 'POWER_SUPPLY_CYCLE_COUNT='.$buffer2[0]['BatteryCycleCount']."\n";
+                        }
+                    } catch (Exception $e) {
                     }
                     if (isset($buffer[0]['FullChargeCapacity'])) {
                         $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL='.($buffer[0]['FullChargeCapacity']*1000)."\n";
@@ -263,11 +265,15 @@ class BAT extends PSI_Plugin
                 } elseif ($bat['capacity_unit'] != trim($data[2])) {
                     $bat['capacity_unit'] = "???";
                 }
+            } elseif (preg_match('/^cycle count\s*:\s*(.*)$/', trim($roworig), $data) && ($data[1] > 0)) {
+                $bat['cycle_count'] = $data[1];
             } elseif (preg_match('/^design voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_voltage'] = $data[1];
             } elseif (preg_match('/^battery type\s*:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
 
+            } elseif (preg_match('/^POWER_SUPPLY_CYCLE_COUNT\s*=\s*(.*)$/', trim($roworig), $data) && ($data[1] > 0)) {
+                $bat['cycle_count'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MIN_DESIGN\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['design_voltage'] = ($data[1]/1000);
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_FULL\s*=\s*(.*)$/', trim($roworig), $data)) {
@@ -342,6 +348,8 @@ class BAT extends PSI_Plugin
                 if ($data[1]>0) $bat['battery_temperature'] = $data[1]/100;
             } elseif (preg_match('/^"DesignCapacity"\s*=\s*(.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity_max'] = $data[1];
+            } elseif (preg_match('/^"CycleCount"\s*=\s*(.*)$/', trim($roworig), $data) && ($data[1] > 0)) {
+                $bat['cycle_count'] = $data[1];
             /* auxiary */
             } elseif (preg_match('/^"FullyCharged"\s*=\s*Yes$/', trim($roworig), $data)) {
                 $bat['charging_state_f'] = true;
@@ -468,6 +476,9 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['capacity_unit'])) {
                 $xmlbat->addAttribute("CapacityUnit", $bat_item['capacity_unit']);
+            }
+            if (isset($bat_item['cycle_count'])) {
+                $xmlbat->addAttribute("CycleCount", $bat_item['cycle_count']);
             }
         }
 

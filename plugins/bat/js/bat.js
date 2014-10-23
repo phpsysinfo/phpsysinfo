@@ -35,7 +35,7 @@ function bat_populate(xml) {
     bat_table.fnClearTable();
 
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
-        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "", CapacityUnit = "";
+        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "", CapacityUnit = "", CycleCount = "";
         DesignCapacity = $(this).attr("DesignCapacity");
         DesignVoltage = $(this).attr("DesignVoltage");
         BatteryType = $(this).attr("BatteryType");
@@ -46,6 +46,7 @@ function bat_populate(xml) {
         BatteryCondition = $(this).attr("BatteryCondition");
         Capacity = $(this).attr("Capacity");
         CapacityUnit = $(this).attr("CapacityUnit");
+        CycleCount = $(this).attr("CycleCount");
 
         if (CapacityUnit == undefined) {
             CapacityUnit = "mWh";
@@ -76,6 +77,9 @@ function bat_populate(xml) {
         }
         if (BatteryCondition != undefined) {
             bat_table.fnAddData([genlang(12, true, "BAT"), BatteryCondition, '&nbsp;']);
+        }
+        if (CycleCount != undefined) {
+            bat_table.fnAddData([genlang(13, true, "BAT"), CycleCount, '&nbsp;']);
         }
 
         bat_show = true;
