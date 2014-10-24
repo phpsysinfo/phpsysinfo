@@ -25,6 +25,8 @@ POWER_SUPPLY_BATT_TEMP_AVER=15
 82
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/batt_vol
 4200
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/voltage_min_design
+2800
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/voltage_max_design
 4300
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/technology
