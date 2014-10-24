@@ -166,13 +166,16 @@ class BAT extends PSI_Plugin
                         } else {
                             $_wmi2 = $objLocator2->ConnectServer($strHostname2, 'root\WMI', $strHostname2.'\\'.$strUser2, $strPassword2);
                         }
-                        $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryFullChargedCapacity', array('FullChargedCapacity', 'BatteryCycleCount'));
-                        if (!isset($buffer[0]['FullChargeCapacity']) && isset($buffer2[0]['FullChargedCapacity'])) {
-                            $buffer[0]['FullChargeCapacity'] = $buffer2[0]['FullChargedCapacity'];
+                        if (!isset($buffer[0]['FullChargeCapacity'])) {
+                            $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
+                            if (isset($buffer2[0]['FullChargedCapacity'])) {
+                                $buffer[0]['FullChargeCapacity'] = $buffer2[0]['FullChargedCapacity'];
+                            }
                         }
-                        if (isset($buffer2[0]['BatteryCycleCount']) && ($buffer2[0]['BatteryCycleCount'] > 0)) {
-                            $buffer_info .= 'POWER_SUPPLY_CYCLE_COUNT='.$buffer2[0]['BatteryCycleCount']."\n";
-                        }
+                        $buffer2 = CommonFunctions::getWMI($_wmi2, 'BatteryCycleCount', array('CycleCount'));
+                        if (isset($buffer2[0]['CycleCount']) && ($buffer2[0]['CycleCount'] > 0)) {
+                            $buffer_info .= 'POWER_SUPPLY_CYCLE_COUNT='.$buffer2[0]['CycleCount']."\n";
+                        };
                     } catch (Exception $e) {
                     }
                     if (isset($buffer[0]['FullChargeCapacity'])) {
