@@ -366,7 +366,7 @@ abstract class BSDCommon extends OS
      */
     protected function pci()
     {
-        if (!is_array($results = Parser::lspci()) || !is_array($results = Parser::pciconf())) {
+        if (!is_array($results = Parser::lspci(false)) || !is_array($results = Parser::pciconf())) {
             foreach ($this->readdmesg() as $line) {
                 if (preg_match("/".$this->_PCIRegExp1."/", $line, $ar_buf)) {
                     $dev = new HWDevice();
