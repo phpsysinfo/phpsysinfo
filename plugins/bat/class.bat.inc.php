@@ -160,6 +160,10 @@ class BAT extends PSI_Plugin
                 $buffer_info = '';
                 $buffer_state = '';
                 CommonFunctions::executeProgram('ioreg', '-w0 -l -n AppleSmartBattery -r', $buffer_info, false);
+            } elseif (PSI_OS == 'FreeBSD') {
+                $buffer_info = '';
+                $buffer_state = '';
+                CommonFunctions::executeProgram('acpiconf', '-i batt', $buffer_info, false);
             } else {
                 if (PSI_OS == 'Android') {
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info, 0, 4096, false)) {
@@ -242,14 +246,14 @@ class BAT extends PSI_Plugin
             return;
         }
         foreach ($this->_filecontent['info'] as $roworig) {
-            if (preg_match('/^design capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            if (preg_match('/^[dD]esign capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity_max'] = $data[1];
                 if (!isset($bat['capacity_unit'])) {
                     $bat['capacity_unit'] = trim($data[2]);
                 } elseif ($bat['capacity_unit'] != trim($data[2])) {
                     $bat['capacity_unit'] = "???";
                 }
-            } elseif (preg_match('/^last full capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^[lL]ast full capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity'] = $data[1];
                 if (!isset($bat['capacity_unit'])) {
                     $bat['capacity_unit'] = trim($data[2]);
@@ -258,7 +262,7 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^cycle count\s*:\s*(.*)$/', trim($roworig), $data) && ($data[1]>0)) {
                 $bat['cycle_count'] = $data[1];
-            } elseif (preg_match('/^design voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^[dD]esign voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if ($data[1]<100000) { // uV or mV detection
                     $bat['design_voltage'] = $data[1];
                 } else {
@@ -363,6 +367,18 @@ class BAT extends PSI_Plugin
                 $bat['charging_state_i'] = true;
             } elseif (preg_match('/^"ExternalConnected"\s*=\s*Yes$/', trim($roworig), $data)) {
                 $bat['charging_state_e'] = true;
+
+            /* FreeBSD */
+            } elseif (preg_match('/^Type\s*:\s*(.*)$/', trim($roworig), $data)) {
+                $bat['battery_type'] = $data[1];
+            } elseif (preg_match('/^State\s*:\s*(.*)$/', trim($roworig), $data)) {
+                $bat['charging_state'] = $data[1];
+            } elseif (preg_match('/^Present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+                $bat['present_voltage'] = $data[1];
+            } elseif (preg_match('/^Voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+                $bat['present_voltage'] = $data[1];
+            } elseif (preg_match('/^Remaining capacity\s*:\s*(.*)$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
+                $bat['capacity'] = $data[1];
             }
         }
         foreach ($this->_filecontent['state'] as $roworig) {
