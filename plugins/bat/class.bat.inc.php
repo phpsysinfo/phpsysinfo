@@ -377,7 +377,7 @@ class BAT extends PSI_Plugin
                 $bat['present_voltage'] = $data[1];
             } elseif (preg_match('/^Voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['present_voltage'] = $data[1];
-            } elseif (preg_match('/^Remaining capacity\s*:\s*(.*)$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
+            } elseif (preg_match('/^Remaining capacity\s*:\s*(.*)%$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
                 $bat['capacity'] = $data[1];
             }
         }
