@@ -1,0 +1,18 @@
+---Sat, 11 May 2013 09:44:41 +0000 GMT--- Executing: acpiconf -i batt
+Design capacity:	50000 mWh
+Last full capacity:	50000 mWh
+Technology:		secondary (rechargeable)
+Design voltage:		10000 mV
+Capacity (warn):	100 mWh
+Capacity (low):		50 mWh
+Low/warn granularity:	1 mWh
+Warn/full granularity:	1 mWh
+Model number:		1
+Serial number:		0
+Type:			VBOX
+OEM info:		innotek
+State:			high
+Remaining capacity:	100%
+Remaining time:		unknown
+Present rate:		0 mW
+Present voltage:	10000 mV
