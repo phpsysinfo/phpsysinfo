@@ -263,7 +263,7 @@ class BAT extends PSI_Plugin
             } elseif (preg_match('/^cycle count\s*:\s*(.*)$/', trim($roworig), $data) && ($data[1]>0)) {
                 $bat['cycle_count'] = $data[1];
             } elseif (preg_match('/^[dD]esign voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
-                if ($data[1]<100000) { // uV or mV detection
+                if ($data[2]=="mV") { // uV or mV detection
                     $bat['design_voltage'] = $data[1];
                 } else {
                     $bat['design_voltage'] = round($data[1]/1000);
@@ -374,9 +374,17 @@ class BAT extends PSI_Plugin
             } elseif (preg_match('/^State\s*:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['charging_state'] = $data[1];
             } elseif (preg_match('/^Present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
-                $bat['present_voltage'] = $data[1];
+                if ($data[2]=="mV") { // uV or mV detection
+                    $bat['present_voltage'] = $data[1];
+                } else {
+                    $bat['present_voltage'] = round($data[1]/1000);
+                }
             } elseif (preg_match('/^Voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
-                $bat['present_voltage'] = $data[1];
+                if ($data[2]=="mV") { // uV or mV detection
+                    $bat['present_voltage'] = $data[1];
+                } else {
+                    $bat['present_voltage'] = round($data[1]/1000);
+                }
             } elseif (preg_match('/^Remaining capacity\s*:\s*(.*)%$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
                 $bat['capacity'] = $data[1];
             }
@@ -389,7 +397,7 @@ class BAT extends PSI_Plugin
                     $bat['capacity'] = -1;
                 }
             } elseif (preg_match('/^present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
-                if ($data[1]<100000) { // uV or mV detection
+                if ($data[2]=="mV") { // uV or mV detection
                     $bat['present_voltage'] = $data[1];
                 } else {
                     $bat['present_voltage'] = round($data[1]/1000);
