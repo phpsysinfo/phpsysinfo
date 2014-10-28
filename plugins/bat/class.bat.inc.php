@@ -246,29 +246,29 @@ class BAT extends PSI_Plugin
             return;
         }
         foreach ($this->_filecontent['info'] as $roworig) {
-            if (preg_match('/^[dD]esign capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            if (preg_match('/^[dD]esign capacity:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity_max'] = $data[1];
                 if (!isset($bat['capacity_unit'])) {
                     $bat['capacity_unit'] = trim($data[2]);
                 } elseif ($bat['capacity_unit'] != trim($data[2])) {
                     $bat['capacity_unit'] = "???";
                 }
-            } elseif (preg_match('/^[lL]ast full capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^[lL]ast full capacity:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 $bat['design_capacity'] = $data[1];
                 if (!isset($bat['capacity_unit'])) {
                     $bat['capacity_unit'] = trim($data[2]);
                 } elseif ($bat['capacity_unit'] != trim($data[2])) {
                     $bat['capacity_unit'] = "???";
                 }
-            } elseif (preg_match('/^cycle count\s*:\s*(.*)$/', trim($roworig), $data) && ($data[1]>0)) {
+            } elseif (preg_match('/^cycle count:\s*(.*)$/', trim($roworig), $data) && ($data[1]>0)) {
                 $bat['cycle_count'] = $data[1];
-            } elseif (preg_match('/^[dD]esign voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^[dD]esign voltage:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if ($data[2]=="mV") { // uV or mV detection
                     $bat['design_voltage'] = $data[1];
                 } else {
                     $bat['design_voltage'] = round($data[1]/1000);
                 }
-            } elseif (preg_match('/^battery type\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^battery type:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
 
             } elseif (preg_match('/^POWER_SUPPLY_CYCLE_COUNT\s*=\s*(.*)$/', trim($roworig), $data) && ($data[1]>0)) {
@@ -369,40 +369,40 @@ class BAT extends PSI_Plugin
                 $bat['charging_state_e'] = true;
 
             /* FreeBSD */
-            } elseif (preg_match('/^Type\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^Type:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['battery_type'] = $data[1];
-            } elseif (preg_match('/^State\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^State:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['charging_state'] = $data[1];
-            } elseif (preg_match('/^Present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^Present voltage:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if ($data[2]=="mV") { // uV or mV detection
                     $bat['present_voltage'] = $data[1];
                 } else {
                     $bat['present_voltage'] = round($data[1]/1000);
                 }
-            } elseif (preg_match('/^Voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^Voltage:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if ($data[2]=="mV") { // uV or mV detection
                     $bat['present_voltage'] = $data[1];
                 } else {
                     $bat['present_voltage'] = round($data[1]/1000);
                 }
-            } elseif (preg_match('/^Remaining capacity\s*:\s*(.*)%$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
+            } elseif (preg_match('/^Remaining capacity:\s*(.*)%$/', trim($roworig), $data)  && !isset($bat['remaining_capacity'])) {
                 $bat['capacity'] = $data[1];
             }
         }
         foreach ($this->_filecontent['state'] as $roworig) {
-            if (preg_match('/^remaining capacity\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            if (preg_match('/^remaining capacity:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if (!isset($bat['capacity_unit']) || ($bat['capacity_unit'] == trim($data[2]))) {
                     $bat['capacity_unit'] = trim($data[2]);
                     $bat['remaining_capacity'] = $data[1];
                     $bat['capacity'] = -1;
                 }
-            } elseif (preg_match('/^present voltage\s*:\s*(.*) (.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^present voltage:\s*(.*) (.*)$/', trim($roworig), $data)) {
                 if ($data[2]=="mV") { // uV or mV detection
                     $bat['present_voltage'] = $data[1];
                 } else {
                     $bat['present_voltage'] = round($data[1]/1000);
                 }
-            } elseif (preg_match('/^charging state\s*:\s*(.*)$/', trim($roworig), $data)) {
+            } elseif (preg_match('/^charging state:\s*(.*)$/', trim($roworig), $data)) {
                 $bat['charging_state'] = $data[1];
 
             } elseif (preg_match('/^POWER_SUPPLY_VOLTAGE_MIN_DESIGN\s*=\s*(.*)$/', trim($roworig), $data)) {
