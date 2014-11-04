@@ -9,6 +9,8 @@ phpSysInfo 3.1.17
  - [UPD] BAT plugin - capacity unit, cycle count, FreeBSD support
  - [UPD] Brazilian Portuguese Translation pt-br.xml
 
+ - [ADD] Show number of process on Haiku
+
 phpSysInfo 3.1.16
 ----------------
 

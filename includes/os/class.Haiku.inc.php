@@ -356,6 +356,28 @@ class Haiku extends OS
     }
 
     /**
+     * Processes
+     *
+     * @return void
+     */
+    protected function _processes()
+    {
+        if (CommonFunctions::executeProgram('ps', '', $bufr, PSI_DEBUG)) {
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $processes['*'] = 0;
+            foreach ($lines as $line) {
+                if (preg_match("/^(kernel_team|\/)/", $line, $ar_buf)) {
+                    $processes['*']++;
+                }
+            }
+            if ($processes['*'] > 0) {
+                $processes[' '] = $processes['*'];
+                $this->sys->setProcesses($processes);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @return Void
@@ -376,5 +398,6 @@ class Haiku extends OS
         $this->_memory();
         $this->_filesystems();
         $this->_network();
+        $this->_processes();
     }
 }
