@@ -10,6 +10,7 @@ phpSysInfo 3.1.17
  - [UPD] Brazilian Portuguese Translation pt-br.xml
 
  - [ADD] Show the number of processes on Haiku
+ - [ADD] ThermalZone sensor support for WinNT
 
 phpSysInfo 3.1.16
 ----------------

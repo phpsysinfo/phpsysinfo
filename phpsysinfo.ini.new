@@ -163,18 +163,19 @@ TEMP_FORMAT="c"
 
 ; Define the motherboard monitoring program
 ; We support the following programs so far
-; - LMSensors  http://www.lm-sensors.org/ (Linux)
-; - Healthd    http://healthd.thehousleys.net/ (FreeBSD)
-; - HWSensors  http://www.openbsd.org/ (OpenBSD)
-; - MBMon      http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
-; - MBM5       http://mbm.livewiredev.com/ (WinNT)
-; - Coretemp   No addon tool neded (FreeBSD)
-; - IPMI       http://openipmi.sourceforge.net/ (Linux)
-; - FreeIPMI   http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
-; - IPMIutil   http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
-; - K8Temp     http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
-; - PiTemp     No addon tool neded (Raspberry Pi - Linux)
-; - OHM        http://openhardwaremonitor.org/ (WinNT)
+; - LMSensors      http://www.lm-sensors.org/ (Linux)
+; - Healthd        http://healthd.thehousleys.net/ (FreeBSD)
+; - HWSensors      http://www.openbsd.org/ (OpenBSD)
+; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
+; - MBM5           http://mbm.livewiredev.com/ (WinNT)
+; - Coretemp       No addon tool neded (FreeBSD)
+; - IPMI           http://openipmi.sourceforge.net/ (Linux)
+; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
+; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
+; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
+; - PiTemp         No addon tool neded (Raspberry Pi - Linux)
+; - OHM            http://openhardwaremonitor.org/ (WinNT)
+; - ThermalZone    No addon tool neded (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
