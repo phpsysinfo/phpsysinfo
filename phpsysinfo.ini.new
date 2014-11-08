@@ -188,18 +188,19 @@ SENSOR_PROGRAM=false
 ; default method "command" should be fine for everybody
 ; if multiple SENSOR_PROGRAM defined must fit to all
 ; !!! tcp connections are only made local and on the default port !!!
-; - LMSensors  command, file
-; - Healthd    command
-; - HWSensors  command
-; - MBMon      command, tcp
-; - MBM5       file
-; - Coretemp   command
-; - IPMI       command, file
-; - FreeIPMI   command, file
-; - IPMIutil   command, file
-; - K8Temp     command
-; - PiTemp     command
-; - OHM        command
+; - LMSensors      command, file
+; - Healthd        command, file
+; - HWSensors      (no matter - always command)
+; - MBMon          command, file, tcp
+; - MBM5           (no matter - always file)
+; - Coretemp       (no matter - always command)
+; - IPMI           command, file
+; - FreeIPMI       command, file
+; - IPMIutil       command, file
+; - K8Temp         command, file
+; - PiTemp         (no matter - always command)
+; - OHM            (no matter - always command)
+; - ThermalZone    (no matter - always command)
 ;
 SENSOR_ACCESS="command"
 
@@ -351,7 +352,7 @@ UPS_NUT_LIST=false
 ;
 ACCESS="command"
 
-; define the battery device (no matter for WinNT and Android<4.4)
+; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android)
 ;
 DEVICE="BAT0"
 
