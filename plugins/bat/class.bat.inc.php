@@ -165,19 +165,13 @@ class BAT extends PSI_Plugin
                 $buffer_state = '';
                 CommonFunctions::executeProgram('acpiconf', '-i batt', $buffer_info, false);
             } else {
-                if (PSI_OS == 'Android') {
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info, 0, 4096, false)) {
-                        $bat_name = PSI_PLUGIN_BAT_DEVICE;
-                    } else {
-                        $bat_name = 'battery';
-                    }
-                    $rfts_bi = $rfts_bs = false;
-                } else {
-                    $bat_name = PSI_PLUGIN_BAT_DEVICE;
-                    $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/info', $buffer_info, 0, 4096, false);
-                    $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/state', $buffer_state, 0, 4096, false);
-                }
+                $bat_name = PSI_PLUGIN_BAT_DEVICE;
+                $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/info', $buffer_info, 0, 4096, false);
+                $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/state', $buffer_state, 0, 4096, false);
                 if (!$rfts_bi && !$rfts_bs) {
+                    if ((PSI_OS == 'Android') && !CommonFunctions::rfts('/sys/class/power_supply/'.PSI_PLUGIN_BAT_DEVICE.'/uevent', $buffer_info, 0, 4096, false)) {
+                            $bat_name = 'battery';
+                    }
                     CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer_info, 0, 4096, PSI_DEBUG);
                     $buffer_state = '';
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_min_design', $buffer1, 1, 4096, false)) {
