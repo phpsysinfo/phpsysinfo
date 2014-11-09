@@ -45,7 +45,7 @@ class Healthd extends Sensors
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'file':
-            if (CommonFunctions::rfts(APP_ROOT.'/data/healthdc.txt', $lines)) {
+            if (CommonFunctions::rfts(APP_ROOT.'/data/healthd.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
