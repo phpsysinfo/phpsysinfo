@@ -244,7 +244,7 @@ class WINNT extends OS
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
         } elseif (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
-                if (preg_match("/ReactOS\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
+                if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
@@ -273,14 +273,16 @@ class WINNT extends OS
         $loadavg = "";
         $sum = 0;
         $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage'));
-        foreach ($buffer as $load) {
-            $value = $load['LoadPercentage'];
-            $loadavg .= $value.' ';
-            $sum += $value;
-        }
-        $this->sys->setLoad(trim($loadavg));
-        if (PSI_LOAD_BAR) {
-            $this->sys->setLoadPercent($sum / count($buffer));
+        if ($buffer) {
+            foreach ($buffer as $load) {
+                $value = $load['LoadPercentage'];
+                $loadavg .= $value.' ';
+                $sum += $value;
+            }
+            $this->sys->setLoad(trim($loadavg));
+            if (PSI_LOAD_BAR) {
+                $this->sys->setLoadPercent($sum / count($buffer));
+            }
         }
     }
 
