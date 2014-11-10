@@ -11,6 +11,7 @@ phpSysInfo 3.1.17
 
  - [ADD] Show the number of processes on Haiku
  - [ADD] ThermalZone sensor support for WinNT
+ - [ADD] Tanglu to detected distros
 
 phpSysInfo 3.1.16
 ----------------

@@ -1,0 +1,20 @@
+----------lsb_release -a----------
+Distributor ID:	Tanglu
+Description:	Tanglu GNU/Linux 2 (Bartholomea Annulata)
+Release:	2
+Codename:	bartholomea
+----------/etc/lsb-release----------
+DISTRIB_ID=Tanglu
+DISTRIB_RELEASE=2
+DISTRIB_CODENAME=bartholomea
+DISTRIB_DESCRIPTION="Tanglu GNU/Linux 2 (Bartholomea Annulata)"
+----------/etc/os-release----------
+PRETTY_NAME="Tanglu GNU/Linux 2 (Bartholomea Annulata)"
+NAME="Tanglu GNU/Linux"
+VERSION_ID="2"
+VERSION="2 (bartholomea)"
+ID=tanglu
+HOME_URL="http://www.tanglu.org/"
+BUG_REPORT_URL="http://bugs.tanglu.org/"
+----------/etc/debian_version----------
+7.5
