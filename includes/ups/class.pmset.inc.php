@@ -45,19 +45,6 @@ class Pmset extends UPS
     }
 
     /**
-     * check if a specific value is set in an array
-     *
-     * @param object $hash array in which a specific value should be found
-     * @param object $key  key that is looked for in the array
-     *
-     * @return array
-     */
-    private function _checkIsSet($hash, $key)
-    {
-        return isset($hash[$key]) ? $hash[$key] : '';
-    }
-
-    /**
      * parse the input and store data in resultset for xml generation
      *
      * @return array

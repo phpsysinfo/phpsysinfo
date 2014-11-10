@@ -69,19 +69,6 @@ class Nut extends UPS
     }
 
     /**
-     * check if a specific value is set in an array
-     *
-     * @param object $hash array in which a specific value should be found
-     * @param object $key  key that is looked for in the array
-     *
-     * @return array
-     */
-    private function _checkIsSet($hash, $key)
-    {
-        return isset($hash[$key]) ? $hash[$key] : '';
-    }
-
-    /**
      * parse the input and store data in resultset for xml generation
      *
      * @return array
@@ -99,18 +86,34 @@ class Nut extends UPS
                 $dev = new UPSDevice();
                 //General
                 $dev->setName($name);
-                $dev->setModel($this->_checkIsSet($ups_data, 'ups.model'));
-                $dev->setMode($this->_checkIsSet($ups_data, 'driver.name'));
-                $dev->setStatus($this->_checkIsSet($ups_data, 'ups.status'));
+                if (isset($ups_data['ups.model'])) {
+                    $dev->setModel($ups_data['ups.model']);
+                }
+                if (isset($ups_data['driver.name'])) {
+                    $dev->setMode($ups_data['driver.name']);
+                }
+                if (isset($ups_data['ups.status'])) {
+                    $dev->setStatus($ups_data['ups.status']);
+                }
 
                 //Line
-                $dev->setLineVoltage($this->_checkIsSet($ups_data, 'input.voltage'));
-                $dev->setLineFrequency($this->_checkIsSet($ups_data, 'input.frequency'));
-                $dev->setLoad($this->_checkIsSet($ups_data, 'ups.load'));
+                if (isset($ups_data['input.voltage'])) {
+                    $dev->setLineVoltage($ups_data['input.voltage']);
+                }
+                if (isset($ups_data['input.frequency'])) {
+                    $dev->setLineFrequency($ups_data['input.frequency']);
+                }
+                if (isset($ups_data['ups.load'])) {
+                    $dev->setLoad($ups_data['ups.load']);
+                }
 
                 //Battery
-                $dev->setBatteryVoltage($this->_checkIsSet($ups_data, 'battery.voltage'));
-                $dev->setBatterCharge($this->_checkIsSet($ups_data, 'battery.charge'));
+                if (isset($ups_data['battery.voltage'])) {
+                    $dev->setBatteryVoltage($ups_data['battery.voltage']);
+                }
+                if (isset($ups_data['battery.charge'])) {
+                    $dev->setBatterCharge($ups_data['battery.charge']);
+                }
                 if (isset($ups_data['battery.runtime'])) {
                     $dev->setTimeLeft($ups_data['battery.runtime']/60);
                 }
