@@ -115,7 +115,7 @@ class Nut extends UPS
                     $dev->setBatterCharge($ups_data['battery.charge']);
                 }
                 if (isset($ups_data['battery.runtime'])) {
-                    $dev->setTimeLeft($ups_data['battery.runtime']/60);
+                    $dev->setTimeLeft(round($ups_data['battery.runtime']/60, 2));
                 }
 
                 //Temperature
