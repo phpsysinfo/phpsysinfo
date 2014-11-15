@@ -146,12 +146,56 @@ class Android extends Linux
         $buf = "";
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
-                $buf = $ar_buf[1];
+                $buf = trim($ar_buf[1]);
         }
-        if ( is_null($buf) || (trim($buf) == "")) {
+        if ( is_null($buf) || ($buf == "")) {
             $this->sys->setDistribution('Android');
-        } else {
-            $this->sys->setDistribution('Android '.trim($buf));
+        } else { 
+            if (preg_match('/^(\d+)\.(\d+)/', $buf, $ver)) {
+                switch ($ver[0]) {
+                case "1.0":
+                    $buf.=' (Apple Pie)';
+                    break;
+                case "1.1":
+                    $buf.=' (Banana Bread)';
+                    break;
+                case "1.5":
+                    $buf.=' (Cupcake)';
+                    break;
+                case "1.6":
+                    $buf.=' (Donut)';
+                    break;
+                case "2.0":
+                case "2.1":
+                    $buf.=' (Eclair)';
+                    break;
+                case "2.2":
+                    $buf.=' (Froyo)';
+                    break;
+                case "2.3":
+                    $buf.=' (Gingerbread)';
+                    break;
+                case "3.0":
+                case "3.1":
+                case "3.2":
+                    $buf.=' (Honeycomb)';
+                    break;
+                case "4.0":
+                    $buf.=' (Ice Cream Sandwich)';
+                    break;
+                case "4.1":
+                case "4.2":
+                case "4.3":
+                    $buf.=' (Jelly Bean)';
+                    break;
+                case "4.4":
+                    $buf.=' (KitKat)';
+                    break;
+                case "5.0":
+                    $buf.=' (Lollipop)';
+                }
+            }
+            $this->sys->setDistribution('Android '.$buf);
         }
         $this->sys->setDistributionIcon('Android.png');
     }
