@@ -155,7 +155,7 @@ class Android extends Linux
                 && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
                 && isset($list['Android'][$ver[1]])) {
                     $buf.=' '.$list['Android'][$ver[1]];
-                }
+            }
             $this->sys->setDistribution('Android '.$buf);
         }
         $this->sys->setDistributionIcon('Android.png');
