@@ -84,11 +84,11 @@ with it, as long as you keep this copyright notice on the page
     jq("tbody tr", this).each(function(i){//Inject the images into the column to make it work
       jq(this).children("td").eq(opts.column).prepend(mapb[i]);
     });
-    collarr = cget(tid);
+    if(opts.state) collarr = cget(tid);
     if (!collarr.length){
         if(opts.collapse.constructor == Array) {
             collarr=collarr.concat(opts.collapse);
-            if (collarr.length){
+            if ((collarr.length) && (opts.state)){
                  cset(tid,collarr);
             }
         }
