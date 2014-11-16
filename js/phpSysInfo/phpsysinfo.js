@@ -920,13 +920,13 @@ function refreshNetwork(xml) {
 
         info = $(this).attr("Info");
         if ( (info !== undefined) && (info != "") ) {
-           var i =0, infos = info.split(";");
-           isinfo = true;
-           for(i = 0; i < infos.length; i++){
-              html +="<tr><td>" + infos[i] + "</td><td></td><td></td><td></td></tr>";
-              tree.push(networkindex);
-              closed.push(networkindex);
+            var i =0, infos = info.split(";");
+            isinfo = true;
+            for(i = 0; i < infos.length; i++){
+                html +="<tr><td>" + infos[i] + "</td><td></td><td></td><td></td></tr>";
+                tree.push(networkindex);
             }
+            closed.push(networkindex);
         }
     });
     html += "</tbody>\n";
