@@ -14,6 +14,8 @@ phpSysInfo 3.1.17
  - [ADD] Tanglu to detected distros
  - [ADD] Android and OS X version name
 
+ - [FIX] Fixed display of treetables
+
 phpSysInfo 3.1.16
 ----------------
 
