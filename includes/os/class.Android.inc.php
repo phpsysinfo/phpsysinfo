@@ -146,12 +146,17 @@ class Android extends Linux
         $buf = "";
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
-                $buf = $ar_buf[1];
+                $buf = trim($ar_buf[1]);
         }
-        if ( is_null($buf) || (trim($buf) == "")) {
+        if ( is_null($buf) || ($buf == "")) {
             $this->sys->setDistribution('Android');
-        } else {
-            $this->sys->setDistribution('Android '.trim($buf));
+        } else { 
+            if (preg_match('/^(\d+\.\d+)/', $buf, $ver) 
+                && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
+                && isset($list['Android'][$ver[1]])) {
+                    $buf.=' '.$list['Android'][$ver[1]];
+            }
+            $this->sys->setDistribution('Android '.$buf);
         }
         $this->sys->setDistributionIcon('Android.png');
     }

@@ -163,18 +163,19 @@ TEMP_FORMAT="c"
 
 ; Define the motherboard monitoring program
 ; We support the following programs so far
-; - LMSensors  http://www.lm-sensors.org/ (Linux)
-; - Healthd    http://healthd.thehousleys.net/ (FreeBSD)
-; - HWSensors  http://www.openbsd.org/ (OpenBSD)
-; - MBMon      http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
-; - MBM5       http://mbm.livewiredev.com/ (WinNT)
-; - Coretemp   No addon tool neded (FreeBSD)
-; - IPMI       http://openipmi.sourceforge.net/ (Linux)
-; - FreeIPMI   http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
-; - IPMIutil   http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
-; - K8Temp     http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
-; - PiTemp     No addon tool neded (Raspberry Pi - Linux)
-; - OHM        http://openhardwaremonitor.org/ (WinNT)
+; - LMSensors      http://www.lm-sensors.org/ (Linux)
+; - Healthd        http://healthd.thehousleys.net/ (FreeBSD)
+; - HWSensors      http://www.openbsd.org/ (OpenBSD)
+; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
+; - MBM5           http://mbm.livewiredev.com/ (WinNT)
+; - Coretemp       No addon tool neded (FreeBSD)
+; - IPMI           http://openipmi.sourceforge.net/ (Linux)
+; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
+; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
+; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
+; - PiTemp         No addon tool neded (Raspberry Pi - Linux)
+; - OHM            http://openhardwaremonitor.org/ (WinNT)
+; - ThermalZone    No addon tool neded (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
@@ -187,18 +188,19 @@ SENSOR_PROGRAM=false
 ; default method "command" should be fine for everybody
 ; if multiple SENSOR_PROGRAM defined must fit to all
 ; !!! tcp connections are only made local and on the default port !!!
-; - LMSensors  command, file
-; - Healthd    command
-; - HWSensors  command
-; - MBMon      command, tcp
-; - MBM5       file
-; - Coretemp   command
-; - IPMI       command, file
-; - FreeIPMI   command, file
-; - IPMIutil   command, file
-; - K8Temp     command
-; - PiTemp     command
-; - OHM        command
+; - LMSensors      command, file
+; - Healthd        command, file
+; - HWSensors      (no matter - always command)
+; - MBMon          command, file, tcp
+; - MBM5           (no matter - always file)
+; - Coretemp       (no matter - always command)
+; - IPMI           command, file
+; - FreeIPMI       command, file
+; - IPMIutil       command, file
+; - K8Temp         command, file
+; - PiTemp         (no matter - always command)
+; - OHM            (no matter - always command)
+; - ThermalZone    (no matter - always command)
 ;
 SENSOR_ACCESS="command"
 
@@ -288,10 +290,10 @@ FS_USAGE_THRESHOLD=90
 HIDE_NETWORK_INTERFACE=""
 
 
-; Show network interfaces infos for Linux, FreeBSD, Haiku, Darwin, Minix and WinNT
+; Show network interfaces infos for Linux, Android, FreeBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
-SHOW_NETWORK_INFOS=false
+SHOW_NETWORK_INFOS=true
 
 
 ; ********************************
@@ -350,7 +352,7 @@ UPS_NUT_LIST=false
 ;
 ACCESS="command"
 
-; define the battery device (no matter for WinNT and Android<4.4)
+; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android)
 ;
 DEVICE="BAT0"
 

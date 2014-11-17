@@ -33,18 +33,12 @@ class OHM extends Sensors
     private $_buf = array();
 
     /**
-     * holds the COM object that we pull all the WMI data from
-     *
-     * @var Object
-     */
-    private $_wmi = null;
-
-    /**
      * fill the private content var
      */
     public function __construct()
     {
         parent::__construct();
+        $_wmi = null;
         // don't set this params for local connection, it will not work
         $strHostname = '';
         $strUser = '';
@@ -53,15 +47,17 @@ class OHM extends Sensors
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
             if ($strHostname == "") {
-                $this->_wmi = $objLocator->ConnectServer($strHostname, 'root\OpenHardwareMonitor');
+                $_wmi = $objLocator->ConnectServer($strHostname, 'root\OpenHardwareMonitor');
 
             } else {
-                $this->_wmi = $objLocator->ConnectServer($strHostname, 'root\OpenHardwareMonitor', $strHostname.'\\'.$strUser, $strPassword);
+                $_wmi = $objLocator->ConnectServer($strHostname, 'root\OpenHardwareMonitor', $strHostname.'\\'.$strUser, $strPassword);
             }
         } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for OpenHardwareMonitor data.");
         }
-        $this->_buf = CommonFunctions::getWMI($this->_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
+        if ($_wmi) {
+            $this->_buf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
+        } 
      }
 
     /**
@@ -71,14 +67,12 @@ class OHM extends Sensors
      */
     private function _temperature()
     {
-        if ($this->_wmi != null) {
-        foreach ($this->_buf as $buffer) {
+        if ($this->_buf) foreach ($this->_buf as $buffer) {
             if ($buffer['SensorType'] == "Temperature") {
-                    $dev = new SensorDevice();
-                    $dev->setName($buffer['Parent'].' '.$buffer['Name']);
-                    $dev->setValue($buffer['Value']);
-                    $this->mbinfo->setMbTemp($dev);
-                }
+                $dev = new SensorDevice();
+                $dev->setName($buffer['Parent'].' '.$buffer['Name']);
+                $dev->setValue($buffer['Value']);
+                $this->mbinfo->setMbTemp($dev);
             }
         }
     }
@@ -90,14 +84,12 @@ class OHM extends Sensors
      */
     private function _voltage()
     {
-        if ($this->_wmi != null) {
-        foreach ($this->_buf as $buffer) {
+        if ($this->_buf) foreach ($this->_buf as $buffer) {
             if ($buffer['SensorType'] == "Voltage") {
-                    $dev = new SensorDevice();
-                    $dev->setName($buffer['Parent'].' '.$buffer['Name']);
-                    $dev->setValue($buffer['Value']);
-                    $this->mbinfo->setMbVolt($dev);
-                }
+                $dev = new SensorDevice();
+                $dev->setName($buffer['Parent'].' '.$buffer['Name']);
+                $dev->setValue($buffer['Value']);
+                $this->mbinfo->setMbVolt($dev);
             }
         }
     }
@@ -109,14 +101,12 @@ class OHM extends Sensors
      */
     private function _fans()
     {
-        if ($this->_wmi != null) {
-        foreach ($this->_buf as $buffer) {
+        if ($this->_buf) foreach ($this->_buf as $buffer) {
             if ($buffer['SensorType'] == "Fan") {
-                    $dev = new SensorDevice();
-                    $dev->setName($buffer['Parent'].' '.$buffer['Name']);
-                    $dev->setValue($buffer['Value']);
-                    $this->mbinfo->setMbFan($dev);
-                }
+                $dev = new SensorDevice();
+                $dev->setName($buffer['Parent'].' '.$buffer['Name']);
+                $dev->setValue($buffer['Value']);
+                $this->mbinfo->setMbFan($dev);
             }
         }
     }
@@ -128,14 +118,12 @@ class OHM extends Sensors
      */
     private function _power()
     {
-        if ($this->_wmi != null) {
-        foreach ($this->_buf as $buffer) {
+        if ($this->_buf) foreach ($this->_buf as $buffer) {
             if ($buffer['SensorType'] == "Power") {
-                    $dev = new SensorDevice();
-                    $dev->setName($buffer['Parent'].' '.$buffer['Name']);
-                    $dev->setValue($buffer['Value']);
-                    $this->mbinfo->setMbPower($dev);
-                }
+                $dev = new SensorDevice();
+                $dev->setName($buffer['Parent'].' '.$buffer['Name']);
+                $dev->setValue($buffer['Value']);
+                $this->mbinfo->setMbPower($dev);
             }
         }
     }

@@ -1,0 +1,15 @@
+nouveau-pci-0200
+Adapter: PCI adapter
+temp1: +73.0°C (high = +100.0°C, crit = +100.0°C)
+
+applesmc-isa-0300
+Adapter: ISA adapter
+Master : 1493 RPM (min = 1500 RPM)
+TC0D: +49.5°C
+TC0H: +49.2°C
+TC0P: +48.2°C
+TH0P: +48.8°C
+TN0D: +72.8°C
+TN0P: +58.5°C
+TW0P: +56.8°C
+Tm0P: +128.0°C

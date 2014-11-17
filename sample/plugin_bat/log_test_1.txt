@@ -1,0 +1,22 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /proc/acpi/battery/BAT0/state
+present:                 yes
+capacity state:          ok
+charging state:          charged
+present rate:            0 mA
+remaining capacity:      1009 mAh
+present voltage:         12167 mV
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /proc/acpi/battery/BAT0/info
+present:                 yes
+design capacity:         4400 mAh
+last full capacity:      1009 mAh
+battery technology:      rechargeable
+design voltage:          10800 mV
+design capacity warning: 220 mAh
+design capacity low:     132 mAh
+cycle count:              0
+capacity granularity 1:  264 mAh
+capacity granularity 2:  3780 mAh
+model number:            Li_Ion_4000mA
+serial number:           0000
+battery type:            Lion
+OEM info:                SANYO

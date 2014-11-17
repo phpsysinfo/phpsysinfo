@@ -404,45 +404,32 @@ class XML
     private function _buildMbinfo()
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
+        $temp = $fan = $volt = $power = $current = null;
+        
+        if (sizeof(unserialize(PSI_MBINFO))>0) {
+            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
+                $mbinfo_data = new $mbinfoclass();
+                $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-        if ((sizeof(unserialize(PSI_MBINFO))>0) || PSI_HDDTEMP) {
-            $temp = $mbinfo->addChild('Temperature');
-            if (sizeof(unserialize(PSI_MBINFO))>0) {
-                foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                    $mbinfo_data = new $mbinfoclass();
-                    $mbinfo_detail = $mbinfo_data->getMBInfo();
-                    foreach ($mbinfo_detail->getMbTemp() as $dev) {
-                        $item = $temp->addChild('Item');
-                        $item->addAttribute('Label', $dev->getName());
-                        $item->addAttribute('Value', $dev->getValue());
-                        if ($dev->getMax() !== null) {
-                            $item->addAttribute('Max', $dev->getMax());
-                        }
-                        if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
-                            $item->addAttribute('Event', $dev->getEvent());
-                        }
+                foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                    if ($temp == null) {
+                        $temp = $mbinfo->addChild('Temperature');
                     }
-                }
-            }
-            if (PSI_HDDTEMP) {
-                $hddtemp = new HDDTemp();
-                $hddtemp_data = $hddtemp->getMBInfo();
-                foreach ($hddtemp_data->getMbTemp() as $dev) {
                     $item = $temp->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
+                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
                 }
-            }
-        }
-        if (sizeof(unserialize(PSI_MBINFO))>0) {
-            $fan = $mbinfo->addChild('Fans');
-            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                $mbinfo_data = new $mbinfoclass();
-                $mbinfo_detail = $mbinfo_data->getMBInfo();
+
                 foreach ($mbinfo_detail->getMbFan() as $dev) {
+                    if ($fan == null) {
+                        $fan = $mbinfo->addChild('Fans');
+                    }
                     $item = $fan->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
@@ -453,16 +440,15 @@ class XML
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
-            }
-            $volt = $mbinfo->addChild('Voltage');
-            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                $mbinfo_data = new $mbinfoclass();
-                $mbinfo_detail = $mbinfo_data->getMBInfo();
+
                 foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                    if ($volt == null) {
+                        $volt = $mbinfo->addChild('Voltage');
+                    }
                     $item = $volt->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
-                     if ($dev->getMin() !== null) {
+                    if ($dev->getMin() !== null) {
                         $item->addAttribute('Min', $dev->getMin());
                     }
                     if ($dev->getMax() !== null) {
@@ -472,12 +458,11 @@ class XML
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
-            }
-            $power = $mbinfo->addChild('Power');
-            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                $mbinfo_data = new $mbinfoclass();
-                $mbinfo_detail = $mbinfo_data->getMBInfo();
+
                 foreach ($mbinfo_detail->getMbPower() as $dev) {
+                    if ($power == null) {
+                        $power = $mbinfo->addChild('Power');
+                    }
                     $item = $power->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
@@ -488,12 +473,11 @@ class XML
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
-            }
-            $current = $mbinfo->addChild('Current');
-            foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
-                $mbinfo_data = new $mbinfoclass();
-                $mbinfo_detail = $mbinfo_data->getMBInfo();
+
                 foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                    if ($current == null) {
+                        $current = $mbinfo->addChild('Current');
+                    }
                     $item = $current->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
@@ -503,6 +487,22 @@ class XML
                     if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
+                }
+            }
+        }
+        
+        if (PSI_HDDTEMP) {
+            $hddtemp = new HDDTemp();
+            $hddtemp_data = $hddtemp->getMBInfo();
+            foreach ($hddtemp_data->getMbTemp() as $dev) {
+                if ($temp == null) {
+                    $temp = $mbinfo->addChild('Temperature');
+                }
+                $item = $temp->addChild('Item');
+                $item->addAttribute('Label', $dev->getName());
+                $item->addAttribute('Value', $dev->getValue());
+                if ($dev->getMax() !== null) {
+                    $item->addAttribute('Max', $dev->getMax());
                 }
             }
         }

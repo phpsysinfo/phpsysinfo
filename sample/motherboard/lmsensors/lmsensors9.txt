@@ -1,0 +1,14 @@
+power_meter-acpi-0
+Adapter: ACPI interface
+power1:       4.29 MW  (interval =   2.00 s)
+
+coretemp-isa-0000
+Adapter: ISA adapter
+Physical id 0: +56.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 0:        +54.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 1:        +56.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 2:        +53.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 3:        +53.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 4:        +53.0°C  (high = +87.0°C, crit = +97.0°C)  
+Core 5:        +52.0°C  (high = +87.0°C, crit = +97.0°C)  
+

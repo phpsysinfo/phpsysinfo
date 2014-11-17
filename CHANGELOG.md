@@ -3,10 +3,23 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.17
+----------------
+
+ - [UPD] BAT plugin - capacity unit, cycle count, FreeBSD support
+ - [UPD] Brazilian Portuguese Translation pt-br.xml
+
+ - [ADD] Show the number of processes on Haiku
+ - [ADD] ThermalZone sensor support for WinNT
+ - [ADD] Tanglu to detected distros
+ - [ADD] Android and OS X version name
+
+ - [FIX] Fixed display of treetables
+
 phpSysInfo 3.1.16
 ----------------
 
- - [ADD] Show number of process
+ - [ADD] Show the number of processes
  - [ADD] Lunar and 4MLinux to detected distros
 
 phpSysInfo 3.1.15

@@ -42,4 +42,7 @@
   <expression id="plugin_bat_012" name="bat_battery_condition">
     <exp>Battery Condition</exp>
   </expression>
+  <expression id="plugin_bat_013" name="bat_cycle_count">
+    <exp>Cycle Count</exp>
+  </expression>
 </tns:translationPlugin>

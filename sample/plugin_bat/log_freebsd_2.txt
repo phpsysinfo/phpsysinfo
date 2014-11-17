@@ -1,0 +1,18 @@
+---Sat, 11 May 2013 09:44:41 +0000 GMT--- Executing: acpiconf -i batt
+Design capacity:	4800 mAh
+Last full capacity:	3824 mAh
+Technology:		secondary (rechargeable)
+Design voltage:		14800 mV
+Capacity (warn):	240 mAh
+Capacity (low):		144 mAh
+Low/warn granularity:	264 mAh
+Warn/full granularity:	3780 mAh
+Model number:		Primary
+Serial number:
+Type:			Lion
+OEM info:		ACER
+State:			discharging
+Remaining capacity:	95%
+Remaining time:		unknown
+Present rate:		0 mA
+Voltage:		16391 mV

@@ -35,7 +35,7 @@ function bat_populate(xml) {
     bat_table.fnClearTable();
 
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
-        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "";
+        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "";
         DesignCapacity = $(this).attr("DesignCapacity");
         DesignVoltage = $(this).attr("DesignVoltage");
         BatteryType = $(this).attr("BatteryType");
@@ -45,20 +45,33 @@ function bat_populate(xml) {
         BatteryTemperature = $(this).attr("BatteryTemperature");
         BatteryCondition = $(this).attr("BatteryCondition");
         Capacity = $(this).attr("Capacity");
+        CapacityUnit = $(this).attr("CapacityUnit");
+        CycleCount = $(this).attr("CycleCount");
+        DesignVoltageMax = $(this).attr("DesignVoltageMax");
+
+        if (CapacityUnit == undefined) {
+            CapacityUnit = "mWh";
+        }
 
         if (Capacity != undefined) {
             bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(Capacity, 10)), '&nbsp;']);
         } else if (DesignCapacity == undefined) {
-            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' mWh', '&nbsp;']);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, '&nbsp;']);
         } else {
-            bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity+' mWh', '&nbsp;']);
-            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' mWh', createBar(round(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0))]);
+            bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity+' '+CapacityUnit, '&nbsp;']);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, createBar(round(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0))]);
         }
         if (ChargingState != undefined) {
             bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);
         }
         if (DesignVoltage != undefined) {
-            bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage+' mV', '&nbsp;']);
+            if (DesignVoltageMax != undefined) {
+                bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage+' mV', DesignVoltageMax+' mV']);
+            } else {
+                bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltage+' mV', '&nbsp;']);
+            }
+        } else if (DesignVoltageMax != undefined) {
+            bat_table.fnAddData([genlang(5, true, "BAT"), DesignVoltageMax+' mV', '&nbsp;']);
         }
         if (PresentVoltage != undefined) {
             bat_table.fnAddData([genlang(6, true, "BAT"), PresentVoltage+' mV', '&nbsp;']);
@@ -71,6 +84,9 @@ function bat_populate(xml) {
         }
         if (BatteryCondition != undefined) {
             bat_table.fnAddData([genlang(12, true, "BAT"), BatteryCondition, '&nbsp;']);
+        }
+        if (CycleCount != undefined) {
+            bat_table.fnAddData([genlang(13, true, "BAT"), CycleCount, '&nbsp;']);
         }
 
         bat_show = true;

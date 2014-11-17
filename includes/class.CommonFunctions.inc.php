@@ -205,15 +205,19 @@ class CommonFunctions
                 if ($arrArgs[$i] == '|') {
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
-                    $strArgs = preg_replace("/\| ".$strCmd.'/', "| ".$strNewcmd, $strArgs);
+                    $strArgs = preg_replace("/\| ".$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
                 }
             }
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            $process = $pipes[1] = popen($strProgram." ".$strArgs." 2>/dev/null", "r");
+            if (PSI_OS == 'WINNT') { 
+                $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>nul", "r");
+            } else {
+                $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>/dev/null", "r");
+            }
         } else {
-            $process = proc_open($strProgram." ".$strArgs, $descriptorspec, $pipes);
+            $process = proc_open('"'.$strProgram.'" '.$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
             self::_timeoutfgets($pipes, $strBuffer, $strError);

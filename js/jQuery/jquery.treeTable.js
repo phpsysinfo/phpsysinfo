@@ -84,16 +84,20 @@ with it, as long as you keep this copyright notice on the page
     jq("tbody tr", this).each(function(i){//Inject the images into the column to make it work
       jq(this).children("td").eq(opts.column).prepend(mapb[i]);
     });
-		collarr = cget(tid);
-		if(opts.collapse.constructor == Array) {
-			collarr=collarr.concat(opts.collapse);
-		}
-		if (collarr.length){
-			cset(tid,collarr);
-	    for (var y=0,yl=collarr.length;y<yl;y++){
-	      collapseKids(collarr[y],($("#"+collarr[y]+ " .parimg").attr("src")==opts.lastOpenImg));
-	    }
-		}
+    if(opts.state) collarr = cget(tid);
+    if (!collarr.length){
+        if(opts.collapse.constructor == Array) {
+            collarr=collarr.concat(opts.collapse);
+            if ((collarr.length) && (opts.state)){
+                 cset(tid,collarr);
+            }
+        }
+    }
+    if (collarr.length){
+        for (var y=0,yl=collarr.length;y<yl;y++){
+            collapseKids(collarr[y], $("#"+tid+collarr[y]+ ".parimg").attr("src")==opts.lastOpenImg);
+        }
+    }
     stripe();
     jq(".parimg", this).each(function(i){
       var jqt = jq(this),last;
