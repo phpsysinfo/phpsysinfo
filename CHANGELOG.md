@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.1.18
+----------------
+
+ - [ADD] Catalan Translation ca.xml
+
 phpSysInfo 3.1.17
 ----------------
 
