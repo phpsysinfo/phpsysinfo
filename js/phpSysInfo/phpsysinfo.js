@@ -151,7 +151,7 @@ function getLanguage(lang, plugin, plugname) {
             }
             $("expression", langxml[plugname]).each(function langstore(id) {
                 idexp = $("expression", xml).get(id);
-                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString();
+                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/&#8203");
             });
         }
     });

@@ -79,7 +79,7 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
     <exp>Inviati</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Errori/&#8203;Perdite</exp>
+    <exp>Errori/Perdite</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Connessioni di Rete Stabilite</exp>

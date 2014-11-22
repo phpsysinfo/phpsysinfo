@@ -79,7 +79,7 @@ phpSysInfo language file Language: Icelandic Created by: Saevar Holm and Kristja
     <exp>Sent</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Villur/&#8203;Pakkatap</exp>
+    <exp>Villur/Pakkatap</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Upplýsingar nettengingar</exp>

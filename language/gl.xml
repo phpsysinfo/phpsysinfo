@@ -79,7 +79,7 @@ phpSysInfo language file Language: galician Created by: X.M.C. Guede
     <exp>Enviados</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Erros/&#8203;Perdidos</exp>
+    <exp>Erros/Perdidos</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Conexións de rede establecidas</exp>

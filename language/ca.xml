@@ -79,7 +79,7 @@ phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerry
     <exp>Enviats</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Err/&#8203;Perduts</exp>
+    <exp>Err/Perduts</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Connexions de Xarxa Establertes</exp>

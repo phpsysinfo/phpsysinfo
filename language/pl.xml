@@ -79,7 +79,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>Wysłano</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Błędy/&#8203;Porzucone</exp>
+    <exp>Błędy/Porzucone</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Nawiązane połączenia sieciowe</exp>
