@@ -151,7 +151,7 @@ function getLanguage(lang, plugin, plugname) {
             }
             $("expression", langxml[plugname]).each(function langstore(id) {
                 idexp = $("expression", xml).get(id);
-                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/&#8203");
+                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "\/&#8203;");
             });
         }
     });
@@ -914,7 +914,7 @@ function refreshNetwork(xml) {
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
-        html +="<tr><td>" + name + "</td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/&#8203;" + dr.toString() + "</td></tr>";
+        html +="<tr><td>" + name + "</td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "\/&#8203;" + dr.toString() + "</td></tr>";
 
         networkindex = tree.push(0);
 
