@@ -8,6 +8,8 @@ phpSysInfo 3.1.18
 
  - [ADD] Catalan Translation ca.xml
  - [ADD] Mer to detected distros (core of Sailfish OS)
+ 
+ - [UPD] German Translation de.xml
 
 phpSysInfo 3.1.17
 ----------------
