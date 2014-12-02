@@ -53,7 +53,7 @@ function bat_populate(xml) {
         }
 
         if ((CapacityUnit == "%") && (RemainingCapacity != undefined)) {
-            bat_table.fnAddData([genlang(4, true, "BAT"), createBar(round(parseInt(RemainingCapacity, 10)),0), '&nbsp;']);
+            bat_table.fnAddData([genlang(4, true, "BAT"), createBar(round(parseInt(RemainingCapacity, 10),0)), '&nbsp;']);
         } else if (DesignCapacity == undefined) {
             if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, '&nbsp;']);
         } else {
