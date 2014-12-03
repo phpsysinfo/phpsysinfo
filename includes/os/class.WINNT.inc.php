@@ -244,7 +244,7 @@ class WINNT extends OS
                 $icon = 'Win2000.png';
             elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4."))
+            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4.") || (substr($kernel,0,5) == "10.0."))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';
@@ -369,9 +369,6 @@ class WINNT extends OS
             $dev->setName($usbDev);
             $this->sys->setUsbDevices($dev);
         }
-//        foreach ($this->_devicelist('ROOT') as $rootDev) {
-//            var_dump($rootDev);
-//        }
     }
 
     /**
