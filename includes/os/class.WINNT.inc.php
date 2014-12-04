@@ -231,8 +231,8 @@ class WINNT extends OS
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
-            if (isset($buffer[0]['OSArchitecture'])) {
-                $this->sys->setKernel($kernel.' ('.$buffer[0]['OSArchitecture'].')');
+            if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
+                $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
             } elseif (($allCpus = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('AddressWidth'))) && isset($allCpus[0]['AddressWidth'])) {
                 $this->sys->setKernel($kernel.' ('.$allCpus[0]['AddressWidth'].'-bit)'); 
             } else {
