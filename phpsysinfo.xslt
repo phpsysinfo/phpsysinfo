@@ -187,20 +187,6 @@
                                                             </span>
                                                         </div>
                                                     </xsl:if>
-                                                    <xsl:if
-                                                        test="count(@Processes )&gt;0">
-                                                        <tr class="odd">
-                                                            <td style="width:160px;">
-                                                                <span>
-                                                                    <xsl:text>Processes</xsl:text>
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                <xsl:value-of
-                                                                    select="@Processes" />
-                                                            </td>
-                                                        </tr>
-                                                    </xsl:if>
                                                 </td>
                                             </tr>
                                             <xsl:if
@@ -228,6 +214,20 @@
                                                     <td>
                                                         <xsl:value-of
                                                             select="@CodePage" />
+                                                    </td>
+                                                </tr>
+                                            </xsl:if>
+                                            <xsl:if
+                                                test="count(@Processes )&gt;0">
+                                                <tr class="odd">
+                                                    <td style="width:160px;">
+                                                        <span>
+                                                            <xsl:text>Processes</xsl:text>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <xsl:value-of
+                                                            select="@Processes" />
                                                     </td>
                                                 </tr>
                                             </xsl:if>
