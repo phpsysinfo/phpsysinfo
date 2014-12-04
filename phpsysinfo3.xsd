@@ -33,6 +33,7 @@
     	<attribute name="CPULoad" type="integer" use="optional"></attribute>
     	<attribute name="SysLang" type="string" use="optional"></attribute>
     	<attribute name="CodePage" type="string" use="optional"></attribute>
+    	<attribute name="Processes" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="NetDevice">
@@ -160,6 +161,7 @@
     </complexType>
 
     <complexType name="Hardware">
+    	<attribute name="Name" type="string" use="optional"></attribute>
     	<sequence>
     		<element name="PCI" type="tns:PCI" minOccurs="1" maxOccurs="1"></element>
     		<element name="USB" type="tns:USB" minOccurs="1" maxOccurs="1"></element>
