@@ -167,7 +167,7 @@
                                                     <xsl:value-of
                                                         select="@LoadAvg" />
                                                     <xsl:if
-                                                        test="count(CPULoad )&gt;0">
+                                                        test="count(@CPULoad )&gt;0">
                                                         <div
                                                             style="float:left; width:{concat(  CPULoad  , &apos;px&apos; )}; "
                                                             class="bar">
@@ -181,9 +181,9 @@
                                                                 <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
                                                             </span>
                                                             <xsl:value-of
-                                                                select="@CPULoad" />
+                                                                select="round(@CPULoad)" />
                                                             <span>
-                                                                <xsl:text>%</xsl:text>
+                                                                <xsl:text disable-output-escaping="yes">%&amp;nbsp;</xsl:text>
                                                             </span>
                                                         </div>
                                                     </xsl:if>
