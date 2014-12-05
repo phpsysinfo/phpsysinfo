@@ -410,7 +410,7 @@
                                                             </td>
                                                             <td>
                                                                 <xsl:value-of
-                                                                    select="@Bogomips" />
+                                                                    select="round(@Bogomips)" />
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
