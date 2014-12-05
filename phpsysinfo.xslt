@@ -304,14 +304,11 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@CpuSpeed )&gt;0">
-                                                                    <xsl:value-of
-                                                                        select="@CpuSpeed" />
-                                                                    <span>
-                                                                        <xsl:text> MHz</xsl:text>
-                                                                    </span>
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="@CpuSpeed" />
+                                                                <span>
+                                                                    <xsl:text> MHz</xsl:text>
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
@@ -325,14 +322,11 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@CpuSpeedMax )&gt;0">
-                                                                    <xsl:value-of
-                                                                        select="@CpuSpeedMax" />
-                                                                    <span>
-                                                                        <xsl:text> MHz</xsl:text>
-                                                                    </span>
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="@CpuSpeedMax" />
+                                                                <span>
+                                                                    <xsl:text> MHz</xsl:text>
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
@@ -346,14 +340,11 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@CpuSpeedMin )&gt;0">
-                                                                    <xsl:value-of
-                                                                        select="@CpuSpeedMin" />
-                                                                    <span>
-                                                                        <xsl:text> MHz</xsl:text>
-                                                                    </span>
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="@CpuSpeedMin" />
+                                                                <span>
+                                                                    <xsl:text> MHz</xsl:text>
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
@@ -367,14 +358,11 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@BusSpeed )&gt;0">
-                                                                    <xsl:value-of
-                                                                        select="@BusSpeed" />
-                                                                    <span>
-                                                                        <xsl:text> MHz</xsl:text>
-                                                                    </span>
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="@BusSpeed" />
+                                                                <span>
+                                                                    <xsl:text> MHz</xsl:text>
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
@@ -388,14 +376,26 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@Cache )&gt;0">
-                                                                    <xsl:value-of
-                                                                        select="round(@Cache div 1024)" />
-                                                                    <span>
-                                                                        <xsl:text> KiB</xsl:text>
-                                                                    </span>
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="round(@Cache div 1024)" />
+                                                                <span>
+                                                                    <xsl:text> KiB</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </xsl:if>
+                                                    <xsl:if
+                                                        test="count(@Virt )&gt;0">
+                                                        <tr class="odd">
+                                                            <td
+                                                                style="width:160px;">
+                                                                <span>
+                                                                    <xsl:text>Virtualization</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <xsl:value-of
+                                                                    select="@Virt" />
                                                             </td>
                                                         </tr>
                                                     </xsl:if>
@@ -409,11 +409,8 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <xsl:if
-                                                                    test="count(@Bogomips ) &gt;0">
-                                                                    <xsl:value-of
-                                                                        select="@Bogomips" />
-                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                    select="@Bogomips" />
                                                             </td>
                                                         </tr>
                                                     </xsl:if>

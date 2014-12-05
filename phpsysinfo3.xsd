@@ -144,6 +144,7 @@
     			</restriction>
     		</simpleType>
     	</attribute>
+    	<attribute name="Virtualization" type="string" use="optional"></attribute>
     	<attribute name="Bogomips" use="optional">
     		<simpleType>
     			<restriction base="unsignedLong">
