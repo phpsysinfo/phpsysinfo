@@ -153,7 +153,7 @@ class SNMPPInfo extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addError("switch(PSI_PLUGIN_SNMPPINFO_ACCESS)", "Bad SNMPPInfo configuration in SNMPPInfo.config.php");
+                $this->global_error->addError("switch(PSI_PLUGIN_SNMPPINFO_ACCESS)", "Bad SNMPPInfo configuration in phpsysinfo.ini");
                 break;
         }
     }

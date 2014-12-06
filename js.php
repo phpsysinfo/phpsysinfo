@@ -20,7 +20,7 @@
 define('APP_ROOT', dirname(__FILE__));
 
 require_once APP_ROOT.'/includes/autoloader.inc.php';
-require_once APP_ROOT.'/config.php';
+require_once APP_ROOT.'/read_config.php';
 
 $file = isset($_GET['name']) ? basename(htmlspecialchars($_GET['name'])) : null;
 $plugin = isset($_GET['plugin']) ? basename(htmlspecialchars($_GET['plugin'])) : null;

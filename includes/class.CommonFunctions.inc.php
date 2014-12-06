@@ -525,7 +525,7 @@ class CommonFunctions
     }
 
     /**
-     * get all configured plugins from config.php (file must be included before calling this function)
+     * get all configured plugins from phpsysinfo.ini (file must be included and processed before calling this function)
      *
      * @return array
      */

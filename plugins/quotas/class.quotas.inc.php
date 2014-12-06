@@ -17,7 +17,7 @@
  * display all quotas in a sortable table with the current values which are determined by
  * calling the "repquota" command line utility, another way is to provide
  * a file with the output of the repquota utility, so there is no need to run a execute by the
- * webserver, the format of the command is written down in the quota.config.php file, where also
+ * webserver, the format of the command is written down in the phpsysinfo.ini file, where also
  * the method of getting the information is configured
  *
  * @category  PHP

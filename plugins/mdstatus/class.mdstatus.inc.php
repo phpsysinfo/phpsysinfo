@@ -17,7 +17,7 @@
  * a simple view which shows supported types and RAID-Devices which are determined by
  * parsing the "/proc/mdstat" file, another way is to provide
  * a file with the output of the /proc/mdstat file, so there is no need to run a execute by the
- * webserver, the format of the command is written down in the mdstat.config.php file, where also
+ * webserver, the format of the command is written down in the phpsysinfo.ini file, where also
  * the method of getting the information is configured
  *
  * @category  PHP

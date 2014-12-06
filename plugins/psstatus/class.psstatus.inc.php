@@ -17,9 +17,9 @@
  * a simple view which shows a process name and the status
  * status determined by calling the "pidof" command line utility, another way is to provide
  * a file with the output of the pidof utility, so there is no need to run a executeable by the
- * webserver, the format of the command is written down in the psstatus.config.php file, where also
+ * webserver, the format of the command is written down in the phpsysinfo.ini file, where also
  * the method of getting the information is configured
- * processes that should be checked are also defined in psstatus.config.php
+ * processes that should be checked are also defined in phpsysinfo.ini
  *
  * @category  PHP
  * @package   PSI_Plugin_PSStatus
@@ -99,7 +99,7 @@ class PSStatus extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in psstatus.config.php");
+            $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in phpsysinfo.ini");
             break;
         }
     }

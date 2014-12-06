@@ -34,7 +34,7 @@ class Apcupsd extends UPS
     private $_output = array();
 
     /**
-     * get all information from all configured ups in config.php and store output in internal array
+     * get all information from all configured ups in phpsysinfo.ini and store output in internal array
      */
     public function __construct()
     {

@@ -120,7 +120,7 @@ class Error
      */
     public function addConfigError($strCommand, $strMessage)
     {
-        $this->_addError($strCommand, "Wrong Value in config.php for ".$strMessage);
+        $this->_addError($strCommand, "Wrong Value in phpsysinfo.ini for ".$strMessage);
     }
 
     /**

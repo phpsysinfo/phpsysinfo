@@ -403,7 +403,7 @@ function formatHertz(mhertz) {
  * format the byte values into a user friendly value with the corespondenting unit expression<br>support is included
  * for binary and decimal output<br>user can specify a constant format for all byte outputs or the output is formated
  * automatically so that every value can be read in a user friendly way
- * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the config.php
+ * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
  * @param {jQuery} xml phpSysInfo-XML
  * @return {String} string of the converted bytes with the translated unit expression
  */

@@ -54,7 +54,7 @@ class Webpage extends Output implements PSI_Interface_Output
     private $_languages = array();
 
     /**
-     * check for all extensions that are needed, initialize needed vars and read config.php
+     * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
      */
     public function __construct()
     {
@@ -64,8 +64,8 @@ class Webpage extends Output implements PSI_Interface_Output
     }
 
     /**
-     * checking config.php setting for template, if not supportet set phpsysinfo.css as default
-     * checking config.php setting for language, if not supported set en as default
+     * checking phpsysinfo.ini setting for template, if not supportet set phpsysinfo.css as default
+     * checking phpsysinfo.ini setting for language, if not supported set en as default
      *
      * @return void
      */

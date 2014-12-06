@@ -122,7 +122,7 @@ class SMART extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addError("switch(PSI_PLUGIN_SMART_ACCESS)", "Bad SMART configuration in SMART.config.php");
+                $this->global_error->addError("switch(PSI_PLUGIN_SMART_ACCESS)", "Bad SMART configuration in phpsysinfo.ini");
                 break;
         }
     }
