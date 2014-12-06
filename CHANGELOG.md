@@ -65,7 +65,6 @@ phpSysInfo 3.1.13
  - [ADD] SHOW_CPUINFO_EXPANDED option
  - [ADD] Machine detection on WINNT, Linux, Android and Darwin systems
 
-
 phpSysInfo 3.1.12
 ----------------
 
