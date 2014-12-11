@@ -196,10 +196,12 @@ function renderMemory(data) {
 
     var data_memory = [];
 
-    if (data["Memory"]["Swap"]["Mount"] !== undefined) {
+    if (data["Memory"]["Swap"]["Mount"].length > 0) {
         for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
-            data_memory.push(data["Memory"]["Swap"]["Mount"][i]);
+            data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
         }
+    } else if (data["Memory"]["Swap"]["Mount"] !== undefined) {
+        data_memory.push(data["Memory"]["Swap"]["Mount"]["@attributes"]);
     }
 
     $('#memory-data').render(data["Memory"], directives);
