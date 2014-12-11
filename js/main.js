@@ -248,8 +248,12 @@ function renderFilesystem(data) {
 
     try {
         var fs_data = [];
-        for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
-            fs_data.push(data["FileSystem"]["Mount"][i]);
+        if (data["FileSystem"]["Mount"].length) {
+            for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
+                fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
+            }
+        } else if (data["FileSystem"]["Mount"] !== undefined) {
+            fs_data.push(data["FileSystem"]["Mount"]["@attributes"]);
         }
         $('#filesystem-data').render(fs_data, directives);
         sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
