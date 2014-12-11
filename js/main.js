@@ -122,25 +122,25 @@ function renderMemory(data) {
     var directives = {
         Total: {
             text: function () {
-                return bytesToSize(this["Total"]);
+                return bytesToSize(this["@attributes"]["Total"]);
             }
         },
         Free: {
             text: function () {
-                return bytesToSize(this["Free"]);
+                return bytesToSize(this["@attributes"]["Free"]);
             }
         },
         Used: {
             text: function () {
-                return bytesToSize(this["Used"]);
+                return bytesToSize(this["@attributes"]["Used"]);
             }
         },
         Usage: {
             html: function () {
                 if (this["Details"] == undefined) {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"]["@attributes"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["Percent"]["@attributes"] + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
+                        '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
                 }
                 else {
                     return '<div class="progress">' +
@@ -149,7 +149,7 @@ function renderMemory(data) {
                         '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
                         '</div>' +
                         '<div class="percent">' +
-                        'Total: ' + this["Percent"]["@attributes"] + '% ' +
+                        'Total: ' + this["@attributes"]["Percent"] + '% ' +
                         '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
                         'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
                         'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
@@ -202,7 +202,7 @@ function renderMemory(data) {
         }
     }
 
-    $('#memory-data').render(data["Memory"]["@attributes"], directives);
+    $('#memory-data').render(data["Memory"], directives);
     $('#swap-data').render(data_memory, directive_swap);
 }
 
