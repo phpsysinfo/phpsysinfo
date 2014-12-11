@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>phpSysInfo</title>
+    <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/vendor/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="templates/bootstrap.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="container">
+
+        <a class="navbar-brand" href="#"><img src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup> <img id="loader"
+                                                                                                style="display:none"
+                                                                                                src="gfx/ajax-loader.gif"></a>
+
+    </div>
+</div>
+
+<div class="container">
+
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">System Vitals</div>
+            <div class="panel-body">
+                <table id="vitals" class="table table-hover table-condensed">
+                    <tr>
+                        <th>Hostname</th>
+                        <td><span data-bind="Hostname"/></td>
+                    </tr>
+                    <tr>
+                        <th>Listening IP</th>
+                        <td><span data-bind="IPAddr"/></td>
+                    </tr>
+                    <tr>
+                        <th>Kernel Version</th>
+                        <td><span data-bind="Kernel"/></td>
+                    </tr>
+                    <tr>
+                        <th>Distro Name</th>
+                        <td><span data-bind="Distro"/></td>
+                    </tr>
+                    <tr>
+                        <th>Uptime</th>
+                        <td><span data-bind="Uptime"/></td>
+                    </tr>
+                    <tr>
+                        <th>Current Users</th>
+                        <td><span data-bind="Users"/></td>
+                    </tr>
+                    <tr>
+                        <th>Load Averages</th>
+                        <td><span data-bind="LoadAvg"/></td>
+                    </tr>
+                    <tr id="tr_SysLang">
+                        <th>System Language</th>
+                        <td><span data-bind="SysLang"/></td>
+                    </tr>
+                    <tr id="tr_CodePage">
+                        <th>Code Page</th>
+                        <td><span data-bind="CodePage"/></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Hardware Information</div>
+            <div class="panel-body">
+                <table id="hardware" class="table table-hover table-condensed">
+                    <tr>
+                        <th>CPU Model</th>
+                        <td><span data-bind="Model"/></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <?php foreach (array("USB", "PCI", "IDE", "SCSI") as $type): ?>
+                    <tr id="hardware-<?php echo $type; ?>" style="display:none" >
+                        <th><?php echo $type; ?></th>
+                        <td>Number of devices: <span data-bind="<?php echo $type; ?>"></span></td>
+                        <td>
+                            <button type="button" data-toggle="modal" data-target="#hw-dialog-<?php echo $type; ?>"
+                                    class="btn btn-default btn-xs">Show details
+                            </button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Memory Usage</div>
+            <div class="panel-body">
+                <table id="memory" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Usage</th>
+                        <th class="rightCell">Free</th>
+                        <th class="rightCell">Used</th>
+                        <th class="rightCell">Size</th>
+                    </tr>
+                    </thead>
+                    <tbody id="memory-data">
+                        <th><span data-bind="Type"/></th>
+                        <td><span data-bind="Usage"/></td>
+                        <td class="rightCell"><span data-bind="Free"/></td>
+                        <td class="rightCell"><span data-bind="Used"/></td>
+                        <td class="rightCell"><span data-bind="Total"/></td>
+                    </tr>
+                    </tbody>
+                    <tfoot id="swap-data">
+                    <tr>
+                        <th><span data-bind="Name"/></th>
+                        <td><span data-bind="Usage"/></td>
+                        <td class="rightCell"><span data-bind="Free"/></td>
+                        <td class="rightCell"><span data-bind="Used"/></td>
+                        <td class="rightCell"><span data-bind="Total"/></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="block_filesystem" style="display:none" class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Mounted Filesystems</div>
+            <div class="panel-body">
+                <table id="filesystem" class="table table-hover table-condensed sortable">
+                    <thead>
+                    <tr>
+                        <th id="MountPoint">Mountpoint</th>
+                        <th>Type</th>
+                        <th>Partition</th>
+                        <th>Usage</th>
+                        <th class="rightCell sorttable_numeric">Free</th>
+                        <th class="rightCell sorttable_numeric">Used</th>
+                        <th class="rightCell sorttable_numeric">Size</th>
+                    </tr>
+                    </thead>
+                    <tbody id="filesystem-data">
+                    <tr>
+                        <th><span data-bind="MountPoint"/></th>
+                        <td><span data-bind="FSType"/></td>
+                        <td><span data-bind="Name"/></td>
+                        <td><span data-bind="Percent"/></td>
+                        <td class="rightCell"><span data-bind="Free"/></td>
+                        <td class="rightCell"><span data-bind="Used"/></td>
+                        <td class="rightCell"><span data-bind="Total"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="block_network" style="display:none" class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Network Interface</div>
+            <div class="panel-body">
+                <table id="network" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Device</th>
+                        <th class="rightCell">Receive</th>
+                        <th class="rightCell">Sent</th>
+                        <th class="rightCell">Err/Drop</th>
+                    </tr>
+                    </thead>
+                    <tbody id="network-data">
+                    <tr>
+                        <th><span data-bind="Name"/></th>
+                        <td class="rightCell"><span data-bind="RxBytes"/></td>
+                        <td class="rightCell"><span data-bind="TxBytes"/></td>
+                        <td class="rightCell"><span data-bind="Drops"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_voltage" style="display:none" class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Voltage</div>
+            <div class="panel-body">
+                <table id="voltage" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th class="rightCell">Value</th>
+                        <th class="rightCell">Min</th>
+                        <th class="rightCell">Max</th>
+                    </tr>
+                    </thead>
+                    <tbody id="voltage-data">
+                    <tr>
+                        <th><span data-bind="Label"/></th>
+                        <td class="rightCell"><span data-bind="Value"/></td>
+                        <td class="rightCell"><span data-bind="Min"/></td>
+                        <td class="rightCell"><span data-bind="Max"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_temperature" style="display:none" class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Temperatures</div>
+            <div class="panel-body">
+                <table id="temperature" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th class="rightCell">Value</th>
+                        <th class="rightCell">Limit</th>
+                    </tr>
+                    </thead>
+                    <tbody id="temperature-data">
+                    <tr>
+                        <th><span data-bind="Label"/></th>
+                        <td class="rightCell"><span data-bind="Value"/></td>
+                        <td class="rightCell"><span data-bind="Max"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_fans" style="display:none" class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Fans</div>
+            <div class="panel-body">
+                <table id="fans" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th class="rightCell">Value</th>
+                        <th class="rightCell">Min</th>
+                    </tr>
+                    </thead>
+                    <tbody id="fans-data">
+                    <tr>
+                        <th><span data-bind="Label"/></th>
+                        <td class="rightCell"><span data-bind="Value"/></td>
+                        <td class="rightCell"><span data-bind="Min"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_current" style="display:none" class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Currents</div>
+            <div class="panel-body">
+                <table id="current" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th class="rightCell">Value</th>
+                        <th class="rightCell">Limit</th>
+                    </tr>
+                    </thead>
+                    <tbody id="current-data">
+                    <tr>
+                        <th><span data-bind="Label"/></td>
+                            <td class="rightCell"><span data-bind="Value"/>
+                        </th>
+                        <td class="rightCell"><span data-bind="Max"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_power" style="display:none" class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Power</div>
+            <div class="panel-body">
+                <table id="power" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th class="rightCell">Value</th>
+                        <th class="rightCell">Limit</th>
+                    </tr>
+                    </thead>
+                    <tbody id="power-data">
+                    <tr>
+                        <th><span data-bind="Label"/></td>
+                            <td class="rightCell"><span data-bind="Value"/>
+                        </th>
+                        <td class="rightCell"><span data-bind="Max"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <?php
+if (isset($plugins) && count($plugins) > 0) :
+    foreach ($plugins as $plugin) :
+    if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/template.html')):
+    ?>
+    <div class="col-lg-6">
+        <h4><?php echo $plugin; ?></h4>
+        <?php include APP_ROOT. '/plugins/'.$plugin.'/template.html'; ?>
+    </div>
+    <?php
+        endif;
+    endforeach; 
+endif;
+?>
+</div>
+
+
+<!-- Hardware details modal dialogs -->
+<?php foreach (array("USB", "PCI", "IDE", "SCSI") as $type): ?>
+<div class="modal fade" id="hw-dialog-<?php echo $type; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><?php echo $type; ?> devices</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge" data-bind="hwCount"></span><span data-bind="hwName"></span>
+                    </li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php endforeach; ?>
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/vendor/transparency.min.js"></script>
+<script src="js/vendor/sorttable.js"></script>
+<script src="js/main.js"></script>
+<?php if(isset($plugins) && count($plugins) > 0) : ?>
+<script src="js/plugins.js.php?<?php echo implode(',', $plugins); ?>"></script>
+<?php endif; ?>
+
+</body>
+</html>

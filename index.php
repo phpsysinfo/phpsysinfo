@@ -60,6 +60,10 @@ case "xml":
     $webpage = new WebpageXML(true, null);
     $webpage->run();
     break;
+case "bootstrap":
+    $tpl = new Template("/templates/html/index_bootstrap.html");
+    echo $tpl->fetch();
+    break;
 default:
     $tpl = new Template("/templates/html/index_all.html");
     echo $tpl->fetch();

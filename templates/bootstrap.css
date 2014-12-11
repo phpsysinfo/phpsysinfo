@@ -1,0 +1,32 @@
+body {
+    font-size: 13px;
+    padding-top: 80px;
+}
+
+.progress {
+    margin-bottom: 0;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+.panel-primary {
+    border: none;
+}
+
+.navbar {
+    background-color: #428bca;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: #fff;
+}
+
+.navbar-brand>img {
+    display: inline;
+}
