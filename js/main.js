@@ -334,7 +334,7 @@ function renderTemperature(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + data["Options"]["tempFormat"];
+                return this["Value"] + data["Options"]["@attributes"]["tempFormat"];
             }
         },
         Label: {
