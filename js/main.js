@@ -137,7 +137,7 @@ function renderMemory(data) {
         },
         Usage: {
             html: function () {
-                if (this["Details"] == undefined) {
+                if (this["Details"]["@attributes"] == undefined) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
