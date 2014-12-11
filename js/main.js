@@ -139,20 +139,20 @@ function renderMemory(data) {
             html: function () {
                 if (this["Details"] == undefined) {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["Percent"] + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"]["@attributes"] + '%;"></div>' +
+                        '</div><div class="percent">' + this["Percent"]["@attributes"] + '%</div>';
                 }
                 else {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["AppPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["CachedPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["BuffersPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
                         '</div>' +
                         '<div class="percent">' +
-                        'Total: ' + this["Percent"] + '% ' +
-                        '<i>(App: ' + this["Details"]["AppPercent"] + '% - ' +
-                        'Cache: ' + this["Details"]["CachedPercent"] + '% - ' +
-                        'Buffers: ' + this["Details"]["BuffersPercent"] + '%' +
+                        'Total: ' + this["Percent"]["@attributes"] + '% ' +
+                        '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
+                        'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
+                        'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
                         ')</i></div>';
                 }
             }
