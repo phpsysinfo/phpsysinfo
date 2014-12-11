@@ -315,12 +315,12 @@ function renderVoltage(data) {
     };
     try {
         var voltage_data = [];
-        if (data["MBInfo"]["Voltage"].length > 0) {
-            for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
-                voltage_data.push(data["MBInfo"]["Voltage"][i]["@attributes"]);
+        if (data["MBInfo"]["Voltage"]["Item"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Voltage"]["Item"].length; i++) {
+                voltage_data.push(data["MBInfo"]["Voltage"]["Item"][i]["@attributes"]);
             }
-        } else if (data["MBInfo"]["Voltage"] !== undefined) {
-            voltage_data.push(data["MBInfo"]["Voltage"]["@attributes"]);
+        } else if (data["MBInfo"]["Voltage"]["Item"] !== undefined) {
+            voltage_data.push(data["MBInfo"]["Voltage"]["Item"]["@attributes"]);
         }
         $('#voltage-data').render(voltage_data, directives);
         $("#block_voltage").show();
@@ -349,12 +349,12 @@ function renderTemperature(data) {
 
     try {
         var temperature_data = [];
-        if (data["MBInfo"]["Temperature"].length > 0) {
-            for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
-                temperature_data.push(data["MBInfo"]["Temperature"][i]["@attributes"]);
+        if (data["MBInfo"]["Temperature"]["Item"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Temperature"]["Item"].length; i++) {
+                temperature_data.push(data["MBInfo"]["Temperature"]["Item"][i]["@attributes"]);
             }
-        } else if (data["MBInfo"]["Temperature"] !== undefined) {
-            temperature_data.push(data["MBInfo"]["Temperature"]["@attributes"]);
+        } else if (data["MBInfo"]["Temperature"]["Item"] !== undefined) {
+            temperature_data.push(data["MBInfo"]["Temperature"]["Item"]["@attributes"]);
         }
         $('#temperature-data').render(temperature_data, directives);
         $("#block_temperature").show();
@@ -378,12 +378,12 @@ function renderFans(data) {
 
     try {
         var fans_data = [];
-        if (data["MBInfo"]["Fans"].length > 0) {
-            for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
-                fans_data.push(data["MBInfo"]["Fans"][i]["@attributes"]);
+        if (data["MBInfo"]["Fans"]["Item"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Fans"]["Item"].length; i++) {
+                fans_data.push(data["MBInfo"]["Fans"]["Item"][i]["@attributes"]);
             }
-        } else if (data["MBInfo"]["Fans"] !== undefined) {
-            fans_data.push(data["MBInfo"]["Fans"]["@attributes"]);
+        } else if (data["MBInfo"]["Fans"]["Item"] !== undefined) {
+            fans_data.push(data["MBInfo"]["Fans"]["Item"]["@attributes"]);
         }
         $('#fans-data').render(fans_data, directives);
         $("#block_fans").show();
@@ -407,12 +407,12 @@ function renderPower(data) {
 
     try {
         var power_data = [];
-        if (data["MBInfo"]["Power"].length > 0) {
-            for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
-                power_data.push(data["MBInfo"]["Power"][i]["@attributes"]);
+        if (data["MBInfo"]["Power"]["Item"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Power"]["Item"].length; i++) {
+                power_data.push(data["MBInfo"]["Power"]["Item"][i]["@attributes"]);
             }
-        } else if (data["MBInfo"]["Power"] !== undefined) {
-            power_data.push(data["MBInfo"]["Power"]["@attributes"]);
+        } else if (data["MBInfo"]["Power"]["Item"] !== undefined) {
+            power_data.push(data["MBInfo"]["Power"]["Item"]["@attributes"]);
         }
         $('#power-data').render(power_data, directives);
         $("#block_power").show();
@@ -436,12 +436,12 @@ function renderCurrent(data) {
 
     try {
         var current_data = [];
-        if (data["MBInfo"]["Current"].length > 0) {
-            for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
-                current_data.push(data["MBInfo"]["Current"][i]["@attributes"]);
+        if (data["MBInfo"]["Current"]["Item"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Current"]["Item"].length; i++) {
+                current_data.push(data["MBInfo"]["Current"]["Item"][i]["@attributes"]);
             }
-        } else if (data["MBInfo"]["Current"] !== undefined) {
-            current_data.push(data["MBInfo"]["Current"]["@attributes"]);
+        } else if (data["MBInfo"]["Current"]["Item"] !== undefined) {
+            current_data.push(data["MBInfo"]["Current"]["Item"]["@attributes"]);
         }
         $('#current-data').render(current_data, directives);
         $("#block_current").show();
