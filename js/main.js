@@ -248,7 +248,7 @@ function renderFilesystem(data) {
 
     try {
         var fs_data = [];
-        if (data["FileSystem"]["Mount"].length) {
+        if (data["FileSystem"]["Mount"].length > 0) {
             for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
                 fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
             }
@@ -286,8 +286,12 @@ function renderNetwork(data) {
 
     try {
         var network_data = [];
-        for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
-            network_data.push(data["Network"]["NetDevice"][i]);
+        if (data["Network"]["NetDevice"].length > 0) {
+            for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
+                network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
+            }
+        } else if (data["Network"]["NetDevice"] !== undefined) {
+            network_data.push(data["Network"]["NetDevice"]["@attributes"]);
         }
         $('#network-data').render(network_data, directives);
         $("#block_network").show();
@@ -311,8 +315,12 @@ function renderVoltage(data) {
     };
     try {
         var voltage_data = [];
-        for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
-            voltage_data.push(data["MBInfo"]["Voltage"][i]);
+        if (data["MBInfo"]["Voltage"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Voltage"].length; i++) {
+                voltage_data.push(data["MBInfo"]["Voltage"][i]["@attributes"]);
+            }
+        } else if (data["MBInfo"]["Voltage"] !== undefined) {
+            voltage_data.push(data["MBInfo"]["Voltage"]["@attributes"]);
         }
         $('#voltage-data').render(voltage_data, directives);
         $("#block_voltage").show();
@@ -341,8 +349,12 @@ function renderTemperature(data) {
 
     try {
         var temperature_data = [];
-        for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
-            temperature_data.push(data["MBInfo"]["Temperature"][i]);
+        if (data["MBInfo"]["Temperature"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Temperature"].length; i++) {
+                temperature_data.push(data["MBInfo"]["Temperature"][i]["@attributes"]);
+            }
+        } else if (data["MBInfo"]["Temperature"] !== undefined) {
+            temperature_data.push(data["MBInfo"]["Temperature"]["@attributes"]);
         }
         $('#temperature-data').render(temperature_data, directives);
         $("#block_temperature").show();
@@ -366,8 +378,12 @@ function renderFans(data) {
 
     try {
         var fans_data = [];
-        for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
-            fans_data.push(data["MBInfo"]["Fans"][i]);
+        if (data["MBInfo"]["Fans"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Fans"].length; i++) {
+                fans_data.push(data["MBInfo"]["Fans"][i]["@attributes"]);
+            }
+        } else if (data["MBInfo"]["Fans"] !== undefined) {
+            fans_data.push(data["MBInfo"]["Fans"]["@attributes"]);
         }
         $('#fans-data').render(fans_data, directives);
         $("#block_fans").show();
@@ -391,8 +407,12 @@ function renderPower(data) {
 
     try {
         var power_data = [];
-        for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
-            power_data.push(data["MBInfo"]["Power"][i]);
+        if (data["MBInfo"]["Power"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Power"].length; i++) {
+                power_data.push(data["MBInfo"]["Power"][i]["@attributes"]);
+            }
+        } else if (data["MBInfo"]["Power"] !== undefined) {
+            power_data.push(data["MBInfo"]["Power"]["@attributes"]);
         }
         $('#power-data').render(power_data, directives);
         $("#block_power").show();
@@ -416,8 +436,12 @@ function renderCurrent(data) {
 
     try {
         var current_data = [];
-        for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
-            current_data.push(data["MBInfo"]["Current"][i]);
+        if (data["MBInfo"]["Current"].length > 0) {
+            for (var i = 0; i < data["MBInfo"]["Current"].length; i++) {
+                current_data.push(data["MBInfo"]["Current"][i]["@attributes"]);
+            }
+        } else if (data["MBInfo"]["Current"] !== undefined) {
+            current_data.push(data["MBInfo"]["Current"]["@attributes"]);
         }
         $('#current-data').render(current_data, directives);
         $("#block_current").show();
