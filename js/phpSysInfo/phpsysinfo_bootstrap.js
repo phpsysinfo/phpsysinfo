@@ -96,7 +96,7 @@ function renderHardware(data) {
         if (hw_type != "CPU") {
             try {
                 hw_data = [];
-                if (data["Hardware"][hw_type]["Device"]["@attributes"] !== undefined) {
+                if (data["Hardware"][hw_type]["Device"] !== undefined) {
                     if (data["Hardware"][hw_type]["Device"].length > 0) {
                         for (i=0; i < data["Hardware"][hw_type]["Device"].length; i++) {
                             hw_data.push(data["Hardware"][hw_type]["Device"][i]["@attributes"]);
