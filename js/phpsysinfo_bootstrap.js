@@ -192,7 +192,7 @@ function renderMemory(data) {
                 return this['Name'] + '<br/>' + this['MountPoint'];
             }
         }
-    }
+    };
 
     var data_memory = [];
 
