@@ -453,17 +453,22 @@ function renderCurrent(data) {
 }
 
 function renderErrors(data) {
-    if (data["Errors"]["Error"] !== undefined) {
-        if (data["Errors"]["Error"].length > 0) {
-            $("#errorrow").show();
-            for (var i = 0; i < data["Errors"]["Error"].length; i++) {
-                $("#errors").append("<li>"+data["Errors"]["Error"][i]["@attributes"]["Message"]+"</li>");
+    try {
+        if (data["Errors"]["Error"] !== undefined) {
+            if (data["Errors"]["Error"].length > 0) {
+                $("#errorrow").show();
+                for (var i = 0; i < data["Errors"]["Error"].length; i++) {
+                    $("#errors").append("<li>"+data["Errors"]["Error"][i]["@attributes"]["Message"]+"</li>");
+                }
+            } else {
+                $("#errors").append("<li>"+data["Errors"]["Error"]["@attributes"]["Message"]+"</li>");
+                $("#errorrow").show();
             }
         } else {
-            $("#errors").append("<li>"+data["Errors"]["Error"]["@attributes"]["Message"]+"</li>");
-            $("#errorrow").show();
+            $("#errorrow").hide();
         }
-    } else {
+    }
+    catch (err) {
         $("#errorrow").hide();
     }
 }
