@@ -167,7 +167,7 @@ class Error
         $xmlerr = $xml->addChild("Errors");
         foreach ($this->_arrErrorList as $arrLine) {
 //            $error = $xmlerr->addCData('Error', $arrLine['message']);
-            $error = $xmlerr->addCData('Error');
+            $error = $xmlerr->addChild('Error');
             $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
@@ -192,7 +192,7 @@ class Error
         $xmlerr = new SimpleXMLExtended($xml, $encoding);
         foreach ($this->_arrErrorList as $arrLine) {
 //            $error = $xmlerr->addCData('Error', $arrLine['message']);
-            $error = $xmlerr->addCData('Error');
+            $error = $xmlerr->addChild('Error');
             $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
