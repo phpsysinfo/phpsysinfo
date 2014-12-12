@@ -29,8 +29,10 @@ $plugin = isset($_GET['plugin']) ? basename(htmlspecialchars($_GET['plugin'])) :
 if ($file != null && $plugin == null) {
     if (strtolower(substr($file, 0, 6)) == 'jquery') {
         $script = APP_ROOT.'/js/jQuery/'.$file.'.js';
-    } else {
+    } elseif (strtolower(substr($file, 0, 10)) == 'phpsysinfo') {
         $script = APP_ROOT.'/js/phpSysInfo/'.$file.'.js';
+    } else {
+        $script = APP_ROOT.'/js/vendor/'.$file.'.js';
     }
 }
 if ($file == null && $plugin != null) {
