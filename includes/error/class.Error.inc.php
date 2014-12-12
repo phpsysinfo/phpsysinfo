@@ -166,7 +166,9 @@ class Error
         $generation->addAttribute('timestamp', time());
         $xmlerr = $xml->addChild("Errors");
         foreach ($this->_arrErrorList as $arrLine) {
-            $error = $xmlerr->addCData('Error', $arrLine['message']);
+//            $error = $xmlerr->addCData('Error', $arrLine['message']);
+            $error = $xmlerr->addCData('Error');
+            $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
         header("Cache-Control: no-cache, must-revalidate\n");
