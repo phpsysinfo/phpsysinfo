@@ -319,7 +319,8 @@ function filesystemtable() {
 function populateErrors(xml) {
     var values = false;
     $("Errors Error", xml).each(function getError(id) {
-        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br/><br/><pre>" + $(this).text() + "</pre><hr>");
+//        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br/><br/><pre>" + $(this).text() + "</pre><hr>");
+        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br/><br/><pre>" + $(this).attr("Message") + "</pre><hr>");
         values = true;
     });
     if (values) {

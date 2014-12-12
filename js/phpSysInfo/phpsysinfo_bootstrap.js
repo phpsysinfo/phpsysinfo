@@ -14,6 +14,7 @@ $(document).ready(function () {
         success: function (data) {
             console.log(data);
             data_dbg = data;
+            renderErrors(data);
             renderVitals(data);
             renderHardware(data);
             renderMemory(data);
@@ -448,6 +449,20 @@ function renderCurrent(data) {
     }
     catch (err) {
         $("#block_current").hide();
+    }
+}
+
+function renderErrors(data) {
+    if (data["Errors"]["Error"].length > 0) {
+        $("#errorrow").show();
+        for (var i = 0; i < data["Errors"]["Error"].length; i++) {
+            $("#errors").append("<li>"+data["Errors"]["Error"][i]["@attributes"]["Message"]+"</li>");
+        }
+    } else if (data["Errors"]["Error"] !== undefined) {
+        $("#errors").append("<li>"+data["Errors"]["Error"]["@attributes"]["Message"]+"</li>");
+        $("#errorrow").show();
+    } else {
+        $("#errorrow").hide();
     }
 }
 

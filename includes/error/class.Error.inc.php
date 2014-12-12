@@ -189,7 +189,9 @@ class Error
         $xml = simplexml_import_dom($dom);
         $xmlerr = new SimpleXMLExtended($xml, $encoding);
         foreach ($this->_arrErrorList as $arrLine) {
-            $error = $xmlerr->addCData('Error', $arrLine['message']);
+//            $error = $xmlerr->addCData('Error', $arrLine['message']);
+            $error = $xmlerr->addCData('Error');
+            $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
 
