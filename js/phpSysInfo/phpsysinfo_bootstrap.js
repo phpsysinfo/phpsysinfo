@@ -1,6 +1,6 @@
 var data_dbg;
-$(document).ready(function () {
 
+$(document).ready(function () {
     $(document).ajaxStart(function () {
         $("#loader").show();
     });
@@ -39,6 +39,20 @@ $(document).ready(function () {
     });
 });
 
+function items(data) {
+    if (data !== undefined) {
+        if ((data.length > 0) && (data[0]["@attributes"] !== undefined)) {
+            return data;
+        } else if (data["@attributes"] !== undefined ) {
+            return [data];
+        } else {
+            return [];
+        }
+    } else {
+        return [];
+    }
+}
+
 function renderVitals(data) {
     var directives = {
         Uptime: {
@@ -63,10 +77,9 @@ function renderVitals(data) {
 }
 
 function renderHardware(data) {
-
     var directives = {
         Model: {
-            text: function () { 
+            text: function () {
                 if(this["CpuCore"].length > 1)
                     return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
                 else
@@ -74,7 +87,9 @@ function renderHardware(data) {
             }
         }
     };
+
     $('#hardware').render(data["Hardware"]["CPU"], directives);
+
     var hw_directives = {
         hwName: {
             text: function() {
@@ -91,46 +106,58 @@ function renderHardware(data) {
         }
     };
 
-//    for (hw_type in data["Hardware"]) {
+    var html="";
+
+//    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
     for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
-        if (hw_type != "CPU") {
-            try {
-                count = 0;
-                hw_data = [];
-                if (data["Hardware"][hw_type]["Device"] !== undefined) {
-                    if (data["Hardware"][hw_type]["Device"].length > 0) {
-                        for (i=0; i < data["Hardware"][hw_type]["Device"].length; i++) {
-                            hw_data.push(data["Hardware"][hw_type]["Device"][i]["@attributes"]);
-                            if (data["Hardware"][hw_type]["Device"][i]["@attributes"]["Count"] !== undefined) {
-                                count+=parseInt(data["Hardware"][hw_type]["Device"][i]["@attributes"]["Count"]);
-                            } else {
-                                count++;
-                            }
-                        }
-                    } else {
-                        hw_data.push(data["Hardware"][hw_type]["Device"]["@attributes"]);
-                            if (data["Hardware"][hw_type]["Device"]["@attributes"]["Count"] !== undefined) {
-                                count=parseInt(data["Hardware"][hw_type]["Device"]["@attributes"]["Count"]);
-                            } else {
-                                count=1;
-                            }
-                    }
-                    if (hw_data.length > 0) {
-                        $("#hardware-" + hw_type + " span").html(count);
-                        $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
-                        $("#hardware-"+hw_type).show();
-                    } else {
-                        $("#hardware-"+hw_type).hide();
-                    }
-                } else {
-                        $("#hardware-"+hw_type).hide();
-                }
-            }
-            catch (err) {
-                $("#hardware-"+hw_type).hide();
+        html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
+        html+="<th>" + hw_type + "</th>";
+        html+="<td>Number of devices:</td>";
+        html+="<td class=\"rightCell\"><span>&nbsp;</span></td></td>";
+        html+="</tr>";
+
+        try {
+            var datas = items(data["Hardware"][hw_type]["Device"]);
+            for (var i = 0; i < datas.length; i++) {
+                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\" style=\"display:none\" >";
+                html+="<th>&nbsp;</th>";
+                html+="<td><span data-bind=\"hwName\">&nbsp;</span></td>";
+                html+="<td class=\"rightCell\"><span data-bind=\"hwCount\">&nbsp;</span></td>";
+                html+="</tr>";
             }
         }
+        catch (err) {
+            $("#hardware-"+hw_type).hide();
+        }
     }
+    $("#hardware").append(html);
+
+//    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
+    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
+        try {
+            var licz = 0;
+            var datas = items(data["Hardware"][hw_type]["Device"]);
+            for (var i = 0; i < datas.length; i++) {
+                $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
+                if (datas[i]["@attributes"]["Count"] !== undefined) {
+                    licz += parseInt(datas[i]["@attributes"]["Count"]);
+                } else {
+                    licz++;
+                }
+            }
+            if (i > 0) {
+                $("#hardware-" + hw_type + " span").html(licz);
+            }
+        }
+        catch (err) {
+            $("#hardware-"+hw_type).hide();
+        }
+    }
+    $('.tree').treegrid({
+        initialState: 'collapsed',
+        expanderExpandedClass: 'glyphicon glyphicon-minus',
+        expanderCollapsedClass: 'glyphicon glyphicon-plus'
+    });
 }
 
 function renderMemory(data) {
@@ -210,17 +237,12 @@ function renderMemory(data) {
     };
 
     var data_memory = [];
-    if (data["Memory"]["Swap"]["Mount"] !== undefined) {
-        if (data["Memory"]["Swap"]["Mount"].length > 0) {
-            for (var i = 0; i < data["Memory"]["Swap"]["Mount"].length; i++) {
-                data_memory.push(data["Memory"]["Swap"]["Mount"][i]["@attributes"]);
-            }
-        } else {
-            data_memory.push(data["Memory"]["Swap"]["Mount"]["@attributes"]);
-        }
-        $('#memory-data').render(data["Memory"], directives);
-        $('#swap-data').render(data_memory, directive_swap);
+    var datas = items(data["Memory"]["Swap"]["Mount"]);
+    for (var i = 0; i < datas.length; i++) {
+        data_memory.push(datas[i]["@attributes"]);
     }
+    $('#memory-data').render(data["Memory"], directives);
+    $('#swap-data').render(data_memory, directive_swap);
 }
 
 function renderFilesystem(data) {
@@ -263,14 +285,11 @@ function renderFilesystem(data) {
 
     try {
         var fs_data = [];
-        if (data["FileSystem"]["Mount"] !== undefined) {
-            if (data["FileSystem"]["Mount"].length > 0) {
-                for (var i = 0; i < data["FileSystem"]["Mount"].length; i++) {
-                    fs_data.push(data["FileSystem"]["Mount"][i]["@attributes"]);
-                }
-            } else {
-                fs_data.push(data["FileSystem"]["Mount"]["@attributes"]);
-            }
+        var datas = items(data["FileSystem"]["Mount"]);
+        for (var i = 0; i < datas.length; i++) {
+            fs_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
             sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
             $("#block_filesystem").show();
@@ -305,14 +324,11 @@ function renderNetwork(data) {
 
     try {
         var network_data = [];
-        if (data["Network"]["NetDevice"] !== undefined) {
-            if (data["Network"]["NetDevice"].length > 0) {
-                for (var i = 0; i < data["Network"]["NetDevice"].length; i++) {
-                    network_data.push(data["Network"]["NetDevice"][i]["@attributes"]);
-                }
-            } else {
-                network_data.push(data["Network"]["NetDevice"]["@attributes"]);
-            }
+        var datas = items(data["Network"]["NetDevice"]);
+        for (var i = 0; i < datas.length; i++) {
+            network_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#network-data').render(network_data, directives);
             $("#block_network").show();
         } else {
@@ -337,14 +353,11 @@ function renderVoltage(data) {
     };
     try {
         var voltage_data = [];
-        if (data["MBInfo"]["Voltage"]["Item"] !== undefined) {
-            if (data["MBInfo"]["Voltage"]["Item"].length > 0) {
-                for (var i = 0; i < data["MBInfo"]["Voltage"]["Item"].length; i++) {
-                    voltage_data.push(data["MBInfo"]["Voltage"]["Item"][i]["@attributes"]);
-                }
-            } else {
-                voltage_data.push(data["MBInfo"]["Voltage"]["Item"]["@attributes"]);
-            }
+        var datas = items(data["MBInfo"]["Voltage"]["Item"]);
+        for (var i = 0; i < datas.length; i++) {
+            voltage_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#voltage-data').render(voltage_data, directives);
             $("#block_voltage").show();
         } else {
@@ -375,14 +388,11 @@ function renderTemperature(data) {
 
     try {
         var temperature_data = [];
-        if (data["MBInfo"]["Temperature"]["Item"] !== undefined) {
-            if (data["MBInfo"]["Temperature"]["Item"].length > 0) {
-                for (var i = 0; i < data["MBInfo"]["Temperature"]["Item"].length; i++) {
-                    temperature_data.push(data["MBInfo"]["Temperature"]["Item"][i]["@attributes"]);
-                }
-            } else {
-                temperature_data.push(data["MBInfo"]["Temperature"]["Item"]["@attributes"]);
-            }
+        var datas = items(data["MBInfo"]["Temperature"]["Item"]);
+        for (var i = 0; i < datas.length; i++) {
+            temperature_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#temperature-data').render(temperature_data, directives);
             $("#block_temperature").show();
         } else {
@@ -408,14 +418,11 @@ function renderFans(data) {
 
     try {
         var fans_data = [];
-        if (data["MBInfo"]["Fans"]["Item"] !== undefined) {
-            if (data["MBInfo"]["Fans"]["Item"].length > 0) {
-                for (var i = 0; i < data["MBInfo"]["Fans"]["Item"].length; i++) {
-                    fans_data.push(data["MBInfo"]["Fans"]["Item"][i]["@attributes"]);
-                }
-            } else {
-                fans_data.push(data["MBInfo"]["Fans"]["Item"]["@attributes"]);
-            }
+        var datas = items(data["MBInfo"]["Fans"]["Item"]);
+        for (var i = 0; i < datas.length; i++) {
+            fans_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#fans-data').render(fans_data, directives);
             $("#block_fans").show();
         } else {
@@ -441,14 +448,11 @@ function renderPower(data) {
 
     try {
         var power_data = [];
-        if (data["MBInfo"]["Power"]["Item"] !== undefined) {
-            if (data["MBInfo"]["Power"]["Item"].length > 0) {
-                for (var i = 0; i < data["MBInfo"]["Power"]["Item"].length; i++) {
-                    power_data.push(data["MBInfo"]["Power"]["Item"][i]["@attributes"]);
-                }
-            } else {
-                power_data.push(data["MBInfo"]["Power"]["Item"]["@attributes"]);
-            }
+        var datas = items(data["MBInfo"]["Power"]["Item"]);
+        for (var i = 0; i < datas.length; i++) {
+            power_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#power-data').render(power_data, directives);
             $("#block_power").show();
         } else {
@@ -474,14 +478,11 @@ function renderCurrent(data) {
 
     try {
         var current_data = [];
-        if (data["MBInfo"]["Current"]["Item"] !== undefined) {
-            if (data["MBInfo"]["Current"]["Item"].length > 0) {
-                for (var i = 0; i < data["MBInfo"]["Current"]["Item"].length; i++) {
-                    current_data.push(data["MBInfo"]["Current"]["Item"][i]["@attributes"]);
-                }
-            } else {
-                current_data.push(data["MBInfo"]["Current"]["Item"]["@attributes"]);
-            }
+        var datas = items(data["MBInfo"]["Current"]["Item"]);
+        for (var i = 0; i < datas.length; i++) {
+            current_data.push(datas[i]["@attributes"]);
+        }
+        if (i > 0) {
             $('#current-data').render(current_data, directives);
             $("#block_current").show();
         } else {
@@ -495,14 +496,11 @@ function renderCurrent(data) {
 
 function renderErrors(data) {
     try {
-        if (data["Errors"]["Error"] !== undefined) {
-            if (data["Errors"]["Error"].length > 0) {
-                for (var i = 0; i < data["Errors"]["Error"].length; i++) {
-                    $("#errors").append("<li>"+data["Errors"]["Error"][i]["@attributes"]["Message"]+"</li>");
-                }
-            } else {
-                $("#errors").append("<li>"+data["Errors"]["Error"]["@attributes"]["Message"]+"</li>");
-            }
+        var datas = items(data["Errors"]["Error"]);
+        for (var i = 0; i < datas.length; i++) {
+            $("#errors").append("<li>"+datas[i]["@attributes"]["Message"]+"</li>");
+        }
+        if (i > 0) {
             $("#errorrow").show();
         } else {
             $("#errorrow").hide();
