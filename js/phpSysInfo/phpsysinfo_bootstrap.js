@@ -95,17 +95,28 @@ function renderHardware(data) {
     for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
         if (hw_type != "CPU") {
             try {
+                count = 0;
                 hw_data = [];
                 if (data["Hardware"][hw_type]["Device"] !== undefined) {
                     if (data["Hardware"][hw_type]["Device"].length > 0) {
                         for (i=0; i < data["Hardware"][hw_type]["Device"].length; i++) {
                             hw_data.push(data["Hardware"][hw_type]["Device"][i]["@attributes"]);
+                            if (data["Hardware"][hw_type]["Device"][i]["@attributes"]["Count"] !== undefined) {
+                                count+=parseInt(data["Hardware"][hw_type]["Device"][i]["@attributes"]["Count"]);
+                            } else {
+                                count++;
+                            }
                         }
                     } else {
                         hw_data.push(data["Hardware"][hw_type]["Device"]["@attributes"]);
+                            if (data["Hardware"][hw_type]["Device"]["@attributes"]["Count"] !== undefined) {
+                                count=parseInt(data["Hardware"][hw_type]["Device"]["@attributes"]["Count"];
+                            } else {
+                                count=1;
+                            }
                     }
                     if (hw_data.length > 0) {
-                        $("#hardware-" + hw_type + " span").html(hw_data.length);
+                        $("#hardware-" + hw_type + " span").html(count);
                         $("#hw-dialog-"+hw_type+" ul").render(hw_data, hw_directives);
                         $("#hardware-"+hw_type).show();
                     } else {
