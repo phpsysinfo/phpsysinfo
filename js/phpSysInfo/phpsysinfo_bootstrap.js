@@ -57,7 +57,7 @@ function renderVitals(data) {
     var directives = {
         Uptime: {
             text: function () {
-                return secondsToString(this["Uptime"]);
+                return formatUptime(this["Uptime"]);
             }
         },
         Distro: {
@@ -164,17 +164,17 @@ function renderMemory(data) {
     var directives = {
         Total: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Total"]);
+                return formatBytes(this["@attributes"]["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Free"]);
+                return formatBytes(this["@attributes"]["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
             text: function () {
-                return bytesToSize(this["@attributes"]["Used"]);
+                return formatBytes(this["@attributes"]["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Usage: {
@@ -209,17 +209,17 @@ function renderMemory(data) {
     var directive_swap = {
         Total: {
             text: function () {
-                return bytesToSize(this["Total"]);
+                return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
             text: function () {
-                return bytesToSize(this["Free"]);
+                return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
             text: function () {
-                return bytesToSize(this["Used"]);
+                return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Usage: {
@@ -249,17 +249,17 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             text: function () {
-                return bytesToSize(this["Total"]);
+                return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
             text: function () {
-                return bytesToSize(this["Free"]);
+                return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
             text: function () {
-                return bytesToSize(this["Used"]);
+                return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         MountPoint: {
@@ -307,12 +307,12 @@ function renderNetwork(data) {
     var directives = {
         RxBytes: {
             text: function () {
-                return bytesToSize(this["RxBytes"]);
+                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         TxBytes: {
             text: function () {
-                return bytesToSize(this["TxBytes"]);
+                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Drops: {
@@ -342,6 +342,23 @@ function renderNetwork(data) {
 
 function renderVoltage(data) {
     var directives = {
+        Value: {
+            text: function () {
+                return this["Value"] + String.fromCharCode(160) + "V";
+            }
+        },
+        Min: {
+            text: function () {
+                if (this["Min"] !== undefined)
+                    return this["Min"] + String.fromCharCode(160) + "V";
+            }
+        },
+        Max: {
+            text: function () {
+                if (this["Max"] !== undefined)
+                    return this["Max"] + String.fromCharCode(160) + "V";
+            }
+        },
         Label: {
             text: function () {
                 if (this["Event"] === undefined)
@@ -373,7 +390,13 @@ function renderTemperature(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + data["Options"]["@attributes"]["tempFormat"];
+                return formatTemp(this["Value"], data["Options"]["@attributes"]["tempFormat"]);
+            }
+        },
+        Max: {
+            text: function () {
+                if (this["Max"] !== undefined)
+                    return formatTemp(this["Max"], data["Options"]["@attributes"]["tempFormat"]);
             }
         },
         Label: {
@@ -406,6 +429,17 @@ function renderTemperature(data) {
 
 function renderFans(data) {
     var directives = {
+        Value: {
+            text: function () {
+                return this["Value"] + String.fromCharCode(160) + "RPM";
+            }
+        },
+        Min: {
+            text: function () {
+                if (this["Min"] !== undefined)
+                    return this["Min"] + String.fromCharCode(160) + "RPM";
+            }
+        },
         Label: {
             text: function () {
                 if (this["Event"] === undefined)
@@ -436,6 +470,17 @@ function renderFans(data) {
 
 function renderPower(data) {
     var directives = {
+        Value: {
+            text: function () {
+                return this["Value"] + String.fromCharCode(160) + "W";
+            }
+        },
+        Max: {
+            text: function () {
+                if (this["Max"] !== undefined)
+                    return this["Max"] + String.fromCharCode(160) + "W";
+            }
+        },
         Label: {
             text: function () {
                 if (this["Event"] === undefined)
@@ -466,6 +511,17 @@ function renderPower(data) {
 
 function renderCurrent(data) {
     var directives = {
+        Value: {
+            text: function () {
+                return this["Value"] + String.fromCharCode(160) + "A";
+            }
+        },
+        Max: {
+            text: function () {
+                if (this["Max"] !== undefined)
+                    return this["Max"] + String.fromCharCode(160) + "A";
+            }
+        },
         Label: {
             text: function () {
                 if (this["Event"] === undefined)
@@ -511,20 +567,209 @@ function renderErrors(data) {
     }
 }
 
-// from http://scratch99.com/web-development/javascript/convert-bytes-to-mb-kb/
-function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if (i == 0) return bytes + '' + sizes[i];
-    return (bytes / Math.pow(1024, i)).toFixed(1) + '' + sizes[i];
+/**
+ * format seconds to a better readable statement with days, hours and minutes
+ * @param {Number} sec seconds that should be formatted
+ * @return {String} html string with no breaking spaces and translation statemen
+*/
+function formatUptime(sec) {
+    var txt = "", intMin = 0, intHours = 0, intDays = 0;
+    intMin = sec / 60;
+    intHours = intMin / 60;
+    intDays = Math.floor(intHours / 24);
+    intHours = Math.floor(intHours - (intDays * 24));
+    intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
+    if (intDays) {
+        txt += intDays.toString() + String.fromCharCode(160) + "days" + String.fromCharCode(160);
+    }
+    if (intHours) {
+        txt += intHours.toString() + String.fromCharCode(160) + "hours" + String.fromCharCode(160);
+    }
+//    return txt + intMin.toString() + "&nbsp;" + genlang(50, false);
+    return txt + intMin.toString() + String.fromCharCode(160) + "minutes";
 }
 
-function secondsToString(seconds) {
-    var numyears = Math.floor(seconds / 31536000);
-    var numdays = Math.floor((seconds % 31536000) / 86400);
-    var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
-    var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
-    var numseconds = Math.floor((((seconds % 31536000) % 86400) % 3600) % 60);
-    return numyears + " years " + numdays + " days " + numhours + " hours " + numminutes + " minutes " + numseconds + " seconds";
+/**
+ * format a celcius temperature to fahrenheit and also append the right suffix
+ * @param {String} degreeC temperature in celvius
+ * @param {jQuery} xml phpSysInfo-XML
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatTemp(degreeC, tempFormat) {
+    var degree = 0;
+    if (tempFormat === undefined) {
+        tempFormat = "c";
+    }
+    degree = parseFloat(degreeC);
+    if (isNaN(degreeC)) {
+        return "---";
+    }
+    else {
+        switch (tempFormat.toLowerCase()) {
+        case "f":
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F";
+        case "c":
+            return round(degree, 1) + String.fromCharCode(160) + "C";
+        case "c-f":
+            return round(degree, 1) + String.fromCharCode(160) + "C<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F)</i>";
+        case "f-c":
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F<br><i>(" + round(degree, 1) + String.fromCharCode(160) + "C)</i>";
+        }
+    }
+}
+
+/**
+ * format the byte values into a user friendly value with the corespondenting unit expression<br>support is included
+ * for binary and decimal output<br>user can specify a constant format for all byte outputs or the output is formated
+ * automatically so that every value can be read in a user friendly way
+ * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
+ * @param {jQuery} xml phpSysInfo-XML
+ * @return {String} string of the converted bytes with the translated unit expression
+ */
+function formatBytes(bytes, byteFormat) {
+    var show = "";
+
+    if (byteFormat === undefined) {
+        byteFormat = "auto_binary";
+    }
+
+    switch (byteFormat.toLowerCase()) {
+    case "pib":
+        show += round(bytes / Math.pow(1024, 5), 2);
+        show += String.fromCharCode(160) + "PiB";
+        break;
+    case "tib":
+        show += round(bytes / Math.pow(1024, 4), 2);
+        show += String.fromCharCode(160) + "TiB";
+        break;
+    case "gib":
+        show += round(bytes / Math.pow(1024, 3), 2);
+        show += String.fromCharCode(160) + "GiB";
+        break;
+    case "mib":
+        show += round(bytes / Math.pow(1024, 2), 2);
+        show += String.fromCharCode(160) + "MiB";
+        break;
+    case "kib":
+        show += round(bytes / Math.pow(1024, 1), 2);
+        show += String.fromCharCode(160) + "KiB";
+        break;
+    case "pb":
+        show += round(bytes / Math.pow(1000, 5), 2);
+        show += String.fromCharCode(160) + "PB";
+        break;
+    case "tb":
+        show += round(bytes / Math.pow(1000, 4), 2);
+        show += String.fromCharCode(160) + "TB";
+        break;
+    case "gb":
+        show += round(bytes / Math.pow(1000, 3), 2);
+        show += String.fromCharCode(160) + "GB";
+        break;
+    case "mb":
+        show += round(bytes / Math.pow(1000, 2), 2);
+        show += String.fromCharCode(160) + "MB";
+        break;
+    case "kb":
+        show += round(bytes / Math.pow(1000, 1), 2);
+        show += String.fromCharCode(160) + "KB";
+        break;
+    case "b":
+        show += bytes;
+        show += String.fromCharCode(160) + "B";
+        break;
+    case "auto_decimal":
+        if (bytes > Math.pow(1000, 5)) {
+            show += round(bytes / Math.pow(1000, 5), 2);
+            show += String.fromCharCode(160) + "PB";
+        }
+        else {
+            if (bytes > Math.pow(1000, 4)) {
+                show += round(bytes / Math.pow(1000, 4), 2);
+                show += String.fromCharCode(160) + "TB";
+            }
+            else {
+                if (bytes > Math.pow(1000, 3)) {
+                    show += round(bytes / Math.pow(1000, 3), 2);
+                    show += String.fromCharCode(160) + "GB";
+                }
+                else {
+                    if (bytes > Math.pow(1000, 2)) {
+                        show += round(bytes / Math.pow(1000, 2), 2);
+                        show += String.fromCharCode(160) + "MB";
+                    }
+                    else {
+                        if (bytes > Math.pow(1000, 1)) {
+                            show += round(bytes / Math.pow(1000, 1), 2);
+                            show += String.fromCharCode(160) + "KB";
+                        }
+                        else {
+                                show += bytes;
+                                show += String.fromCharCode(160) + "B";
+                        }
+                    }
+                }
+            }
+        }
+        break;
+    default:
+        if (bytes > Math.pow(1024, 5)) {
+            show += round(bytes / Math.pow(1024, 5), 2);
+            show += String.fromCharCode(160) + "PiB";
+        }
+        else {
+            if (bytes > Math.pow(1024, 4)) {
+                show += round(bytes / Math.pow(1024, 4), 2);
+                show += String.fromCharCode(160) + "TiB";
+            }
+            else {
+                if (bytes > Math.pow(1024, 3)) {
+                    show += round(bytes / Math.pow(1024, 3), 2);
+                    show += String.fromCharCode(160) + "GiB";
+                }
+                else {
+                    if (bytes > Math.pow(1024, 2)) {
+                        show += round(bytes / Math.pow(1024, 2), 2);
+                        show += String.fromCharCode(160) + "MiB";
+                    }
+                    else {
+                        if (bytes > Math.pow(1024, 1)) {
+                            show += round(bytes / Math.pow(1024, 1), 2);
+                            show += String.fromCharCode(160) + "KiB";
+                        }
+                        else {
+                            show += bytes;
+                            show += String.fromCharCode(160) + "B";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return show;
+}
+
+/**
+ * round a given value to the specified precision, difference to Math.round() is that there
+ * will be appended Zeros to the end if the precision is not reached (0.1 gets rounded to 0.100 when precision is set to 3)
+ * @param {Number} x value to round
+ * @param {Number} n precision
+ * @return {String}
+ */
+function round(x, n) {
+    var e = 0, k = "";
+    if (n < 0 || n > 14) {
+        return 0;
+    }
+    if (n === 0) {
+        return Math.round(x);
+    } else {
+        e = Math.pow(10, n);
+        k = (Math.round(x * e) / e).toString();
+        if (k.indexOf('.') === -1) {
+            k += '.';
+        }
+        k += e.toString().substring(1);
+        return k.substring(0, k.indexOf('.') + n + 1);
+    }
 }
