@@ -110,7 +110,7 @@ function renderHardware(data) {
                     } else {
                         hw_data.push(data["Hardware"][hw_type]["Device"]["@attributes"]);
                             if (data["Hardware"][hw_type]["Device"]["@attributes"]["Count"] !== undefined) {
-                                count=parseInt(data["Hardware"][hw_type]["Device"]["@attributes"]["Count"];
+                                count=parseInt(data["Hardware"][hw_type]["Device"]["@attributes"]["Count"]);
                             } else {
                                 count=1;
                             }
