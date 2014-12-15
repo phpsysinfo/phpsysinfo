@@ -39,12 +39,12 @@ $(document).ready(function () {
     });
 });
 
-function items(data) { console.log(data);
+function items(data) {
     if (data !== undefined) {
-        if ((data.length > 0) && (data[0]["@attributes"] !== undefined)) {
+        if ((data.length > 0) &&  (data[0] !== undefined) && (data[0]["@attributes"] !== undefined)) {
             return data;
         } else if (data["@attributes"] !== undefined ) {
-            return [data]; 
+            return [data];
         } else {
             return [];
         }
