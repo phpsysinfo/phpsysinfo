@@ -275,10 +275,10 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    ((!isNaN(data["Options"]["@attributes"]["threshold"]) &&
+                    (((data["Options"]["@attributes"]["threshold"] !== undefined) &&
                         (parseInt(this["Percent"]) >= parseInt(data["Options"]["@attributes"]["threshold"]))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
                     '" style="width: ' + this["Percent"] + '% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
+                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + ((this["Inodes"] !== undefined) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
         }
     };
