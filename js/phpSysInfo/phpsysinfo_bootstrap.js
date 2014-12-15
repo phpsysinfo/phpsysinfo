@@ -64,6 +64,80 @@ function renderVitals(data) {
             html: function () {
                 return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:24px"/>' + this["Distro"];
             }
+        },
+        Processes: {
+            text: function () {
+                var processes = "", processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesWaiting = 0, processesOther = 0;
+                var not_first = false;
+                processes = parseInt(this["Processes"]);
+                if (this["ProcessesRunning"] !== undefined) {
+                    processesRunning = parseInt(this["ProcessesRunning"]);
+                }
+                if (this["ProcessesSleeping"] !== undefined) {
+                    processesSleeping = parseInt(this["ProcessesSleeping"]);
+                }
+                if (this["ProcessesStopped"] !== undefined) {
+                    processesStopped = parseInt(this["ProcessesStopped"]);
+                }
+                if (this["ProcessesZombie"] !== undefined) {
+                    processesZombie = parseInt(this["ProcessesZombie"]);
+                }
+                if (this["ProcessesWaiting"] !== undefined) {
+                    processesWaiting = parseInt(this["ProcessesWaiting"]);
+                }
+                if (this["ProcessesOther"] !== undefined) {
+                    processesOther = parseInt(this["ProcessesOther"]);
+                }
+                if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
+                    processes += " (";
+
+                    if (processesRunning) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesRunning + String.fromCharCode(160) + "running";
+                        not_first = true;
+                    }
+                    if (processesSleeping) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesSleeping + String.fromCharCode(160) + "sleeping";
+                        not_first = true;
+                    }
+                    if (processesStopped) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesStopped + String.fromCharCode(160) + "stopped";
+                        not_first = true;
+                    }
+                    if (processesZombie) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesZombie + String.fromCharCode(160) + "zombie";
+                        not_first = true;
+                    }
+                    if (processesWaiting) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesWaiting + String.fromCharCode(160) + "waiting";
+                        not_first = true;
+                    }
+                    if (processesOther) {
+                        if (not_first) {
+                            processes += "," + String.fromCharCode(160);
+                        }
+                        processes += processesOther + String.fromCharCode(160) + "other";
+                        not_first = true;
+                    }
+
+                    processes += ")";
+                }            
+                return processes;
+            }
         }
     };
 
@@ -73,7 +147,65 @@ function renderVitals(data) {
     if (data["Vitals"]["@attributes"]["CodePage"] === undefined) {
         $("#tr_CodePage").hide();
     }
+    if (data["Vitals"]["@attributes"]["Processes"] === undefined) {
+        $("#tr_Processes").hide();
+    }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
+
+/*
+
+        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
+            $("#s_processes_1").append(" (");
+            not_first = false;
+
+            if (processesRunning) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesRunning + "&nbsp;" + genlang(111, true));
+                not_first = true;
+            }
+            if (processesSleeping) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesSleeping + "&nbsp;" + genlang(112, true));
+                not_first = true;
+            }
+            if (processesStopped) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesStopped + "&nbsp;" + genlang(113, true));
+                not_first = true;
+            }
+            if (processesZombie) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
+                not_first = true;
+            }
+            if (processesWaiting) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesWaiting + "&nbsp;" + genlang(115, true));
+                not_first = true;
+            }
+            if (processesOther) {
+                if (not_first) {
+                    $("#s_processes_1").append(",&nbsp;");
+                }
+                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(116, true));
+                not_first = true;
+            }
+
+            $("#s_processes_1").append(") ");
+
+*/
+
+
 }
 
 function renderHardware(data) {
