@@ -60,6 +60,25 @@ function renderVitals(data) {
                 return formatUptime(this["Uptime"]);
             }
         },
+        LastBoot: {
+            text: function () {
+                var lastboot;
+                var timestamp = 0;
+                if ((data["Generation"] !== undefined) && (data["Generation"]["@attributes"] !== undefined) && (data["Generation"]["@attributes"]["timestamp"] !== undefined) ) {
+                    timestamp = parseInt(data["Generation"]["@attributes"]["timestamp"])*1000; //server time
+                    if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
+                } else {
+                    timestamp = Number(new Date()); //client time
+                }
+                lastboot = new Date(timestamp - (parseInt(this["Uptime"])*1000));
+                if (typeof(lastboot.toUTCString)==="function") {
+                    return lastboot.toUTCString(); //toUTCstring() or toLocaleString()
+                } else {
+                //deprecated
+                    return lastboot.toGMTString(); //toGMTString() or toLocaleString()
+                }
+            }
+        },
         Distro: {
             html: function () {
                 return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:24px"/>' + this["Distro"];
@@ -151,61 +170,6 @@ function renderVitals(data) {
         $("#tr_Processes").hide();
     }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
-
-/*
-
-        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
-            $("#s_processes_1").append(" (");
-            not_first = false;
-
-            if (processesRunning) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesRunning + "&nbsp;" + genlang(111, true));
-                not_first = true;
-            }
-            if (processesSleeping) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesSleeping + "&nbsp;" + genlang(112, true));
-                not_first = true;
-            }
-            if (processesStopped) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesStopped + "&nbsp;" + genlang(113, true));
-                not_first = true;
-            }
-            if (processesZombie) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
-                not_first = true;
-            }
-            if (processesWaiting) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesWaiting + "&nbsp;" + genlang(115, true));
-                not_first = true;
-            }
-            if (processesOther) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(116, true));
-                not_first = true;
-            }
-
-            $("#s_processes_1").append(") ");
-
-*/
-
-
 }
 
 function renderHardware(data) {
