@@ -276,7 +276,7 @@ function renderFilesystem(data) {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
                     ((!isNaN(data["Options"]["@attributes"]["threshold"]) &&
-                        (this["Percent"] >= data["Options"]["@attributes"]["threshold"])) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
+                        (parseInt(this["Percent"]) >= parseInt(data["Options"]["@attributes"]["threshold"]))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
                     '" style="width: ' + this["Percent"] + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this["Percent"] + '% ' + (!isNaN(this["Inodes"]) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
