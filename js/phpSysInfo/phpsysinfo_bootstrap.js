@@ -27,7 +27,7 @@ $(document).ready(function () {
             renderCurrent(data);
 
             // Rendering plugins
-            if (data['Plugins'] != undefined) {
+            if (data['Plugins'] !== undefined) {
 
                 for (plugin in data['Plugins']) {
                     // dynamic call
@@ -39,12 +39,12 @@ $(document).ready(function () {
     });
 });
 
-function items(data) {
+function items(data) { console.log(data);
     if (data !== undefined) {
         if ((data.length > 0) && (data[0]["@attributes"] !== undefined)) {
             return data;
         } else if (data["@attributes"] !== undefined ) {
-            return [data];
+            return [data]; 
         } else {
             return [];
         }
@@ -179,7 +179,7 @@ function renderMemory(data) {
         },
         Usage: {
             html: function () {
-                if (this["Details"]["@attributes"] == undefined) {
+                if ((this["Details"] === undefined) || (this["Details"]["@attributes"] === undefined)) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';

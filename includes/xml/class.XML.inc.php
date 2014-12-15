@@ -295,18 +295,20 @@ class XML
         $memory->addAttribute('Used', $this->_sys->getMemUsed());
         $memory->addAttribute('Total', $this->_sys->getMemTotal());
         $memory->addAttribute('Percent', $this->_sys->getMemPercentUsed());
-        $details = $memory->addChild('Details');
-        if ($this->_sys->getMemApplication() !== null) {
-            $details->addAttribute('App', $this->_sys->getMemApplication());
-            $details->addAttribute('AppPercent', $this->_sys->getMemPercentApplication());
-        }
-        if ($this->_sys->getMemBuffer() !== null) {
-            $details->addAttribute('Buffers', $this->_sys->getMemBuffer());
-            $details->addAttribute('BuffersPercent', $this->_sys->getMemPercentBuffer());
-        }
-        if ($this->_sys->getMemCache() !== null) {
-            $details->addAttribute('Cached', $this->_sys->getMemCache());
-            $details->addAttribute('CachedPercent', $this->_sys->getMemPercentCache());
+        if (($this->_sys->getMemApplication() !== null) || ($this->_sys->getMemBuffer() !== null) || ($this->_sys->getMemCache() !== null)) {
+            $details = $memory->addChild('Details');
+            if ($this->_sys->getMemApplication() !== null) {
+                $details->addAttribute('App', $this->_sys->getMemApplication());
+                $details->addAttribute('AppPercent', $this->_sys->getMemPercentApplication());
+            }
+            if ($this->_sys->getMemBuffer() !== null) {
+                $details->addAttribute('Buffers', $this->_sys->getMemBuffer());
+                $details->addAttribute('BuffersPercent', $this->_sys->getMemPercentBuffer());
+            }
+            if ($this->_sys->getMemCache() !== null) {
+                $details->addAttribute('Cached', $this->_sys->getMemCache());
+                $details->addAttribute('CachedPercent', $this->_sys->getMemPercentCache());
+            }
         }
         if (count($this->_sys->getSwapDevices()) > 0) {
             $swap = $memory->addChild('Swap');
