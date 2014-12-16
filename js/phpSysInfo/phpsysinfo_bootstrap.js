@@ -29,12 +29,14 @@ $(document).ready(function () {
             // Rendering plugins
             if (data['Plugins'] !== undefined) {
 
-                for (plugin in data['Plugins']) {                    
-                    // dynamic call
-                    try {
-                        window['render' + plugin](data['Plugins'][plugin]);
-                    }
-                    catch (err) {
+                for (plugin in data['Plugins']) {
+                    if (data['Plugins'][plugin] !== undefined) {
+                        try {
+                            // dynamic call
+                            window['render' + plugin](data['Plugins'][plugin]);
+                        }
+                        catch (err) {
+                        }
                     }
                 }
 
@@ -75,7 +77,7 @@ function renderVitals(data) {
                     timestamp = Number(new Date()); //client time
                 }
                 lastboot = new Date(timestamp - (parseInt(this["Uptime"])*1000));
-                if (typeof(lastboot.toUTCString)==="function") {
+                if (typeof(lastboot.toUTCString) === "function") {
                     return lastboot.toUTCString(); //toUTCstring() or toLocaleString()
                 } else {
                 //deprecated
