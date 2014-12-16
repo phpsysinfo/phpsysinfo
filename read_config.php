@@ -228,6 +228,12 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
+        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode isue test
+            define('PSI_JSON_ISSUE', true); // Problem must be solved
+        }
+    }
+
     /* restore error level */
     error_reporting($old_err_rep);
 
