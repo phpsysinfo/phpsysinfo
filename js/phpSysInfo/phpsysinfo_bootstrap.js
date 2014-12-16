@@ -31,7 +31,7 @@ $(document).ready(function () {
 
                 for (plugin in data['Plugins']) {
                     // dynamic call
-                    //window['renderPlugin' + plugin](data['Plugins'][plugin]);
+                    window['render' + plugin](data['Plugins'][plugin]);
                 }
 
             }
@@ -179,7 +179,7 @@ function renderHardware(data) {
     } else {
         $('#hardware-Machine').hide();
     }
-    
+
     var directives = {
         Model: {
             text: function () {

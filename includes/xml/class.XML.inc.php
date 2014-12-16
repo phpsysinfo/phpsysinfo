@@ -650,7 +650,10 @@ class XML
             foreach ($plugins as $plugin) {
                 $object = new $plugin($this->_sysinfo->getEncoding());
                 $object->execute();
-                $pluginroot->combinexml($object->xml());
+                $oxml = $object->xml();
+                if (sizeof($oxml) > 0) {
+                    $pluginroot->combinexml($oxml);
+                }
             }
         }
     }

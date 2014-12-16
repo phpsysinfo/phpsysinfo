@@ -49,47 +49,47 @@
                 <table id="vitals" class="table table-hover table-condensed">
                     <tr>
                         <th>Hostname</th>
-                        <td><span data-bind="Hostname"/></td>
+                        <td><span data-bind="Hostname"></span></td>
                     </tr>
                     <tr>
                         <th>Listening IP</th>
-                        <td><span data-bind="IPAddr"/></td>
+                        <td><span data-bind="IPAddr"></span></td>
                     </tr>
                     <tr>
                         <th>Kernel Version</th>
-                        <td><span data-bind="Kernel"/></td>
+                        <td><span data-bind="Kernel"></span></td>
                     </tr>
                     <tr>
                         <th>Distro Name</th>
-                        <td><span data-bind="Distro"/></td>
+                        <td><span data-bind="Distro"></span></td>
                     </tr>
                     <tr>
                         <th>Uptime</th>
-                        <td><span data-bind="Uptime"/></td>
+                        <td><span data-bind="Uptime"></span></td>
                     </tr>
                     <tr>
                         <th>Last boot</th>
-                        <td><span data-bind="LastBoot"/></td>
+                        <td><span data-bind="LastBoot"></span></td>
                     </tr>
                     <tr>
                         <th>Current Users</th>
-                        <td><span data-bind="Users"/></td>
+                        <td><span data-bind="Users"></span></td>
                     </tr>
                     <tr>
                         <th>Load Averages</th>
-                        <td><span data-bind="LoadAvg"/></td>
+                        <td><span data-bind="LoadAvg"></span></td>
                     </tr>
                     <tr id="tr_SysLang">
                         <th>System Language</th>
-                        <td><span data-bind="SysLang"/></td>
+                        <td><span data-bind="SysLang"></span></td>
                     </tr>
                     <tr id="tr_CodePage">
                         <th>Code Page</th>
-                        <td><span data-bind="CodePage"/></td>
+                        <td><span data-bind="CodePage"></span></td>
                     </tr>
                     <tr id="tr_Processes">
                         <th>Processes</th>
-                        <td><span data-bind="Processes"/></td>
+                        <td><span data-bind="Processes"></span></td>
                     </tr>
                 </table>
             </div>
@@ -103,13 +103,13 @@
             <div class="panel-body">
                 <table id="hardware" class="table table-hover table-condensed tree">
                     <tr id="hardware-Machine">
-                        <th>Machine</th>
-                        <td><span data-bind="Name"/></td>
+                        <th width=8%>Machine</th>
+                        <td><span data-bind="Name"></span></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr id="hardware-CPU" class="treegrid-CPU">
-                        <th>CPU</th>
-                        <td><span data-bind="Model"/></td>
+                        <th width=8%>CPU</th>
+                        <td><span data-bind="Model"></span></td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
@@ -134,20 +134,20 @@
                     </tr>
                     </thead>
                     <tbody id="memory-data">
-                        <th><span data-bind="Type"/></th>
-                        <td><span data-bind="Usage"/></td>
-                        <td class="rightCell"><span data-bind="Free"/></td>
-                        <td class="rightCell"><span data-bind="Used"/></td>
-                        <td class="rightCell"><span data-bind="Total"/></td>
+                        <th><span data-bind="Type"></span></th>
+                        <td><span data-bind="Usage"></span></td>
+                        <td class="rightCell"><span data-bind="Free"></span></td>
+                        <td class="rightCell"><span data-bind="Used"></span></td>
+                        <td class="rightCell"><span data-bind="Total"></span></td>
                     </tr>
                     </tbody>
                     <tfoot id="swap-data">
                     <tr>
-                        <th><span data-bind="Name"/></th>
-                        <td><span data-bind="Usage"/></td>
-                        <td class="rightCell"><span data-bind="Free"/></td>
-                        <td class="rightCell"><span data-bind="Used"/></td>
-                        <td class="rightCell"><span data-bind="Total"/></td>
+                        <th><span data-bind="Name"></span></th>
+                        <td><span data-bind="Usage"></span></td>
+                        <td class="rightCell"><span data-bind="Free"></span></td>
+                        <td class="rightCell"><span data-bind="Used"></span></td>
+                        <td class="rightCell"><span data-bind="Total"></span></td>
                     </tr>
                     </tfoot>
                 </table>
@@ -175,13 +175,13 @@
                     </thead>
                     <tbody id="filesystem-data">
                     <tr>
-                        <th><span data-bind="MountPoint"/></th>
-                        <td><span data-bind="FSType"/></td>
-                        <td><span data-bind="Name"/></td>
-                        <td><span data-bind="Percent"/></td>
-                        <td class="rightCell"><span data-bind="Free"/></td>
-                        <td class="rightCell"><span data-bind="Used"/></td>
-                        <td class="rightCell"><span data-bind="Total"/></td>
+                        <th><span data-bind="MountPoint"></span></th>
+                        <td><span data-bind="FSType"></span></td>
+                        <td><span data-bind="Name"></span></td>
+                        <td><span data-bind="Percent"></span></td>
+                        <td class="rightCell"><span data-bind="Free"></span></td>
+                        <td class="rightCell"><span data-bind="Used"></span></td>
+                        <td class="rightCell"><span data-bind="Total"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -206,10 +206,10 @@
                     </thead>
                     <tbody id="network-data">
                     <tr>
-                        <th><span data-bind="Name"/></th>
-                        <td class="rightCell"><span data-bind="RxBytes"/></td>
-                        <td class="rightCell"><span data-bind="TxBytes"/></td>
-                        <td class="rightCell"><span data-bind="Drops"/></td>
+                        <th><span data-bind="Name"></span></th>
+                        <td class="rightCell"><span data-bind="RxBytes"></span></td>
+                        <td class="rightCell"><span data-bind="TxBytes"></span></td>
+                        <td class="rightCell"><span data-bind="Drops"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -232,10 +232,10 @@
                     </thead>
                     <tbody id="voltage-data">
                     <tr>
-                        <th><span data-bind="Label"/></th>
-                        <td class="rightCell"><span data-bind="Value"/></td>
-                        <td class="rightCell"><span data-bind="Min"/></td>
-                        <td class="rightCell"><span data-bind="Max"/></td>
+                        <th><span data-bind="Label"></span></th>
+                        <td class="rightCell"><span data-bind="Value"></span></td>
+                        <td class="rightCell"><span data-bind="Min"></span></td>
+                        <td class="rightCell"><span data-bind="Max"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -257,9 +257,9 @@
                     </thead>
                     <tbody id="temperature-data">
                     <tr>
-                        <th><span data-bind="Label"/></th>
-                        <td class="rightCell"><span data-bind="Value"/></td>
-                        <td class="rightCell"><span data-bind="Max"/></td>
+                        <th><span data-bind="Label"></span></th>
+                        <td class="rightCell"><span data-bind="Value"></span></td>
+                        <td class="rightCell"><span data-bind="Max"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -281,9 +281,9 @@
                     </thead>
                     <tbody id="fans-data">
                     <tr>
-                        <th><span data-bind="Label"/></th>
-                        <td class="rightCell"><span data-bind="Value"/></td>
-                        <td class="rightCell"><span data-bind="Min"/></td>
+                        <th><span data-bind="Label"></span></th>
+                        <td class="rightCell"><span data-bind="Value"></span></td>
+                        <td class="rightCell"><span data-bind="Min"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -305,10 +305,9 @@
                     </thead>
                     <tbody id="current-data">
                     <tr>
-                        <th><span data-bind="Label"/></td>
-                            <td class="rightCell"><span data-bind="Value"/>
-                        </th>
-                        <td class="rightCell"><span data-bind="Max"/></td>
+                        <th><span data-bind="Label"></span></th>
+                        <td class="rightCell"><span data-bind="Value"></span></td>
+                        <td class="rightCell"><span data-bind="Max"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -330,10 +329,9 @@
                     </thead>
                     <tbody id="power-data">
                     <tr>
-                        <th><span data-bind="Label"/></td>
-                            <td class="rightCell"><span data-bind="Value"/>
-                        </th>
-                        <td class="rightCell"><span data-bind="Max"/></td>
+                        <th><span data-bind="Label"></span></th>
+                        <td class="rightCell"><span data-bind="Value"></span></td>
+                        <td class="rightCell"><span data-bind="Max"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -341,20 +339,17 @@
         </div>
     </div>
 
-    <?php
-if (isset($plugins) && count($plugins) > 0) :
-    foreach ($plugins as $plugin) :
-    if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/template.html')):
-    ?>
-    <div class="col-lg-6">
-        <h4><?php echo $plugin; ?></h4>
-        <?php include APP_ROOT. '/plugins/'.$plugin.'/template.html'; ?>
+    <?php foreach (CommonFunctions::getPlugins() as $plugin) :
+     if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
+    <div class="col-lg-6" id="block_<?php echo $plugin; ?>" style="display:none">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><?php echo ucfirst($plugin); ?></div>
+            <div class="panel-body">
+        <?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
+            </div>
+        </div>
     </div>
-    <?php
-        endif;
-    endforeach; 
-endif;
-?>
+    <?php endif; endforeach; ?>
 </div>
 
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>
@@ -369,10 +364,12 @@ endif;
 <!-- <script src="js/vendor/sorttable.js"></script> -->
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
+
+<?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
+<script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>
+<?php endforeach; ?>
+
 <script type="text/JavaScript" src="./js.php?name=phpsysinfo_bootstrap"></script>
-<?php if(isset($plugins) && count($plugins) > 0) : ?>
-<script src="js/plugins.js.php?<?php echo implode(',', $plugins); ?>"></script>
-<?php endif; ?>
 
 </body>
 </html>
