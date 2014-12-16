@@ -45,3 +45,22 @@ body {
     position: relative;
     cursor: pointer;
 }
+
+.normalicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.normalicon-plus:before {
+  content: "\2b";
+}
+.normalicon-minus:before {
+  content: "\2212";
+}
+

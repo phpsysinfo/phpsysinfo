@@ -31,7 +31,7 @@ $(document).ready(function () {
 
                 for (plugin in data['Plugins']) {
                     // dynamic call
-//                    window['renderPlugin' + plugin](data['Plugins'][plugin]);
+                    //window['renderPlugin' + plugin](data['Plugins'][plugin]);
                 }
 
             }
@@ -81,7 +81,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:24px"/>' + this["Distro"];
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:20px"/>' + " " +this["Distro"];
             }
         },
         Processes: {
@@ -173,6 +173,13 @@ function renderVitals(data) {
 }
 
 function renderHardware(data) {
+
+    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
+    } else {
+        $('#hardware-Machine').hide();
+    }
+    
     var directives = {
         Model: {
             text: function () {
@@ -184,7 +191,7 @@ function renderHardware(data) {
         }
     };
 
-    $('#hardware').render(data["Hardware"]["CPU"], directives);
+    $('#hardware-CPU').render(data["Hardware"]["CPU"], directives);
 
     var hw_directives = {
         hwName: {
@@ -251,8 +258,8 @@ function renderHardware(data) {
     }
     $('.tree').treegrid({
         initialState: 'collapsed',
-        expanderExpandedClass: 'glyphicon glyphicon-minus',
-        expanderCollapsedClass: 'glyphicon glyphicon-plus'
+        expanderExpandedClass: 'normalicon normalicon-minus',
+        expanderCollapsedClass: 'normalicon normalicon-plus'
     });
 }
 
