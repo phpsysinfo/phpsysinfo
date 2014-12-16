@@ -29,9 +29,13 @@ $(document).ready(function () {
             // Rendering plugins
             if (data['Plugins'] !== undefined) {
 
-                for (plugin in data['Plugins']) {
+                for (plugin in data['Plugins']) {                    
                     // dynamic call
-                    window['render' + plugin](data['Plugins'][plugin]);
+                    try {
+                        window['render' + plugin](data['Plugins'][plugin]);
+                    }
+                    catch (err) {
+                    }
                 }
 
             }
