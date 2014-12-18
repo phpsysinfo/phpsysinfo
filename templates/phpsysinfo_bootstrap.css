@@ -64,3 +64,13 @@ body {
   content: "\2212";
 }
 
+table.sortable thead th {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover {
+    background: #efefef;
+}

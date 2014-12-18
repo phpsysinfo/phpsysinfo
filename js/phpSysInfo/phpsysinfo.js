@@ -580,7 +580,7 @@ function createBar(size, barclass) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
-    var processes = 0, processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesWaiting = 0, processesOther = 0;
+    var processes = 0, prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -625,22 +625,22 @@ function refreshVitals(xml) {
             }
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
-            processesRunning = parseInt($(this).attr("ProcessesRunning"), 10);
+            prunning = parseInt($(this).attr("ProcessesRunning"), 10);
         }
         if ($(this).attr("ProcessesSleeping") !== undefined) {
-            processesSleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
+            psleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
         }
         if ($(this).attr("ProcessesStopped") !== undefined) {
-            processesStopped = parseInt($(this).attr("ProcessesStopped"), 10);
+            pstopped = parseInt($(this).attr("ProcessesStopped"), 10);
         }
         if ($(this).attr("ProcessesZombie") !== undefined) {
-            processesZombie = parseInt($(this).attr("ProcessesZombie"), 10);
+            pzombie = parseInt($(this).attr("ProcessesZombie"), 10);
         }
         if ($(this).attr("ProcessesWaiting") !== undefined) {
-            processesWaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
+            pwaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
         }
         if ($(this).attr("ProcessesOther") !== undefined) {
-            processesOther = parseInt($(this).attr("ProcessesOther"), 10);
+            pother = parseInt($(this).attr("ProcessesOther"), 10);
         }
 
         document.title = "System information: " + hostname + " (" + ip + ")";
@@ -663,55 +663,20 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
-        if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
+        if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
             $("#s_processes_1").append(" (");
-            not_first = false;
-
-            if (processesRunning) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
+            var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
+            for (var procType in typelist) {
+                if (eval("p" + procType)) {
+                    if (not_first) {
+                        processes += "," + String.fromCharCode(160);
+                    }
+                    $("#s_processes_1").append(eval("p" + procType) + "&nbsp;" + genlang(typelist[procType], true));
+                    not_first = true;
                 }
-                $("#s_processes_1").append(processesRunning + "&nbsp;" + genlang(111, true));
-                not_first = true;
             }
-            if (processesSleeping) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesSleeping + "&nbsp;" + genlang(112, true));
-                not_first = true;
-            }
-            if (processesStopped) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesStopped + "&nbsp;" + genlang(113, true));
-                not_first = true;
-            }
-            if (processesZombie) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesZombie + "&nbsp;" + genlang(114, true));
-                not_first = true;
-            }
-            if (processesWaiting) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesWaiting + "&nbsp;" + genlang(115, true));
-                not_first = true;
-            }
-            if (processesOther) {
-                if (not_first) {
-                    $("#s_processes_1").append(",&nbsp;");
-                }
-                $("#s_processes_1").append(processesOther + "&nbsp;" + genlang(116, true));
-                not_first = true;
-            }
-
             $("#s_processes_1").append(") ");
-        }
+        } 
         $("#s_processes_2").html($("#s_processes_1").html());
     });
 }

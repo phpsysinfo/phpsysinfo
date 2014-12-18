@@ -92,73 +92,38 @@ function renderVitals(data) {
         },
         Processes: {
             text: function () {
-                var processes = "", processesRunning = 0, processesSleeping = 0, processesStopped = 0, processesZombie = 0, processesWaiting = 0, processesOther = 0;
+                var processes = "", prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
                 var not_first = false;
                 processes = parseInt(this["Processes"]);
                 if (this["ProcessesRunning"] !== undefined) {
-                    processesRunning = parseInt(this["ProcessesRunning"]);
+                    prunning = parseInt(this["ProcessesRunning"]);
                 }
                 if (this["ProcessesSleeping"] !== undefined) {
-                    processesSleeping = parseInt(this["ProcessesSleeping"]);
+                    psleeping = parseInt(this["ProcessesSleeping"]);
                 }
                 if (this["ProcessesStopped"] !== undefined) {
-                    processesStopped = parseInt(this["ProcessesStopped"]);
+                    pstopped = parseInt(this["ProcessesStopped"]);
                 }
                 if (this["ProcessesZombie"] !== undefined) {
-                    processesZombie = parseInt(this["ProcessesZombie"]);
+                    pzombie = parseInt(this["ProcessesZombie"]);
                 }
                 if (this["ProcessesWaiting"] !== undefined) {
-                    processesWaiting = parseInt(this["ProcessesWaiting"]);
+                    pwaiting = parseInt(this["ProcessesWaiting"]);
                 }
                 if (this["ProcessesOther"] !== undefined) {
-                    processesOther = parseInt(this["ProcessesOther"]);
+                    pother = parseInt(this["ProcessesOther"]);
                 }
-                if (processesRunning || processesSleeping || processesStopped || processesZombie || processesWaiting || processesOther) {
+                if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
                     processes += " (";
-
-                    if (processesRunning) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
+                    for (procType in {running:0,sleeping:1,stopped:2,zombie:3,waiting:4,other:5}) {
+                        if (eval("p" + procType)) {
+                            if (not_first) {
+                                processes += "," + String.fromCharCode(160);
+                            }
+                            processes += eval("p" + procType) + String.fromCharCode(160) + procType;
+                            not_first = true;
                         }
-                        processes += processesRunning + String.fromCharCode(160) + "running";
-                        not_first = true;
                     }
-                    if (processesSleeping) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
-                        }
-                        processes += processesSleeping + String.fromCharCode(160) + "sleeping";
-                        not_first = true;
-                    }
-                    if (processesStopped) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
-                        }
-                        processes += processesStopped + String.fromCharCode(160) + "stopped";
-                        not_first = true;
-                    }
-                    if (processesZombie) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
-                        }
-                        processes += processesZombie + String.fromCharCode(160) + "zombie";
-                        not_first = true;
-                    }
-                    if (processesWaiting) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
-                        }
-                        processes += processesWaiting + String.fromCharCode(160) + "waiting";
-                        not_first = true;
-                    }
-                    if (processesOther) {
-                        if (not_first) {
-                            processes += "," + String.fromCharCode(160);
-                        }
-                        processes += processesOther + String.fromCharCode(160) + "other";
-                        not_first = true;
-                    }
-
                     processes += ")";
                 }            
                 return processes;
@@ -218,7 +183,8 @@ function renderHardware(data) {
     var html="";
 
 //    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
-    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
+//    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
         html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
         html+="<th>" + hw_type + "</th>";
         html+="<td>Number of devices:</td>";
@@ -242,7 +208,8 @@ function renderHardware(data) {
     $("#hardware").append(html);
 
 //    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
-    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
+//    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
         try {
             var licz = 0;
             var datas = items(data["Hardware"][hw_type]["Device"]);
@@ -400,7 +367,8 @@ function renderFilesystem(data) {
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
-            sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
+//            sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
+            sorttable.innerSortFunction.apply($('#MountPoint')[0], []);
             $("#block_filesystem").show();
         } else {
             $("#block_filesystem").hide();
