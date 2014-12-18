@@ -231,8 +231,8 @@ function renderHardware(data) {
     }
     $('.tree').treegrid({
         initialState: 'collapsed',
-        expanderExpandedClass: 'normalicon normalicon-right',
-        expanderCollapsedClass: 'normalicon normalicon-down'
+        expanderExpandedClass: 'normalicon normalicon-down',
+        expanderCollapsedClass: 'normalicon normalicon-right'
     });
 }
 
