@@ -57,11 +57,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.normalicon-plus:before {
-  content: "\2b";
+.normalicon-right:before {
+  content: "\25ba";
 }
-.normalicon-minus:before {
-  content: "\2212";
+.normalicon-down:before {
+  content: "\25bc";
 }
 
 table.sortable thead th {
