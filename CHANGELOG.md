@@ -3,8 +3,9 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
-phpSysInfo 3.1.18
+phpSysInfo 3.2.0
 ----------------
+ - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)
 
  - [ADD] Catalan Translation ca.xml
  - [ADD] Mer to detected distros (core of Sailfish OS)
