@@ -90,6 +90,17 @@ function renderVitals(data) {
                 return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:20px"/>' + " " +this["Distro"];
             }
         },
+        LoadAvg: {
+            html: function () {
+                if (this["CPULoad"] !== undefined) {
+                    return '<table width=100%><tr><td width=50%>'+this["LoadAvg"] + '</td><td><div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["CPULoad"],0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this["CPULoad"],0) + '%</div></td></tr></table>';
+                } else {
+                    return this["LoadAvg"];
+                }
+            }
+        },
         Processes: {
             text: function () {
                 var processes = "", prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
