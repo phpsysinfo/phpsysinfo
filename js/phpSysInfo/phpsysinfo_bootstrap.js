@@ -199,16 +199,16 @@ function renderHardware(data) {
         html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
         html+="<th>" + hw_type + "</th>";
         html+="<td>Number of devices:</td>";
-        html+="<td class=\"rightCell\"><span>&nbsp;</span></td></td>";
+        html+="<td class=\"rightCell\"><span></span></td></td>";
         html+="</tr>";
 
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
                 html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\" style=\"display:none\" >";
-                html+="<th>&nbsp;</th>";
-                html+="<td><span data-bind=\"hwName\">&nbsp;</span></td>";
-                html+="<td class=\"rightCell\"><span data-bind=\"hwCount\">&nbsp;</span></td>";
+                html+="<th></th>";
+                html+="<td><span data-bind=\"hwName\"></span></td>";
+                html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
                 html+="</tr>";
             }
         }
@@ -673,7 +673,6 @@ function formatUptime(sec) {
     if (intHours) {
         txt += intHours.toString() + String.fromCharCode(160) + "hours" + String.fromCharCode(160);
     }
-//    return txt + intMin.toString() + "&nbsp;" + genlang(50, false);
     return txt + intMin.toString() + String.fromCharCode(160) + "minutes";
 }
 
