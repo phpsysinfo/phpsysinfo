@@ -262,8 +262,6 @@ function renderHardware(data) {
         $("#hardware-"+hw_type).hide();
     }
 
-//    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
-//    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
     for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
         html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
         html+="<th>" + hw_type + "</th>";
@@ -294,7 +292,7 @@ function renderHardware(data) {
         for (var i = 0; i < datas.length; i++) {
             $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"]);
             for (var proc_param in {CpuSpeed:0,CpuSpeedMax:1,CpuSpeedMin:2,Cache:3,Virt:4,BusSpeed:5,Bogomips:6,Cputemp:7,Load:8}) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) { //alert('#hardware-'+hw_type+'-'+ i +'-'+proc_param);
+                if (datas[i]["@attributes"][proc_param] !== undefined) {
                     $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
             }
@@ -307,9 +305,6 @@ function renderHardware(data) {
         $("#hardware-"+hw_type).hide();
     }
 
-
-//    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
-//    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
     for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
         try {
             var licz = 0;
