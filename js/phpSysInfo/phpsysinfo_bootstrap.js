@@ -230,17 +230,16 @@ function renderHardware(data) {
 
     var html="";
 
-    hw_type = "CPU";
-    html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
-    html+="<th>" + hw_type + "</th>";
+    html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\" style=\"display:none\" >";
+    html+="<th>CPU</th>";
     html+="<td>Number of processors:</td>";
     html+="<td class=\"rightCell\"><span></span></td></td>";
     html+="</tr>";
     
     try {
-        var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+        var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
-            html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-"+ hw_type + "-" + i +" treegrid-parent-" + hw_type + "\">";
+            html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
             html+="<td><span data-bind=\"Model\"></span></td>";
             html+="<td></td>";
@@ -248,7 +247,7 @@ function renderHardware(data) {
             var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
             for (var proc_param in paramlist) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    html+="<tr id=\"hardware-" + hw_type + "-" + i + "-" + proc_param + "\" class=\"treegrid-parent-"+ hw_type + "-" + i +"\">";
+                    html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
                     html+="<td>"+ paramlist[proc_param]+"</td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
@@ -259,7 +258,7 @@ function renderHardware(data) {
         }
     }
     catch (err) {
-        $("#hardware-"+hw_type).hide();
+        $("#hardware-CPU").hide();
     }
 
     for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
@@ -285,24 +284,22 @@ function renderHardware(data) {
     }
     $("#hardware").append(html);
 
-
-   hw_type = "CPU";
-   try {
-        var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+    try {
+        var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
-            $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"]);
+            $('#hardware-CPU-'+ i).render(datas[i]["@attributes"]);
             for (var proc_param in {CpuSpeed:0,CpuSpeedMax:1,CpuSpeedMin:2,Cache:3,Virt:4,BusSpeed:5,Bogomips:6,Cputemp:7,Load:8}) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                    $('#hardware-CPU-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
             }
         }
         if (i > 0) {
-            $("#hardware-" + hw_type + " span").html(i);
+            $("#hardware-CPU span").html(i);
         }
     }
     catch (err) {
-        $("#hardware-"+hw_type).hide();
+        $("#hardware-CPU").hide();
     }
 
     for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
@@ -325,7 +322,7 @@ function renderHardware(data) {
             $("#hardware-"+hw_type).hide();
         }
     }
-    $('.tree').treegrid({
+    $('.tree_hwd').treegrid({
         initialState: 'collapsed',
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
@@ -335,10 +332,9 @@ function renderHardware(data) {
     }
     if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
         try {
-            hw_type = "CPU";
-            var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+            var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
             for (var i = 0; i < datas.length; i++) {
-                $('#hardware-'+hw_type+'-'+i).treegrid('expand');
+                $('#hardware-CPU-'+i).treegrid('expand');
             }
         }
         catch (err) {
@@ -509,22 +505,48 @@ function renderNetwork(data) {
         }
     };
 
+    var html = "";
     try {
         var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
+
         for (var i = 0; i < datas.length; i++) {
-            network_data.push(datas[i]["@attributes"]);
+            html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
+            html+="<td><b><span data-bind=\"Name\"></span></b></td>";
+            html+="<td class=\"rightCell\"><span data-bind=\"RxBytes\"></span></td>";
+            html+="<td class=\"rightCell\"><span data-bind=\"TxBytes\"></span></td>";
+            html+="<td class=\"rightCell\"><span data-bind=\"Drops\"></span></td>";
+            html+="</tr>";
+          
+            var info  = datas[i]["@attributes"]["Info"];
+            if ( (info !== undefined) && (info !== "") ) {
+                var infos = info.replace(/:/g, "&#8203:").split(";"); /* split long addresses */
+                for(var j = 0; j < infos.length; j++){
+                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td>" + infos[j] + "</td><td></td><td></td><td></td></tr>";
+                }
+            }
         }
+        $("#network").append(html);
         if (i > 0) {
-            $('#network-data').render(network_data, directives);
+            for (var i = 0; i < datas.length; i++) {
+                $('#network-' + i).render(datas[i]["@attributes"], directives);
+            }
             $("#block_network").show();
         } else {
             $("#block_network").hide();
         }
     }
     catch (err) {
+    alert("error");
         $("#block_network").hide();
     }
+
+    $('.tree_net').treegrid({
+        initialState: 'collapsed',
+        expanderExpandedClass: 'normalicon normalicon-down',
+        expanderCollapsedClass: 'normalicon normalicon-right'
+    });
+
 }
 
 function renderVoltage(data) {

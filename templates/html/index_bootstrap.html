@@ -101,7 +101,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Hardware Information</div>
             <div class="panel-body">
-                <table id="hardware" class="table table-hover table-condensed tree">
+                <table id="hardware" class="table table-hover table-condensed tree_hwd">
                     <tr id="hardware-Machine">
                         <th width=8%>Machine</th>
                         <td><span data-bind="Name"></span></td>
@@ -190,7 +190,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Network Interface</div>
             <div class="panel-body">
-                <table id="network" class="table table-hover table-condensed">
+                <table id="network" class="table table-hover table-condensed tree_net">
                     <thead>
                     <tr>
                         <th>Device</th>
@@ -199,14 +199,6 @@
                         <th class="rightCell">Err/Drop</th>
                     </tr>
                     </thead>
-                    <tbody id="network-data">
-                    <tr>
-                        <th><span data-bind="Name"></span></th>
-                        <td class="rightCell"><span data-bind="RxBytes"></span></td>
-                        <td class="rightCell"><span data-bind="TxBytes"></span></td>
-                        <td class="rightCell"><span data-bind="Drops"></span></td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
