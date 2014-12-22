@@ -666,12 +666,12 @@ function refreshVitals(xml) {
         if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
             $("#s_processes_1").append(" (");
             var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
-            for (var procType in typelist) {
-                if (eval("p" + procType)) {
+            for (var proc_type in typelist) {
+                if (eval("p" + proc_type)) {
                     if (not_first) {
                         processes += "," + String.fromCharCode(160);
                     }
-                    $("#s_processes_1").append(eval("p" + procType) + "&nbsp;" + genlang(typelist[procType], true));
+                    $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
                     not_first = true;
                 }
             }

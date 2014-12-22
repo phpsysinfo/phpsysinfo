@@ -126,12 +126,12 @@ function renderVitals(data) {
                 }
                 if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
                     processes += " (";
-                    for (procType in {running:0,sleeping:1,stopped:2,zombie:3,waiting:4,other:5}) {
-                        if (eval("p" + procType)) {
+                    for (proc_type in {running:0,sleeping:1,stopped:2,zombie:3,waiting:4,other:5}) {
+                        if (eval("p" + proc_type)) {
                             if (not_first) {
                                 processes += "," + String.fromCharCode(160);
                             }
-                            processes += eval("p" + procType) + String.fromCharCode(160) + procType;
+                            processes += eval("p" + proc_type) + String.fromCharCode(160) + proc_type;
                             not_first = true;
                         }
                     }
@@ -165,15 +165,52 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                if(this["CpuCore"].length > 1)
-                    return this["CpuCore"].length + " x " + this["CpuCore"][0]["@attributes"]["Model"];
-                else
-                    return this["CpuCore"]["@attributes"]["Model"];
+                return this["Model"];
             }
-        }
+        },
+        CpuSpeed: {
+            text: function () {
+                return formatHertz(this["CpuSpeed"]);
+            }
+        },
+        CpuSpeedMax: {
+            text: function () {
+                return formatHertz(this["CpuSpeedMax"]);
+            }
+        },
+        CpuSpeedMin: {
+            text: function () {
+                return formatHertz(this["CpuSpeedMin"]);
+            }
+        },
+        Cache: {
+            text: function () {
+                return formatBytes(this["Cache"], data["Options"]["@attributes"]["byteFormat"]);
+            }
+        },
+        BusSpeed: {
+            text: function () {
+                return formatHertz(this["BusSpeed"]);
+            }
+        },
+        Cputemp: {
+            text: function () {
+                return formatTemp(this["Cputemp"], data["Options"]["@attributes"]["tempFormat"]);
+            }
+        },
+        Bogomips: {
+            text: function () {
+                return parseInt(this["Bogomips"]);
+            }
+        },
+        Load: {
+            html: function () {
+                return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["Load"],0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this["Load"],0) + '%</div>';
+            }
+        }        
     };
-
-    $('#hardware-CPU').render(data["Hardware"]["CPU"], directives);
 
     var hw_directives = {
         hwName: {
@@ -193,6 +230,38 @@ function renderHardware(data) {
 
     var html="";
 
+    hw_type = "CPU";
+    html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
+    html+="<th>" + hw_type + "</th>";
+    html+="<td>Number of processors:</td>";
+    html+="<td class=\"rightCell\"><span></span></td></td>";
+    html+="</tr>";
+    
+    try {
+        var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+        for (var i = 0; i < datas.length; i++) {
+            html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-"+ hw_type + "-" + i +" treegrid-parent-" + hw_type + "\">";
+            html+="<th></th>";
+            html+="<td><span data-bind=\"Model\"></span></td>";
+            html+="<td></td>";
+            html+="</tr>";
+            var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
+            for (var proc_param in paramlist) {
+                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                    html+="<tr id=\"hardware-" + hw_type + "-" + i + "-" + proc_param + "\" class=\"treegrid-parent-"+ hw_type + "-" + i +"\">";
+                    html+="<th></th>";
+                    html+="<td>"+ paramlist[proc_param]+"</td>";
+                    html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                    html+="</tr>"; 
+                }
+            }
+
+        }
+    }
+    catch (err) {
+        $("#hardware-"+hw_type).hide();
+    }
+
 //    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
 //    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
     for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
@@ -205,7 +274,7 @@ function renderHardware(data) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
-                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\" style=\"display:none\" >";
+                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\">";
                 html+="<th></th>";
                 html+="<td><span data-bind=\"hwName\"></span></td>";
                 html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
@@ -217,6 +286,27 @@ function renderHardware(data) {
         }
     }
     $("#hardware").append(html);
+
+
+   hw_type = "CPU";
+   try {
+        var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+        for (var i = 0; i < datas.length; i++) {
+            $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"]);
+            for (var proc_param in {CpuSpeed:0,CpuSpeedMax:1,CpuSpeedMin:2,Cache:3,Virt:4,BusSpeed:5,Bogomips:6,Cputemp:7,Load:8}) {
+                if (datas[i]["@attributes"][proc_param] !== undefined) { //alert('#hardware-'+hw_type+'-'+ i +'-'+proc_param);
+                    $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                }
+            }
+        }
+        if (i > 0) {
+            $("#hardware-" + hw_type + " span").html(i);
+        }
+    }
+    catch (err) {
+        $("#hardware-"+hw_type).hide();
+    }
+
 
 //    for (hw_type of ["PCI","IDE","SCSI","USB"]) {
 //    for (hw_type in {PCI:"PCI",IDE:"IDE",SCSI:"SCSI",USB:"USB"}) {
@@ -245,6 +335,20 @@ function renderHardware(data) {
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
     });
+    if (data["Options"]["@attributes"]["showCPUListExpanded"] !== "false") {
+        $('#hardware-CPU').treegrid('expand');
+    }
+    if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
+        try {
+            hw_type = "CPU";
+            var datas = items(data["Hardware"][hw_type]["CpuCore"]);
+            for (var i = 0; i < datas.length; i++) {
+                $('#hardware-'+hw_type+'-'+i).treegrid('expand');
+            }
+        }
+        catch (err) {
+        }
+    }
 }
 
 function renderMemory(data) {
@@ -701,6 +805,25 @@ function formatTemp(degreeC, tempFormat) {
             return round(degree, 1) + String.fromCharCode(160) + "C<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F)</i>";
         case "f-c":
             return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F<br><i>(" + round(degree, 1) + String.fromCharCode(160) + "C)</i>";
+        }
+    }
+}
+
+/**
+ * format a given MHz value to a better readable statement with the right suffix
+ * @param {Number} mhertz mhertz value that should be formatted
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatHertz(mhertz) {
+    if (mhertz && mhertz < 1000) {
+        return mhertz.toString() + String.fromCharCode(160) + "MHz";
+    }
+    else {
+        if (mhertz && mhertz >= 1000) {
+            return round(mhertz / 1000, 2) + String.fromCharCode(160) + "GHz";
+        }
+        else {
+            return "";
         }
     }
 }
