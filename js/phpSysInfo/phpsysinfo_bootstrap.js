@@ -33,7 +33,7 @@ $(document).ready(function () {
                     if (data['Plugins'][plugin] !== undefined) {
                         try {
                             // dynamic call
-                            window['render' + plugin](data['Plugins'][plugin]);
+                            window['render' + plugin](data);
                         }
                         catch (err) {
                         }
