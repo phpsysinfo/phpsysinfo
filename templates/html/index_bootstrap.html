@@ -21,25 +21,15 @@
 <div class="navbar navbar-fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#"><img src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
-        <img id="loader" style="display:none" src="gfx/ajax-loader.gif"></a>
+            <img id="loader" style="display:none" src="gfx/ajax-loader.gif">
+            <button id="errorbutton" type="button" data-toggle="modal" data-target="#errors-dialog"
+                class="btn btn-default btn-xs" style="display:none">Errors
+            </button>
+        </a>
     </div>
 </div>
 
 <div class="container">
-
-<div class="row" id="errorrow" style="display:none">
-    <div class="col-md-offset-2 col-lg-8">
-
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">Errors</h3>
-            </div>
-            <div>
-                <ul id="errors"></ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-lg-6">
@@ -101,7 +91,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Hardware Information</div>
             <div class="panel-body">
-                <table id="hardware" class="table table-hover table-condensed tree_hwd">
+                <table id="hardware" class="table table-hover table-condensed">
                     <tr id="hardware-Machine">
                         <th width=8%>Machine</th>
                         <td><span data-bind="Name"></span></td>
@@ -190,7 +180,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Network Interface</div>
             <div class="panel-body">
-                <table id="network" class="table table-hover table-condensed tree_net">
+                <table id="network" class="table table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>Device</th>
@@ -337,6 +327,28 @@
         </div>
     </div>
     <?php endif; endforeach; ?>
+
+<!-- Hardware details modal dialogs -->
+<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Errors</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="errors" class="list-group">
+                </ul>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 </div>
 
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>

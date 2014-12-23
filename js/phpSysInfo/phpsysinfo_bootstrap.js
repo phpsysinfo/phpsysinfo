@@ -322,7 +322,7 @@ function renderHardware(data) {
             $("#hardware-"+hw_type).hide();
         }
     }
-    $('.tree_hwd').treegrid({
+    $('#hardware').treegrid({
         initialState: 'collapsed',
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
@@ -537,11 +537,10 @@ function renderNetwork(data) {
         }
     }
     catch (err) {
-    alert("error");
         $("#block_network").hide();
     }
 
-    $('.tree_net').treegrid({
+    $('#network').treegrid({
         initialState: 'collapsed',
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
@@ -763,16 +762,17 @@ function renderErrors(data) {
     try {
         var datas = items(data["Errors"]["Error"]);
         for (var i = 0; i < datas.length; i++) {
-            $("#errors").append("<li>"+datas[i]["@attributes"]["Message"]+"</li>");
+        var xxx = datas[i]["@attributes"]["Message"]; 
+            $("#errors").append("<li>"+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li>");
         }
         if (i > 0) {
-            $("#errorrow").show();
+            $("#errorbutton").show();
         } else {
-            $("#errorrow").hide();
+            $("#errorbutton").hide();
         }
     }
     catch (err) {
-        $("#errorrow").hide();
+        $("#errorbutton").hide();
     }
 }
 
