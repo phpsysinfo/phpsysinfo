@@ -14,7 +14,7 @@ function renderPlugin_ipmiinfo(data) {
 
     if (data['Plugins']['Plugin_ipmiinfo'] !== undefined) { 
         var data_ipmiinfo = [];
-        var valuelist = {Temperature:"Temperatures [C]", Voltages:"Voltages [V]", Fans:"Fans [RPM]", Powers:"Powers [W]", Currents:"Currents [A]", Misc:"Misc [0/1]"};
+        var valuelist = {Temperatures:"Temperatures [C]", Voltages:"Voltages [V]", Fans:"Fans [RPM]", Powers:"Powers [W]", Currents:"Currents [A]", Misc:"Misc [0/1]"};
         for (var ipmiinfo_value in valuelist) {
             if ((data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value] !== undefined) 
                 && (items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]).length > 0)) {
