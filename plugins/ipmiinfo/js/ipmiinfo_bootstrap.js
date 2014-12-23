@@ -16,14 +16,13 @@ function renderPlugin_ipmiinfo(data) {
         var data_ipmiinfo = [];
         var valuelist = {Temperatures:"Temperatures [C]", Voltages:"Voltages [V]", Fans:"Fans [RPM]", Powers:"Powers [W]", Currents:"Currents [A]", Misc:"Misc [0/1]"};
         for (var ipmiinfo_value in valuelist) {
-            if ((data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value] !== undefined) 
-                && (items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]).length > 0)) {
+            if (data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value] !== undefined) { 
                 var datas = items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]);
                 if (datas.length > 0) {
                     data_ipmiinfo.push({Label:valuelist[ipmiinfo_value]});
-                }
-                for (var i = 0; i < datas.length; i++) {
-                    data_ipmiinfo.push(datas[i]["@attributes"]);
+                    for (var i = 0; i < datas.length; i++) {
+                        data_ipmiinfo.push(datas[i]["@attributes"]);
+                    }
                 }
             }
         }
