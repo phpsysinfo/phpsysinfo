@@ -317,10 +317,13 @@
         </div>
     </div>
 
-    <?php foreach (CommonFunctions::getPlugins() as $plugin) :
-     if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
-        <?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
-    <?php endif; endforeach; ?>
+<?php foreach (CommonFunctions::getPlugins() as $plugin) :
+if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
+<?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
+
+<?php endif; endforeach; ?>
+
+</div>
 
 <!-- Errors details modal dialogs -->
 <div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -341,7 +344,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 
 </div>
 
