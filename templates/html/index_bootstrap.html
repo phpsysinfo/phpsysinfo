@@ -119,6 +119,7 @@
                     </tr>
                     </thead>
                     <tbody id="memory-data">
+                    <tr>
                         <th><span data-bind="Type"></span></th>
                         <td><span data-bind="Usage"></span></td>
                         <td class="rightCell"><span data-bind="Free"></span></td>
@@ -149,7 +150,7 @@
                 <table id="filesystem" class="table table-hover table-condensed sortable">
                     <thead>
                     <tr>
-                        <th id="MountPoint">Mountpoint</th>
+                        <th id="filesystem_MountPoint">Mountpoint</th>
                         <th>Type</th>
                         <th>Partition</th>
                         <th>Usage</th>
@@ -318,14 +319,7 @@
 
     <?php foreach (CommonFunctions::getPlugins() as $plugin) :
      if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
-    <div class="col-lg-6" id="block_<?php echo $plugin; ?>" style="display:none">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><?php echo ucfirst($plugin); ?></div>
-            <div class="panel-body">
         <?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
-            </div>
-        </div>
-    </div>
     <?php endif; endforeach; ?>
 
 <!-- Errors details modal dialogs -->

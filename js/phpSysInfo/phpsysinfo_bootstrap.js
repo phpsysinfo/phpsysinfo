@@ -473,8 +473,8 @@ function renderFilesystem(data) {
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
-//            sorttable.innerSortFunction.apply(document.getElementById('MountPoint'), []);
-            sorttable.innerSortFunction.apply($('#MountPoint')[0], []);
+//            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
+            sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
             $("#block_filesystem").show();
         } else {
             $("#block_filesystem").hide();
