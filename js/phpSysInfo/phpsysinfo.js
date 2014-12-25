@@ -1281,8 +1281,10 @@ function refreshUps(xml) {
             html += "<tr><td style=\"width:160px\">" + genlang(72, false) + "</td><td>" + start_time + "</td></tr>\n";
             tree.push(index);
         }
-        html += "<tr><td style=\"width:160px\">" + genlang(73, false) + "</td><td>" + upsstatus + "</td></tr>\n";
-        tree.push(index);
+        if (upsstatus !== undefined) {
+            html += "<tr><td style=\"width:160px\">" + genlang(73, false) + "</td><td>" + upsstatus + "</td></tr>\n";
+            tree.push(index);
+        }
         if (temperature !== undefined) {
             html += "<tr><td style=\"width:160px\">" + genlang(84, false) + "</td><td>" + temperature + "</td></tr>\n";
             tree.push(index);
