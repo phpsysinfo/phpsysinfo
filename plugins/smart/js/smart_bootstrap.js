@@ -35,9 +35,9 @@ function renderPlugin_SMART(data) {
         for (i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"]["id"];
             if (smartnames[smartid] !== undefined) {
-                $('#smart-th').append('<th class="rightCell">'+ smartnames[smartid] + '</th>');
+                $('#smart-th').append('<th class="sorttable_numeric rightCell">'+ smartnames[smartid] + '</th>');
             } else {
-                $('#smart-th').append('<th class="rightCell">'+ smartid + '</th>');
+                $('#smart-th').append('<th class="sorttable_numeric rightCell">'+ smartid + '</th>');
             }
         }
         
