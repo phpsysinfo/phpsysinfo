@@ -4,6 +4,11 @@
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
+  25th December 2014
+  Fixed behavior of multiple sortable tables in same page. 
+  Redefinition of sortfwdind and sortrevind icons.
+  Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
+
   Instructions:
   Download this file
   Add <script src="sorttable.js"></script> to your HTML
@@ -13,11 +18,6 @@
   Thanks to many, many people for contributions and suggestions.
   Licenced as X11: http://www.kryogenix.org/code/browser/licence.html
   This basically means: do what you want with it.
-
-  25th December 2014
-  Fixed behavior of multiple sortable tables in same page. 
-  Redefinition of sortfwdind and sortrevind icons.
-  Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
 */
 
 
