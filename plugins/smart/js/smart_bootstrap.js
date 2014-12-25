@@ -44,20 +44,18 @@ function renderPlugin_SMART(data) {
         var diskitems = items(data['Plugins']['Plugin_SMART']["disks"]["disk"]);
         var html = '';
         html += '<tbody>';
-        for (i = 0; i < diskitems.length ; i++) {
+        for (i = 0; i < diskitems.length; i++) {
             html += '<tr>';
             html += '<th class="rightCell">'+ diskitems[i]["@attributes"]["name"] + '</th>';
+            attribitems = items(diskitems[i]["attribute"]);
+            var valarray = [];
+            for (j = 0;j < attribitems.length; j++) {
+                valarray[attribitems[j]["@attributes"]["id"]] = attribitems[j]["@attributes"]["raw_value"];
+            }
             for (j = 0; j < smartitems.length; j++) {
-                smartid = smartitems[j]["@attributes"]["id"];
-                attribitems = items(diskitems[i]["attribute"]);
-                var itemvalue = '';
-                for (k = 0; k < attribitems.length ; k++) {
-                    if (attribitems[k]["@attributes"]["id"] == smartid) {
-                        itemvalue = attribitems[k]["@attributes"]["raw_value"];
-                        break;
-                    }
-                }
-                if (itemvalue !== '' ) {
+                var smartid = smartitems[j]["@attributes"]["id"];
+                var itemvalue = valarray[smartid];
+                if ((itemvalue !== undefined) && (itemvalue !== '' )) {
                     if (smartid === "194") {
                         html += '<td class="rightCell">' + formatTemp(itemvalue, data["Options"]["@attributes"]["tempFormat"]) + '</td>';
                     } else {
@@ -67,7 +65,7 @@ function renderPlugin_SMART(data) {
                     html += '<td></td>';
                 }
             }
-            html += '</tr>';
+            html += '</tr>'; 
         }
         html += '</tbody>';
         $('#smart').append(html);
