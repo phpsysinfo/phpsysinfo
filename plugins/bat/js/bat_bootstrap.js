@@ -4,7 +4,7 @@ function renderPlugin_BAT(data) {
         RemainingCapacity: {
             html: function () {
                 var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                if ( CapacityUnit == "%" ) {
+                if ( CapacityUnit === "%" ) {
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + round(this["RemainingCapacity"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["RemainingCapacity"],0) + '%</div>';
                 } else {
@@ -60,7 +60,7 @@ function renderPlugin_BAT(data) {
                 $('#bat_' + bat_param).show();
             }
         }
-        if (this["CapacityUnit"] == "%") {
+        if (attr["CapacityUnit"] === "%") {
             $('#bat_DesignCapacity').hide();
         }
         $('#block_bat').show();
