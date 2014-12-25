@@ -317,6 +317,16 @@
         </div>
     </div>
 
+    <div id="block_ups" style="display:none" class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">UPS Information</div>
+            <div class="panel-body">
+                <table id="ups" class="table table-hover table-condensed">
+                </table>
+            </div>
+        </div>
+    </div>
+
 <?php foreach (CommonFunctions::getPlugins() as $plugin) :
 if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
 <?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>

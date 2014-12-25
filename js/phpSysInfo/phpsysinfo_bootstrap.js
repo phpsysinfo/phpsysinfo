@@ -25,7 +25,8 @@ $(document).ready(function () {
             renderFans(data);
             renderPower(data);
             renderCurrent(data);
-
+            renderUPS(data);
+            
             // Rendering plugins
             if (data['Plugins'] !== undefined) {
 
@@ -209,7 +210,7 @@ function renderHardware(data) {
                         '<div class="progress-bar progress-bar-info" style="width: ' + round(this["Load"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["Load"],0) + '%</div>';
             }
-        }        
+        }
     };
 
     var hw_directives = {
@@ -235,7 +236,8 @@ function renderHardware(data) {
     html+="<td>Number of processors:</td>";
     html+="<td class=\"rightCell\"><span></span></td></td>";
     html+="</tr>";
-    
+
+    var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
@@ -244,7 +246,6 @@ function renderHardware(data) {
             html+="<td><span data-bind=\"Model\"></span></td>";
             html+="<td></td>";
             html+="</tr>";
-            var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
             for (var proc_param in paramlist) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
@@ -288,7 +289,7 @@ function renderHardware(data) {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
             $('#hardware-CPU-'+ i).render(datas[i]["@attributes"]);
-            for (var proc_param in {CpuSpeed:0,CpuSpeedMax:1,CpuSpeedMin:2,Cache:3,Virt:4,BusSpeed:5,Bogomips:6,Cputemp:7,Load:8}) {
+            for (var proc_param in paramlist) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     $('#hardware-CPU-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
@@ -758,11 +759,115 @@ function renderCurrent(data) {
     }
 }
 
+function renderUPS(data) {
+
+    var directives = {
+        Name: {
+            text: function () {
+                return this["Name"] + ((this["Mode"] !== undefined) ? " (" + this["Mode"] + ")" : "");
+            }
+        },
+        LineVoltage: {
+            text: function () {
+                return this["LineVoltage"] + String.fromCharCode(160) + "V";
+            }
+        },
+        LineFrequency: {
+            text: function () {
+                return this["LineFrequency"] + String.fromCharCode(160) + "Hz";
+            }
+        },
+        BatteryVoltage: {
+            text: function () {
+                return this["BatteryVoltage"] + String.fromCharCode(160) + "V";
+            }
+        },
+        TimeLeftMinutes: {
+            text: function () {
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + "minutes";
+            }
+        },
+        LoadPercent: {
+            html: function () {
+                return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["LoadPercent"],0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this["LoadPercent"],0) + '%</div>';
+            }
+        },                
+        BatteryChargePercent: {
+            html: function () {
+                return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["BatteryChargePercent"],0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this["BatteryChargePercent"],0) + '%</div>';
+            }
+        } 
+    };
+
+    if ((data["UPSInfo"] === undefined) || (items(data["UPSInfo"]["UPS"]).length < 1)) {
+        return;
+    }
+
+    var html="";
+    var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
+
+    try {
+        var datas = items(data["UPSInfo"]["UPS"]);
+        for (var i = 0; i < datas.length; i++) {
+            html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
+            html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+            html+="<td></td>";
+            html+="</tr>";
+            for (var proc_param in paramlist) {
+                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                    html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
+                    html+="<th>"+ paramlist[proc_param]+"</th>";
+                    html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                    html+="</tr>"; 
+                }
+            }
+
+        }
+    }
+    catch (err) {
+    }
+
+    if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
+        html+="<tr>";
+        html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
+        html+="<td></td>";
+        html+="</tr>";
+    }
+    
+    $("#ups").append(html);
+
+    try {
+        var datas = items(data["UPSInfo"]["UPS"]);
+        for (var i = 0; i < datas.length; i++) {
+            $('#ups-'+ i).render(datas[i]["@attributes"], directives);
+            for (var proc_param in paramlist) {
+                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                    $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                }
+            }
+        }
+    }
+    catch (err) {
+    }
+
+    $('#ups').treegrid({
+        initialState: 'expanded',
+        expanderExpandedClass: 'normalicon normalicon-down',
+        expanderCollapsedClass: 'normalicon normalicon-right'
+    });
+        
+    $("#block_ups").show();
+
+}
+
 function renderErrors(data) {
     try {
         var datas = items(data["Errors"]["Error"]);
-        for (var i = 0; i < datas.length; i++) {
-        var xxx = datas[i]["@attributes"]["Message"]; 
+        for (var i = 0; i < datas.length; i++) { 
             $("#errors").append("<li>"+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li>");
         }
         if (i > 0) {
