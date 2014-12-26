@@ -47,6 +47,12 @@ function updatenotifier_populate(xml) {
 
         $("#Plugin_UpdateNotifier tbody").append(html);
 
+        if ((packages == 0) && (security == 0)) {
+            $("#UpdateNotifierTable-info").html(genlang(5, true, "UpdateNotifier"));
+        } else {
+            $("#UpdateNotifierTable-info").html(genlang(2, true, "UpdateNotifier"));
+        }
+
         UpdateNotifier_show = true;
     });
 }
@@ -60,7 +66,7 @@ function updatenotifier_buildTable() {
     html += "<table id=\"Plugin_UpdateNotifierTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
-    html += "      <th>" + genlang(2, true, "UpdateNotifier") + "</th>\n";
+    html += "      <th id=\"UpdateNotifierTable-info\">" + genlang(2, true, "UpdateNotifier") + "</th>\n";
     html += "    </tr>\n";
     html += "  </thead>\n";
     html += "  <tbody>\n";
