@@ -407,7 +407,7 @@ class XML
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
         $temp = $fan = $volt = $power = $current = null;
-        
+
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                 $mbinfo_data = new $mbinfoclass();
@@ -492,7 +492,7 @@ class XML
                 }
             }
         }
-        
+
         if (PSI_HDDTEMP) {
             $hddtemp = new HDDTemp();
             $hddtemp_data = $hddtemp->getMBInfo();

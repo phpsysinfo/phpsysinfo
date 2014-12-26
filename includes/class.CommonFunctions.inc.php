@@ -211,7 +211,7 @@ class CommonFunctions
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            if (PSI_OS == 'WINNT') { 
+            if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>nul", "r");
             } else {
                 $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>/dev/null", "r");

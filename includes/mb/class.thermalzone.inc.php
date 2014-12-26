@@ -57,7 +57,7 @@ class ThermalZone extends Sensors
         }
         if ($_wmi) {
             $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
-        } 
+        }
      }
 
     /**
@@ -78,12 +78,11 @@ class ThermalZone extends Sensors
                 $dev->setValue($value);
                 if (isset($buffer['CriticalTripPoint']) && (( $maxvalue = ($buffer['CriticalTripPoint'] - 2732)/10 ) > 0)) {
                     $dev->setMax($maxvalue);
-                } 
+                }
                 $this->mbinfo->setMbTemp($dev);
             }
         }
     }
-
 
     /**
      * get the information
