@@ -868,7 +868,7 @@ function renderErrors(data) {
     try {
         var datas = items(data["Errors"]["Error"]);
         for (var i = 0; i < datas.length; i++) { 
-            $("#errors").append("<li>"+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li>");
+            $("#errors").append("<li><b>"+datas[i]["@attributes"]["Function"]+": </b>"+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li>");
         }
         if (i > 0) {
             $("#errorbutton").show();
