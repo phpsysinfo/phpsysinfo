@@ -59,7 +59,7 @@ class PSStatus extends PSI_Plugin
                     $wmi = $objLocator->ConnectServer();
                     $process_wmi = $wmi->InstancesOf('Win32_Process');
                     foreach ($process_wmi as $process) {
-                        $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
+                        $this->_filecontent[] = array(strtolower(trim($process->Caption)), trim($process->ProcessId));
                     }
                 } catch (Exception $e) {
                 }
@@ -122,11 +122,21 @@ class PSStatus extends PSI_Plugin
             } else {
                 $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
             }
-            foreach ($processes as $process) {
-                if ($this->_recursiveinarray($process, $this->_filecontent)) {
-                    $this->_result[] = array($process, true);
-                } else {
-                    $this->_result[] = array($process, false);
+            if ((PSI_OS == 'WINNT') && (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
+                foreach ($processes as $process) {
+                    if ($this->_recursiveinarray(strtolower($process), $this->_filecontent)) {
+                        $this->_result[] = array($process, true);
+                    } else {
+                        $this->_result[] = array($process, false);
+                    }
+                }
+            } else {
+                foreach ($processes as $process) {
+                    if ($this->_recursiveinarray($process, $this->_filecontent)) {
+                        $this->_result[] = array($process, true);
+                    } else {
+                        $this->_result[] = array($process, false);
+                    }
                 }
             }
         }
