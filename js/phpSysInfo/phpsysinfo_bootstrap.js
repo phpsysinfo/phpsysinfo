@@ -521,7 +521,7 @@ function renderNetwork(data) {
           
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
-                var infos = info.replace(/:/g, "&#8203:").split(";"); /* split long addresses */
+                var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
                 for(var j = 0; j < infos.length; j++){
                     html +="<tr class=\"treegrid-parent-network-" + i + "\"><td>" + infos[j] + "</td><td></td><td></td><td></td></tr>";
                 }
