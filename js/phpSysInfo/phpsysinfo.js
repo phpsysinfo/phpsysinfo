@@ -1077,7 +1077,11 @@ function refreshFilesystems(xml) {
         total_usage = round((total_used / total_size) * 100, 2);
     });
 
-    $("#s_fs_total").html(createBar(total_usage));
+    if (!isNaN(threshold) && (total_usage >= threshold)) {
+        $("#s_fs_total").html(createBar(total_usage, "barwarn"));
+    } else {
+        $("#s_fs_total").html(createBar(total_usage));
+    }
     $("#s_fs_tfree").html(formatBytes(total_free, xml));
     $("#s_fs_tused").html(formatBytes(total_used, xml));
     $("#s_fs_tsize").html(formatBytes(total_size, xml));
