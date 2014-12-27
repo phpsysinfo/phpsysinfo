@@ -669,7 +669,7 @@ function refreshVitals(xml) {
             for (var proc_type in typelist) {
                 if (eval("p" + proc_type)) {
                     if (not_first) {
-                        processes += "," + String.fromCharCode(160);
+                        $("#s_processes_1").append(", ");
                     }
                     $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
                     not_first = true;

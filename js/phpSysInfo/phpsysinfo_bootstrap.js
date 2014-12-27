@@ -130,7 +130,7 @@ function renderVitals(data) {
                     for (proc_type in {running:0,sleeping:1,stopped:2,zombie:3,waiting:4,other:5}) {
                         if (eval("p" + proc_type)) {
                             if (not_first) {
-                                processes += "," + String.fromCharCode(160);
+                                processes += ", ";
                             }
                             processes += eval("p" + proc_type) + String.fromCharCode(160) + proc_type;
                             not_first = true;
