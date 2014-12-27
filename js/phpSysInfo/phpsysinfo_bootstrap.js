@@ -469,11 +469,17 @@ function renderFilesystem(data) {
     try {
         var fs_data = [];
         var datas = items(data["FileSystem"]["Mount"]);
+        var total = {Total:0,Free:0,Used:0};
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
+            total["Total"] += parseInt(datas[i]["@attributes"]["Total"]);
+            total["Free"] += parseInt(datas[i]["@attributes"]["Free"]);
+            total["Used"] += parseInt(datas[i]["@attributes"]["Used"]);
+            total["Percent"] = (total["Total"] !== 0) ? round((total["Used"] / total["Total"]) * 100, 2) : 0;
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
+            $('#filesystem-foot').render(total, directives);
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
             $("#block_filesystem").show();
