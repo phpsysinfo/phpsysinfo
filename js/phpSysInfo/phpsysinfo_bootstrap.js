@@ -234,7 +234,7 @@ function renderHardware(data) {
     html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\" style=\"display:none\" >";
     html+="<th>CPU</th>";
     html+="<td>Number of processors:</td>";
-    html+="<td class=\"rightCell\"><span></span></td></td>";
+    html+="<td class=\"rightCell\"><span></span></td>";
     html+="</tr>";
 
     var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
@@ -266,7 +266,7 @@ function renderHardware(data) {
         html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
         html+="<th>" + hw_type + "</th>";
         html+="<td>Number of devices:</td>";
-        html+="<td class=\"rightCell\"><span></span></td></td>";
+        html+="<td class=\"rightCell\"><span></span></td>";
         html+="</tr>";
 
         try {
