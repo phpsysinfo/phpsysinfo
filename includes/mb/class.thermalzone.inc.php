@@ -70,7 +70,7 @@ class ThermalZone extends Sensors
     private function _temperature()
     {
         if (PSI_OS == 'WINNT') {
-        if ($this->_buf) foreach ($this->_buf as $buffer) {
+            if ($this->_buf) foreach ($this->_buf as $buffer) {
                 if (isset($buffer['CurrentTemperature']) && (( $value = ($buffer['CurrentTemperature'] - 2732)/10 ) > -100)) {
                     $dev = new SensorDevice();
                     if (isset($buffer['InstanceName']) && preg_match("/([^\\\\ ]+)$/", $buffer['InstanceName'], $outbuf)) {
