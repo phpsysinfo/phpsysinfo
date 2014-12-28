@@ -172,9 +172,9 @@ TEMP_FORMAT="c"
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
-; - PiTemp         No addon tool neded (Raspberry Pi - Linux)
+; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
-; - ThermalZone    No addon tool neded (WinNT)
+; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"

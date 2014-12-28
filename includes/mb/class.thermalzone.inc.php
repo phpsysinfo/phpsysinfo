@@ -38,25 +38,27 @@ class ThermalZone extends Sensors
     public function __construct()
     {
         parent::__construct();
-        $_wmi = null;
-        // don't set this params for local connection, it will not work
-        $strHostname = '';
-        $strUser = '';
-        $strPassword = '';
-        try {
-            // initialize the wmi object
-            $objLocator = new COM('WbemScripting.SWbemLocator');
-            if ($strHostname == "") {
-                $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI');
+        if (PSI_OS == 'WINNT') {
+            $_wmi = null;
+            // don't set this params for local connection, it will not work
+            $strHostname = '';
+            $strUser = '';
+            $strPassword = '';
+            try {
+                // initialize the wmi object
+                $objLocator = new COM('WbemScripting.SWbemLocator');
+                if ($strHostname == "") {
+                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI');
 
-            } else {
-                $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI', $strHostname.'\\'.$strUser, $strPassword);
+                } else {
+                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI', $strHostname.'\\'.$strUser, $strPassword);
+                }
+            } catch (Exception $e) {
+                $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
             }
-        } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
-        }
-        if ($_wmi) {
-            $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+            if ($_wmi) {
+                $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+            }
         }
      }
 
@@ -67,19 +69,44 @@ class ThermalZone extends Sensors
      */
     private function _temperature()
     {
+        if (PSI_OS == 'WINNT') {
         if ($this->_buf) foreach ($this->_buf as $buffer) {
-            if (isset($buffer['CurrentTemperature']) && (( $value = ($buffer['CurrentTemperature'] - 2732)/10 ) > -100)) {
-                $dev = new SensorDevice();
-                if (isset($buffer['InstanceName']) && preg_match("/([^\\\\ ]+)$/", $buffer['InstanceName'], $outbuf)) {
-                    $dev->setName('ThermalZone '.$outbuf[1]);
-                } else {
-                    $dev->setName('ThermalZone THM0_0');
+                if (isset($buffer['CurrentTemperature']) && (( $value = ($buffer['CurrentTemperature'] - 2732)/10 ) > -100)) {
+                    $dev = new SensorDevice();
+                    if (isset($buffer['InstanceName']) && preg_match("/([^\\\\ ]+)$/", $buffer['InstanceName'], $outbuf)) {
+                        $dev->setName('ThermalZone '.$outbuf[1]);
+                    } else {
+                        $dev->setName('ThermalZone THM0_0');
+                    }
+                    $dev->setValue($value);
+                    if (isset($buffer['CriticalTripPoint']) && (( $maxvalue = ($buffer['CriticalTripPoint'] - 2732)/10 ) > 0)) {
+                        $dev->setMax($maxvalue);
+                    }
+                    $this->mbinfo->setMbTemp($dev);
                 }
-                $dev->setValue($value);
-                if (isset($buffer['CriticalTripPoint']) && (( $maxvalue = ($buffer['CriticalTripPoint'] - 2732)/10 ) > 0)) {
-                    $dev->setMax($maxvalue);
+            }
+        } else {
+            foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
+                $thermalzonetemp = $thermalzone.'temp';
+                if (file_exists($thermalzonetemp) && is_readable($thermalzonetemp)) {
+                    if (($temp = trim(file_get_contents($thermalzonetemp))) != "") {
+                        if ($temp >= 1000) {
+                            $temp = $temp / 1000;
+                        }
+                        $temp_max = file_get_contents($thermalzone.'trip_point_0_temp');
+                        if ($temp_max >= 1000) {
+                            $temp_max = $temp_max / 1000;
+                        }
+                        $temp_type = file_get_contents($thermalzone.'type');
+                        $dev = new SensorDevice();
+                        $dev->setName($temp_type);
+                        $dev->setValue($temp);
+                        if ($temp_max > 0) {
+                            $dev->setMax($temp_max);
+                        }
+                        $this->mbinfo->setMbTemp($dev);
+                    }
                 }
-                $this->mbinfo->setMbTemp($dev);
             }
         }
     }

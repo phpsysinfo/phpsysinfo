@@ -9,7 +9,9 @@ phpSysInfo 3.2.0
 
  - [ADD] Catalan Translation ca.xml
  - [ADD] Mer to detected distros (core of Sailfish OS)
-
+ - [ADD] ThermalZone sensor support for Linux and Android
+ - [ADD] Tempsensor for Banana Pi 
+ 
  - [UPD] German Translation de.xml
 
 phpSysInfo 3.1.17
