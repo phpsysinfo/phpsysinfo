@@ -89,7 +89,8 @@ class ThermalZone extends Sensors
             foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 if (file_exists($thermalzonetemp) && is_readable($thermalzonetemp)) {
-                    if (($temp = trim(file_get_contents($thermalzonetemp))) != "") {
+                    $temp = file_get_contents($thermalzonetemp);
+                    if (!is_null($temp) && (trim($temp) != "")) {
                         if ($temp >= 1000) {
                             $temp = $temp / 1000;
                         }

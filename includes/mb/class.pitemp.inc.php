@@ -21,23 +21,27 @@ class PiTemp extends Sensors
             $temp = file_get_contents('/sys/class/thermal/thermal_zone0/temp');
             $temp_max = file_get_contents('/sys/class/thermal/thermal_zone0/trip_point_0_temp');
         }
-        $dev = new SensorDevice();
-        $dev->setName("CPU 1");
-        $dev->setValue($temp / 1000);
-        if ($temp_max > 0) {
-            $dev->setMax($temp_max / 1000);
+        if (!is_null($temp) && (trim($temp) != "")) {
+            $dev = new SensorDevice();
+            $dev->setName("CPU 1");
+            $dev->setValue($temp / 1000);
+            if ($temp_max > 0) {
+                $dev->setMax($temp_max / 1000);
+            }
+            $this->mbinfo->setMbTemp($dev);
         }
-        $this->mbinfo->setMbTemp($dev);
     }
 
     private function _voltage()
     {
         if (file_exists('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/voltage_now')) { // Banana Pi
             $volt = file_get_contents('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/voltage_now');
-            $dev = new SensorDevice();
-            $dev->setName("Voltage 1");
-            $dev->setValue($volt / 1000000);
-            $this->mbinfo->setMbVolt($dev);
+            if (!is_null($volt) && (trim($volt) != "")) {
+                $dev = new SensorDevice();
+                $dev->setName("Voltage 1");
+                $dev->setValue($volt / 1000000);
+                $this->mbinfo->setMbVolt($dev);
+            }
         }
     }
 
@@ -45,10 +49,12 @@ class PiTemp extends Sensors
     {
         if (file_exists('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now')) { // Banana Pi
             $current = file_get_contents('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now');
-            $dev = new SensorDevice();
-            $dev->setName("Current 1");
-            $dev->setValue($current / 1000000);
-            $this->mbinfo->setMbCurrent($dev);
+            if (!is_null($current) && (trim($current) != "")) {
+                $dev = new SensorDevice();
+                $dev->setName("Current 1");
+                $dev->setValue($current / 1000000);
+                $this->mbinfo->setMbCurrent($dev);
+            }
         }
     }
 
