@@ -9,7 +9,7 @@ function renderPlugin_PSStatus(data) {
     };
 
     if (data['Plugins']['Plugin_PSStatus'] !== undefined){
-        var psitems = items(data['Plugins']['Plugin_PSStatus']["Process"]);
+        var psitems = items(data['Plugins']['Plugin_PSStatus']['Process']);
         if (psitems.length > 0) {
             var ps_memory = [];
             for (i = 0; i < psitems.length ; i++) {
