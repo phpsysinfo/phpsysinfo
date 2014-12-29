@@ -120,7 +120,7 @@ function dmraid_populate(xml) {
         }
         else {
             topic = genlang(2, false, "DMRaid");
-        } 
+        }
         $("#Plugin_DMRaidTable").append("<tr><td>" + topic + "</td><td><div class=\"plugin_dmraid_biun\" style=\"text-align:left;\"><b>" + name + "</b></div>" + htmldisks + "</td></tr>");
         $("#sPlugin_DMRaid_Info" + id).click(function dmraid_showinfo() {
             $("#Plugin_DMRaid_InfoTable" + id).slideDown("slow");
