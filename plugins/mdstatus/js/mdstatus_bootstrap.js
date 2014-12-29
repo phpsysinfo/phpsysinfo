@@ -3,7 +3,7 @@ function renderPlugin_MDStatus(data) {
     function raid_diskicon(data) {
         var html = "";
         var img = "", alt = "";
-        
+
         html += "<div style=\"text-align: center; float: left; margin-bottom: 5px; margin-right: 20px; width: 64px;\">";
         switch (data["Status"]) {
             case " ":
@@ -57,7 +57,7 @@ function renderPlugin_MDStatus(data) {
                 } else {
                     html += "<tr><th>RAID-Devices</th><td>";
                 }
-           
+
                 if (mditems[i]['Disks'] !== undefined) {
                     var devchunk = parseInt(mditems[i]["@attributes"]["Chunk_Size"]);
                     var devsuper = parseInt(mditems[i]["@attributes"]["Persistent_Superblock"]);
@@ -72,7 +72,7 @@ function renderPlugin_MDStatus(data) {
                     for (j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
-                    
+
                     html += "</td></tr><tr><td>";
                     html += "<table id=\"mdstatus-" + i + "\"class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><b>" + mditems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
@@ -92,12 +92,12 @@ function renderPlugin_MDStatus(data) {
                     if (devactive !== -1 && devregis !== -1) {
                         html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>Registered/" + String.fromCharCode(8203) + "Active Disks</th><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
                     }
-                    html += "</table>"; 
-                    html += "</td></tr>"
+                    html += "</table>";
+                    html += "</td></tr>";
                     html += "</table>";
                 }
 
-                html +="</td></tr>"                
+                html +="</td></tr>";
             }
             $('#mdstatus').append(html);
 

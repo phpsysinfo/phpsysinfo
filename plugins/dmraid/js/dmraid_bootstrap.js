@@ -3,7 +3,7 @@ function renderPlugin_DMRaid(data) {
     function raid_diskicon(data) {
         var html = "";
         var img = "", alt = "";
-        
+
         html += "<div style=\"text-align: center; float: left; margin-bottom: 5px; margin-right: 20px; width: 64px;\">";
         switch (data["Status"]) {
             case " ":
@@ -54,7 +54,7 @@ function renderPlugin_DMRaid(data) {
                     for (j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
-                    
+
                     html += "</td></tr><tr><td>";
                     html += "<table id=\"dmraid-" + i + "\"class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-dmraid-" + i + "\"><td><b>" + dmitems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
@@ -66,15 +66,15 @@ function renderPlugin_DMRaid(data) {
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Subsets</th><td>" + parseInt(dmitems[i]["@attributes"]["Subsets"]) + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Devices</th><td>" + parseInt(dmitems[i]["@attributes"]["Devs"]) + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Spares</th><td>" + parseInt(dmitems[i]["@attributes"]["Spares"]) + "</td></tr>";
-                    html += "</table>"; 
-                    html += "</td></tr>"
+                    html += "</table>";
+                    html += "</td></tr>";
                     html += "</table>";
                 }
 
-                html +="</td></tr>"                
+                html +="</td></tr>";
             }
             $('#dmraid').append(html);
-            
+
             for (i = 0; i < dmitems.length ; i++) {
                 if (dmitems[i]['Disks'] !== undefined) {
                     $('#dmraid-'+i).treegrid({
@@ -84,7 +84,7 @@ function renderPlugin_DMRaid(data) {
                     });
                 }
             }
-            
+
             $('#block_dmraid').show();
         }
     }
