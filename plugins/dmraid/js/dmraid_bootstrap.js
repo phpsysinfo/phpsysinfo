@@ -58,7 +58,7 @@ function renderPlugin_DMRaid(data) {
                     html += "</td></tr><tr><td>";
                     html += "<table id=\"dmraid-" + i + "\"class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-dmraid-" + i + "\"><td><b>" + dmitems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Name</td><th>" + dmitems[i]["@attributes"]["Name"] + "</td></tr>";
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Name</td><td>" + dmitems[i]["@attributes"]["Name"] + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Status</th><td>" + dmitems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>RAID-Type</th><td>" + dmitems[i]["@attributes"]["Type"] + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Size</th><td>" + parseInt(dmitems[i]["@attributes"]["Size"]) + "</td></tr>";
