@@ -74,3 +74,7 @@ table.sortable thead th {
 table.sortable thead th:hover {
     background: #efefef;
 }
+
+table.borderless td,table.borderless th{
+     border: none !important;
+}

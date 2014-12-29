@@ -10,13 +10,13 @@
     <exp>RAID Статус</exp>
   </expression>
   <expression id="plugin_mdstatus_002" name="mdstatus_support">
-    <exp>Поддерживаются типы RAID </exp>
+    <exp>Поддерживаются типы RAID</exp>
   </expression>
   <expression id="plugin_mdstatus_003" name="mdstatus_devices">
     <exp>RAID-Устройства</exp>
   </expression>
   <expression id="plugin_mdstatus_004" name="mdstatus_infos">
-    <exp>Дополнительные сведения </exp>
+    <exp>Дополнительные сведения</exp>
   </expression>
   <expression id="plugin_mdstatus_005" name="mdstatus_status">
     <exp>Статус</exp>
@@ -31,7 +31,7 @@
     <exp>Алгоритм</exp>
   </expression>
   <expression id="plugin_mdstatus_009" name="mdstatus_superb">
-    <exp>Постоянный суперблок </exp>
+    <exp>Постоянный суперблок</exp>
   </expression>
   <expression id="plugin_mdstatus_010" name="mdstatus_avail">
     <exp>доступен</exp>
