@@ -25,45 +25,63 @@ require_once APP_ROOT.'/read_config.php';
 
 $file = isset($_GET['name']) ? basename(htmlspecialchars($_GET['name'])) : null;
 $plugin = isset($_GET['plugin']) ? basename(htmlspecialchars($_GET['plugin'])) : null;
+$script = null;
 
 if ($file != null && $plugin == null) {
     if (strtolower(substr($file, 0, 6)) == 'jquery') {
-        $script = APP_ROOT.'/js/jQuery/'.$file.'.js';
+        $script = APP_ROOT.'/js/jQuery/'.$file;
     } elseif (strtolower(substr($file, 0, 10)) == 'phpsysinfo') {
-        $script = APP_ROOT.'/js/phpSysInfo/'.$file.'.js';
+        $script = APP_ROOT.'/js/phpSysInfo/'.$file;
     } else {
-        $script = APP_ROOT.'/js/vendor/'.$file.'.js';
+        $script = APP_ROOT.'/js/vendor/'.$file;
     }
 }
-if ($file == null && $plugin != null) {
-    $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($plugin).'.js';
+elseif ($file == null && $plugin != null) {
+    $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($plugin);
 }
-if ($file != null && $plugin != null) {
-    $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($file).'.js';
+elseif ($file != null && $plugin != null) {
+    $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($file);
 }
 
-if ($script != null && file_exists($script) && is_readable($script)) {
+if ($script != null) {
+    $scriptjs = $script.'.js';
+    $scriptmin = $script.'.min.js';
+    $compression = false;
+    
     header("content-type: application/x-javascript");
-    $filecontent = file_get_contents($script);
-    if (defined("PSI_DEBUG") && PSI_DEBUG === true) {
-        echo $filecontent;
-    } else {
-        if (defined("PSI_JS_COMPRESSION")) {
-            switch (strtolower(PSI_JS_COMPRESSION)) {
-                case "normal":
-                    $packer = new JavaScriptPacker($filecontent);
-                    echo $packer->pack();
-                    break;
-                case "none":
-                    $packer = new JavaScriptPacker($filecontent,0);
-                    echo $packer->pack();
-                    break;
-                default:
-                    echo $filecontent;
-                    break;
+
+    if (!defined("PSI_DEBUG") || (PSI_DEBUG !== true) || defined("PSI_JS_COMPRESSION")){
+        $compression = strtolower(PSI_JS_COMPRESSION);
+    }
+    switch ($compression) {
+        case "normal":
+            if (file_exists($scriptmin) && is_readable($scriptmin)) {
+                $filecontent = file_get_contents($scriptmin);
+                echo $filecontent;
+            } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
+                $filecontent = file_get_contents($scriptjs);
+                $packer = new JavaScriptPacker($filecontent);
+                echo $packer->pack();
             }
-        } else {
+            break;
+        case "none":
+            if (file_exists($scriptmin) && is_readable($scriptmin)) {
+                $filecontent = file_get_contents($scriptmin);
+                echo $filecontent;
+            } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
+                $filecontent = file_get_contents($scriptjs);
+                $packer = new JavaScriptPacker($filecontent,0);
+                echo $packer->pack();
+            }
+            break;
+        default:
+            if (file_exists($scriptjs) && is_readable($scriptjs)) {
+                $filecontent = file_get_contents($scriptjs);
+            } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
+                $filecontent = file_get_contents($scriptmin);
+            } else break;
+
             echo $filecontent;
-        }
+            break;
     }
 }

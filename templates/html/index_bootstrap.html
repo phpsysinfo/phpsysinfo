@@ -9,11 +9,16 @@
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-    <script src="js/vendor/html5shiv.js"></script>
+    <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
     <![endif]-->
     <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="templates/phpsysinfo_bootstrap.css">
-
+<!--[if lt IE 9]>
+    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
+<!--<![endif]-->
 </head>
 
 <body>
@@ -175,7 +180,7 @@
                         <td></td>
                         <td></td>
                         <th>Totals</th>
-                        <th><span data-bind="Percent"></span></td>
+                        <th><span data-bind="Percent"></span></th>
                         <th class="rightCell"><span data-bind="Free"></span></th>
                         <th class="rightCell"><span data-bind="Used"></span></th>
                         <th class="rightCell"><span data-bind="Total"></span></th>
@@ -369,15 +374,8 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 </div>
 
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>
-<!--[if lt IE 9]>
-    <script src="js/vendor/jquery-1.min.js"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-    <script src="js/vendor/jquery.min.js"></script>
-<!--<![endif]-->
-<script src="js/vendor/bootstrap.min.js"></script>
-<script src="js/vendor/transparency.min.js"></script>
-<!-- <script src="js/vendor/sorttable.js"></script> -->
+<script type="text/JavaScript" src="./js.php?name=bootstrap"></script>
+<script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
 

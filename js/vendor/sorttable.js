@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2
+  version 2+2014.12.25_fix
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 

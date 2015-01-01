@@ -12,7 +12,7 @@ $(document).ready(function () {
         dataType: "json",
         url: "xml.php?plugin=complete&json",
         success: function (data) {
-            console.log(data);
+//            console.log(data);
             data_dbg = data;
             renderErrors(data);
             renderVitals(data);
