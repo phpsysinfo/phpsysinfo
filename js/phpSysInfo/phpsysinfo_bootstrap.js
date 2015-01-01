@@ -420,12 +420,14 @@ function renderMemory(data) {
     };
 
     var data_memory = [];
-    var datas = items(data["Memory"]["Swap"]["Mount"]);
-    for (var i = 0; i < datas.length; i++) {
-        data_memory.push(datas[i]["@attributes"]);
+    if (data["Memory"]["Swap"] !== undefined) { 
+        var datas = items(data["Memory"]["Swap"]["Mount"]);
+        for (var i = 0; i < datas.length; i++) {
+            data_memory.push(datas[i]["@attributes"]);
+        }
+        $('#swap-data').render(data_memory, directive_swap);
     }
     $('#memory-data').render(data["Memory"], directives);
-    $('#swap-data').render(data_memory, directive_swap);
 }
 
 function renderFilesystem(data) {
