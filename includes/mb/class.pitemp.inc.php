@@ -45,7 +45,7 @@ class PiTemp extends Sensors
     private function _current()
     {
         $current = null;
-        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now',$current, 0, 4096, false) !is_null($current) && (trim($current) != "")) { // Banana Pi
+        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now',$current, 0, 4096, false) && !is_null($current) && (trim($current) != "")) { // Banana Pi
             $dev = new SensorDevice();
             $dev->setName("Current 1");
             $dev->setValue($current / 1000000);
