@@ -35,11 +35,9 @@ if ($file != null && $plugin == null) {
     } else {
         $script = APP_ROOT.'/js/vendor/'.$file;
     }
-}
-elseif ($file == null && $plugin != null) {
+} elseif ($file == null && $plugin != null) {
     $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($plugin);
-}
-elseif ($file != null && $plugin != null) {
+} elseif ($file != null && $plugin != null) {
     $script = APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($file);
 }
 
@@ -47,10 +45,10 @@ if ($script != null) {
     $scriptjs = $script.'.js';
     $scriptmin = $script.'.min.js';
     $compression = false;
-    
+
     header("content-type: application/x-javascript");
 
-    if (!defined("PSI_DEBUG") || (PSI_DEBUG !== true) || defined("PSI_JS_COMPRESSION")){
+    if (!defined("PSI_DEBUG") || (PSI_DEBUG !== true) || defined("PSI_JS_COMPRESSION")) {
         $compression = strtolower(PSI_JS_COMPRESSION);
     }
     switch ($compression) {
