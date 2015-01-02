@@ -234,7 +234,6 @@ class Android extends Linux
      */
     public function build()
     {
-        $this->error->addError("WARN", "The Android version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_distro();
         $this->_hostname();
         $this->_ip();

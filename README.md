@@ -22,6 +22,7 @@ CURRENT TESTED PLATFORMS
 - HP-UX
 - Darwin/OSX
 - Windows 2000 / Windows 2003 / Windows XP / Windows Vista / Windows 7 / Windows 8  / Windows 8.1
+- Android
 - > PHP 5.2 or later
   - With PCRE, XML, XSL, MBString and SimpleXML extension.
 
@@ -30,7 +31,6 @@ CURRENT TESTED PLATFORMS
 - Minix
 - SunOS
 - ReactOS
-- Android
 - QNX
 
 If your platform is not here try checking out the mailing list archives or
