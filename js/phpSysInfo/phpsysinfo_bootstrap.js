@@ -426,6 +426,7 @@ function renderMemory(data) {
             data_memory.push(datas[i]["@attributes"]);
         }
         $('#swap-data').render(data_memory, directive_swap);
+        $('#swap-data').show();
     }
     $('#memory-data').render(data["Memory"], directives);
 }
