@@ -88,25 +88,29 @@ class ThermalZone extends Sensors
         } else {
             foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
-                if (file_exists($thermalzonetemp) && is_readable($thermalzonetemp)) {
-                    $temp = file_get_contents($thermalzonetemp);
-                    if (!is_null($temp) && (trim($temp) != "")) {
-                        if ($temp >= 1000) {
-                            $temp = $temp / 1000;
-                        }
-                        $temp_max = file_get_contents($thermalzone.'trip_point_0_temp');
+                $temp = null;
+                if (CommonFunctions::rfts($thermalzonetemp, $temp, 0, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
+                    if ($temp >= 1000) {
+                        $temp = $temp / 1000;
+                    }
+
+                    $dev = new SensorDevice();
+                    $dev->setValue($temp);
+
+                    $temp_type = null;
+                    if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 0, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
+                        $dev->setName($temp_type);
+                    }
+
+                    $temp_max = null;
+                    if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > 0)) {
                         if ($temp_max >= 1000) {
                             $temp_max = $temp_max / 1000;
                         }
-                        $temp_type = file_get_contents($thermalzone.'type');
-                        $dev = new SensorDevice();
-                        $dev->setName($temp_type);
-                        $dev->setValue($temp);
-                        if ($temp_max > 0) {
-                            $dev->setMax($temp_max);
-                        }
-                        $this->mbinfo->setMbTemp($dev);
+                        $dev->setMax($temp_max);
                     }
+
+                    $this->mbinfo->setMbTemp($dev);
                 }
             }
         }
