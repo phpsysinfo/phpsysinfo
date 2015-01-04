@@ -22,7 +22,7 @@ function renderPlugin_BAT(data) {
             html: function () {
                 var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
                 if (( CapacityUnit !== "%" ) && (this["DesignCapacity"] !== undefined)){
-                    var percent= round(100*this["RemainingCapacity"]/this["DesignCapacity"],0);
+                    var percent = (this["DesignCapacity"] != 0) ? round(100*this["RemainingCapacity"]/this["DesignCapacity"],0) : 0;
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
                 } else {
