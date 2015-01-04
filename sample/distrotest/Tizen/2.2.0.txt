@@ -1,0 +1,10 @@
+----------/etc/os-release----------
+NAME="Tizen"
+VERSION="2.2.0, Magnolia"
+ID=tizen
+PRETTY_NAME="Tizen Magnolia (2.2.0)"
+VERSION_ID="2.2.0"
+----------/etc/system-release----------
+Tizen release 2.2.0 (Magnolia)
+----------/etc/tizen-release-----------
+Tizen release 2.2.0 (Magnolia)
