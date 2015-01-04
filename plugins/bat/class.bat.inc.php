@@ -177,7 +177,7 @@ class BAT extends PSI_Plugin
                         if (CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer_info, 0, 4096, false)) {
                             $bat_name = 'battery';
                         } else {
-                            CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer_info, 0, 4096, PSI_DEBUG); // Once again but with debug 
+                            CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer_info, 0, 4096, PSI_DEBUG); // Once again but with debug
                         }
                     }
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_min_design', $buffer1, 1, 4096, false)) {
