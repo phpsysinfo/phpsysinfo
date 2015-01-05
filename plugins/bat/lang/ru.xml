@@ -43,6 +43,6 @@
     <exp>Состояние аккумулятора</exp>
   </expression>
   <expression id="plugin_bat_013" name="bat_cycle_count">
-    <exp>Cycle Count</exp>
+    <exp>Циклы</exp>
   </expression>
 </tns:translationPlugin>
