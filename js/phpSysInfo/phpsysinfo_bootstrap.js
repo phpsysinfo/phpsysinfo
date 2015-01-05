@@ -195,7 +195,7 @@ function renderHardware(data) {
             }
         },
         Cputemp: {
-            text: function () {
+            html: function () {
                 return formatTemp(this["Cputemp"], data["Options"]["@attributes"]["tempFormat"]);
             }
         },
@@ -607,12 +607,12 @@ function renderVoltage(data) {
 function renderTemperature(data) {
     var directives = {
         Value: {
-            text: function () {
+            html: function () {
                 return formatTemp(this["Value"], data["Options"]["@attributes"]["tempFormat"]);
             }
         },
         Max: {
-            text: function () {
+            html: function () {
                 if (this["Max"] !== undefined)
                     return formatTemp(this["Max"], data["Options"]["@attributes"]["tempFormat"]);
             }
