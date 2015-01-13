@@ -79,7 +79,7 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Skickat</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Fel/&#8203;Förlorat</exp>
+    <exp>Fel/Förlorat</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Established Network Connections</exp>

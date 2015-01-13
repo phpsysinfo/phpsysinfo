@@ -3,6 +3,17 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.0
+----------------
+ - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)
+
+ - [ADD] Catalan Translation ca.xml
+ - [ADD] Mer (core of Sailfish OS) and Tizen to detected distros
+ - [ADD] ThermalZone sensor support for Linux and Android
+ - [ADD] Temperature, voltage and current sensor for Banana Pi
+
+ - [UPD] German Translation de.xml
+
 phpSysInfo 3.1.17
 ----------------
 
@@ -56,7 +67,6 @@ phpSysInfo 3.1.13
 
  - [ADD] SHOW_CPUINFO_EXPANDED option
  - [ADD] Machine detection on WINNT, Linux, Android and Darwin systems
-
 
 phpSysInfo 3.1.12
 ----------------

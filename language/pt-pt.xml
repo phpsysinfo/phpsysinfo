@@ -79,7 +79,7 @@ phpSysInfo language file Language: Portuguese Created by:Rui Rebelo
     <exp>Enviado</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Erro/&#8203;Perdido</exp>
+    <exp>Erro/Perdido</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Conexões de Rede Estabelecidas</exp>

@@ -79,7 +79,7 @@ phpSysInfo language file Language: Bulgarian Created by: Grigor Josifov
     <exp>Изпратени</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Грешки/&#8203;Изпуснати</exp>
+    <exp>Грешки/Изпуснати</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Установени мрежови връзки</exp>

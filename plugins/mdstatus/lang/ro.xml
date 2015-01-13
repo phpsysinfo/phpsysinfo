@@ -16,7 +16,7 @@
     <exp>Dispozitive RAID</exp>
   </expression>
   <expression id="plugin_mdstatus_004" name="mdstatus_infos">
-    <exp>Informații Aditionale </exp>
+    <exp>Informații Aditionale</exp>
   </expression>
   <expression id="plugin_mdstatus_005" name="mdstatus_status">
     <exp>Stare</exp>

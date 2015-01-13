@@ -79,7 +79,7 @@ phpSysInfo language file Language: Slovak Created by: Peter 'Pessoft' Kolínek
     <exp>Odoslaných</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Chyby/&#8203;Zahodené</exp>
+    <exp>Chyby/Zahodené</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Vytvorené Sieťove Spojenia</exp>

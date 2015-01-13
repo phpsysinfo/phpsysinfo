@@ -225,20 +225,26 @@ class WINNT extends OS
      */
     private function _distro()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture'));
         if ($buffer) {
             $kernel = $buffer[0]['Version'];
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
-            $this->sys->setKernel($kernel);
+            if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
+                $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
+            } elseif (($allCpus = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('AddressWidth'))) && isset($allCpus[0]['AddressWidth'])) {
+                $this->sys->setKernel($kernel.' ('.$allCpus[0]['AddressWidth'].'-bit)');
+            } else {
+                $this->sys->setKernel($kernel);
+            }
             $this->sys->setDistribution($buffer[0]['Caption']);
 
             if ((($kernel[1] == ".") && ($kernel[0] <5)) || (substr($kernel,0,4) == "5.0."))
                 $icon = 'Win2000.png';
             elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4."))
+            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4.") || (substr($kernel,0,5) == "10.0."))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';

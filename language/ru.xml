@@ -79,7 +79,7 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
     <exp>Отправлено</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Err/Drop</exp>
+    <exp>Ошибки/Падения</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Установлено сетевых подключений</exp>
@@ -310,48 +310,48 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
     <exp>Минимальная скорость CPU</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Мощность</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Дата батареи</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Ток</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Машина</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Чистота сети</exp>
   </expression>
   <expression id="109" name="Hz">
-    <exp>Hz</exp>
+    <exp>Гц</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Процессы</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>работают</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>спят</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>остановлены</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
-    <exp>zombie</exp>
+    <exp>повисли</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>ждущие</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>Другое</exp>
   </expression>
 </tns:translation>

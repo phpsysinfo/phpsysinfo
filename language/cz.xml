@@ -79,7 +79,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>Odeslané</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Chyby/&#8203;Zahozené</exp>
+    <exp>Chyby/Zahozené</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Navázaná síťová spojení</exp>

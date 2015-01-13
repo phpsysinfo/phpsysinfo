@@ -79,7 +79,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained
     <exp>Poslano</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Napake/&#8203;Zavrženo</exp>
+    <exp>Napake/Zavrženo</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Vzpostavljena omrežna povezava</exp>

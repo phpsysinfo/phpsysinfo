@@ -3,7 +3,11 @@ if (!defined('PSI_CONFIG_FILE')) {
     /**
      * phpSysInfo version
      */
+<<<<<<< HEAD:config.php
     define('PSI_VERSION', '3.1.17');
+=======
+    define('PSI_VERSION', '3.2.x');
+>>>>>>> remotes/origin/master:read_config.php
     /**
      * phpSysInfo configuration
      */
@@ -12,9 +16,10 @@ if (!defined('PSI_CONFIG_FILE')) {
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
     if (!is_readable(PSI_CONFIG_FILE) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
-        $tpl = new Template("/templates/html/error_config.html");
-        echo $tpl->fetch();
-        die();
+        if (defined('PSI_INTERNAL_XML') && PSI_INTERNAL_XML === true) {
+            echo "ERROR: phpsysinfo.ini does not exist or is not readable by the webserver in the phpsysinfo directory";
+            die();
+        }
     } else {
         foreach ($config as $name=>$group) {
             if (strtoupper($name)=="MAIN") {
@@ -224,6 +229,12 @@ if (!defined('PSI_CONFIG_FILE')) {
             define('PSI_SYSTEM_CODEPAGE', 'CP437');
         } else {
             define('PSI_SYSTEM_CODEPAGE', null);
+        }
+    }
+
+    if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
+        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode isue test
+            define('PSI_JSON_ISSUE', true); // Problem must be solved
         }
     }
 

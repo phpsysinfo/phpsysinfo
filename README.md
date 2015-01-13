@@ -4,8 +4,8 @@ phpSysInfo
 * Copyright (c), 1999-2008, Uriah Welcome (precision@users.sf.net)
 * Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
 * Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
-* Copyright (c), 2007-2014, Erkan Valentin
-* Copyright (c), 2009-2014, Mieczyslaw Nalewaj (namiltd@users.sf.net)
+* Copyright (c), 2007-2015, Erkan Valentin
+* Copyright (c), 2009-2015, Mieczyslaw Nalewaj (namiltd@users.sf.net)
 * Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
 
 
@@ -22,6 +22,7 @@ CURRENT TESTED PLATFORMS
 - HP-UX
 - Darwin/OSX
 - Windows 2000 / Windows 2003 / Windows XP / Windows Vista / Windows 7 / Windows 8  / Windows 8.1
+- Android
 - > PHP 5.2 or later
   - With PCRE, XML, XSL, MBString and SimpleXML extension.
 
@@ -30,7 +31,6 @@ CURRENT TESTED PLATFORMS
 - Minix
 - SunOS
 - ReactOS
-- Android
 - QNX
 
 If your platform is not here try checking out the mailing list archives or

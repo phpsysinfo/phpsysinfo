@@ -3,7 +3,7 @@ versions, links and simple description of used jquery files
 
 jquery.js
 ---------
-VERSION  : 2.1.1
+VERSION  : 2.1.3
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle
            events, perform animations, and add Ajax interactions to your web pages.
@@ -11,7 +11,7 @@ USED     : used for the entire userinterface
 
 jquery-1.js
 ---------
-VERSION  : 1.11.1
+VERSION  : 1.11.2
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle
            events, perform animations, and add Ajax interactions to your web pages.

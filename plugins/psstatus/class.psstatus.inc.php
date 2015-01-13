@@ -17,9 +17,9 @@
  * a simple view which shows a process name and the status
  * status determined by calling the "pidof" command line utility, another way is to provide
  * a file with the output of the pidof utility, so there is no need to run a executeable by the
- * webserver, the format of the command is written down in the psstatus.config.php file, where also
+ * webserver, the format of the command is written down in the phpsysinfo.ini file, where also
  * the method of getting the information is configured
- * processes that should be checked are also defined in psstatus.config.php
+ * processes that should be checked are also defined in phpsysinfo.ini
  *
  * @category  PHP
  * @package   PSI_Plugin_PSStatus
@@ -59,7 +59,7 @@ class PSStatus extends PSI_Plugin
                     $wmi = $objLocator->ConnectServer();
                     $process_wmi = $wmi->InstancesOf('Win32_Process');
                     foreach ($process_wmi as $process) {
-                        $this->_filecontent[] = array(trim($process->Caption), trim($process->ProcessId));
+                        $this->_filecontent[] = array(strtolower(trim($process->Caption)), trim($process->ProcessId));
                     }
                 } catch (Exception $e) {
                 }
@@ -99,7 +99,7 @@ class PSStatus extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in psstatus.config.php");
+            $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in phpsysinfo.ini");
             break;
         }
     }
@@ -122,11 +122,21 @@ class PSStatus extends PSI_Plugin
             } else {
                 $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
             }
-            foreach ($processes as $process) {
-                if ($this->_recursiveinarray($process, $this->_filecontent)) {
-                    $this->_result[] = array($process, true);
-                } else {
-                    $this->_result[] = array($process, false);
+            if ((PSI_OS == 'WINNT') && (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
+                foreach ($processes as $process) {
+                    if ($this->_recursiveinarray(strtolower($process), $this->_filecontent)) {
+                        $this->_result[] = array($process, true);
+                    } else {
+                        $this->_result[] = array($process, false);
+                    }
+                }
+            } else {
+                foreach ($processes as $process) {
+                    if ($this->_recursiveinarray($process, $this->_filecontent)) {
+                        $this->_result[] = array($process, true);
+                    } else {
+                        $this->_result[] = array($process, false);
+                    }
                 }
             }
         }

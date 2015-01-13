@@ -79,7 +79,7 @@ phpSysInfo language file Language: Hungarian Created by: Bálint Kiss
     <exp>Küldött</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Hibás/&#8203;Eldobott</exp>
+    <exp>Hibás/Eldobott</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Hálózati Csatlakozások</exp>

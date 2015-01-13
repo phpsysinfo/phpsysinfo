@@ -35,7 +35,7 @@ function bat_populate(xml) {
     bat_table.fnClearTable();
 
     $("Plugins Plugin_BAT Bat", xml).each(function bat_getitem(idp) {
-        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", Capacity = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "";
+        var DesignCapacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "";
         DesignCapacity = $(this).attr("DesignCapacity");
         DesignVoltage = $(this).attr("DesignVoltage");
         BatteryType = $(this).attr("BatteryType");
@@ -44,7 +44,6 @@ function bat_populate(xml) {
         ChargingState = $(this).attr("ChargingState");
         BatteryTemperature = $(this).attr("BatteryTemperature");
         BatteryCondition = $(this).attr("BatteryCondition");
-        Capacity = $(this).attr("Capacity");
         CapacityUnit = $(this).attr("CapacityUnit");
         CycleCount = $(this).attr("CycleCount");
         DesignVoltageMax = $(this).attr("DesignVoltageMax");
@@ -53,13 +52,13 @@ function bat_populate(xml) {
             CapacityUnit = "mWh";
         }
 
-        if (Capacity != undefined) {
-            bat_table.fnAddData([genlang(4, true, "BAT"), createBar(parseInt(Capacity, 10)), '&nbsp;']);
+        if ((CapacityUnit == "%") && (RemainingCapacity != undefined)) {
+            bat_table.fnAddData([genlang(4, true, "BAT"), createBar(round(parseInt(RemainingCapacity, 10),0)), '&nbsp;']);
         } else if (DesignCapacity == undefined) {
             if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, '&nbsp;']);
         } else {
             bat_table.fnAddData([genlang(3, true, "BAT"), DesignCapacity+' '+CapacityUnit, '&nbsp;']);
-            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, createBar(round(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0))]);
+            if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, true, "BAT"), RemainingCapacity+' '+CapacityUnit, createBar(parseInt(DesignCapacity, 10) != 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0)]);
         }
         if (ChargingState != undefined) {
             bat_table.fnAddData([genlang(9, true, "BAT"), ChargingState, '&nbsp;']);

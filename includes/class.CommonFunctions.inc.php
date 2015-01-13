@@ -31,11 +31,11 @@ class CommonFunctions
             $log_file = substr(PSI_LOG, 1);
             if (file_exists($log_file)) {
                 $contents = @file_get_contents($log_file);
-                if ($contents && preg_match("/^\-\-\-[^-\n]+\-\-\- ".preg_quote($string, '/')."\n/m", $contents, $matches, PREG_OFFSET_CAPTURE)) {
+                if ($contents && preg_match("/^\-\-\-[^-\r\n]+\-\-\- ".preg_quote($string, '/')."\r?\n/m", $contents, $matches, PREG_OFFSET_CAPTURE)) {
                     $findIndex = $matches[0][1];
-                    if (preg_match("/\n/m", $contents, $matches, PREG_OFFSET_CAPTURE, $findIndex)) {
+                    if (preg_match("/\r?\n/m", $contents, $matches, PREG_OFFSET_CAPTURE, $findIndex)) {
                         $startIndex = $matches[0][1]+1;
-                        if (preg_match("/^\-\-\-[^-\n]+\-\-\- /m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
+                        if (preg_match("/^\-\-\-[^-\r\n]+\-\-\- /m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
                             $stopIndex = $matches[0][1];
 
                             return substr($contents, $startIndex, $stopIndex-$startIndex );
@@ -211,7 +211,7 @@ class CommonFunctions
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            if (PSI_OS == 'WINNT') { 
+            if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>nul", "r");
             } else {
                 $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>/dev/null", "r");
@@ -525,7 +525,7 @@ class CommonFunctions
     }
 
     /**
-     * get all configured plugins from config.php (file must be included before calling this function)
+     * get all configured plugins from phpsysinfo.ini (file must be included and processed before calling this function)
      *
      * @return array
      */

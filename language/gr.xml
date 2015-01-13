@@ -79,7 +79,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Απεστάλησαν</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Λάθη/&#8203;Απορριπτέα</exp>
+    <exp>Λάθη/Απορριπτέα</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Ενεργές Δικτυακές Συνδέσεις</exp>

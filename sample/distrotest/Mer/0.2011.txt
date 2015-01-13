@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+LSB Version:	:core-3.1-ia32:core-3.1-noarch:core-3.2-ia32:core-3.2-noarch:core-4.0-ia32:core-4.0-noarch:desktop-3.1-ia32:desktop-3.1-noarch:desktop-3.2-ia32:desktop-3.2-noarch:desktop-4.0-ia32:desktop-4.0-noarch
+Distributor ID:	Mer
+Description:	Mer release 0.2011 (Mer)
+Release:	0.2011
+Codename:	Mer
+----------/etc/meego-release----------
+Mer release 0.2011 (Mer)
+BUILD: Jolla-1.0.8.19-SDK_Build_Engine-i486
+----------/etc/mer-release----------
+Mer release 0.2011 (Mer)
+BUILD: Jolla-1.0.8.19-SDK_Build_Engine-i486
+----------/etc/moblin-release----------
+Mer release 0.2011 (Mer)
+BUILD: Jolla-1.0.8.19-SDK_Build_Engine-i486
+----------/etc/system-release----------
+Mer release 0.2011 (Mer)
+BUILD: Jolla-1.0.8.19-SDK_Build_Engine-i486

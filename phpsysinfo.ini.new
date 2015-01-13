@@ -26,7 +26,6 @@ DEBUG=false
 ; LOG="-/tmp/phpsysinfo.log"
 ; example : executeProgram () and rfts () read the results from the "/tmp/phpsysinfo.log" file 
 ; LOG="+/tmp/phpsysinfo.log", if lack in the log file it runs normally
-
 ;
 LOG=false
 
@@ -173,9 +172,9 @@ TEMP_FORMAT="c"
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
-; - PiTemp         No addon tool neded (Raspberry Pi - Linux)
+; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
-; - ThermalZone    No addon tool neded (WinNT)
+; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
@@ -305,7 +304,7 @@ SHOW_NETWORK_INFOS=true
 ; We support the following programs so far
 ; - 1. Apcupsd        http://www.apcupsd.com/
 ; - 2. Nut            http://www.networkupstools.org/
-; - 3. PowerSoftPlus  http://ever.eu
+; - 3. PowerSoftPlus  http://ever.eu/
 ; - 4. pmset          based on the result of the command "pmset -g batt" on Darwin system
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
@@ -352,7 +351,7 @@ UPS_NUT_LIST=false
 ;
 ACCESS="command"
 
-; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android)
+; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android and Linux)
 ;
 DEVICE="BAT0"
 

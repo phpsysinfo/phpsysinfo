@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: ca.xml 708 2014-11-20 00:00:03Z namiltd $ -->
+<!--
+phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerryBox
+-->
+<tns:translation language="catalan" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>Informació del Servidor</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>Vitals</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>Nom del Servidor</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>Direccions IP</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>Versió del Kernel</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>Nom Distribució</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>Temps en actiu</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>Usuaris actuales</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>Mitjana d'ús</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>Informació del Hardware</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>Procesadors</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>Model</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>Velocitat CPU</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>Velocitat BUS</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>Mida memòria CAU</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>Sistema Bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>Dispositius PCI</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>Dispositius IDE</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>Dispositius SCSI</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>Dispositius USB</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>Ús de la xarxa</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>Dispositius</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>Rebuts</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>Enviats</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>Err/Perduts</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>Connexions de Xarxa Establertes</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>Ús de la memòria</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>Memòria Física</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>Disc Swap</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>Sistema d'arxius Muntats</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>Punt de muntatge</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>Partició</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>Ús</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>Tipus</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>Lliure</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>Usada</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>Mida</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>Total</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>KB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>cap</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>Mida</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>Plantilla</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>Llenguatge</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Enviat</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Creat per</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>dies</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>hores</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>minuts</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>Temperatura</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>Voltaje</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>Ventiladors</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Valor</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Mín</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Màx</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Histèresi</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Límit</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Etiqueta</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>Kernel + aplicacions</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>Buffers</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>Memòria cau</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Saltar a</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>Informació UPS</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>Nom</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>Model</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>Mode</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>Iniciat</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>Estat</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>Interrupcions</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>Causa última interrupció</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>Temps última interrupció</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Voltatge de la línia</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>Percentatge carregat</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>Voltatge bateria</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>Càrrega de la bateria</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>Vida restant de les bateries</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>minuts</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>Temperatura</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualització</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Darrera arrencada</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+  <expression id="097" name="syslang">
+    <exp>Idioma del Sistema</exp>
+  </expression>
+  <expression id="098" name="codepage">
+    <exp>Pàgina de Codi</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>Detalls</exp>
+  </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>CPU Velocitat Màx</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>CPU Velocitat Mín</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>Energia</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Data de la bateria</exp>
+  </expression>
+  <expression id="105" name="current">
+    <exp>Actual</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>Màquina</exp>
+  </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>Línia de freqüència</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processos</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>corrent</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>reposant</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>aturat</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombi</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>esperant</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>altre</exp>
+  </expression>
+</tns:translation>

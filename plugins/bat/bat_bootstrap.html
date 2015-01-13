@@ -1,0 +1,61 @@
+<div class="col-lg-6" id="block_bat" style="display:none">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Battery Status</div>
+        <div class="panel-body">
+            <table id="bat" class="table table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Items</th>
+                    <th>Values</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tr id="bat_DesignCapacity" style="display:none">
+                    <th>Design capacity</th>
+                    <td><span data-bind="DesignCapacity"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_RemainingCapacity" style="display:none">
+                    <th>Remaining capacity</th>
+                    <td><span data-bind="RemainingCapacity"></span></td>
+                    <td><span data-bind="RemainingCapacityBar"></span></td>
+                </tr>
+                <tr id="bat_ChargingState" style="display:none">
+                    <th>Charging state</th>
+                    <td><span data-bind="ChargingState"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_DesignVoltage" style="display:none">
+                    <th>Design voltage</th>
+                    <td><span data-bind="DesignVoltage"></span></td>
+                    <td><span data-bind="DesignVoltageMax"></span></td>
+                </tr>
+                <tr id="bat_PresentVoltage" style="display:none">
+                    <th>Present voltage</th>
+                    <td><span data-bind="PresentVoltage"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_BatteryType" style="display:none">
+                    <th>Battery Type</th>
+                    <td><span data-bind="BatteryType"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_BatteryTemperature" style="display:none">
+                    <th>Battery Temperature</th>
+                    <td><span data-bind="BatteryTemperature"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_BatteryCondition" style="display:none">
+                    <th>Battery Condition</th>
+                    <td><span data-bind="BatteryCondition"></span></td>
+                    <td></td>
+                </tr>
+                <tr id="bat_CycleCount" style="display:none">
+                    <th>Cycle Count</th>
+                    <td><span data-bind="CycleCount"></span></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

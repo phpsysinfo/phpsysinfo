@@ -3,7 +3,7 @@
 <!--
 phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gil Ottaviani Raduan graduan at gmail.com
 -->
-<tns:translation language="portuguese" charset="utf-8"
+<tns:translation language="brazilian portuguese" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
   <expression id="001" name="title">
@@ -79,7 +79,7 @@ phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gi
     <exp>Enviado</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Erro/&#8203;Perdido</exp>
+    <exp>Erro/Perdido</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Conexões de Rede Estabilizadas</exp>

@@ -1,0 +1,80 @@
+body {
+    font-size: 13px;
+    padding-top: 80px;
+}
+
+.progress {
+    margin-bottom: 0;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+.panel-primary {
+    border: none;
+}
+
+.navbar {
+    background-color: #428bca;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: #fff;
+}
+
+.navbar-brand>img {
+    display: inline;
+}
+
+.treegrid-indent {
+    width:16px;
+    height: 16px;
+    display: inline;
+    position: relative;
+}
+
+.treegrid-expander {
+    width:16px;
+    height: 16px;
+    display: inline;
+    position: relative;
+    cursor: pointer;
+}
+
+.normalicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.normalicon-right:before {
+  content: "\25ba";
+}
+.normalicon-down:before {
+  content: "\25bc";
+}
+
+table.sortable thead th {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover {
+    background: #efefef;
+}
+
+table.borderless td,table.borderless th{
+     border: none !important;
+}

@@ -13,9 +13,12 @@
     <exp>Доступно обновление</exp>
   </expression>
   <expression id="plugin_updatenotifier_003" name="updatenotifier_packages">
-    <exp>пакеты могут быть обновлены.</exp>
+    <exp>Пакеты могут быть обновлены.</exp>
   </expression>
   <expression id="plugin_updatenotifier_004" name="updatenotifier_security">
-    <exp>обновления безопасности.</exp>
+    <exp>Обновления безопасности.</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_005" name="updatenotifier_no">
+    <exp>Нет доступных обновлений</exp>
   </expression>
 </tns:translationPlugin>

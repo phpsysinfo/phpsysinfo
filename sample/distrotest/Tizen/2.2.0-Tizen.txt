@@ -1,0 +1,10 @@
+----------/etc/os-release----------
+NAME="Tizen"
+VERSION="2.2.0, (Tizen)"
+ID=tizen
+PRETTY_NAME="Tizen 2.2.0 (Tizen)"
+VERSION_ID="2.2.0"
+----------/etc/system-release----------
+Tizen release 2.2.0 (Tizen)
+----------/etc/tizen-release-----------
+Tizen release 2.2.0 (Tizen)

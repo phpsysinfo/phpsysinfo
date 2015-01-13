@@ -58,7 +58,7 @@ class DMRaid extends PSI_Plugin
             break;
         }
         if (trim($buffer) != "") {
-            $this->_filecontent = preg_split("/(\n\*\*\* )|(\n--> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_filecontent = preg_split("/(\r?\n\*\*\* )|(\r?\n--> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         } else {
             $this->_filecontent = array();
         }
@@ -80,7 +80,7 @@ class DMRaid extends PSI_Plugin
         foreach ($this->_filecontent as $block) {
             if (preg_match('/^(NOTICE: )|(ERROR: )/m', $block)) {
                 $group = "";
-                $lines = preg_split("/\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
+                $lines = preg_split("/\r?\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
                     if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
                         $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "";
@@ -94,33 +94,33 @@ class DMRaid extends PSI_Plugin
                 }
             } else {
                 if (preg_match('/^Group superset\s+(.+)/m', $block, $arrname)) {
-                    $group = $arrname[1];
+                    $group = trim($arrname[1]);
                 }
                 if (preg_match('/^name\s*:\s*(.*)/m', $block, $arrname)) {
                     if ($group=="") {
-                        $group = $arrname[1];
+                        $group = trim($arrname[1]);
                     }
                     $this->_result['devices'][$group]['name'] = $arrname[1];
                     if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
-                        $this->_result['devices'][$group]['size'] = $size[1];
+                        $this->_result['devices'][$group]['size'] = trim($size[1]);
                     }
                     if (preg_match('/^stride\s*:\s*(.*)/m', $block, $stride)) {
-                            $this->_result['devices'][$group]['stride'] = $stride[1];
+                            $this->_result['devices'][$group]['stride'] = trim($stride[1]);
                     }
                     if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
-                        $this->_result['devices'][$group]['type'] = $type[1];
+                        $this->_result['devices'][$group]['type'] = trim($type[1]);
                     }
                     if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
-                        $this->_result['devices'][$group]['status'] = $status[1];
+                        $this->_result['devices'][$group]['status'] = trim($status[1]);
                     }
                     if (preg_match('/^subsets\s*:\s*(.*)/m', $block, $subsets)) {
-                        $this->_result['devices'][$group]['subsets'] = $subsets[1];
+                        $this->_result['devices'][$group]['subsets'] = trim($subsets[1]);
                     }
                     if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
-                        $this->_result['devices'][$group]['devs'] = $devs[1];
+                        $this->_result['devices'][$group]['devs'] = trim($devs[1]);
                     }
                     if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)) {
-                            $this->_result['devices'][$group]['spares'] = $spares[1];
+                            $this->_result['devices'][$group]['spares'] = trim($spares[1]);
                     }
                     $group = "";
                 }

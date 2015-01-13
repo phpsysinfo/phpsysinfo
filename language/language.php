@@ -39,9 +39,7 @@ $plugin = '';
  */
 define('APP_ROOT', realpath(dirname(( __FILE__ )).'/../'));
 
-if (file_exists(APP_ROOT.'/config.php')) {
-    include_once APP_ROOT.'/config.php';
-}
+include_once APP_ROOT.'/read_config.php';
 
 if (defined('PSI_DEFAULT_LANG')) {
     $lang = PSI_DEFAULT_LANG;

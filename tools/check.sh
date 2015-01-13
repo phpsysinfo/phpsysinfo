@@ -1,5 +1,5 @@
 #!/bin/bash
-FILES=`find ./ \( \( -iwholename '*tool*' -o -iwholename '*lang*' \) -prune -o -iname '*.php' ! -iname 'config.php' \) -a -type f`
+FILES=`find ../ \( \( -iwholename '*tool*' -o -iwholename '*lang*' \) -prune -o -iname '*.php' \) -a -type f`
 
 for entry in ${FILES}; do
   php -l ${entry}

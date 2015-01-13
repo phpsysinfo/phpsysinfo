@@ -13,7 +13,7 @@
  * @version   SVN: $Id: index.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
- /**
+/**
  * define the application root path on the webserver
  * @var string
  */
@@ -37,7 +37,7 @@ if (!extension_loaded("pcre")) {
 require_once APP_ROOT.'/includes/autoloader.inc.php';
 
 // Load configuration
-require_once APP_ROOT.'/config.php';
+require_once APP_ROOT.'/read_config.php';
 
 if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
     $tpl = new Template("/templates/html/error_config.html");
@@ -59,6 +59,10 @@ case "dynamic":
 case "xml":
     $webpage = new WebpageXML(true, null);
     $webpage->run();
+    break;
+case "bootstrap":
+    $tpl = new Template("/templates/html/index_bootstrap.html");
+    echo $tpl->fetch();
     break;
 default:
     $tpl = new Template("/templates/html/index_all.html");

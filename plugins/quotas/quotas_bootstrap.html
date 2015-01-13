@@ -1,0 +1,35 @@
+<div class="col-lg-12" id="block_quotas" style="display:none">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Quota Status</div>
+        <div class="panel-body">
+            <table id="quotas" class="table table-hover table-condensed sortable">
+                <thead>
+                <tr>
+                    <th id="quotas_User">User</th>
+                    <th class="rightCell sorttable_numeric">Bytes Used</th>
+                    <th class="rightCell sorttable_numeric">Bytes Soft</th>
+                    <th class="rightCell sorttable_numeric">Bytes Hard</th>
+                    <th class="rightCell sorttable_numeric">Bytes Used Percent</th>
+                    <th class="rightCell sorttable_numeric">Files Used</th>
+                    <th class="rightCell sorttable_numeric">Files Soft</th>
+                    <th class="rightCell sorttable_numeric">Files Hard</th>
+                    <th class="rightCell sorttable_numeric">Files Used Percent</th>
+                </tr>
+                </thead>
+                <tbody id="quotas-data">
+                <tr>
+                    <th><span data-bind="User"></span></th>
+                    <td class="rightCell"><span data-bind="ByteUsed"></span></td>
+                    <td class="rightCell"><span data-bind="ByteSoft"></span></td>
+                    <td class="rightCell"><span data-bind="ByteHard"></span></td>
+                    <td class="rightCell"><span data-bind="BytePercentUsed"></span></td>
+                    <td class="rightCell"><span data-bind="FileUsed"></span></td>
+                    <td class="rightCell"><span data-bind="FileSoft"></span></td>
+                    <td class="rightCell"><span data-bind="FileHard"></span></td>
+                    <td class="rightCell"><span data-bind="FilePercentUsed"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

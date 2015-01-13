@@ -18,4 +18,7 @@
   <expression id="plugin_updatenotifier_004" name="updatenotifier_security">
     <exp>Updates sind Sicherheits-Updates.</exp>
   </expression>
+  <expression id="plugin_updatenotifier_005" name="updatenotifier_no">
+    <exp>Keine Updates verfügbar</exp>
+  </expression>
 </tns:translationPlugin>

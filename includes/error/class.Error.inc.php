@@ -120,7 +120,7 @@ class Error
      */
     public function addConfigError($strCommand, $strMessage)
     {
-        $this->_addError($strCommand, "Wrong Value in config.php for ".$strMessage);
+        $this->_addError($strCommand, "Wrong Value in phpsysinfo.ini for ".$strMessage);
     }
 
     /**
@@ -166,7 +166,9 @@ class Error
         $generation->addAttribute('timestamp', time());
         $xmlerr = $xml->addChild("Errors");
         foreach ($this->_arrErrorList as $arrLine) {
-            $error = $xmlerr->addCData('Error', $arrLine['message']);
+//            $error = $xmlerr->addCData('Error', $arrLine['message']);
+            $error = $xmlerr->addChild('Error');
+            $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
         header("Cache-Control: no-cache, must-revalidate\n");
@@ -189,7 +191,9 @@ class Error
         $xml = simplexml_import_dom($dom);
         $xmlerr = new SimpleXMLExtended($xml, $encoding);
         foreach ($this->_arrErrorList as $arrLine) {
-            $error = $xmlerr->addCData('Error', $arrLine['message']);
+//            $error = $xmlerr->addCData('Error', $arrLine['message']);
+            $error = $xmlerr->addChild('Error');
+            $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
 

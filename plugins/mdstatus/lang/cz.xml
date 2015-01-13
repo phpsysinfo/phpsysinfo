@@ -10,13 +10,13 @@
     <exp>Stav RAIDu</exp>
   </expression>
   <expression id="plugin_mdstatus_002" name="mdstatus_support">
-    <exp>Poodporované typy RAID </exp>
+    <exp>Poodporované typy RAID</exp>
   </expression>
   <expression id="plugin_mdstatus_003" name="mdstatus_devices">
     <exp>RAID-zařízení</exp>
   </expression>
   <expression id="plugin_mdstatus_004" name="mdstatus_infos">
-    <exp>Dodatečné informace </exp>
+    <exp>Dodatečné informace</exp>
   </expression>
   <expression id="plugin_mdstatus_005" name="mdstatus_status">
     <exp>Stav</exp>
@@ -31,7 +31,7 @@
     <exp>Algoritmus</exp>
   </expression>
   <expression id="plugin_mdstatus_009" name="mdstatus_superb">
-    <exp>Persistentní Superblock </exp>
+    <exp>Persistentní Superblock</exp>
   </expression>
   <expression id="plugin_mdstatus_010" name="mdstatus_avail">
     <exp>dostupný</exp>

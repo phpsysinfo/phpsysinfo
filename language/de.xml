@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: de.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: German Created by: Michael Cramer
+phpSysInfo language file Language: German Created by: Michael Cramer Modified by: Daniel Potthast
 -->
 <tns:translation language="deutsch" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -79,7 +79,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Gesendet</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Fehler/&#8203;Verworfen</exp>
+    <exp>Fehler/Verworfen</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Aktive Netzwerkverbindungen</exp>
@@ -286,7 +286,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualisation</exp>
+    <exp>Virtualisierung</exp>
   </expression>
   <expression id="095" name="lastboot">
     <exp>Letzter Start</exp>
@@ -298,7 +298,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>System Sprache</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Codepage</exp>
   </expression>
   <expression id="099" name="details">
     <exp>Details</exp>
@@ -319,7 +319,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Akku Datum</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Stromstärke</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
@@ -328,30 +328,30 @@ phpSysInfo language file Language: German Created by: Michael Cramer
     <exp>Maschine</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Netzfrequenz</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Prozesse</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>laufend</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>schlafend</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>gestoppt</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>wartend</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>andere</exp>
   </expression>
 </tns:translation>

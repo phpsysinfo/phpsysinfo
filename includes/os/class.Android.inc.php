@@ -150,8 +150,8 @@ class Android extends Linux
         }
         if ( is_null($buf) || ($buf == "")) {
             $this->sys->setDistribution('Android');
-        } else { 
-            if (preg_match('/^(\d+\.\d+)/', $buf, $ver) 
+        } else {
+            if (preg_match('/^(\d+\.\d+)/', $buf, $ver)
                 && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
                 && isset($list['Android'][$ver[1]])) {
                     $buf.=' '.$list['Android'][$ver[1]];
@@ -234,7 +234,6 @@ class Android extends Linux
      */
     public function build()
     {
-        $this->error->addError("WARN", "The Android version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_distro();
         $this->_hostname();
         $this->_ip();
