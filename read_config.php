@@ -3,11 +3,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     /**
      * phpSysInfo version
      */
-<<<<<<< HEAD:config.php
-    define('PSI_VERSION', '3.1.17');
-=======
-    define('PSI_VERSION', '3.2.x');
->>>>>>> remotes/origin/master:read_config.php
+    define('PSI_VERSION', '3.2.0');
     /**
      * phpSysInfo configuration
      */
