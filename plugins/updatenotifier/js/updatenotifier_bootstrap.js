@@ -1,4 +1,4 @@
-function renderPlugin_UpdateNotifier(data) {
+function renderPlugin_updatenotifier(data) {
 
     var directives = {
         updateNotifierNbPackages: {

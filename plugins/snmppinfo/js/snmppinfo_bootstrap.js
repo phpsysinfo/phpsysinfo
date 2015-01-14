@@ -1,4 +1,4 @@
-function renderPlugin_SNMPPInfo(data) {
+function renderPlugin_snmppinfo(data) {
 
     var directives = {
         Device: {

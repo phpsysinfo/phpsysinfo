@@ -1,4 +1,4 @@
-function renderPlugin_BAT(data) {
+function renderPlugin_bat(data) {
 
     var directives = {
         RemainingCapacity: {

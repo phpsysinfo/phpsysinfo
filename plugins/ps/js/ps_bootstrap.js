@@ -1,4 +1,4 @@
-function renderPlugin_uprecords(data) {
+function renderPlugin_ps(data) {
 
     var directives = {
         MemoryUsage: {

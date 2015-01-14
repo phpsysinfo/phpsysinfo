@@ -1,4 +1,4 @@
-function renderPlugin_PSStatus(data) {
+function renderPlugin_psstatus(data) {
 
     var directives = {
         Status: {

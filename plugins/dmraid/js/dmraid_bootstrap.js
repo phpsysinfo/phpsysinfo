@@ -1,4 +1,4 @@
-function renderPlugin_DMRaid(data) {
+function renderPlugin_dmraid(data) {
 
     function raid_diskicon(data) {
         var html = "";

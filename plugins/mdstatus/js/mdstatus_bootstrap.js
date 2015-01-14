@@ -1,4 +1,4 @@
-function renderPlugin_MDStatus(data) {
+function renderPlugin_mdstatus(data) {
 
     function raid_diskicon(data) {
         var html = "";

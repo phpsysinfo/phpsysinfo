@@ -1,4 +1,4 @@
-function renderPlugin_Quotas(data) {
+function renderPlugin_quotas(data) {
 
     var directives = {
 

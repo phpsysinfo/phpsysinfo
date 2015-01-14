@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     $.ajax({
         dataType: "json",
-        url: "xml.php?plugin=complete&json",
+        url: "xml.php?json",
         success: function (data) {
 //            console.log(data);
             data_dbg = data;
@@ -26,21 +26,24 @@ $(document).ready(function () {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
-            
-            // Rendering plugins
-            if (data['Plugins'] !== undefined) {
-
-                for (plugin in data['Plugins']) {
-                    if (data['Plugins'][plugin] !== undefined) {
-                        try {
-                            // dynamic call
-                            window['render' + plugin](data);
+            if (data['UnusedPlugins'] !== undefined) {
+                var plugins = items(data["UnusedPlugins"]["Plugin"]);
+                for (var i = 0; i < plugins.length; i++) {
+                    $.ajax({
+                         dataType: "json",
+                         url: "xml.php?plugin=" + plugins[i]["@attributes"]["name"]+"&json",
+                         pluginname: plugins[i]["@attributes"]["name"],
+                         success: function (data) {
+                            try {
+                                // dynamic call
+                                window['renderPlugin_' + this.pluginname](data);
+                            }
+                            catch (err) {
+                            }
+                            renderErrors(data);
                         }
-                        catch (err) {
-                        }
-                    }
+                    });
                 }
-
             }
         }
     });
@@ -871,8 +874,6 @@ function renderErrors(data) {
         }
         if (i > 0) {
             $("#errorbutton").show();
-        } else {
-            $("#errorbutton").hide();
         }
     }
     catch (err) {
