@@ -12,9 +12,7 @@ function renderPlugin_PSStatus(data) {
         var psitems = items(data['Plugins']['Plugin_PSStatus']['Process']);
         if (psitems.length > 0) {
             var ps_memory = [];
-            for (i = 0; i < psitems.length ; i++) {
-                ps_memory.push(psitems[i]["@attributes"]);
-            }
+            ps_memory.push_attrs(psitems);
             $('#psstatus-data').render(ps_memory, directives);
             sorttable.innerSortFunction.apply($('#psstatus_Name')[0], []);
 

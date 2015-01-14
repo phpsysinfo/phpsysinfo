@@ -35,9 +35,7 @@ function renderPlugin_Quotas(data) {
         var qtitems = items(data['Plugins']['Plugin_Quotas']['Quota']);
         if (qtitems.length > 0) {
             var qt_memory = [];
-            for (i = 0; i < qtitems.length ; i++) {
-                qt_memory.push(qtitems[i]["@attributes"]);
-            }
+            qt_memory.push_attrs(qtitems);
             $('#quotas-data').render(qt_memory, directives);
             sorttable.innerSortFunction.apply($('#quotas_User')[0], []);
 

@@ -46,6 +46,13 @@ $(document).ready(function () {
     });
 });
 
+Array.prototype.push_attrs=function(element) {
+    for (var i = 0; i < element.length ; i++) {
+        this.push(element[i]["@attributes"]);
+    }
+    return i;
+};
+
 function items(data) {
     if (data !== undefined) {
         if ((data.length > 0) &&  (data[0] !== undefined) && (data[0]["@attributes"] !== undefined)) {
@@ -422,9 +429,7 @@ function renderMemory(data) {
     var data_memory = [];
     if (data["Memory"]["Swap"] !== undefined) { 
         var datas = items(data["Memory"]["Swap"]["Mount"]);
-        for (var i = 0; i < datas.length; i++) {
-            data_memory.push(datas[i]["@attributes"]);
-        }
+        data_memory.push_attrs(datas);
         $('#swap-data').render(data_memory, directive_swap);
         $('#swap-data').show();
     }
@@ -531,7 +536,7 @@ function renderNetwork(data) {
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
-                for(var j = 0; j < infos.length; j++){
+                for (var j = 0; j < infos.length; j++){
                     html +="<tr class=\"treegrid-parent-network-" + i + "\"><td>" + infos[j] + "</td><td></td><td></td><td></td></tr>";
                 }
             }
@@ -589,10 +594,7 @@ function renderVoltage(data) {
     try {
         var voltage_data = [];
         var datas = items(data["MBInfo"]["Voltage"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            voltage_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (voltage_data.push_attrs(datas) > 0) {
             $('#voltage-data').render(voltage_data, directives);
             $("#block_voltage").show();
         } else {
@@ -630,10 +632,7 @@ function renderTemperature(data) {
     try {
         var temperature_data = [];
         var datas = items(data["MBInfo"]["Temperature"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            temperature_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (temperature_data.push_attrs(datas) > 0) {
             $('#temperature-data').render(temperature_data, directives);
             $("#block_temperature").show();
         } else {
@@ -671,10 +670,7 @@ function renderFans(data) {
     try {
         var fans_data = [];
         var datas = items(data["MBInfo"]["Fans"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            fans_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (fans_data.push_attrs(datas) > 0) {
             $('#fans-data').render(fans_data, directives);
             $("#block_fans").show();
         } else {
@@ -712,10 +708,7 @@ function renderPower(data) {
     try {
         var power_data = [];
         var datas = items(data["MBInfo"]["Power"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            power_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (power_data.push_attrs(datas) > 0) {
             $('#power-data').render(power_data, directives);
             $("#block_power").show();
         } else {
@@ -753,10 +746,7 @@ function renderCurrent(data) {
     try {
         var current_data = [];
         var datas = items(data["MBInfo"]["Current"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            current_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (current_data.push_attrs(datas) > 0) {
             $('#current-data').render(current_data, directives);
             $("#block_current").show();
         } else {

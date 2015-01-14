@@ -20,9 +20,7 @@ function renderPlugin_ipmiinfo(data) {
                 var datas = items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]);
                 if (datas.length > 0) {
                     data_ipmiinfo.push({Label:valuelist[ipmiinfo_value]});
-                    for (var i = 0; i < datas.length; i++) {
-                        data_ipmiinfo.push(datas[i]["@attributes"]);
-                    }
+                    data_ipmiinfo.push_attrs(datas);
                 }
             }
         }

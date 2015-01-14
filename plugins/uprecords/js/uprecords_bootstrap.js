@@ -12,9 +12,7 @@ function renderPlugin_uprecords(data) {
         var upitems = items(data['Plugins']['Plugin_uprecords']['Uprecords']['Item']);
         if (upitems.length > 0) {
             var up_memory = [];
-            for (i = 0; i < upitems.length ; i++) {
-                up_memory.push(upitems[i]["@attributes"]);
-            }
+            up_memory.push_attrs(upitems);
             $('#uprecords-data').render(up_memory, directives);
 
             $('#block_uprecords').show();
