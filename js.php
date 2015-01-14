@@ -48,7 +48,7 @@ if ($script != null) {
 
     header("content-type: application/x-javascript");
 
-    if (!defined("PSI_DEBUG") || (PSI_DEBUG !== true) || defined("PSI_JS_COMPRESSION")) {
+    if ((!defined("PSI_DEBUG") || (PSI_DEBUG !== true)) && defined("PSI_JS_COMPRESSION")) {
         $compression = strtolower(PSI_JS_COMPRESSION);
     }
     switch ($compression) {
