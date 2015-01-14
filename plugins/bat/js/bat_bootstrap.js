@@ -64,5 +64,7 @@ function renderPlugin_bat(data) {
             $('#bat_DesignCapacity').hide();
         }
         $('#block_bat').show();
+    } else {
+        $('#block_bat').hide();
     }
 }

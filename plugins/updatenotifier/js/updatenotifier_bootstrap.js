@@ -19,5 +19,7 @@ function renderPlugin_updatenotifier(data) {
             $("#updatenotifier-info").html("<strong>No updates available</strong>");
         }
         $('#block_updatenotifier').show();
+    } else {
+        $('#block_updatenotifier').hide();
     }
 }

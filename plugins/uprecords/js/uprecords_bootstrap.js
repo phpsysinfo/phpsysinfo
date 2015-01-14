@@ -16,6 +16,10 @@ function renderPlugin_uprecords(data) {
             $('#uprecords-data').render(up_memory, directives);
 
             $('#block_uprecords').show();
+        } else {
+            $('#block_uprecords').hide();
         }
+    } else {
+        $('#block_uprecords').hide();
     }
 }

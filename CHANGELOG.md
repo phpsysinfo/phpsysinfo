@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.1
+----------------
+ - [NEW] REFRESH parameter for frontend "bootstrap"
+
 phpSysInfo 3.2.0
 ----------------
  - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)

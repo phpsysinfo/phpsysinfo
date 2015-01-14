@@ -36,6 +36,7 @@ function renderPlugin_mdstatus(data) {
     }
 
     if (data['Plugins']['Plugin_MDStatus'] !== undefined) {
+        $('#mdstatus').empty();
         if (data['Plugins']['Plugin_MDStatus']['Supported_Types'] !== undefined) {
             var stitems = items(data['Plugins']['Plugin_MDStatus']['Supported_Types']['Type']);
             if (stitems.length > 0) {
@@ -46,7 +47,11 @@ function renderPlugin_mdstatus(data) {
                 htmltypes += "</th><tr>";
                 $('#mdstatus').append(htmltypes);
                 $('#block_mdstatus').show();
+            } else {
+                $('#block_mdstatus').hide();
             }
+        } else {
+            $('#block_mdstatus').hide();
         }
         var mditems = items(data['Plugins']['Plugin_MDStatus']['Raid']);
         if (mditems.length > 0) {
@@ -110,8 +115,8 @@ function renderPlugin_mdstatus(data) {
                     });
                 }
             }
-
-            $('#block_mdstatus').show();
         }
+    } else {
+        $('#block_mdstatus').hide();
     }
 }

@@ -37,9 +37,14 @@ function renderPlugin_quotas(data) {
             var qt_memory = [];
             qt_memory.push_attrs(qtitems);
             $('#quotas-data').render(qt_memory, directives);
+            $('#quotas_User').removeClass("sorttable_sorted"); // reset sort order
             sorttable.innerSortFunction.apply($('#quotas_User')[0], []);
 
             $('#block_quotas').show();
+        } else {
+            $('#block_quotas').hide();
         }
+    } else {
+        $('#block_quotas').hide();
     }
 }

@@ -27,6 +27,10 @@ function renderPlugin_ipmiinfo(data) {
         if (data_ipmiinfo.length > 0) {
             $('#ipmiinfo-data').render(data_ipmiinfo, directives);
             $('#block_ipmiinfo').show();
+        } else {
+            $('#block_ipmiinfo').hide();
         }
+    } else {
+        $('#block_ipmiinfo').hide();
     }
 }

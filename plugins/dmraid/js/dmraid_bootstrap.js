@@ -73,7 +73,7 @@ function renderPlugin_dmraid(data) {
 
                 html +="</td></tr>";
             }
-            $('#dmraid').append(html);
+            $('#dmraid').empty().append(html);
 
             for (i = 0; i < dmitems.length ; i++) {
                 if (dmitems[i]['Disks'] !== undefined) {
@@ -86,6 +86,10 @@ function renderPlugin_dmraid(data) {
             }
 
             $('#block_dmraid').show();
+        } else {
+            $('#block_dmraid').hide();
         }
+    } else {
+        $('#block_dmraid').hide();
     }
 }

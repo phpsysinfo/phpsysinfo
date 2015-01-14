@@ -1,19 +1,20 @@
 var data_dbg;
 
-$(document).ready(function () {
-    $(document).ajaxStart(function () {
-        $("#loader").show();
-    });
-    $(document).ajaxStop(function () {
-        $("#loader").hide();
-    });
 
+
+function reload(initiate) {
     $.ajax({
         dataType: "json",
         url: "xml.php?json",
         success: function (data) {
 //            console.log(data);
-            data_dbg = data;
+//            data_dbg = data;
+            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
+                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined)) {
+                setInterval(reload, refrtime);
+            } else {
+                $("#errors").empty();
+            }
             renderErrors(data);
             renderVitals(data);
             renderHardware(data);
@@ -47,6 +48,17 @@ $(document).ready(function () {
             }
         }
     });
+}
+
+$(document).ready(function () {
+    $(document).ajaxStart(function () {
+        $("#loader").show();
+    });
+    $(document).ajaxStop(function () {
+        $("#loader").hide();
+    });
+
+    reload(true);
 });
 
 Array.prototype.push_attrs=function(element) {
@@ -167,12 +179,6 @@ function renderVitals(data) {
 
 function renderHardware(data) {
 
-    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
-        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
-    } else {
-        $('#hardware-Machine').hide();
-    }
-
     var directives = {
         Model: {
             text: function () {
@@ -240,6 +246,14 @@ function renderHardware(data) {
     };
 
     var html="";
+    
+    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+        html+="<tr id=\"hardware-Machine\">";
+        html+="<th width=8%>Machine</th>";
+        html+="<td><span data-bind=\"Name\"></span></td>";
+        html+="<td></td>";
+        html+="</tr>";
+    }
 
     html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\" style=\"display:none\" >";
     html+="<th>CPU</th>";
@@ -293,7 +307,12 @@ function renderHardware(data) {
             $("#hardware-"+hw_type).hide();
         }
     }
-    $("#hardware").append(html);
+    $("#hardware").empty().append(html);
+
+
+    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
+    }
 
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
@@ -435,6 +454,8 @@ function renderMemory(data) {
         data_memory.push_attrs(datas);
         $('#swap-data').render(data_memory, directive_swap);
         $('#swap-data').show();
+    } else {
+        $('#swap-data').hide();
     }
     $('#memory-data').render(data["Memory"], directives);
 }
@@ -491,6 +512,7 @@ function renderFilesystem(data) {
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
             $('#filesystem-foot').render(total, directives);
+            $('#filesystem_MountPoint').removeClass("sorttable_sorted"); // reset sort order
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
             $("#block_filesystem").show();
@@ -524,10 +546,19 @@ function renderNetwork(data) {
     };
 
     var html = "";
+
+    html+="<thead>";
+    html+="<tr>";
+    html+="<th width=\"60%\">Device</th>";
+    html+="<th class=\"rightCell\">Receive</th>";
+    html+="<th class=\"rightCell\">Sent</th>";
+    html+="<th class=\"rightCell\">Err/" + String.fromCharCode(8203) +"Drop</th>";
+    html+="</tr>";
+    html+="</thead>";
+
     try {
         var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
-
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
             html+="<td><b><span data-bind=\"Name\"></span></b></td>";
@@ -544,7 +575,7 @@ function renderNetwork(data) {
                 }
             }
         }
-        $("#network").append(html);
+        $("#network").empty().append(html);
         if (i > 0) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
@@ -805,65 +836,64 @@ function renderUPS(data) {
         } 
     };
 
-    if ((data["UPSInfo"] === undefined) || (items(data["UPSInfo"]["UPS"]).length < 1)) {
-        return;
-    }
+    if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
+        var html="";
+        var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
 
-    var html="";
-    var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
+        try {
+            var datas = items(data["UPSInfo"]["UPS"]);
+            for (var i = 0; i < datas.length; i++) {
+                html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
+                html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+                html+="<td></td>";
+                html+="</tr>";
+                for (var proc_param in paramlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
+                        html+="<th>"+ paramlist[proc_param]+"</th>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                        html+="</tr>"; 
+                    }
+                }
 
-    try {
-        var datas = items(data["UPSInfo"]["UPS"]);
-        for (var i = 0; i < datas.length; i++) {
-            html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-            html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+            }
+        }
+        catch (err) {
+        }
+
+        if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
+            html+="<tr>";
+            html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
             html+="<td></td>";
             html+="</tr>";
-            for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                    html+="<th>"+ paramlist[proc_param]+"</th>";
-                    html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
-                    html+="</tr>"; 
-                }
-            }
-
         }
-    }
-    catch (err) {
-    }
-
-    if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
-        html+="<tr>";
-        html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
-        html+="<td></td>";
-        html+="</tr>";
-    }
     
-    $("#ups").append(html);
+        $("#ups").empty().append(html);
 
-    try {
-        var datas = items(data["UPSInfo"]["UPS"]);
-        for (var i = 0; i < datas.length; i++) {
-            $('#ups-'+ i).render(datas[i]["@attributes"], directives);
-            for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+        try {
+            var datas = items(data["UPSInfo"]["UPS"]);
+            for (var i = 0; i < datas.length; i++) {
+                $('#ups-'+ i).render(datas[i]["@attributes"], directives);
+                for (var proc_param in paramlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                    }
                 }
             }
         }
-    }
-    catch (err) {
-    }
+        catch (err) {
+        }
 
-    $('#ups').treegrid({
-        initialState: 'expanded',
-        expanderExpandedClass: 'normalicon normalicon-down',
-        expanderCollapsedClass: 'normalicon normalicon-right'
-    });
+        $('#ups').treegrid({
+            initialState: 'expanded',
+            expanderExpandedClass: 'normalicon normalicon-down',
+            expanderCollapsedClass: 'normalicon normalicon-right'
+        });
         
-    $("#block_ups").show();
-
+        $("#block_ups").show();
+    } else {
+        $("#block_ups").hide();
+    }
 }
 
 function renderErrors(data) {
