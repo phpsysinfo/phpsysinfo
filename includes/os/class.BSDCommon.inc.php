@@ -165,7 +165,7 @@ abstract class BSDCommon extends OS
     {
         if (count($this->_dmesg) === 0) {
             if (PSI_OS != "Darwin") {
-                if (CommonFunctions::executeProgram('dmesg', '' ,$buf, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {
+                if (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {  Once again but with debug
                     $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
                 }
