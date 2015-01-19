@@ -7,6 +7,8 @@ phpSysInfo 3.2.1
 ----------------
  - [NEW] REFRESH parameter for frontend "bootstrap"
 
+ - [ADD] pfSense to detected distros
+
 phpSysInfo 3.2.0
 ----------------
  - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)
