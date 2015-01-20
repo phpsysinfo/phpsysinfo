@@ -52,38 +52,6 @@ class Parser
     }
 
     /**
-     * parsing the output of pciconf command
-     *
-     * @return Array
-     */
-    public static function pciconf()
-    {
-        $arrResults = array();
-        $intS = 0;
-        if (CommonFunctions::executeProgram("pciconf", "-lv", $strBuf, PSI_DEBUG)) {
-            $arrTemp = array();
-            $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($arrLines as $strLine) {
-                if (preg_match("/(.*) = '(.*)'/", $strLine, $arrParts)) {
-                    if (trim($arrParts[1]) == "vendor") {
-                        $arrTemp[$intS] = trim($arrParts[2]);
-                    } elseif (trim($arrParts[1]) == "device") {
-                        $arrTemp[$intS] .= " - ".trim($arrParts[2]);
-                        $intS++;
-                    }
-                }
-            }
-            foreach ($arrTemp as $name) {
-                $dev = new HWDevice();
-                $dev->setName($name);
-                $arrResults[] = $dev;
-            }
-        }
-
-        return $arrResults;
-    }
-
-    /**
      * parsing the output of df command
      *
      * @param string $df_param additional parameter for df command
