@@ -198,7 +198,7 @@ class Android extends Linux
                 $device = preg_split("/ /", $buf, 4);
                 if (isset($device[3]) && trim($device[3]) != "") {
                     $dev = new HWDevice();
-                    $dev->setName(trim($device[3]));
+                    $dev->setName('Class '.trim($device[2]).' Device '.trim($device[3]));
                     $this->sys->setPciDevices($dev);
                 }
             }
