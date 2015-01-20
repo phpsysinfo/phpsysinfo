@@ -129,7 +129,6 @@ class FreeBSD extends BSDCommon
         }
     }
 
-
     /**
      * extend the memory information with additional values
      *
