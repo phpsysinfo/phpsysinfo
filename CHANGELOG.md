@@ -5,6 +5,8 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.2.1
 ----------------
+ - [UPD] bootstrap 3.3.2
+
  - [NEW] REFRESH parameter for frontend "bootstrap"
 
  - [ADD] pfSense to detected distros
