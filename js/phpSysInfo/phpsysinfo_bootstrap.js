@@ -540,7 +540,7 @@ function renderNetwork(data) {
         },
         Drops: {
             text: function () {
-                return this["Drops"] + "/" + String.fromCharCode(8203) + this["Err"];
+                return this["Err"] + "/" + String.fromCharCode(8203) + this["Drops"];
             }
         }
     };
