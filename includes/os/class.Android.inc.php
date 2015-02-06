@@ -171,13 +171,13 @@ class Android extends Linux
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
             $buf = "";
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
-                $buf .= ' '.$ar_buf[1];
+                $buf .= ' '.trim($ar_buf[1]);
             }
-            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf) && ($buf !== $ar_buf[1])) {
-                $buf .= ' '.$ar_buf[1];
+            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf) && (trim($buf) !== trim($ar_buf[1]))) {
+                $buf .= ' '.trim($ar_buf[1]);
             }
             if (preg_match('/^ro\.semc\.product\.name=([^\n]+)/m', $lines, $ar_buf)) {
-                $buf .= ' '.$ar_buf[1];
+                $buf .= ' '.trim($ar_buf[1]);
             }
             if (trim($buf) != "") {
                 $this->sys->setMachine(trim($buf));
