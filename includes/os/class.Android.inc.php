@@ -173,7 +173,7 @@ class Android extends Linux
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf .= ' '.$ar_buf[1];
             }
-            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf)) {
+            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf) && ($buf !== $ar_buf[1])) {
                 $buf .= ' '.$ar_buf[1];
             }
             if (preg_match('/^ro\.semc\.product\.name=([^\n]+)/m', $lines, $ar_buf)) {
