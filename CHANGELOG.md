@@ -7,9 +7,11 @@ phpSysInfo 3.2.1
 ----------------
  - [UPD] bootstrap 3.3.2
 
- - [NEW] REFRESH parameter for frontend "bootstrap"
+ - [NEW] REFRESH parameter also for frontend "bootstrap"
 
  - [ADD] pfSense to detected distros
+
+ - [FIX] Percentage memory usage
 
 phpSysInfo 3.2.0
 ----------------

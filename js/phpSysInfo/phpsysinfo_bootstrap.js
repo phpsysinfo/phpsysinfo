@@ -397,17 +397,41 @@ function renderMemory(data) {
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
                 }
                 else {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
-                        '</div>' +
-                        '<div class="percent">' +
-                        'Total: ' + this["@attributes"]["Percent"] + '% ' +
-                        '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
-                        'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
-                        'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
-                        ')</i></div>';
+                    var rest = parseInt(this["@attributes"]["Percent"]);
+                    var html = '<div class="progress">';
+                    if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["AppPercent"]);
+                    }
+                    if ((this["Details"]["@attributes"]["CachedPercent"] !== undefined) && (this["Details"]["@attributes"]["CachedPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["CachedPercent"]);
+                    }
+                    if ((this["Details"]["@attributes"]["BuffersPercent"] !== undefined) && (this["Details"]["@attributes"]["BuffersPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["BuffersPercent"]);
+                    }
+                    if (rest > 0) {
+                        html += '<div class="progress-bar progress-bar-success" style="width: ' + rest + '%;"></div>';
+                    }
+                    html += '</div>';
+                    html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
+                    var not_first = false;
+                    if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
+                        html += 'Kernel+App: '+ this["Details"]["@attributes"]["AppPercent"] + '%';
+                        not_first = true;
+                    }
+                    if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
+                        if (not_first) html += ' - ';
+                        html += 'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '%';
+                        not_first = true;
+                    }
+                    if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
+                        if (not_first) html += ' - ';
+                        html += 'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';
+                    }
+                    html += ')</i></div>';
+                    return html;
                 }
             }
         },
