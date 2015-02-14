@@ -694,53 +694,6 @@
                                                         </tr>
                                                     </xsl:if>
                                                     <xsl:if
-                                                        test="count(@Buffers )&gt;0">
-                                                        <tr>
-                                                            <td
-                                                                style="width:200px;">
-                                                                <span>
-                                                                    <xsl:text>- Buffers</xsl:text>
-                                                                </span>
-                                                            </td>
-                                                            <td
-                                                                style="width:285px;">
-                                                                <div
-                                                                    style="float:left; width:{concat(  @BuffersPercent  , &apos;px&apos; )}; "
-                                                                    class="bar">
-                                                                    <span>
-                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-                                                                    </span>
-                                                                </div>
-                                                                <div
-                                                                    style="float:left; ">
-                                                                    <span>
-                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-                                                                    </span>
-                                                                    <xsl:value-of
-                                                                        select="@BuffersPercent" />
-                                                                    <span>
-                                                                        <xsl:text>%</xsl:text>
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                            <td
-                                                                style="width:100px;"
-                                                                class="right" />
-                                                            <td
-                                                                style="width:100px;"
-                                                                class="right">
-                                                                <xsl:value-of
-                                                                    select="round(@Buffers div 1024)" />
-                                                                <span>
-                                                                    <xsl:text> KiB</xsl:text>
-                                                                </span>
-                                                            </td>
-                                                            <td
-                                                                style="width:100px;"
-                                                                class="right" />
-                                                        </tr>
-                                                    </xsl:if>
-                                                    <xsl:if
                                                         test="count(@Cached )&gt;0">
                                                         <tr>
                                                             <td
@@ -778,6 +731,53 @@
                                                                 class="right">
                                                                 <xsl:value-of
                                                                     select="round(@Cached div 1024)" />
+                                                                <span>
+                                                                    <xsl:text> KiB</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                style="width:100px;"
+                                                                class="right" />
+                                                        </tr>
+                                                    </xsl:if>
+                                                    <xsl:if
+                                                        test="count(@Buffers )&gt;0">
+                                                        <tr>
+                                                            <td
+                                                                style="width:200px;">
+                                                                <span>
+                                                                    <xsl:text>- Buffers</xsl:text>
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                style="width:285px;">
+                                                                <div
+                                                                    style="float:left; width:{concat(  @BuffersPercent  , &apos;px&apos; )}; "
+                                                                    class="bar">
+                                                                    <span>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                                                    </span>
+                                                                </div>
+                                                                <div
+                                                                    style="float:left; ">
+                                                                    <span>
+                                                                        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                                                    </span>
+                                                                    <xsl:value-of
+                                                                        select="@BuffersPercent" />
+                                                                    <span>
+                                                                        <xsl:text>%</xsl:text>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td
+                                                                style="width:100px;"
+                                                                class="right" />
+                                                            <td
+                                                                style="width:100px;"
+                                                                class="right">
+                                                                <xsl:value-of
+                                                                    select="round(@Buffers div 1024)" />
                                                                 <span>
                                                                     <xsl:text> KiB</xsl:text>
                                                                 </span>
