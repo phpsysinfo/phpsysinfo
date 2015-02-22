@@ -70,6 +70,7 @@ PLUGINS=false
 ; auto: let user browser choose the mode
 ; dynamic: use javascript to refresh data
 ; static: static page (use metatag to reload page)
+; bootstrap: use twitter bootstrap template
 ;
 DEFAULT_DISPLAY_MODE="auto"
 
