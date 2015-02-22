@@ -418,7 +418,7 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += 'Kernel+App: '+ this["Details"]["@attributes"]["AppPercent"] + '%';
+                        html += 'Kernel+Apps: '+ this["Details"]["@attributes"]["AppPercent"] + '%';
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
