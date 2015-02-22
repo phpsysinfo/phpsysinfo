@@ -467,7 +467,7 @@ function renderMemory(data) {
         },
         Name: {
             html: function () {
-                return this['Name'] + '<br/>' + this['MountPoint'];
+                return this['Name'] + '<br/>' + ((this["MountPoint"] !== undefined) ? this["MountPoint"] : this["MountPointID"]);
             }
         }
     };
