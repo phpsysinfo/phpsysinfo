@@ -1,6 +1,4 @@
-var data_dbg;
-
-
+//var data_dbg;
 
 function reload(initiate) {
     $.ajax({
