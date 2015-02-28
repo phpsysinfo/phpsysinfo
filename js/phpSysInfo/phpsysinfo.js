@@ -965,12 +965,12 @@ function refreshMemory(xml) {
                 html += "<tr><td style=\"width:184px;\">" + genlang(64, false) + "</td><td style=\"width:285px;\">" + createBar(appp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px\">" + formatBytes(app, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
-            if (!isNaN(buff)) {
-                html += "<tr><td style=\"width:184px;\">" + genlang(65, false) + "</td><td style=\"width:285px\">" + createBar(buffp) + "</td><td class=\"rigth\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(buff, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
-                tree.push(memoryindex);
-            }
             if (!isNaN(cached)) {
                 html += "<tr><td style=\"width:184px;\">" + genlang(66, false) + "</td><td style=\"width:285px;\">" + createBar(cachedp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(cached, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                tree.push(memoryindex);
+            }
+            if (!isNaN(buff)) {
+                html += "<tr><td style=\"width:184px;\">" + genlang(65, false) + "</td><td style=\"width:285px\">" + createBar(buffp) + "</td><td class=\"rigth\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(buff, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(app) || !isNaN(buff) || !isNaN(cached)) {

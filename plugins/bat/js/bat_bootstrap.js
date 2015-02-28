@@ -1,4 +1,4 @@
-function renderPlugin_BAT(data) {
+function renderPlugin_bat(data) {
 
     var directives = {
         RemainingCapacity: {
@@ -64,5 +64,7 @@ function renderPlugin_BAT(data) {
             $('#bat_DesignCapacity').hide();
         }
         $('#block_bat').show();
+    } else {
+        $('#block_bat').hide();
     }
 }

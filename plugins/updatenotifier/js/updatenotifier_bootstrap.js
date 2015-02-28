@@ -1,4 +1,4 @@
-function renderPlugin_UpdateNotifier(data) {
+function renderPlugin_updatenotifier(data) {
 
     var directives = {
         updateNotifierNbPackages: {
@@ -19,5 +19,7 @@ function renderPlugin_UpdateNotifier(data) {
             $("#updatenotifier-info").html("<strong>No updates available</strong>");
         }
         $('#block_updatenotifier').show();
+    } else {
+        $('#block_updatenotifier').hide();
     }
 }

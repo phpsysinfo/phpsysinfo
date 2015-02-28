@@ -124,7 +124,11 @@ class PS extends PSI_Plugin
                 $items[$row[1]]['childs'][$row[0]] = &$items[$row[0]];
             }
         }
-        $this->_result = $items[0];
+        if (isset($items[0])) {
+            $this->_result = $items[0];
+        } else {
+            $_result = array();
+        }
     }
     /**
      * generates the XML content for the plugin

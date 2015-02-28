@@ -1,4 +1,4 @@
-function renderPlugin_uprecords(data) {
+function renderPlugin_ps(data) {
 
     var directives = {
         MemoryUsage: {
@@ -20,9 +20,14 @@ function renderPlugin_uprecords(data) {
                 ps_memory.push(ps_item);
             }
             $('#ps-data').render(ps_memory, directives);
+            $('#ps_number').removeClass("sorttable_sorted"); // reset sort order
             sorttable.innerSortFunction.apply($('#ps_number')[0], []);
 
             $('#block_ps').show();
+        } else {
+            $('#block_ps').hide();
         }
+    } else {
+        $('#block_ps').hide();
     }
 }

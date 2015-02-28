@@ -243,20 +243,6 @@
     			</restriction>
     		</simpleType>
     	</attribute>
-    	<attribute name="Buffers" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="BuffersPercent" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
     	<attribute name="Cached" use="optional">
     		<simpleType>
     			<restriction base="unsignedLong">
@@ -265,6 +251,20 @@
     		</simpleType>
     	</attribute>
     	<attribute name="CachedPercent" use="optional">
+    		<simpleType>
+    			<restriction base="unsignedLong">
+    				<minInclusive value="0"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="Buffers" use="optional">
+    		<simpleType>
+    			<restriction base="unsignedLong">
+    				<minInclusive value="0"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    	<attribute name="BuffersPercent" use="optional">
     		<simpleType>
     			<restriction base="unsignedLong">
     				<minInclusive value="0"></minInclusive>

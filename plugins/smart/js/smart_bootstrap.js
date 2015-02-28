@@ -1,4 +1,4 @@
-function renderPlugin_SMART(data) {
+function renderPlugin_smart(data) {
 
     if ((data['Plugins']['Plugin_SMART'] !== undefined) && (data['Plugins']['Plugin_SMART']["columns"] !== undefined) && (items(data['Plugins']['Plugin_SMART']["columns"]["column"]).length > 0)
             && (data['Plugins']['Plugin_SMART']["disks"] !== undefined) && (items(data['Plugins']['Plugin_SMART']["disks"]["disk"]).length > 0)) {
@@ -31,18 +31,23 @@ function renderPlugin_SMART(data) {
             223:"Load Retry Count",
             225:"Load Cycle Count"};
         
-        $('#smart-th').append('<th id="smart_name" class="rightCell">Name</th>');
+        var html = '';
+
+        html+="<thead>";
+        html+="<tr>";
+        html+="<th id=\"smart_name\" class=\"rightCell\">Name</th>";
         for (i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"]["id"];
             if (smartnames[smartid] !== undefined) {
-                $('#smart-th').append('<th class="sorttable_numeric rightCell">'+ smartnames[smartid] + '</th>');
+                html+="<th class=\"sorttable_numeric rightCell\">"+ smartnames[smartid] + "</th>";
             } else {
-                $('#smart-th').append('<th class="sorttable_numeric rightCell">'+ smartid + '</th>');
+                html+="<th class=\"sorttable_numeric rightCell\">"+ smartid + "</th>";
             }
         }
-        
+        html+="</tr>";
+        html+="</thead>";
+
         var diskitems = items(data['Plugins']['Plugin_SMART']["disks"]["disk"]);
-        var html = '';
         html += '<tbody>';
         for (i = 0; i < diskitems.length; i++) {
             html += '<tr>';
@@ -68,10 +73,12 @@ function renderPlugin_SMART(data) {
             html += '</tr>'; 
         }
         html += '</tbody>';
-        $('#smart').append(html);
-//        $('#smart').addClass("sortable");
+        $('#smart').empty().append(html);
+        $('#smart').addClass("sortable");
         sorttable.makeSortable($('#smart')[0]);
         sorttable.innerSortFunction.apply($('#smart_name')[0], []);
         $('#block_smart').show();
+    } else {
+        $('#block_smart').hide();
     }
 }

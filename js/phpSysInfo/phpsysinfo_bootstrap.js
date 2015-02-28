@@ -1,19 +1,18 @@
-var data_dbg;
+//var data_dbg;
 
-$(document).ready(function () {
-    $(document).ajaxStart(function () {
-        $("#loader").show();
-    });
-    $(document).ajaxStop(function () {
-        $("#loader").hide();
-    });
-
+function reload(initiate) {
     $.ajax({
         dataType: "json",
-        url: "xml.php?plugin=complete&json",
+        url: "xml.php?json",
         success: function (data) {
 //            console.log(data);
-            data_dbg = data;
+//            data_dbg = data;
+            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
+                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined)) {
+                setInterval(reload, refrtime);
+            } else {
+                $("#errors").empty();
+            }
             renderErrors(data);
             renderVitals(data);
             renderHardware(data);
@@ -26,25 +25,46 @@ $(document).ready(function () {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
-            
-            // Rendering plugins
-            if (data['Plugins'] !== undefined) {
-
-                for (plugin in data['Plugins']) {
-                    if (data['Plugins'][plugin] !== undefined) {
-                        try {
-                            // dynamic call
-                            window['render' + plugin](data);
+            if (data['UnusedPlugins'] !== undefined) {
+                var plugins = items(data["UnusedPlugins"]["Plugin"]);
+                for (var i = 0; i < plugins.length; i++) {
+                    $.ajax({
+                         dataType: "json",
+                         url: "xml.php?plugin=" + plugins[i]["@attributes"]["name"]+"&json",
+                         pluginname: plugins[i]["@attributes"]["name"],
+                         success: function (data) {
+                            try {
+                                // dynamic call
+                                window['renderPlugin_' + this.pluginname](data);
+                            }
+                            catch (err) {
+                            }
+                            renderErrors(data);
                         }
-                        catch (err) {
-                        }
-                    }
+                    });
                 }
-
             }
         }
     });
+}
+
+$(document).ready(function () {
+    $(document).ajaxStart(function () {
+        $("#loader").show();
+    });
+    $(document).ajaxStop(function () {
+        $("#loader").hide();
+    });
+
+    reload(true);
 });
+
+Array.prototype.push_attrs=function(element) {
+    for (var i = 0; i < element.length ; i++) {
+        this.push(element[i]["@attributes"]);
+    }
+    return i;
+};
 
 function items(data) {
     if (data !== undefined) {
@@ -157,12 +177,6 @@ function renderVitals(data) {
 
 function renderHardware(data) {
 
-    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
-        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
-    } else {
-        $('#hardware-Machine').hide();
-    }
-
     var directives = {
         Model: {
             text: function () {
@@ -230,6 +244,14 @@ function renderHardware(data) {
     };
 
     var html="";
+    
+    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+        html+="<tr id=\"hardware-Machine\">";
+        html+="<th width=8%>Machine</th>";
+        html+="<td><span data-bind=\"Name\"></span></td>";
+        html+="<td></td>";
+        html+="</tr>";
+    }
 
     html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\" style=\"display:none\" >";
     html+="<th>CPU</th>";
@@ -283,7 +305,12 @@ function renderHardware(data) {
             $("#hardware-"+hw_type).hide();
         }
     }
-    $("#hardware").append(html);
+    $("#hardware").empty().append(html);
+
+
+    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
+    }
 
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
@@ -368,17 +395,41 @@ function renderMemory(data) {
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
                 }
                 else {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>' +
-                        '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>' +
-                        '</div>' +
-                        '<div class="percent">' +
-                        'Total: ' + this["@attributes"]["Percent"] + '% ' +
-                        '<i>(App: ' + this["Details"]["@attributes"]["AppPercent"] + '% - ' +
-                        'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '% - ' +
-                        'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%' +
-                        ')</i></div>';
+                    var rest = parseInt(this["@attributes"]["Percent"]);
+                    var html = '<div class="progress">';
+                    if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["AppPercent"]);
+                    }
+                    if ((this["Details"]["@attributes"]["CachedPercent"] !== undefined) && (this["Details"]["@attributes"]["CachedPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["CachedPercent"]);
+                    }
+                    if ((this["Details"]["@attributes"]["BuffersPercent"] !== undefined) && (this["Details"]["@attributes"]["BuffersPercent"] > 0)) {
+                        html += '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>';
+                        rest -= parseInt(this["Details"]["@attributes"]["BuffersPercent"]);
+                    }
+                    if (rest > 0) {
+                        html += '<div class="progress-bar progress-bar-success" style="width: ' + rest + '%;"></div>';
+                    }
+                    html += '</div>';
+                    html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
+                    var not_first = false;
+                    if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
+                        html += 'Kernel+Apps: '+ this["Details"]["@attributes"]["AppPercent"] + '%';
+                        not_first = true;
+                    }
+                    if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
+                        if (not_first) html += ' - ';
+                        html += 'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '%';
+                        not_first = true;
+                    }
+                    if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
+                        if (not_first) html += ' - ';
+                        html += 'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';
+                    }
+                    html += ')</i></div>';
+                    return html;
                 }
             }
         },
@@ -414,7 +465,7 @@ function renderMemory(data) {
         },
         Name: {
             html: function () {
-                return this['Name'] + '<br/>' + this['MountPoint'];
+                return this['Name'] + '<br/>' + ((this["MountPoint"] !== undefined) ? this["MountPoint"] : this["MountPointID"]);
             }
         }
     };
@@ -422,11 +473,11 @@ function renderMemory(data) {
     var data_memory = [];
     if (data["Memory"]["Swap"] !== undefined) { 
         var datas = items(data["Memory"]["Swap"]["Mount"]);
-        for (var i = 0; i < datas.length; i++) {
-            data_memory.push(datas[i]["@attributes"]);
-        }
+        data_memory.push_attrs(datas);
         $('#swap-data').render(data_memory, directive_swap);
         $('#swap-data').show();
+    } else {
+        $('#swap-data').hide();
     }
     $('#memory-data').render(data["Memory"], directives);
 }
@@ -483,6 +534,7 @@ function renderFilesystem(data) {
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
             $('#filesystem-foot').render(total, directives);
+            $('#filesystem_MountPoint').removeClass("sorttable_sorted"); // reset sort order
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
             $("#block_filesystem").show();
@@ -510,16 +562,25 @@ function renderNetwork(data) {
         },
         Drops: {
             text: function () {
-                return this["Drops"] + "/" + String.fromCharCode(8203) + this["Err"];
+                return this["Err"] + "/" + String.fromCharCode(8203) + this["Drops"];
             }
         }
     };
 
     var html = "";
+
+    html+="<thead>";
+    html+="<tr>";
+    html+="<th width=\"60%\">Device</th>";
+    html+="<th class=\"rightCell\">Receive</th>";
+    html+="<th class=\"rightCell\">Sent</th>";
+    html+="<th class=\"rightCell\">Err/" + String.fromCharCode(8203) +"Drop</th>";
+    html+="</tr>";
+    html+="</thead>";
+
     try {
         var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
-
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
             html+="<td><b><span data-bind=\"Name\"></span></b></td>";
@@ -531,12 +592,12 @@ function renderNetwork(data) {
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
-                for(var j = 0; j < infos.length; j++){
+                for (var j = 0; j < infos.length; j++){
                     html +="<tr class=\"treegrid-parent-network-" + i + "\"><td>" + infos[j] + "</td><td></td><td></td><td></td></tr>";
                 }
             }
         }
-        $("#network").append(html);
+        $("#network").empty().append(html);
         if (i > 0) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
@@ -589,10 +650,7 @@ function renderVoltage(data) {
     try {
         var voltage_data = [];
         var datas = items(data["MBInfo"]["Voltage"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            voltage_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (voltage_data.push_attrs(datas) > 0) {
             $('#voltage-data').render(voltage_data, directives);
             $("#block_voltage").show();
         } else {
@@ -630,10 +688,7 @@ function renderTemperature(data) {
     try {
         var temperature_data = [];
         var datas = items(data["MBInfo"]["Temperature"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            temperature_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (temperature_data.push_attrs(datas) > 0) {
             $('#temperature-data').render(temperature_data, directives);
             $("#block_temperature").show();
         } else {
@@ -671,10 +726,7 @@ function renderFans(data) {
     try {
         var fans_data = [];
         var datas = items(data["MBInfo"]["Fans"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            fans_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (fans_data.push_attrs(datas) > 0) {
             $('#fans-data').render(fans_data, directives);
             $("#block_fans").show();
         } else {
@@ -712,10 +764,7 @@ function renderPower(data) {
     try {
         var power_data = [];
         var datas = items(data["MBInfo"]["Power"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            power_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (power_data.push_attrs(datas) > 0) {
             $('#power-data').render(power_data, directives);
             $("#block_power").show();
         } else {
@@ -753,10 +802,7 @@ function renderCurrent(data) {
     try {
         var current_data = [];
         var datas = items(data["MBInfo"]["Current"]["Item"]);
-        for (var i = 0; i < datas.length; i++) {
-            current_data.push(datas[i]["@attributes"]);
-        }
-        if (i > 0) {
+        if (current_data.push_attrs(datas) > 0) {
             $('#current-data').render(current_data, directives);
             $("#block_current").show();
         } else {
@@ -812,65 +858,64 @@ function renderUPS(data) {
         } 
     };
 
-    if ((data["UPSInfo"] === undefined) || (items(data["UPSInfo"]["UPS"]).length < 1)) {
-        return;
-    }
+    if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
+        var html="";
+        var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
 
-    var html="";
-    var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
+        try {
+            var datas = items(data["UPSInfo"]["UPS"]);
+            for (var i = 0; i < datas.length; i++) {
+                html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
+                html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+                html+="<td></td>";
+                html+="</tr>";
+                for (var proc_param in paramlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
+                        html+="<th>"+ paramlist[proc_param]+"</th>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                        html+="</tr>"; 
+                    }
+                }
 
-    try {
-        var datas = items(data["UPSInfo"]["UPS"]);
-        for (var i = 0; i < datas.length; i++) {
-            html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-            html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+            }
+        }
+        catch (err) {
+        }
+
+        if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
+            html+="<tr>";
+            html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
             html+="<td></td>";
             html+="</tr>";
-            for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                    html+="<th>"+ paramlist[proc_param]+"</th>";
-                    html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
-                    html+="</tr>"; 
-                }
-            }
-
         }
-    }
-    catch (err) {
-    }
-
-    if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
-        html+="<tr>";
-        html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
-        html+="<td></td>";
-        html+="</tr>";
-    }
     
-    $("#ups").append(html);
+        $("#ups").empty().append(html);
 
-    try {
-        var datas = items(data["UPSInfo"]["UPS"]);
-        for (var i = 0; i < datas.length; i++) {
-            $('#ups-'+ i).render(datas[i]["@attributes"], directives);
-            for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
-                    $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+        try {
+            var datas = items(data["UPSInfo"]["UPS"]);
+            for (var i = 0; i < datas.length; i++) {
+                $('#ups-'+ i).render(datas[i]["@attributes"], directives);
+                for (var proc_param in paramlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                    }
                 }
             }
         }
-    }
-    catch (err) {
-    }
+        catch (err) {
+        }
 
-    $('#ups').treegrid({
-        initialState: 'expanded',
-        expanderExpandedClass: 'normalicon normalicon-down',
-        expanderCollapsedClass: 'normalicon normalicon-right'
-    });
+        $('#ups').treegrid({
+            initialState: 'expanded',
+            expanderExpandedClass: 'normalicon normalicon-down',
+            expanderCollapsedClass: 'normalicon normalicon-right'
+        });
         
-    $("#block_ups").show();
-
+        $("#block_ups").show();
+    } else {
+        $("#block_ups").hide();
+    }
 }
 
 function renderErrors(data) {
@@ -881,8 +926,6 @@ function renderErrors(data) {
         }
         if (i > 0) {
             $("#errorbutton").show();
-        } else {
-            $("#errorbutton").hide();
         }
     }
     catch (err) {

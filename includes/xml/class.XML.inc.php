@@ -703,13 +703,21 @@ class XML
         $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');
         $options->addAttribute('showCPUListExpanded', defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
         $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
-        $plug = $this->_xml->addChild('UsedPlugins');
-        if ($this->_complete_request && count($this->_plugins) > 0) {
-            foreach ($this->_plugins as $plugin) {
-                $plug->addChild('Plugin')->addAttribute('name', $plugin);
+        if (count($this->_plugins) > 0) {
+            if ($this->_plugin_request) {
+                $plug = $this->_xml->addChild('UsedPlugins');
+                $plug->addChild('Plugin')->addAttribute('name', $this->_plugin);
+            } elseif ($this->_complete_request) {
+                $plug = $this->_xml->addChild('UsedPlugins');
+                foreach ($this->_plugins as $plugin) {
+                    $plug->addChild('Plugin')->addAttribute('name', $plugin);
+                }
+            } else {
+                $plug = $this->_xml->addChild('UnusedPlugins');
+                foreach ($this->_plugins as $plugin) {
+                    $plug->addChild('Plugin')->addAttribute('name', $plugin);
+                }
             }
-        } elseif ($this->_plugin_request && count($this->_plugins) > 0) {
-            $plug->addChild('Plugin')->addAttribute('name', $this->_plugin);
         }
     }
 }

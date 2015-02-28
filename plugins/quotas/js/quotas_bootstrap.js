@@ -1,4 +1,4 @@
-function renderPlugin_Quotas(data) {
+function renderPlugin_quotas(data) {
 
     var directives = {
 
@@ -35,13 +35,16 @@ function renderPlugin_Quotas(data) {
         var qtitems = items(data['Plugins']['Plugin_Quotas']['Quota']);
         if (qtitems.length > 0) {
             var qt_memory = [];
-            for (i = 0; i < qtitems.length ; i++) {
-                qt_memory.push(qtitems[i]["@attributes"]);
-            }
+            qt_memory.push_attrs(qtitems);
             $('#quotas-data').render(qt_memory, directives);
+            $('#quotas_User').removeClass("sorttable_sorted"); // reset sort order
             sorttable.innerSortFunction.apply($('#quotas_User')[0], []);
 
             $('#block_quotas').show();
+        } else {
+            $('#block_quotas').hide();
         }
+    } else {
+        $('#block_quotas').hide();
     }
 }

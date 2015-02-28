@@ -3,6 +3,16 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.1
+----------------
+ - [UPD] bootstrap 3.3.2
+
+ - [NEW] REFRESH parameter also for frontend "bootstrap"
+
+ - [ADD] pfSense to detected distros
+
+ - [FIX] Percentage memory usage
+
 phpSysInfo 3.2.0
 ----------------
  - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)

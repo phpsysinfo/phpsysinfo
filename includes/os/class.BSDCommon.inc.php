@@ -165,7 +165,7 @@ abstract class BSDCommon extends OS
     {
         if (count($this->_dmesg) === 0) {
             if (PSI_OS != "Darwin") {
-                if (CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {
+                if (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {  // Once again but with debug
                     $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
                 }
@@ -359,6 +359,52 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * parsing the output of pciconf command
+     *
+     * @return Array
+     */
+    protected function pciconf()
+    {
+        $arrResults = array();
+        $intS = 0;
+        if (CommonFunctions::executeProgram("pciconf", "-lv", $strBuf, PSI_DEBUG)) {
+            $arrTemp = array();
+            $arrBlocks = preg_split("/\n\S/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($arrBlocks as $strBlock) {
+                $arrLines = preg_split("/\n/", $strBlock, -1, PREG_SPLIT_NO_EMPTY);
+                $vend = null;
+                foreach ($arrLines as $strLine) {
+                    if (preg_match("/\sclass=0x([a-fA-F0-9]{4})[a-fA-F0-9]{2}\s.*\schip=0x([a-fA-F0-9]{4})([a-fA-F0-9]{4})\s/", $strLine, $arrParts)) {
+                        $arrTemp[$intS] = 'Class '.$arrParts[1].': Device '.$arrParts[3].':'.$arrParts[2];
+                        $vend = '';
+                    } elseif (preg_match("/(.*) = '(.*)'/", $strLine, $arrParts)) {
+                        if (trim($arrParts[1]) == "vendor") {
+                            $vend = trim($arrParts[2]);
+                        } elseif (trim($arrParts[1]) == "device") {
+                            if (($vend !== null) && ($vend !== '')) {
+                                $arrTemp[$intS] = $vend." - ".trim($arrParts[2]);
+                            } else {
+                                $arrTemp[$intS] = trim($arrParts[2]);
+                                $vend = '';
+                            }
+                        }
+                    }
+                }
+                if ($vend !== null) {
+                    $intS++;
+                }
+            }
+            foreach ($arrTemp as $name) {
+                $dev = new HWDevice();
+                $dev->setName($name);
+                $arrResults[] = $dev;
+            }
+        }
+
+        return $arrResults;
+    }
+
+    /**
      * PCI devices
      * get the pci device information out of dmesg
      *
@@ -366,7 +412,7 @@ abstract class BSDCommon extends OS
      */
     protected function pci()
     {
-        if (!is_array($results = Parser::lspci(false)) || !is_array($results = Parser::pciconf())) {
+        if (!is_array($results = Parser::lspci(false)) || !is_array($results = $this->pciconf())) {
             foreach ($this->readdmesg() as $line) {
                 if (preg_match("/".$this->_PCIRegExp1."/", $line, $ar_buf)) {
                     $dev = new HWDevice();

@@ -70,6 +70,7 @@ PLUGINS=false
 ; auto: let user browser choose the mode
 ; dynamic: use javascript to refresh data
 ; static: static page (use metatag to reload page)
+; bootstrap: use twitter bootstrap template
 ;
 DEFAULT_DISPLAY_MODE="auto"
 
@@ -422,9 +423,7 @@ ACCESS="command"
 ;             information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation 
 ;          with the filename "psstatus.txt"; content is the output from
-;   <code>ps=("apache2" "mysqld" "sshd"); for((i=0;i<${#ps};i++)); do echo ${ps[$i]} "|" `pidof -s ${ps[$i]}` ;done</code>
-;
-; @var string
+;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s $ps`; done</code>
 ;
 ACCESS="command"
 
@@ -436,7 +435,7 @@ USE_REGEX=false
 
 ; controls which processes are checked if they are running
 ;
-; @var string contains a list of process names that are checked, names are seperated by a comma (on WINNT names must end with '.exe')
+; string contains a list of process names that are checked, names are seperated by a comma (on WINNT names must end with '.exe')
 ;
 PROCESSES="mysqld, sshd, explorer.exe"
 
@@ -502,7 +501,7 @@ ACCESS="php-snmp"
 
 ;define the Printer devices
 ;
-; @var string contains a list of printer addresses that are checked
+; string contains a list of printer addresses that are checked
 ;
 DEVICES="192.168.0.5, 192.168.0.9"
 

@@ -92,7 +92,7 @@ class DiskDevice
     public function getPercentUsed()
     {
         if ($this->_total > 0) {
-            return ceil($this->_used / $this->_total * 100);
+            return round($this->_used / $this->_total * 100);
         } else {
             return 0;
         }
