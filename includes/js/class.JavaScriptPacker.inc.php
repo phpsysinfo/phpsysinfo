@@ -111,7 +111,7 @@ class JavaScriptPacker
     private function _pack($script)
     {
         for ($i = 0; isset($this->_parsers[$i]); $i++) {
-            $script = call_user_func(array(&$this,$this->_parsers[$i]), $script);
+            $script = call_user_func(array(&$this, $this->_parsers[$i]), $script);
         }
 
         return $script;
@@ -311,7 +311,7 @@ class JavaScriptPacker
         }
         // convert from a string to an array
         ksort($keywords['sorted']);
-        $keywords = "'" . implode('|',$keywords['sorted']) . "'.split('|')";
+        $keywords = "'" . implode('|', $keywords['sorted']) . "'.split('|')";
 
         $encode = ($this->_encoding > 62) ? '_encode95' : $this->_getEncoder($ascii);
         $encode = $this->_getJSFunction($encode);

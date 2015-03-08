@@ -189,7 +189,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
                     preg_match('/read\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][0]['id'] = 1;
@@ -201,7 +201,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
                     preg_match('/Elements in grown defect list\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[5]);
                             $this->_result[$disk][1]['id'] = 5;
@@ -213,7 +213,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
                     preg_match('/ number of hours powered up = (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][2]['id'] = 9;
@@ -225,7 +225,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
                     preg_match('/Current Drive Temperature\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[3]);
                             $this->_result[$disk][3]['id'] = 194;

@@ -16,7 +16,7 @@ class PiTemp extends Sensors
     {
         $temp = null;
         $temp_max = null;
-        if (!CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/temp1_input',$temp, 0, 4096, false)) { // Not Banana Pi
+        if (!CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/temp1_input', $temp, 0, 4096, false)) { // Not Banana Pi
             CommonFunctions::rfts('/sys/class/thermal/thermal_zone0/temp', $temp);
             CommonFunctions::rfts('/sys/class/thermal/thermal_zone0/trip_point_0_temp', $temp_max, 0, 4096, PSI_DEBUG);
         }
@@ -34,7 +34,7 @@ class PiTemp extends Sensors
     private function _voltage()
     {
         $volt = null;
-        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/voltage_now',$volt, 0, 4096, false) && !is_null($volt) && (trim($volt) != "")) { // Banana Pi
+        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/voltage_now', $volt, 0, 4096, false) && !is_null($volt) && (trim($volt) != "")) { // Banana Pi
             $dev = new SensorDevice();
             $dev->setName("Voltage 1");
             $dev->setValue($volt / 1000000);
@@ -45,7 +45,7 @@ class PiTemp extends Sensors
     private function _current()
     {
         $current = null;
-        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now',$current, 0, 4096, false) && !is_null($current) && (trim($current) != "")) { // Banana Pi
+        if (CommonFunctions::rfts('/sys/devices/platform/sunxi-i2c.0/i2c-0/0-0034/axp20-supplyer.28/power_supply/ac/current_now', $current, 0, 4096, false) && !is_null($current) && (trim($current) != "")) { // Banana Pi
             $dev = new SensorDevice();
             $dev->setName("Current 1");
             $dev->setValue($current / 1000000);

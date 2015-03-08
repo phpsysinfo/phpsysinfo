@@ -92,9 +92,9 @@ class Minix extends OS
                             $_s = $arrBuff[1];
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/",$arrBuff[1])) {
+                            if (preg_match("/ vmx/", $arrBuff[1])) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/",$arrBuff[1])) {
+                            } elseif (preg_match("/ svm/", $arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
                         break;
@@ -110,12 +110,12 @@ class Minix extends OS
             }
         } else
         foreach ($this->readdmesg() as $line) {
-          if (preg_match('/kernel: (CPU .*) freq (.*) MHz/', $line, $ar_buf)) {
+            if (preg_match('/kernel: (CPU .*) freq (.*) MHz/', $line, $ar_buf)) {
                 $dev = new CpuDevice();
                 $dev->setModel($ar_buf[1]);
                 $dev->setCpuSpeed($ar_buf[2]);
                 $this->sys->setCpus($dev);
-          }
+            }
         }
     }
 
@@ -139,16 +139,16 @@ class Minix extends OS
                $dev = new HWDevice();
                $dev->setName($strName);
                $arrResults[] = $dev;
-           }
-           foreach ($arrResults as $dev) {
-               $this->sys->setPciDevices($dev);
-           }
+            }
+            foreach ($arrResults as $dev) {
+                $this->sys->setPciDevices($dev);
+            }
         }
         if ( !(isset($arrResults) && is_array($arrResults)) && is_array($results = Parser::lspci())) {
-           /* if access error: chmod 4755 /usr/bin/lspci */
-           foreach ($results as $dev) {
-              $this->sys->setPciDevices($dev);
-           }
+            /* if access error: chmod 4755 /usr/bin/lspci */
+            foreach ($results as $dev) {
+                $this->sys->setPciDevices($dev);
+            }
         }
     }
 
@@ -160,9 +160,9 @@ class Minix extends OS
     private function _kernel()
     {
         foreach ($this->readdmesg() as $line) {
-          if (preg_match('/kernel: MINIX (.*) \((.*)\)/', $line, $ar_buf)) {
+            if (preg_match('/kernel: MINIX (.*) \((.*)\)/', $line, $ar_buf)) {
                 $branch = $ar_buf[2];
-          }
+            }
         }
         if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
             if (isset($branch))
@@ -300,10 +300,10 @@ class Minix extends OS
      */
     private function _filesystems()
     {
-      $arrResult = Parser::df("-P 2>/dev/null");
-      foreach ($arrResult as $dev) {
-         $this->sys->setDiskDevices($dev);
-     }
+        $arrResult = Parser::df("-P 2>/dev/null");
+        foreach ($arrResult as $dev) {
+            $this->sys->setDiskDevices($dev);
+        }
     }
 
     /**

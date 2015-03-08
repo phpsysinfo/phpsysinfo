@@ -66,7 +66,7 @@ class FreeBSD extends BSDCommon
             foreach ($lines as $line) {
                 $ar_buf = preg_split("/\s+/", $line);
                 if (! empty($ar_buf[0])) {
-                    if (preg_match('/^<Link/i',$ar_buf[2])) {
+                    if (preg_match('/^<Link/i', $ar_buf[2])) {
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[0]);
                         if (strlen($ar_buf[3]) < 17) { /* no Address */
@@ -103,7 +103,7 @@ class FreeBSD extends BSDCommon
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                                 elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2)
                                       || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
-                                      && !preg_match('/^fe80::/i',$ar_buf2[1]))
+                                      && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }
                         }

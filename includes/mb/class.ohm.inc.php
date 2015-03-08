@@ -58,7 +58,7 @@ class OHM extends Sensors
         if ($_wmi) {
             $this->_buf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
         }
-     }
+    }
 
     /**
      * get temperature information

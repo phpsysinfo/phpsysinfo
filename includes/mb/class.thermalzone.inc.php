@@ -60,7 +60,7 @@ class ThermalZone extends Sensors
                 $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
             }
         }
-     }
+    }
 
     /**
      * get temperature information

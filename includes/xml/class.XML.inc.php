@@ -344,7 +344,7 @@ class XML
         $mount->addAttribute('Percent', $dev->getPercentUsed());
         if (PSI_SHOW_MOUNT_OPTION === true) {
             if ($dev->getOptions() !== null) {
-                $mount->addAttribute('MountOptions', preg_replace("/,/",", ",$dev->getOptions()));
+                $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
             }
         }
         if ($dev->getPercentInodesUsed() !== null) {

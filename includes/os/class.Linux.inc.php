@@ -338,11 +338,11 @@ class Linux extends OS
                             $dev->setBogomips($arrBuff[1]);
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/",$arrBuff[1])) {
+                            if (preg_match("/ vmx/", $arrBuff[1])) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/",$arrBuff[1])) {
+                            } elseif (preg_match("/ svm/", $arrBuff[1])) {
                                 $dev->setVirt("svm");
-                            } elseif (preg_match("/ hypervisor/",$arrBuff[1])) {
+                            } elseif (preg_match("/ hypervisor/", $arrBuff[1])) {
                                 $dev->setVirt("hypervisor");
                             }
                             break;

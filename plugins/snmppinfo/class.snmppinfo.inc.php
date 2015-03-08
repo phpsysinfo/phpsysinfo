@@ -215,11 +215,11 @@ class SNMPPInfo extends PSI_Plugin
                     foreach ($snmppinfo_item as $item=>$iarr) {
                         if (isset($iarr["message"]) && $iarr["message"] != "") {
                             $xmlsnmppinfo_errors = $xmlsnmppinfo_printer->addChild("PrinterMessage");
-                            $xmlsnmppinfo_errors->addAttribute("Message",$iarr["message"]);
-                            $xmlsnmppinfo_errors->addAttribute("Severity",$iarr["severity"]);
+                            $xmlsnmppinfo_errors->addAttribute("Message", $iarr["message"]);
+                            $xmlsnmppinfo_errors->addAttribute("Severity", $iarr["severity"]);
                         }
                     }
-               } else {
+                } else {
                     $xmlsnmppinfo = $xmlsnmppinfo_printer->addChild("MarkerSupplies");
 
                     if (isset($snmppinfo_item['prtMarkerSuppliesDescription']))
@@ -230,7 +230,7 @@ class SNMPPInfo extends PSI_Plugin
                     $xmlsnmppinfo->addAttribute("SupplyUnit", $snmppinfo_item['prtMarkerSuppliesSupplyUnit']);
                     $xmlsnmppinfo->addAttribute("MaxCapacity", $snmppinfo_item['prtMarkerSuppliesMaxCapacity']);
                     $xmlsnmppinfo->addAttribute("Level", $snmppinfo_item['prtMarkerSuppliesLevel']);
-               }
+                }
             }
         }
 

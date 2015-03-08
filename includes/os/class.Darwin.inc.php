@@ -78,9 +78,9 @@ class Darwin extends BSDCommon
             $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
             $out = "";
             foreach ($lines as $line) {
-               if (preg_match('/^([^<]*) <class '.$key.',/', $line)) {
+                if (preg_match('/^([^<]*) <class '.$key.',/', $line)) {
                     $out .= $line."\n";
-               }
+                }
             }
 
             return $out;
@@ -140,9 +140,9 @@ class Darwin extends BSDCommon
             }
             $buf=$this->grabkey('machdep.cpu.features');
             if ( !is_null($buf) && (trim($buf) != "") ) {
-                if (preg_match("/ VMX/",$buf)) {
+                if (preg_match("/ VMX/", $buf)) {
                     $dev->setVirt("vmx");
-                } elseif (preg_match("/ SVM/",$buf)) {
+                } elseif (preg_match("/ SVM/", $buf)) {
                     $dev->setVirt("svm");
                 }
             }
@@ -349,7 +349,7 @@ class Darwin extends BSDCommon
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
-                                  && !preg_match('/^fe80::/i',$ar_buf2[1]))
+                                  && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }
                     }

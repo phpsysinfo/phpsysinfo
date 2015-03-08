@@ -176,24 +176,24 @@ class SimpleXMLExtended
             if (strcasecmp($this->_encoding,"UTF-8") == 0) {
                 return trim($str);
             } elseif (strcasecmp($this->_encoding,"CP437") == 0) {
-                 $str = trim($str);
-                 $strr = "";
-                 if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {
-                       $strc = substr($str, $i, 1);
-                       if ($strc < 128) $strr.=$strc;
-                                   else $strr.=$_CP437toUTF8Table[$strc-128];
-                 }
+                $str = trim($str);
+                $strr = "";
+                if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {
+                    $strc = substr($str, $i, 1);
+                    if ($strc < 128) $strr.=$strc;
+                        else $strr.=$_CP437toUTF8Table[$strc-128];
+                }
 
                  return $strr;
             } else {
-                 $enclist = mb_list_encodings();
-                 if (in_array($this->_encoding, $enclist)) {
-                     return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
-                 } elseif (function_exists("iconv")) {
-                     return iconv($this->_encoding, 'UTF-8', trim($str));
-                 } else {
-                     return mb_convert_encoding(trim($str), 'UTF-8');
-               }
+                $enclist = mb_list_encodings();
+                if (in_array($this->_encoding, $enclist)) {
+                    return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
+                } elseif (function_exists("iconv")) {
+                    return iconv($this->_encoding, 'UTF-8', trim($str));
+                } else {
+                    return mb_convert_encoding(trim($str), 'UTF-8');
+                }
             }
         } else {
             return mb_convert_encoding(trim($str), 'UTF-8');

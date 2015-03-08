@@ -142,7 +142,7 @@ class LMSensors extends Sensors
             $dev->setValue($data[2]);
 
             if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4],$data[6]));
+                  $dev->setMax(max($data[4], $data[6]));
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
             }
@@ -318,7 +318,7 @@ class LMSensors extends Sensors
             $dev->setValue($data[2]);
 
             if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4],$data[6]));
+                  $dev->setMax(max($data[4], $data[6]));
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
             }
@@ -382,7 +382,7 @@ class LMSensors extends Sensors
             $dev->setValue($data[2]);
 
             if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4],$data[6]));
+                  $dev->setMax(max($data[4], $data[6]));
             } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                    $dev->setMax($data[4]);
             }
