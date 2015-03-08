@@ -585,7 +585,7 @@ class XML
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
                     // Safe mode check
-                    $safe_mode = @ini_get("safe_mode") ? TRUE : FALSE;
+                    $safe_mode = @ini_get("safe_mode") ? true : false;
                     if ($safe_mode) {
                         $this->_errors->addError("WARN", "PhpSysInfo requires to set off 'safe_mode' in 'php.ini'");
                     }

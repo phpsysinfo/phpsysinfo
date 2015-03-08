@@ -440,8 +440,8 @@ class CommonFunctions
      */
     private static function _timeoutfgets($pipes, &$out, &$err, $timeout = 30)
     {
-        $w = NULL;
-        $e = NULL;
+        $w = null;
+        $e = null;
 
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             $pipe2 = false;
@@ -457,7 +457,7 @@ class CommonFunctions
 
             $n = stream_select($read, $w, $e, $timeout);
 
-            if ($n === FALSE) {
+            if ($n === false) {
                 error_log('stream_select: failed !');
                 break;
             } elseif ($n === 0) {

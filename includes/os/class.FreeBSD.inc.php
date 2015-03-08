@@ -60,7 +60,7 @@ class FreeBSD extends BSDCommon
      */
     private function _network()
     {
-        $dev = NULL;
+        $dev = null;
         if (CommonFunctions::executeProgram('netstat', '-nibd', $netstat, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $netstat, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {

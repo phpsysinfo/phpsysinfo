@@ -110,7 +110,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
                                     $n = stream_select($read, $w, $e, 5);
 
-                                    if (($n === FALSE) || ($n === 0)) {
+                                    if (($n === false) || ($n === 0)) {
                                         break;
                                     }
 
