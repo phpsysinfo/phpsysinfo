@@ -68,7 +68,7 @@ if ($script != null) {
                 echo $filecontent;
             } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
                 $filecontent = file_get_contents($scriptjs);
-                $packer = new JavaScriptPacker($filecontent,0);
+                $packer = new JavaScriptPacker($filecontent, 0);
                 echo $packer->pack();
             }
             break;

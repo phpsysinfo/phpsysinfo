@@ -148,7 +148,7 @@ class Android extends Linux
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = trim($ar_buf[1]);
         }
-        if ( is_null($buf) || ($buf == "")) {
+        if (is_null($buf) || ($buf == "")) {
             $this->sys->setDistribution('Android');
         } else {
             if (preg_match('/^(\d+\.\d+)/', $buf, $ver)

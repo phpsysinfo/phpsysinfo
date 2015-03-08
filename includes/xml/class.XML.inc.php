@@ -200,7 +200,7 @@ class XML
                 $device->addAttribute('TxBytes', $dev->getTxBytes());
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if ( defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo() )
+                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo())
                     $device->addAttribute('Info', $dev->getInfo());
             }
         }
@@ -364,14 +364,14 @@ class XML
     {
         $hideMounts = $hideFstypes = $hideDisks = array();
         $i = 1;
-        if ( defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS) ) {
+        if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
                 $hideMounts = eval(PSI_HIDE_MOUNTS);
             } else {
                 $hideMounts = array(PSI_HIDE_MOUNTS);
             }
         }
-        if ( defined('PSI_HIDE_FS_TYPES') && is_string(PSI_HIDE_FS_TYPES) ) {
+        if (defined('PSI_HIDE_FS_TYPES') && is_string(PSI_HIDE_FS_TYPES)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_FS_TYPES)) {
                 $hideFstypes = eval(PSI_HIDE_FS_TYPES);
             } else {
@@ -423,7 +423,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -438,7 +438,7 @@ class XML
                     if ($dev->getMin() !== null) {
                         $item->addAttribute('Min', $dev->getMin());
                     }
-                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "" ) {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -456,7 +456,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -471,7 +471,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -486,7 +486,7 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
-                    if ( defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -518,7 +518,7 @@ class XML
     private function _buildUpsinfo()
     {
         $upsinfo = $this->_xml->addChild('UPSInfo');
-        if ( defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
+        if (defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
             $upsinfo->addAttribute('ApcupsdCgiLinks', true);
         }
         if (sizeof(unserialize(PSI_UPSINFO))>0) {
@@ -679,7 +679,7 @@ class XML
         $options = $this->_xml->addChild('Options');
         $options->addAttribute('tempFormat', defined('PSI_TEMP_FORMAT') ? strtolower(PSI_TEMP_FORMAT) : 'c');
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
-        if ( defined('PSI_REFRESH') ) {
+        if (defined('PSI_REFRESH')) {
             if (PSI_REFRESH === false) {
                 $options->addAttribute('refresh', 0);
             } elseif (PSI_REFRESH === true) {
@@ -690,10 +690,10 @@ class XML
         } else {
             $options->addAttribute('refresh', 60000);
         }
-        if ( defined('PSI_FS_USAGE_THRESHOLD') ) {
+        if (defined('PSI_FS_USAGE_THRESHOLD')) {
             if (PSI_FS_USAGE_THRESHOLD === true) {
                 $options->addAttribute('threshold', 1);
-            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD >= 1) && (PSI_FS_USAGE_THRESHOLD <= 99) ) {
+            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD >= 1) && (PSI_FS_USAGE_THRESHOLD <= 99)) {
                 $options->addAttribute('threshold', PSI_FS_USAGE_THRESHOLD);
             }
         } else {

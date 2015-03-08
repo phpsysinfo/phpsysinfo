@@ -315,8 +315,8 @@ class JavaScriptPacker
 
         $encode = ($this->_encoding > 62) ? '_encode95' : $this->_getEncoder($ascii);
         $encode = $this->_getJSFunction($encode);
-        $encode = preg_replace('/_encoding/','$ascii', $encode);
-        $encode = preg_replace('/arguments\\.callee/','$encode', $encode);
+        $encode = preg_replace('/_encoding/', '$ascii', $encode);
+        $encode = preg_replace('/arguments\\.callee/', '$encode', $encode);
         $inline = '\\$count' . ($ascii > 10 ? '.toString(\\$ascii)' : '');
 
         // $decode: code snippet to speed up decoding
@@ -757,8 +757,7 @@ class ParseMaster
             $regexp = '/'.'\\'.$escapeChar.'/';
             $this->buffer = array('escapeChar'=> $escapeChar, 'i' => 0);
 
-            return preg_replace_callback
-            (
+            return preg_replace_callback(
                 $regexp,
                 array(&$this, '_unescapeBis'),
                 $string

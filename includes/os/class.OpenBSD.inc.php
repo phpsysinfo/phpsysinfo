@@ -111,7 +111,7 @@ class OpenBSD extends BSDCommon
         $dev->setModel($this->grabkey('hw.model'));
         $dev->setCpuSpeed($this->grabkey('hw.cpuspeed'));
         $ncpu = $this->grabkey('hw.ncpu');
-        if ( is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)) )
+        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
             $ncpu = 1;
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);

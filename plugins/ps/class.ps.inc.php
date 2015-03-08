@@ -109,7 +109,7 @@ class PS extends PSI_Plugin
      */
     public function execute()
     {
-        if ( empty($this->_filecontent)) {
+        if (empty($this->_filecontent)) {
             return;
         }
         foreach ($this->_filecontent as $roworig) {

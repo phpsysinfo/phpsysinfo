@@ -71,7 +71,7 @@ class ThermalZone extends Sensors
     {
         if (PSI_OS == 'WINNT') {
             if ($this->_buf) foreach ($this->_buf as $buffer) {
-                if (isset($buffer['CurrentTemperature']) && (( $value = ($buffer['CurrentTemperature'] - 2732)/10 ) > -100)) {
+                if (isset($buffer['CurrentTemperature']) && (($value = ($buffer['CurrentTemperature'] - 2732)/10) > -100)) {
                     $dev = new SensorDevice();
                     if (isset($buffer['InstanceName']) && preg_match("/([^\\\\ ]+)$/", $buffer['InstanceName'], $outbuf)) {
                         $dev->setName('ThermalZone '.$outbuf[1]);
@@ -79,7 +79,7 @@ class ThermalZone extends Sensors
                         $dev->setName('ThermalZone THM0_0');
                     }
                     $dev->setValue($value);
-                    if (isset($buffer['CriticalTripPoint']) && (( $maxvalue = ($buffer['CriticalTripPoint'] - 2732)/10 ) > 0)) {
+                    if (isset($buffer['CriticalTripPoint']) && (($maxvalue = ($buffer['CriticalTripPoint'] - 2732)/10) > 0)) {
                         $dev->setMax($maxvalue);
                     }
                     $this->mbinfo->setMbTemp($dev);

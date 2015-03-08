@@ -144,7 +144,7 @@ class Minix extends OS
                 $this->sys->setPciDevices($dev);
             }
         }
-        if ( !(isset($arrResults) && is_array($arrResults)) && is_array($results = Parser::lspci())) {
+        if (!(isset($arrResults) && is_array($arrResults)) && is_array($results = Parser::lspci())) {
             /* if access error: chmod 4755 /usr/bin/lspci */
             foreach ($results as $dev) {
                 $this->sys->setPciDevices($dev);
@@ -284,7 +284,7 @@ class Minix extends OS
     {
         if (CommonFunctions::rfts('/proc/meminfo', $bufr, 1, 4096, false)) {
             $ar_buf = preg_split('/\s+/', trim($bufr));
-            if (count($ar_buf) >= 5 ) {
+            if (count($ar_buf) >= 5) {
                     $this->sys->setMemTotal($ar_buf[0]*$ar_buf[1]);
                     $this->sys->setMemFree($ar_buf[0]*$ar_buf[2]);
                     $this->sys->setMemCache($ar_buf[0]*$ar_buf[4]);

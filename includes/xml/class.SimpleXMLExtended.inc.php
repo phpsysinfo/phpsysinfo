@@ -173,9 +173,9 @@ class SimpleXMLExtended
     private function _toUTF8($str)
     {
         if ($this->_encoding != null) {
-            if (strcasecmp($this->_encoding,"UTF-8") == 0) {
+            if (strcasecmp($this->_encoding, "UTF-8") == 0) {
                 return trim($str);
-            } elseif (strcasecmp($this->_encoding,"CP437") == 0) {
+            } elseif (strcasecmp($this->_encoding, "CP437") == 0) {
                 $str = trim($str);
                 $strr = "";
                 if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {

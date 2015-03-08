@@ -73,7 +73,7 @@ class DMRaid extends PSI_Plugin
      */
     public function execute()
     {
-        if ( empty($this->_filecontent)) {
+        if (empty($this->_filecontent)) {
             return;
         }
         $group = "";
@@ -135,11 +135,11 @@ class DMRaid extends PSI_Plugin
      */
     public function xml()
     {
-        if ( empty($this->_result)) {
+        if (empty($this->_result)) {
             return $this->xml->getSimpleXmlElement();
         }
         $hideRaids = array();
-        if ( defined('PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES') && is_string(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES) ) {
+        if (defined('PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES') && is_string(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES)) {
             if (preg_match(ARRAY_EXP, PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES)) {
                 $hideRaids = eval(PSI_PLUGIN_DMRAID_HIDE_RAID_DEVICES);
             } else {

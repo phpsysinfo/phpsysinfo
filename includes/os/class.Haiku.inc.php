@@ -65,7 +65,7 @@ class Haiku extends OS
                             $dev->setVirt("svm");
                         }
                     }
-                    if ($cpuspeed != "" )$dev->setCpuSpeed($cpuspeed);
+                    if ($cpuspeed != "")$dev->setCpuSpeed($cpuspeed);
                     $this->sys->setCpus($dev);
                   //echo ">>>>>".$cpu;
                 }
@@ -286,7 +286,7 @@ class Haiku extends OS
         $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($df as $df_line) {
                 $ar_buf = preg_split("/\s+/", $df_line);
-                if ((substr($df_line, 0, 1) == "/") && (count($ar_buf) == 6 )) {
+                if ((substr($df_line, 0, 1) == "/") && (count($ar_buf) == 6)) {
                     $dev = new DiskDevice();
                     $dev->setMountPoint($ar_buf[0]);
                     $dev->setName($ar_buf[5]);

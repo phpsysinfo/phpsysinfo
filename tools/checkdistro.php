@@ -55,9 +55,9 @@ class CommonFunctions
                     if (preg_match("/^\-\-\-\-\-\-\-\-\-\-/m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
                         $stopIndex = $matches[0][1];
 
-                        return substr($contents, $startIndex, $stopIndex-$startIndex );
+                        return substr($contents, $startIndex, $stopIndex-$startIndex);
                     } else {
-                        return substr($contents, $startIndex );
+                        return substr($contents, $startIndex);
                     }
                 }
             }

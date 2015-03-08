@@ -39,7 +39,7 @@ class Apcupsd extends UPS
     public function __construct()
     {
         parent::__construct();
-        if ( defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST) ) {
+        if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
             if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
                 $upses = eval(PSI_UPS_APCUPSD_LIST);
             } else {

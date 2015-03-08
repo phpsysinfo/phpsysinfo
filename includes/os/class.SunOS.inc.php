@@ -245,7 +245,7 @@ class SunOS extends OS
     private function _filesystems()
     {
         if (CommonFunctions::executeProgram('df', '-k', $df, PSI_DEBUG)) {
-            $df = preg_replace('/\n\s/m',' ', $df);
+            $df = preg_replace('/\n\s/m', ' ', $df);
             $mounts = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($mounts as $mount) {
                 $ar_buf = preg_split('/\s+/', $mount, 6);
@@ -266,7 +266,7 @@ class SunOS extends OS
                             }
                         }
                     } elseif (CommonFunctions::executeProgram('df', '-T', $dftypes, PSI_DEBUG)) {
-                        $dftypes = preg_replace('/\n\s/m',' ', $dftypes);
+                        $dftypes = preg_replace('/\n\s/m', ' ', $dftypes);
                         $mounttypes = preg_split("/\n/", $dftypes, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($mounttypes as $type) {
                             $ty_buf = preg_split("/\s+/", $type, 3);
