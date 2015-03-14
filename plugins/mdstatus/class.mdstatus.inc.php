@@ -201,7 +201,7 @@ class MDStatus extends PSI_Plugin
             $typ = $sup->addChild("Type");
             $typ->addAttribute("Name", $type);
         }
-        foreach ($this->_result['devices'] as $key=>$device) {
+        if (isset($this->_result['devices'])) foreach ($this->_result['devices'] as $key=>$device) {
             if (!in_array($key, $hideRaids, true)) {
                 $dev = $this->xml->addChild("Raid");
                 $dev->addAttribute("Device_Name", $key);
