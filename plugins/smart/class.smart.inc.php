@@ -284,6 +284,13 @@ class SMART extends PSI_Plugin
             $diskChild->addAttribute('name', $diskName);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
+
+                if (($lineInfos['id'] == 9) && ($lineInfos['attribute_name'] == "Power_On_Hours_and_Msec")) {
+                    $lineInfos['attribute_name'] = "Power_On_Hours";
+                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
+                    $lineInfos['raw_value'] = $raw_value[0];
+                }
+
                 foreach ($lineInfos as $label=>$value) {
                     $lineChild->addAttribute($label, $value);
                 }
