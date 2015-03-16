@@ -67,15 +67,13 @@ class Darwin extends BSDCommon
      */
     private function _grabioreg($key)
     {
-        if (CommonFunctions::executeProgram('ioreg', '-c "'.$key.'"', $s, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram('ioreg', '-rc "'.$key.'"', $s, PSI_DEBUG)) {
             /* delete newlines */
             $s = preg_replace("/\s+/", " ", $s);
-            /* new newlines */
-            $s = preg_replace("/[\|\t ]*\+\-\o/", "\n", $s);
             /* combine duplicate whitespaces and some chars */
             $s = preg_replace("/[\|\t ]+/", " ", $s);
 
-            $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
+            $lines = preg_split("/\+\-o/", $s, -1, PREG_SPLIT_NO_EMPTY);
             $out = "";
             foreach ($lines as $line) {
                 if (preg_match('/^([^<]*) <class '.$key.',/', $line)) {
@@ -177,13 +175,35 @@ class Darwin extends BSDCommon
         if (!$arrResults = Parser::lspci(false)) { //no lspci port
             $s = $this->_grabioreg('IOPCIDevice');
             $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($lines as $line) {
-                $dev = new HWDevice();
-                if (!preg_match('/"IOName" = "([^"]*)"/', $line, $ar_buf))
-                    $ar_buf = preg_split("/[\s@]+/", $line, 19);
-                $dev->setName(trim($ar_buf[1]));
-                $this->sys->setPciDevices($dev);
+			foreach ($lines as $line) {
+			 	$sublines = preg_split('/[\w|"|">|")]\s"/', $line);
+				foreach($sublines as $sub){
+					if (preg_match('/model" =/', $sub, $match)){
+						$dev = new HWDevice();
+						$sub = str_replace("\"","",$sub);
+						$sub = str_replace("<","",$sub);
+						$strarray = explode("=",$sub);
+						$dev->setName(trim($strarray[1]));
+						$this->sys->setPciDevices($dev);
+					}
+				}
             }
+			
+			$s = $this->_grabioreg('IOThunderboltPort');
+			$lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
+			foreach ($lines as $line) {
+				$sublines = preg_split('/[\w|"|">|")]\s"/', $line);
+				foreach($sublines as $sub){
+					if (preg_match('/Description" =/', $sub, $match)){
+						$dev = new HWDevice();
+						$sub = str_replace("\"","",$sub);
+						$sub = str_replace("<","",$sub);
+						$strarray = explode("=",$sub);
+						$dev->setName(trim($strarray[1]));
+						$this->sys->setPciDevices($dev);
+					}
+				}
+			}
         } else {
             foreach ($arrResults as $dev) {
                 $this->sys->setPciDevices($dev);
