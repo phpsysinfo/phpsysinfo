@@ -71,7 +71,7 @@ class Darwin extends BSDCommon
             /* delete newlines */
             $s = preg_replace("/\s+/", " ", $s);
             /* new newlines */
-            $s = preg_replace("/[\|\t ]*\+\-\o/", "\n", $s);
+            $s = preg_replace("/[\|\t ]*\+\-o/", "\n", $s);
             /* combine duplicate whitespaces and some chars */
             $s = preg_replace("/[\|\t ]+/", " ", $s);
 
