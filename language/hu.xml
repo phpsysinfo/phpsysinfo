@@ -354,4 +354,7 @@ phpSysInfo language file Language: Hungarian Created by: Bálint Kiss
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB Eszközök</exp>
+  </expression>
 </tns:translation>

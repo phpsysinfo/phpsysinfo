@@ -354,4 +354,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Périphériques TB</exp>
+  </expression>
 </tns:translation>

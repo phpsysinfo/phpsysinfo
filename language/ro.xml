@@ -354,4 +354,7 @@ phpSysInfo language file Language: Romană Created by: Sorin Gheorghe Update by:
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Dispozitive TB</exp>
+  </expression>
 </tns:translation>

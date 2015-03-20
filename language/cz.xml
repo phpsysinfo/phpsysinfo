@@ -354,4 +354,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB zařízení</exp>
+  </expression>
 </tns:translation>

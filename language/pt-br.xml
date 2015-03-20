@@ -354,4 +354,7 @@ phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gi
   <expression id="116" name="ProcessesOther">
     <exp>outro</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Periféricos TB</exp>
+  </expression>
 </tns:translation>

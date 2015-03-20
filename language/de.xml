@@ -354,4 +354,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   <expression id="116" name="ProcessesOther">
     <exp>andere</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB Geräte</exp>
+  </expression>
 </tns:translation>

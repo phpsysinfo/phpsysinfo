@@ -354,4 +354,7 @@ phpSysInfo language file Language: Thai Created by: Audun Larsen
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>อุปกรณ์ TB</exp>
+  </expression>
 </tns:translation>

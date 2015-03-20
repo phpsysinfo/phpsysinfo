@@ -354,4 +354,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB naprave</exp>
+  </expression>
 </tns:translation>

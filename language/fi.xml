@@ -354,4 +354,7 @@ phpSysInfo language file Language: Finnish Created by: nakeman
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB laitteet</exp>
+  </expression>
 </tns:translation>

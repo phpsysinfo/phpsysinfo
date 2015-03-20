@@ -354,4 +354,7 @@ phpSysInfo language file Language: Estoanian Created by: Harg
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB Seadmed</exp>
+  </expression>
 </tns:translation>

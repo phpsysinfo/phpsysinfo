@@ -354,4 +354,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB 장치들</exp>
+  </expression>
 </tns:translation>

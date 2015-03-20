@@ -156,6 +156,6 @@ table tfoot td {
     padding-right: 20px;
 }
 
-#pciTable, #ideTable, #scsiTable, #usbTable {
+#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable {
     padding: 0px 30px;
 }

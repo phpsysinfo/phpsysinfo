@@ -833,6 +833,11 @@ function refreshHardware(xml) {
     closed.push(index);
     html += fillHWDevice(xml, 'USB', tree, index);
 
+    html += "    <tr><td colspan=\"2\"><b>" + genlang(117, false) + "</b></td></tr>\n";
+    index = tree.push(0);
+    closed.push(index);
+    html += fillHWDevice(xml, 'TB', tree, index);
+
     html += "   </tbody>\n";
     html += "  </table>\n";
     $("#hardware").append(html);

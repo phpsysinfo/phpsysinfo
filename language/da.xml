@@ -354,4 +354,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB enheder</exp>
+  </expression>
 </tns:translation>

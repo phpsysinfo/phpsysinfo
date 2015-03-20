@@ -354,4 +354,7 @@ phpSysInfo language file Language: Bulgarian Created by: Grigor Josifov
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB устройства</exp>
+  </expression>
 </tns:translation>

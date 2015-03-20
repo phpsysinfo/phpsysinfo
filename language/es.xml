@@ -354,4 +354,7 @@ phpSysInfo language file Language: Spanish Created by: J.F. Ruano
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Dispositivos TB</exp>
+  </expression>
 </tns:translation>

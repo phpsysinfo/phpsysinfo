@@ -354,4 +354,7 @@ phpSysInfo language file Language: Chinese Traditional Created by: capriskye::an
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB 設備</exp>
+  </expression>
 </tns:translation>

@@ -354,4 +354,7 @@ phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerry
   <expression id="116" name="ProcessesOther">
     <exp>altre</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Dispositius TB</exp>
+  </expression>
 </tns:translation>

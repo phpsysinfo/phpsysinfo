@@ -248,6 +248,12 @@ class XML
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
         }
+        $tb = $hardware->addChild('TB');
+        foreach (System::removeDupsAndCount($this->_sys->getTbDevices()) as $dev) {
+            $tmp = $tb->addChild('Device');
+            $tmp->addAttribute('Name', $dev->getName());
+            $tmp->addAttribute('Count', $dev->getCount());
+        }
 
         $cpu = $hardware->addChild('CPU');
         foreach ($this->_sys->getCpus() as $oneCpu) {

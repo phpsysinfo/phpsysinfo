@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.2
+----------------
+ - [NEW] Thunderbolt (TB) devices list on Darwin
+
 phpSysInfo 3.2.1
 ----------------
  - [UPD] bootstrap 3.3.2

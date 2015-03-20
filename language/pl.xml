@@ -354,4 +354,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="116" name="ProcessesOther">
     <exp>inne</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Urządzenia TB</exp>
+  </expression>
 </tns:translation>

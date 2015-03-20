@@ -354,4 +354,7 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TBデバイス</exp>
+  </expression>
 </tns:translation>

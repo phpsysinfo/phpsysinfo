@@ -326,6 +326,24 @@ class Darwin extends BSDCommon
     }
 
     /**
+     * get the thunderbolt device information out of ioreg
+     *
+     * @return void
+     */
+    protected function _tb()
+    {
+        $s = $this->_grabioreg('IOThunderboltPort');
+        $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($lines as $line) {
+                    $dev = new HWDevice();
+                    if (!preg_match('/"Description" = "([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s]+/", $line, 19);
+                    $dev->setName(trim($ar_buf[1]));
+                    $this->sys->setTbDevices($dev);
+        }
+    }
+
+    /**
      * get network information
      *
      * @return void
@@ -441,5 +459,6 @@ class Darwin extends BSDCommon
         $this->_uptime();
         $this->_network();
         $this->_processes();
+        $this->_tb();
     }
 }

@@ -354,4 +354,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>Συσκευές TB</exp>
+  </expression>
 </tns:translation>
