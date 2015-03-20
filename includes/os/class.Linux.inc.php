@@ -707,7 +707,20 @@ class Linux extends OS
      */
     private function _filesystems()
     {
-        $arrResult = Parser::df("-P 2>/dev/null");
+        $df_args = "";
+        $hideFstypes = array();
+        if (defined('PSI_HIDE_FS_TYPES') && is_string(PSI_HIDE_FS_TYPES)) {
+            if (preg_match(ARRAY_EXP, PSI_HIDE_FS_TYPES)) {
+                $hideFstypes = eval(PSI_HIDE_FS_TYPES);
+            } else {
+                $hideFstypes = array(PSI_HIDE_FS_TYPES);
+            }
+        }
+        foreach ($hideFstypes as $Fstype) {
+            $df_args .= "-x $Fstype ";
+        }
+
+        $arrResult = Parser::df("-P $df_args 2>/dev/null");
         foreach ($arrResult as $dev) {
             $this->sys->setDiskDevices($dev);
         }
