@@ -7,6 +7,8 @@ phpSysInfo 3.2.2
 ----------------
  - [NEW] Thunderbolt (TB) devices list on Darwin
 
+ - [ADD] cleansyn template
+
 phpSysInfo 3.2.1
 ----------------
  - [UPD] bootstrap 3.3.2

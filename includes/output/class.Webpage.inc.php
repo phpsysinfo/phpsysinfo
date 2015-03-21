@@ -94,7 +94,7 @@ class Webpage extends Output implements PSI_Interface_Output
         foreach ($dirlist as $file) {
             $tpl_ext = substr($file, strlen($file) - 4);
             $tpl_name = substr($file, 0, strlen($file) - 4);
-            if ($tpl_ext === ".css") {
+            if (($tpl_ext === ".css") && ($tpl_name !== "phpsysinfo_bootstrap")) {
                 array_push($this->_templates, $tpl_name);
             }
         }
