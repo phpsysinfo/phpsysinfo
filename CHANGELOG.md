@@ -9,6 +9,8 @@ phpSysInfo 3.2.2
 
  - [ADD] cleansyn template
 
+ - [FIX] PS plugin - Fixed display of the processes tree if the processes zombie exist
+
 phpSysInfo 3.2.1
 ----------------
  - [UPD] bootstrap 3.3.2

@@ -124,6 +124,24 @@ class PS extends PSI_Plugin
                 $items[$row[1]]['childs'][$row[0]] = &$items[$row[0]];
             }
         }
+        foreach ($items as $item) { //find zombie
+            if (!isset($item[0])) {
+                foreach ($item["childs"] as $subitem) {
+                    $zombie = $subitem[1];
+                    if ($zombie != 0) {
+                        $saved = $items[$zombie]["childs"];
+                        unset($items[$zombie]["childs"]);
+                        $items[$zombie]["0"] = $zombie;
+                        $items[$zombie]["1"] = "0";
+                        $items[$zombie]["2"] = "0";
+                        $items[$zombie]["3"] = "unknown";
+                        $items[$zombie]["childs"] = $saved;
+                        $items[0]['childs'][$zombie] = &$items[$zombie];
+                    }
+                    break; //first is sufficient
+                }
+            }
+        }
         if (isset($items[0])) {
             $this->_result = $items[0];
         } else {

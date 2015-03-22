@@ -6,6 +6,11 @@ function renderPlugin_ps(data) {
                 return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + this["MemoryUsage"] + '%;"></div>' +
                         '</div><div class="percent">' + this["MemoryUsage"] + '%</div>';
             }
+        },
+        Name: {
+            html: function () {
+                return this["Name"];
+            }
         }
     };
 
