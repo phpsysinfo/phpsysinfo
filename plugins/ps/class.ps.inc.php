@@ -82,6 +82,61 @@ class PS extends PSI_Plugin
                 }
             } else {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,args", $buffer, PSI_DEBUG);
+                if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n.+/", $buffer))) { //alternative method of empty or only line
+                    if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
+                        $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
+                        $totalmem = 0;
+                        foreach ($bufe as $buf) {
+                            if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                                $totalmem = $ar_buf[1];
+                                break;
+                            }
+                        }
+                        $buffer = "  PID  PPID %MEM COMMAND\n";
+
+                        $processlist = glob('/proc/*/status', GLOB_NOSORT);
+                        if (($total = count($processlist)) > 0) {
+                            natsort($processlist); //first sort
+                            $prosess = array();
+                            foreach ($processlist as $processitem) { //second sort
+                                $process[] = $processitem;
+                            }
+
+                            $buf = "";
+                            for ($i = 0; $i < $total; $i++) {
+                                if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
+
+                                    if (($totalmem != 0) && (preg_match('/^VmRSS:\s+(\d+)\s+kB/m', $buf, $tmppmem))) {
+                                        $pmem = round(100 * $tmppmem[1] / $totalmem, 1);
+                                    } else {
+                                        $pmem = 0;
+                                    }
+
+                                    $name = null;
+                                    if (CommonFunctions::rfts(substr($process[$i], 0, strlen($process[$i])-6)."cmdline", $namebuf, 0, 4096, false)) {
+                                        $name = str_replace(chr(0), ' ', trim($namebuf));
+                                    }
+                                    if (preg_match('/^Pid:\s+(\d+)/m', $buf, $tmppid) &&
+                                        preg_match('/^PPid:\s+(\d+)/m', $buf, $tmpppid) &&
+                                        preg_match('/^Name:\s+(.+)/m', $buf, $tmpargs)) {
+                                        $pid = $tmppid[1];
+                                        $ppid = $tmpppid[1];
+                                        $args = $tmpargs[1];
+                                        if ($name !== null) {
+                                            if ($name !== "") {
+                                                $args = $name;
+                                            } else {
+                                                $args = "[".$args."]";
+                                            }
+                                        }
+                                        $buffer .= $pid." ".$ppid." ".$pmem." ".$args."\n";
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
             }
             break;
         case 'data':
@@ -129,13 +184,10 @@ class PS extends PSI_Plugin
                 foreach ($item["childs"] as $subitem) {
                     $zombie = $subitem[1];
                     if ($zombie != 0) {
-                        $saved = $items[$zombie]["childs"];
-                        unset($items[$zombie]["childs"]);
                         $items[$zombie]["0"] = $zombie;
                         $items[$zombie]["1"] = "0";
                         $items[$zombie]["2"] = "0";
                         $items[$zombie]["3"] = "unknown";
-                        $items[$zombie]["childs"] = $saved;
                         $items[0]['childs'][$zombie] = &$items[$zombie];
                     }
                     break; //first is sufficient
@@ -175,28 +227,18 @@ class PS extends PSI_Plugin
     {
         foreach ($child as $key=>$value) {
             $xmlnode = $xml->addChild("Process");
-            foreach ($value as $key2=>$value2) {
-                if (!is_array($value2)) {
-                    switch ($key2) {
-                    case 0:
-                        array_push($positions, $value2);
-                        $xmlnode->addAttribute('PID', $value2);
-                        break;
-                    case 1:
-                        $xmlnode->addAttribute('ParentID', array_search($value2, $positions));
-                        $xmlnode->addAttribute('PPID', $value2);
-                        break;
-                    case 2:
-                        $xmlnode->addAttribute('MemoryUsage', $value2);
-                        break;
-                    case 3:
-                        $xmlnode->addAttribute('Name', $value2);
-                        break;
-                    }
-                } else {
-                    $this->_addChild($value2, $xml, $positions);
-                }
-            }
+            if (isset($value[0])) {
+                array_push($positions, $value[0]);
+                $xmlnode->addAttribute('PID', $value[0]);
+                $xmlnode->addAttribute('ParentID', array_search($value[1], $positions));
+                $xmlnode->addAttribute('PPID', $value[1]);
+                $xmlnode->addAttribute('MemoryUsage', $value[2]);
+                $xmlnode->addAttribute('Name', $value[3]);
+           }
+           if (isset($value['childs'])) {
+               $this->_addChild($value['childs'], $xml, $positions);
+           }
+
         }
 
         return $xml;
