@@ -8,8 +8,9 @@ phpSysInfo 3.2.2
  - [NEW] Thunderbolt (TB) devices list on Darwin
 
  - [ADD] cleansyn template
+ - [ADD] PS plugin - support for Android
 
- - [FIX] PS plugin - Fixed display of the processes tree if the processes zombie exist
+ - [FIX] PS plugin - Fixed display of the processes tree
 
 phpSysInfo 3.2.1
 ----------------
