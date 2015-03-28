@@ -121,7 +121,7 @@ phpSysInfo language file Language: Finnish Created by: nakeman
     <exp>Yhteensä</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>KB</exp>
+    <exp>kB</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>MB</exp>

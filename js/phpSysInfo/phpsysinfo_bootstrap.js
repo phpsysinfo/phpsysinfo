@@ -1058,7 +1058,7 @@ function formatBytes(bytes, byteFormat) {
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += String.fromCharCode(160) + "KB";
+        show += String.fromCharCode(160) + "kB";
         break;
     case "b":
         show += bytes;
@@ -1087,7 +1087,7 @@ function formatBytes(bytes, byteFormat) {
                     else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += String.fromCharCode(160) + "KB";
+                            show += String.fromCharCode(160) + "kB";
                         }
                         else {
                                 show += bytes;

@@ -121,7 +121,7 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
     <exp>Всего</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>Кб</exp>
+    <exp>кб</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>Мб</exp>

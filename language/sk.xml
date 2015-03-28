@@ -121,7 +121,7 @@ phpSysInfo language file Language: Slovak Created by: Peter 'Pessoft' Kolínek
     <exp>Spolu</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>KB</exp>
+    <exp>kB</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>MB</exp>

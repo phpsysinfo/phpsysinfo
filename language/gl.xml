@@ -121,7 +121,7 @@ phpSysInfo language file Language: galician Created by: X.M.C. Guede
     <exp>Total</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>KB</exp>
+    <exp>kB</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>MB</exp>
