@@ -82,7 +82,7 @@ class PS extends PSI_Plugin
                 }
             } else {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,args", $buffer, PSI_DEBUG);
-                if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n.+/", $buffer))) { //alternative method of empty or only line
+                if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n.+/", $buffer))) { //alternative method if no data
                     if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
                         $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
                         $totalmem = 0;
