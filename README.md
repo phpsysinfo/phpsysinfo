@@ -18,7 +18,6 @@ CURRENT TESTED PLATFORMS
 - OpenBSD 2.8+
 - NetBSD
 - DragonFly
-- IBM AIX
 - HP-UX
 - Darwin/OSX
 - Windows 2000 / Windows 2003 / Windows XP / Windows Vista / Windows 7 / Windows 8  / Windows 8.1
@@ -31,6 +30,7 @@ CURRENT TESTED PLATFORMS
 - Minix
 - SunOS
 - ReactOS
+- IBM AIX
 - QNX
 
 If your platform is not here try checking out the mailing list archives or
