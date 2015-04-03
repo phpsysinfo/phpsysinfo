@@ -365,9 +365,9 @@ class Minix extends OS
     public function build()
     {
         $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->_distro();
         $this->_hostname();
         $this->_ip();
-        $this->_distro();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

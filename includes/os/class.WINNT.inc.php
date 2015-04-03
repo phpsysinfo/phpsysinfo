@@ -572,12 +572,12 @@ class WINNT extends OS
      */
     public function build()
     {
-        $this->_hostname();
-        $this->_ip();
         $this->_distro();
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
+        $this->_hostname();
+        $this->_ip();
         $this->_users();
         $this->_machine();
         $this->_uptime();

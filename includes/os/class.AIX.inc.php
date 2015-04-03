@@ -27,7 +27,7 @@
 class AIX extends OS
 {
 
-    private $myprtconf = array();
+//    private $myprtconf = array();
 
     /**
      * Virtual Host Name
@@ -317,12 +317,12 @@ class AIX extends OS
      * IBM AIX INFORMATIONs by K.PAZ
      * @return void
      */
-    private function _myaixdata()
+/*    private function _myaixdata()
     {
         CommonFunctions::executeProgram('prtconf', '> /tmp/webprtconf.txt', $confret);
         CommonFunctions::rfts('/tmp/webprtconf.txt', $bufr);
         $this->myprtconf = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-    }
+    } */
 
     /**
      * get the information
@@ -333,7 +333,7 @@ class AIX extends OS
      */
     public function build()
     {
-        $this->_myaixdata();
+//        $this->_myaixdata();
         $this->_distro();
         $this->_hostname();
         $this->_ip();
