@@ -53,7 +53,7 @@ if (isset($output) && is_object($output)) {
             $json = json_encode(simplexml_load_string($output->getXMLString()));
         }
         // check for jsonp with callback name restriction
-        echo (isset($_GET['jsonp'])) ? (!preg_match('/[^A-Za-z0-9_\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
+        echo isset($_GET['jsonp']) ? (!preg_match('/[^A-Za-z0-9_\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
     } else {
         $output->run();
     }
