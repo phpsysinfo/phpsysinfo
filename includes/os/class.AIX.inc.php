@@ -265,10 +265,18 @@ class AIX extends OS
             }
         }
         if (trim($mems) != "") {
-            $this->sys->setMemTotal($mems*1024*1024);
-            $mems = 0;
-            $this->sys->setMemUsed($mems);
-            $this->sys->setMemFree($mems);
+            $mems = $mems*1024*1024;
+            $this->sys->setMemTotal($mems);
+            $memu = 0;
+            $memf = 0;
+            if (CommonFunctions::executeProgram('svmon', '-G', $buf)) {
+                if (preg_match("/^memory\s+\d+\s+(\d+)\s+/", $buf, $ar_buf)) {
+                    $memu = $ar_buf[1]*1024*4;
+                    $memf = $mems - $memu;
+                }
+            }
+            $this->sys->setMemUsed($memu);
+            $this->sys->setMemFree($memf);
 //            $this->sys->setMemApplication($mems);
 //            $this->sys->setMemBuffer($mems);
 //            $this->sys->setMemCache($mems);
