@@ -132,6 +132,7 @@ class Linux extends OS
      */
     private function _kernel()
     {
+        $result = "";
         if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
             CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
             $result = trim($strBuf);
@@ -143,19 +144,13 @@ class Linux extends OS
             if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
                 $result .= ' '.trim($strBuf);
             }
-            if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
-                if (preg_match('/:\/lxc\//m', $strBuf2)) {
-                    $result .= ' [lxc]';
-                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
-                    $result .= ' [docker]';
-                }
-            }
-            $this->sys->setKernel($result);
         } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) &&  preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
             $result = $ar_buf[1];
             if (preg_match('/SMP/', $strBuf)) {
                 $result .= ' (SMP)';
             }
+        }
+        if ($result != "" ) {
             if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
                 if (preg_match('/:\/lxc\//m', $strBuf2)) {
                     $result .= ' [lxc]';
