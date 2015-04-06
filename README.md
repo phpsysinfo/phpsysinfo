@@ -39,6 +39,8 @@ the message boards on SourceForge.
 INSTALLATION AND CONFIGURATION
 ------------------------------
 
+####Typical installation
+
 Just decompress and untar the source (which you should have done by now,
 if you're reading this...), into your webserver's document root.
 
@@ -56,6 +58,12 @@ Please see the PHP documentation for information on how you
 can do this.
 
 That's it.  Restart your webserver (if you changed php.ini), and voila.
+
+####Docker container installation
+
+- sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo
+- sudo docker run -i -p 8080:80 -t phpsysinfo
+- go to http://localhost:8080/phpsysinfo/
 
 KNOWN PROBLEMS
 --------------
