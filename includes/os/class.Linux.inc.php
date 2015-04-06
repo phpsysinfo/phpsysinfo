@@ -154,7 +154,9 @@ class Linux extends OS
             if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
                 if (preg_match('/:\/lxc\//m', $strBuf2)) {
                     $result .= ' [lxc]';
-                } elseif (preg_match('/:\/docker[-\/]/m', $strBuf2)) {
+                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
+                    $result .= ' [docker]';
+                } elseif (preg_match('/:\/system\.slice\/docker\-/m', $strBuf2)) {
                     $result .= ' [docker]';
                 }
             }
