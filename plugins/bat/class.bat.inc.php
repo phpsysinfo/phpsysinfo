@@ -490,9 +490,11 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['design_voltage'])) {
                 $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage']);
-            }
-            if (isset($bat_item['design_voltage_max'])) {
-                $xmlbat->addAttribute("DesignVoltageMax", $bat_item['design_voltage_max']);
+                if (isset($bat_item['design_voltage_max']) && ($bat_item['design_voltage_max'] != $bat_item['design_voltage'])) {
+                    $xmlbat->addAttribute("DesignVoltageMax", $bat_item['design_voltage_max']);
+                }
+            } elseif (isset($bat_item['design_voltage_max'])) {
+                $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage_max']);
             }
             if (isset($bat_item['present_voltage'])) {
                 $xmlbat->addAttribute("PresentVoltage", $bat_item['present_voltage']);
