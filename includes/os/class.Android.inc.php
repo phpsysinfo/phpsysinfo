@@ -212,7 +212,7 @@ class Android extends Linux
      */
     private function _usb()
     {
-        if (CommonFunctions::executeProgram('lsusb', '', $bufr, false)) {
+        if (file_exists('/dev/bus/usb') && CommonFunctions::executeProgram('lsusb', '', $bufr, false)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 6);
