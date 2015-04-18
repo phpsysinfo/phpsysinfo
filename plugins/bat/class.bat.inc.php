@@ -522,9 +522,9 @@ class BAT extends PSI_Plugin
                 && isset($bat_item['design_capacity_max']) && ($bat_item['design_capacity_max'] != 0)
                 && (!isset($bat['capacity_unit']) || ($bat['capacity_unit'] != "???"))) {
                 if (isset($bat_item['battery_condition'])) {
-                    $xmlbat->addAttribute("BatteryCondition", max(100, round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max']))."% ".$bat_item['battery_condition']);
+                    $xmlbat->addAttribute("BatteryCondition", min(100, round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max']))."% ".$bat_item['battery_condition']);
                 } else {
-                    $xmlbat->addAttribute("BatteryCondition", max(100, round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max']))."%");
+                    $xmlbat->addAttribute("BatteryCondition", min(100, round(100*$bat_item['design_capacity']/$bat_item['design_capacity_max']))."%");
                 }
             } elseif (isset($bat_item['battery_condition'])) {
                 $xmlbat->addAttribute("BatteryCondition", $bat_item['battery_condition']);
