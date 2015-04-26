@@ -230,10 +230,19 @@ class PS extends PSI_Plugin
             if (isset($value[0])) {
                 array_push($positions, $value[0]);
                 $xmlnode->addAttribute('PID', $value[0]);
-                $xmlnode->addAttribute('ParentID', array_search($value[1], $positions));
+                $parentid = array_search($value[1], $positions);
+                $xmlnode->addAttribute('ParentID', $parentid);
                 $xmlnode->addAttribute('PPID', $value[1]);
                 $xmlnode->addAttribute('MemoryUsage', $value[2]);
                 $xmlnode->addAttribute('Name', $value[3]);
+                if (PSI_OS !== 'WINNT') {
+                    if ($parentid === 1){
+                        $xmlnode->addAttribute('Expanded', 0);
+                    }
+                    if (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[3] === "[kthreadd]")) {
+                        $xmlnode->addAttribute('Expanded', 0);
+                    }
+                }
             }
             if (isset($value['childs'])) {
                 $this->_addChild($value['childs'], $xml, $positions);
