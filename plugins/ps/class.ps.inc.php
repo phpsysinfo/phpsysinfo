@@ -234,11 +234,10 @@ class PS extends PSI_Plugin
                 $xmlnode->addAttribute('PPID', $value[1]);
                 $xmlnode->addAttribute('MemoryUsage', $value[2]);
                 $xmlnode->addAttribute('Name', $value[3]);
-           }
-           if (isset($value['childs'])) {
-               $this->_addChild($value['childs'], $xml, $positions);
-           }
-
+            }
+            if (isset($value['childs'])) {
+                $this->_addChild($value['childs'], $xml, $positions);
+            }
         }
 
         return $xml;

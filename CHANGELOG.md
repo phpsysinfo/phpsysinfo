@@ -10,7 +10,7 @@ phpSysInfo 3.2.2
  - [ADD] cleansyn template
  - [ADD] PS plugin - support for Android
 
- - [FIX] PS plugin - Fixed display of the processes tree
+ - [FIX] PS plugin - fixed display of the processes tree
 
 phpSysInfo 3.2.1
 ----------------
