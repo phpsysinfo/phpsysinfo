@@ -57,7 +57,7 @@ function ps_buildTable(xml) {
 
         html += "    <tr><td>" + name + "</td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
         close = tree.push(parentId);
-        if (parentId === 1) {
+        if (parentId === 1 || name === "[kthreadd]") {
             closed.push(close);
         }
         ps_show = true;
