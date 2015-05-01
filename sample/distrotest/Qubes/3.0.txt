@@ -1,0 +1,16 @@
+----------/etc/fedora-release----------
+Qubes release 3.0 (R3.0)
+----------/etc/os-release----------
+NAME=Qubes
+VERSION="3.0 (R3.0)"
+ID=qubes
+VERSION_ID=3.0
+PRETTY_NAME="Qubes 3.0 (R3.0)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:ITL:qubes:3.0"
+----------/etc/qubes-release----------
+Qubes release 3.0 (R3.0)
+----------/etc/redhat-release----------
+Qubes release 3.0 (R3.0)
+----------/etc/system-release----------
+Qubes release 3.0 (R3.0)

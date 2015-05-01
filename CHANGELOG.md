@@ -12,6 +12,7 @@ phpSysInfo 3.2.2
  - [ADD] cleansyn template
  - [ADD] PS plugin - support for Android
  - [ADD] PS plugin - SHOW_KTHREADD_EXPANDED option
+ - [ADD] Qubes to detected distros
 
  - [FIX] PS plugin - fixed display of the processes tree
 
