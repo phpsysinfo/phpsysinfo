@@ -358,7 +358,11 @@ function renderHardware(data) {
         expanderCollapsedClass: 'normalicon normalicon-right'
     });
     if (data["Options"]["@attributes"]["showCPUListExpanded"] !== "false") {
-        $('#hardware-CPU').treegrid('expand');
+        try {
+            $('#hardware-CPU').treegrid('expand');
+        }
+        catch (err) {
+        }
     }
     if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
         try {

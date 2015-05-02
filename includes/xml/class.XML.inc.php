@@ -218,20 +218,23 @@ class XML
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
         }
-        $pci = $hardware->addChild('PCI');
+        $pci = null;
         foreach (System::removeDupsAndCount($this->_sys->getPciDevices()) as $dev) {
+            if ($pci === null) $pci = $hardware->addChild('PCI');
             $tmp = $pci->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
         }
-        $usb = $hardware->addChild('USB');
+        $usb = null;
         foreach (System::removeDupsAndCount($this->_sys->getUsbDevices()) as $dev) {
+            if ($usb === null) $usb = $hardware->addChild('USB');
             $tmp = $usb->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
         }
-        $ide = $hardware->addChild('IDE');
+        $ide = null;
         foreach (System::removeDupsAndCount($this->_sys->getIdeDevices()) as $dev) {
+            if ($ide === null) $ide = $hardware->addChild('IDE');
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
@@ -239,8 +242,9 @@ class XML
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
         }
-        $scsi = $hardware->addChild('SCSI');
+        $scsi = null;
         foreach (System::removeDupsAndCount($this->_sys->getScsiDevices()) as $dev) {
+            if ($scsi === null) $scsi = $hardware->addChild('SCSI');
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
@@ -248,15 +252,17 @@ class XML
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
         }
-        $tb = $hardware->addChild('TB');
+        $tb = null;
         foreach (System::removeDupsAndCount($this->_sys->getTbDevices()) as $dev) {
+            if ($tb === null) $tb = $hardware->addChild('TB');
             $tmp = $tb->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
         }
 
-        $cpu = $hardware->addChild('CPU');
+        $cpu = null;
         foreach ($this->_sys->getCpus() as $oneCpu) {
+            if ($cpu === null) $cpu = $hardware->addChild('CPU');
             $tmp = $cpu->addChild('CpuCore');
             $tmp->addAttribute('Model', $oneCpu->getModel());
             if ($oneCpu->getCpuSpeed() !== 0) {
