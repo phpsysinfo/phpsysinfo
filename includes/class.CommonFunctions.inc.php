@@ -299,7 +299,11 @@ class CommonFunctions
                     fclose($fd);
                     $strRet = $strFile;
                     if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-                        error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                        if ((strlen($strRet)>0)&&(substr($strRet, -1)!="\n")) {
+                            error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet."\n", 3, PSI_LOG);
+                        } else {
+                            error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
+                        }
                     }
                 } else {
                     if ($booErrorRep) {

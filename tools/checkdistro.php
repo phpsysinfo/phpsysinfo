@@ -72,7 +72,7 @@ class CommonFunctions
         global $lsbfile;
         if ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release")) {
             $strRet=self::_parse_log_file($strFileName);
-            if ($strRet && ($intLines == 1)) {
+            if ($strRet && ($intLines == 1) && (strpos($strRet, "\n") !== false)) {
                 $strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
             }
 
