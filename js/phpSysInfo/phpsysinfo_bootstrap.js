@@ -108,7 +108,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:20px"/>' + " " +this["Distro"];
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px"/>' + " " +this["Distro"];
             }
         },
         LoadAvg: {
