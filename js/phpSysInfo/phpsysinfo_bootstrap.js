@@ -57,6 +57,11 @@ $(document).ready(function () {
     });
 
     reload(true);
+
+    $(".navbar-brand").click(function () {
+        reload();
+    });
+
 });
 
 Array.prototype.push_attrs=function(element) {
@@ -594,7 +599,7 @@ function renderNetwork(data) {
             html+="<td class=\"rightCell\"><span data-bind=\"TxBytes\"></span></td>";
             html+="<td class=\"rightCell\"><span data-bind=\"Drops\"></span></td>";
             html+="</tr>";
-          
+
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */

@@ -78,3 +78,7 @@ table.sortable thead th:hover {
 table.borderless td,table.borderless th{
      border: none !important;
 }
+
+.navbar-brand {
+    cursor: pointer;
+}
