@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+LSB Version:	core-2.0-ia32:core-2.0-noarch:core-3.0-ia32:core-3.0-noarch:core-3.1-ia32:core-3.1-noarch:core-3.2-ia32:core-3.2-noarch:core-4.0-ia32:core-4.0-noarch:core-4.1-ia32:core-4.1-noarch:cxx-3.0-ia32:cxx-3.0-noarch:cxx-3.1-ia32:cxx-3.1-noarch:cxx-3.2-ia32:cxx-3.2-noarch:cxx-4.0-ia32:cxx-4.0-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-3.1-ia32:desktop-3.1-noarch:desktop-3.2-ia32:desktop-3.2-noarch:desktop-4.0-ia32:desktop-4.0-noarch:desktop-4.1-ia32:desktop-4.1-noarch:graphics-2.0-ia32:graphics-2.0-noarch:graphics-3.0-ia32:graphics-3.0-noarch:graphics-3.1-ia32:graphics-3.1-noarch:graphics-3.2-ia32:graphics-3.2-noarch:graphics-4.0-ia32:graphics-4.0-noarch:graphics-4.1-ia32:graphics-4.1-noarch:languages-3.2-ia32:languages-3.2-noarch:languages-4.0-ia32:languages-4.0-noarch:languages-4.1-ia32:languages-4.1-noarch:multimedia-3.2-ia32:multimedia-3.2-noarch:multimedia-4.0-ia32:multimedia-4.0-noarch:multimedia-4.1-ia32:multimedia-4.1-noarch:printing-3.2-ia32:printing-3.2-noarch:printing-4.0-ia32:printing-4.0-noarch:printing-4.1-ia32:printing-4.1-noarch:qt4-3.1-ia32:qt4-3.1-noarch:security-4.0-ia32:security-4.0-noarch:security-4.1-ia32:security-4.1-noarch
+Distributor ID:	HandyLinux
+Description:	HandyLinux GNU/Linux 8.0 (jessie)
+Release:	8.0
+Codename:	jessie
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux 8 (jessie)"
+NAME="Debian GNU/Linux"
+VERSION_ID="8"
+VERSION="8 (jessie)"
+ID=debian
+HOME_URL="http://www.debian.org/"
+SUPPORT_URL="http://www.debian.org/support/"
+BUG_REPORT_URL="https://bugs.debian.org/"
+----------/etc/debian_version----------
+8.0
+----------/etc/handylinux_version----------
+HandyLinux-2.0
