@@ -401,7 +401,7 @@ class WINNT extends OS
                      }
                 }
             }
-            if ($dev->getName() == "") { //no isatap of no isatap info
+            if ($dev->getName() == "") { //no isatap or no isatap description
                 $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
                 if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
                     $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
