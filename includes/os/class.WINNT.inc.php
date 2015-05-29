@@ -378,8 +378,8 @@ class WINNT extends OS
      */
     private function _network()
     {
-        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface');//, array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
-        $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration');//, array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
+        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
+        $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
 
         foreach ($allDevices as $device) {
             $dev = new NetDevice();
@@ -400,7 +400,8 @@ class WINNT extends OS
                         break;
                      }
                 }
-            } else {
+            }
+            if ($dev->getName() == "") { //no isatap of no isatap info
                 $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
                 if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
                     $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
