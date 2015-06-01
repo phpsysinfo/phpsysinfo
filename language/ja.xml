@@ -121,7 +121,7 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
     <exp>合計</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>KB</exp>
+    <exp>kB</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>MB</exp>
@@ -353,5 +353,8 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
   </expression>
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
+  </expression>
+  <expression id="117" name="tb">
+    <exp>TBデバイス</exp>
   </expression>
 </tns:translation>

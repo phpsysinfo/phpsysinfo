@@ -414,6 +414,10 @@ HIDE_RAID_DEVICES=""
 ;
 ACCESS="command"
 
+; Show kthreadd child list expanded
+;
+SHOW_KTHREADD_EXPANDED=true
+
 
 [psstatus]
 ; PSStatus Plugin configuration

@@ -37,7 +37,7 @@ $plugin = '';
  *
  * @var string
  */
-define('APP_ROOT', realpath(dirname(( __FILE__ )).'/../'));
+define('APP_ROOT', realpath(dirname((__FILE__)).'/../'));
 
 include_once APP_ROOT.'/read_config.php';
 
@@ -45,13 +45,13 @@ if (defined('PSI_DEFAULT_LANG')) {
     $lang = PSI_DEFAULT_LANG;
 }
 
-if ( isset ($_GET['lang'])) {
+if (isset($_GET['lang'])) {
     if (file_exists(APP_ROOT.'/language/'.trim(htmlspecialchars(basename($_GET['lang']))).'.xml')) {
         $lang = basename($_GET['lang']);
     }
 }
 
-$plugin = isset ($_GET['plugin']) ? trim(htmlspecialchars(basename($_GET['plugin']))) : null;
+$plugin = isset($_GET['plugin']) ? trim(htmlspecialchars(basename($_GET['plugin']))) : null;
 
 if ($plugin == null) {
     if (file_exists(APP_ROOT.'/language/'.$lang.'.xml')) {

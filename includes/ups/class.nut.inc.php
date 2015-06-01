@@ -40,7 +40,7 @@ class Nut extends UPS
     public function __construct()
     {
         parent::__construct();
-        if ( defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST) ) {
+        if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
             if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
                 $upses = eval(PSI_UPS_NUT_LIST);
             } else {

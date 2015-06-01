@@ -262,7 +262,7 @@ abstract class BSDCommon extends OS
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
         $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR) {
+        if (PSI_LOAD_BAR && (PSI_OS != "Darwin")) {
             if ($fd = $this->grabkey('kern.cp_time')) {
                 // Find out the CPU load
                 // user + sys = load
@@ -299,21 +299,21 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 if (preg_match("/ Origin| Features/", $line, $ar_buf)) {
-                       if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
-                           $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
-                           foreach ($feats as $feat) {
-                                if (($feat=="vmx") || ($feat=="svm")) {
-                                   $dev->setVirt($feat);
-                                   break 2;
-                                }
-                           }
-                           break;
-                       }
+                    if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
+                        $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
+                        foreach ($feats as $feat) {
+                            if (($feat=="vmx") || ($feat=="svm")) {
+                                $dev->setVirt($feat);
+                                break 2;
+                            }
+                        }
+                        break;
+                    }
                 } else break;
             }
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if ( is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)) )
+        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
             $ncpu = 1;
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);
@@ -539,7 +539,7 @@ abstract class BSDCommon extends OS
                     $this->sys->setUSBDevices($dev);
             }
         }
-     }
+    }
 
     /**
      * filesystem information

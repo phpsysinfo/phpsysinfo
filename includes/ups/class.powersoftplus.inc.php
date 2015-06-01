@@ -73,7 +73,7 @@ class PowerSoftPlus extends UPS
                $load = trim($data[1]);
             }
             //wrong Output load issue
-            if (($load == 0) && ( $maxpwr != 0 ) && preg_match('/^Effective power\s*:\s*(.*)\s\[W\]$/m', $ups, $data)) {
+            if (($load == 0) && ($maxpwr != 0) && preg_match('/^Effective power\s*:\s*(.*)\s\[W\]$/m', $ups, $data)) {
                 $load = 100.0*trim($data[1])/$maxpwr;
             }
             if ($load != null) {

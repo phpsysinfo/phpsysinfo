@@ -68,7 +68,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
 
             // check if there is a valid sensor configuration in phpsysinfo.ini
             $foundsp = array();
-            if ( defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM) ) {
+            if (defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM)) {
                 if (preg_match(ARRAY_EXP, PSI_SENSOR_PROGRAM)) {
                     $sensorprograms = eval(strtolower(PSI_SENSOR_PROGRAM));
                 } else {
@@ -104,7 +104,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
 
             // check if there is a valid ups configuration in phpsysinfo.ini
             $foundup = array();
-            if ( defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM) ) {
+            if (defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM)) {
                 if (preg_match(ARRAY_EXP, PSI_UPS_PROGRAM)) {
                     $upsprograms = eval(strtolower(PSI_UPS_PROGRAM));
                 } else {

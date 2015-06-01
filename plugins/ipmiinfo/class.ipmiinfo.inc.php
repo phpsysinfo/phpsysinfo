@@ -41,7 +41,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function temperatures()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -64,7 +64,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function voltages()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -88,7 +88,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function fans()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -111,7 +111,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function powers()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -134,7 +134,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function currents()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -157,7 +157,7 @@ class ipmiinfo extends PSI_Plugin
      */
     private function misc()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
@@ -193,7 +193,7 @@ class ipmiinfo extends PSI_Plugin
 
     public function xml()
     {
-        if ( empty($this->_lines))
+        if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
         $arrBuff = $this->temperatures();

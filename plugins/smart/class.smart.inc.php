@@ -53,7 +53,7 @@ class SMART extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'command':
-                if ( defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES) ) {
+                if (defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_DEVICES)) {
                         $disks = eval(PSI_PLUGIN_SMART_DEVICES);
                     } else {
@@ -71,13 +71,13 @@ class SMART extends PSI_Plugin
                                 $diskname = trim($disk);
                             }
                             $buffer = "";
-                            if ( trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
+                            if (trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
                                 $this->_filecontent[trim($disk)] = $buffer;
                             }
                         }
                     }
                 }
-                if ( defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS) ) {
+                if (defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_IDS)) {
                         $fullIds = eval(PSI_PLUGIN_SMART_IDS);
                     } else {
@@ -92,7 +92,7 @@ class SMART extends PSI_Plugin
                 }
                 break;
             case 'data':
-                if ( defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES) ) {
+                if (defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_DEVICES)) {
                         $disks = eval(PSI_PLUGIN_SMART_DEVICES);
                     } else {
@@ -107,7 +107,7 @@ class SMART extends PSI_Plugin
                         $dn++;
                     }
                 }
-                if ( defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS) ) {
+                if (defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_IDS)) {
                         $fullIds = eval(PSI_PLUGIN_SMART_IDS);
                     } else {
@@ -135,7 +135,7 @@ class SMART extends PSI_Plugin
      */
     public function execute()
     {
-        if ( empty($this->_filecontent) || empty($this->_ids)) {
+        if (empty($this->_filecontent) || empty($this->_ids)) {
             return;
         }
         foreach ($this->_filecontent as $disk=>$result) {
@@ -146,15 +146,15 @@ class SMART extends PSI_Plugin
             $vendorInfos = "";
 
             // locate the beginning string offset for the attributes
-            if ( preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE) )
+            if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
 
             // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!)
-            if ( preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE) )
+            if (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $endIndex = $matches[0][1];
 
             if ($startIndex && $endIndex && ($endIndex>$startIndex))
-                 $vendorInfos = preg_split("/\n/", substr ( $result, $startIndex, $endIndex - $startIndex ));
+                 $vendorInfos = preg_split("/\n/", substr($result, $startIndex, $endIndex - $startIndex));
 
             if (!empty($vendorInfos)) {
                 $labels = preg_split('/\s+/', $vendorInfos[1]);
@@ -189,7 +189,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
                     preg_match('/read\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][0]['id'] = 1;
@@ -201,7 +201,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
                     preg_match('/Elements in grown defect list\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[5]);
                             $this->_result[$disk][1]['id'] = 5;
@@ -213,7 +213,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
                     preg_match('/ number of hours powered up = (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][2]['id'] = 9;
@@ -225,7 +225,7 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
                     preg_match('/Current Drive Temperature\: (.*)\n/', $result, $lines);
                     if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/',$lines[0]);
+                        $values=preg_split('/\s+/', $lines[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_split('/[,\.]/', $values[3]);
                             $this->_result[$disk][3]['id'] = 194;
@@ -265,7 +265,7 @@ class SMART extends PSI_Plugin
      */
     public function xml()
     {
-        if ( empty($this->_result) || empty($this->_ids)) {
+        if (empty($this->_result) || empty($this->_ids)) {
             return $this->xml->getSimpleXmlElement();
         }
 
@@ -284,6 +284,13 @@ class SMART extends PSI_Plugin
             $diskChild->addAttribute('name', $diskName);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
+
+                if (($lineInfos['id'] == 9) && ($lineInfos['attribute_name'] == "Power_On_Hours_and_Msec")) {
+                    $lineInfos['attribute_name'] = "Power_On_Hours";
+                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
+                    $lineInfos['raw_value'] = $raw_value[0];
+                }
+
                 foreach ($lineInfos as $label=>$value) {
                     $lineChild->addAttribute($label, $value);
                 }

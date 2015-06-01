@@ -49,13 +49,13 @@ class QNX extends OS
     protected function _cpuinfo()
     {
         if (CommonFunctions::executeProgram('pidin', 'info', $buf)
-           && preg_match('/^Processor\d+: (.*)/m' ,$buf)) {
+           && preg_match('/^Processor\d+: (.*)/m', $buf)) {
             $lines = preg_split("/\n/", $buf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
-                if (preg_match('/^Processor\d+: (.+)/' ,$line, $proc)) {
+                if (preg_match('/^Processor\d+: (.+)/', $line, $proc)) {
                     $dev = new CpuDevice();
                     $dev->SetModel(trim($proc[1]));
-                    if (preg_match('/(\d+)MHz/' ,$proc[1], $mhz)) {
+                    if (preg_match('/(\d+)MHz/', $proc[1], $mhz)) {
                         $dev->setCpuSpeed($mhz[1]);
                     }
                     $this->sys->setCpus($dev);
@@ -101,7 +101,7 @@ class QNX extends OS
     {
 
         if (CommonFunctions::executeProgram('pidin', 'info', $buf)
-           && preg_match('/^.* BootTime:(.*)/' ,$buf, $bstart)
+           && preg_match('/^.* BootTime:(.*)/', $buf, $bstart)
            && CommonFunctions::executeProgram('date', '', $bstop)) {
             /* default error handler */
             if (function_exists('errorHandlerPsi')) {
@@ -178,7 +178,7 @@ class QNX extends OS
     private function _memory()
     {
         if (CommonFunctions::executeProgram('pidin', 'info', $buf)
-           && preg_match('/^.* FreeMem:(\S+)Mb\/(\S+)Mb/' ,$buf, $memm)) {
+           && preg_match('/^.* FreeMem:(\S+)Mb\/(\S+)Mb/', $buf, $memm)) {
             $this->sys->setMemTotal(1024*1024*$memm[2]);
             $this->sys->setMemFree(1024*1024*$memm[1]);
             $this->sys->setMemUsed(1024*1024*($memm[2]-$memm[1]));
@@ -242,9 +242,9 @@ class QNX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The QNX version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->_distro();
         $this->_hostname();
         $this->_ip();
-        $this->_distro();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

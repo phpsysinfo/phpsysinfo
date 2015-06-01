@@ -354,4 +354,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
   </expression>
+  <expression id="117" name="tb">
+    <exp>TB пристрої</exp>
+  </expression>
 </tns:translation>

@@ -87,7 +87,7 @@ class WINNT extends OS
      */
     private function _getCodeSet()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet','OSLanguage'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage'));
         if ($buffer) {
             $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
             $lang = "";
@@ -112,7 +112,7 @@ class WINNT extends OS
      */
     private function _devicelist($strType)
     {
-        if ( empty($this->_wmidevices)) {
+        if (empty($this->_wmidevices)) {
             $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
         }
         $list = array();
@@ -156,16 +156,16 @@ class WINNT extends OS
     private function _ip()
     {
         if (PSI_USE_VHOST === true) {
-            if ( (($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
+            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
+                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
         } else {
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
             if ($buffer) {
                 $result = $buffer[0]['Name'];
                 $this->sys->setIp(gethostbyname($result));
             } else {
-            if ( (($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm) ) $this->sys->setIp($hip);
+            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
+                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
             }
         }
     }
@@ -240,11 +240,11 @@ class WINNT extends OS
             }
             $this->sys->setDistribution($buffer[0]['Caption']);
 
-            if ((($kernel[1] == ".") && ($kernel[0] <5)) || (substr($kernel,0,4) == "5.0."))
+            if ((($kernel[1] == ".") && ($kernel[0] <5)) || (substr($kernel, 0, 4) == "5.0."))
                 $icon = 'Win2000.png';
-            elseif ((substr($kernel,0,4) == "6.0.") || (substr($kernel,0,4) == "6.1."))
+            elseif ((substr($kernel, 0, 4) == "6.0.") || (substr($kernel, 0, 4) == "6.1."))
                 $icon = 'WinVista.png';
-            elseif ((substr($kernel,0,4) == "6.2.") || (substr($kernel,0,4) == "6.3.") || (substr($kernel,0,4) == "6.4.") || (substr($kernel,0,5) == "10.0."))
+            elseif ((substr($kernel, 0, 4) == "6.2.") || (substr($kernel, 0, 4) == "6.3.") || (substr($kernel, 0, 4) == "6.4.") || (substr($kernel, 0, 5) == "10.0."))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';
@@ -265,7 +265,7 @@ class WINNT extends OS
         } else {
             $this->sys->setDistribution("WinNT");
             $this->sys->setDistributionIcon('Win2000.png');
-       }
+        }
     }
 
     /**
@@ -324,7 +324,7 @@ class WINNT extends OS
      */
     private function _machine()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Manufacturer','Model'));
+        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Manufacturer', 'Model'));
         if ($buffer) {
             $buf = "";
             if (isset($buffer[0]['Manufacturer'])) {
@@ -378,46 +378,47 @@ class WINNT extends OS
      */
     private function _network()
     {
-        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface');//, array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
-        $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration');//, array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
+        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
+        $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
 
         foreach ($allDevices as $device) {
-           $dev = new NetDevice();
-           $name=$device['Name'];
+            $dev = new NetDevice();
+            $name=$device['Name'];
 
-           if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
-               foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                   if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
-                       $dev->setName($NetworkAdapterConfiguration['Description']);
-                       if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                           $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                           if (isset($NetworkAdapterConfiguration['IPAddress']))
-                               foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                   if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
+            if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
+                foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                    if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
+                        $dev->setName($NetworkAdapterConfiguration['Description']);
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                            $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                            if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                    if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
-                       }
+                        }
 
-                       break;
-                   }
-               }
-           } else {
-               $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
-               if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                    $name=substr($name,0,strlen($name)-strlen($ar_name[0]));
-               $dev->setName($name);
+                        break;
+                     }
+                }
+            }
+            if ($dev->getName() == "") { //no isatap or no isatap description
+                $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
+                if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
+                    $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
+                $dev->setName($name);
 
-               if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                   if ( preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname ) {
-                       if (!is_null($dev->getInfo())) {
-                           $dev->setInfo(''); //multiple with the same name
-                       } else {
-                           $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                           if (isset($NetworkAdapterConfiguration['IPAddress']))
-                               foreach( $NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                   if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i',$ipaddres))
-                                       $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
-                       }
-                   }
+                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                    if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname) {
+                        if (!is_null($dev->getInfo())) {
+                            $dev->setInfo(''); //multiple with the same name
+                        } else {
+                            $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                            if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                    if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                        }
+                    }
                 }
             }
 
@@ -507,20 +508,20 @@ class WINNT extends OS
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {
-                   if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/',$out_value, $out_dig )) {
-                       $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
-                       $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
-                       $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
-                       if ($used + $free == $size) {
-                           $dev = new DiskDevice();
-                           $dev->setMountPoint($letter.":");
-                           $dev->setFsType('Unknown');
-                           $dev->setTotal($size);
-                           $dev->setFree($free);
-                           $dev->setUsed($used);
-                           $this->sys->setDiskDevices($dev);
-                       }
-                   }
+                    if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/', $out_value, $out_dig)) {
+                        $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
+                        $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
+                        $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
+                        if ($used + $free == $size) {
+                            $dev = new DiskDevice();
+                            $dev->setMountPoint($letter.":");
+                            $dev->setFsType('Unknown');
+                            $dev->setTotal($size);
+                            $dev->setFree($free);
+                            $dev->setUsed($used);
+                            $this->sys->setDiskDevices($dev);
+                        }
+                    }
                 }
             }
         }
@@ -572,12 +573,12 @@ class WINNT extends OS
      */
     public function build()
     {
-        $this->_hostname();
-        $this->_ip();
         $this->_distro();
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
+        $this->_hostname();
+        $this->_ip();
         $this->_users();
         $this->_machine();
         $this->_uptime();

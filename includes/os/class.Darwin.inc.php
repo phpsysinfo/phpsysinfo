@@ -71,16 +71,16 @@ class Darwin extends BSDCommon
             /* delete newlines */
             $s = preg_replace("/\s+/", " ", $s);
             /* new newlines */
-            $s = preg_replace("/[\|\t ]*\+\-\o/", "\n", $s);
+            $s = preg_replace("/[\|\t ]*\+\-o/", "\n", $s);
             /* combine duplicate whitespaces and some chars */
             $s = preg_replace("/[\|\t ]+/", " ", $s);
 
             $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
             $out = "";
             foreach ($lines as $line) {
-               if (preg_match('/^([^<]*) <class '.$key.',/', $line)) {
+                if (preg_match('/^([^<]*) <class '.$key.',/', $line)) {
                     $out .= $line."\n";
-               }
+                }
             }
 
             return $out;
@@ -100,7 +100,7 @@ class Darwin extends BSDCommon
         if (CommonFunctions::executeProgram('sysctl', '-n kern.boottime', $a, PSI_DEBUG)) {
             $tmp = explode(" ", $a);
             if ($tmp[0]=="{") { /* kern.boottime= { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004 */
-              $data = trim($tmp[3],",");
+              $data = trim($tmp[3], ",");
               $this->sys->setUptime(time() - $data);
             } else { /* kern.boottime= 1096732600 */
               $this->sys->setUptime(time() - $a);
@@ -119,7 +119,7 @@ class Darwin extends BSDCommon
         if (CommonFunctions::executeProgram('hostinfo', '| grep "Processor type"', $buf, PSI_DEBUG)) {
             $dev->setModel(preg_replace('/Processor type: /', '', $buf));
             $buf=$this->grabkey('hw.model');
-            if ( !is_null($buf) && (trim($buf) != "")) {
+            if (!is_null($buf) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
                 if (CommonFunctions::rfts(APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
                     $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
@@ -134,15 +134,15 @@ class Darwin extends BSDCommon
                 }
             }
             $buf=$this->grabkey('machdep.cpu.brand_string');
-            if ( !is_null($buf) && (trim($buf) != "") &&
-                 ( (trim($buf) != "i486 (Intel 80486)") || ($dev->getModel() == "") ) ) {
+            if (!is_null($buf) && (trim($buf) != "") &&
+                 ((trim($buf) != "i486 (Intel 80486)") || ($dev->getModel() == ""))) {
                 $dev->setModel(trim($buf));
             }
             $buf=$this->grabkey('machdep.cpu.features');
-            if ( !is_null($buf) && (trim($buf) != "") ) {
-                if (preg_match("/ VMX/",$buf)) {
+            if (!is_null($buf) && (trim($buf) != "")) {
+                if (preg_match("/ VMX/", $buf)) {
                     $dev->setVirt("vmx");
-                } elseif (preg_match("/ SVM/",$buf)) {
+                } elseif (preg_match("/ SVM/", $buf)) {
                     $dev->setVirt("svm");
                 }
             }
@@ -151,16 +151,16 @@ class Darwin extends BSDCommon
         $dev->setBusSpeed(round($this->grabkey('hw.busfrequency') / 1000000));
         $bufn=$this->grabkey('hw.cpufrequency_min');
         $bufx=$this->grabkey('hw.cpufrequency_max');
-        if ( !is_null($bufn) && (trim($bufn) != "") && !is_null($bufx) && (trim($bufx) != "") && ($bufn != $bufx)) {
+        if (!is_null($bufn) && (trim($bufn) != "") && !is_null($bufx) && (trim($bufx) != "") && ($bufn != $bufx)) {
             $dev->setCpuSpeedMin(round($bufn / 1000000));
             $dev->setCpuSpeedMax(round($bufx / 1000000));
         }
         $buf=$this->grabkey('hw.l2cachesize');
-        if ( !is_null($buf) && (trim($buf) != "") ) {
+        if (!is_null($buf) && (trim($buf) != "")) {
             $dev->setCache(round($buf));
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if ( is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)) )
+        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
             $ncpu = 1;
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);
@@ -179,9 +179,14 @@ class Darwin extends BSDCommon
             $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
                 $dev = new HWDevice();
-                if (!preg_match('/"IOName" = "([^"]*)"/', $line, $ar_buf ))
+                if (!preg_match('/"IOName" = "([^"]*)"/', $line, $ar_buf)) {
                     $ar_buf = preg_split("/[\s@]+/", $line, 19);
-                $dev->setName(trim($ar_buf[1]));
+                }
+                if (preg_match('/"model" = <?"([^"]*)"/', $line, $ar_buf2)) {
+                    $dev->setName(trim($ar_buf[1]). ": ".trim($ar_buf2[1]));
+                } else {
+                    $dev->setName(trim($ar_buf[1]));
+                }
                 $this->sys->setPciDevices($dev);
             }
         } else {
@@ -202,8 +207,8 @@ class Darwin extends BSDCommon
         $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($lines as $line) {
                     $dev = new HWDevice();
-                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf ))
-                       $ar_buf = preg_split("/[\s]+/", $line, 19);
+                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
                     $dev->setName(trim($ar_buf[1]));
                     $this->sys->setIdeDevices($dev);
         }
@@ -212,8 +217,8 @@ class Darwin extends BSDCommon
         $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($lines as $line) {
                     $dev = new HWDevice();
-                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf ))
-                       $ar_buf = preg_split("/[\s]+/", $line, 19);
+                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
                     $dev->setName(trim($ar_buf[1]));
                     $this->sys->setIdeDevices($dev);
         }
@@ -230,8 +235,8 @@ class Darwin extends BSDCommon
         $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($lines as $line) {
                     $dev = new HWDevice();
-                    if (!preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf ))
-                       $ar_buf = preg_split("/[\s]+/", $line, 19);
+                    if (!preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
                     $dev->setName(trim($ar_buf[1]));
                     $this->sys->setUsbDevices($dev);
         }
@@ -248,8 +253,8 @@ class Darwin extends BSDCommon
         $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($lines as $line) {
                     $dev = new HWDevice();
-                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf ))
-                       $ar_buf = preg_split("/[\s]+/", $line, 19);
+                    if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
                     $dev->setName(trim($ar_buf[1]));
                     $this->sys->setScsiDevices($dev);
         }
@@ -265,7 +270,7 @@ class Darwin extends BSDCommon
         $s = $this->grabkey('hw.memsize');
         if (CommonFunctions::executeProgram('vm_stat', '', $pstat, PSI_DEBUG)) {
             // calculate free memory from page sizes (each page = 4096)
-            if (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf )) {
+            if (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf)) {
                 if (preg_match('/^Anonymous pages:\s+(\S+)/m', $pstat, $anon_buf)
                    && preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)
                    && preg_match('/^File-backed pages:\s+(\S+)/m', $pstat, $fileb_buf)) {
@@ -321,6 +326,24 @@ class Darwin extends BSDCommon
     }
 
     /**
+     * get the thunderbolt device information out of ioreg
+     *
+     * @return void
+     */
+    protected function _tb()
+    {
+        $s = $this->_grabioreg('IOThunderboltPort');
+        $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($lines as $line) {
+                    $dev = new HWDevice();
+                    if (!preg_match('/"Description" = "([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
+                    $dev->setName(trim($ar_buf[1]));
+                    $this->sys->setTbDevices($dev);
+        }
+    }
+
+    /**
      * get network information
      *
      * @return void
@@ -349,7 +372,7 @@ class Darwin extends BSDCommon
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
-                                  && !preg_match('/^fe80::/i',$ar_buf2[1]))
+                                  && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }
                     }
@@ -378,10 +401,10 @@ class Darwin extends BSDCommon
 
                     if (preg_match('/(^Mac OS)|(^OS X)/', $distro)) {
                         $this->sys->setDistributionIcon('Apple.png');
-                        if (preg_match('/((^Mac OS X)|(^OS X)) (\d+\.\d+)/', $distro, $ver)
+                        if (preg_match('/((^Mac OS X Server)|(^Mac OS X)|(^OS X Server)|(^OS X)) (\d+\.\d+)/', $distro, $ver)
                             && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
-                            && isset($list['OS X'][$ver[4]])) {
-                            $distro.=' '.$list['OS X'][$ver[4]];
+                            && isset($list['OS X'][$ver[6]])) {
+                            $distro.=' '.$list['OS X'][$ver[6]];
                         }
                     }
 
@@ -436,5 +459,6 @@ class Darwin extends BSDCommon
         $this->_uptime();
         $this->_network();
         $this->_processes();
+        $this->_tb();
     }
 }

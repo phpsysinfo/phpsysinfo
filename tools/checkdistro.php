@@ -55,9 +55,9 @@ class CommonFunctions
                     if (preg_match("/^\-\-\-\-\-\-\-\-\-\-/m", $contents, $matches, PREG_OFFSET_CAPTURE, $startIndex)) {
                         $stopIndex = $matches[0][1];
 
-                        return substr($contents, $startIndex, $stopIndex-$startIndex );
+                        return substr($contents, $startIndex, $stopIndex-$startIndex);
                     } else {
-                        return substr($contents, $startIndex );
+                        return substr($contents, $startIndex);
                     }
                 }
             }
@@ -72,7 +72,7 @@ class CommonFunctions
         global $lsbfile;
         if ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release")) {
             $strRet=self::_parse_log_file($strFileName);
-            if ($strRet && ($intLines == 1)) {
+            if ($strRet && ($intLines == 1) && (strpos($strRet, "\n") !== false)) {
                 $strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
             }
 

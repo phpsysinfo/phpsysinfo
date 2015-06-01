@@ -763,6 +763,14 @@ function fillCpu(xml, tree, rootposition, collapsed) {
     return html;
 }
 
+function countCpu(xml) {
+    var cpucount = 0;
+    $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
+        cpucount += 1;
+    });
+    return cpucount;
+}
+
 /**
  * build rows for a treetable out of the hardwaredevices
  * @param {jQuery} xml phpSysInfo-XML
@@ -790,6 +798,14 @@ function fillHWDevice(xml, type, tree, rootposition) {
     return html;
 }
 
+function countHWDevice(xml, type) {
+    var devicecount = 0;
+    $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
+        devicecount += 1;
+    });
+    return devicecount;
+}
+
 /**
  * (re)fill the hardware block with the values from the given xml
  * @param {jQuery} xml phpSysInfo-XML
@@ -804,34 +820,51 @@ function refreshHardware(xml) {
     $("Hardware", xml).each(function getMachine(id) {
         machine = $(this).attr("Name");
     });
-    if ( (machine !== undefined) && (machine != "") ) {
+    if ((machine !== undefined) && (machine != "")) {
         html += "    <tr><td colspan=\"2\"><b>" + genlang(107, false) + "</b></td></tr>\n";
         html += "<tr><td colspan=\"2\">" + machine + "</td></tr>\n";
         tree.push(tree.push(0));
     }
 
-    html += "    <tr><td colspan=\"2\"><b>" + genlang(11, false) + "</b></td></tr>\n";
-    html += fillCpu(xml, tree, tree.push(0), closed);
+    if (countCpu(xml)) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(11, false) + "</b></td></tr>\n";
+        html += fillCpu(xml, tree, tree.push(0), closed);
+    }
 
-    html += "    <tr><td colspan=\"2\"><b>" + genlang(17, false) + "</b></td></tr>\n";
-    index = tree.push(0);
-    closed.push(index);
-    html += fillHWDevice(xml, 'PCI', tree, index);
+    if (countHWDevice(xml, 'PCI')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(17, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'PCI', tree, index);
+    }
 
-    html += "    <tr><td colspan=\"2\"><b>" + genlang(18, false) + "</b></td></tr>\n";
-    index = tree.push(0);
-    closed.push(index);
-    html += fillHWDevice(xml, 'IDE', tree, index);
+    if (countHWDevice(xml, 'IDE')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(18, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'IDE', tree, index);
+    }
 
-    html += "    <tr><td colspan=\"2\"><b>" + genlang(19, false) + "</b></td></tr>\n";
-    index = tree.push(0);
-    closed.push(index);
-    html += fillHWDevice(xml, 'SCSI', tree, index);
+    if (countHWDevice(xml, 'SCSI')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(19, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'SCSI', tree, index);
+    }
 
-    html += "    <tr><td colspan=\"2\"><b>" + genlang(20, false) + "</b></td></tr>\n";
-    index = tree.push(0);
-    closed.push(index);
-    html += fillHWDevice(xml, 'USB', tree, index);
+    if (countHWDevice(xml, 'USB')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(20, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'USB', tree, index);
+    }
+
+    if (countHWDevice(xml, 'TB')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(117, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'TB', tree, index);
+    }
 
     html += "   </tbody>\n";
     html += "  </table>\n";

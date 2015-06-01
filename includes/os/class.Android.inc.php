@@ -148,7 +148,7 @@ class Android extends Linux
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = trim($ar_buf[1]);
         }
-        if ( is_null($buf) || ($buf == "")) {
+        if (is_null($buf) || ($buf == "")) {
             $this->sys->setDistribution('Android');
         } else {
             if (preg_match('/^(\d+\.\d+)/', $buf, $ver)
@@ -212,7 +212,7 @@ class Android extends Linux
      */
     private function _usb()
     {
-        if (CommonFunctions::executeProgram('lsusb', '', $bufr, false)) {
+        if (file_exists('/dev/bus/usb') && CommonFunctions::executeProgram('lsusb', '', $bufr, false)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 6);

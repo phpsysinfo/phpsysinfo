@@ -110,7 +110,7 @@ class HDDTemp extends Sensors
                 if (trim($data[3]) != "ERR") {
                     // get the info we need
                     $dev = new SensorDevice();
-                    $dev->setName($data[1] . ' (' . (strpos($data[2],"  ")?substr($data[2],0,strpos($data[2],"  ")):$data[2]) . ')');
+                    $dev->setName($data[1] . ' (' . (strpos($data[2], "  ")?substr($data[2], 0, strpos($data[2], "  ")):$data[2]) . ')');
                     if (is_numeric($data[3])) {
                         $dev->setValue($data[3]);
                     }

@@ -1,4 +1,11 @@
 <files phpsysinfo.ini>
-  order deny,allow
-  deny from all
+# Deny all requests from Apache 2.0-2.2
+    <IfModule !mod_authz_core.c>
+        order deny,allow
+        deny from all
+    </IfModule>
+# Deny all requests from Apache 2.4+
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
 </files>

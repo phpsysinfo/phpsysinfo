@@ -204,7 +204,7 @@ class SunOS extends OS
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2)
-                                      && !preg_match('/^fe80::/i',$ar_buf2[1]))
+                                      && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }
                         }
@@ -245,7 +245,7 @@ class SunOS extends OS
     private function _filesystems()
     {
         if (CommonFunctions::executeProgram('df', '-k', $df, PSI_DEBUG)) {
-            $df = preg_replace('/\n\s/m',' ', $df);
+            $df = preg_replace('/\n\s/m', ' ', $df);
             $mounts = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($mounts as $mount) {
                 $ar_buf = preg_split('/\s+/', $mount, 6);
@@ -266,7 +266,7 @@ class SunOS extends OS
                             }
                         }
                     } elseif (CommonFunctions::executeProgram('df', '-T', $dftypes, PSI_DEBUG)) {
-                        $dftypes = preg_replace('/\n\s/m',' ', $dftypes);
+                        $dftypes = preg_replace('/\n\s/m', ' ', $dftypes);
                         $mounttypes = preg_split("/\n/", $dftypes, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($mounttypes as $type) {
                             $ty_buf = preg_split("/\s+/", $type, 3);
@@ -333,9 +333,9 @@ class SunOS extends OS
     public function build()
     {
         $this->error->addError("WARN", "The SunOS version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->_distro();
         $this->_hostname();
         $this->_ip();
-        $this->_distro();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

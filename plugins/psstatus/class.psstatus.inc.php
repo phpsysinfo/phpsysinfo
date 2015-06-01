@@ -64,13 +64,13 @@ class PSStatus extends PSI_Plugin
                 } catch (Exception $e) {
                 }
             } else {
-                if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
+                if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
                         $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
                     } else {
                         $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                     }
-                    if ( defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
+                    if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x ".$process, $buffer, PSI_DEBUG);
                             if (strlen(trim($buffer)) > 0) {
@@ -113,10 +113,10 @@ class PSStatus extends PSI_Plugin
      */
     public function execute()
     {
-        if ( empty($this->_filecontent)) {
+        if (empty($this->_filecontent)) {
             return;
         }
-        if ( defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES) ) {
+        if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
             if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
                 $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
             } else {

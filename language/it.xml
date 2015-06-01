@@ -121,7 +121,7 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
     <exp>Totali</exp>
   </expression>
   <expression id="039" name="kb">
-    <exp>KB</exp>
+    <exp>kB</exp>
   </expression>
   <expression id="040" name="mb">
     <exp>MB</exp>
@@ -353,5 +353,8 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
   </expression>
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
+  </expression>
+  <expression id="117" name="tb">
+    <exp>Unità TB</exp>
   </expression>
 </tns:translation>

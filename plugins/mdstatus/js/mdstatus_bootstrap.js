@@ -1,5 +1,22 @@
 function renderPlugin_mdstatus(data) {
 
+    function raid_buildaction(data) {
+        var html = "", name = "", percent = 0;
+        if (data !== undefined) {
+            name = data['Name'];
+            if ((name !== undefined) && (parseInt(name) !== -1)) {
+                percent = Math.round(parseFloat(data['Percent']));
+                html += "<div>Current Action:" + String.fromCharCode(160) + name + "<br/>";
+                html += '<table width=100%><tr><td width=50%><div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width: ' + percent + '%;"></div>' +
+                        '</div><div class="percent">' + percent + '%</div></td><td></td></tr></table>';
+                html += "Finishing in:" + String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
+                html += "</div>";
+            }
+        }
+        return html;
+    }
+
     function raid_diskicon(data) {
         var html = "";
         var img = "", alt = "";
@@ -79,6 +96,13 @@ function renderPlugin_mdstatus(data) {
                     }
 
                     html += "</td></tr><tr><td>";
+                    if (mditems[i]['Action'] !== undefined) {
+                        var buildedaction = raid_buildaction(mditems[i]['Action']['@attributes']);
+                        if (buildedaction) {
+                            html += "<tr><td>" + buildedaction + "</td></tr>";
+                        }
+                    }
+
                     html += "<table id=\"mdstatus-" + i + "\"class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><b>" + mditems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>Status</th><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";

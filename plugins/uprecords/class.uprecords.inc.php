@@ -44,7 +44,7 @@ class uprecords extends PSI_Plugin
 
     private function uprecords()
     {
-        $result = array ();
+        $result = array();
         $i = 0;
 
         foreach ($this->_lines as $line) {
@@ -94,7 +94,7 @@ class uprecords extends PSI_Plugin
 
     public function xml()
     {
-        if ( empty($this->_lines))
+        if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
         $arrBuff = $this->uprecords();

@@ -3,6 +3,19 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.2
+----------------
+ - [UPD] bootstrap 3.3.4
+
+ - [NEW] Thunderbolt (TB) devices list on Darwin
+
+ - [ADD] cleansyn template
+ - [ADD] PS plugin - support for Android
+ - [ADD] PS plugin - SHOW_KTHREADD_EXPANDED option
+ - [ADD] Qubes and HandyLinux to detected distros
+
+ - [FIX] PS plugin - fixed display of the processes tree
+
 phpSysInfo 3.2.1
 ----------------
  - [UPD] bootstrap 3.3.2

@@ -57,6 +57,11 @@ $(document).ready(function () {
     });
 
     reload(true);
+
+    $(".navbar-brand").click(function () {
+        reload();
+    });
+
 });
 
 Array.prototype.push_attrs=function(element) {
@@ -108,7 +113,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:20px"/>' + " " +this["Distro"];
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px"/>' + " " +this["Distro"];
             }
         },
         LoadAvg: {
@@ -244,7 +249,7 @@ function renderHardware(data) {
     };
 
     var html="";
-    
+
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
         html+="<th width=8%>Machine</th>";
@@ -253,16 +258,17 @@ function renderHardware(data) {
         html+="</tr>";
     }
 
-    html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\" style=\"display:none\" >";
-    html+="<th>CPU</th>";
-    html+="<td>Number of processors:</td>";
-    html+="<td class=\"rightCell\"><span></span></td>";
-    html+="</tr>";
-
     var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
+             if (i == 0) {
+                html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
+                html+="<th>CPU</th>";
+                html+="<td>Number of processors:</td>";
+                html+="<td class=\"rightCell\"><span></span></td>";
+                html+="</tr>";
+            }
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
             html+="<td><span data-bind=\"Model\"></span></td>";
@@ -284,16 +290,17 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
-        html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\" style=\"display:none\" >";
-        html+="<th>" + hw_type + "</th>";
-        html+="<td>Number of devices:</td>";
-        html+="<td class=\"rightCell\"><span></span></td>";
-        html+="</tr>";
-
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
+                if (i == 0) {
+                    html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
+                    html+="<th>" + hw_type + "</th>";
+                    html+="<td>Number of devices:</td>";
+                    html+="<td class=\"rightCell\"><span></span></td>";
+                    html+="</tr>";
+                }
                 html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\">";
                 html+="<th></th>";
                 html+="<td><span data-bind=\"hwName\"></span></td>";
@@ -330,7 +337,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
         try {
             var licz = 0;
             var datas = items(data["Hardware"][hw_type]["Device"]);
@@ -356,7 +363,11 @@ function renderHardware(data) {
         expanderCollapsedClass: 'normalicon normalicon-right'
     });
     if (data["Options"]["@attributes"]["showCPUListExpanded"] !== "false") {
-        $('#hardware-CPU').treegrid('expand');
+        try {
+            $('#hardware-CPU').treegrid('expand');
+        }
+        catch (err) {
+        }
     }
     if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
         try {
@@ -588,7 +599,7 @@ function renderNetwork(data) {
             html+="<td class=\"rightCell\"><span data-bind=\"TxBytes\"></span></td>";
             html+="<td class=\"rightCell\"><span data-bind=\"Drops\"></span></td>";
             html+="</tr>";
-          
+
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
@@ -1056,7 +1067,7 @@ function formatBytes(bytes, byteFormat) {
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += String.fromCharCode(160) + "KB";
+        show += String.fromCharCode(160) + "kB";
         break;
     case "b":
         show += bytes;
@@ -1085,7 +1096,7 @@ function formatBytes(bytes, byteFormat) {
                     else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += String.fromCharCode(160) + "KB";
+                            show += String.fromCharCode(160) + "kB";
                         }
                         else {
                                 show += bytes;

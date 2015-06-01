@@ -41,7 +41,7 @@ function psstatus_populate(xml) {
     $("Plugins Plugin_PSStatus Process", xml).each(function psstatus_getprocess(idp) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("Status"), 10);
-        if (status === 1 && !isNaN(status)) {
+        if (!isNaN(status) && (status === 1)) {
             state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/online.png\" alt=\"online\" />";
         }
         else {
