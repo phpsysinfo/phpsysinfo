@@ -716,7 +716,6 @@ class Linux extends OS
         foreach ($hideFstypes as $Fstype) {
             $df_args .= "-x $Fstype ";
         }
-        
         if ($df_args !== "") {
             $df_args = trim($df_args); //trim spaces
             $arrResult = Parser::df("-P $df_args 2>/dev/null");
