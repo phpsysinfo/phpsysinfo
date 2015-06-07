@@ -716,8 +716,13 @@ class Linux extends OS
         foreach ($hideFstypes as $Fstype) {
             $df_args .= "-x $Fstype ";
         }
-
-        $arrResult = Parser::df("-P $df_args 2>/dev/null");
+        
+        if ($df_args !== "") {
+            $df_args = trim($df_args); //trim spaces
+            $arrResult = Parser::df("-P $df_args 2>/dev/null");
+        } else {
+            $arrResult = Parser::df("-P 2>/dev/null");
+        }
         foreach ($arrResult as $dev) {
             $this->sys->setDiskDevices($dev);
         }
