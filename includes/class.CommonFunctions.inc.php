@@ -118,7 +118,7 @@ class CommonFunctions
                 $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
             }
         }
-        foreach ($arrPath as $strPath) {  
+        foreach ($arrPath as $strPath) {
             // Path with trailing slash
             if (PSI_OS == 'WINNT') {
                 $strPathS = rtrim($strPath, "\\")."\\";

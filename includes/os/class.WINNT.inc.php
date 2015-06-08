@@ -588,7 +588,6 @@ class WINNT extends OS
      */
     public function build()
     {
-        $old=microtime(true);
         $this->_distro();
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
