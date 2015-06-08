@@ -220,6 +220,7 @@ class WINNT extends OS
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
+            $users = 0;
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
             foreach ($buffer as $process) {
                 if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
