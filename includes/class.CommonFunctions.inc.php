@@ -75,17 +75,18 @@ class CommonFunctions
             } else {
                 $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
             }
+            if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
+                if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
+                    $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
+                } else {
+                    $arrPath = array_merge(array(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
+                }
+            }
         } else {
             array_push($arrPath, $path_parts['dirname']);
             $strProgram = $path_parts['basename'];
         }
-        if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
-            if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
-                $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-            } else {
-                $arrPath = array_merge(array(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-            }
-        }
+
         //add some default paths if we still have no paths here
         if (empty($arrPath) && PSI_OS != 'WINNT') {
             if (PSI_OS == 'Android') {
@@ -94,6 +95,21 @@ class CommonFunctions
                 array_push($arrPath, '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
             }
         }
+
+        $exceptPath = "";
+        if ((PSI_OS == 'WINNT') && (($windir = getenv("WinDir")) !== false)) {
+            $windir = strtolower($windir);
+            foreach ($arrPath as $strPath) {
+                if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
+                    $exceptPath = $windir."\\sysnative";
+                    array_push($arrPath, $exceptPath);
+                    break;
+                }
+            }
+        } else if (PSI_OS == 'Android') {
+             $exceptPath = '/system/bin';
+        }
+
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
         if ((bool) ini_get('open_basedir')) {
             if (PSI_OS == 'WINNT') {
@@ -102,15 +118,14 @@ class CommonFunctions
                 $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
             }
         }
-        foreach ($arrPath as $strPath) {
+        foreach ($arrPath as $strPath) {  
             // Path with trailing slash
             if (PSI_OS == 'WINNT') {
                 $strPathS = rtrim($strPath, "\\")."\\";
             } else {
                 $strPathS = rtrim($strPath, "/")."/";
             }
-            if (!((PSI_OS == 'Android') && ($strPath=='/system/bin')) //is_dir('/system/bin') Android patch
-               && !is_dir($strPath)) {
+            if (($strPath !== $exceptPath) && !is_dir($strPath)) {
                 continue;
             }
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
