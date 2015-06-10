@@ -357,4 +357,7 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   <expression id="117" name="tb">
     <exp>התקני TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>התקני I2C</exp>
+  </expression>
 </tns:translation>

@@ -357,4 +357,7 @@ phpSysInfo language file Language: Romană Created by: Sorin Gheorghe Update by:
   <expression id="117" name="tb">
     <exp>Dispozitive TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Dispozitive I2C</exp>
+  </expression>
 </tns:translation>

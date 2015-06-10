@@ -357,4 +357,7 @@ phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerry
   <expression id="117" name="tb">
     <exp>Dispositius TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Dispositius I2C</exp>
+  </expression>
 </tns:translation>

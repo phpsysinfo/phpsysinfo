@@ -357,4 +357,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
   <expression id="117" name="tb">
     <exp>Périphériques TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Périphériques I2C</exp>
+  </expression>
 </tns:translation>

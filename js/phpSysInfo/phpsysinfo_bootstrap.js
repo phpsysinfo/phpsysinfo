@@ -290,7 +290,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
@@ -337,7 +337,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var licz = 0;
             var datas = items(data["Hardware"][hw_type]["Device"]);

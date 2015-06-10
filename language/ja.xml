@@ -357,4 +357,7 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
   <expression id="117" name="tb">
     <exp>TBデバイス</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2Cデバイス</exp>
+  </expression>
 </tns:translation>

@@ -357,4 +357,7 @@ phpSysInfo language file Language: Hungarian Created by: Bálint Kiss
   <expression id="117" name="tb">
     <exp>TB Eszközök</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C Eszközök</exp>
+  </expression>
 </tns:translation>

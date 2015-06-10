@@ -544,6 +544,28 @@ class Linux extends OS
     }
 
     /**
+     * I2C devices
+     *
+     * @return void
+     */
+    protected function _i2c()
+    {
+        $i2cdevices = glob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
+        if (($total = count($i2cdevices)) > 0) {
+            $buf = "";
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 0, 4096, false)) {
+                    if (trim($buf) != "") {
+                        $dev = new HWDevice();
+                        $dev->setName(trim($buf));
+                        $this->sys->setI2cDevices($dev);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Network devices
      * includes also rx/tx bytes
      *
@@ -1064,6 +1086,7 @@ class Linux extends OS
         $this->_ide();
         $this->_scsi();
         $this->_usb();
+        $this->_i2c();
         $this->_network();
         $this->_memory();
         $this->_filesystems();

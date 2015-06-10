@@ -357,4 +357,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
   <expression id="117" name="tb">
     <exp>TB пристрої</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C пристрої</exp>
+  </expression>
 </tns:translation>

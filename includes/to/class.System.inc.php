@@ -159,6 +159,15 @@ class System
     private $_tbDevices = array();
 
     /**
+     * array with I2C devices
+     *
+     * @see HWDevice
+     *
+     * @var Array
+     */
+    private $_i2cDevices = array();
+
+    /**
      * array with disk devices
      *
      * @see DiskDevice
@@ -886,6 +895,33 @@ class System
     public function setTbDevices($tbDevices)
     {
         array_push($this->_tbDevices, $tbDevices);
+    }
+
+    /**
+     * Returns $_i2cDevices.
+     *
+     * @see System::$_i2cDevices
+     *
+     * @return Array
+     */
+    public function getI2cDevices()
+    {
+        return $this->_i2cDevices;
+    }
+
+    /**
+     * Sets $_i2cDevices.
+     *
+     * @param HWDevice $i2cDevices I2C device
+     *
+     * @see System::$_i2cDevices
+     * @see HWDevice
+     *
+     * @return Void
+     */
+    public function setI2cDevices($i2cDevices)
+    {
+        array_push($this->_i2cDevices, $i2cDevices);
     }
 
     /**

@@ -357,4 +357,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
   <expression id="117" name="tb">
     <exp>TB zařízení</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C zařízení</exp>
+  </expression>
 </tns:translation>

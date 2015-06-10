@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.3
+----------------
+ - [NEW] I2C devices list on Android and Linux
+
 phpSysInfo 3.2.2
 ----------------
  - [UPD] bootstrap 3.3.4

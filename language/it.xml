@@ -357,4 +357,7 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
   <expression id="117" name="tb">
     <exp>Unità TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Unità I2C</exp>
+  </expression>
 </tns:translation>
