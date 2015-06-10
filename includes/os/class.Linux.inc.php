@@ -554,7 +554,7 @@ class Linux extends OS
         if (($total = count($i2cdevices)) > 0) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
-                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 0, 4096, false)) {
+                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false)) {
                     if (trim($buf) != "") {
                         $dev = new HWDevice();
                         $dev->setName(trim($buf));
