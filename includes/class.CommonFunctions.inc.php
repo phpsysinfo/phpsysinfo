@@ -535,7 +535,8 @@ class CommonFunctions
                 }
             } catch (Exception $e) {
                 if (PSI_DEBUG) {
-                    $this->error->addError($e->getCode(), $e->getMessage());
+                    $error = Error::singleton();
+                    $error->addError($e->getCode(), $e->getMessage());
                 }
             }
         }
