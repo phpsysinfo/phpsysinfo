@@ -520,7 +520,7 @@ class CommonFunctions
                     }
                     $arrInstance = array();
                     foreach ($arrProp as $propItem) {
-                        eval("\$value = \$objItem->".$propItem->Name.";");
+                        $value = $objItem->{$propItem->Name}; //instead exploitable eval("\$value = \$objItem->".$propItem->Name.";");
                         if (empty($strValue)) {
                             if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
                             else $arrInstance[$propItem->Name] = $value;
