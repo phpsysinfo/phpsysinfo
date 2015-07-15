@@ -487,8 +487,7 @@ class CommonFunctions
             foreach ($read as $r) {
                 if ($r == $pipes[1]) {
                     $out .= fread($r, 4096);
-                }
-                if ($pipe2 && ($r == $pipes[2])) {
+                } else if (feof($pipes[1]) && $pipe2 && ($r == $pipes[2])) {//read STDERR after STDOUT
                     $err .= fread($r, 4096);
                 }
             }
