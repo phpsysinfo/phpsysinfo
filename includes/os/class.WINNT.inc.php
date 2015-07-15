@@ -216,7 +216,7 @@ class WINNT extends OS
      */
     private function _users()
     {
-        if (CommonFunctions::executeProgram("query", "user", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+        if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -567,9 +567,9 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (CommonFunctions::executeProgram("query", "process *", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+        if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
-            $processes['*'] = (count($lines)-1) - 4 ; //correction for process "query process *" 
+            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *" 
         }
         if ($processes['*'] <= 0) {
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
