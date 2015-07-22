@@ -10,6 +10,8 @@ phpSysInfo 3.2.3
 
  - [NEW] I2C devices list on Android and Linux
 
+ - [ADD] blue template
+
 phpSysInfo 3.2.2
 ----------------
  - [UPD] bootstrap 3.3.4
