@@ -150,7 +150,7 @@ class Linux extends OS
                 $result .= ' (SMP)';
             }
         }
-        if ($result != "" ) {
+        if ($result != "") {
             if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
                 if (preg_match('/:\/lxc\//m', $strBuf2)) {
                     $result .= ' [lxc]';
