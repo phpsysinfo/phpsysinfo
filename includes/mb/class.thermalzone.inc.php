@@ -93,24 +93,26 @@ class ThermalZone extends Sensors
                     if ($temp >= 1000) {
                         $temp = $temp / 1000;
                     }
+                    
+                    if ($temp > -40) {
+                        $dev = new SensorDevice();
+                        $dev->setValue($temp);
 
-                    $dev = new SensorDevice();
-                    $dev->setValue($temp);
-
-                    $temp_type = null;
-                    if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 0, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
-                        $dev->setName($temp_type);
-                    }
-
-                    $temp_max = null;
-                    if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > 0)) {
-                        if ($temp_max >= 1000) {
-                            $temp_max = $temp_max / 1000;
+                        $temp_type = null;
+                        if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 0, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
+                            $dev->setName($temp_type);
                         }
-                        $dev->setMax($temp_max);
-                    }
 
-                    $this->mbinfo->setMbTemp($dev);
+                        $temp_max = null;
+                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > 0)) {
+                            if ($temp_max >= 1000) {
+                                $temp_max = $temp_max / 1000;
+                            }
+                            $dev->setMax($temp_max);
+                        }
+
+                        $this->mbinfo->setMbTemp($dev);
+                    }
                 }
             }
         }
