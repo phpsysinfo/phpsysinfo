@@ -8,7 +8,7 @@ function reload(initiate) {
 //            console.log(data);
 //            data_dbg = data;
             if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
-                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined)) {
+                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                 setInterval(reload, refrtime);
             } else {
                 $("#errors").empty();
