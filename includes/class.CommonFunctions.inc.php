@@ -125,9 +125,6 @@ class CommonFunctions
             } else {
                 $strPathS = rtrim($strPath, "/")."/";
             }
-            if (($strPath !== $exceptPath) && !is_dir($strPath)) {
-                continue;
-            }
             // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
             if (isset($open_basedir)) {
                 $inBaseDir = false;
@@ -159,6 +156,9 @@ class CommonFunctions
                 if ($inBaseDir == false) {
                     continue;
                 }
+            }
+            if (($strPath !== $exceptPath) && !is_dir($strPath)) {
+                continue;
             }
             if (PSI_OS == 'WINNT') {
                 $strProgrammpath = rtrim($strPath, "\\")."\\".$strProgram;
