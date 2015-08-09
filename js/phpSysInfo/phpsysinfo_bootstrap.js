@@ -58,7 +58,7 @@ $(document).ready(function () {
 
     reload(true);
 
-    $(".navbar-brand").click(function () {
+    $(".navbar-logo").click(function () {
         reload();
     });
 
