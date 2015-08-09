@@ -63,13 +63,13 @@ if ($script != null) {
             }
             break;
         case "none":
-            if (file_exists($scriptmin) && is_readable($scriptmin)) {
-                $filecontent = file_get_contents($scriptmin);
-                echo $filecontent;
-            } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
+            if (file_exists($scriptjs) && is_readable($scriptjs)) {
                 $filecontent = file_get_contents($scriptjs);
                 $packer = new JavaScriptPacker($filecontent, 0);
                 echo $packer->pack();
+            } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
+                $filecontent = file_get_contents($scriptmin);
+                echo $filecontent;
             }
             break;
         default:
