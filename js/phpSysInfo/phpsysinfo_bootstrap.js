@@ -1,6 +1,8 @@
 //var data_dbg;
 
 function reload(initiate) {
+    $("#errorbutton").hide();
+    $("#errors").empty();
     $.ajax({
         dataType: "json",
         url: "xml.php?json",
@@ -10,8 +12,6 @@ function reload(initiate) {
             if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
                 && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                 setInterval(reload, refrtime);
-            } else {
-                $("#errors").empty();
             }
             renderErrors(data);
             renderVitals(data);
@@ -59,7 +59,7 @@ $(document).ready(function () {
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
         reload(true);
 
-        $(".navbar-brand").click(function () {
+        $(".navbar-logo").click(function () {
             reload();
         });
     });
