@@ -56,10 +56,12 @@ $(document).ready(function () {
         $("#loader").hide();
     });
 
-    reload(true);
+    $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+        reload(true);
 
-    $(".navbar-logo").click(function () {
-        reload();
+        $(".navbar-brand").click(function () {
+            reload();
+        });
     });
 
 });

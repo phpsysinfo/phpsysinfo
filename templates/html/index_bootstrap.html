@@ -13,12 +13,6 @@
     <![endif]-->
     <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="templates/phpsysinfo_bootstrap.css">
-<!--[if lt IE 9]>
-    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
-<!--<![endif]-->
 </head>
 
 <body>
@@ -359,9 +353,14 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <!-- /.modal -->
 
 </div>
+<!--[if lt IE 9]>
+    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
+<!--<![endif]-->
 
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap"></script>
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
