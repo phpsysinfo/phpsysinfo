@@ -357,4 +357,7 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   <expression id="117" name="tb">
     <exp>TB Devices</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C Devices</exp>
+  </expression>
 </tns:translation>

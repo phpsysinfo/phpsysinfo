@@ -244,6 +244,7 @@ class Android extends Linux
         $this->_cpuinfo();
         $this->_pci();
         $this->_usb();
+        $this->_i2c();
         $this->_network();
         $this->_memory();
         $this->_filesystems();

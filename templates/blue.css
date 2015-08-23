@@ -1,19 +1,17 @@
-/*
- $Id
- */ * {
+* {
     margin: 0;
     padding: 0;
 }
 
 html {
-    background: url("cream/bg.gif") repeat-x #F8F2E3;
-    color: #444B54;
+    background: url("blue/bg.png") #195287;
+    color: #195287;
     font-size: 100%;
     height: 100%;
 }
 
 body {
-    font-family: Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+    font-family: Helvetica, Verdana, Tahoma, Arial, 'Liberation Sans', FreeSans, sans-serif;
     font-size: .75em;
     position: relative;
     margin: 0 auto;
@@ -32,29 +30,31 @@ p {
 }
 
 h1 {
-    color: #394047;
-    font-size: 150%;
-    font-weight: normal;
+    color: #FFF;
+    font-size: 170%;
+    font-weight: bold;
     line-height: 1.5em;
     margin: 0 10px;
     _margin: 0 15px 0 10px; /* ie6 */
     padding: 10px 10px;
     text-align: center;
+    text-shadow: #444444 2px 2px 3px;
 }
 
 h2 {
-    background-color: #444B54;
+    background-image: url('blue/title.png');
+    background-color: #195287;
     color: #fff;
     font-size: 130%;
     font-weight: bold;
     line-height: 1.5em;
     padding: 3px 10px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
+    text-shadow: #333333 2px 2px 2px;
 }
 
 table {
     width: 100%;
-    background-color: #fff;
 }
 
 .plugin {
@@ -62,9 +62,8 @@ table {
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     padding: 1px;
-    background: #fff;
+    background-color: #F6F6F6;
 }
-
 
 th, td, h3 {
     font-size: 100%;
@@ -75,7 +74,7 @@ th, td, h3 {
 
 a {
     text-decoration: none;
-    color: #c03000;
+    color: #EFEFEF;
 }
 
 a:hover {
@@ -84,6 +83,7 @@ a:hover {
 
 #select {
     text-align: right;
+    color: #FFF
 }
 
 #select select {
@@ -114,7 +114,7 @@ a:hover {
 
 #footer {
     clear: both;
-    color: #5C5C5C;
+    color: #FFF;
     margin: 12px;
     padding: 13px 25px;
     line-height: 18px;
@@ -122,17 +122,22 @@ a:hover {
     text-align: center;
 }
 
+.odd {
+    background-color: #F6F6F6;
+}
 
 .even {
-    background-color: #FBFBF9;
+    background-color: #EFEFEF;
 }
 
 .bar {
-    background-color: #58626D;
+    background-image: url('blue/bar.png');
+    background-color: #195287;
 }
 
 .barwarn {
-    background-color: #9B2F65;
+    background-image: url('blue/barwarn.png');
+    background-color: #871952;
 }
 
 .right {

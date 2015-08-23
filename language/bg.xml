@@ -357,4 +357,7 @@ phpSysInfo language file Language: Bulgarian Created by: Grigor Josifov
   <expression id="117" name="tb">
     <exp>TB устройства</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C устройства</exp>
+  </expression>
 </tns:translation>

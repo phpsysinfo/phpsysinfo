@@ -107,7 +107,7 @@ a:hover {
     cursor:pointer;
 }
 
-#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable {
+#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
     padding:0 30px;
 }
 

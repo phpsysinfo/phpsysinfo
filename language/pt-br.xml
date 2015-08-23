@@ -357,4 +357,7 @@ phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gi
   <expression id="117" name="tb">
     <exp>Periféricos TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Periféricos I2C</exp>
+  </expression>
 </tns:translation>

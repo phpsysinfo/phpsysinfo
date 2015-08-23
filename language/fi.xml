@@ -357,4 +357,7 @@ phpSysInfo language file Language: Finnish Created by: nakeman
   <expression id="117" name="tb">
     <exp>TB laitteet</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C laitteet</exp>
+  </expression>
 </tns:translation>

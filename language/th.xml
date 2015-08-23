@@ -357,4 +357,7 @@ phpSysInfo language file Language: Thai Created by: Audun Larsen
   <expression id="117" name="tb">
     <exp>อุปกรณ์ TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>อุปกรณ์ I2C</exp>
+  </expression>
 </tns:translation>

@@ -357,4 +357,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="117" name="tb">
     <exp>Urządzenia TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Urządzenia I2C</exp>
+  </expression>
 </tns:translation>

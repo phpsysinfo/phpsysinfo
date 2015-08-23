@@ -866,6 +866,13 @@ function refreshHardware(xml) {
         html += fillHWDevice(xml, 'TB', tree, index);
     }
 
+    if (countHWDevice(xml, 'I2C')) {
+        html += "    <tr><td colspan=\"2\"><b>" + genlang(118, false) + "</b></td></tr>\n";
+        index = tree.push(0);
+        closed.push(index);
+        html += fillHWDevice(xml, 'I2C', tree, index);
+    }
+
     html += "   </tbody>\n";
     html += "  </table>\n";
     $("#hardware").append(html);

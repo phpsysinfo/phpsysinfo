@@ -3,6 +3,15 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.3
+----------------
+ - [UPD] jQuery 2.1.4 and jQuery 1.11.3
+ - [UPD] bootstrap 3.3.5
+
+ - [NEW] I2C devices list on Android and Linux
+
+ - [ADD] blue template
+
 phpSysInfo 3.2.2
 ----------------
  - [UPD] bootstrap 3.3.4
@@ -28,6 +37,8 @@ phpSysInfo 3.2.1
 
 phpSysInfo 3.2.0
 ----------------
+ - [UPD] jQuery 2.1.3 and jQuery 1.11.2
+
  - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)
 
  - [ADD] Catalan Translation ca.xml

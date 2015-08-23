@@ -357,4 +357,7 @@ phpSysInfo language file Language: Chinese Traditional Created by: capriskye::an
   <expression id="117" name="tb">
     <exp>TB 設備</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C 設備</exp>
+  </expression>
 </tns:translation>

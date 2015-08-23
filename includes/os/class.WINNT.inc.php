@@ -140,7 +140,15 @@ class WINNT extends OS
                 $result = $buffer[0]['Name'];
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
-                    $this->sys->setHostname(gethostbyaddr($ip));
+                    $long = ip2long($ip);
+                    if (($long >= 167772160 && $long <= 184549375) ||
+                        ($long >= -1408237568 && $long <= -1407188993) ||
+                        ($long >= -1062731776 && $long <= -1062666241) || 
+                        ($long >= 2130706432 && $long <= 2147483647) || $long == -1) {
+                        $this->sys->setHostname($result); //internal ip
+                    } else {
+                        $this->sys->setHostname(gethostbyaddr($ip)); 
+                    }
                 }
             } else {
                 if ($hnm = getenv('COMPUTERNAME')) $this->sys->setHostname($hnm);
@@ -208,11 +216,16 @@ class WINNT extends OS
      */
     private function _users()
     {
-        $users = 0;
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
-        foreach ($buffer as $process) {
-            if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
-                $users++;
+        if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+                $lines = preg_split('/\n/', $strBuf);
+                $users = count($lines)-1;
+        } else {
+            $users = 0;
+            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+            foreach ($buffer as $process) {
+                if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
+                    $users++;
+                }
             }
         }
         $this->sys->setUsers($users);
@@ -554,10 +567,13 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
-
-        foreach ($buffer as $process) {
-            $processes['*']++;
+        if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+            $lines = preg_split('/\n/', $strBuf);
+            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *" 
+        }
+        if ($processes['*'] <= 0) {
+            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+            $processes['*'] = count($buffer);
         }
         $processes[' '] = $processes['*'];
         $this->sys->setProcesses($processes);

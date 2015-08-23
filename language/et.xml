@@ -357,4 +357,7 @@ phpSysInfo language file Language: Estoanian Created by: Harg
   <expression id="117" name="tb">
     <exp>TB Seadmed</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C Seadmed</exp>
+  </expression>
 </tns:translation>

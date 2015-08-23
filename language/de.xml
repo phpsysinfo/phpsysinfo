@@ -357,4 +357,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   <expression id="117" name="tb">
     <exp>TB Geräte</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C Geräte</exp>
+  </expression>
 </tns:translation>

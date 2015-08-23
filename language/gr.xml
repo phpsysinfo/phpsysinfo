@@ -357,4 +357,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="117" name="tb">
     <exp>Συσκευές TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Συσκευές I2C</exp>
+  </expression>
 </tns:translation>

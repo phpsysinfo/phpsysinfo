@@ -13,19 +13,13 @@
     <![endif]-->
     <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="templates/phpsysinfo_bootstrap.css">
-<!--[if lt IE 9]>
-    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
-<!--<![endif]-->
 </head>
 
 <body>
 
 <div class="navbar navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand"><img src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
+        <a class="navbar-brand"><img class="navbar-logo" src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
             <img id="loader" style="display:none" src="gfx/ajax-loader.gif">
             <button id="errorbutton" type="button" data-toggle="modal" data-target="#errors-dialog"
                 class="btn btn-default btn-xs" style="display:none">Errors
@@ -359,9 +353,14 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <!-- /.modal -->
 
 </div>
+<!--[if lt IE 9]>
+    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
+<!--<![endif]-->
 
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap"></script>
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>

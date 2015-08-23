@@ -357,4 +357,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
   <expression id="117" name="tb">
     <exp>Dispositivios TB</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>Dispositivios I2C</exp>
+  </expression>
 </tns:translation>

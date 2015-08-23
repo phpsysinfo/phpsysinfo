@@ -150,7 +150,7 @@ class Linux extends OS
                 $result .= ' (SMP)';
             }
         }
-        if ($result != "" ) {
+        if ($result != "") {
             if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
                 if (preg_match('/:\/lxc\//m', $strBuf2)) {
                     $result .= ' [lxc]';
@@ -544,6 +544,28 @@ class Linux extends OS
     }
 
     /**
+     * I2C devices
+     *
+     * @return void
+     */
+    protected function _i2c()
+    {
+        $i2cdevices = glob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
+        if (($total = count($i2cdevices)) > 0) {
+            $buf = "";
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false)) {
+                    if (trim($buf) != "") {
+                        $dev = new HWDevice();
+                        $dev->setName(trim($buf));
+                        $this->sys->setI2cDevices($dev);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Network devices
      * includes also rx/tx bytes
      *
@@ -716,8 +738,12 @@ class Linux extends OS
         foreach ($hideFstypes as $Fstype) {
             $df_args .= "-x $Fstype ";
         }
-
-        $arrResult = Parser::df("-P $df_args 2>/dev/null");
+        if ($df_args !== "") {
+            $df_args = trim($df_args); //trim spaces
+            $arrResult = Parser::df("-P $df_args 2>/dev/null");
+        } else {
+            $arrResult = Parser::df("-P 2>/dev/null");
+        }
         foreach ($arrResult as $dev) {
             $this->sys->setDiskDevices($dev);
         }
@@ -1060,6 +1086,7 @@ class Linux extends OS
         $this->_ide();
         $this->_scsi();
         $this->_usb();
+        $this->_i2c();
         $this->_network();
         $this->_memory();
         $this->_filesystems();

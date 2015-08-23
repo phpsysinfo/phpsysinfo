@@ -259,6 +259,13 @@ class XML
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
         }
+        $i2c = null;
+        foreach (System::removeDupsAndCount($this->_sys->getI2cDevices()) as $dev) {
+            if ($i2c === null) $i2c = $hardware->addChild('I2C');
+            $tmp = $i2c->addChild('Device');
+            $tmp->addAttribute('Name', $dev->getName());
+            $tmp->addAttribute('Count', $dev->getCount());
+        }
 
         $cpu = null;
         foreach ($this->_sys->getCpus() as $oneCpu) {

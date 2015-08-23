@@ -1,6 +1,8 @@
 //var data_dbg;
 
 function reload(initiate) {
+    $("#errorbutton").hide();
+    $("#errors").empty();
     $.ajax({
         dataType: "json",
         url: "xml.php?json",
@@ -8,10 +10,8 @@ function reload(initiate) {
 //            console.log(data);
 //            data_dbg = data;
             if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
-                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined)) {
+                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                 setInterval(reload, refrtime);
-            } else {
-                $("#errors").empty();
             }
             renderErrors(data);
             renderVitals(data);
@@ -56,10 +56,12 @@ $(document).ready(function () {
         $("#loader").hide();
     });
 
-    reload(true);
+    $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+        reload(true);
 
-    $(".navbar-brand").click(function () {
-        reload();
+        $(".navbar-logo").click(function () {
+            reload();
+        });
     });
 
 });
@@ -290,7 +292,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
@@ -337,7 +339,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var licz = 0;
             var datas = items(data["Hardware"][hw_type]["Device"]);

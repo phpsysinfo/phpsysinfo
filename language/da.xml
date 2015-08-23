@@ -357,4 +357,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="117" name="tb">
     <exp>TB enheder</exp>
   </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C enheder</exp>
+  </expression>
 </tns:translation>
