@@ -89,12 +89,18 @@ class SunOS extends OS
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG)) {
-            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG)) {
-                $this->sys->setKernel($os.' '.$version);
-            } else {
-                $this->sys->setKernel($os);
+        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && (trim($os)!="")) {
+            $os = trim($os);
+            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && (trim($version)!="")) {
+                $os.=' '.trim($version);
             }
+            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && (trim($subversion)!="")) {
+                $os.=' ('.trim($subversion).')';
+            }
+            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && (trim($platform)!="")) {
+                $os.=' '.trim($platform);
+            }
+            $this->sys->setKernel($os);
         }
     }
 
@@ -144,8 +150,10 @@ class SunOS extends OS
     private function _cpuinfo()
     {
         $dev = new CpuDevice();
-        if (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && (trim($buf)!="")) {
             $dev->setModel(trim($buf));
+        } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && (trim($buf)!="")) {
+                $dev->setModel(trim($buf));
         }
         $dev->setCpuSpeed($this->_kstat('cpu_info:0:cpu_info0:clock_MHz'));
         $dev->setCache($this->_kstat('cpu_info:0:cpu_info0:cpu_type') * 1024);
