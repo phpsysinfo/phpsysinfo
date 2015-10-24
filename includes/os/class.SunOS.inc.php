@@ -39,7 +39,7 @@ class SunOS extends OS
          !is_null($m) && (trim($m)!=="")) {
             list($key, $value) = preg_split("/\t/", trim($m), 2);
 
-            return $value;
+            return trim($value);
         } else {
             return '';
         }
@@ -149,15 +149,29 @@ class SunOS extends OS
      */
     private function _cpuinfo()
     {
-        $dev = new CpuDevice();
-        if (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && (trim($buf)!="")) {
-            $dev->setModel(trim($buf));
-        } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && (trim($buf)!="")) {
-                $dev->setModel(trim($buf));
-        }
-        $dev->setCpuSpeed($this->_kstat('cpu_info:0:cpu_info0:clock_MHz'));
-        $dev->setCache($this->_kstat('cpu_info:0:cpu_info0:cpu_type') * 1024);
-        $this->sys->setCpus($dev);
+        if (CommonFunctions::executeProgram('kstat', '-p d cpu_info:*:cpu_info*:core_id', $m, PSI_DEBUG) &&
+         !is_null($m) && (trim($m)!=="")) {
+            $cpuc = count(preg_split('/\n/', trim($m), -1, PREG_SPLIT_NO_EMPTY));
+            for ($cpu=0; $cpu < $cpuc; $cpu++){
+                $dev = new CpuDevice();
+                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
+                   $dev->setCpuSpeed($buf);
+                }
+                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':current_clock_Hz')) !== "") {
+                    $dev->setCpuSpeedMax($buf/1000000);
+                }
+                if (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':brand')) !== "") {
+                    $dev->setModel($buf);
+                } elseif (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':cpu_type')) !== "") {
+                    $dev->setModel($buf);
+                } elseif (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && (trim($buf)!="")) {
+                    $dev->setModel(trim($buf));
+                } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && (trim($buf)!="")) {
+                    $dev->setModel(trim($buf));
+                }
+                $this->sys->setCpus($dev);
+            }
+         }
     }
 
     /**
