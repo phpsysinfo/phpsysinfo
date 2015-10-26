@@ -406,7 +406,7 @@ class WINNT extends OS
                             $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
                             if (isset($NetworkAdapterConfiguration['IPAddress']))
                                 foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                    if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                    if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
                         }
 
