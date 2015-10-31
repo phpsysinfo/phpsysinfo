@@ -46,7 +46,7 @@
     <exp>Current Action</exp>
   </expression>
   <expression id="plugin_mdstatus_014" name="mdstatus_finishin">
-    <exp>Finishing in</exp>
+    <exp>Finishing in:</exp>
   </expression>
   <expression id="plugin_mdstatus_015" name="mdstatus_unused">
     <exp>Unused Disks</exp>

@@ -360,4 +360,10 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   <expression id="118" name="i2c">
     <exp>I2C Geräte</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Anzahl Prozessoren</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Anzahl Geräte</exp>
+  </expression>
 </tns:translation>

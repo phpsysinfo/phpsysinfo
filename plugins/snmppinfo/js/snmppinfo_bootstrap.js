@@ -34,9 +34,9 @@ function renderPlugin_snmppinfo(data) {
                 } else if (max==-2 && (level>=0) && (level<=100) ) {
                     return level+" / 100";
                 } else if (level==-3) {
-                    return "enough";
+                    return getTranslationString('plugin_snmppinfo_006','snmpinfo');		// "enough"
                 } else {
-                    return "unknown";
+                    return getTranslationString('plugin_snmppinfo_007','snmpinfo')		// "unknown"
                 }
             }
         }
@@ -48,9 +48,9 @@ function renderPlugin_snmppinfo(data) {
             var html = "";
             html+="<thead>";
             html+="<tr>";
-            html+="<th>Printer</th>";
-            html+="<th>Percent</th>";
-            html+="<th class=\"rightCell\">Units</th>";
+            html+="<th>"+getTranslationString('plugin_snmpinfo_003','snmppinfo')+"</th>"; 						// Printer
+            html+="<th>"+getTranslationString('plugin_snmpinfo_004','snmppinfo')+"</th>";						// Percent
+            html+="<th class=\"rightCell\">"+getTranslationString('plugin_snmppinfo_005','snmpinfo')+"</th>";	// Units
             html+="</tr>";
             html+="</thead>";
             for (var i = 0; i < printers.length; i++) {
