@@ -1,4 +1,135 @@
 //var data_dbg;
+/**
+ * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
+ * ajax call
+ * @private
+ * @param {String} lang language for which the translation should be loaded
+ * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
+ * @param {String} plugname internal plugin name
+ * @return {jQuery} translation jQuery-Object
+ */
+var langxml = [], langcounter = 1, langarr = [];
+
+function getLanguage(lang, plugin, plugname) {
+    var getLangUrl = "";
+    if (lang) {
+        getLangUrl = 'language/language.php?lang=';
+        if (plugin) {
+            getLangUrl += "&plugin=" + plugin;
+        }
+    }
+    else {
+        getLangUrl = 'language/language.php';
+        if (plugin) {
+            getLangUrl += "?plugin=" + plugin;
+        }
+    }
+    $.ajax({
+        url: getLangUrl,
+        type: 'GET',
+        dataType: 'xml',
+        timeout: 100000,
+        async: false,
+        error: function error() {
+            $.jGrowl("Error loading language!");
+        },
+        success: function buildblocks(xml) {
+            var idexp;
+            langxml[plugname] = xml;
+            if (langarr[plugname] === undefined) {
+                langarr.push(plugname);
+                langarr[plugname] = [];
+            }
+            $("expression", langxml[plugname]).each(function langstore(id) {
+                idexp = $("expression", xml).get(id);
+                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "\/&#8203;");
+            });
+        }
+    });
+}
+
+/**
+ * internal function to get a given translation out of the translation file
+ * @param {Number} langId id of the translation expression
+ * @param {String} [plugin] name of the plugin
+ * @return {String} translation string
+ */
+function getTranslationString(langId, plugin) {
+    var plugname = "_";
+    if (plugin === undefined) {
+        plugname += "phpSysInfo";
+    }
+    else {
+        plugname += plugin;
+    }
+    if (langxml[plugname] === undefined) {
+        langxml.push(plugname);
+        getLanguage(null, plugin, plugname);
+    }
+    return langarr[plugname][langId.toString()];
+}
+
+/**
+ * generate a span tag with an unique identifier to be html valid
+ * @param {Number} id translation id in the xml file
+ * @param {Boolean} generate generate lang_id in span tag or use given value
+ * @param {String} [plugin] name of the plugin for which the tag should be generated
+ * @return {String} string which contains generated span tag for translation string
+ */
+
+function genlang(id, plugin) {
+    var html = "", idString = "", plugname = "";
+    if (plugin === undefined) {
+        plugname = "";
+    }
+    else {
+        plugname = plugin.toLowerCase();
+    }
+    if (plugin) {
+        idString = "plugin_" + plugname + "_" + id;
+    }
+    translation = getTranslationString(idString, plugin);
+    return translation;
+}
+
+/**
+ * translates all expressions based on the translation xml file<br>
+ * translation expressions must be in the format &lt;span id="lang???"&gt;&lt;/span&gt;, where ??? is
+ * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
+ * file nothing would be translated, so the initial value which is inside the span tag is displayed
+ * @param {String} [plugin] name of the plugin
+ */
+function changeLanguage(plugin) {
+    var langId = "", langStr = "",text="";
+    var pos=0;
+
+	if(plugin== undefined)	{
+		text='span[id*=lang_]';
+		pos=5;
+	}
+	else	{
+		text='span[id*='+plugin+'_]';
+		pos=1+plugin.length;
+	}
+	$(text).each(function translate(i) {
+	langId = this.getAttribute('id').substring(pos);
+	if (langId.indexOf('-') !== -1) {
+		langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
+	}
+	if(plugin==undefined){
+		langStr = getTranslationString(langId, plugin);
+	}
+	else	{
+		langStr = genlang(langId, plugin);
+	}
+	if (langStr !== undefined) {
+		if (langStr.length > 0) {
+			this.innerHTML = langStr;
+		}
+	}
+        });
+}
+
 
 function reload(initiate) {
     $("#errorbutton").hide();
@@ -25,6 +156,8 @@ function reload(initiate) {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
+            changeLanguage();
+			
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
                 for (var i = 0; i < plugins.length; i++) {
@@ -36,6 +169,8 @@ function reload(initiate) {
                             try {
                                 // dynamic call
                                 window['renderPlugin_' + this.pluginname](data);
+                                changeLanguage(this.pluginname);
+
                             }
                             catch (err) {
                             }
@@ -131,35 +266,35 @@ function renderVitals(data) {
         },
         Processes: {
             text: function () {
-                var processes = "", prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
+                var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
                 processes = parseInt(this["Processes"]);
                 if (this["ProcessesRunning"] !== undefined) {
-                    prunning = parseInt(this["ProcessesRunning"]);
+                    p111 = parseInt(this["ProcessesRunning"]);
                 }
                 if (this["ProcessesSleeping"] !== undefined) {
-                    psleeping = parseInt(this["ProcessesSleeping"]);
+                    p112 = parseInt(this["ProcessesSleeping"]);
                 }
                 if (this["ProcessesStopped"] !== undefined) {
-                    pstopped = parseInt(this["ProcessesStopped"]);
+                    p113 = parseInt(this["ProcessesStopped"]);
                 }
                 if (this["ProcessesZombie"] !== undefined) {
-                    pzombie = parseInt(this["ProcessesZombie"]);
+                    p114 = parseInt(this["ProcessesZombie"]);
                 }
                 if (this["ProcessesWaiting"] !== undefined) {
-                    pwaiting = parseInt(this["ProcessesWaiting"]);
+                    p115 = parseInt(this["ProcessesWaiting"]);
                 }
                 if (this["ProcessesOther"] !== undefined) {
-                    pother = parseInt(this["ProcessesOther"]);
+                    p116 = parseInt(this["ProcessesOther"]);
                 }
-                if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
+                if (p111 || p112 || p113 || p114 || p115 || p116) {
                     processes += " (";
-                    for (proc_type in {running:0,sleeping:1,stopped:2,zombie:3,waiting:4,other:5}) {
+                    for (proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
                         if (eval("p" + proc_type)) {
                             if (not_first) {
                                 processes += ", ";
                             }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + proc_type;
+                            processes += eval("p" + proc_type) + String.fromCharCode(160) + getTranslationString(proc_type,false);
                             not_first = true;
                         }
                     }
@@ -254,20 +389,20 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th width=8%>Machine</th>";
+        html+="<th width=8%>"+getTranslationString('010',false)+"</th>"; // Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
     }
 
-    var paramlist = {CpuSpeed:"CPU Speed",CpuSpeedMax:"CPU Speed Max",CpuSpeedMin:"CPU Speed Min",Cache:"Cache Size",Virt:"Virtualization",BusSpeed:"BUS Speed",Bogomips:"System Bogomips",Cputemp:"Temperature",Load:"Load Averages"};
+    var paramlist = {CpuSpeed:"013",CpuSpeedMax:"100",CpuSpeedMin:"101",Cache:"015",Virt:"094",BusSpeed:"014",Bogomips:"016",Cputemp:"051",Load:"009"};
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td>Number of processors:</td>";
+                html+="<td>"+getTranslationString('119',false)+":</td>";	// Number of processors
                 html+="<td class=\"rightCell\"><span></span></td>";
                 html+="</tr>";
             }
@@ -280,7 +415,7 @@ function renderHardware(data) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td>"+ paramlist[proc_param]+"</td>";
+                    html+="<td>"+getTranslationString(paramlist[proc_param],false)+"</td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>"; 
                 }
@@ -299,7 +434,7 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td>Number of devices:</td>";
+                    html+="<td>"+getTranslationString('120',false)+":</td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span></span></td>";
                     html+="</tr>";
                 }
@@ -429,17 +564,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += 'Kernel+Apps: '+ this["Details"]["@attributes"]["AppPercent"] + '%';
+                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; 		// Kernel + apps
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += 'Cache: ' + this["Details"]["@attributes"]["CachedPercent"] + '%';
+                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; 	// Cache
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += 'Buffers: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';
+                        html += getTranslationString('065',false)+': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';	//Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -448,7 +583,7 @@ function renderMemory(data) {
         },
         Type: {
             text: function () {
-                return "Physical Memory";
+                return getTranslationString('028',false); //"Physical Memory";
             }
         }
     };
@@ -584,10 +719,10 @@ function renderNetwork(data) {
 
     html+="<thead>";
     html+="<tr>";
-    html+="<th width=\"60%\">Device</th>";
-    html+="<th class=\"rightCell\">Receive</th>";
-    html+="<th class=\"rightCell\">Sent</th>";
-    html+="<th class=\"rightCell\">Err/" + String.fromCharCode(8203) +"Drop</th>";
+    html+="<th width=\"60%\">"+getTranslationString('022',false)+"</th>"; // Device
+    html+="<th class=\"rightCell\">"+getTranslationString('023',false)+"</th>"; // Receive
+    html+="<th class=\"rightCell\">"+getTranslationString('024',false)+"</th>"; // Sent
+    html+="<th class=\"rightCell\">"+getTranslationString('025',false)+"</th>"; // Drop //thema
     html+="</tr>";
     html+="</thead>";
 
@@ -717,13 +852,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "RPM";
+                return this["Value"] + String.fromCharCode(160) + getTranslationString('063',false); //"RPM";
             }
         },
         Min: {
             text: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + "RPM";
+                    return this["Min"] + String.fromCharCode(160) + getTranslationString('063',false); // "RPM";
             }
         },
         Label: {
@@ -837,22 +972,22 @@ function renderUPS(data) {
         },
         LineVoltage: {
             text: function () {
-                return this["LineVoltage"] + String.fromCharCode(160) + "V";
+                return this["LineVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //"V";
             }
         },
         LineFrequency: {
             text: function () {
-                return this["LineFrequency"] + String.fromCharCode(160) + "Hz";
+                return this["LineFrequency"] + String.fromCharCode(160) + getTranslationString('109',false); //"Hz";
             }
         },
         BatteryVoltage: {
             text: function () {
-                return this["BatteryVoltage"] + String.fromCharCode(160) + "V";
+                return this["BatteryVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //"V";
             }
         },
         TimeLeftMinutes: {
             text: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + "minutes";
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + getTranslationString('083',false); //"minutes";
             }
         },
         LoadPercent: {
@@ -958,13 +1093,13 @@ function formatUptime(sec) {
     intDays = Math.floor(intHours / 24);
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
-    if (intDays) {
-        txt += intDays.toString() + String.fromCharCode(160) + "days" + String.fromCharCode(160);
+    if (intDays) {		// days
+        txt += intDays.toString() + String.fromCharCode(160) + getTranslationString('048',false) + String.fromCharCode(160);
     }
-    if (intHours) {
-        txt += intHours.toString() + String.fromCharCode(160) + "hours" + String.fromCharCode(160);
-    }
-    return txt + intMin.toString() + String.fromCharCode(160) + "minutes";
+    if (intHours) {		// hours
+        txt += intHours.toString() + String.fromCharCode(160) + getTranslationString('049',false) + String.fromCharCode(160);
+    }					// Minutes
+    return txt + intMin.toString() + String.fromCharCode(160) + getTranslationString('050',false);
 }
 
 /**
