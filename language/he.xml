@@ -360,4 +360,10 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   <expression id="118" name="i2c">
     <exp>התקני I2C</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Number of processors</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Number of devices</exp>
+  </expression>
 </tns:translation>

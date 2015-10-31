@@ -360,4 +360,10 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained
   <expression id="118" name="i2c">
     <exp>I2C naprave</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Number of processors</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Number of devices</exp>
+  </expression>
 </tns:translation>

@@ -360,4 +360,10 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="118" name="i2c">
     <exp>Συσκευές I2C</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Number of processors</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Number of devices</exp>
+  </expression>
 </tns:translation>

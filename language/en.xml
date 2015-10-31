@@ -359,7 +359,7 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   </expression>
   <expression id="118" name="i2c">
     <exp>I2C Devices</exp>
- </expression>
+  </expression>
   <expression id="119" name="no_processors">
     <exp>Number of processors</exp>
   </expression>
