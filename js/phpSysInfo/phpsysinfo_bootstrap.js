@@ -389,7 +389,7 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th width=8%>"+getTranslationString('010',false)+"</th>"; // Machine
+        html+="<th width=8%>"+getTranslationString('107',false)+"</th>"; // Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";

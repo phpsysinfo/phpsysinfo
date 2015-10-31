@@ -19,7 +19,7 @@ function renderPlugin_ipmiinfo(data) {
             if (data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value] !== undefined) { 
                 var datas = items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]);
                 if (datas.length > 0) {
-                    data_ipmiinfo.push(getTranslationString({Label:valuelist[ipmiinfo_value]},'ipmii'));
+                    data_ipmiinfo.push({Label:getTranslationString(valuelist[ipmiinfo_value],'ipmiinfo')});
                     data_ipmiinfo.push_attrs(datas);
                 }
             }
