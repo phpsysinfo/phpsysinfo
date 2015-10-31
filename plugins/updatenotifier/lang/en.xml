@@ -19,7 +19,7 @@
     <exp>updates are security updates.</exp>
   </expression>
   <expression id="plugin_updatenotifier_005" name="updatenotifier_no">
-    <exp>No updates available</exp>	
+    <exp>No updates available</exp>
   </expression>
   <expression id="plugin_updatenotifier_006" name="updatenotifier_no_packages">
     <exp>Number of packages</exp>	
