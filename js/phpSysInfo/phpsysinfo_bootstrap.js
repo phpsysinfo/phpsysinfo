@@ -389,7 +389,7 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th width=8%>"+getTranslationString('107',false)+"</th>"; // Machine
+        html+="<th width=8%>"+getTranslationString('107',false)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
@@ -402,7 +402,7 @@ function renderHardware(data) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td>"+getTranslationString('119',false)+":</td>";    // Number of processors
+                html+="<td>"+getTranslationString('119',false)+":</td>"; //Number of processors
                 html+="<td class=\"rightCell\"><span></span></td>";
                 html+="</tr>";
             }
@@ -564,12 +564,12 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%';         // Kernel + apps
+                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%';         //Kernel + apps
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%';     // Cache
+                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%';     //Cache
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
@@ -583,7 +583,7 @@ function renderMemory(data) {
         },
         Type: {
             text: function () {
-                return getTranslationString('028',false); //"Physical Memory";
+                return getTranslationString('028',false); //Physical Memory
             }
         }
     };
@@ -682,7 +682,7 @@ function renderFilesystem(data) {
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
             $('#filesystem-foot').render(total, directives);
-            $('#filesystem_MountPoint').removeClass("sorttable_sorted"); // reset sort order
+            $('#filesystem_MountPoint').removeClass("sorttable_sorted"); //reset sort order
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
             $("#block_filesystem").show();
@@ -719,10 +719,10 @@ function renderNetwork(data) {
 
     html+="<thead>";
     html+="<tr>";
-    html+="<th width=\"60%\">"+getTranslationString('022',false)+"</th>"; // Device
-    html+="<th class=\"rightCell\">"+getTranslationString('023',false)+"</th>"; // Receive
-    html+="<th class=\"rightCell\">"+getTranslationString('024',false)+"</th>"; // Sent
-    html+="<th class=\"rightCell\">"+getTranslationString('025',false)+"</th>"; // Drop //thema
+    html+="<th width=\"60%\">"+getTranslationString('022',false)+"</th>"; //Device
+    html+="<th class=\"rightCell\">"+getTranslationString('023',false)+"</th>"; //Receive
+    html+="<th class=\"rightCell\">"+getTranslationString('024',false)+"</th>"; //Sent
+    html+="<th class=\"rightCell\">"+getTranslationString('025',false)+"</th>"; //Error/Drop
     html+="</tr>";
     html+="</thead>";
 
@@ -852,13 +852,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + getTranslationString('063',false); //"RPM";
+                return this["Value"] + String.fromCharCode(160) + getTranslationString('063',false); //RPM
             }
         },
         Min: {
             text: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + getTranslationString('063',false); // "RPM";
+                    return this["Min"] + String.fromCharCode(160) + getTranslationString('063',false); //RPM
             }
         },
         Label: {
@@ -972,22 +972,22 @@ function renderUPS(data) {
         },
         LineVoltage: {
             text: function () {
-                return this["LineVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //"V";
+                return this["LineVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //V
             }
         },
         LineFrequency: {
             text: function () {
-                return this["LineFrequency"] + String.fromCharCode(160) + getTranslationString('109',false); //"Hz";
+                return this["LineFrequency"] + String.fromCharCode(160) + getTranslationString('109',false); //Hz
             }
         },
         BatteryVoltage: {
             text: function () {
-                return this["BatteryVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //"V";
+                return this["BatteryVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //V
             }
         },
         TimeLeftMinutes: {
             text: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + getTranslationString('083',false); //"minutes";
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + getTranslationString('083',false); //minutes
             }
         },
         LoadPercent: {
@@ -1093,13 +1093,13 @@ function formatUptime(sec) {
     intDays = Math.floor(intHours / 24);
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
-    if (intDays) {        // days
-        txt += intDays.toString() + String.fromCharCode(160) + getTranslationString('048',false) + String.fromCharCode(160);
+    if (intDays) {
+        txt += intDays.toString() + String.fromCharCode(160) + getTranslationString('048',false) + String.fromCharCode(160); //days
     }
-    if (intHours) {        // hours
-        txt += intHours.toString() + String.fromCharCode(160) + getTranslationString('049',false) + String.fromCharCode(160);
-    }                    // Minutes
-    return txt + intMin.toString() + String.fromCharCode(160) + getTranslationString('050',false);
+    if (intHours) {
+        txt += intHours.toString() + String.fromCharCode(160) + getTranslationString('049',false) + String.fromCharCode(160); //hours
+    }
+    return txt + intMin.toString() + String.fromCharCode(160) + getTranslationString('050',false); //Minutes
 }
 
 /**
