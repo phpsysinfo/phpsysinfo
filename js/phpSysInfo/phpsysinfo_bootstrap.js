@@ -103,30 +103,30 @@ function changeLanguage(plugin) {
     var langId = "", langStr = "",text="";
     var pos=0;
 
-	if(plugin== undefined)	{
-		text='span[id*=lang_]';
-		pos=5;
-	}
-	else	{
-		text='span[id*='+plugin+'_]';
-		pos=1+plugin.length;
-	}
-	$(text).each(function translate(i) {
-	langId = this.getAttribute('id').substring(pos);
-	if (langId.indexOf('-') !== -1) {
-		langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-	}
-	if(plugin==undefined){
-		langStr = getTranslationString(langId, plugin);
-	}
-	else	{
-		langStr = genlang(langId, plugin);
-	}
-	if (langStr !== undefined) {
-		if (langStr.length > 0) {
-			this.innerHTML = langStr;
-		}
-	}
+    if(plugin== undefined)    {
+        text='span[id*=lang_]';
+        pos=5;
+    }
+    else    {
+        text='span[id*='+plugin+'_]';
+        pos=1+plugin.length;
+    }
+    $(text).each(function translate(i) {
+    langId = this.getAttribute('id').substring(pos);
+    if (langId.indexOf('-') !== -1) {
+        langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
+    }
+    if(plugin==undefined){
+        langStr = getTranslationString(langId, plugin);
+    }
+    else    {
+        langStr = genlang(langId, plugin);
+    }
+    if (langStr !== undefined) {
+        if (langStr.length > 0) {
+            this.innerHTML = langStr;
+        }
+    }
         });
 }
 
@@ -157,7 +157,7 @@ function reload(initiate) {
             renderCurrent(data);
             renderUPS(data);
             changeLanguage();
-			
+
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
                 for (var i = 0; i < plugins.length; i++) {
@@ -299,7 +299,7 @@ function renderVitals(data) {
                         }
                     }
                     processes += ")";
-                }            
+                }
                 return processes;
             }
         }
@@ -402,7 +402,7 @@ function renderHardware(data) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td>"+getTranslationString('119',false)+":</td>";	// Number of processors
+                html+="<td>"+getTranslationString('119',false)+":</td>";    // Number of processors
                 html+="<td class=\"rightCell\"><span></span></td>";
                 html+="</tr>";
             }
@@ -564,17 +564,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; 		// Kernel + apps
+                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%';         // Kernel + apps
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; 	// Cache
+                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%';     // Cache
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += getTranslationString('065',false)+': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';	//Buffers
+                        html += getTranslationString('065',false)+': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';    //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -1093,12 +1093,12 @@ function formatUptime(sec) {
     intDays = Math.floor(intHours / 24);
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
-    if (intDays) {		// days
+    if (intDays) {        // days
         txt += intDays.toString() + String.fromCharCode(160) + getTranslationString('048',false) + String.fromCharCode(160);
     }
-    if (intHours) {		// hours
+    if (intHours) {        // hours
         txt += intHours.toString() + String.fromCharCode(160) + getTranslationString('049',false) + String.fromCharCode(160);
-    }					// Minutes
+    }                    // Minutes
     return txt + intMin.toString() + String.fromCharCode(160) + getTranslationString('050',false);
 }
 
