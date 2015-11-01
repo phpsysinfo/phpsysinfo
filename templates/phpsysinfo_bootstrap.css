@@ -84,6 +84,9 @@ table.borderless td,table.borderless th{
 }
 
 .navbar-language {
-    cursor: pointer;
     text-align: right;   
+}
+
+.select-language {
+    cursor: pointer;
 }
