@@ -140,7 +140,7 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined) 
+            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
                 && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                 setInterval(reload, refrtime);
             }
@@ -417,7 +417,7 @@ function renderHardware(data) {
                     html+="<th></th>";
                     html+="<td>"+getTranslationString(paramlist[proc_param],false)+"</td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
-                    html+="</tr>"; 
+                    html+="</tr>";
                 }
             }
 
@@ -619,7 +619,7 @@ function renderMemory(data) {
     };
 
     var data_memory = [];
-    if (data["Memory"]["Swap"] !== undefined) { 
+    if (data["Memory"]["Swap"] !== undefined) {
         var datas = items(data["Memory"]["Swap"]["Mount"]);
         data_memory.push_attrs(datas);
         $('#swap-data').render(data_memory, directive_swap);
@@ -996,14 +996,14 @@ function renderUPS(data) {
                         '<div class="progress-bar progress-bar-info" style="width: ' + round(this["LoadPercent"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["LoadPercent"],0) + '%</div>';
             }
-        },                
+        },
         BatteryChargePercent: {
             html: function () {
                 return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + round(this["BatteryChargePercent"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["BatteryChargePercent"],0) + '%</div>';
             }
-        } 
+        }
     };
 
     if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
@@ -1022,7 +1022,7 @@ function renderUPS(data) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
                         html+="<th>"+ paramlist[proc_param]+"</th>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
-                        html+="</tr>"; 
+                        html+="</tr>";
                     }
                 }
 
@@ -1037,7 +1037,7 @@ function renderUPS(data) {
             html+="<td></td>";
             html+="</tr>";
         }
-    
+
         $("#ups").empty().append(html);
 
         try {
@@ -1059,7 +1059,7 @@ function renderUPS(data) {
             expanderExpandedClass: 'normalicon normalicon-down',
             expanderCollapsedClass: 'normalicon normalicon-right'
         });
-        
+
         $("#block_ups").show();
     } else {
         $("#block_ups").hide();
@@ -1069,7 +1069,7 @@ function renderUPS(data) {
 function renderErrors(data) {
     try {
         var datas = items(data["Errors"]["Error"]);
-        for (var i = 0; i < datas.length; i++) { 
+        for (var i = 0; i < datas.length; i++) {
             $("#errors").append("<li><b>"+datas[i]["@attributes"]["Function"]+"</b> - "+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li><br>");
         }
         if (i > 0) {

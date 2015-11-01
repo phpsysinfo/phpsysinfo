@@ -676,7 +676,7 @@ function refreshVitals(xml) {
                 }
             }
             $("#s_processes_1").append(") ");
-        } 
+        }
         $("#s_processes_2").html($("#s_processes_1").html());
     });
 }
