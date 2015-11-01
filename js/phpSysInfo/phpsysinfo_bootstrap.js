@@ -315,6 +315,7 @@ function renderVitals(data) {
         $("#tr_Processes").hide();
     }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
+    $("#block_vitals").show();
 }
 
 function renderHardware(data) {
@@ -516,6 +517,7 @@ function renderHardware(data) {
         catch (err) {
         }
     }
+    $("#block_hardware").show();
 }
 
 function renderMemory(data) {
@@ -628,6 +630,7 @@ function renderMemory(data) {
         $('#swap-data').hide();
     }
     $('#memory-data').render(data["Memory"], directives);
+    $("#block_memory").show();
 }
 
 function renderFilesystem(data) {
