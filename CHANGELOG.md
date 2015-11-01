@@ -7,6 +7,8 @@ phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros
 
+ - [NEW] Language selection also for frontend "bootstrap"
+
 phpSysInfo 3.2.3
 ----------------
  - [UPD] jQuery 2.1.4 and jQuery 1.11.3
