@@ -145,6 +145,7 @@ function reload(initiate) {
                 setInterval(reload, refrtime);
             }
             renderErrors(data);
+            changeLanguage();
             renderVitals(data);
             renderHardware(data);
             renderMemory(data);
@@ -156,7 +157,6 @@ function reload(initiate) {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
-            changeLanguage();
 
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
