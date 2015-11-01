@@ -61,8 +61,12 @@ case "xml":
     $webpage->run();
     break;
 case "bootstrap":
+/*
     $tpl = new Template("/templates/html/index_bootstrap.html");
     echo $tpl->fetch();
+*/
+    $webpage = new Webpage("bootstrap");
+    $webpage->run();
     break;
 default:
     $tpl = new Template("/templates/html/index_all.html");

@@ -82,3 +82,8 @@ table.borderless td,table.borderless th{
 .navbar-logo {
     cursor: pointer;
 }
+
+.navbar-language {
+    cursor: pointer;
+    text-align: right;   
+}

@@ -26,6 +26,13 @@
 class Webpage extends Output implements PSI_Interface_Output
 {
     /**
+     * configured indexname
+     *
+     * @var String
+     */
+    private $_indexname;
+
+    /**
      * configured language
      *
      * @var String
@@ -56,8 +63,9 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
      */
-    public function __construct()
+    public function __construct($indexname="dynamic")
     {
+        $this->_indexname = $indexname;
         parent::__construct();
         $this->_getTemplateList();
         $this->_getLanguageList();
@@ -127,7 +135,7 @@ class Webpage extends Output implements PSI_Interface_Output
     {
         $this->_checkTemplateLanguage();
 
-        $tpl = new Template("/templates/html/index_dynamic.html");
+        $tpl = new Template("/templates/html/index_".$this->_indexname.".html");
 
         $tpl->set("template", $this->_template);
         $tpl->set("templates", $this->_templates);

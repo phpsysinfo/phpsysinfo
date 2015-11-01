@@ -25,6 +25,19 @@
                 class="btn btn-default btn-xs" style="display:none">Errors
             </button>
         </a>
+        <div id="language" class="navbar-language">
+            <span id="lang_045">Language</span>
+            <select id="lang" name="lang">
+<?php foreach ($languages as $l) :
+            $selected = "";
+            if ($language === $l) {
+                $selected = " selected=\"selected\"";
+            }
+?>
+                 <option value="<?php echo $l ?>"<?php echo $selected?>><?php echo $l?></option>
+<?php endforeach; ?>
+            </select>
+        </div>
     </div>
 </div>
 

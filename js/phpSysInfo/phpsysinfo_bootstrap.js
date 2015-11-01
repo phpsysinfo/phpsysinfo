@@ -8,12 +8,58 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [];
+var langxml = [], langcounter = 1, langarr = [], cookie_language = "", plugin_liste = [];
+
+/**
+ * generate a cookie, if not exist, and add an entry to it<br><br>
+ * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
+ * @param {String} name name that holds the value
+ * @param {String} value value that needs to be stored
+ * @param {Number} days how many days the entry should be valid in the cookie
+ */
+function createCookie(name, value, days) {
+    var date = new Date(), expires = "";
+    if (days) {
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        if (typeof(date.toUTCString)==="function") {
+            expires = "; expires=" + date.toUTCString();
+        } else {
+            //deprecated
+            expires = "; expires=" + date.toGMTString();
+        }
+    }
+    else {
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+/**
+ * read a value out of a cookie and return the value<br><br>
+ * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
+ * @param {String} name name of the value that should be retrieved
+ * @return {String}
+ */
+function readCookie(name) {
+    var nameEQ = "", ca = [], c = '', i = 0;
+    nameEQ = name + "=";
+    ca = document.cookie.split(';');
+    for (i = 0; i < ca.length; i += 1) {
+        c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1, c.length);
+        }
+        if (!c.indexOf(nameEQ)) {
+            return c.substring(nameEQ.length, c.length);
+        }
+    }
+    return null;
+}
 
 function getLanguage(lang, plugin, plugname) {
     var getLangUrl = "";
     if (lang) {
-        getLangUrl = 'language/language.php?lang=';
+        getLangUrl = 'language/language.php?lang=' + cookie_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
@@ -55,7 +101,7 @@ function getLanguage(lang, plugin, plugname) {
  * @return {String} translation string
  */
 function getTranslationString(langId, plugin) {
-    var plugname = "_";
+    var plugname = cookie_language + "_";
     if (plugin === undefined) {
         plugname += "phpSysInfo";
     }
@@ -64,7 +110,7 @@ function getTranslationString(langId, plugin) {
     }
     if (langxml[plugname] === undefined) {
         langxml.push(plugname);
-        getLanguage(null, plugin, plugname);
+        getLanguage(cookie_language, plugin, plugname);
     }
     return langarr[plugname][langId.toString()];
 }
@@ -130,7 +176,6 @@ function changeLanguage(plugin) {
         });
 }
 
-
 function reload(initiate) {
     $("#errorbutton").hide();
     $("#errors").empty();
@@ -170,7 +215,7 @@ function reload(initiate) {
                                 // dynamic call
                                 window['renderPlugin_' + this.pluginname](data);
                                 changeLanguage(this.pluginname);
-
+                                plugin_liste.push(this.pluginname);
                             }
                             catch (err) {
                             }
@@ -192,6 +237,22 @@ $(document).ready(function () {
     });
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+        cookie_language = readCookie("language");
+        if (cookie_language !== null) {
+            $("#lang").val(cookie_language);
+        }
+        $("#lang").change(function changeLang() {
+            var language = "", i = 0;
+            language = $("#lang").val().toString();
+            createCookie('language', language, 365);
+            cookie_language = readCookie('language');
+            changeLanguage();
+            for (i = 0; i < plugin_liste.length; i++) {
+                changeLanguage(plugin_liste[i]);
+            }
+            return false;
+        });
+
         reload(true);
 
         $(".navbar-logo").click(function () {
