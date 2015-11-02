@@ -25,7 +25,7 @@ function renderPlugin_snmppinfo(data) {
             }
         },
         Units: {
-            text: function () {
+            html: function () {
                 var max = parseInt(this["MaxCapacity"]);
                 var level = parseInt(this["Level"]);
 
@@ -34,9 +34,9 @@ function renderPlugin_snmppinfo(data) {
                 } else if (max==-2 && (level>=0) && (level<=100) ) {
                     return level+" / 100";
                 } else if (level==-3) {
-                    return getTranslationString('plugin_snmppinfo_006','snmppinfo'); // enough
+                    return genlang(6, false, 'snmppinfo'); // enough
                 } else {
-                    return getTranslationString('plugin_snmppinfo_007','snmppinfo'); // unknown
+                    return getlang(7, false, 'snmppinfo'); // unknown
                 }
             }
         }
@@ -48,9 +48,9 @@ function renderPlugin_snmppinfo(data) {
             var html = "";
             html+="<thead>";
             html+="<tr>";
-            html+="<th>"+getTranslationString('plugin_snmppinfo_003','snmppinfo')+"</th>"; // Printer
-            html+="<th>"+getTranslationString('plugin_snmppinfo_004','snmppinfo')+"</th>"; // Percent
-            html+="<th class=\"rightCell\">"+getTranslationString('plugin_snmppinfo_005','snmppinfo')+"</th>"; // Units
+            html+="<th>"+genlang(3, false, 'snmppinfo')+"</th>"; // Printer
+            html+="<th>"+genlang(4, false, 'snmppinfo')+"</th>"; // Percent
+            html+="<th class=\"rightCell\">"+genlang(5, false,'snmppinfo')+"</th>"; // Units
             html+="</tr>";
             html+="</thead>";
             for (var i = 0; i < printers.length; i++) {

@@ -36,7 +36,7 @@ function renderPlugin_bat(data) {
             }
         },
         BatteryTemperature: {
-            text: function () {
+            html: function () {
                 return formatTemp(this["BatteryTemperature"], data["Options"]["@attributes"]["tempFormat"]);
             }
         },

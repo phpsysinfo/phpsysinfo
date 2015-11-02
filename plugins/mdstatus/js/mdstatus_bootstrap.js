@@ -10,7 +10,7 @@ function renderPlugin_mdstatus(data) {
                 html += '<table width=100%><tr><td width=50%><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width: ' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div></td><td></td></tr></table>';
-                html += getTranslationString('plugin_mdstatus_014','mdstatus')+ String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
+                html += genlang(14, false,'mdstatus')+ String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
                 html += "</div>";
             }
         }
@@ -57,7 +57,7 @@ function renderPlugin_mdstatus(data) {
         if (data['Plugins']['Plugin_MDStatus']['Supported_Types'] !== undefined) {
             var stitems = items(data['Plugins']['Plugin_MDStatus']['Supported_Types']['Type']);
             if (stitems.length > 0) {
-                var htmltypes = "<tr><th>"+getTranslationString('plugin_mdstatus_002','mdstatus')+"</th><th>";
+                var htmltypes = "<tr><th>"+genlang(2, false,'mdstatus')+"</th><th>";
                 for (i = 0; i < stitems.length ; i++) {
                     htmltypes += stitems[i]["@attributes"]["Name"] + " ";
                 }
@@ -105,21 +105,21 @@ function renderPlugin_mdstatus(data) {
 
                     html += "<table id=\"mdstatus-" + i + "\"class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><b>" + mditems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
-                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_005','mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_006','mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";
+                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(5, false,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
+                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(6, false ,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";
                     if (devchunk !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_007','mdstatus')+"</th><td>" + devchunk + "K</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(7, false,'mdstatus')+"</th><td>" + devchunk + "K</td></tr>";
                     }
                     if (devalgo !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_008','mdstatus')+"</th><td>" + devalgo + "</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(8, false ,'mdstatus')+"</th><td>" + devalgo + "</td></tr>";
                     }
                     if (devsuper !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_009','mdstatus')+"</th><td>available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(9, false, 'mdstatus')+"</th><td>available</td></tr>";
                     } else {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_009','mdstatus')+"</th><td>not available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(9, false, 'mdstatus')+"</th><td>not available</td></tr>";
                     }
                     if (devactive !== -1 && devregis !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+getTranslationString('plugin_mdstatus_012','mdstatus')+"</th><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(12, false, 'mdstatus')+"</th><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
                     }
                     html += "</table>";
                     html += "</td></tr>";

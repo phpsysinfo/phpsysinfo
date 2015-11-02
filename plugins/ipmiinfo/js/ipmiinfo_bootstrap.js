@@ -14,12 +14,12 @@ function renderPlugin_ipmiinfo(data) {
 
     if (data['Plugins']['Plugin_ipmiinfo'] !== undefined) { 
         var data_ipmiinfo = [];
-        var valuelist = {Temperatures:"plugin_ipmiinfo_003", Voltages:"plugin_ipmiinfo_004", Fans:"plugin_ipmiinfo_005", Powers:"plugin_ipmiinfo_008", Currents:"plugin_ipmiinfo_007", Misc:"plugin_ipmiinfo_006"};
+        var valuelist = {Temperatures:3, Voltages:4, Fans:5, Powers:8, Currents:7, Misc:6};
         for (var ipmiinfo_value in valuelist) {
             if (data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value] !== undefined) { 
                 var datas = items(data['Plugins']['Plugin_ipmiinfo'][ipmiinfo_value]["Item"]);
                 if (datas.length > 0) {
-                    data_ipmiinfo.push({Label:getTranslationString(valuelist[ipmiinfo_value],'ipmiinfo')});
+                    data_ipmiinfo.push({Label:genlang(valuelist[ipmiinfo_value], false ,'ipmiinfo')});
                     data_ipmiinfo.push_attrs(datas);
                 }
             }

@@ -130,8 +130,7 @@ function getTranslationString(langId, plugin) {
  * @param {String} [plugin] name of the plugin for which the tag should be generated
  * @return {String} string which contains generated span tag for translation string
  */
-
-function genlang(id, plugin) {
+function genlang(id, generate, plugin) {
     var html = "", idString = "", plugname = "";
     if (plugin === undefined) {
         plugname = "";
@@ -139,11 +138,29 @@ function genlang(id, plugin) {
     else {
         plugname = plugin.toLowerCase();
     }
-    if (plugin) {
-        idString = "plugin_" + plugname + "_" + id;
+    if (id < 100) {
+        if (id < 10) {
+            idString = "00" + id.toString();
+        }
+        else {
+            idString = "0" + id.toString();
+        }
     }
-    translation = getTranslationString(idString, plugin);
-    return translation;
+    else {
+        idString = id.toString();
+    }
+    if (plugin) {
+        idString = "plugin_" + plugname + "_" + idString;
+    }
+    if (generate) {
+        html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
+        langcounter += 1;
+    }
+    else {
+        html += "<span id=\"lang_" + idString + "\">";
+    }
+    html += getTranslationString(idString, plugin) + "</span>";
+    return html;
 }
 
 /**
@@ -154,36 +171,20 @@ function genlang(id, plugin) {
  * @param {String} [plugin] name of the plugin
  */
 function changeLanguage(plugin) {
-    var langId = "", langStr = "",text="";
-    var pos=0;
-
-    if(plugin== undefined)    {
-        text='span[id*=lang_]';
-        pos=5;
-    }
-    else    {
-        text='span[id*='+plugin+'_]';
-        pos=1+plugin.length;
-    }
-    $(text).each(function translate(i) {
-    langId = this.getAttribute('id').substring(pos);
-    if (langId.indexOf('-') !== -1) {
-        langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-    }
-    if(plugin==undefined){
-        langStr = getTranslationString(langId, plugin);
-    }
-    else    {
-        langStr = genlang(langId, plugin);
-    }
-    if (langStr !== undefined) {
-        if (langStr.length > 0) {
-            this.innerHTML = langStr;
+    var langId = "", langStr = "";
+    $('span[id*=lang_]').each(function translate(i) {
+        langId = this.getAttribute('id').substring(5);
+        if (langId.indexOf('-') !== -1) {
+            langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
         }
-    }
-        });
+        langStr = getTranslationString(langId, plugin);
+        if (langStr !== undefined) {
+            if (langStr.length > 0) {
+                this.innerHTML = langStr;
+            }
+        }
+    });
 }
-
 function reload(initiate) {
     $("#errorbutton").hide();
     $("#errors").empty();
@@ -229,6 +230,7 @@ function reload(initiate) {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
+            changeLanguage();
 
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
@@ -297,7 +299,7 @@ function items(data) {
 function renderVitals(data) {
     var directives = {
         Uptime: {
-            text: function () {
+            html: function () {
                 return formatUptime(this["Uptime"]);
             }
         },
@@ -337,7 +339,7 @@ function renderVitals(data) {
             }
         },
         Processes: {
-            text: function () {
+            html: function () {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
                 processes = parseInt(this["Processes"]);
@@ -366,7 +368,7 @@ function renderVitals(data) {
                             if (not_first) {
                                 processes += ", ";
                             }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + getTranslationString(proc_type,false);
+                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type, false);
                             not_first = true;
                         }
                     }
@@ -399,27 +401,27 @@ function renderHardware(data) {
             }
         },
         CpuSpeed: {
-            text: function () {
+            html: function () {
                 return formatHertz(this["CpuSpeed"]);
             }
         },
         CpuSpeedMax: {
-            text: function () {
+            html: function () {
                 return formatHertz(this["CpuSpeedMax"]);
             }
         },
         CpuSpeedMin: {
-            text: function () {
+            html: function () {
                 return formatHertz(this["CpuSpeedMin"]);
             }
         },
         Cache: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Cache"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         BusSpeed: {
-            text: function () {
+            html: function () {
                 return formatHertz(this["BusSpeed"]);
             }
         },
@@ -462,20 +464,20 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th width=8%>"+getTranslationString('107',false)+"</th>"; //Machine
+        html+="<th width=8%>"+genlang(107,false)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
     }
 
-    var paramlist = {CpuSpeed:"013",CpuSpeedMax:"100",CpuSpeedMin:"101",Cache:"015",Virt:"094",BusSpeed:"014",Bogomips:"016",Cputemp:"051",Load:"009"};
+    var paramlist = {CpuSpeed:013,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Load:9};
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td>"+getTranslationString('119',false)+":</td>"; //Number of processors
+                html+="<td>"+genlang(119,false)+":</td>"; //Number of processors
                 html+="<td class=\"rightCell\"><span></span></td>";
                 html+="</tr>";
             }
@@ -488,7 +490,7 @@ function renderHardware(data) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td>"+getTranslationString(paramlist[proc_param],false)+"</td>";
+                    html+="<td>"+genlang(paramlist[proc_param],false)+"</td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>";
                 }
@@ -507,7 +509,7 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td>"+getTranslationString('120',false)+":</td>"; //Number of devices
+                    html+="<td>"+genlang('120',false)+":</td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span></span></td>";
                     html+="</tr>";
                 }
@@ -595,17 +597,17 @@ function renderHardware(data) {
 function renderMemory(data) {
     var directives = {
         Total: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["@attributes"]["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["@attributes"]["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["@attributes"]["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
@@ -638,17 +640,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += getTranslationString('064',false)+': '+ this["Details"]["@attributes"]["AppPercent"] + '%';         //Kernel + apps
+                        html += genlang(64,false) + ': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += getTranslationString('066',false)+': ' + this["Details"]["@attributes"]["CachedPercent"] + '%';     //Cache
+                        html += genlang(66,false) + ': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; //Cache
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += getTranslationString('065',false)+': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%';    //Buffers
+                        html += genlang(65,false) + ': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -656,25 +658,25 @@ function renderMemory(data) {
             }
         },
         Type: {
-            text: function () {
-                return getTranslationString('028',false); //Physical Memory
+            html: function () {
+                return genlang(28,false); //Physical Memory
             }
         }
     };
 
     var directive_swap = {
         Total: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
@@ -708,17 +710,17 @@ function renderMemory(data) {
 function renderFilesystem(data) {
     var directives = {
         Total: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Free: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         Used: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
@@ -774,12 +776,12 @@ function renderFilesystem(data) {
 function renderNetwork(data) {
     var directives = {
         RxBytes: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         TxBytes: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
@@ -917,14 +919,14 @@ function renderTemperature(data) {
 function renderFans(data) {
     var directives = {
         Value: {
-            text: function () {
-                return this["Value"] + String.fromCharCode(160) + getTranslationString('063',false); //RPM
+            html: function () {
+                return this["Value"] + String.fromCharCode(160) + genlang(63,true); //RPM
             }
         },
         Min: {
-            text: function () {
+            html: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + getTranslationString('063',false); //RPM
+                    return this["Min"] + String.fromCharCode(160) + genlang(63,true); //RPM
             }
         },
         Label: {
@@ -1037,23 +1039,23 @@ function renderUPS(data) {
             }
         },
         LineVoltage: {
-            text: function () {
-                return this["LineVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //V
+            html: function () {
+                return this["LineVoltage"] + String.fromCharCode(160) + genlang(82,true); //V
             }
         },
         LineFrequency: {
-            text: function () {
-                return this["LineFrequency"] + String.fromCharCode(160) + getTranslationString('109',false); //Hz
+            html: function () {
+                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109,false); //Hz
             }
         },
         BatteryVoltage: {
-            text: function () {
-                return this["BatteryVoltage"] + String.fromCharCode(160) + getTranslationString('082',false); //V
+            html: function () {
+                return this["BatteryVoltage"] + String.fromCharCode(160) + genlang(82,true);; //V
             }
         },
         TimeLeftMinutes: {
-            text: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + getTranslationString('083',false); //minutes
+            html: function () {
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83,false); //minutes
             }
         },
         LoadPercent: {
@@ -1160,12 +1162,12 @@ function formatUptime(sec) {
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
     if (intDays) {
-        txt += intDays.toString() + String.fromCharCode(160) + getTranslationString('048',false) + String.fromCharCode(160); //days
+        txt += intDays.toString() + String.fromCharCode(160) + genlang(48,false) + String.fromCharCode(160); //days
     }
     if (intHours) {
-        txt += intHours.toString() + String.fromCharCode(160) + getTranslationString('049',false) + String.fromCharCode(160); //hours
+        txt += intHours.toString() + String.fromCharCode(160) + genlang(49,false) + String.fromCharCode(160); //hours
     }
-    return txt + intMin.toString() + String.fromCharCode(160) + getTranslationString('050',false); //Minutes
+    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50,false); //Minutes
 }
 
 /**
@@ -1186,13 +1188,13 @@ function formatTemp(degreeC, tempFormat) {
     else {
         switch (tempFormat.toLowerCase()) {
         case "f":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F";
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true);
         case "c":
-            return round(degree, 1) + String.fromCharCode(160) + "C";
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true);
         case "c-f":
-            return round(degree, 1) + String.fromCharCode(160) + "C<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F)</i>";
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + ")</i>";
         case "f-c":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + "F<br><i>(" + round(degree, 1) + String.fromCharCode(160) + "C)</i>";
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + "<br><i>(" + round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + ")</i>";
         }
     }
 }
@@ -1204,11 +1206,11 @@ function formatTemp(degreeC, tempFormat) {
  */
 function formatHertz(mhertz) {
     if (mhertz && mhertz < 1000) {
-        return mhertz.toString() + String.fromCharCode(160) + "MHz";
+        return mhertz.toString() + String.fromCharCode(160) + genlang(92, true);
     }
     else {
         if (mhertz && mhertz >= 1000) {
-            return round(mhertz / 1000, 2) + String.fromCharCode(160) + "GHz";
+            return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93, true);
         }
         else {
             return "";
@@ -1234,76 +1236,76 @@ function formatBytes(bytes, byteFormat) {
     switch (byteFormat.toLowerCase()) {
     case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
-        show += String.fromCharCode(160) + "PiB";
+        show += String.fromCharCode(160) + genlang(90, true);
         break;
     case "tib":
         show += round(bytes / Math.pow(1024, 4), 2);
-        show += String.fromCharCode(160) + "TiB";
+        show += String.fromCharCode(160) + genlang(86, true);
         break;
     case "gib":
         show += round(bytes / Math.pow(1024, 3), 2);
-        show += String.fromCharCode(160) + "GiB";
+        show += String.fromCharCode(160) + genlang(87, true);
         break;
     case "mib":
         show += round(bytes / Math.pow(1024, 2), 2);
-        show += String.fromCharCode(160) + "MiB";
+        show += String.fromCharCode(160) + genlang(88, true);
         break;
     case "kib":
         show += round(bytes / Math.pow(1024, 1), 2);
-        show += String.fromCharCode(160) + "KiB";
+        show += String.fromCharCode(160) + genlang(89, true);
         break;
     case "pb":
         show += round(bytes / Math.pow(1000, 5), 2);
-        show += String.fromCharCode(160) + "PB";
+        show += String.fromCharCode(160) + genlang(91, true);
         break;
     case "tb":
         show += round(bytes / Math.pow(1000, 4), 2);
-        show += String.fromCharCode(160) + "TB";
+        show += String.fromCharCode(160) + genlang(85, true);
         break;
     case "gb":
         show += round(bytes / Math.pow(1000, 3), 2);
-        show += String.fromCharCode(160) + "GB";
+        show += String.fromCharCode(160) + genlang(41, true);
         break;
     case "mb":
         show += round(bytes / Math.pow(1000, 2), 2);
-        show += String.fromCharCode(160) + "MB";
+        show += String.fromCharCode(160) + genlang(40, true);
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += String.fromCharCode(160) + "kB";
+        show += String.fromCharCode(160) + genlang(39, true);
         break;
     case "b":
         show += bytes;
-        show += String.fromCharCode(160) + "B";
+        show += String.fromCharCode(160) + genlang(96, true);
         break;
     case "auto_decimal":
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
-            show += String.fromCharCode(160) + "PB";
+            show += String.fromCharCode(160) + genlang(91, true);
         }
         else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
-                show += String.fromCharCode(160) + "TB";
+                show += String.fromCharCode(160) + genlang(85, true);
             }
             else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
-                    show += String.fromCharCode(160) + "GB";
+                    show += String.fromCharCode(160) + genlang(41, true);
                 }
                 else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
-                        show += String.fromCharCode(160) + "MB";
+                        show += String.fromCharCode(160) + genlang(40, true);
                     }
                     else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += String.fromCharCode(160) + "kB";
+                            show += String.fromCharCode(160) + genlang(39, true);
                         }
                         else {
                                 show += bytes;
-                                show += String.fromCharCode(160) + "B";
+                                show += String.fromCharCode(160) + genlang(96, true);
                         }
                     }
                 }
@@ -1313,31 +1315,31 @@ function formatBytes(bytes, byteFormat) {
     default:
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
-            show += String.fromCharCode(160) + "PiB";
+            show += String.fromCharCode(160) + genlang(90, true);
         }
         else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
-                show += String.fromCharCode(160) + "TiB";
+                show += String.fromCharCode(160) + genlang(86, true);
             }
             else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
-                    show += String.fromCharCode(160) + "GiB";
+                    show += String.fromCharCode(160) + genlang(87, true);
                 }
                 else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
-                        show += String.fromCharCode(160) + "MiB";
+                        show += String.fromCharCode(160) + genlang(88, true);
                     }
                     else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
-                            show += String.fromCharCode(160) + "KiB";
+                            show += String.fromCharCode(160) + genlang(89, true);
                         }
                         else {
                             show += bytes;
-                            show += String.fromCharCode(160) + "B";
+                            show += String.fromCharCode(160) + genlang(96, true);
                         }
                     }
                 }

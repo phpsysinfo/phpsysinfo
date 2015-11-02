@@ -3,17 +3,17 @@ function renderPlugin_quotas(data) {
     var directives = {
 
         ByteUsed: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteUsed"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         ByteSoft: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteSoft"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         ByteHard: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteHard"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
