@@ -114,14 +114,13 @@ function switchStyle(template) {
  * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
  * ajax call
  * @private
- * @param {String} lang language for which the translation should be loaded
  * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-function getLanguage(lang, plugin, plugname) {
+function getLanguage(plugin, plugname) {
     var getLangUrl = "";
-    if (lang) {
+    if (cookie_language) {
         getLangUrl = 'language/language.php?lang=' + cookie_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
@@ -173,7 +172,7 @@ function getTranslationString(langId, plugin) {
     }
     if (langxml[plugname] === undefined) {
         langxml.push(plugname);
-        getLanguage(cookie_language, plugin, plugname);
+        getLanguage(plugin, plugname);
     }
     return langarr[plugname][langId.toString()];
 }
@@ -334,12 +333,6 @@ function populateErrors(xml) {
  */
 function displayPage(xml) {
     var versioni = "";
-    if (cookie_template !== null) {
-        $("#template").val(cookie_template);
-    }
-    if (cookie_language !== null) {
-        $("#lang").val(cookie_language);
-    }
     $("#loader").hide();
     $("#container").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
@@ -352,10 +345,32 @@ function displayPage(xml) {
         if (showPickListTemplate === 'false') {
             $('#template').hide();
             $('span[id=lang_044]').hide();
+        } else {
+            cookie_template = readCookie("template");
+            if (cookie_template) {
+                $("#template").val(cookie_template);
+                switchStyle(cookie_template);
+            }
         }
         if (showPickListLang === 'false') {
             $('#lang').hide();
             $('span[id=lang_045]').hide();
+        } else {
+            cookie_language = readCookie("language");
+            if (cookie_language !== null) {
+                $("#lang").val(cookie_language);
+            }
+            $("#lang").change(function changeLang() {
+                var language = "", i = 0;
+                language = $("#lang").val().toString();
+                createCookie('language', language, 365);
+                cookie_language = readCookie('language');
+                changeLanguage();
+                for (i = 0; i < plugin_liste.length; i += 1) {
+                    changeLanguage(plugin_liste[i]);
+                }
+                return false;
+            });
         }
     });
 }
@@ -1450,13 +1465,6 @@ function settimer(xml) {
     });
 }
 
-cookie_language = readCookie("language");
-cookie_template = readCookie("template");
-
-if (cookie_template) {
-    switchStyle(cookie_template);
-}
-
 $(document).ready(function buildpage() {
     filesystemtable();
 
@@ -1493,18 +1501,6 @@ $(document).ready(function buildpage() {
     });
 
     $("#errors").nyroModal();
-
-    $("#lang").change(function changeLang() {
-        var language = "", i = 0;
-        language = $("#lang").val().toString();
-        createCookie('language', language, 365);
-        cookie_language = readCookie('language');
-        changeLanguage();
-        for (i = 0; i < plugin_liste.length; i += 1) {
-            changeLanguage(plugin_liste[i]);
-        }
-        return false;
-    });
 
     $("#template").change(function changeTemplate() {
         switchStyle($("#template").val().toString());

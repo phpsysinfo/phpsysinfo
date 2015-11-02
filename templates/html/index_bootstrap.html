@@ -25,7 +25,7 @@
                 class="btn btn-default btn-xs" style="display:none">Errors
             </button>
         </a>
-        <div class="navbar-language">
+        <div id="navbar-language" class="navbar-language" style="display:none" >
             <span id="lang_045">Language</span>
             <select class="select-language" id="lang">
 <?php foreach ($languages as $l) :
@@ -200,6 +200,16 @@
             <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
             <div class="panel-body">
                 <table id="network" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th width="60%"><span id="lang_022">Device</span></th>
+                        <th class="rightCell"><span id="lang_023">Receive</span></th>
+                        <th class="rightCell"><span id="lang_024">Send</span></th>
+                        <th class="rightCell"><span id="lang_025">Error\/&#8203;Drop</span></th>
+                    </tr>
+                    </thead>
+                    <tbody id="network-data">
+                    </tbody>
                 </table>
             </div>
         </div>

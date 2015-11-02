@@ -56,9 +56,17 @@ function readCookie(name) {
     return null;
 }
 
-function getLanguage(lang, plugin, plugname) {
+/**
+ * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
+ * ajax call
+ * @private
+ * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
+ * @param {String} plugname internal plugin name
+ * @return {jQuery} translation jQuery-Object
+ */
+function getLanguage(plugin, plugname) {
     var getLangUrl = "";
-    if (lang) {
+    if (cookie_language) {
         getLangUrl = 'language/language.php?lang=' + cookie_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
@@ -110,7 +118,7 @@ function getTranslationString(langId, plugin) {
     }
     if (langxml[plugname] === undefined) {
         langxml.push(plugname);
-        getLanguage(cookie_language, plugin, plugname);
+        getLanguage(plugin, plugname);
     }
     return langarr[plugname][langId.toString()];
 }
@@ -185,9 +193,28 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
-                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
-                setInterval(reload, refrtime);
+            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)) {
+                if (((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
+                    setInterval(reload, refrtime);
+                }
+                if (((showPickListLang = data["Options"]["@attributes"]["showPickListLang"]) !== undefined) && (showPickListLang == "true")) {
+                    cookie_language = readCookie("language");
+                    if (cookie_language !== null) {
+                        $("#lang").val(cookie_language);
+                    }
+                    $("#lang").change(function changeLang() {
+                        var language = "", i = 0;
+                        language = $("#lang").val().toString();
+                        createCookie('language', language, 365);
+                        cookie_language = readCookie('language');
+                        changeLanguage();
+                        for (i = 0; i < plugin_liste.length; i++) {
+                            changeLanguage(plugin_liste[i]);
+                        }
+                        return false;
+                    });
+                    $("#navbar-language").show(); 
+                }
             }
             renderErrors(data);
             changeLanguage();
@@ -237,22 +264,6 @@ $(document).ready(function () {
     });
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
-        cookie_language = readCookie("language");
-        if (cookie_language !== null) {
-            $("#lang").val(cookie_language);
-        }
-        $("#lang").change(function changeLang() {
-            var language = "", i = 0;
-            language = $("#lang").val().toString();
-            createCookie('language', language, 365);
-            cookie_language = readCookie('language');
-            changeLanguage();
-            for (i = 0; i < plugin_liste.length; i++) {
-                changeLanguage(plugin_liste[i]);
-            }
-            return false;
-        });
-
         reload(true);
 
         $(".navbar-logo").click(function () {
@@ -781,15 +792,6 @@ function renderNetwork(data) {
 
     var html = "";
 
-    html+="<thead>";
-    html+="<tr>";
-    html+="<th width=\"60%\">"+getTranslationString('022',false)+"</th>"; //Device
-    html+="<th class=\"rightCell\">"+getTranslationString('023',false)+"</th>"; //Receive
-    html+="<th class=\"rightCell\">"+getTranslationString('024',false)+"</th>"; //Sent
-    html+="<th class=\"rightCell\">"+getTranslationString('025',false)+"</th>"; //Error/Drop
-    html+="</tr>";
-    html+="</thead>";
-
     try {
         var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
@@ -809,7 +811,7 @@ function renderNetwork(data) {
                 }
             }
         }
-        $("#network").empty().append(html);
+        $("#network-data").empty().append(html);
         if (i > 0) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
