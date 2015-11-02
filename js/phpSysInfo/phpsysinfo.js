@@ -97,6 +97,9 @@ function round(x, n) {
     }
 }
 
+/* style on load */
+switchStyle(null);
+
 /**
  * activates a given style and disables the old one in the document
  * @param {String} template template that should be activated
@@ -104,10 +107,16 @@ function round(x, n) {
 function switchStyle(template) {
     $('link[rel*=style][title]').each(function getTitle(i) {
         if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + ".css");
+            if (template) {
+                this.setAttribute('href', './templates/' + template + ".css");
+            } else {
+                this.setAttribute('href', null);
+            }
         }
     });
-    createCookie('template', template, 365);
+    if (template) {
+        createCookie('template', template, 365);
+    }
 }
 
 /**
