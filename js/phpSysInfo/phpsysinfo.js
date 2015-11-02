@@ -332,7 +332,7 @@ function populateErrors(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function displayPage(xml) {
-    var versioni = "";
+    var versioni = "", i = 0;
     $("#loader").hide();
     $("#container").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
@@ -351,6 +351,10 @@ function displayPage(xml) {
                 $("#template").val(cookie_template);
                 switchStyle(cookie_template);
             }
+            $("#template").change(function changeTemplate() {
+                switchStyle($("#template").val().toString());
+                return false;
+            });
         }
         if (showPickListLang === 'false') {
             $('#lang').hide();
@@ -359,6 +363,10 @@ function displayPage(xml) {
             cookie_language = readCookie("language");
             if (cookie_language !== null) {
                 $("#lang").val(cookie_language);
+                changeLanguage();
+                for (i = 0; i < plugin_liste.length; i += 1) {
+                    changeLanguage(plugin_liste[i]);
+                }
             }
             $("#lang").change(function changeLang() {
                 var language = "", i = 0;
@@ -1491,7 +1499,6 @@ $(document).ready(function buildpage() {
             refreshCurrent(xml);
             refreshUps(xml);
 
-            changeLanguage();
             displayPage(xml);
             settimer(xml);
 
@@ -1501,11 +1508,6 @@ $(document).ready(function buildpage() {
     });
 
     $("#errors").nyroModal();
-
-    $("#template").change(function changeTemplate() {
-        switchStyle($("#template").val().toString());
-        return false;
-    });
 });
 
 jQuery.fn.dataTableExt.oSort['span-string-asc'] = function sortStringAsc(a, b) {
