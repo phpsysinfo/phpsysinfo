@@ -250,9 +250,9 @@ function filesystemtable() {
     html += "          <thead>\n";
     html += "            <tr>\n";
     html += "              <th>" + genlang(31, false) + "</th>\n";
-    html += "              <th>" + genlang(34, false) + "</th>\n";
+    html += "              <th>" + genlang(34, true) + "</th>\n";
     html += "              <th>" + genlang(32, false) + "</th>\n";
-    html += "              <th>" + genlang(33, false) + "</th>\n";
+    html += "              <th>" + genlang(33, true) + "</th>\n";
     html += "              <th class=\"right\">" + genlang(35, true) + "</th>\n";
     html += "              <th class=\"right\">" + genlang(36, true) + "</th>\n";
     html += "              <th class=\"right\">" + genlang(37, true) + "</th>\n";
