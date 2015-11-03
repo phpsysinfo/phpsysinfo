@@ -8,7 +8,7 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], cookie_language = "", plugin_liste = [];
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugin_liste = [];
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -66,8 +66,8 @@ function readCookie(name) {
  */
 function getLanguage(plugin, plugname) {
     var getLangUrl = "";
-    if (cookie_language) {
-        getLangUrl = 'language/language.php?lang=' + cookie_language;
+    if (current_language) {
+        getLangUrl = 'language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
@@ -109,7 +109,7 @@ function getLanguage(plugin, plugname) {
  * @return {String} translation string
  */
 function getTranslationString(langId, plugin) {
-    var plugname = cookie_language + "_";
+    var plugname = current_language + "_";
     if (plugin === undefined) {
         plugname += "phpSysInfo";
     }
@@ -194,28 +194,9 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)) {
-                if (((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
+            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
+               && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                     setInterval(reload, refrtime);
-                }
-                if (((showPickListLang = data["Options"]["@attributes"]["showPickListLang"]) !== undefined) && (showPickListLang == "true")) {
-                    cookie_language = readCookie("language");
-                    if (cookie_language !== null) {
-                        $("#lang").val(cookie_language);
-                    }
-                    $("#lang").change(function changeLang() {
-                        var language = "";
-                        language = $("#lang").val().toString();
-                        createCookie('language', language, 365);
-                        cookie_language = language;
-                        changeLanguage();
-                        for (var i = 0; i < plugin_liste.length; i++) {
-                            changeLanguage(plugin_liste[i]);
-                        }
-                        return false;
-                    });
-                    $("#navbar-language").show(); 
-                }
             }
             renderErrors(data);
             changeLanguage();
@@ -258,6 +239,8 @@ function reload(initiate) {
 }
 
 $(document).ready(function () {
+    var cookie_language = null;
+
     $(document).ajaxStart(function () {
         $("#loader").show();
     });
@@ -271,8 +254,35 @@ $(document).ready(function () {
         $(".navbar-logo").click(function () {
             reload();
         });
-    });
 
+        if ($("#lang option").size() < 2) {
+            current_language = $("#lang").val().toString();
+            changeLanguage();
+            for (var i = 0; i < plugin_liste.length; i += 1) {
+                changeLanguage(plugin_liste[i]);
+            }
+        } else {
+            cookie_language = readCookie("language");
+            if (cookie_language !== null) {
+                current_language = cookie_language;
+                $("#lang").val(current_language);
+            }
+            changeLanguage();
+            for (var i = 0; i < plugin_liste.length; i += 1) {
+                changeLanguage(plugin_liste[i]);
+            }
+            $("#navbar-language").show(); 
+            $("#lang").change(function changeLang() {
+                current_language = $("#lang").val().toString();
+                createCookie('language', current_language, 365);
+                changeLanguage();
+                for (var i = 0; i < plugin_liste.length; i++) {
+                    changeLanguage(plugin_liste[i]);
+                }
+                return false;
+            });
+        }
+    });
 });
 
 Array.prototype.push_attrs=function(element) {

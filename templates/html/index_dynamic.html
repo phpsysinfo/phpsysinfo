@@ -64,28 +64,40 @@
         </span>
       </h1>
       <div id="select">
-        <span id="lang_044">Template</span>
-        <select id="template" name="template">
-<?php foreach ($templates as $t) :
-            $selected = "";
-            if ($template === $t) {
-                $selected = " selected=\"selected\"";
-            }
+<?php
+if ($picktemplate) {
+    echo "        <span id=\"lang_044\">Template</span>\n";
+    echo "        <select id=\"template\" name=\"template\">\n";
+    foreach ($templates as $t) :
+        $selected = "";
+        if ($template === $t) {
+            $selected = " selected=\"selected\"";
+        }
+        echo "          <option value=\"".$t."\"".$selected.">".$t."</option>\n";
+    endforeach;
+} else {
+    echo "        <span id=\"lang_044\" style=\"display:none;\">Template</span>\n";
+    echo "        <select id=\"template\" name=\"template\" style=\"display:none;\">\n";
+    echo "          <option value=\"".$template."\" selected=\"selected\">".$template."</option>\n";
+}
+echo "        </select>\n";
+if ($picklanguage) {
+    echo "        <span id=\"lang_045\">Language</span>\n";
+    echo "        <select id=\"lang\" name=\"lang\">\n";
+    foreach ($languages as $l) :
+        $selected = "";
+        if ($language === $l) {
+            $selected = " selected=\"selected\"";
+        }
+        echo "          <option value=\"".$l."\"".$selected.">".$l."</option>\n";
+    endforeach;
+} else {
+    echo "        <span id=\"lang_045\" style=\"display:none;\">Language</span>\n";
+    echo "        <select id=\"lang\" name=\"lang\" style=\"display:none;\">\n";
+    echo "          <option value=\"".$language."\" selected=\"selected\">".$language."</option>\n";
+}
+echo "         </select>\n";
 ?>
-              <option value="<?php echo $t ?>"<?php echo $selected ?>><?php echo $t ?></option>
-<?php endforeach; ?>
-        </select>
-        <span id="lang_045">Language</span>
-        <select id="lang" name="lang">
-<?php foreach ($languages as $l) :
-            $selected = "";
-            if ($language === $l) {
-                $selected = " selected=\"selected\"";
-            }
-?>
-              <option value="<?php echo $l ?>"<?php echo $selected?>><?php echo $l?></option>
-<?php endforeach; ?>
-        </select>
       </div>
       <div id="vitals">
         <h2><span id="lang_002">System vitals</span></h2>

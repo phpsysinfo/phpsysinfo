@@ -25,7 +25,9 @@
 
 "use strict";
 
-var langxml = [], langcounter = 1, filesystemTable, cookie_language = "", cookie_template = "", plugin_liste = [], langarr = [];
+var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [];
+
+
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
  * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
@@ -119,8 +121,8 @@ function switchStyle(template) {
  */
 function getLanguage(plugin, plugname) {
     var getLangUrl = "";
-    if (cookie_language) {
-        getLangUrl = 'language/language.php?lang=' + cookie_language;
+    if (current_language) {
+        getLangUrl = 'language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
@@ -162,7 +164,7 @@ function getLanguage(plugin, plugname) {
  * @return {String} translation string
  */
 function getTranslationString(langId, plugin) {
-    var plugname = cookie_language + "_";
+    var plugname = current_language + "_";
     if (plugin === undefined) {
         plugname += "phpSysInfo";
     }
@@ -331,59 +333,11 @@ function populateErrors(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function displayPage(xml) {
-    var versioni = "", i = 0;
+    var versioni = "";
     $("#loader").hide();
     $("#container").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
     $("#version").html(versioni);
-
-    $("Options", xml).each(function getOptions(id) {
-        var showPickListLang = "", showPickListTemplate = "";
-        showPickListLang = $(this).attr("showPickListLang");
-        showPickListTemplate = $(this).attr("showPickListTemplate");
-        if (showPickListTemplate === 'false') {
-            $('#template').hide();
-            $('span[id=lang_044]').hide();
-            switchStyle($("#template").val().toString());
-        } else {
-            cookie_template = readCookie("template");
-            if (cookie_template !== null) {
-                $("#template").val(cookie_template);
-                switchStyle(cookie_template);
-            } else {
-                switchStyle($("#template").val().toString());
-            }
-            $("#template").change(function changeTemplate() {
-                switchStyle($("#template").val().toString());
-                createCookie('template', $("#template").val().toString(), 365);
-                return false;
-            });
-        }
-        if (showPickListLang === 'false') {
-            $('#lang').hide();
-            $('span[id=lang_045]').hide();
-        } else {
-            cookie_language = readCookie("language");
-            if (cookie_language !== null) {
-                $("#lang").val(cookie_language);
-                changeLanguage();
-                for (i = 0; i < plugin_liste.length; i += 1) {
-                    changeLanguage(plugin_liste[i]);
-                }
-            }
-            $("#lang").change(function changeLang() {
-                var language = "", i = 0;
-                language = $("#lang").val().toString();
-                createCookie('language', language, 365);
-                cookie_language = language;
-                changeLanguage();
-                for (i = 0; i < plugin_liste.length; i += 1) {
-                    changeLanguage(plugin_liste[i]);
-                }
-                return false;
-            });
-        }
-    });
 }
 
 /**
@@ -1477,6 +1431,54 @@ function settimer(xml) {
 }
 
 $(document).ready(function buildpage() {
+    var i = 0, cookie_language = null, cookie_template = null;
+
+    if ($("#template option").size() < 2) {
+        switchStyle($("#template").val().toString());
+    } else {
+        $('#template').show();
+        $('span[id=lang_044]').show();
+        cookie_template = readCookie("template");
+        if (cookie_template !== null) {
+            $("#template").val(cookie_template);
+        }
+        $("#template").change(function changeTemplate() {
+            switchStyle($("#template").val().toString());
+            createCookie('template', $("#template").val().toString(), 365);
+            return false;
+        });
+        switchStyle($("#template").val().toString());
+    }
+    if ($("#lang option").size() < 2) {
+        current_language = $("#lang").val().toString();
+        changeLanguage();
+        for (i = 0; i < plugin_liste.length; i += 1) {
+            changeLanguage(plugin_liste[i]);
+        }
+    } else {
+        cookie_language = readCookie("language");
+        if (cookie_language !== null) {
+            current_language = cookie_language;
+            $("#lang").val(current_language);
+        }
+        changeLanguage();
+        for (i = 0; i < plugin_liste.length; i += 1) {
+            changeLanguage(plugin_liste[i]);
+        }
+        $('#lang').show();
+        $('span[id=lang_045]').show();
+        $("#lang").change(function changeLang() {
+            var i = 0;
+            current_language = $("#lang").val().toString();
+            createCookie('language', current_language, 365);
+            changeLanguage();
+            for (i = 0; i < plugin_liste.length; i += 1) {
+                changeLanguage(plugin_liste[i]);
+            }
+            return false;
+        });
+    }
+
     filesystemtable();
 
     $.ajax({

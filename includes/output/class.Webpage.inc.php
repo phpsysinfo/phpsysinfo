@@ -61,6 +61,20 @@ class Webpage extends Output implements PSI_Interface_Output
     private $_languages = array();
 
     /**
+     * configured show picklist language
+     *
+     * @var boolean
+     */
+    private $_pick_language;
+
+    /**
+     * configured show picklist template
+     *
+     * @var boolean
+     */
+    private $_pick_template;
+
+    /**
      * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
      */
     public function __construct($indexname="dynamic")
@@ -83,11 +97,13 @@ class Webpage extends Output implements PSI_Interface_Output
         if (!file_exists(APP_ROOT.'/templates/'.$this->_template.".css")) {
             $this->_template = 'phpsysinfo';
         }
+        $this->_pick_template = !defined("PSI_SHOW_PICKLIST_TEMPLATE") || (PSI_SHOW_PICKLIST_TEMPLATE !== false);
 
         $this->_language = trim(strtolower(PSI_DEFAULT_LANG));
         if (!file_exists(APP_ROOT.'/language/'.$this->_language.".xml")) {
             $this->_language = 'en';
         }
+        $this->_pick_language = !defined("PSI_SHOW_PICKLIST_LANG") || (PSI_SHOW_PICKLIST_LANG !== false);
     }
 
     /**
@@ -139,8 +155,10 @@ class Webpage extends Output implements PSI_Interface_Output
 
         $tpl->set("template", $this->_template);
         $tpl->set("templates", $this->_templates);
+        $tpl->set("picktemplate", $this->_pick_template);
         $tpl->set("language", $this->_language);
         $tpl->set("languages", $this->_languages);
+        $tpl->set("picklanguage", $this->_pick_language);
 
         echo $tpl->fetch();
     }

@@ -10,8 +10,6 @@
     	<attribute name="tempFormat" type="string" use="required"></attribute>
     	<attribute name="byteFormat" type="string" use="required"></attribute>
     	<attribute name="refresh" type="unsignedInt" use="required"></attribute>
-    	<attribute name="showPickListTemplate" type="boolean" use="required"></attribute>
-    	<attribute name="showPickListLang" type="boolean" use="required"></attribute>
     	<attribute name="threshold" type="unsignedInt" use="optional"></attribute>
     </complexType>
 
