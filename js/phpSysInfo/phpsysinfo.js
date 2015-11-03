@@ -107,7 +107,6 @@ function switchStyle(template) {
             this.setAttribute('href', './templates/' + template + ".css");
         }
     });
-    createCookie('template', template, 365);
 }
 
 /**
@@ -345,14 +344,18 @@ function displayPage(xml) {
         if (showPickListTemplate === 'false') {
             $('#template').hide();
             $('span[id=lang_044]').hide();
+            switchStyle($("#template").val().toString());
         } else {
             cookie_template = readCookie("template");
-            if (cookie_template) {
+            if (cookie_template !== null) {
                 $("#template").val(cookie_template);
                 switchStyle(cookie_template);
+            } else {
+                switchStyle($("#template").val().toString());
             }
             $("#template").change(function changeTemplate() {
                 switchStyle($("#template").val().toString());
+                createCookie('template', $("#template").val().toString(), 365);
                 return false;
             });
         }
@@ -372,7 +375,7 @@ function displayPage(xml) {
                 var language = "", i = 0;
                 language = $("#lang").val().toString();
                 createCookie('language', language, 365);
-                cookie_language = readCookie('language');
+                cookie_language = language;
                 changeLanguage();
                 for (i = 0; i < plugin_liste.length; i += 1) {
                     changeLanguage(plugin_liste[i]);

@@ -207,7 +207,7 @@ function reload(initiate) {
                         var language = "";
                         language = $("#lang").val().toString();
                         createCookie('language', language, 365);
-                        cookie_language = readCookie('language');
+                        cookie_language = language;
                         changeLanguage();
                         for (var i = 0; i < plugin_liste.length; i++) {
                             changeLanguage(plugin_liste[i]);
