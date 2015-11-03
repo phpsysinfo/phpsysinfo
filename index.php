@@ -46,7 +46,7 @@ if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
 }
 
 // redirect to page with and without javascript
-$display = isset($_GET['disp']) ? $_GET['disp'] : strtolower(PSI_DEFAULT_DISPLAY_MODE);
+$display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
 case "static":
     $webpage = new WebpageXSLT();
@@ -68,8 +68,25 @@ case "bootstrap":
     $webpage = new Webpage("bootstrap");
     $webpage->run();
     break;
-default:
+case "auto":
     $tpl = new Template("/templates/html/index_all.html");
     echo $tpl->fetch();
+    break;
+default:
+    $defaultdisplay = strtolower(PSI_DEFAULT_DISPLAY_MODE);
+    switch ($defaultdisplay) {
+    case "static":
+        $webpage = new WebpageXSLT();
+        $webpage->run();
+        break;
+    case "dynamic":
+        $webpage = new Webpage();
+        $webpage->run();
+        break;
+    case "bootstrap":
+        $webpage = new Webpage("bootstrap");
+        $webpage->run();
+        break;
+    }
     break;
 }
