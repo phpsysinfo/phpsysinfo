@@ -3,7 +3,7 @@ function renderPlugin_ps(data) {
     var directives = {
         MemoryUsage: {
             html: function () {
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + this["MemoryUsage"] + '%;"></div>' +
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["MemoryUsage"] + '%;"></div>' +
                         '</div><div class="percent">' + this["MemoryUsage"] + '%</div>';
             }
         },

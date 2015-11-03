@@ -19,13 +19,10 @@
 
 <div class="navbar navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand"><img class="navbar-logo" src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
-            <img id="loader" style="display:none" src="gfx/ajax-loader.gif"> 
-            <button id="errorbutton" type="button" data-toggle="modal" data-target="#errors-dialog"
-                class="btn btn-default btn-xs" style="display:none">Errors
-            </button>
+        <a class="navbar-brand"><img class="navbar-logo" alt="" src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
+            <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:none;"> 
         </a>
-        <div id="navbar-language" class="navbar-language" style="display:none" >
+        <div id="navbar-language" class="navbar-language" style="display:none;" >
             <span id="lang_045">Language</span>
             <select class="select-language" id="lang">
 <?php foreach ($languages as $l) :
@@ -38,13 +35,18 @@
 <?php endforeach; ?>
             </select>
         </div>
+        <div id="navbar-error" class="navbar-error">
+            <button id="errorbutton" type="button" data-toggle="modal" data-target="#errors-dialog"
+                class="btn btn-default btn-xs" style="display:none;">Errors
+            </button> 
+        </div>
     </div>
 </div>
 
 <div class="container">
 
 <div class="row">
-    <div id="block_vitals" style="display:none" class="col-lg-6">
+    <div id="block_vitals" style="display:none;" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_002">System vitals</span></div>
             <div class="panel-body">
@@ -99,7 +101,7 @@
     </div>
 
 
-    <div id="block_hardware" style="display:none" class="col-lg-6">
+    <div id="block_hardware" style="display:none;" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
             <div class="panel-body">
@@ -111,7 +113,7 @@
 </div>
 
 <div class="row">
-    <div id="block_memory" style="display:none" class="col-lg-12">
+    <div id="block_memory" style="display:none;" class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_027">Memory Usage</span></div>
             <div class="panel-body">
@@ -134,7 +136,7 @@
                         <td class="rightCell"><span data-bind="Total"></span></td>
                     </tr>
                     </tbody>
-                    <tfoot id="swap-data" style="display:none">
+                    <tfoot id="swap-data" style="display:none;">
                     <tr>
                         <th><span data-bind="Name"></span></th>
                         <td><span data-bind="Usage"></span></td>
@@ -150,7 +152,7 @@
 </div>
 
 <div class="row">
-    <div id="block_filesystem" style="display:none" class="col-lg-12">
+    <div id="block_filesystem" style="display:none;" class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_030">Mounted Filesystems</span></div>
             <div class="panel-body">
@@ -195,14 +197,14 @@
 </div>
 
 <div class="row">
-    <div id="block_network" style="display:none" class="col-lg-6">
+    <div id="block_network" style="display:none;" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
             <div class="panel-body">
                 <table id="network" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th width="60%"><span id="lang_022">Device</span></th>
+                        <th style="width:60%"><span id="lang_022">Device</span></th>
                         <th class="rightCell"><span id="lang_023">Receive</span></th>
                         <th class="rightCell"><span id="lang_024">Send</span></th>
                         <th class="rightCell"><span id="lang_025">Error\/&#8203;Drop</span></th>
@@ -215,7 +217,7 @@
         </div>
     </div>
 
-    <div id="block_voltage" style="display:none" class="col-lg-6">
+    <div id="block_voltage" style="display:none;" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_052">Voltage</span></div>
             <div class="panel-body">
@@ -241,7 +243,7 @@
         </div>
     </div>
 
-    <div id="block_temperature" style="display:none" class="col-lg-3">
+    <div id="block_temperature" style="display:none;" class="col-lg-3">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_051">Temperatures</span></div>
             <div class="panel-body">
@@ -265,7 +267,7 @@
         </div>
     </div>
 
-    <div id="block_fans" style="display:none" class="col-lg-3">
+    <div id="block_fans" style="display:none;" class="col-lg-3">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_053">Fans</span></div>
             <div class="panel-body">
@@ -289,7 +291,7 @@
         </div>
     </div>
 
-    <div id="block_current" style="display:none" class="col-lg-3">
+    <div id="block_current" style="display:none;" class="col-lg-3">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_105">Currents</span></div>
             <div class="panel-body">
@@ -313,7 +315,7 @@
         </div>
     </div>
 
-    <div id="block_power" style="display:none" class="col-lg-3">
+    <div id="block_power" style="display:none;" class="col-lg-3">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_102">Power</span></div>
             <div class="panel-body">
@@ -337,7 +339,7 @@
         </div>
     </div>
 
-    <div id="block_ups" style="display:none" class="col-lg-6">
+    <div id="block_ups" style="display:none;" class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
             <div class="panel-body">
@@ -356,8 +358,7 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 </div>
 
 <!-- Errors details modal dialogs -->
-<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

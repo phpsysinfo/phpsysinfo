@@ -20,7 +20,7 @@ function renderPlugin_snmppinfo(data) {
                 } else if (level==-3) {
                     percent = 100;
                 }
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + percent + '%;"></div>' +
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
             }
         },
@@ -54,7 +54,7 @@ function renderPlugin_snmppinfo(data) {
             html+="</tr>";
             html+="</thead>";
             for (var i = 0; i < printers.length; i++) {
-                html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none\" >";
+                html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
                 html+="<td><b><span data-bind=\"Device\"></span></b></td>";
                 html+="<td></td>";
                 html+="<td></td>";

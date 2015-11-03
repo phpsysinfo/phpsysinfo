@@ -324,14 +324,14 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px"/>' + " " +this["Distro"];
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px;"/>' + " " +this["Distro"];
             }
         },
         LoadAvg: {
             html: function () {
                 if (this["CPULoad"] !== undefined) {
-                    return '<table width=100%><tr><td width=50%>'+this["LoadAvg"] + '</td><td><div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["CPULoad"],0) + '%;"></div>' +
+                    return '<table style="width:100%;"><tr><td style="width:50%;">'+this["LoadAvg"] + '</td><td><div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["CPULoad"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["CPULoad"],0) + '%</div></td></tr></table>';
                 } else {
                     return this["LoadAvg"];
@@ -438,7 +438,7 @@ function renderHardware(data) {
         Load: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["Load"],0) + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["Load"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["Load"],0) + '%</div>';
             }
         }
@@ -464,7 +464,7 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th width=8%>"+genlang(107,false)+"</th>"; //Machine
+        html+="<th style=\"width:8%;\">"+genlang(107,false)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
@@ -615,26 +615,26 @@ function renderMemory(data) {
             html: function () {
                 if ((this["Details"] === undefined) || (this["Details"]["@attributes"] === undefined)) {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + this["@attributes"]["Percent"] + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
                 }
                 else {
                     var rest = parseInt(this["@attributes"]["Percent"]);
                     var html = '<div class="progress">';
                     if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-info" style="width: ' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>';
+                        html += '<div class="progress-bar progress-bar-info" style="width:' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>';
                         rest -= parseInt(this["Details"]["@attributes"]["AppPercent"]);
                     }
                     if ((this["Details"]["@attributes"]["CachedPercent"] !== undefined) && (this["Details"]["@attributes"]["CachedPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-warning" style="width: ' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>';
+                        html += '<div class="progress-bar progress-bar-warning" style="width:' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>';
                         rest -= parseInt(this["Details"]["@attributes"]["CachedPercent"]);
                     }
                     if ((this["Details"]["@attributes"]["BuffersPercent"] !== undefined) && (this["Details"]["@attributes"]["BuffersPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-danger" style="width: ' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>';
+                        html += '<div class="progress-bar progress-bar-danger" style="width:' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>';
                         rest -= parseInt(this["Details"]["@attributes"]["BuffersPercent"]);
                     }
                     if (rest > 0) {
-                        html += '<div class="progress-bar progress-bar-success" style="width: ' + rest + '%;"></div>';
+                        html += '<div class="progress-bar progress-bar-success" style="width:' + rest + '%;"></div>';
                     }
                     html += '</div>';
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
@@ -683,7 +683,7 @@ function renderMemory(data) {
         Usage: {
             html: function () {
                 return '<div class="progress">' +
-                    '<div class="progress-bar progress-bar-info" style="width: ' + this["Percent"] + '%;"></div>' +
+                    '<div class="progress-bar progress-bar-info" style="width:' + this["Percent"] + '%;"></div>' +
                     '</div><div class="percent">' + this["Percent"] + '%</div>';
             }
         },
@@ -739,7 +739,7 @@ function renderFilesystem(data) {
                 return '<div class="progress">' + '<div class="' +
                     (((data["Options"]["@attributes"]["threshold"] !== undefined) &&
                         (parseInt(this["Percent"]) >= parseInt(data["Options"]["@attributes"]["threshold"]))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
-                    '" style="width: ' + this["Percent"] + '% ;"></div>' +
+                    '" style="width:' + this["Percent"] + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this["Percent"] + '% ' + ((this["Inodes"] !== undefined) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
             }
         }
@@ -1061,14 +1061,14 @@ function renderUPS(data) {
         LoadPercent: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["LoadPercent"],0) + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["LoadPercent"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["LoadPercent"],0) + '%</div>';
             }
         },
         BatteryChargePercent: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width: ' + round(this["BatteryChargePercent"],0) + '%;"></div>' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["BatteryChargePercent"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["BatteryChargePercent"],0) + '%</div>';
             }
         }
@@ -1082,7 +1082,7 @@ function renderUPS(data) {
             var datas = items(data["UPSInfo"]["UPS"]);
             for (var i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-                html+="<td width=60%><b><span data-bind=\"Name\"></span></b></td>";
+                html+="<td style=\"width:60%;\"><b><span data-bind=\"Name\"></span></b></td>";
                 html+="<td></td>";
                 html+="</tr>";
                 for (var proc_param in paramlist) {

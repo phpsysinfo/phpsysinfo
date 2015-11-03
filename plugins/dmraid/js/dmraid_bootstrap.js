@@ -4,7 +4,7 @@ function renderPlugin_dmraid(data) {
         var html = "";
         var img = "", alt = "";
 
-        html += "<div style=\"text-align: center; float: left; margin-bottom: 5px; margin-right: 20px; width: 64px;\">";
+        html += "<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:20px; width:64px;\">";
         switch (data["Status"]) {
             case " ":
             case "":
