@@ -19,7 +19,7 @@ function renderPlugin_ps(data) {
         if (psitems.length > 0) {
             var ps_memory = [];
             var ps_item = [];
-            for (i = 0; i < psitems.length ; i++) {
+            for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
                 ps_item["number"] = i + 1;
                 ps_memory.push(ps_item);

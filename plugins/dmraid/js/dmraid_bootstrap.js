@@ -39,7 +39,7 @@ function renderPlugin_dmraid(data) {
         var dmitems = items(data['Plugins']['Plugin_DMRaid']['Raid']);
         if (dmitems.length > 0) {
             var html = '';
-            for (i = 0; i < dmitems.length ; i++) {
+            for (var i = 0; i < dmitems.length ; i++) {
                 if (i) {
                     html += "<tr><td></td><td>";
                 } else {
@@ -51,7 +51,7 @@ function renderPlugin_dmraid(data) {
                     html += "<tr><td>";
 
                     var diskitems = items(dmitems[i]['Disks']['Disk']);
-                    for (j = 0; j < diskitems.length ; j++) {
+                    for (var j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
 
@@ -75,7 +75,7 @@ function renderPlugin_dmraid(data) {
             }
             $('#dmraid').empty().append(html);
 
-            for (i = 0; i < dmitems.length ; i++) {
+            for (var i = 0; i < dmitems.length ; i++) {
                 if (dmitems[i]['Disks'] !== undefined) {
                     $('#dmraid-'+i).treegrid({
                         initialState: 'collapsed',

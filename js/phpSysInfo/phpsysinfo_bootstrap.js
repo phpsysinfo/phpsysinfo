@@ -41,10 +41,10 @@ function createCookie(name, value, days) {
  * @return {String}
  */
 function readCookie(name) {
-    var nameEQ = "", ca = [], c = '', i = 0;
+    var nameEQ = "", ca = [], c = '';
     nameEQ = name + "=";
     ca = document.cookie.split(';');
-    for (i = 0; i < ca.length; i += 1) {
+    for (var i = 0; i < ca.length; i += 1) {
         c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1, c.length);
@@ -204,12 +204,12 @@ function reload(initiate) {
                         $("#lang").val(cookie_language);
                     }
                     $("#lang").change(function changeLang() {
-                        var language = "", i = 0;
+                        var language = "";
                         language = $("#lang").val().toString();
                         createCookie('language', language, 365);
                         cookie_language = readCookie('language');
                         changeLanguage();
-                        for (i = 0; i < plugin_liste.length; i++) {
+                        for (var i = 0; i < plugin_liste.length; i++) {
                             changeLanguage(plugin_liste[i]);
                         }
                         return false;
@@ -363,7 +363,7 @@ function renderVitals(data) {
                 }
                 if (p111 || p112 || p113 || p114 || p115 || p116) {
                     processes += " (";
-                    for (proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
+                    for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
                         if (eval("p" + proc_type)) {
                             if (not_first) {
                                 processes += ", ";
@@ -502,7 +502,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
@@ -549,7 +549,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var licz = 0;
             var datas = items(data["Hardware"][hw_type]["Device"]);

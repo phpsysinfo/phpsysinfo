@@ -58,7 +58,7 @@ function renderPlugin_mdstatus(data) {
             var stitems = items(data['Plugins']['Plugin_MDStatus']['Supported_Types']['Type']);
             if (stitems.length > 0) {
                 var htmltypes = "<tr><th>"+genlang(2, false,'mdstatus')+"</th><th>";
-                for (i = 0; i < stitems.length ; i++) {
+                for (var i = 0; i < stitems.length ; i++) {
                     htmltypes += stitems[i]["@attributes"]["Name"] + " ";
                 }
                 htmltypes += "</th><tr>";
@@ -73,7 +73,7 @@ function renderPlugin_mdstatus(data) {
         var mditems = items(data['Plugins']['Plugin_MDStatus']['Raid']);
         if (mditems.length > 0) {
             var html = '';
-            for (i = 0; i < mditems.length ; i++) {
+            for (var i = 0; i < mditems.length ; i++) {
                 if (i) {
                     html += "<tr><td></td><td>";
                 } else {
@@ -91,7 +91,7 @@ function renderPlugin_mdstatus(data) {
                     html += "<tr><td>";
 
                     var diskitems = items(mditems[i]['Disks']['Disk']);
-                    for (j = 0; j < diskitems.length ; j++) {
+                    for (var j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
 
@@ -130,7 +130,7 @@ function renderPlugin_mdstatus(data) {
             }
             $('#mdstatus').append(html);
 
-            for (i = 0; i < mditems.length ; i++) {
+            for (var i = 0; i < mditems.length ; i++) {
                 if (mditems[i]['Disks'] !== undefined) {
                     $('#mdstatus-'+i).treegrid({
                         initialState: 'collapsed',

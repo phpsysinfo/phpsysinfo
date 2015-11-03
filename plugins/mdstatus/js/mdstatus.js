@@ -61,8 +61,8 @@ function mdstatus_buildinfos(xml, id) {
     if (devactive !== -1 && devregis !== -1) {
         html += "<tr><td>" + genlang(12, false, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
     }
-    button += "<h3 style=\"cursor: pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.png\" alt=\"plus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
-    button += "<h3 style=\"cursor: pointer; display: none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.png\" alt=\"minus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.png\" alt=\"plus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.png\" alt=\"minus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
     button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
     return button;
 }

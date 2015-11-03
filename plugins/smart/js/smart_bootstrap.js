@@ -36,7 +36,7 @@ function renderPlugin_smart(data) {
         html+="<thead>";
         html+="<tr>";
         html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(3, false, 'smart')+"</th>";	// Name
-        for (i = 0; i < smartitems.length ; i++) {
+        for (var i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"]["id"];
             if (smartnames[smartid] !== undefined) {
                 html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid), false, 'smart') + "</th>";
@@ -49,15 +49,15 @@ function renderPlugin_smart(data) {
 
         var diskitems = items(data['Plugins']['Plugin_SMART']["disks"]["disk"]);
         html += '<tbody>';
-        for (i = 0; i < diskitems.length; i++) {
+        for (var i = 0; i < diskitems.length; i++) {
             html += '<tr>';
             html += '<th class="rightCell">'+ diskitems[i]["@attributes"]["name"] + '</th>';
             attribitems = items(diskitems[i]["attribute"]);
             var valarray = [];
-            for (j = 0;j < attribitems.length; j++) {
+            for (var j = 0;j < attribitems.length; j++) {
                 valarray[attribitems[j]["@attributes"]["id"]] = attribitems[j]["@attributes"]["raw_value"];
             }
-            for (j = 0; j < smartitems.length; j++) {
+            for (var j = 0; j < smartitems.length; j++) {
                 var smartid = smartitems[j]["@attributes"]["id"];
                 var itemvalue = valarray[smartid];
                 if ((itemvalue !== undefined) && (itemvalue !== '' )) {
