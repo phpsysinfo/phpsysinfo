@@ -87,6 +87,10 @@ default:
         $webpage = new Webpage("bootstrap");
         $webpage->run();
         break;
+    default:
+        $tpl = new Template("/templates/html/index_all.html");
+        echo $tpl->fetch();
+        break;
     }
     break;
 }
