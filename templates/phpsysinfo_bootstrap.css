@@ -79,15 +79,15 @@ table.borderless td,table.borderless th{
      border: none !important;
 }
 
-.navbar-logo {
+.logo {
+    cursor: pointer;
+}
+
+.errorbutton {
     cursor: pointer;
 }
 
 .navbar-language {
-    text-align: right;
-}
-
-.navbar-error {
     text-align: right;
 }
 

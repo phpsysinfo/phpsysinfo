@@ -242,10 +242,10 @@ $(document).ready(function () {
     var cookie_language = null;
 
     $(document).ajaxStart(function () {
-        $("#loader").show();
+        $("#loader").css("visibility", "visible");
     });
     $(document).ajaxStop(function () {
-        $("#loader").hide();
+        $("#loader").css("visibility", "hidden");
     });
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
