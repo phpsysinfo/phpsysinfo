@@ -251,7 +251,7 @@ $(document).ready(function () {
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
         reload(true);
 
-        $(".navbar-logo").click(function () {
+        $(".logo").click(function () {
             reload();
         });
 
