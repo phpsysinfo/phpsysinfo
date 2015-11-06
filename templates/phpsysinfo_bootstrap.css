@@ -89,6 +89,7 @@ table.borderless td,table.borderless th{
 
 .navbar-language {
     text-align: right;
+    padding-top: 20px;
 }
 
 .select-language {
