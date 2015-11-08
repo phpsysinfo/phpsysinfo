@@ -78,12 +78,12 @@ if ($picktemplate) {
 } else {
     echo "        <span id=\"lang_044\" style=\"display:none;\">Template</span>\n";
     echo "        <select id=\"template\" name=\"template\" style=\"display:none;\">\n";
-    echo "          <option value=\"".$template."\" selected=\"selected\">".$template."</option>\n";
+    echo "        <option value=\"".$template."\" selected=\"selected\">".$template."</option>\n";
 }
 echo "        </select>\n";
 if ($picklanguage) {
     echo "        <span id=\"lang_045\">Language</span>\n";
-    echo "        <select id=\"lang\" name=\"lang\">\n";
+    echo "        <select id=\"language\" name=\"language\">\n";
     foreach ($languages as $l) :
         $selected = "";
         if ($language === $l) {

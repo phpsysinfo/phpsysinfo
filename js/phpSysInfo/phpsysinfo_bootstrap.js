@@ -57,6 +57,18 @@ function readCookie(name) {
 }
 
 /**
+ * activates a given style and disables the old one in the document
+ * @param {String} template template that should be activated
+ */
+function switchStyle(template) {
+    $('link[rel*=style][title]').each(function getTitle(i) {
+        if (this.getAttribute('title') === 'PSI_Template') {
+            this.setAttribute('href', './templates/' + template + "_bootstrap.css");
+        }
+    });
+}
+
+/**
  * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
  * ajax call
  * @private
@@ -239,7 +251,7 @@ function reload(initiate) {
 }
 
 $(document).ready(function () {
-    var cookie_language = null;
+    var cookie_template = null, cookie_language = null;
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -255,30 +267,49 @@ $(document).ready(function () {
             reload();
         });
 
-        if ($("#lang option").size() < 2) {
-            current_language = $("#lang").val().toString();
+        if ($("#language option").size() < 2) {
+            current_language = $("#language").val().toString();
             changeLanguage();
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
         } else {
-            cookie_language = readCookie("language");
+            cookie_language = readCookie("psi_language");
             if (cookie_language !== null) {
                 current_language = cookie_language;
-                $("#lang").val(current_language);
+                $("#language").val(current_language);
+            } else {
+                current_language = $("#language").val().toString();
             }
             changeLanguage();
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
-            $("#navbar-language").show(); 
-            $("#lang").change(function changeLang() {
-                current_language = $("#lang").val().toString();
-                createCookie('language', current_language, 365);
+            $('#language').show();
+            $('span[id=lang_045]').show(); 
+            $("#language").change(function changeLang() {
+                current_language = $("#language").val().toString();
+                createCookie('psi_language', current_language, 365);
                 changeLanguage();
                 for (var i = 0; i < plugin_liste.length; i++) {
                     changeLanguage(plugin_liste[i]);
                 }
+                return false;
+            });
+        }
+        if ($("#template option").size() < 2) {
+            switchStyle($("#template").val().toString());
+        } else {
+            cookie_template = readCookie("psi_bootstrap_template");
+            if (cookie_template !== null) {
+                $("#template").val(cookie_template);
+            }
+            switchStyle($("#template").val().toString());
+            $('#template').show();
+            $('span[id=lang_044]').show();
+            $("#template").change(function changeTemplate() {
+                switchStyle($("#template").val().toString());
+                createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
                 return false;
             });
         }

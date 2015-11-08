@@ -85,6 +85,11 @@ DEFAULT_LANG="en"
 DEFAULT_TEMPLATE="phpsysinfo"
 
 
+; Define the default template for frontend "bootstrap"
+;
+DEFAULT_BOOTSTRAP_TEMPLATE="phpsysinfo"
+
+
 ; Show or hide language picklist
 ;
 SHOW_PICKLIST_LANG=true

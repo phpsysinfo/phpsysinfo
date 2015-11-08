@@ -12,7 +12,8 @@
     <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
     <![endif]-->
     <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="templates/phpsysinfo_bootstrap.css">
+    <link rel="stylesheet" href="xtemplates/phpsysinfo_bootstrap.css">
+    <link rel="stylesheet" title="PSI_Template">
 </head>
 
 <body>
@@ -24,9 +25,23 @@
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility: hidden"/>
             <img id="errorbutton" class="errorbutton" data-toggle="modal" data-target="#errors-dialog" alt="" src="gfx/attention.png" style="display:none;"/>
         </a>
-        <div id="navbar-language" class="navbar-language" style="display:none;">
-            <span id="lang_045">Language</span>
-            <select class="select-language" id="lang">
+        <div id="navbar-templang" class="navbar-templang">
+            <span id="lang_044" style="display:none;">Template</span>
+            <select class="template" id="template" style="display:none;">
+<?php if ($picktemplate) {
+foreach ($bootstraptemplates as $t) :
+    $selected = "";
+    if ($bootstraptemplate === $t) {
+        $selected = " selected=\"selected\"";
+    }
+    echo "                <option value=\"".$t."\"".$selected.">".$t."</option>\n";
+endforeach;
+} else {
+    echo "                <option value=\"".$bootstraptemplate."\" selected=\"selected\">".$bootstraptemplate."</option>\n";
+}?>
+            </select>
+            <span id="lang_045" style="display:none;">Language</span>
+            <select class="language" id="language" style="display:none;">
 <?php if ($picklanguage) {
 foreach ($languages as $l) :
     $selected = "";

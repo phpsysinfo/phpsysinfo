@@ -90,12 +90,36 @@ table.borderless td,table.borderless th{
 .navbar-templang {
     text-align: right;
     padding-top: 20px;
+    color: #333;
 }
 
 .template {
     cursor: pointer;
+    color: #333;
 }
 
 .language {
     cursor: pointer;
+    color: #333;
+}
+
+.panel-heading {
+  background-color: #337ab7!important;
+  border-color: #337ab7!important;
+}
+
+.progress-bar-success {
+    background-color:#5cb85c;
+}
+
+.progress-bar-info {
+    background-color:#5bc0de;
+}
+
+.progress-bar-warning {
+    background-color:#f0ad4e;
+}
+
+.progress-bar-danger {
+    background-color:#d9534f;
 }
