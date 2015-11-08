@@ -67,7 +67,6 @@ class Webpage extends Output implements PSI_Interface_Output
      */
     private $_bootstrap_templates = array();
 
-
     /**
      * all available languages
      *

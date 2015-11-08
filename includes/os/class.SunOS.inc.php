@@ -152,7 +152,7 @@ class SunOS extends OS
         if (CommonFunctions::executeProgram('kstat', '-p d cpu_info:*:cpu_info*:core_id', $m, PSI_DEBUG) &&
          !is_null($m) && (trim($m)!=="")) {
             $cpuc = count(preg_split('/\n/', trim($m), -1, PREG_SPLIT_NO_EMPTY));
-            for ($cpu=0; $cpu < $cpuc; $cpu++){
+            for ($cpu=0; $cpu < $cpuc; $cpu++) {
                 $dev = new CpuDevice();
                 if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
                    $dev->setCpuSpeed($buf);

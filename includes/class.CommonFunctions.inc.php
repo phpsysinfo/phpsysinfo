@@ -106,7 +106,7 @@ class CommonFunctions
                     break;
                 }
             }
-        } else if (PSI_OS == 'Android') {
+        } elseif (PSI_OS == 'Android') {
              $exceptPath = '/system/bin';
         }
 
@@ -487,7 +487,7 @@ class CommonFunctions
             foreach ($read as $r) {
                 if ($r == $pipes[1]) {
                     $out .= fread($r, 4096);
-                } else if (feof($pipes[1]) && $pipe2 && ($r == $pipes[2])) {//read STDERR after STDOUT
+                } elseif (feof($pipes[1]) && $pipe2 && ($r == $pipes[2])) {//read STDERR after STDOUT
                     $err .= fread($r, 4096);
                 }
             }

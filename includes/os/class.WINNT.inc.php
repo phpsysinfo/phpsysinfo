@@ -143,11 +143,11 @@ class WINNT extends OS
                     $long = ip2long($ip);
                     if (($long >= 167772160 && $long <= 184549375) ||
                         ($long >= -1408237568 && $long <= -1407188993) ||
-                        ($long >= -1062731776 && $long <= -1062666241) || 
+                        ($long >= -1062731776 && $long <= -1062666241) ||
                         ($long >= 2130706432 && $long <= 2147483647) || $long == -1) {
                         $this->sys->setHostname($result); //internal ip
                     } else {
-                        $this->sys->setHostname(gethostbyaddr($ip)); 
+                        $this->sys->setHostname(gethostbyaddr($ip));
                     }
                 }
             } else {
@@ -569,7 +569,7 @@ class WINNT extends OS
         $processes['*'] = 0;
         if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
-            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *" 
+            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
         if ($processes['*'] <= 0) {
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
