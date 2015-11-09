@@ -222,6 +222,7 @@ function reload(initiate) {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
+            changeLanguage();
 
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
