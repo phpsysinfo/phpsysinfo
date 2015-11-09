@@ -258,18 +258,15 @@ $(document).ready(function () {
     });
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
-        reload(true);
-
-        $(".logo").click(function () {
-            reload();
-        });
 
         if ($("#language option").size() < 2) {
             current_language = $("#language").val().toString();
             changeLanguage();
+/* plugin_liste not initialized yet
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
+*/
         } else {
             cookie_language = readCookie("psi_language");
             if (cookie_language !== null) {
@@ -279,9 +276,11 @@ $(document).ready(function () {
                 current_language = $("#language").val().toString();
             }
             changeLanguage();
+/* plugin_liste not initialized yet
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
+*/
             $('#language').show();
             $('span[id=lang_045]').show(); 
             $("#language").change(function changeLang() {
@@ -310,6 +309,12 @@ $(document).ready(function () {
                 return false;
             });
         }
+        
+        reload(true);
+
+        $(".logo").click(function () {
+            reload();
+        });
     });
 });
 
