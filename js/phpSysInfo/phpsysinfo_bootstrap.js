@@ -234,6 +234,7 @@ function reload(initiate) {
                             try {
                                 // dynamic call
                                 window['renderPlugin_' + this.pluginname](data);
+                                changeLanguage(this.pluginname);
                                 plugin_liste.push(this.pluginname);
                             }
                             catch (err) {
@@ -309,7 +310,7 @@ $(document).ready(function () {
                 return false;
             });
         }
-        
+
         reload(true);
 
         $(".logo").click(function () {
