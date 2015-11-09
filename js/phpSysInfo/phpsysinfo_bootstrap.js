@@ -211,7 +211,6 @@ function reload(initiate) {
                     setInterval(reload, refrtime);
             }
             renderErrors(data);
-            changeLanguage();
             renderVitals(data);
             renderHardware(data);
             renderMemory(data);
@@ -223,7 +222,6 @@ function reload(initiate) {
             renderPower(data);
             renderCurrent(data);
             renderUPS(data);
-            changeLanguage();
 
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
@@ -236,7 +234,6 @@ function reload(initiate) {
                             try {
                                 // dynamic call
                                 window['renderPlugin_' + this.pluginname](data);
-                                changeLanguage(this.pluginname);
                                 plugin_liste.push(this.pluginname);
                             }
                             catch (err) {
