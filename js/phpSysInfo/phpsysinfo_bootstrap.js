@@ -210,6 +210,7 @@ function reload(initiate) {
                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                     setInterval(reload, refrtime);
             }
+            $("#navbar-templang").show();
             renderErrors(data);
             renderVitals(data);
             renderHardware(data);
