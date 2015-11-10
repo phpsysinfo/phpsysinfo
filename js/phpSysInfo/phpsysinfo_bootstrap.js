@@ -210,7 +210,6 @@ function reload(initiate) {
                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                     setInterval(reload, refrtime);
             }
-            $("#navbar-templang").show();
             renderErrors(data);
             renderVitals(data);
             renderHardware(data);
@@ -224,6 +223,7 @@ function reload(initiate) {
             renderCurrent(data);
             renderUPS(data);
             changeLanguage();
+            $("#navbar-templang").show();
 
             if (data['UnusedPlugins'] !== undefined) {
                 var plugins = items(data["UnusedPlugins"]["Plugin"]);
@@ -264,8 +264,10 @@ $(document).ready(function () {
 
         if ($("#language option").size() < 2) {
             current_language = $("#language").val().toString();
+/* not visible any objects
             changeLanguage();
-/* plugin_liste not initialized yet
+*/
+/* plugin_liste not initialized yet            
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
@@ -278,8 +280,10 @@ $(document).ready(function () {
             } else {
                 current_language = $("#language").val().toString();
             }
+/* not visible any objects
             changeLanguage();
-/* plugin_liste not initialized yet
+*/
+/* plugin_liste not initialized yet            
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
