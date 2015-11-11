@@ -92,6 +92,7 @@ function updatenotifier_request() {
         updatenotifier_populate(xml);
         if (UpdateNotifier_show) {
             plugin_translate("UpdateNotifier");
+            $("#Reload_UpdateNotifier").attr("title",datetime());
             $("#Plugin_UpdateNotifier").show();
         }
     }
@@ -99,9 +100,13 @@ function updatenotifier_request() {
 }
 
 $(document).ready(function() {
-    $("#footer").before(buildBlock("UpdateNotifier", 1, false));
+    $("#footer").before(buildBlock("UpdateNotifier", 1, true));
     $("#Plugin_UpdateNotifier").css("width", "451px");
 
     updatenotifier_buildTable();
     updatenotifier_request();
+
+    $("#Reload_PSStatusTable").click(function updatenotifier_reload(id) {
+        updatenotifier_request();
+    });
 });

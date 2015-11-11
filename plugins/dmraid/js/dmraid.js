@@ -151,6 +151,7 @@ function dmraid_request() {
             dmraid_populate(xml);
             if (dmraid_show) {
                 plugin_translate("DMRaid");
+                $("#Reload_DMRaidTable").attr("title",datetime());
                 $("#Plugin_DMRaid").show();
             }
         }
@@ -171,6 +172,5 @@ $(document).ready(function dmraid_buildpage() {
 
     $("#Reload_DMRaidTable").click(function dmraid_reload(id) {
         dmraid_request();
-        $("#Reload_DMRaidTable").attr("title",datetime());
     });
 });

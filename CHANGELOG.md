@@ -6,6 +6,8 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros
+ 
+ - [UPD] Refreshing status of all plugins for dynamic mode
 
  - [NEW] language and template selection also for frontend "bootstrap"
 

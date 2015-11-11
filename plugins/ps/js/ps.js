@@ -101,6 +101,7 @@ function ps_request() {
             ps_buildTable(xml);
             if (ps_show) {
                 plugin_translate("PS");
+                $("#Reload_PSTable").attr("title",datetime());
                 $("#Plugin_PS").show();
             }
         }
@@ -115,6 +116,5 @@ $(document).ready(function ps_buildpage() {
 
     $("#Reload_PSTable").click(function ps_reload(id) {
         ps_request();
-        $("#Reload_PSTable").attr("title",datetime());
     });
 });

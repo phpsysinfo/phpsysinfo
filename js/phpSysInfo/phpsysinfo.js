@@ -1409,6 +1409,15 @@ function reload() {
             refreshCurrent(xml);
             refreshUps(xml);
 
+            for (var i = 0; i < plugin_liste.length; i += 1) {
+                try {
+                    //dynamic call
+                    window[plugin_liste[i].toLowerCase() + '_request']();
+                }
+                catch (err) {
+                }
+            }
+
             $('.stripeMe tr:nth-child(even)').addClass('even');
             langcounter = 1;
         }

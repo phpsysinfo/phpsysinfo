@@ -125,6 +125,7 @@ function quotas_request() {
             quotas_populate(xml);
             if (quotas_show) {
                 plugin_translate("Quotas");
+                $("#Reload_QuotasTable").attr("title",datetime());
                 $("#Plugin_Quotas").show();
             }
         }
@@ -141,6 +142,5 @@ $(document).ready(function quotas_buildpage() {
 
     $("#Reload_QuotasTable").click(function quotas_reload(id) {
         quotas_request();
-        $("#Reload_QuotasTable").attr("title",datetime());
     });
 });
