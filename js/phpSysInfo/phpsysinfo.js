@@ -1605,8 +1605,10 @@ function datetime() {
 }
 
 Array.prototype.pushIfNotExist = function(val) {
-    if (typeof(val) == 'undefined' || val == '') { return }
-    val = $.trim(val)
+    if (typeof(val) == 'undefined' || val == '') {
+        return;
+    }
+    val = $.trim(val);
     if ($.inArray(val, this) == -1) {
         this.push(val);
     }
