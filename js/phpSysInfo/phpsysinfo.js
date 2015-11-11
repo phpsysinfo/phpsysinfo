@@ -1397,6 +1397,7 @@ function reload() {
             $.jGrowl("Error loading XML document!");
         },
         success: function buildblocks(xml) {
+            var i = 0;
             refreshVitals(xml);
             refreshNetwork(xml);
             refreshHardware(xml);
@@ -1409,7 +1410,7 @@ function reload() {
             refreshCurrent(xml);
             refreshUps(xml);
 
-            for (var i = 0; i < plugin_liste.length; i += 1) {
+            for (i = 0; i < plugin_liste.length; i += 1) {
                 try {
                     //dynamic call
                     window[plugin_liste[i].toLowerCase() + '_request']();
