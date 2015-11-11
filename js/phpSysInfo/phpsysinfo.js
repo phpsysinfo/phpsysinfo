@@ -1604,6 +1604,14 @@ function datetime() {
     return days + "." + months + "." + years + " - " + hours + ":" + minutes;
 }
 
+Array.prototype.pushIfNotExist = function(val) {
+    if (typeof(val) == 'undefined' || val == '') { return }
+    val = $.trim(val)
+    if ($.inArray(val, this) == -1) {
+        this.push(val);
+    }
+};
+
 /**
  * insert dynamically a js script file into the website
  * @param {String} name name of the script that should be included
