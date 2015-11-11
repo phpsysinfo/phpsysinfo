@@ -237,7 +237,7 @@ function reload(initiate) {
                                 // dynamic call
                                 window['renderPlugin_' + this.pluginname](data);
                                 changeLanguage(this.pluginname);
-                                plugin_liste.push(this.pluginname);
+                                plugin_liste.pushIfNotExist(this.pluginname);
                             }
                             catch (err) {
                             }
@@ -1398,6 +1398,14 @@ function formatBytes(bytes, byteFormat) {
     }
     return show;
 }
+
+Array.prototype.pushIfNotExist = function(val) {
+    if (typeof(val) == 'undefined' || val == '') { return }
+    val = $.trim(val)
+    if ($.inArray(val, this) == -1) {
+        this.push(val);
+    }
+};
 
 /**
  * round a given value to the specified precision, difference to Math.round() is that there

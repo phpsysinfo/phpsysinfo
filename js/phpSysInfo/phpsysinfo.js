@@ -1397,7 +1397,6 @@ function reload() {
             $.jGrowl("Error loading XML document!");
         },
         success: function buildblocks(xml) {
-            var i = 0;
             refreshVitals(xml);
             refreshNetwork(xml);
             refreshHardware(xml);
@@ -1410,7 +1409,7 @@ function reload() {
             refreshCurrent(xml);
             refreshUps(xml);
 
-            for (i = 0; i < plugin_liste.length; i += 1) {
+            for (var i = 0; i < plugin_liste.length; i += 1) {
                 try {
                     //dynamic call
                     window[plugin_liste[i].toLowerCase() + '_request']();
@@ -1578,7 +1577,7 @@ function buildBlock(plugin, translationid, reload) {
  * @param {String} plugin name of the plugin  that should be translated
  */
 function plugin_translate(plugin) {
-    plugin_liste.push(plugin);
+    plugin_liste.pushIfNotExist(plugin);
     changeLanguage(plugin);
 }
 
