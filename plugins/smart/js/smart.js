@@ -118,10 +118,12 @@ function smart_initTable() {
         $.jGrowl("Error loading XML document for Plugin SMART");
     },
     success: function smart_initBlock(xml) {
+        populateErrors(xml);
         smart_buildTable(xml);
         smart_populate(xml);
         if (smart_show) {
             plugin_translate("SMART");
+            $("#Reload_SMARTTable").attr("title",datetime());
             $("#Plugin_SMART").show();
         }
     }
