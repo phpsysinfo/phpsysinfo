@@ -24,15 +24,15 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $name_prefix='PSI_PLUGIN_'.strtoupper($name).'_';
             }
             foreach ($group as $param=>$value) {
-                if (($value==="") || ($value==="0")) {
+                if ((trim($value)==="") || (trim($value)==="0")) {
                     define($name_prefix.strtoupper($param), false);
-                } elseif ($value==="1") {
+                } elseif (trim($value)==="1") {
                     define($name_prefix.strtoupper($param), true);
                 } else {
                     if (strstr($value, ',')) {
-                        define($name_prefix.strtoupper($param), 'return '.var_export(preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY), 1).';');
+                        define($name_prefix.strtoupper($param), 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
                     } else {
-                        define($name_prefix.strtoupper($param), $value);
+                        define($name_prefix.strtoupper($param), trim($value));
                     }
                 }
             }

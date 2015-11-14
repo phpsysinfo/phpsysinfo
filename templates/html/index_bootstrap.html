@@ -17,6 +17,8 @@
 
 <body>
 
+<input type="hidden" id="plugins" value="<?php $plugins = ""; foreach (CommonFunctions::getPlugins() as $plugin) : $plugins .= $plugin.","; endforeach; echo substr($plugins, 0, -1);?>"/>
+
 <div class="navbar navbar-fixed-top">
     <div class="container">
         <a class="navbar-brand">
@@ -57,7 +59,7 @@ endforeach;
     </div>
 </div>
 
-<div class="container">
+<div class="container" id="container" style="display:none;">
 
 <div class="row">
     <div id="block_vitals" class="col-lg-6" style="display:none;">

@@ -8,7 +8,7 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugin_liste = [];
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = []; plugin_liste = [];
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -224,30 +224,29 @@ function reload(initiate) {
             renderUPS(data);
             changeLanguage();
             $("#navbar-templang").show();
-
-            if (data['UnusedPlugins'] !== undefined) {
-                var plugins = items(data["UnusedPlugins"]["Plugin"]);
-                for (var i = 0; i < plugins.length; i++) {
-                    $.ajax({
-                         dataType: "json",
-                         url: "xml.php?plugin=" + plugins[i]["@attributes"]["name"]+"&json",
-                         pluginname: plugins[i]["@attributes"]["name"],
-                         success: function (data) {
-                            try {
-                                // dynamic call
-                                window['renderPlugin_' + this.pluginname](data);
-                                changeLanguage(this.pluginname);
-                                plugin_liste.pushIfNotExist(this.pluginname);
-                            }
-                            catch (err) {
-                            }
-                            renderErrors(data);
-                        }
-                    });
-                }
-            }
+            $("#container").show();
         }
     });
+    
+    var length = plugins.length;
+    for (var i = 0; i < length; i++) {
+        $.ajax({
+             dataType: "json",
+             url: "xml.php?plugin=" + plugins[i] + "&json",
+             pluginname: plugins[i],
+             success: function (data) {
+                try {
+                    // dynamic call
+                    window['renderPlugin_' + this.pluginname](data);
+                    changeLanguage(this.pluginname);
+                    plugin_liste.pushIfNotExist(this.pluginname);
+                }
+                catch (err) {
+                }
+                renderErrors(data);
+            }
+        });
+    }
 }
 
 $(document).ready(function () {
@@ -262,12 +261,14 @@ $(document).ready(function () {
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
 
+        plugins = $("#plugins").val().toString().split(',');
+
         if ($("#language option").size() < 2) {
             current_language = $("#language").val().toString();
 /* not visible any objects
             changeLanguage();
 */
-/* plugin_liste not initialized yet            
+/* plugin_liste not initialized yet
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
@@ -283,7 +284,7 @@ $(document).ready(function () {
 /* not visible any objects
             changeLanguage();
 */
-/* plugin_liste not initialized yet            
+/* plugin_liste not initialized yet
             for (var i = 0; i < plugin_liste.length; i += 1) {
                 changeLanguage(plugin_liste[i]);
             }
