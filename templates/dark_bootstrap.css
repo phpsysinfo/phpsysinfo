@@ -117,7 +117,7 @@ table.borderless td,table.borderless th {
 
 .panel-heading {
   background-color: #3e444c!important;
-  border-color: rgba(0, 0, 0, 0.6)!important;
+  border-color: #3e444c!important;
 }
 
 .progress {
