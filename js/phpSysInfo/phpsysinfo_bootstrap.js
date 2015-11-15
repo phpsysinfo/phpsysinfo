@@ -906,11 +906,11 @@ function renderVoltage(data) {
             }
         },
         Label: {
-            text: function () {
+            html: function () {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " ! "+this["Event"];
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
             }
         }
     };
@@ -943,11 +943,11 @@ function renderTemperature(data) {
             }
         },
         Label: {
-            text: function () {
+            html: function () {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " ! "+this["Event"];
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
             }
         }
     };
@@ -981,11 +981,11 @@ function renderFans(data) {
             }
         },
         Label: {
-            text: function () {
+            html: function () {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " ! "+this["Event"];
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
             }
         }
     };
@@ -1019,11 +1019,11 @@ function renderPower(data) {
             }
         },
         Label: {
-            text: function () {
+            html: function () {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " ! "+this["Event"];
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
             }
         }
     };
@@ -1057,11 +1057,11 @@ function renderCurrent(data) {
             }
         },
         Label: {
-            text: function () {
+            html: function () {
                 if (this["Event"] === undefined)
                     return this["Label"];
                 else
-                    return this["Label"] + " ! "+this["Event"];
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
             }
         }
     };
