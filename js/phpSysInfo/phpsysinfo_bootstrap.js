@@ -224,7 +224,7 @@ function reload(initiate) {
             renderUPS(data);
             changeLanguage();
             $("#navbar-templang").show();
-            $("#container").show();
+            $("#output").show();
         }
     });
     

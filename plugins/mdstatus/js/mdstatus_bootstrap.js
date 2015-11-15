@@ -103,7 +103,7 @@ function renderPlugin_mdstatus(data) {
                         }
                     }
 
-                    html += "<table id=\"mdstatus-" + i + "\"class=\"table table-hover table-condensed\">";
+                    html += "<table id=\"mdstatus-" + i + "\" class=\"table table-hover table-condensed\">";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><b>" + mditems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(5, false,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(6, false ,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";

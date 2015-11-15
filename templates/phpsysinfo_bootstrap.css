@@ -21,6 +21,7 @@ body {
 
 .navbar {
     background-color: #3b87c8;
+    border-color: #2d6da3;
 }
 
 .navbar-brand, .navbar-brand:hover {
@@ -76,7 +77,7 @@ table.sortable thead th:hover {
 }
 
 table.borderless td,table.borderless th{
-     border: none !important;
+     border: none!important;
 }
 
 .logo {
