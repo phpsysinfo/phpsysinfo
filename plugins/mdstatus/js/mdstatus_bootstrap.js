@@ -6,11 +6,11 @@ function renderPlugin_mdstatus(data) {
             name = data['Name'];
             if ((name !== undefined) && (parseInt(name) !== -1)) {
                 percent = Math.round(parseFloat(data['Percent']));
-                html += "<div>Current Action:" + String.fromCharCode(160) + name + "<br/>";
+                html += "<div>" + genlang(13, false,'mdstatus') + ":" + String.fromCharCode(160) + name + "<br/>";
                 html += '<table style="width:100%;"><tr><td style="width:50%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div></td><td></td></tr></table>';
-                html += genlang(14, false,'mdstatus')+ String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
+                html += genlang(14, false,'mdstatus') + ":" + String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
                 html += "</div>";
             }
         }

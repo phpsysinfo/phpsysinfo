@@ -83,7 +83,7 @@ function mdstatus_buildaction(xml) {
             html += genlang(13, false, "MDStatus") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
             html += "<br/>";
-            html += genlang(14, false, "MDStatus") + "&nbsp;" + time + "&nbsp;" + tunit;
+            html += genlang(14, false, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
             html += "</div>";
         }
     });
