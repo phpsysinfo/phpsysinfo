@@ -227,9 +227,8 @@ function reload(initiate) {
             $("#output").show();
         }
     });
-    
-    var length = plugins.length;
-    for (var i = 0; i < length; i++) {
+
+    for (var i = 0; i < plugins.length; i++) {
         $.ajax({
              dataType: "json",
              url: "xml.php?plugin=" + plugins[i] + "&json",
@@ -250,7 +249,7 @@ function reload(initiate) {
 }
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null;
+    var cookie_template = null, cookie_language = null, plugtmp = ""
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -261,7 +260,10 @@ $(document).ready(function () {
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
 
-        plugins = $("#plugins").val().toString().split(',');
+        plugtmp = $("#plugins").val().toString();
+        if (plugtmp.length >0 ){
+            plugins = plugtmp.split(',');
+        }
 
         if ($("#language option").size() < 2) {
             current_language = $("#language").val().toString();
