@@ -249,7 +249,7 @@ function reload(initiate) {
 }
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null, plugtmp = ""
+    var cookie_template = null, cookie_language = null, plugtmp = "";
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
