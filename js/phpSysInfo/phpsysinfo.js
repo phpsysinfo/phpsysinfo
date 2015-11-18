@@ -1460,7 +1460,7 @@ $(document).ready(function buildpage() {
         for (i = 0; i < plugin_liste.length; i += 1) {
             changeLanguage(plugin_liste[i]);
         }
-        $('#lang').show();
+        $('#language').show();
         $('span[id=lang_045]').show();
         $("#language").change(function changeLang() {
             var i = 0;
