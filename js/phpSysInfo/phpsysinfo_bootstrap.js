@@ -223,7 +223,7 @@ function reload(initiate) {
             renderCurrent(data);
             renderUPS(data);
             changeLanguage();
-            $("#navbar-templang").show();
+            $("#select").show();
             $("#output").show();
         }
     });
