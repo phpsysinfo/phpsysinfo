@@ -31,10 +31,6 @@ body {
     color: #fff;
 }
 
-.navbar-brand>img {
-    display: inline;
-}
-
 .treegrid-indent {
     width:16px;
     height: 16px;

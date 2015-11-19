@@ -198,7 +198,7 @@ function changeLanguage(plugin) {
     });
 }
 function reload(initiate) {
-    $("#errorbutton").hide();
+    $("#errorbutton").css("visibility", "hidden");
     $("#errors").empty();
     $.ajax({
         dataType: "json",
@@ -1196,11 +1196,11 @@ function renderErrors(data) {
             $("#errors").append("<li><b>"+datas[i]["@attributes"]["Function"]+"</b> - "+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li><br>");
         }
         if (i > 0) {
-            $("#errorbutton").show();
+            $("#errorbutton").css("visibility", "visible");
         }
     }
     catch (err) {
-        $("#errorbutton").hide();
+        $("#errorbutton").css("visibility", "hidden");
     }
 }
 
