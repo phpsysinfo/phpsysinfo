@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2+2014.12.25_fix
+  version 2+2014.12.25_fix-noinit
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
@@ -9,6 +9,12 @@
   Redefinition of sortfwdind and sortrevind icons.
   Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
 
+  19th November 20145
+  Disabled autostart after loading.
+  You have to run sorttable.init() at the beginning of the code,
+  or makeSortable for each table.
+  Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
+ 
   Instructions:
   Download this file
   Add <script src="sorttable.js"></script> to your HTML
