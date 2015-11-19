@@ -258,6 +258,8 @@ $(document).ready(function () {
         $("#loader").css("visibility", "hidden");
     });
 
+    sorttable.init();
+
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
 
         plugtmp = $("#plugins").val().toString();
