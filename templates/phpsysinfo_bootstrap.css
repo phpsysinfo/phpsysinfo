@@ -88,11 +88,6 @@ table.borderless td,table.borderless th{
     cursor: pointer;
 }
 
-.select {
-    text-align: right;
-    padding-top: 20px;
-}
-
 .template {
     cursor: pointer;
 }
