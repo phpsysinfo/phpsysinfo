@@ -519,7 +519,7 @@ function renderHardware(data) {
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th style=\"width:8%;\">"+genlang(107,false)+"</th>"; //Machine
+        html+="<th style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
@@ -532,7 +532,7 @@ function renderHardware(data) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td><span class=\"treegrid-span\">"+genlang(119,false)+":</span></td>"; //Number of processors
+                html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
                 html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
                 html+="</tr>";
             }
@@ -545,7 +545,7 @@ function renderHardware(data) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td><span class=\"treegrid-span\">"+genlang(paramlist[proc_param],false)+"<span></td>";
+                    html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>";
                 }
@@ -564,7 +564,7 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">"+genlang('120',false)+":</span></td>"; //Number of devices
+                    html+="<td><span class=\"treegrid-span\">" + genlang('120', false) + ":</span></td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -695,17 +695,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
                     var not_first = false;
                     if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += genlang(64,false) + ': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; //Kernel + apps
+                        html += genlang(64, false) + ': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66,false) + ': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; //Cache
+                        html += genlang(66, false) + ': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; //Cache
                         not_first = true;
                     }
                     if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65,false) + ': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%'; //Buffers
+                        html += genlang(65, false) + ': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -714,7 +714,7 @@ function renderMemory(data) {
         },
         Type: {
             html: function () {
-                return genlang(28,false); //Physical Memory
+                return genlang(28, false); //Physical Memory
             }
         }
     };
@@ -973,13 +973,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return this["Value"] + String.fromCharCode(160) + genlang(63,true); //RPM
+                return this["Value"] + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Min: {
             html: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + genlang(63,true); //RPM
+                    return this["Min"] + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Label: {
@@ -1093,22 +1093,22 @@ function renderUPS(data) {
         },
         LineVoltage: {
             html: function () {
-                return this["LineVoltage"] + String.fromCharCode(160) + genlang(82,true); //V
+                return this["LineVoltage"] + String.fromCharCode(160) + genlang(82, true); //V
             }
         },
         LineFrequency: {
             html: function () {
-                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109,false); //Hz
+                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, false); //Hz
             }
         },
         BatteryVoltage: {
             html: function () {
-                return this["BatteryVoltage"] + String.fromCharCode(160) + genlang(82,true);; //V
+                return this["BatteryVoltage"] + String.fromCharCode(160) + genlang(82, true);; //V
             }
         },
         TimeLeftMinutes: {
             html: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83,false); //minutes
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, false); //minutes
             }
         },
         LoadPercent: {
@@ -1129,7 +1129,7 @@ function renderUPS(data) {
 
     if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
         var html="";
-        var paramlist = {Model:"Model",StartTime:"Started",Status:"Status",Temperature:"Temperature",OutagesCount:"Outages",LastOutage:"Last outage cause",LastOutageFinish:"Last outage timestamp",LineVoltage:"Line voltage",LineFrequency:"Line frequency",LoadPercent:"Load percent",BatteryDate:"Battery date",BatteryVoltage:"Battery voltage",BatteryChargePercent:"Battery charge",TimeLeftMinutes:"Time left on batteries"};
+        var paramlist = {Model:70,StartTime:72,Status:73,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
 
         try {
             var datas = items(data["UPSInfo"]["UPS"]);
@@ -1141,7 +1141,7 @@ function renderUPS(data) {
                 for (var proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                        html+="<td><span class=\"treegrid-spanbold\">"+ paramlist[proc_param]+"</span></td>";
+                        html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true) + "</span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -1215,12 +1215,12 @@ function formatUptime(sec) {
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
     if (intDays) {
-        txt += intDays.toString() + String.fromCharCode(160) + genlang(48,false) + String.fromCharCode(160); //days
+        txt += intDays.toString() + String.fromCharCode(160) + genlang(48, false) + String.fromCharCode(160); //days
     }
     if (intHours) {
-        txt += intHours.toString() + String.fromCharCode(160) + genlang(49,false) + String.fromCharCode(160); //hours
+        txt += intHours.toString() + String.fromCharCode(160) + genlang(49, false) + String.fromCharCode(160); //hours
     }
-    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50,false); //Minutes
+    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50, false); //Minutes
 }
 
 /**
