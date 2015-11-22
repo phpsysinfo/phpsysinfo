@@ -1141,7 +1141,7 @@ function renderUPS(data) {
                 for (var proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                        html+="<th><span class=\"treegrid-spanbold\">"+ paramlist[proc_param]+"</span></th>";
+                        html+="<td><span class=\"treegrid-spanbold\">"+ paramlist[proc_param]+"</span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
