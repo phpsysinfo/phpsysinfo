@@ -55,7 +55,7 @@ function renderPlugin_snmppinfo(data) {
             html+="</thead>";
             for (var i = 0; i < printers.length; i++) {
                 html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
-                html+="<td><b><span data-bind=\"Device\"></span></b></td>";
+                html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
                 html+="<td></td>";
                 html+="<td></td>";
                 html+="</tr>";
@@ -64,7 +64,7 @@ function renderPlugin_snmppinfo(data) {
                     var datas = items(printers[i]["MarkerSupplies"]);
                     for (var j = 0; j < datas.length; j++) {
                         html+="<tr id=\"snmppinfo-" + i + "-" + j +"\" class=\"treegrid-parent-snmppinfo-" + i + "\">";
-                        html+="<th><span data-bind=\"Description\"></span></th>";
+                        html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Description\"></span></td>";
                         html+="<td><span data-bind=\"Percent\"></span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"Units\"></span></td>";
                         html+="</tr>";

@@ -532,20 +532,20 @@ function renderHardware(data) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td>"+genlang(119,false)+":</td>"; //Number of processors
-                html+="<td class=\"rightCell\"><span></span></td>";
+                html+="<td><span class=\"treegrid-span\">"+genlang(119,false)+":</span></td>"; //Number of processors
+                html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
                 html+="</tr>";
             }
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
-            html+="<td><span data-bind=\"Model\"></span></td>";
+            html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
             html+="<td></td>";
             html+="</tr>";
             for (var proc_param in paramlist) {
                 if (datas[i]["@attributes"][proc_param] !== undefined) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td>"+genlang(paramlist[proc_param],false)+"</td>";
+                    html+="<td><span class=\"treegrid-span\">"+genlang(paramlist[proc_param],false)+"<span></td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>";
                 }
@@ -564,13 +564,13 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td>"+genlang('120',false)+":</td>"; //Number of devices
-                    html+="<td class=\"rightCell\"><span></span></td>";
+                    html+="<td><span class=\"treegrid-span\">"+genlang('120',false)+":</span></td>"; //Number of devices
+                    html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
                 html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\">";
                 html+="<th></th>";
-                html+="<td><span data-bind=\"hwName\"></span></td>";
+                html+="<td><span class=\"treegrid-span\" data-bind=\"hwName\"></span></td>";
                 html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
                 html+="</tr>";
             }
@@ -597,7 +597,7 @@ function renderHardware(data) {
             }
         }
         if (i > 0) {
-            $("#hardware-CPU span").html(i);
+            $("#CPUCount").html(i);
         }
     }
     catch (err) {
@@ -617,7 +617,7 @@ function renderHardware(data) {
                 }
             }
             if (i > 0) {
-                $("#hardware-" + hw_type + " span").html(licz);
+                $("#" + hw_type + "Count").html(licz);
             }
         }
         catch (err) {
@@ -854,7 +854,7 @@ function renderNetwork(data) {
         var datas = items(data["Network"]["NetDevice"]);
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
-            html+="<td><b><span data-bind=\"Name\"></span></b></td>";
+            html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
             html+="<td class=\"rightCell\"><span data-bind=\"RxBytes\"></span></td>";
             html+="<td class=\"rightCell\"><span data-bind=\"TxBytes\"></span></td>";
             html+="<td class=\"rightCell\"><span data-bind=\"Drops\"></span></td>";
@@ -864,7 +864,7 @@ function renderNetwork(data) {
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
                 for (var j = 0; j < infos.length; j++){
-                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td>" + infos[j] + "</td><td></td><td></td><td></td></tr>";
+                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td><span class=\"treegrid-span\">" + infos[j] + "</span></td><td></td><td></td><td></td></tr>";
                 }
             }
         }
@@ -873,6 +873,11 @@ function renderNetwork(data) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
             }
+            $('#network').treegrid({
+                initialState: 'collapsed',
+                expanderExpandedClass: 'normalicon normalicon-down',
+                expanderCollapsedClass: 'normalicon normalicon-right'
+            });
             $("#block_network").show();
         } else {
             $("#block_network").hide();
@@ -881,13 +886,6 @@ function renderNetwork(data) {
     catch (err) {
         $("#block_network").hide();
     }
-
-    $('#network').treegrid({
-        initialState: 'collapsed',
-        expanderExpandedClass: 'normalicon normalicon-down',
-        expanderCollapsedClass: 'normalicon normalicon-right'
-    });
-
 }
 
 function renderVoltage(data) {
@@ -1137,14 +1135,14 @@ function renderUPS(data) {
             var datas = items(data["UPSInfo"]["UPS"]);
             for (var i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-                html+="<td style=\"width:60%;\"><b><span data-bind=\"Name\"></span></b></td>";
+                html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
                 html+="<td></td>";
                 html+="</tr>";
                 for (var proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
                         html+="<th>"+ paramlist[proc_param]+"</th>";
-                        html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                        html+="<td class=\"rightCell\"><span class=\"treegrid-span\" data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
                 }

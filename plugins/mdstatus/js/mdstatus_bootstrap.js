@@ -104,22 +104,22 @@ function renderPlugin_mdstatus(data) {
                     }
 
                     html += "<table id=\"mdstatus-" + i + "\" class=\"table table-hover table-condensed\">";
-                    html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><b>" + mditems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
-                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(5, false,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(6, false ,'mdstatus')+"</th><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";
+                    html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">" + mditems[i]["@attributes"]["Device_Name"] + "</span></td><td></td></tr>";
+                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, false,'mdstatus')+"</span></td><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
+                    html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, false ,'mdstatus')+"</span></td><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";
                     if (devchunk !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(7, false,'mdstatus')+"</th><td>" + devchunk + "K</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(7, false,'mdstatus')+"</span></td><td>" + devchunk + "K</td></tr>";
                     }
                     if (devalgo !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(8, false ,'mdstatus')+"</th><td>" + devalgo + "</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(8, false ,'mdstatus')+"</span></td><td>" + devalgo + "</td></tr>";
                     }
                     if (devsuper !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(9, false, 'mdstatus')+"</th><td>available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, false, 'mdstatus')+"</span></td><td>available</td></tr>";
                     } else {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(9, false, 'mdstatus')+"</th><td>not available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, false, 'mdstatus')+"</span></td><td>not available</td></tr>";
                     }
                     if (devactive !== -1 && devregis !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><th>"+genlang(12, false, 'mdstatus')+"</th><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(12, false, 'mdstatus')+"</span></td><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
                     }
                     html += "</table>";
                     html += "</td></tr>";

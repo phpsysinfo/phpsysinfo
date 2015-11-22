@@ -31,37 +31,46 @@ body {
     color: #fff;
 }
 
+.treegrid-span {
+    display: table-cell;
+}
+
+.treegrid-spanbold {
+    font-weight: bold;
+    display: table-cell;
+}
+
 .treegrid-indent {
-    width:16px;
+    width: 16px;
     height: 16px;
-    display: inline;
-    position: relative;
+    display: table-cell;
 }
 
 .treegrid-expander {
-    width:16px;
+    width: 0px;
     height: 16px;
-    display: inline;
-    position: relative;
+    display: table-cell;
     cursor: pointer;
 }
 
 .normalicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    display: table-cell;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 .normalicon-right:before {
-  content: "\25ba";
+    content: "\25ba";
 }
 .normalicon-down:before {
-  content: "\25bc";
+    content: "\25bc";
 }
 
 table.sortable thead th {
