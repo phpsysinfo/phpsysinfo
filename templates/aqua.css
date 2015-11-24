@@ -13,6 +13,10 @@ a:hover {
     padding: 0;
 }
 
+wbr {
+    display: inline-block;
+}
+
 html {
     height: 100%;
     background: url("aqua/aq_background.gif");
@@ -158,4 +162,20 @@ table tfoot td {
 
 #pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
     padding: 0px 30px;
+}
+
+.treeimg {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.treespan {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.treespanbold {
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
 }

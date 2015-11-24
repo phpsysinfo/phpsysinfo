@@ -5,6 +5,10 @@ body {
     background-color: #272b30;
 }
 
+wbr {
+    display: inline-block;
+}
+
 .progress {
     margin-bottom: 0;
 }

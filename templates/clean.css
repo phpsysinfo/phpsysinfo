@@ -13,6 +13,10 @@ a:hover {
     padding: 0;
 }
 
+wbr {
+    display: inline-block;
+}
+
 html {
     font-size: 100%;
     height: 100%;
@@ -138,4 +142,20 @@ table th {
 
 #pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
     padding: 0px 30px;
+}
+
+.treeimg {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.treespan {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.treespanbold {
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
 }

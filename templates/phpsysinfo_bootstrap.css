@@ -3,6 +3,10 @@ body {
     padding-top: 80px;
 }
 
+wbr {
+    display: inline-block;
+}
+
 .progress {
     margin-bottom: 0;
 }

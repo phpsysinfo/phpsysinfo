@@ -72,11 +72,11 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "    <tr><td><strong>" + device + " (" + name + ") </strong></td></tr>\n";
+            html += "    <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
-        html += "    <tr><td>" + desc + "</td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
+        html += "    <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;

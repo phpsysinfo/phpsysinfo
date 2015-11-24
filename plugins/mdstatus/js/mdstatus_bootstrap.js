@@ -119,7 +119,7 @@ function renderPlugin_mdstatus(data) {
                         html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, false, 'mdstatus')+"</span></td><td>not available</td></tr>";
                     }
                     if (devactive !== -1 && devregis !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(12, false, 'mdstatus')+"</span></td><td>" + devregis + "/" + String.fromCharCode(8203)  + devactive + "</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(12, false, 'mdstatus')+"</span></td><td>" + devregis + "/<wbr>" + devactive + "</td></tr>";
                     }
                     html += "</table>";
                     html += "</td></tr>";

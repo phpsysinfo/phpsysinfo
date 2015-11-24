@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+wbr {
+    display: inline-block;
+}
+
 html {
     background: url("blue/bg.png") #195287;
     color: #195287;
@@ -143,4 +147,20 @@ a:hover {
 .right {
     padding-right: 20px;
     text-align: right;
+}
+
+.treeimg {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.treespan {
+    display: table-cell;
+    vertical-align: midle;
+}
+
+.treespanbold {
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
 }

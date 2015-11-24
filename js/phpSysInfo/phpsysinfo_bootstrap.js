@@ -108,7 +108,7 @@ function getLanguage(plugin, plugname) {
             }
             $("expression", langxml[plugname]).each(function langstore(id) {
                 idexp = $("expression", xml).get(id);
-                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "\/&#8203;");
+                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/<wbr>");
             });
         }
     });
@@ -841,8 +841,8 @@ function renderNetwork(data) {
             }
         },
         Drops: {
-            text: function () {
-                return this["Err"] + "/" + String.fromCharCode(8203) + this["Drops"];
+            html: function () {
+                return this["Err"] + "/<wbr>" + this["Drops"];
             }
         }
     };
@@ -862,7 +862,7 @@ function renderNetwork(data) {
 
             var info  = datas[i]["@attributes"]["Info"];
             if ( (info !== undefined) && (info !== "") ) {
-                var infos = info.replace(/:/g, String.fromCharCode(8203)+":").split(";"); /* split long addresses */
+                var infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
                 for (var j = 0; j < infos.length; j++){
                     html +="<tr class=\"treegrid-parent-network-" + i + "\"><td><span class=\"treegrid-span\">" + infos[j] + "</span></td><td></td><td></td><td></td></tr>";
                 }

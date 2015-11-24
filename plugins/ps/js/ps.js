@@ -56,7 +56,7 @@ function ps_buildTable(xml) {
         percent = parseInt($(this).attr("MemoryUsage"), 10);
         expanded = parseInt($(this).attr("Expanded"), 10);
 
-        html += "    <tr><td>" + name + "</td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
+        html += "    <tr><td><span class=\"treespan\">" + name + "</span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
         close = tree.push(parentId);
         if (!isNaN(expanded) && (expanded === 0)) {
             closed.push(close);
