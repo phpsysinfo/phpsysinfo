@@ -34,8 +34,6 @@ var snmppinfo_show = false;
 function snmppinfo_buildTable(xml) {
     var html = "", tree = [], closed = [];
 
-    $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
-
     html += "  <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "    <tr>\n";
@@ -85,7 +83,7 @@ function snmppinfo_buildTable(xml) {
     html += "   </tbody>\n";
     html += "  </table>\n";
 
-    $("#Plugin_SNMPPInfo").append(html);
+    $("#Plugin_SNMPPInfo").empty().append(html);
 
     $("#Plugin_SNMPPInfoTable").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
