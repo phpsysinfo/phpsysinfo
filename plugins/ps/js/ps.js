@@ -33,6 +33,8 @@ var ps_show = false;
  */
 function ps_buildTable(xml) {
     var html = "", tree = [], closed = [2];
+    
+    $("#Plugin_PS #Plugin_PSTable").remove();
 
     html += "  <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
@@ -65,7 +67,7 @@ function ps_buildTable(xml) {
     html += "   </tbody>\n";
     html += "  </table>\n";
 
-    $("#Plugin_PS").empty().append(html);
+    $("#Plugin_PS").append(html);
 
     $("#Plugin_PSTable").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
