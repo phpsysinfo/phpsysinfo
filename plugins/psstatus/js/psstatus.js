@@ -42,10 +42,10 @@ function psstatus_populate(xml) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("Status"), 10);
         if (!isNaN(status) && (status === 1)) {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/online.png\" alt=\"online\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/online.png\" alt=\"online\" style=\"width:18px;\" />";
         }
         else {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/offline.png\" alt=\"offline\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/offline.png\" alt=\"offline\" style=\"width:18px;\" />";
         }
         psstatus_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
         psstatus_show = true;

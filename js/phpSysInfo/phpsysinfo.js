@@ -1564,7 +1564,7 @@ jQuery.fn.dataTableExt.oSort['span-number-desc'] = function sortNumberDesc(a, b)
 function buildBlock(plugin, translationid, reload) {
     var block = "", reloadpic = "";
     if (reload) {
-        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.png\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;\" />&nbsp;";
+        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.png\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
     }
     block += "      <div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
     block += "<h2>" + reloadpic + genlang(translationid, false, plugin) + "</h2>\n";
