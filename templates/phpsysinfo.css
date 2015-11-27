@@ -32,7 +32,7 @@ body {
     padding: 20px 20px 0 20px;
     font: 0.75em arial, tahoma, helvetica, sans-serif;
     color: #000;
-    background: #fff url("../gfx/body.png") repeat-y;
+    background: #fff url("../gfx/body.gif") repeat-y;
     _bac\kground: #fff; /* ie6 only */
 }
 

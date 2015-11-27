@@ -20,7 +20,7 @@
                         @import url("templates/phpsysinfo.css");
                     </xsl:comment>
                 </style>
-                <link href="gfx/favicon.png" rel="shortcut icon" />
+                <link href="gfx/favicon.gif" rel="shortcut icon" />
             </head>
             <body>
                 <xsl:for-each select="$XML">

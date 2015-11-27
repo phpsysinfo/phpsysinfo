@@ -629,7 +629,7 @@ function refreshVitals(xml) {
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
         $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' height='16' width='16' style='vertical-align:middle;' />&nbsp;" + distro);
+        $("#s_distro").html("<img class='png' src='./gfx/images/" + icon + "' alt='Icon' height='16' width='16' style='vertical-align:middle;' />&nbsp;" + distro);
         $("#s_uptime").html(uptime);
         if (typeof(lastboot.toUTCString)==="function") {
             $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()
@@ -1126,7 +1126,7 @@ function refreshTemp(xml) {
             _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#tempTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1159,7 +1159,7 @@ function refreshVoltage(xml) {
             _min = round(min, 2) + "&nbsp;" + genlang(62, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1189,7 +1189,7 @@ function refreshFan(xml) {
             _min = round(min,0) + "&nbsp;" + genlang(63, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#fanTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
@@ -1219,7 +1219,7 @@ function refreshPower(xml) {
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1249,7 +1249,7 @@ function refreshCurrent(xml) {
             _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.png\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1564,7 +1564,7 @@ jQuery.fn.dataTableExt.oSort['span-number-desc'] = function sortNumberDesc(a, b)
 function buildBlock(plugin, translationid, reload) {
     var block = "", reloadpic = "";
     if (reload) {
-        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.png\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
+        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.gif\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
     }
     block += "      <div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
     block += "<h2>" + reloadpic + genlang(translationid, false, plugin) + "</h2>\n";
