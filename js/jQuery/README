@@ -55,4 +55,11 @@ URL      : http://plugins.jquery.com/project/jQTreeTable; http://www.hanpau.com/
 DESC     : Take a plain html table, wrap the rows you want collapsing/expanding in a tbody tag with an id of treetable, map each row to it's parent row, set some options, and let jQTreeTable take it from there.
 USED     : Hardware, Memory, UPS blocks
 
+jquery.ifixpng.js
+-------------------
+VERSION  : 2.1(23/04/2008)+jquery1.8fix
+URL      : http://jquery.khurshid.com
+DESC     : Designed to fix that problem by applying appropriate filters to user specified elements, while keeping all element tags intact.
+USED     : used for the entire userinterface
+
 $Id: README 702 2012-09-21 16:52:32Z namiltd $
