@@ -121,7 +121,7 @@ function mdstatus_diskicon(xml) {
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_mdstatus_biun png\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;\" />";
+        html += "<img class=\"plugin_mdstatus_biun" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;\" />";
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });
