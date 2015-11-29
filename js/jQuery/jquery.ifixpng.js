@@ -1,7 +1,7 @@
 /*
  * jQuery ifixpng plugin
  * (previously known as pngfix)
- * Version 2.1  (23/04/2008) + jquery1.8fix
+ * Version 2.1  (23/04/2008)+jquery1.9fix
  * @requires jQuery v1.1.3 or above
  *
  * Examples at: http://jquery.khurshid.com
@@ -45,7 +45,7 @@
 	};
 
 	var hack = {
-		ltie7  : navigator.userAgent.match(/MSIE ((5\.5)|(6\.))/) !== null,
+		ltie7  : (navigator.userAgent.match(/MSIE ((5\.5)|(6\.))/) !== null),
 		filter : function(src) {
 			return "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src='"+src+"')";
 		}
