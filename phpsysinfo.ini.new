@@ -542,6 +542,7 @@ FILE="/var/lib/update-notifier/updates-available"
 ;
 ACCESS="command"
 
-; Maximum number of entries to show
-; Default is 10
+; define the maximum number of entries to show (for command access)
+; default is 10
+;
 MAX_ENTRIES = 10
