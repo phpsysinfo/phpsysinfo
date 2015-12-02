@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros
+ - [ADD] Uprecords plugin - MAX_ENTRIES option - maximum number of entries to show
  
  - [UPD] Refreshing status of all plugins for dynamic mode
 
