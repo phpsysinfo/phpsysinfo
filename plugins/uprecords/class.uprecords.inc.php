@@ -78,7 +78,15 @@ class uprecords extends PSI_Plugin
                 $lines = "";
                 $oldtz=getenv("TZ");
                 putenv("TZ=GMT");
-                if (CommonFunctions::executeProgram('uprecords', '-a -w', $lines) && !empty($lines))
+				if(PSI_PLUGIN_UPRECORDS_MAX <= 10 && PSI_PLUGIN_UPRECORDS_MAX > 0 )
+				{
+					$options=" -m".PSI_PLUGIN_UPRECORDS_MAX;
+				}
+				else
+				{
+					$options="";
+				}
+                if (CommonFunctions::executeProgram('uprecords', '-a -w'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 putenv("TZ=".$oldtz);
                 break;

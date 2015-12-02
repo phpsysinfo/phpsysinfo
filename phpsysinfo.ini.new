@@ -541,3 +541,6 @@ FILE="/var/lib/update-notifier/updates-available"
 ;          with the filename "uprecords.txt"; content is the output from "env TZ=GMT uprecords -a -w")
 ;
 ACCESS="command"
+
+; Maximum No of entries to show between 1 and 10
+MAX = 10
