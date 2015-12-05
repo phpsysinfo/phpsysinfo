@@ -203,6 +203,23 @@ function reload(initiate) {
     $.ajax({
         dataType: "json",
         url: "xml.php?json",
+        error: function(jqXHR, status, thrownError) {;
+            if ((status === "parsererror") && (typeof(xmlDoc = $.parseXML(jqXHR.responseText)) === "object")) {
+                var errs = 0;
+                try {
+                    $(xmlDoc).find("Error").each(function() {
+                        $("#errors").append("<li><b>"+$(this)[0]["attributes"]["Function"].nodeValue+"</b> - "+$(this)[0]["attributes"]["Message"].nodeValue.replace(/\n/g, "<br>")+"</li><br>");
+                        errs++;
+                    });
+                }
+                catch (err) {
+                }
+                if (errs > 0) {
+                    $("#errorbutton").css("visibility", "visible");
+                    $("#output").show();
+                }
+            }
+        },
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;

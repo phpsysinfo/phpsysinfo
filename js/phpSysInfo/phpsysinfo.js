@@ -325,6 +325,7 @@ function populateErrors(xml) {
     });
     if (values) {
         $("#warn").css("display", "inline");
+        $("#loadwarn").css("display", "inline");
     }
 }
 
