@@ -157,28 +157,6 @@ class WINNT extends OS
     }
 
     /**
-     * IP of the Canonical Host Name
-     *
-     * @return void
-     */
-    private function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
-        } else {
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
-            if ($buffer) {
-                $result = $buffer[0]['Name'];
-                $this->sys->setIp(gethostbyname($result));
-            } else {
-            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
-            }
-        }
-    }
-
-    /**
      * UpTime
      * time the system is running
      *
@@ -594,7 +572,6 @@ class WINNT extends OS
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
         $this->_hostname();
-        $this->_ip();
         $this->_users();
         $this->_machine();
         $this->_uptime();
