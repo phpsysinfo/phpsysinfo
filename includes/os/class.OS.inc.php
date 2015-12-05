@@ -70,6 +70,24 @@ abstract class OS implements PSI_Interface_OS
     }
 
     /**
+     * IP of the Canonical or virtual Host Name
+     *
+     * @return void
+     */
+    protected function ip()
+    {
+        if (PSI_USE_VHOST === true) {
+            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+        } else {
+            if (!(($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR')))) {
+                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+            } else {
+                $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
+            }
+        }
+    }
+
+    /**
      * get the filled or unfilled (with default values) System object
      *
      * @see PSI_Interface_OS::getSys()
@@ -79,6 +97,7 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
+        $this->ip();
 
         return $this->sys;
     }

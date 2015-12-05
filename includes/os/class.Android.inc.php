@@ -236,7 +236,6 @@ class Android extends Linux
     {
         $this->_distro();
         $this->_hostname();
-        $this->_ip();
         $this->_kernel();
         $this->_machine();
         $this->_uptime();

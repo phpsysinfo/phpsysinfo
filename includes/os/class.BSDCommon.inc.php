@@ -209,24 +209,6 @@ abstract class BSDCommon extends OS
     }
 
     /**
-     * IP of the Canonical Host Name
-     *
-     * @return void
-     */
-    protected function ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-        } else {
-            if (!($result = getenv('SERVER_ADDR'))) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
-                $this->sys->setIp($result);
-            }
-        }
-    }
-
-    /**
      * Kernel Version
      *
      * @return void
@@ -585,7 +567,6 @@ abstract class BSDCommon extends OS
         $this->users();
         $this->loadavg();
         $this->hostname();
-        $this->ip();
         $this->scsi();
         $this->usb();
     }

@@ -108,24 +108,6 @@ class Linux extends OS
     }
 
     /**
-     * IP
-     *
-     * @return void
-     */
-    protected function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-        } else {
-            if (!isset($_SERVER['SERVER_ADDR']) || !($result = $_SERVER['SERVER_ADDR'])) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
-                $this->sys->setIp($result);
-            }
-        }
-    }
-
-    /**
      * Kernel Version
      *
      * @return void
@@ -1076,7 +1058,6 @@ class Linux extends OS
     {
         $this->_distro();
         $this->_hostname();
-        $this->_ip();
         $this->_kernel();
         $this->_machine();
         $this->_uptime();
