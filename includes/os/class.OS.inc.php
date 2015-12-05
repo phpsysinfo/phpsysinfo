@@ -70,7 +70,7 @@ abstract class OS implements PSI_Interface_OS
     }
 
     /**
-     * IP of the Canonical or virtual Host Name
+     * IP of the Host
      *
      * @return void
      */
