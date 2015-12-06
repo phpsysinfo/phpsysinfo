@@ -79,10 +79,10 @@ abstract class OS implements PSI_Interface_OS
         if (PSI_USE_VHOST === true) {
             $this->sys->setIp(gethostbyname($this->sys->getHostname()));
         } else {
-            if (!(($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR')))) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
+            if (($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
+            } else {
+                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
             }
         }
     }
