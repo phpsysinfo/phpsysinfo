@@ -42,7 +42,7 @@ abstract class OS implements PSI_Interface_OS
      */
     public function __construct()
     {
-        $this->error = Error::singleton();
+        $this->error = PSI_Error::singleton();
         $this->sys = new System();
     }
 

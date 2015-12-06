@@ -44,7 +44,7 @@ abstract class Sensors implements PSI_Interface_Sensor
      */
     public function __construct()
     {
-        $this->error = Error::singleton();
+        $this->error = PSI_Error::singleton();
         $this->mbinfo = new MBInfo();
     }
 

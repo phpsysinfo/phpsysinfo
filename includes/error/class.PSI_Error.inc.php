@@ -1,6 +1,6 @@
 <?php
 /**
- * Error class
+ * PSI_Error class
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class Error
+class PSI_Error
 {
     /**
      * holds the instance of this class

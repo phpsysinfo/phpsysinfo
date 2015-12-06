@@ -205,7 +205,7 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $strProgram = self::_findProgram($strProgramname);
-        $error = Error::singleton();
+        $error = PSI_Error::singleton();
         if (!$strProgram) {
             if ($booErrorRep) {
                 $error->addError('find_program('.$strProgramname.')', 'program not found on the machine');
@@ -299,7 +299,7 @@ class CommonFunctions
 
         $strFile = "";
         $intCurLine = 1;
-        $error = Error::singleton();
+        $error = PSI_Error::singleton();
         if (file_exists($strFileName)) {
             if (is_readable($strFileName)) {
                 if ($fd = fopen($strFileName, 'r')) {
@@ -381,7 +381,7 @@ class CommonFunctions
     public static function gdc($strPath, $booErrorRep = true)
     {
         $arrDirectoryContent = array();
-        $error = Error::singleton();
+        $error = PSI_Error::singleton();
         if (is_dir($strPath)) {
             if ($handle = opendir($strPath)) {
                 while (($strFile = readdir($handle)) !== false) {
@@ -534,7 +534,7 @@ class CommonFunctions
                 }
             } catch (Exception $e) {
                 if (PSI_DEBUG) {
-                    $error = Error::singleton();
+                    $error = PSI_Error::singleton();
                     $error->addError($e->getCode(), $e->getMessage());
                 }
             }

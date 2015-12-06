@@ -68,7 +68,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      */
     public function __construct($plugin_name, $enc)
     {
-        $this->global_error = Error::Singleton();
+        $this->global_error = PSI_Error::Singleton();
         if (trim($plugin_name) != "") {
             $this->_plugin_name = $plugin_name;
             $this->_plugin_base = APP_ROOT."/plugins/".strtolower($this->_plugin_name)."/";

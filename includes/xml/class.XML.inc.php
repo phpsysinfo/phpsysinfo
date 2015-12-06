@@ -92,7 +92,7 @@ class XML
      */
     public function __construct($complete = false, $pluginname = "")
     {
-        $this->_errors = Error::singleton();
+        $this->_errors = PSI_Error::singleton();
         if ($pluginname == "") {
             $this->_plugin_request = false;
             $this->_plugin = '';

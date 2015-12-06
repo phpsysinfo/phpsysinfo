@@ -12,6 +12,8 @@ phpSysInfo 3.2.4
 
  - [NEW] language and template selection also for frontend "bootstrap"
 
+ - [FIX] PHP 7 class Error issues
+
 phpSysInfo 3.2.3
 ----------------
  - [UPD] jQuery 2.1.4 and jQuery 1.11.3

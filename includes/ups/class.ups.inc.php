@@ -44,7 +44,7 @@ abstract class UPS implements PSI_Interface_UPS
      */
     public function __construct()
     {
-        $this->error = Error::singleton();
+        $this->error = PSI_Error::singleton();
         $this->upsinfo = new UPSInfo();
     }
 
