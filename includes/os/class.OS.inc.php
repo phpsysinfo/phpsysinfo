@@ -77,7 +77,17 @@ abstract class OS implements PSI_Interface_OS
     protected function ip()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+            if ((($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) //is server address defined 
+               && !strstr($result, '.') && strstr($result, ':')){ //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
+                $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
+                if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
+                    $this->sys->setIp($dnsrec[0]['ipv6']); //from DNS (avoid IPv6 NAT translation)
+                } else {
+                    $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result)); //from SERVER_ADDR or LOCAL_ADDR
+                }
+            } else {
+                $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
+            }
         } else {
             if (($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
