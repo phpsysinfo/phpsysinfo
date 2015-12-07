@@ -84,7 +84,7 @@ class uprecords extends PSI_Plugin
                         $options=" -m 0";
                     } elseif (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === true) {
                         $options=" -m 1";
-                    } elseif ((PSI_PLUGIN_UPRECORDS_MAX_ENTRIES > 1) && (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES != 10)){
+                    } elseif ((PSI_PLUGIN_UPRECORDS_MAX_ENTRIES > 1) && (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES != 10)) {
                         $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
                     }
                 }

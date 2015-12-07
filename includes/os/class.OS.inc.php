@@ -77,7 +77,7 @@ abstract class OS implements PSI_Interface_OS
     protected function ip()
     {
         if (PSI_USE_VHOST === true) {
-            if ((($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) //is server address defined 
+            if ((($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) //is server address defined
                && !strstr($result, '.') && strstr($result, ':')){ //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
                 if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
