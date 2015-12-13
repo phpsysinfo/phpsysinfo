@@ -3,7 +3,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     /**
      * phpSysInfo version
      */
-    define('PSI_VERSION', '3.2.3');
+    define('PSI_VERSION', '3.2.4');
     /**
      * phpSysInfo configuration
      */
