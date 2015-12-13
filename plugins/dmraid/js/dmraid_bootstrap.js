@@ -4,7 +4,7 @@ function renderPlugin_dmraid(data) {
         var html = "";
         var img = "", alt = "";
 
-        html += "<div style=\"text-align: center; float: left; margin-bottom: 5px; margin-right: 20px; width: 64px;\">";
+        html += "<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:20px; width:64px;\">";
         switch (data["Status"]) {
             case " ":
             case "":
@@ -39,7 +39,7 @@ function renderPlugin_dmraid(data) {
         var dmitems = items(data['Plugins']['Plugin_DMRaid']['Raid']);
         if (dmitems.length > 0) {
             var html = '';
-            for (i = 0; i < dmitems.length ; i++) {
+            for (var i = 0; i < dmitems.length ; i++) {
                 if (i) {
                     html += "<tr><td></td><td>";
                 } else {
@@ -51,21 +51,21 @@ function renderPlugin_dmraid(data) {
                     html += "<tr><td>";
 
                     var diskitems = items(dmitems[i]['Disks']['Disk']);
-                    for (j = 0; j < diskitems.length ; j++) {
+                    for (var j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
 
                     html += "</td></tr><tr><td>";
                     html += "<table id=\"dmraid-" + i + "\"class=\"table table-hover table-condensed\">";
-                    html += "<tr class=\"treegrid-dmraid-" + i + "\"><td><b>" + dmitems[i]["@attributes"]["Device_Name"] + "</b></td><td></td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Name</td><td>" + dmitems[i]["@attributes"]["Name"] + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Status</th><td>" + dmitems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>RAID-Type</th><td>" + dmitems[i]["@attributes"]["Type"] + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Size</th><td>" + parseInt(dmitems[i]["@attributes"]["Size"]) + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Stride</th><td>" + parseInt(dmitems[i]["@attributes"]["Stride"]) + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Subsets</th><td>" + parseInt(dmitems[i]["@attributes"]["Subsets"]) + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Devices</th><td>" + parseInt(dmitems[i]["@attributes"]["Devs"]) + "</td></tr>";
-                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><th>Spares</th><td>" + parseInt(dmitems[i]["@attributes"]["Spares"]) + "</td></tr>";
+                    html += "<tr class=\"treegrid-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + dmitems[i]["@attributes"]["Device_Name"] + "</span></td><td></td></tr>";
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, false, 'dmraid')+"</span></td><td>" + dmitems[i]["@attributes"]["Name"] + "</td></tr>";  		// Name
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, false, 'dmraid')+"</span></td><td>" + dmitems[i]["@attributes"]["Disk_Status"] + "</td></tr>"; 	// Status
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, false, 'dmraid')+"</span></td><td>" + dmitems[i]["@attributes"]["Type"] + "</td></tr>"; 			// RAID-Type
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(7, false, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Size"]) + "</td></tr>";// Size
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(8, false, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Stride"]) + "</td></tr>"; // Stride
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, false, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Subsets"]) + "</td></tr>"; // Subsets
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(10, false, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Devs"]) + "</td></tr>";  	// Devices
+                    html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(11, false, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Spares"]) + "</td></tr>";	// Spares
                     html += "</table>";
                     html += "</td></tr>";
                     html += "</table>";
@@ -75,7 +75,7 @@ function renderPlugin_dmraid(data) {
             }
             $('#dmraid').empty().append(html);
 
-            for (i = 0; i < dmitems.length ; i++) {
+            for (var i = 0; i < dmitems.length ; i++) {
                 if (dmitems[i]['Disks'] !== undefined) {
                     $('#dmraid-'+i).treegrid({
                         initialState: 'collapsed',

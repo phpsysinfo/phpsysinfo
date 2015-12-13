@@ -12,72 +12,103 @@
     <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
     <![endif]-->
     <link rel="stylesheet" href="templates/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="templates/phpsysinfo_bootstrap.css">
+    <link rel="stylesheet" title="PSI_Template">
 </head>
 
 <body>
 
+<input type="hidden" id="plugins" value="<?php $plugins = ""; foreach (CommonFunctions::getPlugins() as $plugin) : $plugins .= $plugin.","; endforeach; echo substr($plugins, 0, -1);?>"/>
+
 <div class="navbar navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand"><img class="navbar-logo" src="gfx/logo_48.png" style="width:32px"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
-            <img id="loader" style="display:none" src="gfx/ajax-loader.gif">
-            <button id="errorbutton" type="button" data-toggle="modal" data-target="#errors-dialog"
-                class="btn btn-default btn-xs" style="display:none">Errors
-            </button>
+        <a class="navbar-brand">
+            <img class="logo" alt="" src="gfx/logo_48.png" style="display:inline; width:32px;"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
+            <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:inline; visibility: hidden;"/>
+            <img id="errorbutton" class="errorbutton" data-toggle="modal" data-target="#errors-dialog" alt="" src="gfx/attention.gif" style="display:inline; visibility: hidden;"/>
         </a>
+        <div id="select" class="select" style="text-align:right;padding-top:20px;display:none;">
+            <span id="lang_044" style="display:none;">Template</span>
+            <select class="template" id="template" style="display:none;">
+<?php if ($picktemplate) {
+foreach ($bootstraptemplates as $t) :
+    $selected = "";
+    if ($bootstraptemplate === $t) {
+        $selected = " selected=\"selected\"";
+    }
+    echo "                <option value=\"".$t."\"".$selected.">".$t."</option>\n";
+endforeach;
+} else {
+    echo "                <option value=\"".$bootstraptemplate."\" selected=\"selected\">".$bootstraptemplate."</option>\n";
+}?>
+            </select>
+            <span id="lang_045" style="display:none;">Language</span>
+            <select class="language" id="language" style="display:none;">
+<?php if ($picklanguage) {
+foreach ($languages as $l) :
+    $selected = "";
+    if ($language === $l) {
+        $selected = " selected=\"selected\"";
+    }
+    echo "                <option value=\"".$l."\"".$selected.">".$l."</option>\n";
+endforeach;
+} else {
+    echo "                <option value=\"".$language."\" selected=\"selected\">".$language."</option>\n";
+}?>
+            </select>
+        </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container" id="output" style="display:none;">
 
 <div class="row">
-    <div class="col-lg-6">
+    <div id="block_vitals" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">System Vitals</div>
+            <div class="panel-heading"><span id="lang_002">System vitals</span></div>
             <div class="panel-body">
                 <table id="vitals" class="table table-hover table-condensed">
                     <tr>
-                        <th>Hostname</th>
+                        <th><span id="lang_003">Hostname</span></th>
                         <td><span data-bind="Hostname"></span></td>
                     </tr>
                     <tr>
-                        <th>Listening IP</th>
+                        <th><span id="lang_004">Listening IP</span></th>
                         <td><span data-bind="IPAddr"></span></td>
                     </tr>
                     <tr>
-                        <th>Kernel Version</th>
+                        <th><span id="lang_005">Kernel Version</span></th>
                         <td><span data-bind="Kernel"></span></td>
                     </tr>
                     <tr>
-                        <th>Distro Name</th>
+                        <th><span id="lang_006">Distro Name</span></th>
                         <td><span data-bind="Distro"></span></td>
                     </tr>
                     <tr>
-                        <th>Uptime</th>
+                        <th><span id="lang_007">Uptime</span></th>
                         <td><span data-bind="Uptime"></span></td>
                     </tr>
                     <tr>
-                        <th>Last boot</th>
+                        <th><span id="lang_095">Last boot</span></th>
                         <td><span data-bind="LastBoot"></span></td>
                     </tr>
                     <tr>
-                        <th>Current Users</th>
+                        <th><span id="lang_008">Current Users</span></th>
                         <td><span data-bind="Users"></span></td>
                     </tr>
                     <tr>
-                        <th>Load Averages</th>
+                        <th><span id="lang_009">Load Averages</span></th>
                         <td><span data-bind="LoadAvg"></span></td>
                     </tr>
                     <tr id="tr_SysLang">
-                        <th>System Language</th>
+                        <th><span id="lang_097">System Language</span></th>
                         <td><span data-bind="SysLang"></span></td>
                     </tr>
                     <tr id="tr_CodePage">
-                        <th>Code Page</th>
+                        <th><span id="lang_098">Code Page</span></th>
                         <td><span data-bind="CodePage"></span></td>
                     </tr>
                     <tr id="tr_Processes">
-                        <th>Processes</th>
+                        <th><span id="lang_110">Processes</span></th>
                         <td><span data-bind="Processes"></span></td>
                     </tr>
                 </table>
@@ -85,10 +116,9 @@
         </div>
     </div>
 
-
-    <div class="col-lg-6">
+    <div id="block_hardware" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Hardware Information</div>
+            <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
             <div class="panel-body">
                 <table id="hardware" class="table table-hover table-condensed">
                 </table>
@@ -98,18 +128,18 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div id="block_memory" class="col-lg-12" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Memory Usage</div>
+            <div class="panel-heading"><span id="lang_027">Memory Usage</span></div>
             <div class="panel-body">
                 <table id="memory" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Type</th>
-                        <th>Usage</th>
-                        <th class="rightCell">Free</th>
-                        <th class="rightCell">Used</th>
-                        <th class="rightCell">Size</th>
+                        <th><span id="lang_034-u01">Type</span></th>
+                        <th><span id="lang_033-u02">Usage</span></th>
+                        <th class="rightCell"><span id="lang_035-u03">Free</span></th>
+                        <th class="rightCell"><span id="lang_036-u04">Used</span></th>
+                        <th class="rightCell"><span id="lang_037-u05">Size</span></th>
                     </tr>
                     </thead>
                     <tbody id="memory-data">
@@ -121,7 +151,7 @@
                         <td class="rightCell"><span data-bind="Total"></span></td>
                     </tr>
                     </tbody>
-                    <tfoot id="swap-data" style="display:none">
+                    <tfoot id="swap-data" style="display:none;">
                     <tr>
                         <th><span data-bind="Name"></span></th>
                         <td><span data-bind="Usage"></span></td>
@@ -137,20 +167,20 @@
 </div>
 
 <div class="row">
-    <div id="block_filesystem" style="display:none" class="col-lg-12">
+    <div id="block_filesystem" class="col-lg-12" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Mounted Filesystems</div>
+            <div class="panel-heading"><span id="lang_030">Mounted Filesystems</span></div>
             <div class="panel-body">
                 <table id="filesystem" class="table table-hover table-condensed sortable">
                     <thead>
                     <tr>
-                        <th id="filesystem_MountPoint">Mountpoint</th>
-                        <th>Type</th>
-                        <th>Partition</th>
-                        <th>Usage</th>
-                        <th class="rightCell sorttable_numeric">Free</th>
-                        <th class="rightCell sorttable_numeric">Used</th>
-                        <th class="rightCell sorttable_numeric">Size</th>
+                        <th id="filesystem_MountPoint"><span id="lang_031">Mountpoint</span></th>
+                        <th><span id="lang_034-u06">Type</span></th>
+                        <th><span id="lang_032">Partition</span></th>
+                        <th><span id="lang_033-u07">Usage</span></th>
+                        <th class="rightCell sorttable_numeric"><span id="lang_035-u08">Free</span></th>
+                        <th class="rightCell sorttable_numeric"><span id="lang_036-u09">Used</span></th>
+                        <th class="rightCell sorttable_numeric"><span id="lang_037-u10">Size</span></th>
                     </tr>
                     </thead>
                     <tbody id="filesystem-data">
@@ -168,7 +198,7 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <th>Totals</th>
+                        <th><span id="lang_038">Totals</span></th>
                         <th><span data-bind="Percent"></span></th>
                         <th class="rightCell"><span data-bind="Free"></span></th>
                         <th class="rightCell"><span data-bind="Used"></span></th>
@@ -182,27 +212,37 @@
 </div>
 
 <div class="row">
-    <div id="block_network" style="display:none" class="col-lg-6">
+    <div id="block_network" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Network Interface</div>
+            <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
             <div class="panel-body">
                 <table id="network" class="table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="width:60%"><span id="lang_022">Device</span></th>
+                        <th class="rightCell"><span id="lang_023">Receive</span></th>
+                        <th class="rightCell"><span id="lang_024">Send</span></th>
+                        <th class="rightCell"><span id="lang_025">Err/<wbr>Drop</span></th>
+                    </tr>
+                    </thead>
+                    <tbody id="network-data">
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div id="block_voltage" style="display:none" class="col-lg-6">
+    <div id="block_voltage" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Voltage</div>
+            <div class="panel-heading"><span id="lang_052">Voltage</span></div>
             <div class="panel-body">
                 <table id="voltage" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Label</th>
-                        <th class="rightCell">Value</th>
-                        <th class="rightCell">Min</th>
-                        <th class="rightCell">Max</th>
+                        <th><span id="lang_059-u11">Label</span></th>
+                        <th class="rightCell"><span id="lang_054-u12">Value</span></th>
+                        <th class="rightCell"><span id="lang_055-u13">Min</span></th>
+                        <th class="rightCell"><span id="lang_056">Max</span></th>
                     </tr>
                     </thead>
                     <tbody id="voltage-data">
@@ -218,16 +258,16 @@
         </div>
     </div>
 
-    <div id="block_temperature" style="display:none" class="col-lg-3">
+    <div id="block_temperature" class="col-lg-3" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Temperatures</div>
+            <div class="panel-heading"><span id="lang_051">Temperatures</span></div>
             <div class="panel-body">
                 <table id="temperature" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Label</th>
-                        <th class="rightCell">Value</th>
-                        <th class="rightCell">Limit</th>
+                        <th><span id="lang_059-u14">Label</span></th>
+                        <th class="rightCell"><span id="lang_054-u15">Value</span></th>
+                        <th class="rightCell"><span id="lang_058-u16">Limit</span></th>
                     </tr>
                     </thead>
                     <tbody id="temperature-data">
@@ -242,16 +282,16 @@
         </div>
     </div>
 
-    <div id="block_fans" style="display:none" class="col-lg-3">
+    <div id="block_fans" class="col-lg-3" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Fans</div>
+            <div class="panel-heading"><span id="lang_053">Fans</span></div>
             <div class="panel-body">
                 <table id="fans" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Label</th>
-                        <th class="rightCell">Value</th>
-                        <th class="rightCell">Min</th>
+                        <th><span id="lang_059-u17">Label</span></th>
+                        <th class="rightCell"><span id="lang_054-u18">Value</span></th>
+                        <th class="rightCell"><span id="lang_055-u19">Min</span></th>
                     </tr>
                     </thead>
                     <tbody id="fans-data">
@@ -266,16 +306,16 @@
         </div>
     </div>
 
-    <div id="block_current" style="display:none" class="col-lg-3">
+    <div id="block_current" class="col-lg-3" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Currents</div>
+            <div class="panel-heading"><span id="lang_105">Currents</span></div>
             <div class="panel-body">
                 <table id="current" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Label</th>
-                        <th class="rightCell">Value</th>
-                        <th class="rightCell">Limit</th>
+                        <th><span id="lang_059-u20">Label</span></th>
+                        <th class="rightCell"><span id="lang_054-u21">Value</span></th>
+                        <th class="rightCell"><span id="lang_058-u22">Limit</span></th>
                     </tr>
                     </thead>
                     <tbody id="current-data">
@@ -290,16 +330,16 @@
         </div>
     </div>
 
-    <div id="block_power" style="display:none" class="col-lg-3">
+    <div id="block_power" class="col-lg-3" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">Power</div>
+            <div class="panel-heading"><span id="lang_102">Power</span></div>
             <div class="panel-body">
                 <table id="power" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Label</th>
-                        <th class="rightCell">Value</th>
-                        <th class="rightCell">Limit</th>
+                        <th><span id="lang_059-u23">Label</span></th>
+                        <th class="rightCell"><span id="lang_054-u24">Value</span></th>
+                        <th class="rightCell"><span id="lang_058-u25">Limit</span></th>
                     </tr>
                     </thead>
                     <tbody id="power-data">
@@ -314,9 +354,9 @@
         </div>
     </div>
 
-    <div id="block_ups" style="display:none" class="col-lg-6">
+    <div id="block_ups" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
-            <div class="panel-heading">UPS Information</div>
+            <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
             <div class="panel-body">
                 <table id="ups" class="table table-hover table-condensed">
                 </table>
@@ -333,8 +373,7 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 </div>
 
 <!-- Errors details modal dialogs -->
-<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -364,6 +403,10 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
+
+<!--[if lt IE 7]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js">IE7_PNG_SUFFIX=".png";</script>
+<![endif]-->
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
 <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>

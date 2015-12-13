@@ -1,5 +1,5 @@
 /**
- * jGrowl 1.2.6
+ * jGrowl 1.2.6+jquery1.9fix
  *
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
@@ -238,7 +238,7 @@
 					
 					$(this).animate(o.animateOpen, o.openDuration, o.easing, function() {
 						// Fixes some anti-aliasing issues with IE filters.
-						if ($.browser.msie && (parseInt($(this).css('opacity'), 10) === 1 || parseInt($(this).css('opacity'), 10) === 0))
+						if ((navigator.userAgent.match(/MSIE ([1-9])/) !== null) && (parseInt($(this).css('opacity'), 10) === 1 || parseInt($(this).css('opacity'), 10) === 0))
 							this.style.removeAttribute('filter');
 
 						if ( $(this).data("jGrowl") != null ) // Happens when a notification is closing before it's open.
@@ -314,7 +314,7 @@
 				$(e).data('jGrowl.instance').update(); 
 			}, parseInt(this.defaults.check));
 			
-			if ($.browser.msie && parseInt($.browser.version) < 7 && !window["XMLHttpRequest"]) {
+			if ((navigator.userAgent.match(/MSIE ([2-6]\.)/) !== null) && !window["XMLHttpRequest"]) {
 				$(this.element).addClass('ie6');
 			}
 		},

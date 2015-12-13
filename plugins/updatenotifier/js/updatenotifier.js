@@ -29,7 +29,7 @@ var UpdateNotifier_show = false, UpdateNotifier_table;
  */
 function updatenotifier_populate(xml) {
     var html = "";
-
+ 
     $("Plugins Plugin_UpdateNotifier UpdateNotifier", xml).each(function(idp) {
         var packages = "", security = "";
         packages = $("packages", this).text();
@@ -45,7 +45,7 @@ function updatenotifier_populate(xml) {
         html += "    <td>" + security + " " + genlang(4, true, "UpdateNotifier") + "</td>\n";
         html += "  </tr>\n";
 
-        $("#Plugin_UpdateNotifier tbody").append(html);
+        $("#Plugin_UpdateNotifier tbody").empty().append(html);
 
         if ((packages == 0) && (security == 0)) {
             $("#UpdateNotifierTable-info").html(genlang(5, true, "UpdateNotifier"));
@@ -92,6 +92,7 @@ function updatenotifier_request() {
         updatenotifier_populate(xml);
         if (UpdateNotifier_show) {
             plugin_translate("UpdateNotifier");
+            $("#Reload_UpdateNotifierTable").attr("title",datetime());
             $("#Plugin_UpdateNotifier").show();
         }
     }
@@ -99,9 +100,13 @@ function updatenotifier_request() {
 }
 
 $(document).ready(function() {
-    $("#footer").before(buildBlock("UpdateNotifier", 1, false));
+    $("#footer").before(buildBlock("UpdateNotifier", 1, true));
     $("#Plugin_UpdateNotifier").css("width", "451px");
 
     updatenotifier_buildTable();
     updatenotifier_request();
+
+    $("#Reload_UpdateNotifierTable").click(function updatenotifier_reload(id) {
+        updatenotifier_request();
+    });
 });

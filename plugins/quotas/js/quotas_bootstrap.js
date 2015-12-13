@@ -3,29 +3,29 @@ function renderPlugin_quotas(data) {
     var directives = {
 
         ByteUsed: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteUsed"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         ByteSoft: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteSoft"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         ByteHard: {
-            text: function () {
+            html: function () {
                 return formatBytes(this["ByteHard"], data["Options"]["@attributes"]["byteFormat"]);
             }
         },
         BytePercentUsed: {
             html: function () {
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + this["BytePercentUsed"] + '%;"></div>' +
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["BytePercentUsed"] + '%;"></div>' +
                         '</div><div class="percent">' + this["BytePercentUsed"] + '%</div>';
             }
         },
         FilePercentUsed: {
             html: function () {
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + this["FilePercentUsed"] + '%;"></div>' +
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["FilePercentUsed"] + '%;"></div>' +
                         '</div><div class="percent">' + this["FilePercentUsed"] + '%</div>';
             }
         }

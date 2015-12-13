@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.4
+----------------
+ - [ADD] Solus to detected distros
+ - [ADD] Uprecords plugin - MAX_ENTRIES option - maximum number of entries to show
+
+ - [UPD] Refreshing status of all plugins for dynamic mode
+ - [UPD] bootstrap 3.3.6
+
+ - [NEW] language and template selection also for frontend "bootstrap"
+
+ - [FIX] PHP 7 class Error issues
+
 phpSysInfo 3.2.3
 ----------------
  - [UPD] jQuery 2.1.4 and jQuery 1.11.3

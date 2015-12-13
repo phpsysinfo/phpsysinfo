@@ -222,14 +222,10 @@ class SNMPPInfo extends PSI_Plugin
                 } else {
                     $xmlsnmppinfo = $xmlsnmppinfo_printer->addChild("MarkerSupplies");
 
-                    if (isset($snmppinfo_item['prtMarkerSuppliesDescription']))
-                        $xmlsnmppinfo->addAttribute("Description", $snmppinfo_item['prtMarkerSuppliesDescription']);
-                    else
-                        $xmlsnmppinfo->addAttribute("Description", ""); /* empty on some devices */
-
-                    $xmlsnmppinfo->addAttribute("SupplyUnit", $snmppinfo_item['prtMarkerSuppliesSupplyUnit']);
-                    $xmlsnmppinfo->addAttribute("MaxCapacity", $snmppinfo_item['prtMarkerSuppliesMaxCapacity']);
-                    $xmlsnmppinfo->addAttribute("Level", $snmppinfo_item['prtMarkerSuppliesLevel']);
+                    $xmlsnmppinfo->addAttribute("Description", isset($snmppinfo_item['prtMarkerSuppliesDescription']) ? $snmppinfo_item['prtMarkerSuppliesDescription'] : "");
+                    $xmlsnmppinfo->addAttribute("SupplyUnit", isset($snmppinfo_item['prtMarkerSuppliesSupplyUnit']) ? $snmppinfo_item['prtMarkerSuppliesSupplyUnit'] : "");
+                    $xmlsnmppinfo->addAttribute("MaxCapacity", isset($snmppinfo_item['prtMarkerSuppliesMaxCapacity']) ? $snmppinfo_item['prtMarkerSuppliesMaxCapacity'] : "");
+                    $xmlsnmppinfo->addAttribute("Level", isset($snmppinfo_item['prtMarkerSuppliesLevel']) ? $snmppinfo_item['prtMarkerSuppliesLevel'] : "");
                 }
             }
         }

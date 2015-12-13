@@ -360,4 +360,10 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
   <expression id="118" name="i2c">
     <exp>I2C устройства</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Number of processors</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Number of devices</exp>
+  </expression>
 </tns:translation>

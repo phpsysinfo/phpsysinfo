@@ -33,7 +33,7 @@ var ps_show = false;
  */
 function ps_buildTable(xml) {
     var html = "", tree = [], closed = [2];
-
+    
     $("#Plugin_PS #Plugin_PSTable").remove();
 
     html += "  <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
@@ -56,7 +56,7 @@ function ps_buildTable(xml) {
         percent = parseInt($(this).attr("MemoryUsage"), 10);
         expanded = parseInt($(this).attr("Expanded"), 10);
 
-        html += "    <tr><td>" + name + "</td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
+        html += "    <tr><td><span class=\"treespan\">" + name + "</span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td></tr>\n";
         close = tree.push(parentId);
         if (!isNaN(expanded) && (expanded === 0)) {
             closed.push(close);
@@ -101,6 +101,7 @@ function ps_request() {
             ps_buildTable(xml);
             if (ps_show) {
                 plugin_translate("PS");
+                $("#Reload_PSTable").attr("title",datetime());
                 $("#Plugin_PS").show();
             }
         }
@@ -115,6 +116,5 @@ $(document).ready(function ps_buildpage() {
 
     $("#Reload_PSTable").click(function ps_reload(id) {
         ps_request();
-        $("#Reload_PSTable").attr("title",datetime());
     });
 });

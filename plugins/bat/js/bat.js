@@ -129,6 +129,7 @@ function bat_request() {
             bat_populate(xml);
             if (bat_show) {
                 plugin_translate("BAT");
+                $("#Reload_BATTable").attr("title",datetime());
                 $("#Plugin_BAT").show();
             }
         }
@@ -163,6 +164,5 @@ $(document).ready(function bat_buildpage() {
 
     $("#Reload_BATTable").click(function bat_reload(id) {
         bat_request();
-        $("#Reload_BATTable").attr("title",datetime());
     });
 });

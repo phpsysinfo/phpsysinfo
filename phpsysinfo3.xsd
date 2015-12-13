@@ -2,464 +2,462 @@
 <schema targetNamespace="http://phpsysinfo.sourceforge.net/" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://phpsysinfo.sourceforge.net/">
 
     <complexType name="Generation">
-    	<attribute name="version" type="string" use="required"></attribute>
-    	<attribute name="timestamp" type="unsignedLong" use="required"></attribute>
+        <attribute name="version" type="string" use="required"></attribute>
+        <attribute name="timestamp" type="unsignedLong" use="required"></attribute>
     </complexType>
 
     <complexType name="Options">
-    	<attribute name="tempFormat" type="string" use="required"></attribute>
-    	<attribute name="byteFormat" type="string" use="required"></attribute>
-    	<attribute name="refresh" type="unsignedInt" use="required"></attribute>
-    	<attribute name="showPickListTemplate" type="boolean" use="required"></attribute>
-    	<attribute name="showPickListLang" type="boolean" use="required"></attribute>
-    	<attribute name="threshold" type="unsignedInt" use="optional"></attribute>
+        <attribute name="tempFormat" type="string" use="required"></attribute>
+        <attribute name="byteFormat" type="string" use="required"></attribute>
+        <attribute name="refresh" type="unsignedInt" use="required"></attribute>
+        <attribute name="threshold" type="unsignedInt" use="optional"></attribute>
     </complexType>
 
     <complexType name="UsedPlugins">
-    	<sequence>
-    		<element name="Plugin" type="tns:Plugin" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="Plugin" type="tns:Plugin" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Vitals">
-    	<attribute name="Hostname" type="string" use="required"></attribute>
-    	<attribute name="IPAddr" type="string" use="required"></attribute>
-    	<attribute name="Kernel" type="string" use="required"></attribute>
-    	<attribute name="Distro" type="string" use="required"></attribute>
-    	<attribute name="Distroicon" type="string" use="required"></attribute>
-    	<attribute name="Uptime" type="unsignedLong" use="required"></attribute>
-    	<attribute name="Users" type="unsignedLong" use="required"></attribute>
-    	<attribute name="LoadAvg" type="string" use="required"></attribute>
-    	<attribute name="CPULoad" type="integer" use="optional"></attribute>
-    	<attribute name="SysLang" type="string" use="optional"></attribute>
-    	<attribute name="CodePage" type="string" use="optional"></attribute>
-    	<attribute name="Processes" type="string" use="optional"></attribute>
+        <attribute name="Hostname" type="string" use="required"></attribute>
+        <attribute name="IPAddr" type="string" use="required"></attribute>
+        <attribute name="Kernel" type="string" use="required"></attribute>
+        <attribute name="Distro" type="string" use="required"></attribute>
+        <attribute name="Distroicon" type="string" use="required"></attribute>
+        <attribute name="Uptime" type="unsignedLong" use="required"></attribute>
+        <attribute name="Users" type="unsignedLong" use="required"></attribute>
+        <attribute name="LoadAvg" type="string" use="required"></attribute>
+        <attribute name="CPULoad" type="integer" use="optional"></attribute>
+        <attribute name="SysLang" type="string" use="optional"></attribute>
+        <attribute name="CodePage" type="string" use="optional"></attribute>
+        <attribute name="Processes" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="NetDevice">
-    	<attribute name="Name" type="string" use="required"></attribute>
-    	<attribute name="RxBytes" type="integer" use="required"></attribute>
-    	<attribute name="TxBytes" type="integer" use="required"></attribute>
-    	<attribute name="Err" type="integer" use="required"></attribute>
-    	<attribute name="Drops" type="integer" use="required"></attribute>
+        <attribute name="Name" type="string" use="required"></attribute>
+        <attribute name="RxBytes" type="integer" use="required"></attribute>
+        <attribute name="TxBytes" type="integer" use="required"></attribute>
+        <attribute name="Err" type="integer" use="required"></attribute>
+        <attribute name="Drops" type="integer" use="required"></attribute>
     </complexType>
 
 
     <complexType name="Network">
-    	<sequence>
-    		<element name="NetDevice" type="tns:NetDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="NetDevice" type="tns:NetDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
 
     <complexType name="HWDevice">
-    	<attribute name="Name" type="string" use="required"></attribute>
-    	<attribute name="Count" use="required">
-    		<simpleType>
-    			<restriction base="integer">
-    				<minExclusive value="1"></minExclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Capacity" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minExclusive value="0"></minExclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <attribute name="Name" type="string" use="required"></attribute>
+        <attribute name="Count" use="required">
+            <simpleType>
+                <restriction base="integer">
+                    <minExclusive value="1"></minExclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Capacity" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minExclusive value="0"></minExclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="PCI">
-    	<sequence>
-    		<element name="PCI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="PCI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="USB">
-    	<sequence>
-    		<element name="USB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="USB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="IDE">
-    	<sequence>
-    		<element name="IDE" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="IDE" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="SCSI">
-    	<sequence>
-    		<element name="SCSI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="SCSI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="TB">
-    	<sequence>
-    		<element name="TB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="TB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="I2C">
-    	<sequence>
-    		<element name="I2C" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="I2C" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="CPU">
-    	<sequence>
-    		<element name="CpuCore" type="tns:CpuCore" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="CpuCore" type="tns:CpuCore" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="CpuCore">
-    	<attribute name="Model" type="string" use="required"></attribute>
-    	<attribute name="CpuSpeed" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="CpuSpeedMax" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="CpuSpeedMin" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="CpuTemp" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="BusSpeed" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Cache" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Virtualization" type="string" use="optional"></attribute>
-    	<attribute name="Bogomips" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Load" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <attribute name="Model" type="string" use="required"></attribute>
+        <attribute name="CpuSpeed" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="CpuSpeedMax" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="CpuSpeedMin" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="CpuTemp" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="BusSpeed" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Cache" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Virtualization" type="string" use="optional"></attribute>
+        <attribute name="Bogomips" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Load" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="Hardware">
-    	<attribute name="Name" type="string" use="optional"></attribute>
-    	<sequence>
-    		<element name="PCI" type="tns:PCI" minOccurs="1" maxOccurs="1"></element>
-    		<element name="USB" type="tns:USB" minOccurs="1" maxOccurs="1"></element>
-    		<element name="IDE" type="tns:IDE" minOccurs="1" maxOccurs="1"></element>
-    		<element name="SCSI" type="tns:SCSI" minOccurs="1" maxOccurs="1"></element>
-    		<element name="TB" type="tns:TB" minOccurs="1" maxOccurs="1"></element>
-    		<element name="I2C" type="tns:I2C" minOccurs="1" maxOccurs="1"></element>
-    		<element name="CPU" type="tns:CPU" minOccurs="1" maxOccurs="1"></element>
-    	</sequence>
+        <attribute name="Name" type="string" use="optional"></attribute>
+        <sequence>
+            <element name="PCI" type="tns:PCI" minOccurs="1" maxOccurs="1"></element>
+            <element name="USB" type="tns:USB" minOccurs="1" maxOccurs="1"></element>
+            <element name="IDE" type="tns:IDE" minOccurs="1" maxOccurs="1"></element>
+            <element name="SCSI" type="tns:SCSI" minOccurs="1" maxOccurs="1"></element>
+            <element name="TB" type="tns:TB" minOccurs="1" maxOccurs="1"></element>
+            <element name="I2C" type="tns:I2C" minOccurs="1" maxOccurs="1"></element>
+            <element name="CPU" type="tns:CPU" minOccurs="1" maxOccurs="1"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Plugin">
-    	<attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string"></attribute>
     </complexType>
 
     <complexType name="phpsysinfo">
-    	<sequence>
-    		<element name="Generation" type="tns:Generation" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Options" type="tns:Options" minOccurs="1" maxOccurs="1"></element>
-    		<element name="UsedPlugins" type="tns:UsedPlugins" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Vitals" type="tns:Vitals" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Network" type="tns:Network" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Hardware" type="tns:Hardware" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Memory" type="tns:Memory" minOccurs="1" maxOccurs="1"></element>
-    		<element name="FileSystem" type="tns:FileSystem" minOccurs="1" maxOccurs="1"></element>
-    		<element name="MBInfo" type="tns:MBInfo" minOccurs="1" maxOccurs="1"></element>
-    		<element name="UPSInfo" type="tns:UPSInfo" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Plugins" type="tns:Plugins" minOccurs="1" maxOccurs="1"></element>
-    	</sequence>
+        <sequence>
+            <element name="Generation" type="tns:Generation" minOccurs="1" maxOccurs="1"></element>
+            <element name="Options" type="tns:Options" minOccurs="1" maxOccurs="1"></element>
+            <element name="UsedPlugins" type="tns:UsedPlugins" minOccurs="1" maxOccurs="1"></element>
+            <element name="Vitals" type="tns:Vitals" minOccurs="1" maxOccurs="1"></element>
+            <element name="Network" type="tns:Network" minOccurs="1" maxOccurs="1"></element>
+            <element name="Hardware" type="tns:Hardware" minOccurs="1" maxOccurs="1"></element>
+            <element name="Memory" type="tns:Memory" minOccurs="1" maxOccurs="1"></element>
+            <element name="FileSystem" type="tns:FileSystem" minOccurs="1" maxOccurs="1"></element>
+            <element name="MBInfo" type="tns:MBInfo" minOccurs="1" maxOccurs="1"></element>
+            <element name="UPSInfo" type="tns:UPSInfo" minOccurs="1" maxOccurs="1"></element>
+            <element name="Plugins" type="tns:Plugins" minOccurs="1" maxOccurs="1"></element>
+        </sequence>
     </complexType>
 
 
     <complexType name="Memory">
-    	<sequence>
-    		<element name="Details" type="tns:Details" minOccurs="1" maxOccurs="1"></element>
-    		<element name="Swap" type="tns:Swap" minOccurs="0" maxOccurs="1"></element>
-    	</sequence>
-    	<attribute name="Free" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Used" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Total" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Percent" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <sequence>
+            <element name="Details" type="tns:Details" minOccurs="1" maxOccurs="1"></element>
+            <element name="Swap" type="tns:Swap" minOccurs="0" maxOccurs="1"></element>
+        </sequence>
+        <attribute name="Free" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Used" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Total" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Percent" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="Details">
-    	<attribute name="App" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="AppPercent" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Cached" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="CachedPercent" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Buffers" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="BuffersPercent" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <attribute name="App" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="AppPercent" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Cached" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="CachedPercent" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Buffers" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="BuffersPercent" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="Swap">
-    	<sequence>
-    		<element name="Mount" type="tns:DiskDevice" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
-    	<attribute name="Free" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Used" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Total" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Percent" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <sequence>
+            <element name="Mount" type="tns:DiskDevice" minOccurs="1" maxOccurs="unbounded"></element>
+        </sequence>
+        <attribute name="Free" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Used" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Total" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Percent" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="DiskDevice">
-    	<attribute name="MountPointID" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="FSType" type="string"></attribute>
-    	<attribute name="Name" type="string" use="required"></attribute>
-    	<attribute name="Free" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Used" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Total" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Percent" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="MountOptions" type="string" use="optional"></attribute>
-    	<attribute name="Inodes" use="optional">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="MountPoint" type="string" use="optional"></attribute>
+        <attribute name="MountPointID" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="FSType" type="string"></attribute>
+        <attribute name="Name" type="string" use="required"></attribute>
+        <attribute name="Free" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Used" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Total" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Percent" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="MountOptions" type="string" use="optional"></attribute>
+        <attribute name="Inodes" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="MountPoint" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="FileSystem">
-    	<sequence>
-    		<element name="Mount" type="tns:DiskDevice" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="Mount" type="tns:DiskDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="MBInfo">
-    	<sequence>
-    		<element name="Temperature" type="tns:Temperature" minOccurs="0" maxOccurs="1"></element>
-    		<element name="Fans" type="tns:Fans" minOccurs="0" maxOccurs="1"></element>
-    		<element name="Voltage" type="tns:Voltage" minOccurs="0" maxOccurs="1"></element>
-    	</sequence>
+        <sequence>
+            <element name="Temperature" type="tns:Temperature" minOccurs="0" maxOccurs="1"></element>
+            <element name="Fans" type="tns:Fans" minOccurs="0" maxOccurs="1"></element>
+            <element name="Voltage" type="tns:Voltage" minOccurs="0" maxOccurs="1"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Sensor">
-    	<attribute name="Label" type="string" use="required"></attribute>
-    	<attribute name="Value" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Min" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
-    	<attribute name="Max" use="required">
-    		<simpleType>
-    			<restriction base="unsignedLong">
-    				<minInclusive value="0"></minInclusive>
-    			</restriction>
-    		</simpleType>
-    	</attribute>
+        <attribute name="Label" type="string" use="required"></attribute>
+        <attribute name="Value" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Min" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Max" use="required">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
     </complexType>
 
     <complexType name="Temperature">
-    	<sequence>
-    		<element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Fans">
-    	<sequence>
-    		<element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Voltage">
-    	<sequence>
-    		<element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="Item" type="tns:Sensor" minOccurs="1" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="UPSDevice">
-    	<attribute name="Name" type="string" use="required"></attribute>
-    	<attribute name="Model" type="string" use="required"></attribute>
-    	<attribute name="Mode" type="string" use="required"></attribute>
-    	<attribute name="StartTime" type="string" use="optional"></attribute>
-    	<attribute name="Status" type="string" use="required"></attribute>
-    	<attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="LastOutage" type="string" use="optional"></attribute>
-    	<attribute name="LastOutageFinish" type="string" use="optional"></attribute>
-    	<attribute name="LineVoltage" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="LoadPercent" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="BatteryVoltage" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="BatteryChargePercent" type="unsignedLong" use="optional"></attribute>
-    	<attribute name="TimeLeftMinutes" type="string" use="optional"></attribute>
+        <attribute name="Name" type="string" use="required"></attribute>
+        <attribute name="Model" type="string" use="required"></attribute>
+        <attribute name="Mode" type="string" use="required"></attribute>
+        <attribute name="StartTime" type="string" use="optional"></attribute>
+        <attribute name="Status" type="string" use="required"></attribute>
+        <attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
+        <attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>
+        <attribute name="LastOutage" type="string" use="optional"></attribute>
+        <attribute name="LastOutageFinish" type="string" use="optional"></attribute>
+        <attribute name="LineVoltage" type="unsignedLong" use="optional"></attribute>
+        <attribute name="LoadPercent" type="unsignedLong" use="optional"></attribute>
+        <attribute name="BatteryVoltage" type="unsignedLong" use="optional"></attribute>
+        <attribute name="BatteryChargePercent" type="unsignedLong" use="optional"></attribute>
+        <attribute name="TimeLeftMinutes" type="string" use="optional"></attribute>
     </complexType>
 
     <complexType name="UPS">
-    	<sequence>
-    		<element name="UPS" type="tns:UPSDevice" minOccurs="1" maxOccurs="1"></element>
-    	</sequence>
+        <sequence>
+            <element name="UPS" type="tns:UPSDevice" minOccurs="1" maxOccurs="1"></element>
+        </sequence>
     </complexType>
 
     <complexType name="UPSInfo">
-    	<sequence>
-    		<element name="UPSInfo" type="tns:UPS" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
+        <sequence>
+            <element name="UPSInfo" type="tns:UPS" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Plugins">
-    	<sequence>
-    		<any minOccurs="0" maxOccurs="unbounded"></any>
-    	</sequence></complexType>
+        <sequence>
+            <any minOccurs="0" maxOccurs="unbounded"></any>
+        </sequence></complexType>
 
     <element name="phpsysinfo" type="tns:phpsysinfo"></element>
 </schema>

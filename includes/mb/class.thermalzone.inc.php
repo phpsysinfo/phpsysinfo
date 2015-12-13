@@ -93,7 +93,7 @@ class ThermalZone extends Sensors
                     if ($temp >= 1000) {
                         $temp = $temp / 1000;
                     }
-                    
+
                     if ($temp > -40) {
                         $dev = new SensorDevice();
                         $dev->setValue($temp);

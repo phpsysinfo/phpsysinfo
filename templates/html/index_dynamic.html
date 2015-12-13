@@ -9,8 +9,8 @@
     <noscript>
       <meta http-equiv="refresh" content="2; URL=index.php?disp=static" />
     </noscript>
-    <link rel="shortcut icon" href="gfx/favicon.png" />
-    <link type="text/css" rel="stylesheet" href="./templates/<?php echo $template ?>.css" title="PSI_Template"/>
+    <link rel="shortcut icon" href="gfx/favicon.gif" />
+    <link type="text/css" rel="stylesheet" title="PSI_Template"/>
     <link type="text/css" rel="stylesheet" href="./templates/plugin/nyroModal.full.css" />
     <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.jgrowl.css" />
     <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.dataTables.css" />
@@ -26,6 +26,7 @@
     <script type="text/JavaScript" src="./js.php?name=jquery.jgrowl"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.timers"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.treeTable"></script>
+    <script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
     <script type="text/JavaScript" src="./js.php?name=phpsysinfo"></script>
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
     <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
@@ -37,7 +38,11 @@
   </head>
   <body>
     <div id="loader">
-      <h1>Loading... please wait!</h1>
+      <h1>
+        <a href="#errors" class="nyroModal">
+          <img id="loadwarn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="" alt="warning" />
+        </a>
+      Loading... please wait!</h1>
       <div id="container2">
         <noscript>
         <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
@@ -47,15 +52,15 @@
         </noscript>
       </div>
     </div>
-    <div id="errors" style="display: none; width: 940px">
+    <div id="errors" style="display:none; width:940px">
       <div id="errorlist">
         <h2>Oh, I'm sorry. Something seems to be wrong.</h2>
       </div>
     </div>
-    <div id="container" style="display: none;">
+    <div id="container" style="display:none;">
       <h1>
         <a href="#errors" class="nyroModal">
-          <img id="warn" style="vertical-align: middle; display:none; border:0px;" src="./gfx/attention.png" alt="warning" />
+          <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="" alt="warning" />
         </a>
         <span id="title">
           <span id="lang_001">System information</span>
@@ -64,27 +69,37 @@
         </span>
       </h1>
       <div id="select">
-        <span id="lang_044">Template</span>
-        <select id="template" name="template">
-<?php foreach ($templates as $t) :
-            $selected = "";
-            if ($template === $t) {
-                $selected = " selected=\"selected\"";
-            }
+        <span id="lang_044" style="display:none;">Template</span>
+        <select id="template" name="template" style="display:none;">
+<?php
+if ($picktemplate) {
+    foreach ($templates as $t) :
+        $selected = "";
+        if ($template === $t) {
+            $selected = " selected=\"selected\"";
+        }
+        echo "          <option value=\"".$t."\"".$selected.">".$t."</option>\n";
+    endforeach;
+} else {
+    echo "          <option value=\"".$template."\" selected=\"selected\">".$template."</option>\n";
+}
 ?>
-              <option value="<?php echo $t ?>"<?php echo $selected ?>><?php echo $t ?></option>
-<?php endforeach; ?>
         </select>
-        <span id="lang_045">Language</span>
-        <select id="lang" name="lang">
-<?php foreach ($languages as $l) :
-            $selected = "";
-            if ($language === $l) {
-                $selected = " selected=\"selected\"";
-            }
+        <span id="lang_045" style="display:none;">Language</span>
+        <select id="language" name="language" style="display:none;">
+<?php
+if ($picklanguage) {
+    foreach ($languages as $l) :
+        $selected = "";
+        if ($language === $l) {
+            $selected = " selected=\"selected\"";
+        }
+        echo "          <option value=\"".$l."\"".$selected.">".$l."</option>\n";
+    endforeach;
+} else {
+    echo "          <option value=\"".$language."\" selected=\"selected\">".$language."</option>\n";
+}
 ?>
-              <option value="<?php echo $l ?>"<?php echo $selected?>><?php echo $l?></option>
-<?php endforeach; ?>
         </select>
       </div>
       <div id="vitals">
@@ -122,24 +137,24 @@
             <td style="width:160px;"><span id="lang_009">Load Averages</span></td>
             <td><span id="s_loadavg"></span></td>
           </tr>
-          <tr style="display:none" id="s_syslang_tr">
+          <tr style="display:none;" id="s_syslang_tr">
             <td style="width:160px;"><span id="lang_097">System Language</span></td>
             <td><span id="s_syslang"></span></td>
           </tr>
-          <tr style="display:none" id="s_codepage_tr1">
-            <td style="width:160px;"><span id="lang_098">Code Page</span></td>
+          <tr style="display:none;" id="s_codepage_tr1">
+            <td style="width:160px;"><span id="lang_098-u01">Code Page</span></td>
             <td><span id="s_codepage_1"></span></td>
           </tr>
-          <tr style="display:none" id="s_codepage_tr2">
-            <td style="width:160px;"><span id="lang_098">Code Page</span></td>
+          <tr style="display:none;" id="s_codepage_tr2">
+            <td style="width:160px;"><span id="lang_098-u02">Code Page</span></td>
             <td><span id="s_codepage_2"></span></td>
           </tr>
-          <tr style="display:none" id="s_processes_tr1">
-            <td style="width:160px;"><span id="lang_110">Processes</span></td>
+          <tr style="display:none;" id="s_processes_tr1">
+            <td style="width:160px;"><span id="lang_110-u03">Processes</span></td>
             <td><span id="s_processes_1"></span></td>
           </tr>
-          <tr style="display:none" id="s_processes_tr2">
-            <td style="width:160px;"><span id="lang_110">Processes</span></td>
+          <tr style="display:none;" id="s_processes_tr2">
+            <td style="width:160px;"><span id="lang_110-u04">Processes</span></td>
             <td><span id="s_processes_2"></span></td>
           </tr>
         </table>
@@ -152,14 +167,14 @@
       </div>
       <div id="network">
       </div>
-      <div id="voltage" style="display: none;">
-        <h2><span id="lang_052">Voltage</span></h2>
+      <div id="voltage" style="display:none;">
+        <h2><span id="lang_052-u05">Voltage</span></h2>
         <table class="stripeMe" id="voltageTable" style="border-spacing:0;">
           <thead>
             <tr>
-              <th><span id="lang_059">Label</span></th>
-              <th class="right"><span id="lang_052">Voltage</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_055">Min</span></th>
+              <th><span id="lang_059-u06">Label</span></th>
+              <th class="right"><span id="lang_052-u07">Voltage</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_055-u08">Min</span></th>
               <th class="right" style="width: 80px;"><span id="lang_056">Max</span></th>
             </tr>
           </thead>
@@ -167,63 +182,63 @@
           </tbody>
         </table>
       </div>
-      <div id="temp" style="display: none;">
+      <div id="temp" style="display:none;">
         <h2><span id="lang_051">Temperature</span></h2>
         <table class="stripeMe" id="tempTable" style="border-spacing:0;">
           <thead>
             <tr>
-              <th><span id="lang_059">Label</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_054">Value</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_058">Limit</span></th>
+              <th><span id="lang_059-u09">Label</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_054-u10">Value</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_058-u11">Limit</span></th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
-      <div id="fan" style="display: none;">
+      <div id="fan" style="display:none;">
         <h2><span id="lang_053">Fan</span></h2>
         <table class="stripeMe" id="fanTable" style="border-spacing:0;">
           <thead>
             <tr>
-              <th><span id="lang_059">Label</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_054">Value</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_055">Min</span></th>
+              <th><span id="lang_059-u12">Label</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_054-u13">Value</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_055-u14">Min</span></th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
-      <div id="current" style="display: none;">
+      <div id="current" style="display:none;">
         <h2><span id="lang_105">Current</span></h2>
         <table class="stripeMe" id="currentTable" style="border-spacing:0;">
           <thead>
             <tr>
-              <th><span id="lang_059">Label</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_054">Value</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_058">Limit</span></th>
+              <th><span id="lang_059-u15">Label</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_054-u16">Value</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_058-u17">Limit</span></th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
-      <div id="power" style="display: none;">
+      <div id="power" style="display:none;">
         <h2><span id="lang_102">Power</span></h2>
         <table class="stripeMe" id="powerTable" style="border-spacing:0;">
           <thead>
             <tr>
-              <th><span id="lang_059">Label</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_054">Value</span></th>
-              <th class="right" style="width: 80px;"><span id="lang_058">Limit</span></th>
+              <th><span id="lang_059-u18">Label</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_054-u19">Value</span></th>
+              <th class="right" style="width: 80px;"><span id="lang_058-u20">Limit</span></th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
       </div>
-      <div id="ups" style="display: none;">
+      <div id="ups" style="display:none;">
       </div>
       <div id="footer">
         <span id="lang_047">Generated by</span>&nbsp;<a href="http://phpsysinfo.sourceforge.net/">phpSysInfo&nbsp;-&nbsp;<span id="version"></span></a>

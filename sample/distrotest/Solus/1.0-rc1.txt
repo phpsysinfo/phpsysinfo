@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	Solus
+Description:	Solus Operating System
+Release:	1.0
+Codename:	shannon
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=Solus
+DISTRIB_DESCRIPTION="Solus Operating System"
+DISTRIB_RELEASE=1.0
+DISTRIB_CODENAME=shannon
+----------/etc/os-release----------
+NAME="Solus Operating System"
+VERSION=1.0
+ID=solus-project
+VERSION_ID=1.0
+PRETTY_NAME="Solus Operating System 1.0"
+ANSI_COLOR="1;34"
+HOME_URL="https://www.solus-project.com"
+SUPPORT_URL="https://www.solus-project.com/forums/"
+BUG_REPORT_URL="https://www.solus-project.com/project/core"
+----------/etc/solus-release----------
+Solus Operating System 1.0
+----------/etc/image-version----------
+0.201544.4.0

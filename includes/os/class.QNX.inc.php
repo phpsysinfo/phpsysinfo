@@ -153,24 +153,6 @@ class QNX extends OS
     }
 
     /**
-     * IP of the Virtual Host Name
-     *
-     *  @return void
-     */
-    private function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-        } else {
-            if (!($result = getenv('SERVER_ADDR'))) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
-                $this->sys->setIp($result);
-            }
-        }
-    }
-
-    /**
      *  Physical memory information and Swap Space information
      *
      *  @return void
@@ -244,7 +226,6 @@ class QNX extends OS
         $this->error->addError("WARN", "The QNX version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_distro();
         $this->_hostname();
-        $this->_ip();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

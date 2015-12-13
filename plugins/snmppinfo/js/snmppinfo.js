@@ -72,11 +72,11 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "    <tr><td><strong>" + device + " (" + name + ") </strong></td></tr>\n";
+            html += "    <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
-        html += "    <tr><td>" + desc + "</td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
+        html += "    <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;
@@ -120,6 +120,7 @@ function snmppinfo_request() {
             snmppinfo_buildTable(xml);
             if (snmppinfo_show) {
                 plugin_translate("SNMPPInfo");
+                $("#Reload_SNMPPInfoTable").attr("title",datetime());
                 $("#Plugin_SNMPPInfo").show();
             }
         }
@@ -134,6 +135,5 @@ $(document).ready(function snmppinfo_buildpage() {
 
     $("#Reload_SNMPPInfoTable").click(function snmppinfo_reload(id) {
         snmppinfo_request();
-        $("#Reload_SNMPPInfoTable").attr("title",datetime());
     });
 });

@@ -92,7 +92,7 @@ class XML
      */
     public function __construct($complete = false, $pluginname = "")
     {
-        $this->_errors = Error::singleton();
+        $this->_errors = PSI_Error::singleton();
         if ($pluginname == "") {
             $this->_plugin_request = false;
             $this->_plugin = '';
@@ -718,8 +718,6 @@ class XML
         } else {
             $options->addAttribute('threshold', 90);
         }
-        $options->addAttribute('showPickListTemplate', defined('PSI_SHOW_PICKLIST_TEMPLATE') ? (PSI_SHOW_PICKLIST_TEMPLATE ? 'true' : 'false') : 'false');
-        $options->addAttribute('showPickListLang', defined('PSI_SHOW_PICKLIST_LANG') ? (PSI_SHOW_PICKLIST_LANG ? 'true' : 'false') : 'false');
         $options->addAttribute('showCPUListExpanded', defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
         $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         if (count($this->_plugins) > 0) {

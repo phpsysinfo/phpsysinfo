@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2+2014.12.25_fix
+  version 2+2014.12.25_fix-noinit
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
@@ -9,6 +9,12 @@
   Redefinition of sortfwdind and sortrevind icons.
   Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
 
+  19th November 20145
+  Disabled autostart after loading.
+  You have to run sorttable.init() at the beginning of the code,
+  or makeSortable for each table.
+  Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
+ 
   Instructions:
   Download this file
   Add <script src="sorttable.js"></script> to your HTML
@@ -21,16 +27,12 @@
 */
 
 
-var stIsIE = /*@cc_on!@*/false;
-
 sorttable = {
   init: function() {
     // quit if this function has already been called
     if (arguments.callee.done) return;
     // flag this function so we don't do the same thing twice
     arguments.callee.done = true;
-    // kill the timer
-    if (_timer) clearInterval(_timer);
 
     if (!document.createElement || !document.getElementsByTagName) return;
 
@@ -105,7 +107,6 @@ sorttable = {
             this.removeChild(document.getElementById('sorttable_sortfwdind'+$(this).parent().parent().parent()[0].id));
             sortrevind = document.createElement('span');
             sortrevind.id = "sorttable_sortrevind"+$(this).parent().parent().parent()[0].id;
-//            sortrevind.innerHTML = stIsIE ? '&nbsp<font face="webdings">5</font>' : '&nbsp;&#x25B4;';
             sortrevind.innerHTML = '&nbsp;&#x25B2;';
             this.appendChild(sortrevind);
             return;
@@ -119,7 +120,6 @@ sorttable = {
             this.removeChild(document.getElementById('sorttable_sortrevind'+$(this).parent().parent().parent()[0].id));
             sortfwdind = document.createElement('span');
             sortfwdind.id = "sorttable_sortfwdind"+$(this).parent().parent().parent()[0].id;
-//            sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>' : '&nbsp;&#x25BE;';
             sortfwdind.innerHTML = '&nbsp;&#x25BC;';
             this.appendChild(sortfwdind);
             return;
@@ -141,7 +141,6 @@ sorttable = {
           this.className += ' sorttable_sorted';
           sortfwdind = document.createElement('span');
           sortfwdind.id = "sorttable_sortfwdind"+$(this).parent().parent().parent()[0].id;
-//          sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>;' : '&nbsp;&#x25BE;';
           sortfwdind.innerHTML = '&nbsp;&#x25BC;';
           this.appendChild(sortfwdind);
 
@@ -341,41 +340,6 @@ sorttable = {
   }
 };
 
-/* ******************************************************************
-   Supporting functions: bundled here to avoid depending on a library
-   ****************************************************************** */
-
-// Dean Edwards/Matthias Miller/John Resig
-
-/* for Mozilla/Opera9 */
-if (document.addEventListener) {
-    document.addEventListener("DOMContentLoaded", sorttable.init, false);
-}
-
-/* for Internet Explorer */
-/*@cc_on @*/
-/*@if (@_win32)
-    document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
-    var script = document.getElementById("__ie_onload");
-    script.onreadystatechange = function() {
-        if (this.readyState == "complete") {
-            sorttable.init(); // call the onload handler
-        }
-    };
-/*@end @*/
-
-/* for Safari */
-if (/WebKit/i.test(navigator.userAgent)) { // sniff
-    var _timer = setInterval(function() {
-        if (/loaded|complete/.test(document.readyState)) {
-            sorttable.init(); // call the onload handler
-        }
-    }, 10);
-}
-
-/* for other browsers */
-window.onload = sorttable.init;
-
 // written by Dean Edwards, 2005
 // with input from Tino Zijdel, Matthias Miller, Diego Perini
 
@@ -500,4 +464,3 @@ var forEach = function(object, block, context) {
 		resolve.forEach(object, block, context);
 	}
 };
-

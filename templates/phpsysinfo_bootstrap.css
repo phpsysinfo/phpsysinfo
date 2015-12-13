@@ -3,6 +3,10 @@ body {
     padding-top: 80px;
 }
 
+wbr {
+    display: inline-block;
+}
+
 .progress {
     margin-bottom: 0;
 }
@@ -20,48 +24,54 @@ body {
 }
 
 .navbar {
-    background-color: #428bca;
+    background-color: #3b87c8;
+    border-color: #2d6da3;
 }
 
 .navbar-brand, .navbar-brand:hover {
     color: #fff;
 }
 
-.navbar-brand>img {
-    display: inline;
+.treegrid-span {
+    display: table-cell;
+}
+
+.treegrid-spanbold {
+    font-weight: bold;
+    display: table-cell;
 }
 
 .treegrid-indent {
-    width:16px;
+    width: 16px;
     height: 16px;
-    display: inline;
-    position: relative;
+    display: table-cell;
 }
 
 .treegrid-expander {
-    width:16px;
+    width: 0px;
     height: 16px;
-    display: inline;
-    position: relative;
+    display: table-cell;
     cursor: pointer;
 }
 
 .normalicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    display: table-cell;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 .normalicon-right:before {
-  content: "\25ba";
+    content: "\25ba";
 }
 .normalicon-down:before {
-  content: "\25bc";
+    content: "\25bc";
 }
 
 table.sortable thead th {
@@ -72,13 +82,25 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background: #efefef;
+    background: #f0f0f0;
 }
 
 table.borderless td,table.borderless th{
-     border: none !important;
+     border: none!important;
 }
 
-.navbar-logo {
+.logo {
+    cursor: pointer;
+}
+
+.errorbutton {
+    cursor: pointer;
+}
+
+.template {
+    cursor: pointer;
+}
+
+.language {
     cursor: pointer;
 }

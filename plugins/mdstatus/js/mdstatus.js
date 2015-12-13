@@ -61,8 +61,8 @@ function mdstatus_buildinfos(xml, id) {
     if (devactive !== -1 && devregis !== -1) {
         html += "<tr><td>" + genlang(12, false, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
     }
-    button += "<h3 style=\"cursor: pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.png\" alt=\"plus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
-    button += "<h3 style=\"cursor: pointer; display: none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.png\" alt=\"minus\" style=\"vertical-align:middle;\" />" + genlang(4, false, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
     button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
     return button;
 }
@@ -83,7 +83,7 @@ function mdstatus_buildaction(xml) {
             html += genlang(13, false, "MDStatus") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
             html += "<br/>";
-            html += genlang(14, false, "MDStatus") + "&nbsp;" + time + "&nbsp;" + tunit;
+            html += genlang(14, false, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
             html += "</div>";
         }
     });
@@ -121,7 +121,7 @@ function mdstatus_diskicon(xml) {
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" />";
+        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px\" onload=\"$(this).ifixpng('./gfx/blank.gif');\" />"; //onload IE6 PNG fix
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });
@@ -200,6 +200,7 @@ function mdstatus_request() {
             mdstatus_populate(xml);
             if (mdstatus_show) {
                 plugin_translate("MDStatus");
+                $("#Reload_MDStatusTable").attr("title",datetime());
                 $("#Plugin_MDStatus").show();
             }
         }
@@ -220,6 +221,5 @@ $(document).ready(function mdstatus_buildpage() {
 
     $("#Reload_MDStatusTable").click(function mdstatus_reload(id) {
         mdstatus_request();
-        $("#Reload_MDStatusTable").attr("title",datetime());
     });
 });

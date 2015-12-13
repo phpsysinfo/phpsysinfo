@@ -228,24 +228,6 @@ class Haiku extends OS
     }
 
     /**
-     * IP of the Virtual Host Name
-     *
-     *  @return void
-     */
-    private function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-        } else {
-            if (!($result = getenv('SERVER_ADDR'))) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
-                $this->sys->setIp($result);
-            }
-        }
-    }
-
-    /**
      *  Physical memory information and Swap Space information
      *
      *  @return void
@@ -340,8 +322,8 @@ class Haiku extends OS
                                     $dev->setInfo(preg_replace('/:/', '-', $ar_buf2[1]));
                             elseif (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2))
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
-                                 elseif (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2))
-                                          if (!preg_match('/^fe80::/i', $ar_buf2[1]))
+                                 elseif (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2)
+                                          && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                         }
                     }
@@ -387,7 +369,6 @@ class Haiku extends OS
         $this->error->addError("WARN", "The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_distro();
         $this->_hostname();
-        $this->_ip();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

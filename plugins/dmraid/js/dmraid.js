@@ -51,8 +51,8 @@ function dmraid_buildinfos(xml, id) {
     html += "<tr><td>" + genlang(9, false, "DMRaid") + "</td><td>" + devsubsets + "</td></tr>";
     html += "<tr><td>" + genlang(10, false, "DMRaid") + "</td><td>" + devdevs + "</td></tr>";
     html += "<tr><td>" + genlang(11, false, "DMRaid") + "</td><td>" + devspares + "</td></tr>";
-    button += "<h3 style=\"cursor: pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.png\" alt=\"plus\" style=\"vertical-align:middle;\" />" + genlang(3, false, "DMRaid") + "</h3>";
-    button += "<h3 style=\"cursor: pointer; display: none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.png\" alt=\"minus\" style=\"vertical-align:middle;\" />" + genlang(3, false, "DMRaid") + "</h3>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, false, "DMRaid") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, false, "DMRaid") + "</h3>";
     button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
     return button;
 }
@@ -92,7 +92,7 @@ function dmraid_diskicon(xml) {
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_dmraid_biun\" src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" />";
+        html += "<img class=\"plugin_dmraid_biun\" src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px;\" onload=\"$(this).ifixpng('./gfx/blank.gif');\" />"; //onload IE6 PNG fix
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });
@@ -151,6 +151,7 @@ function dmraid_request() {
             dmraid_populate(xml);
             if (dmraid_show) {
                 plugin_translate("DMRaid");
+                $("#Reload_DMRaidTable").attr("title",datetime());
                 $("#Plugin_DMRaid").show();
             }
         }
@@ -171,6 +172,5 @@ $(document).ready(function dmraid_buildpage() {
 
     $("#Reload_DMRaidTable").click(function dmraid_reload(id) {
         dmraid_request();
-        $("#Reload_DMRaidTable").attr("title",datetime());
     });
 });

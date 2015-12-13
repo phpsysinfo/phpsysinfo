@@ -39,7 +39,7 @@ class SunOS extends OS
          !is_null($m) && (trim($m)!=="")) {
             list($key, $value) = preg_split("/\t/", trim($m), 2);
 
-            return $value;
+            return trim($value);
         } else {
             return '';
         }
@@ -65,36 +65,24 @@ class SunOS extends OS
     }
 
     /**
-     * IP of the Virtual Host Name
-     *
-     *  @return void
-     */
-    private function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-        } else {
-            if (!($result = getenv('SERVER_ADDR'))) {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
-            } else {
-                $this->sys->setIp($result);
-            }
-        }
-    }
-
-    /**
      * Kernel Version
      *
      * @return void
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG)) {
-            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG)) {
-                $this->sys->setKernel($os.' '.$version);
-            } else {
-                $this->sys->setKernel($os);
+        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && (trim($os)!="")) {
+            $os = trim($os);
+            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && (trim($version)!="")) {
+                $os.=' '.trim($version);
             }
+            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && (trim($subversion)!="")) {
+                $os.=' ('.trim($subversion).')';
+            }
+            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && (trim($platform)!="")) {
+                $os.=' '.trim($platform);
+            }
+            $this->sys->setKernel($os);
         }
     }
 
@@ -143,13 +131,29 @@ class SunOS extends OS
      */
     private function _cpuinfo()
     {
-        $dev = new CpuDevice();
-        if (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG)) {
-            $dev->setModel(trim($buf));
-        }
-        $dev->setCpuSpeed($this->_kstat('cpu_info:0:cpu_info0:clock_MHz'));
-        $dev->setCache($this->_kstat('cpu_info:0:cpu_info0:cpu_type') * 1024);
-        $this->sys->setCpus($dev);
+        if (CommonFunctions::executeProgram('kstat', '-p d cpu_info:*:cpu_info*:core_id', $m, PSI_DEBUG) &&
+         !is_null($m) && (trim($m)!=="")) {
+            $cpuc = count(preg_split('/\n/', trim($m), -1, PREG_SPLIT_NO_EMPTY));
+            for ($cpu=0; $cpu < $cpuc; $cpu++) {
+                $dev = new CpuDevice();
+                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
+                   $dev->setCpuSpeed($buf);
+                }
+                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':current_clock_Hz')) !== "") {
+                    $dev->setCpuSpeedMax($buf/1000000);
+                }
+                if (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':brand')) !== "") {
+                    $dev->setModel($buf);
+                } elseif (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':cpu_type')) !== "") {
+                    $dev->setModel($buf);
+                } elseif (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && (trim($buf)!="")) {
+                    $dev->setModel(trim($buf));
+                } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && (trim($buf)!="")) {
+                    $dev->setModel(trim($buf));
+                }
+                $this->sys->setCpus($dev);
+            }
+         }
     }
 
     /**
@@ -204,7 +208,7 @@ class SunOS extends OS
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2)
-                                      && !preg_match('/^fe80::/i', $ar_buf2[1]))
+                                   && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }
                         }
@@ -335,7 +339,6 @@ class SunOS extends OS
         $this->error->addError("WARN", "The SunOS version of phpSysInfo is a work in progress, some things currently don't work");
         $this->_distro();
         $this->_hostname();
-        $this->_ip();
         $this->_kernel();
         $this->_uptime();
         $this->_users();

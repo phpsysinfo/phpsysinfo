@@ -360,4 +360,10 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="118" name="i2c">
     <exp>Urządzenia I2C</exp>
   </expression>
+  <expression id="119" name="no_processors">
+    <exp>Liczba procesorów</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Liczba urządzeń</exp>
+  </expression>
 </tns:translation>

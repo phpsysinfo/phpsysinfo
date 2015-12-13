@@ -143,37 +143,15 @@ class WINNT extends OS
                     $long = ip2long($ip);
                     if (($long >= 167772160 && $long <= 184549375) ||
                         ($long >= -1408237568 && $long <= -1407188993) ||
-                        ($long >= -1062731776 && $long <= -1062666241) || 
+                        ($long >= -1062731776 && $long <= -1062666241) ||
                         ($long >= 2130706432 && $long <= 2147483647) || $long == -1) {
                         $this->sys->setHostname($result); //internal ip
                     } else {
-                        $this->sys->setHostname(gethostbyaddr($ip)); 
+                        $this->sys->setHostname(gethostbyaddr($ip));
                     }
                 }
             } else {
                 if ($hnm = getenv('COMPUTERNAME')) $this->sys->setHostname($hnm);
-            }
-        }
-    }
-
-    /**
-     * IP of the Canonical Host Name
-     *
-     * @return void
-     */
-    private function _ip()
-    {
-        if (PSI_USE_VHOST === true) {
-            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
-        } else {
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
-            if ($buffer) {
-                $result = $buffer[0]['Name'];
-                $this->sys->setIp(gethostbyname($result));
-            } else {
-            if ((($hnm=$this->sys->getHostname()) != 'localhost') &&
-                 (($hip=gethostbyname($hnm)) != $hnm)) $this->sys->setIp($hip);
             }
         }
     }
@@ -406,7 +384,7 @@ class WINNT extends OS
                             $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
                             if (isset($NetworkAdapterConfiguration['IPAddress']))
                                 foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                    if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                    if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
                         }
 
@@ -569,7 +547,7 @@ class WINNT extends OS
         $processes['*'] = 0;
         if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
-            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *" 
+            $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
         if ($processes['*'] <= 0) {
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
@@ -594,7 +572,6 @@ class WINNT extends OS
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
         $this->_hostname();
-        $this->_ip();
         $this->_users();
         $this->_machine();
         $this->_uptime();

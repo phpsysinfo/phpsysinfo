@@ -5,7 +5,7 @@ function renderPlugin_bat(data) {
             html: function () {
                 var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
                 if ( CapacityUnit === "%" ) {
-                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + round(this["RemainingCapacity"],0) + '%;"></div>' +
+                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + round(this["RemainingCapacity"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["RemainingCapacity"],0) + '%</div>';
                 } else {
                     return this["RemainingCapacity"] + String.fromCharCode(160) + CapacityUnit;
@@ -23,7 +23,7 @@ function renderPlugin_bat(data) {
                 var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
                 if (( CapacityUnit !== "%" ) && (this["DesignCapacity"] !== undefined)){
                     var percent = (this["DesignCapacity"] != 0) ? round(100*this["RemainingCapacity"]/this["DesignCapacity"],0) : 0;
-                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width: ' + percent + '%;"></div>' +
+                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
                 } else {
                     return '';
@@ -36,7 +36,7 @@ function renderPlugin_bat(data) {
             }
         },
         BatteryTemperature: {
-            text: function () {
+            html: function () {
                 return formatTemp(this["BatteryTemperature"], data["Options"]["@attributes"]["tempFormat"]);
             }
         },

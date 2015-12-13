@@ -1,0 +1,156 @@
+body {
+    font-size: 13px;
+    padding-top: 80px;
+    color: #c8c8c8;
+    background-color: #272b30;
+}
+
+wbr {
+    display: inline-block;
+}
+
+.progress {
+    margin-bottom: 0;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+.panel-primary {
+    background-color: #2e3338;
+    border: none;
+}
+
+.navbar {
+    background-color: #3a3f44;
+    border-color: #2b2e32;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: #fff;
+}
+
+.treegrid-span {
+    display: table-cell;
+}
+
+.treegrid-spanbold {
+    font-weight: bold;
+    display: table-cell;
+}
+
+.treegrid-indent {
+    width: 16px;
+    height: 16px;
+    display: table-cell;
+}
+
+.treegrid-expander {
+    width: 0px;
+    height: 16px;
+    display: table-cell;
+    cursor: pointer;
+}
+
+.normalicon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    display: table-cell;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.normalicon-right:before {
+    content: "\25ba";
+}
+.normalicon-down:before {
+    content: "\25bc";
+}
+
+table.sortable thead th {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover {
+    background: #3e444c;
+}
+
+table.table-hover > tbody > tr:hover {
+     background-color: #49515a;
+}
+
+table.borderless td,table.borderless th {
+     border: none!important;
+}
+
+.table .table {
+     background-color: #2e3338;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+.errorbutton {
+    cursor: pointer;
+}
+
+.select {
+    color: #c8c8c8;
+}
+
+.template {
+    cursor: pointer;
+    color: #333;
+}
+
+.language {
+    cursor: pointer;
+    color: #333;
+}
+
+.panel-heading {
+  background-color: #3e444c!important;
+  border-color: #3e444c!important;
+}
+
+.progress {
+    background-color: #1c1e22;
+}
+
+.progress-bar-success {
+    background-color: #62c462;
+}
+
+.progress-bar-info {
+    background-color: #5bc0de;
+}
+
+.progress-bar-warning {
+    background-color: #f89406;
+}
+
+.progress-bar-danger {
+    background-color: #ee5f5b;
+}
+
+.modal-content {
+    background-color: #2e3338;
+}
+
+.list-group-item {
+    background-color: #2e3338;
+}

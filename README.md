@@ -105,7 +105,7 @@ Submit a bug on SourceForge (preferred) (http://sourceforge.net/projects/phpsysi
 
 Ask for help in the forum (http://sourceforge.net/projects/phpsysinfo/)
 
-***!! If you have any problems, please set `DEBUG` to true in `phpsysinfo.ini` 
+***!! If you have any problems, please set `DEBUG` to true in `phpsysinfo.ini`
 and include any error messages in your bug report / help request !!***
 
 OTHER NOTES

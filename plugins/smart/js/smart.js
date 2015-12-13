@@ -89,11 +89,9 @@ function smart_populate(xml) {
 
         // On "columns" so we get the right order
         // fixed for Firefox (fix wrong order)
-//      for (i in columns) {
         $("Plugins Plugin_SMART columns column", xml).each(function smart_find_columns() {
             i  = parseInt($(this).attr("id"), 10);
             if (typeof(values[i])==='undefined') {
-//                values[i] = "";
                 display.push("<span style=\"display:none;\"></span>");
             }
             else if (i === 194) {
@@ -112,27 +110,6 @@ function smart_populate(xml) {
 /**
  * load the xml via ajax
  */
-function smart_initTable() {
-    $.ajax({
-        url: "xml.php?plugin=SMART",
-        dataType: "xml",
-        error: function smart_error() {
-        $.jGrowl("Error loading XML document for Plugin SMART");
-    },
-    success: function smart_initBlock(xml) {
-        smart_buildTable(xml);
-        smart_populate(xml);
-        if (smart_show) {
-            plugin_translate("SMART");
-            $("#Plugin_SMART").show();
-        }
-    }
-    });
-}
-
-/**
- * load the xml via ajax
- */
 function smart_request() {
     $.ajax({
         url: "xml.php?plugin=SMART",
@@ -142,9 +119,13 @@ function smart_request() {
         },
         success: function smart_buildBlock(xml) {
             populateErrors(xml);
+            if ((smart_table === undefined) || (typeof(smart_table) !== "object")) {
+                smart_buildTable(xml);
+            }
             smart_populate(xml);
             if (smart_show) {
                 plugin_translate("SMART");
+                $("#Reload_SMARTTable").attr("title",datetime());
                 $("#Plugin_SMART").show();
             }
         }
@@ -157,10 +138,9 @@ $(document).ready(function smart_buildpage() {
     $("#footer").before(buildBlock("SMART", 1, true));
     $("#Plugin_SMART").css("width", "915px");
 
-    smart_initTable();
+    smart_request();
 
     $("#Reload_SMARTTable").click(function smart_reload(id) {
         smart_request();
-        $("#Reload_SMARTTable").attr("title",datetime());
     });
 });
