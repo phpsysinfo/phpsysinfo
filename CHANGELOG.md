@@ -9,6 +9,7 @@ phpSysInfo 3.2.4
  - [ADD] Uprecords plugin - MAX_ENTRIES option - maximum number of entries to show
 
  - [UPD] Refreshing status of all plugins for dynamic mode
+ - [UPD] bootstrap 3.3.6
 
  - [NEW] language and template selection also for frontend "bootstrap"
 
