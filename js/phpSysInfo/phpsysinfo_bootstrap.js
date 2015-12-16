@@ -197,6 +197,7 @@ function changeLanguage(plugin) {
         }
     });
 }
+
 function reload(initiate) {
     $("#errorbutton").css("visibility", "hidden");
     $("#errors").empty();
@@ -246,23 +247,41 @@ function reload(initiate) {
     });
 
     for (var i = 0; i < plugins.length; i++) {
-        $.ajax({
-             dataType: "json",
-             url: "xml.php?plugin=" + plugins[i] + "&json",
-             pluginname: plugins[i],
-             success: function (data) {
-                try {
-                    // dynamic call
-                    window['renderPlugin_' + this.pluginname](data);
-                    changeLanguage(this.pluginname);
-                    plugin_liste.pushIfNotExist(this.pluginname);
-                }
-                catch (err) {
-                }
-                renderErrors(data);
-            }
-        });
+        plugin_request(plugins[i]);
     }
+    if (initiate === true) {
+        for (var i = 0; i < plugins.length; i++) {
+            if ($("#reload_"+plugins[i]).length > 0) {
+                $("#reload_"+plugins[i]).click(function() {
+                    plugin_request(this.id.substring(7)); //cut "reload_" from name
+                    $(this).attr("title",datetime());
+                });
+            }
+        }
+    }
+}
+
+/**
+ * load the plugin json via ajax
+ */
+function plugin_request(pluginname) {
+
+    $.ajax({
+         dataType: "json",
+         url: "xml.php?plugin=" + pluginname + "&json",
+         pluginname: pluginname,
+         success: function (data) {
+            try {
+                // dynamic call
+                window['renderPlugin_' + this.pluginname](data);
+                changeLanguage(this.pluginname);
+                plugin_liste.pushIfNotExist(this.pluginname);
+            }
+            catch (err) {
+            }
+            renderErrors(data);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -1428,6 +1447,29 @@ Array.prototype.pushIfNotExist = function(val) {
         this.push(val);
     }
 };
+
+/**
+ * generate a formatted datetime string of the current datetime
+ * @return {String} formatted datetime string
+ */
+function datetime() {
+    var date, day = 0, month = 0, year = 0, hour = 0, minute = 0, days = "", months = "", years = "", hours = "", minutes = "";
+    date = new Date();
+    day = date.getDate();
+    month = date.getMonth() + 1;
+    year = date.getFullYear();
+    hour = date.getHours();
+    minute = date.getMinutes();
+
+    // format values smaller that 10 with a leading 0
+    days = (day < 10) ? "0" + day.toString() : day.toString();
+    months = (month < 10) ? "0" + month.toString() : month.toString();
+    years = (year < 1000) ? year.toString() : year.toString();
+    minutes = (minute < 10) ? "0" + minute.toString() : minute.toString();
+    hours = (hour < 10) ? "0" + hour.toString() : hour.toString();
+
+    return days + "." + months + "." + years + " - " + hours + ":" + minutes;
+}
 
 /**
  * round a given value to the specified precision, difference to Math.round() is that there

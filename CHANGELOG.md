@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.5
+----------------
+ - [NEW] reloading plugins also for frontend "bootstrap"
+
 phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros

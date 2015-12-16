@@ -120,7 +120,6 @@ function snmppinfo_request() {
             snmppinfo_buildTable(xml);
             if (snmppinfo_show) {
                 plugin_translate("SNMPPInfo");
-                $("#Reload_SNMPPInfoTable").attr("title",datetime());
                 $("#Plugin_SNMPPInfo").show();
             }
         }
@@ -135,5 +134,6 @@ $(document).ready(function snmppinfo_buildpage() {
 
     $("#Reload_SNMPPInfoTable").click(function snmppinfo_reload(id) {
         snmppinfo_request();
+        $(this).attr("title",datetime());
     });
 });

@@ -103,7 +103,6 @@ function psstatus_request() {
             psstatus_populate(xml);
             if (psstatus_show) {
                 plugin_translate("PSStatus");
-                $("#Reload_PSStatusTable").attr("title",datetime());
                 $("#Plugin_PSStatus").show();
             }
         }
@@ -120,5 +119,6 @@ $(document).ready(function psstatus_buildpage() {
 
     $("#Reload_PSStatusTable").click(function psstatus_reload(id) {
         psstatus_request();
+        $(this).attr("title",datetime());
     });
 });

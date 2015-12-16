@@ -132,7 +132,6 @@ function ipmiinfo_request() {
         ipmiinfo_populate(xml);
         if (ipmiinfo_show) {
             plugin_translate("ipmiinfo");
-            $("#Reload_ipmiinfoTable").attr("title",datetime());
             $("#Plugin_ipmiinfo").show();
         }
     }
@@ -149,5 +148,6 @@ $(document).ready(function ipmiinfo_buildpage() {
 
     $("#Reload_ipmiinfoTable").click(function ipmiinfo_reload(id) {
         ipmiinfo_request();
+        $(this).attr("title",datetime());
     });
 });

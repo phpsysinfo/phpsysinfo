@@ -154,3 +154,13 @@ table.borderless td,table.borderless th {
 .list-group-item {
     background-color: #2e3338;
 }
+
+.reload {
+    background-image: url("../gfx/reload.png");
+    vertical-align: middle;
+    float: right;
+    cursor: pointer;
+    border: 0px;
+    width: 16px;
+    height: 16px;    
+}
