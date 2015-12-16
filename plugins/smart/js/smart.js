@@ -125,6 +125,7 @@ function smart_request() {
             smart_populate(xml);
             if (smart_show) {
                 plugin_translate("SMART");
+                $("#Plugin_SMART").attr("title", "refresh");
                 $("#Plugin_SMART").show();
             }
         }
@@ -141,6 +142,6 @@ $(document).ready(function smart_buildpage() {
 
     $("#Reload_SMARTTable").click(function smart_reload(id) {
         smart_request();
-        $(this).attr("title",datetime());
+        $(this).attr("title", datetime());
     });
 });

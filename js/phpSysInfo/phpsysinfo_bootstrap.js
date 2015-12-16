@@ -248,13 +248,17 @@ function reload(initiate) {
 
     for (var i = 0; i < plugins.length; i++) {
         plugin_request(plugins[i]);
+        if ($("#reload_"+plugins[i]).length > 0) {
+            $("#reload_"+plugins[i]).attr("title", "reload");
+        }
+
     }
     if (initiate === true) {
         for (var i = 0; i < plugins.length; i++) {
             if ($("#reload_"+plugins[i]).length > 0) {
                 $("#reload_"+plugins[i]).click(function() {
                     plugin_request(this.id.substring(7)); //cut "reload_" from name
-                    $(this).attr("title",datetime());
+                    $(this).attr("title", datetime());
                 });
             }
         }

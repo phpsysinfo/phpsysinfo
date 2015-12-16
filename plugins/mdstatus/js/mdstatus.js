@@ -200,6 +200,7 @@ function mdstatus_request() {
             mdstatus_populate(xml);
             if (mdstatus_show) {
                 plugin_translate("MDStatus");
+                $("#Plugin_MDStatus").attr("title", "refresh");
                 $("#Plugin_MDStatus").show();
             }
         }
@@ -220,6 +221,6 @@ $(document).ready(function mdstatus_buildpage() {
 
     $("#Reload_MDStatusTable").click(function mdstatus_reload(id) {
         mdstatus_request();
-        $(this).attr("title",datetime());
+        $(this).attr("title", datetime());
     });
 });

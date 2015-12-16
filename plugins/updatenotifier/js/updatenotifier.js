@@ -92,6 +92,7 @@ function updatenotifier_request() {
         updatenotifier_populate(xml);
         if (UpdateNotifier_show) {
             plugin_translate("UpdateNotifier");
+            $("#Plugin_UpdateNotifier").attr("title", "refresh");
             $("#Plugin_UpdateNotifier").show();
         }
     }
@@ -107,6 +108,6 @@ $(document).ready(function() {
 
     $("#Reload_UpdateNotifierTable").click(function updatenotifier_reload(id) {
         updatenotifier_request();
-        $(this).attr("title",datetime());
+        $(this).attr("title", datetime());
     });
 });

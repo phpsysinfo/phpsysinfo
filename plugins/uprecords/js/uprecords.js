@@ -91,6 +91,7 @@ function uprecords_request() {
         uprecords_populate(xml);
         if (uprecords_show) {
             plugin_translate("uprecords");
+            $("#Plugin_uprecords").attr("title", "refresh");
             $("#Plugin_uprecords").show();
         }
     }
@@ -107,6 +108,6 @@ $(document).ready(function uprecords_buildpage() {
 
     $("#Reload_uprecordsTable").click(function uprecords_reload(id) {
         uprecords_request();
-        $(this).attr("title",datetime());
+        $(this).attr("title", datetime());
     });
 });

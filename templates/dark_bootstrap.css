@@ -156,7 +156,7 @@ table.borderless td,table.borderless th {
 }
 
 .reload {
-    background-image: url("../gfx/reload.png");
+    background-image: url("../gfx/reload.gif");
     vertical-align: middle;
     float: right;
     cursor: pointer;
