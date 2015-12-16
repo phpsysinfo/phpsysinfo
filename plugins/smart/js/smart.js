@@ -111,7 +111,7 @@ function smart_populate(xml) {
  * load the xml via ajax
  */
 function smart_request() {
-    $("#Reload_SMARTTable").attr("title", "refresh");
+    $("#Reload_SMARTTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=SMART",
         dataType: "xml",

@@ -81,7 +81,7 @@ function updatenotifier_buildTable() {
  * load the xml via ajax
  */
 function updatenotifier_request() {
-    $("#Reload_UpdateNotifierTable").attr("title", "refresh");
+    $("#Reload_UpdateNotifierTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=UpdateNotifier",
         dataType: "xml",

@@ -189,7 +189,7 @@ function mdstatus_populate(xml) {
  * load the xml via ajax
  */
 function mdstatus_request() {
-    $("#Reload_MDStatusTable").attr("title", "refresh");
+    $("#Reload_MDStatusTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=MDStatus",
         dataType: "xml",

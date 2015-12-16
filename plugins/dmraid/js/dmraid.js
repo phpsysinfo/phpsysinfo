@@ -140,7 +140,7 @@ function dmraid_populate(xml) {
  * load the xml via ajax
  */
 function dmraid_request() {
-    $("#Reload_DMRaidTable").attr("title", "refresh");
+    $("#Reload_DMRaidTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=DMRaid",
         dataType: "xml",

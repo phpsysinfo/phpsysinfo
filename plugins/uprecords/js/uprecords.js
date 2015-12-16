@@ -80,7 +80,7 @@ function uprecords_buildTable() {
  */
 
 function uprecords_request() {
-    $("#Reload_uprecordsTable").attr("title", "refresh");
+    $("#Reload_uprecordsTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=uprecords",
         dataType: "xml",

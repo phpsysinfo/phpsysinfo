@@ -109,7 +109,7 @@ function snmppinfo_buildTable(xml) {
  * load the xml via ajax
  */
 function snmppinfo_request() {
-    $("#Reload_SNMPPInfoTable").attr("title", "refresh");
+    $("#Reload_SNMPPInfoTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=SNMPPInfo",
         dataType: "xml",

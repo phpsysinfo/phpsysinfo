@@ -114,7 +114,7 @@ function quotas_buildTable() {
  * load the xml via ajax
  */
 function quotas_request() {
-    $("#Reload_QuotasTable").attr("title", "refresh");
+    $("#Reload_QuotasTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=Quotas",
         dataType: "xml",

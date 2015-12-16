@@ -121,7 +121,7 @@ function ipmiinfo_buildTable() {
  * load the xml via ajax
  */
 function ipmiinfo_request() {
-    $("#Reload_ipmiinfoTable").attr("title", "refresh");
+    $("#Reload_ipmiinfoTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=ipmiinfo",
         dataType: "xml",

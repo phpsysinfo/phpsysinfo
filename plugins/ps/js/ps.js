@@ -90,7 +90,7 @@ function ps_buildTable(xml) {
  * load the xml via ajax
  */
 function ps_request() {
-    $("#Reload_PSTable").attr("title", "refresh");
+    $("#Reload_PSTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=PS",
         dataType: "xml",
