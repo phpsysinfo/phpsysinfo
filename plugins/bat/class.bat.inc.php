@@ -61,7 +61,7 @@ class BAT extends PSI_Plugin
                     }
 
                 } catch (Exception $e) {
-                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                    $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 }
                 $buffer_info = '';
                 $buffer_state = '';
