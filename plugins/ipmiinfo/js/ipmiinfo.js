@@ -121,21 +121,21 @@ function ipmiinfo_buildTable() {
  * load the xml via ajax
  */
 function ipmiinfo_request() {
+    $("#Reload_ipmiinfoTable").attr("title", "refresh");
     $.ajax({
         url: "xml.php?plugin=ipmiinfo",
         dataType: "xml",
         error: function ipmiinfo_error() {
-        $.jGrowl("Error loading XML document for Plugin ipmiinfo!");
-    },
-    success: function ipmiinfo_buildblock(xml) {
-        populateErrors(xml);
-        ipmiinfo_populate(xml);
-        if (ipmiinfo_show) {
-            plugin_translate("ipmiinfo");
-            $("#Plugin_ipmiinfo").attr("title", "refresh");
-            $("#Plugin_ipmiinfo").show();
+            $.jGrowl("Error loading XML document for Plugin ipmiinfo!");
+        },
+        success: function ipmiinfo_buildblock(xml) {
+            populateErrors(xml);
+            ipmiinfo_populate(xml);
+            if (ipmiinfo_show) {
+                plugin_translate("ipmiinfo");
+                $("#Plugin_ipmiinfo").show();
+            }
         }
-    }
     });
 }
 

@@ -80,21 +80,21 @@ function uprecords_buildTable() {
  */
 
 function uprecords_request() {
+    $("#Reload_uprecordsTable").attr("title", "refresh");
     $.ajax({
         url: "xml.php?plugin=uprecords",
         dataType: "xml",
         error: function uprecords_error() {
-        $.jGrowl("Error loading XML document for Plugin uprecords!");
-    },
-    success: function uprecords_buildblock(xml) {
-        populateErrors(xml);
-        uprecords_populate(xml);
-        if (uprecords_show) {
-            plugin_translate("uprecords");
-            $("#Plugin_uprecords").attr("title", "refresh");
-            $("#Plugin_uprecords").show();
+            $.jGrowl("Error loading XML document for Plugin uprecords!");
+        },
+        success: function uprecords_buildblock(xml) {
+            populateErrors(xml);
+            uprecords_populate(xml);
+            if (uprecords_show) {
+                plugin_translate("uprecords");
+                $("#Plugin_uprecords").show();
+            }
         }
-    }
     });
 }
 

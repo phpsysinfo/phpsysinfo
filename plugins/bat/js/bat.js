@@ -118,6 +118,7 @@ function bat_buildTable() {
  * load the xml via ajax
  */
 function bat_request() {
+    $("#Reload_BATTable").attr("title", "refresh");
     $.ajax({
         url: "xml.php?plugin=BAT",
         dataType: "xml",
@@ -129,7 +130,6 @@ function bat_request() {
             bat_populate(xml);
             if (bat_show) {
                 plugin_translate("BAT");
-                $("#Plugin_BAT").attr("title", "refresh");
                 $("#Plugin_BAT").show();
             }
         }
