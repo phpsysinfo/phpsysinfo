@@ -907,7 +907,7 @@ function refreshNetwork(xml) {
 
         info = $(this).attr("Info");
         if ( (info !== undefined) && (info != "") ) {
-            var i =0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
+            var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
                 html +="<tr><td><span class=\"treespan\">" + infos[i] + "</span></td><td></td><td></td><td></td></tr>";

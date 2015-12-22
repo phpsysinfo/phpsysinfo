@@ -729,11 +729,13 @@ class XML
                 foreach ($this->_plugins as $plugin) {
                     $plug->addChild('Plugin')->addAttribute('name', $plugin);
                 }
+/*
             } else {
                 $plug = $this->_xml->addChild('UnusedPlugins');
                 foreach ($this->_plugins as $plugin) {
                     $plug->addChild('Plugin')->addAttribute('name', $plugin);
                 }
+*/
             }
         }
     }
