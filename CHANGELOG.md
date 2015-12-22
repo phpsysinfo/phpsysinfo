@@ -7,6 +7,8 @@ phpSysInfo 3.2.5
 ----------------
  - [NEW] reloading plugins also for frontend "bootstrap"
 
+ - [ADD] Show network interfaces infos for NetBSD and OpenBSD
+
 phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros
