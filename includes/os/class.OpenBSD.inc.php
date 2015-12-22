@@ -73,7 +73,7 @@ class OpenBSD extends BSDCommon
                 $dev->setRxBytes($ar_buf_b[3]);
                 $dev->setErrors($ar_buf_n[4] + $ar_buf_n[6]);
                 $dev->setDrops($ar_buf_n[8]);
-                if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
+                if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf_b[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
                     $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($bufe2 as $buf2) {
                         if (preg_match('/^\s+lladdr\s+(\S+)/i', $buf2, $ar_buf2))
