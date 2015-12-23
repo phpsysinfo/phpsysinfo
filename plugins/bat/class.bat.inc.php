@@ -164,6 +164,10 @@ class BAT extends PSI_Plugin
                 $buffer_info = '';
                 $buffer_state = '';
                 CommonFunctions::executeProgram('acpiconf', '-i batt', $buffer_info, false);
+            } elseif (PSI_OS == 'OpenBSD') {
+                $buffer_info = '';
+                $buffer_state = '';
+                CommonFunctions::executeProgram('sysctl', 'hw.sensors.acpibat0', $buffer_info, false);
             } else {
                 $buffer_info = '';
                 $buffer_state = '';
@@ -385,6 +389,20 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^Remaining capacity:\s*(.*)%$/', trim($roworig), $data)) {
                 $bat['capacity'] = $data[1];
+            
+            /* OpenBSD */
+            } elseif (preg_match('/^hw.sensors.acpibat0.volt0=(.*) VDC \(voltage\)$/', trim($roworig), $data)) {
+                $bat['design_voltage'] = 1000*$data[1];
+            } elseif (preg_match('/^hw.sensors.acpibat0.volt1=(.*) VDC \(current voltage\)$/', trim($roworig), $data)) {
+                $bat['present_voltage'] = 1000*$data[1];
+            } elseif (preg_match('/^hw.sensors.acpibat0.watthour0=(.*) Wh \(last full capacity\)$/', trim($roworig), $data)) {
+                $bat['design_capacity'] = 1000*$data[1];
+            } elseif (preg_match('/^hw.sensors.acpibat0.watthour4=(.*) Wh \(design capacity\)$/', trim($roworig), $data)) {
+                $bat['design_capacity_max'] = 1000*$data[1];
+            } elseif (preg_match('/^hw.sensors.acpibat0.watthour3=(.*) Wh \(remaining capacity\)/', trim($roworig), $data)) {
+                $bat['remaining_capacity'] = 1000*$data[1];
+            } elseif (preg_match('/^hw.sensors.acpibat0.raw0=.* \((.*)\)/', trim($roworig), $data)) {
+                $bat['charging_state'] = $data[1];
             }
         }
         foreach ($this->_filecontent['state'] as $roworig) {
