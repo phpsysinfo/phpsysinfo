@@ -281,7 +281,7 @@ abstract class BSDCommon extends OS
                $dev->setModel($model);
             }
             if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
-               $dev->setCpuSpeed($cpuspeed/1000000);
+               $dev->setCpuSpeed(round($cpuspeed / 1000000));
             }
         }
 

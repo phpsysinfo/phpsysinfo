@@ -354,7 +354,7 @@ class Darwin extends BSDCommon
             $lines = preg_split("/\n/", $netstat, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
                 $ar_buf = preg_split("/\s+/", $line, 10);
-                if (! empty($ar_buf[0])) {
+                if (!empty($ar_buf[0])) {
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[0]);
                     $dev->setTxBytes($ar_buf[8]);

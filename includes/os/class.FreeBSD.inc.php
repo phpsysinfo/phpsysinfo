@@ -35,8 +35,8 @@ class FreeBSD extends BSDCommon
         $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
         $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
-        $this->setSCSIRegExp2("/^(da[0-9]): (.*)MB /");
-        $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]$/");
+        $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]+$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [.0-9]+ irq/");
     }
 
@@ -65,7 +65,7 @@ class FreeBSD extends BSDCommon
             $lines = preg_split("/\n/", $netstat, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
                 $ar_buf = preg_split("/\s+/", $line);
-                if (! empty($ar_buf[0])) {
+                if (!empty($ar_buf[0])) {
                     if (preg_match('/^<Link/i', $ar_buf[2])) {
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[0]);

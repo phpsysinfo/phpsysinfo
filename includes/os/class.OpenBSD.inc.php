@@ -32,11 +32,11 @@ class OpenBSD extends BSDCommon
     public function __construct()
     {
         parent::__construct();
-        $this->setCPURegExp1("/^cpu(.*) (.*) MHz/");
-        $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
+//        $this->setCPURegExp1("/^cpu(.*) (.*) MHz/");
+//        $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
-        $this->setSCSIRegExp2("/^(da[0-9]): (.*)MB /");
-        $this->setPCIRegExp1("/(.*) at pci[0-9] .* \"(.*)\"/");
+        $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setPCIRegExp1("/(.*) at pci[0-9]+ .* \"(.*)\"/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
     }
 
@@ -66,7 +66,7 @@ class OpenBSD extends BSDCommon
         for ($i = 0, $max = sizeof($lines_b); $i < $max; $i++) {
             $ar_buf_b = preg_split("/\s+/", $lines_b[$i]);
             $ar_buf_n = preg_split("/\s+/", $lines_n[$i]);
-            if (! empty($ar_buf_b[0]) && ! empty($ar_buf_n[3])) {
+            if (!empty($ar_buf_b[0]) && (!empty($ar_buf_n[3]) || ($ar_buf_n[3] === "0"))) {
                 $dev = new NetDevice();
                 $dev->setName($ar_buf_b[0]);
                 $dev->setTxBytes($ar_buf_b[4]);
@@ -99,7 +99,7 @@ class OpenBSD extends BSDCommon
     protected function ide()
     {
         foreach ($this->readdmesg() as $line) {
-            if (preg_match('/^(.*) at pciide[0-9] (.*): <(.*)>/', $line, $ar_buf)) {
+            if (preg_match('/^(.*) at pciide[0-9]+ (.*): <(.*)>/', $line, $ar_buf)) {
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[0]);
                 // now loop again and find the capacity
