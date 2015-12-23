@@ -34,9 +34,9 @@ class Darwin extends BSDCommon
     {
         parent::__construct();
         $this->error->addWarning("The Darwin version of phpSysInfo is a work in progress, some things currently don't work!");
-        $this->setCPURegExp1("CPU: (.*) \((.*)-MHz (.*)\)");
+        $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
-        $this->setSCSIRegExp1("^(.*): <(.*)> .*SCSI.*device");
+        $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
     } */
 
     /**

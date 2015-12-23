@@ -39,42 +39,42 @@ abstract class BSDCommon extends OS
      *
      * @var string
      */
-    private $_CPURegExp1 = "";
+    private $_CPURegExp1 = "//";
 
     /**
      * regexp2 for cpu information out of the syslog
      *
      * @var string
      */
-    private $_CPURegExp2 = "";
+    private $_CPURegExp2 = "//";
 
     /**
      * regexp1 for scsi information out of the syslog
      *
      * @var string
      */
-    private $_SCSIRegExp1 = "";
+    private $_SCSIRegExp1 = "//";
 
     /**
      * regexp2 for scsi information out of the syslog
      *
      * @var string
      */
-    private $_SCSIRegExp2 = "";
+    private $_SCSIRegExp2 = "//";
 
     /**
      * regexp1 for pci information out of the syslog
      *
      * @var string
      */
-    private $_PCIRegExp1 = "";
+    private $_PCIRegExp1 = "//";
 
     /**
      * regexp1 for pci information out of the syslog
      *
      * @var string
      */
-    private $_PCIRegExp2 = "";
+    private $_PCIRegExp2 = "//";
 
     /**
      * call parent constructor
@@ -217,7 +217,11 @@ abstract class BSDCommon extends OS
     {
         $s = $this->grabkey('kern.version');
         $a = preg_split('/:/', $s);
-        $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
+        if (isset($a[2])) {
+            $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
+        } else {
+            $this->sys->setKernel($s);
+        }
     }
 
     /**
@@ -275,7 +279,7 @@ abstract class BSDCommon extends OS
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
-               if (preg_match("/".$this->_CPURegExp1."/", $line, $ar_buf)) {
+               if (preg_match($this->_CPURegExp1, $line, $ar_buf)) {
                     $dev->setCpuSpeed(round($ar_buf[2]));
                     $notwas = false;
                 }
@@ -294,6 +298,16 @@ abstract class BSDCommon extends OS
                 } else break;
             }
         }
+
+        if (PSI_OS == "NetBSD") {
+            if ($model = $this->grabkey('machdep.cpu_brand')) {
+               $dev->setModel($model);
+            }
+            if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
+               $dev->setCpuSpeed($cpuspeed/1000000);
+            }
+        }
+
         $ncpu = $this->grabkey('hw.ncpu');
         if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
             $ncpu = 1;
@@ -311,11 +325,11 @@ abstract class BSDCommon extends OS
     protected function scsi()
     {
         foreach ($this->readdmesg() as $line) {
-            if (preg_match("/".$this->_SCSIRegExp1."/", $line, $ar_buf)) {
+            if (preg_match($this->_SCSIRegExp1, $line, $ar_buf)) {
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[1].": ".$ar_buf[2]);
                 $this->sys->setScsiDevices($dev);
-            } elseif (preg_match("/".$this->_SCSIRegExp2."/", $line, $ar_buf)) {
+            } elseif (preg_match($this->_SCSIRegExp2, $line, $ar_buf)) {
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
@@ -394,13 +408,13 @@ abstract class BSDCommon extends OS
      */
     protected function pci()
     {
-        if (!is_array($results = Parser::lspci(false)) || !is_array($results = $this->pciconf())) {
+        if ((!$results = Parser::lspci(false)) && (!$results = $this->pciconf())) {
             foreach ($this->readdmesg() as $line) {
-                if (preg_match("/".$this->_PCIRegExp1."/", $line, $ar_buf)) {
+                if (preg_match($this->_PCIRegExp1, $line, $ar_buf)) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1].": ".$ar_buf[2]);
                     $results[] = $dev;
-                } elseif (preg_match("/".$this->_PCIRegExp2."/", $line, $ar_buf)) {
+                } elseif (preg_match($this->_PCIRegExp2, $line, $ar_buf)) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1].": ".$ar_buf[2]);
                     $results[] = $dev;

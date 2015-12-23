@@ -32,10 +32,10 @@ class FreeBSD extends BSDCommon
     public function __construct()
     {
         parent::__construct();
-        $this->setCPURegExp1("CPU: (.*) \((.*)-MHz (.*)\)");
+        $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
-        $this->setSCSIRegExp1("^(.*): <(.*)> .*SCSI.*device");
-        $this->setSCSIRegExp2("^(da[0-9]): (.*)MB ");
+        $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
+        $this->setSCSIRegExp2("/^(da[0-9]): (.*)MB /");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [.0-9]+ irq/");
     }

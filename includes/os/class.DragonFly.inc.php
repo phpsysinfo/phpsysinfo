@@ -32,9 +32,9 @@ class DragonFly extends BSDCommon
     public function __construct()
     {
         parent::__construct();
-        $this->setCPURegExp1("^cpu(.*)\, (.*) MHz");
-        $this->setCPURegExp2("^(.*) at scsibus.*: <(.*)> .*");
-        $this->setSCSIRegExp2("^(da[0-9]): (.*)MB ");
+        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
+        $this->setCPURegExp2("/^(.*) at scsibus.*: <(.*)> .*/");
+        $this->setSCSIRegExp2("/^(da[0-9]): (.*)MB /");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) (pci|legacypci)[0-9]$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [0-9\.]+$/");
     }
