@@ -33,7 +33,7 @@ class OpenBSD extends BSDCommon
     {
         parent::__construct();
 //        $this->setCPURegExp1("/^cpu(.*) (.*) MHz/");
-//        $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
+        $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
         $this->setPCIRegExp1("/(.*) at pci[0-9]+ .* \"(.*)\"/");
@@ -123,6 +123,28 @@ class OpenBSD extends BSDCommon
         $dev = new CpuDevice();
         $dev->setModel($this->grabkey('hw.model'));
         $dev->setCpuSpeed($this->grabkey('hw.cpuspeed'));
+        $was = false;
+        foreach ($this->readdmesg() as $line) {
+            if (preg_match("/^cpu[0-9]+: (.*)/", $line, $ar_buf)) {
+                $was = true;
+                if (preg_match("/^cpu[0-9]+: (\d+)([KM])B (.*) L2 cache/", $line, $ar_buf2)) {
+                    if ($ar_buf2[2]=="M") {
+                        $dev->setCache($ar_buf2[1]*1024*1024);
+                    } elseif ($ar_buf2[2]=="K") {
+                        $dev->setCache($ar_buf2[1]*1024);
+                    }
+                } else {   
+                    $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($feats as $feat) {
+                        if (($feat=="vmx") || ($feat=="svm")) {
+                            $dev->setVirt($feat);
+                        }
+                    }
+                }
+            } elseif ($was){
+                break;
+            }
+        }
         $ncpu = $this->grabkey('hw.ncpu');
         if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
             $ncpu = 1;
