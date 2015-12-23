@@ -275,12 +275,26 @@ abstract class BSDCommon extends OS
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
-        $dev->setModel($this->grabkey('hw.model'));
+
+        if (PSI_OS == "NetBSD") {
+            if ($model = $this->grabkey('machdep.cpu_brand')) {
+               $dev->setModel($model);
+            }
+            if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
+               $dev->setCpuSpeed($cpuspeed/1000000);
+            }
+        }
+
+        if ($dev->getModel() === "") {
+            $dev->setModel($this->grabkey('hw.model'));
+        }
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
                if (preg_match($this->_CPURegExp1, $line, $ar_buf)) {
-                    $dev->setCpuSpeed(round($ar_buf[2]));
+                    if ($dev->getCpuSpeed() === 0) {
+                        $dev->setCpuSpeed(round($ar_buf[2]));
+                    }
                     $notwas = false;
                 }
             } else {
@@ -296,15 +310,6 @@ abstract class BSDCommon extends OS
                         break;
                     }
                 } else break;
-            }
-        }
-
-        if (PSI_OS == "NetBSD") {
-            if ($model = $this->grabkey('machdep.cpu_brand')) {
-               $dev->setModel($model);
-            }
-            if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
-               $dev->setCpuSpeed($cpuspeed/1000000);
             }
         }
 
