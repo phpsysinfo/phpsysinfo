@@ -44,25 +44,25 @@ function mdstatus_buildinfos(xml, id) {
     devalgo = parseInt($(xml).attr("Algorithm"), 10);
     devactive = parseInt($(xml).attr("Disks_Active"), 10);
     devregis = parseInt($(xml).attr("Disks_Registered"), 10);
-    html += "<tr><td>" + genlang(5, false, "MDStatus") + "</td><td>" + devstatus + "</td></tr>";
-    html += "<tr><td>" + genlang(6, false, "MDStatus") + "</td><td>" + devlevel + "</td></tr>";
+    html += "<tr><td>" + genlang(5, true, "MDStatus") + "</td><td>" + devstatus + "</td></tr>";
+    html += "<tr><td>" + genlang(6, true, "MDStatus") + "</td><td>" + devlevel + "</td></tr>";
     if (devchunk !== -1) {
-        html += "<tr><td>" + genlang(7, false, "MDStatus") + "</td><td>" + devchunk + "K</td></tr>";
+        html += "<tr><td>" + genlang(7, true, "MDStatus") + "</td><td>" + devchunk + "K</td></tr>";
     }
     if (devalgo !== -1) {
-        html += "<tr><td>" + genlang(8, false, "MDStatus") + "</td><td>" + devalgo + "</td></tr>";
+        html += "<tr><td>" + genlang(8, true, "MDStatus") + "</td><td>" + devalgo + "</td></tr>";
     }
     if (devsuper !== -1) {
-        html += "<tr><td>" + genlang(9, false, "MDStatus") + "</td><td>" + genlang(10, false, "MDStatus") + "</td></tr>";
+        html += "<tr><td>" + genlang(9, true, "MDStatus") + "</td><td>" + genlang(10, true, "MDStatus") + "</td></tr>";
     }
     else {
-        html += "<tr><td>" + genlang(9, false, "MDStatus") + "</td><td>" + genlang(11, false, "MDStatus") + "</td></tr>";
+        html += "<tr><td>" + genlang(9, true, "MDStatus") + "</td><td>" + genlang(11, true, "MDStatus") + "</td></tr>";
     }
     if (devactive !== -1 && devregis !== -1) {
-        html += "<tr><td>" + genlang(12, false, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
+        html += "<tr><td>" + genlang(12, true, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
     }
-    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
-    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
     button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
     return button;
 }
@@ -80,10 +80,10 @@ function mdstatus_buildaction(xml) {
             tunit = $(this).attr("Time_Unit");
             percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
-            html += genlang(13, false, "MDStatus") + ":&nbsp;" + name + "<br/>";
+            html += genlang(13, true, "MDStatus") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
             html += "<br/>";
-            html += genlang(14, false, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
+            html += genlang(14, true, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
             html += "</div>";
         }
     });
@@ -180,7 +180,7 @@ function mdstatus_populate(xml) {
     });
 
     if ($("Plugins Plugin_MDStatus Unused_Devices", xml).length > 0) {
-        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, false, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
+        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, true, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
         mdstatus_show = true;
     }
 }

@@ -43,16 +43,16 @@ function dmraid_buildinfos(xml, id) {
     devsubsets = parseInt($(xml).attr("Subsets"), 10);
     devdevs = parseInt($(xml).attr("Devs"), 10);
     devspares = parseInt($(xml).attr("Spares"), 10);
-    html += "<tr><td>" + genlang(4, false, "DMRaid") + "</td><td>" + devname + "</td></tr>";
-    html += "<tr><td>" + genlang(5, false, "DMRaid") + "</td><td>" + devstatus + "</td></tr>";
-    html += "<tr><td>" + genlang(6, false, "DMRaid") + "</td><td>" + devtype + "</td></tr>";
-    html += "<tr><td>" + genlang(7, false, "DMRaid") + "</td><td>" + devsize + "</td></tr>";
-    html += "<tr><td>" + genlang(8, false, "DMRaid") + "</td><td>" + devstride + "</td></tr>";
-    html += "<tr><td>" + genlang(9, false, "DMRaid") + "</td><td>" + devsubsets + "</td></tr>";
-    html += "<tr><td>" + genlang(10, false, "DMRaid") + "</td><td>" + devdevs + "</td></tr>";
-    html += "<tr><td>" + genlang(11, false, "DMRaid") + "</td><td>" + devspares + "</td></tr>";
-    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, false, "DMRaid") + "</h3>";
-    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, false, "DMRaid") + "</h3>";
+    html += "<tr><td>" + genlang(4, true, "DMRaid") + "</td><td>" + devname + "</td></tr>";
+    html += "<tr><td>" + genlang(5, true, "DMRaid") + "</td><td>" + devstatus + "</td></tr>";
+    html += "<tr><td>" + genlang(6, true, "DMRaid") + "</td><td>" + devtype + "</td></tr>";
+    html += "<tr><td>" + genlang(7, true, "DMRaid") + "</td><td>" + devsize + "</td></tr>";
+    html += "<tr><td>" + genlang(8, true, "DMRaid") + "</td><td>" + devstride + "</td></tr>";
+    html += "<tr><td>" + genlang(9, true, "DMRaid") + "</td><td>" + devsubsets + "</td></tr>";
+    html += "<tr><td>" + genlang(10, true, "DMRaid") + "</td><td>" + devdevs + "</td></tr>";
+    html += "<tr><td>" + genlang(11, true, "DMRaid") + "</td><td>" + devspares + "</td></tr>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
     button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
     return button;
 }

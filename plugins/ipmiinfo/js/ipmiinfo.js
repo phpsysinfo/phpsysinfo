@@ -37,7 +37,7 @@ function ipmiinfo_populate(xml) {
 
     $("Plugins Plugin_ipmiinfo Temperatures Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(3, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(3, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
@@ -48,7 +48,7 @@ function ipmiinfo_populate(xml) {
 
     $("Plugins Plugin_ipmiinfo Fans Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(4, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(4, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
@@ -59,7 +59,7 @@ function ipmiinfo_populate(xml) {
 
     $("Plugins Plugin_ipmiinfo Voltages Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(5, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(5, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
@@ -70,7 +70,7 @@ function ipmiinfo_populate(xml) {
 
     $("Plugins Plugin_ipmiinfo Currents Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(7, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(7, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
@@ -81,7 +81,7 @@ function ipmiinfo_populate(xml) {
 
     $("Plugins Plugin_ipmiinfo Powers Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(8, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(8, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
@@ -91,7 +91,7 @@ function ipmiinfo_populate(xml) {
     });
     $("Plugins Plugin_ipmiinfo Misc Item", xml).each(function ipmiinfo_getitem(idp) {
         if(idp==0) {
-            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(6, true, "ipmiinfo") + "</th></tr>\n";
+            html += "<tr><th colspan=\"2\" style=\"font-weight:bold\">" + genlang(6, false, "ipmiinfo") + "</th></tr>\n";
         }
         html += "    <tr>\n";
         html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Label") + "</td>\n";
