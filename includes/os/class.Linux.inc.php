@@ -567,26 +567,36 @@ class Linux extends OS
                     $dev->setTxBytes($stats[8]);
                     $dev->setErrors($stats[2] + $stats[10]);
                     $dev->setDrops($stats[3] + $stats[11]);
-                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG))) {
-                        $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
-                        foreach ($bufe2 as $buf2) {
-//                            if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
-                            if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
-                             || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2))
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
-                            elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $buf2, $ar_buf2)
-                                  || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $buf2, $ar_buf2)) {
+                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                        if (CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG)) {
+                            $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
+                            foreach ($bufe2 as $buf2) {
+//                                if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
+                                if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2))
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
+                                elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $buf2, $ar_buf2)
+                                       || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $buf2, $ar_buf2)) {
                                     if ($ar_buf2[1] != $ar_buf2[2]) {
-                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
+                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
                                     } else {
-                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                                     }
-                                 } elseif (preg_match('/^\s+inet\saddr:(\S+)/i', $buf2, $ar_buf2)
-                                  || preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2)
-                                  || preg_match('/^'.trim($dev_name).':\s+ip\s+(\S+)\s+mask/i', $buf2, $ar_buf2)
-                                  || preg_match('/^\s+inet6\saddr:\s([^\/]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
-                                  || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $buf2, $ar_buf2))
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                } elseif (preg_match('/^\s+inet\saddr:(\S+)/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2)
+                                   || preg_match('/^'.trim($dev_name).':\s+ip\s+(\S+)\s+mask/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+inet6\saddr:\s([^\/]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $buf2, $ar_buf2))
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                            }
+                        }
+                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                            $speed = trim($buf);
+                            if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s '.trim($buf));
+                            } else {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s');
+                            }
                         }
                     }
                     $this->sys->setNetDevices($dev);
