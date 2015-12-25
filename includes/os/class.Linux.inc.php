@@ -768,14 +768,21 @@ class Linux extends OS
                 }
                 if (isset($distro['Description'])
                    && ($distro['Description'] != "n/a")
-                   && !isset($distro['Distributor ID'])) {
+                   && (!isset($distro['Distributor ID'])
+                   || (($distro['Distributor ID'] != "n/a")
+                   && ($distro['Description'] != $distro['Distributor ID'])))) {
                     $this->sys->setDistribution($distro['Description']);
-                } elseif (isset($distro['Description'])
-                   && ($distro['Description'] != "n/a")
-                   && isset($distro['Distributor ID'])
-                   && ($distro['Distributor ID'] != "n/a")
-                   && ($distro['Description'] != $distro['Distributor ID'])) {
-                   $this->sys->setDistribution($distro['Description']);
+                    if (isset($distro['Release']) && ($distro['Release'] != "n/a")
+                       && ($distro['Release'] != $distro['Description']) && strstr($distro['Release'], ".")){
+                        if (preg_match("/^(\d+)\.[0]+$/", $distro['Release'], $match_buf)) {
+                            $tofind = $match_buf[1];
+                        } else {
+                            $tofind = $distro['Release'];
+                        }
+                        if (!preg_match("/^".$tofind."[\s\.]|[\(\[]".$tofind."[\.\)\]]|\s".$tofind."$|\s".$tofind."[\s\.]/", $distro['Description'])) {
+                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                        }
+                    }
                 } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
                     $this->sys->setDistribution($distro['Distributor ID']);
                     if (isset($distro['Release']) && ($distro['Release'] != "n/a")) {
@@ -805,6 +812,17 @@ class Linux extends OS
                 if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\n]+)"?/m', $buf, $desc_buf)
                    && (trim($desc_buf[1])!=trim($id_buf[1]))) {
                     $this->sys->setDistribution(trim($desc_buf[1]));
+                    if (preg_match('/^DISTRIB_RELEASE="?([^"\n]+)"?/m', $buf, $vers_buf)
+                       && (trim($vers_buf[1])!=trim($desc_buf[1])) && strstr($vers_buf[1], ".")){
+                        if (preg_match("/^(\d+)\.[0]+$/", trim($vers_buf[1]), $match_buf)) {
+                            $tofind = $match_buf[1];
+                        } else {
+                            $tofind = trim($vers_buf[1]);
+                        }
+                        if (!preg_match("/^".$tofind."[\s\.]|[\(\[]".$tofind."[\.\)\]]|\s".$tofind."$|\s".$tofind."[\s\.]/", trim($desc_buf[1]))) {
+                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                        }
+                    }
                 } else {
                     if (isset($list[trim($id_buf[1])]['Name'])) {
                         $this->sys->setDistribution(trim($list[trim($id_buf[1])]['Name']));
