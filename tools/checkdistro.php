@@ -22,7 +22,7 @@ $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
 
-class Error
+class PSI_Error
 {
     public static function singleton()
     {
