@@ -295,7 +295,7 @@ FS_USAGE_THRESHOLD=90
 HIDE_NETWORK_INTERFACE=""
 
 
-; Show network interfaces infos for Linux, Android, FreeBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
+; Show network interfaces infos for Linux, Android, FreeBSD, NetBSD, OpenBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
 SHOW_NETWORK_INFOS=true
