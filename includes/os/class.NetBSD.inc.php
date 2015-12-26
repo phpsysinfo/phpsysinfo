@@ -73,6 +73,7 @@ class NetBSD extends BSDCommon
                 $dev->setRxBytes($ar_buf_b[3]);
                 $dev->setDrops($ar_buf_n[8]);
                 $dev->setErrors($ar_buf_n[4] + $ar_buf_n[6]);
+                $speed = "";
                 if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf_b[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
                     $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($bufe2 as $buf2) {
@@ -84,8 +85,15 @@ class NetBSD extends BSDCommon
                               || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
                               && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                        elseif (preg_match('/^\s+media:\s+/i', $buf2)
+                               && preg_match('/[\(\s](\d+)base/i', $buf2, $ar_buf2))
+                            if (preg_match('/\s(\S+)-duplex/i', $buf2, $ar_buf3))
+                                $speed = $ar_buf2[1].'Mb/s '.$ar_buf3[1];
+                            else
+                                $speed = $ar_buf2[1].'Mb/s';
                     }
                 }
+                if ($speed != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed);
                 $this->sys->setNetDevices($dev);
             }
         }
