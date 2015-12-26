@@ -371,7 +371,7 @@ class WINNT extends OS
     {
         $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
         $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
-        $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'Speed'));
+        $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID', 'Speed'));
 
         foreach ($allDevices as $device) {
             $dev = new NetDevice();
@@ -391,6 +391,16 @@ class WINNT extends OS
 
                         break;
                      }
+                }
+                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                    foreach ($allNetworkAdapter as $NetworkAdapter) {
+                        if ($ar_name[1]==$NetworkAdapter['GUID']) {
+                             if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
+                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000)."Mb/s");
+                             }
+                             break;
+                         }
+                    }
                 }
             }
             if ($dev->getName() == "") { //no isatap or no isatap description
