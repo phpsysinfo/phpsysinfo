@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.5
 ----------------
  - [NEW] reloading plugins also for frontend "bootstrap"
+ - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD
 
  - [ADD] Show network interfaces infos for NetBSD and OpenBSD
 

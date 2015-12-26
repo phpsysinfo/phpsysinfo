@@ -371,6 +371,7 @@ class WINNT extends OS
     {
         $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
         $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
+        $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Description', 'Speed'));
 
         foreach ($allDevices as $device) {
             $dev = new NetDevice();
@@ -398,17 +399,36 @@ class WINNT extends OS
                     $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
                 $dev->setName($name);
 
-                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                    if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname) {
-                        if (!is_null($dev->getInfo())) {
-                            $dev->setInfo(''); //multiple with the same name
-                        } else {
-                            $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
-                            if (isset($NetworkAdapterConfiguration['IPAddress']))
-                                foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                    if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                    foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname) {
+                            if ($dev->getInfo() !== null) {
+                                $dev->setInfo(''); //multiple with the same name
+                            } else {
+                                $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                                if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                    foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                        if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                            }
                         }
+                    }
+                    $speed = null;
+                    foreach ($allNetworkAdapter as $NetworkAdapter) {
+                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Description']) == $cname) {
+                             if ($speed !== null) {
+                                 $speed = ""; //multiple with the same name
+                             } else {
+                                 if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
+                                     $speed = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                 } else {
+                                     $speed = "";
+                                 }
+                             }
+                        }
+                    }
+                    if (($speed !== null) && ($speed !== "")) {
+                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed);
                     }
                 }
             }
