@@ -371,11 +371,11 @@ class WINNT extends OS
     {
         $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
         $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
-        $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Description', 'Speed'));
+        $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'Speed'));
 
         foreach ($allDevices as $device) {
             $dev = new NetDevice();
-            $name=$device['Name'];
+            $name = $device['Name'];
 
             if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
                 foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
@@ -401,7 +401,7 @@ class WINNT extends OS
 
                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                     foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) == $cname) {
+                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
                             if ($dev->getInfo() !== null) {
                                 $dev->setInfo(''); //multiple with the same name
                             } else {
@@ -415,7 +415,7 @@ class WINNT extends OS
                     }
                     $speed = null;
                     foreach ($allNetworkAdapter as $NetworkAdapter) {
-                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Description']) == $cname) {
+                        if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Name']) === $cname) {
                              if ($speed !== null) {
                                  $speed = ""; //multiple with the same name
                              } else {
