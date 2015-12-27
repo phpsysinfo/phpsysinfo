@@ -396,7 +396,11 @@ class WINNT extends OS
                     foreach ($allNetworkAdapter as $NetworkAdapter) {
                         if ($ar_name[1]==$NetworkAdapter['GUID']) {
                              if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
-                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000)."Mb/s");
+                                 if ($NetworkAdapter['Speed'] > 1000000000) {
+                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000000)."Gb/s");
+                                 } else {
+                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000)."Mb/s");
+                                 }
                              }
                              break;
                          }
@@ -430,7 +434,11 @@ class WINNT extends OS
                                  $speed = ""; //multiple with the same name
                              } else {
                                  if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
-                                     $speed = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                     if ($NetworkAdapter['Speed'] > 1000000000) {
+                                         $speed = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
+                                     } else {
+                                         $speed = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                     }
                                  } else {
                                      $speed = "";
                                  }

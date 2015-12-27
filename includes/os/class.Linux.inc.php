@@ -592,10 +592,16 @@ class Linux extends OS
                         }
                         if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
                             $speed = trim($buf);
-                            if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s '.strtolower(trim($buf)));
+                            if ($speed > 1000) {
+                                $speed = $speed/1000;
+                                $unit = "G";
                             } else {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s');
+                                $unit = "M";
+                            }
+                            if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s '.strtolower(trim($buf)));
+                            } else {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s');
                             }
                         }
                     }
@@ -657,6 +663,20 @@ class Linux extends OS
                                   || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $line, $ar_buf2))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
 
+                            if (CommonFunctions::rfts('/sys/class/net/'.$dev->getName().'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                                $speed = trim($buf);
+                                if ($speed > 1000) {
+                                    $speed = $speed/1000;
+                                    $unit = "G";
+                                } else {
+                                    $unit = "M";
+                                }
+                                if (CommonFunctions::rfts('/sys/class/net/'.$dev->getName().'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s '.strtolower(trim($buf)));
+                                } else {
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s');
+                                }
+                            }
                         }
                     }
                 }
