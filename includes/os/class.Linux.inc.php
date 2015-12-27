@@ -616,10 +616,12 @@ class Linux extends OS
                     if (!$notwas) {
                         $dev->setErrors($errors);
                         $dev->setDrops($drops);
+                        if ($info != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$info);
                         $this->sys->setNetDevices($dev);
                     }
                     $errors = 0;
                     $drops = 0;
+                    $info = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
                     $notwas = false;
@@ -633,9 +635,9 @@ class Linux extends OS
                                 $unit = "M";
                             }
                             if (CommonFunctions::rfts('/sys/class/net/'.$dev->getName().'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s '.strtolower(trim($buf)));
+                                $info = $speed.$unit.'b/s '.strtolower(trim($buf));
                             } else {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s');
+                                $info = $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s';
                             }
                         }
                         if (preg_match('/^'.$ar_buf[1].'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $line, $ar_buf2))
@@ -683,6 +685,7 @@ class Linux extends OS
             if (!$notwas) {
                 $dev->setErrors($errors);
                 $dev->setDrops($drops);
+                if ($info != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$info);
                 $this->sys->setNetDevices($dev);
             }
         }
