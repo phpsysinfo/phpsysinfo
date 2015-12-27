@@ -73,8 +73,8 @@ class OpenBSD extends BSDCommon
                 $dev->setRxBytes($ar_buf_b[3]);
                 $dev->setErrors($ar_buf_n[4] + $ar_buf_n[6]);
                 $dev->setDrops($ar_buf_n[8]);
-                $speed = "";
                 if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf_b[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
+                    $speedinfo = "";
                     $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($bufe2 as $buf2) {
                         if (preg_match('/^\s+lladdr\s+(\S+)/i', $buf2, $ar_buf2))
@@ -90,15 +90,15 @@ class OpenBSD extends BSDCommon
                                 $unit = "G";
                             } else {
                                 $unit = "M";
-                            } 
+                            }
                             if (preg_match('/\s(\S+)-duplex/i', $buf2, $ar_buf3))
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]));
+                                $speedinfo = $ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]));
                             else
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].$unit.'b/s');
+                                $speedinfo = $ar_buf2[1].$unit.'b/s');
                         }
                     }
+                    if ($speedinfo != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
                 }
-                if ($speed != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed);
                 $this->sys->setNetDevices($dev);
             }
         }
