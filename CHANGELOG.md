@@ -9,6 +9,7 @@ phpSysInfo 3.2.5
  - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD
 
  - [ADD] Show network interfaces infos for NetBSD and OpenBSD
+ - [ADD] SHOW_NETWORK_INFOS_EXPANDED option
 
 phpSysInfo 3.2.4
 ----------------

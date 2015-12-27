@@ -718,8 +718,6 @@ class XML
         } else {
             $options->addAttribute('threshold', 90);
         }
-        $options->addAttribute('showCPUListExpanded', defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
-        $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         if (count($this->_plugins) > 0) {
             if ($this->_plugin_request) {
                 $plug = $this->_xml->addChild('UsedPlugins');

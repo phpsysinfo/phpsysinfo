@@ -25,7 +25,8 @@
 
 "use strict";
 
-var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [];
+var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [],
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
 
 
 /**
@@ -672,12 +673,6 @@ function refreshVitals(xml) {
  */
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
-    var showCPUInfoExpanded = "";
-    var showCPUListExpanded = "";
-    $("Options", xml).each(function getOptions(id) {
-        showCPUInfoExpanded = $(this).attr("showCPUInfoExpanded");
-        showCPUListExpanded = $(this).attr("showCPUListExpanded");
-    });
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
         var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
         cpucount += 1;
@@ -692,12 +687,12 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         bogo = parseInt($(this).attr("Bogomips"), 10);
         load = parseInt($(this).attr("Load"), 10);
 
-        if (showCPUListExpanded === 'false') {
+        if (!showCPUListExpanded) {
             collapsed.push(rootposition);
         }
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + model + "</span></td></tr>\n";
         cpucoreposition = tree.push(rootposition);
-        if (showCPUInfoExpanded !== 'true') {
+        if (!showCPUInfoExpanded) {
             collapsed.push(cpucoreposition);
         }
         if (!isNaN(speed)) {
@@ -913,7 +908,9 @@ function refreshNetwork(xml) {
                 html +="<tr><td><span class=\"treespan\">" + infos[i] + "</span></td><td></td><td></td><td></td></tr>";
                 tree.push(networkindex);
             }
-            closed.push(networkindex);
+            if (!showNetworkInfosExpanded) {
+                closed.push(networkindex);
+            }
         }
     });
     html += "</tbody>\n";
@@ -1442,6 +1439,10 @@ function settimer(xml) {
 
 $(document).ready(function buildpage() {
     var i = 0, cookie_template = null, cookie_language = null;
+
+    showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
+    showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
+    showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
 
     if ($("#language option").size() < 2) {
         current_language = $("#language").val().toString();

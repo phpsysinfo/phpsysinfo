@@ -236,6 +236,7 @@ HDD_TEMP=false
 ;
 SHOW_MOUNT_POINT=true
 
+
 ; Show mount option
 ; - true : show mount option
 ; - false : do not show mount option
@@ -275,6 +276,7 @@ HIDE_FS_TYPES=""
 ;
 HIDE_DISKS=""
 
+
 ; Filesystem usage warning threshold in percent
 ; - 0 : disabled
 ; - 90 : 90%
@@ -299,6 +301,11 @@ HIDE_NETWORK_INTERFACE=""
 ; Example : SHOW_NETWORK_INFOS=true
 ;
 SHOW_NETWORK_INFOS=true
+
+
+; Show network infos expanded
+;
+SHOW_NETWORK_INFOS_EXPANDED=false
 
 
 ; ********************************

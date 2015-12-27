@@ -8,7 +8,8 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = []; plugin_liste = [];
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], plugin_liste = [],
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -301,6 +302,10 @@ $(document).ready(function () {
     sorttable.init();
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+
+        showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
+        showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
+        showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
 
         plugtmp = $("#plugins").val().toString();
         if (plugtmp.length >0 ){
@@ -669,14 +674,14 @@ function renderHardware(data) {
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
     });
-    if (data["Options"]["@attributes"]["showCPUListExpanded"] !== "false") {
+    if (showCPUListExpanded) {
         try {
             $('#hardware-CPU').treegrid('expand');
         }
         catch (err) {
         }
     }
-    if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
+    if (showCPUInfoExpanded && showCPUListExpanded) {
         try {
             var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
             for (var i = 0; i < datas.length; i++) {
@@ -914,7 +919,7 @@ function renderNetwork(data) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
             }
             $('#network').treegrid({
-                initialState: 'collapsed',
+                initialState: showNetworkInfosExpanded?'expanded':'collapsed',
                 expanderExpandedClass: 'normalicon normalicon-down',
                 expanderCollapsedClass: 'normalicon normalicon-right'
             });
