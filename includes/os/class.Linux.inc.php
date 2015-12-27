@@ -610,10 +610,10 @@ class Linux extends OS
             }
         } elseif (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            $notwas = true;
+            $was = false;
             foreach ($lines as $line) {
                 if (preg_match("/^([^\s:]+)/", $line, $ar_buf)) {
-                    if (!$notwas) {
+                    if ($was) {
                         $dev->setErrors($errors);
                         $dev->setDrops($drops);
                         if ($speedinfo != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
@@ -624,7 +624,7 @@ class Linux extends OS
                     $speedinfo = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    $notwas = false;
+                    $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                         if (CommonFunctions::rfts('/sys/class/net/'.$dev->getName().'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
                             $speed = trim($buf);
@@ -646,7 +646,7 @@ class Linux extends OS
                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                     }
                 } else {
-                    if (!$notwas) {
+                    if ($was) {
                         if (preg_match('/\sRX bytes:(\d+)\s/i', $line, $ar_buf2)) {
                             $dev->setRxBytes($ar_buf2[1]);
                         }
@@ -682,7 +682,7 @@ class Linux extends OS
                     }
                 }
             }
-            if (!$notwas) {
+            if ($was) {
                 $dev->setErrors($errors);
                 $dev->setDrops($drops);
                 if ($speedinfo != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);

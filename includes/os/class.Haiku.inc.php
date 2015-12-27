@@ -292,10 +292,10 @@ class Haiku extends OS
     {
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            $notwas = true;
+            $was = false;
             foreach ($lines as $line) {
                 if (preg_match("/^(\S+)/", $line, $ar_buf)) {
-                    if (!$notwas) {
+                    if ($was) {
                         $dev->setErrors($errors);
                         $dev->setDrops($drops);
                         $this->sys->setNetDevices($dev);
@@ -304,9 +304,9 @@ class Haiku extends OS
                     $drops = 0;
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    $notwas = false;
+                    $was = true;
                 } else {
-                    if (!$notwas) {
+                    if ($was) {
                         if (preg_match('/\sReceive:\s\d+\spackets,\s(\d+)\serrors,\s(\d+)\sbytes,\s\d+\smcasts,\s(\d+)\sdropped/i', $line, $ar_buf2)) {
                             $errors +=$ar_buf2[1];
                             $drops +=$ar_buf2[3];
@@ -329,7 +329,7 @@ class Haiku extends OS
                     }
                 }
             }
-            if (!$notwas) {
+            if ($was) {
                 $dev->setErrors($errors);
                 $dev->setDrops($drops);
                 $this->sys->setNetDevices($dev);
