@@ -198,7 +198,7 @@ class SunOS extends OS
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+ether\s+(\S+)/i', $buf2, $ar_buf2))
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', strtoupper($ar_buf2[1])));
                                 elseif (preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }
@@ -209,7 +209,7 @@ class SunOS extends OS
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2)
                                    && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                             }
                         }
                     }

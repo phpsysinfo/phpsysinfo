@@ -382,11 +382,11 @@ class WINNT extends OS
                     if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
                         $dev->setName($NetworkAdapterConfiguration['Description']);
                         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                            $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                            $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                             if (isset($NetworkAdapterConfiguration['IPAddress']))
                                 foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                     if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
-                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                         }
 
                         break;
@@ -415,11 +415,11 @@ class WINNT extends OS
                             if ($dev->getInfo() !== null) {
                                 $dev->setInfo(''); //multiple with the same name
                             } else {
-                                $dev->setInfo(preg_replace('/:/', '-', $NetworkAdapterConfiguration['MACAddress']));
+                                $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                 if (isset($NetworkAdapterConfiguration['IPAddress']))
                                     foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                         if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ipaddres);
+                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                             }
                         }
                     }

@@ -574,7 +574,7 @@ class Linux extends OS
 //                                if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                                 if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2))
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', strtoupper($ar_buf2[1])));
                                 elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $buf2, $ar_buf2)
                                        || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $buf2, $ar_buf2)) {
                                     if ($ar_buf2[1] != $ar_buf2[2]) {
@@ -587,13 +587,13 @@ class Linux extends OS
                                    || preg_match('/^'.trim($dev_name).':\s+ip\s+(\S+)\s+mask/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6\saddr:\s([^\/]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $buf2, $ar_buf2))
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                             }
                         }
                         if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
                             $speed = trim($buf);
                             if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s '.trim($buf));
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s '.strtolower(trim($buf)));
                             } else {
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.'Mb/s');
                             }
