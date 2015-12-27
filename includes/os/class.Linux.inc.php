@@ -685,7 +685,7 @@ class Linux extends OS
             if (!$notwas) {
                 $dev->setErrors($errors);
                 $dev->setDrops($drops);
-                if ($info != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$info);
+                if ($speedinfo != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
                 $this->sys->setNetDevices($dev);
             }
         }
