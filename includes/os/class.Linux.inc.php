@@ -608,7 +608,7 @@ class Linux extends OS
                     $this->sys->setNetDevices($dev);
                 }
             }
-        } elseif (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
+        } elseif (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             foreach ($lines as $line) {
