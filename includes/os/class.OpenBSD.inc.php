@@ -92,9 +92,9 @@ class OpenBSD extends BSDCommon
                                 $unit = "M";
                             }
                             if (preg_match('/\s(\S+)-duplex/i', $buf2, $ar_buf3))
-                                $speedinfo = $ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]));
+                                $speedinfo = $ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]);
                             else
-                                $speedinfo = $ar_buf2[1].$unit.'b/s');
+                                $speedinfo = $ar_buf2[1].$unit.'b/s';
                         }
                     }
                     if ($speedinfo != "") $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
