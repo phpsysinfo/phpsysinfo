@@ -1,0 +1,284 @@
+----------/etc/config/uLinux.conf----------
+[System]
+Model = TS-439
+Internal Model = TS-439
+Server comment = american
+Version = 3.1.2
+Build Number = 1014T
+Time Zone = America/Phoenix
+Enable Daylight Saving Time = TRUE
+Workgroup = DODOES
+Code Page = 437
+System Device = /dev/sdx
+Test Mode = FALSE 
+Auto Create Raid = raid0
+Wan Access = TRUE
+Lan Access = TRUE
+Web Access Port = 8080
+E2KEY Support = FALSE
+Rsync Support = TRUE
+Rsync Model = QNAP
+FS Type = ext3
+Auto PowerOn = FALSE
+Quota Type = vfsv0
+Write Connection Log = 0
+
+Booting = 0
+Server Name = american
+UPNP_UUID = 76c5f8aa-558a-40f7-a07e-3f4ea6ab79ff
+Redundant Power Enable = FALSE
+[Test]
+Test Program = /sbin/test/Self-test-main
+
+[NTP]
+USE NTP Server = FALSE
+NTP Server IP = pool.ntp.org
+Enable NTP Server = FALSE
+Server1 IP =
+Server2 IP =
+Sercer3 IP =
+Interval = 1
+TimeUnit = DAY
+
+[Alert]
+Alert Level = 0
+SMTP IP = 0.0.0.0
+Alert Mail = 
+SMS Mode = 0
+
+[Network]
+Interface Number = 2
+DNS = 0.0.0.0
+WINS IP = 0.0.0.0
+WINS Enable = False
+BONDING Support = TRUE
+BONDING01 = Interface1
+BONDING02 = Interface2
+Domain Name Server 1 = 0.0.0.0
+Domain Name Server 2 = 0.0.0.0
+[bond0]
+Bonding Mode = 4
+Configure = TRUE
+Use DHCP = TRUE
+Usage = DHCP
+IP Address = 169.254.100.100
+Subnet Mask = 255.255.0.0
+Broadcast = 169.254.255.255
+Gateway = 169.254.100.100
+Speed = auto
+MTU = 1500
+
+[eth0]
+Configure = False
+Use DHCP = TRUE
+Usage = DHCP
+IP Address = 169.254.100.100
+Subnet Mask = 255.255.0.0
+Broadcast = 192.168.255.255
+Gateway = 169.254.100.100
+Speed = auto
+MTU = 1500
+
+[eth1]
+Configure = False
+Use DHCP = TRUE
+Usage = DHCP
+IP Address = 169.254.100.100
+Subnet Mask = 255.255.0.0
+Broadcast = 192.168.255.255
+Gateway = 169.254.100.100
+Speed = auto
+MTU = 1500
+
+[Samba]
+Enable = TRUE
+[Appletalk]
+Enable = TRUE
+Default Zone = *
+[SNMP]
+Server Enable = FALSE
+
+[WebFS]
+Enable = TRUE
+Web Root Path = /WWW
+
+[QWEB]
+Enable = 1
+Port = 80
+[QPHOTO]
+Enable = TRUE
+[BTDownload]
+Enable = TRUE
+Max_Running = 3
+Qget_Support = TRUE
+Download_Folder = /share/Qdownload/
+Total Job = 0
+Run List Job = 0
+Pause List Job = 0
+Finish List Job = 0
+Overwrite List = 0
+Max Download Rate = 0
+Max Upload Rate = 0
+Port Range From = 6881
+Port Range To = 6999
+UPnP Port Forwarding = 0
+encrypt = 0
+DT Time = 1
+S1 Enable = 0
+S2 Enable = 0
+[NVR]
+Enable = FALSE
+Support = TRUE
+
+[Storage]
+Auto Init = FALSE
+Disk Drive Number = 4
+Drive 1 = sda
+Drive 2 = sdb
+Drive 3 = sdc
+Drive 4 = sdd
+Disk Check On Boot = Error
+Auto Fix Disk Check Errors = TRUE
+Support RAID 5 = FALSE
+SUPPORT HOTSWAP = TRUE
+Support Hot Spare = FALSE
+Support LVM = FALSE
+
+Encrypt_sda3 = FALSE
+Encrypt_sdb3 = FALSE
+Encrypt_sdc3 = FALSE
+Encrypt_md0 = FALSE
+[Disk]
+Drive 1 EXIST = 1
+Drive 2 EXIST = 1
+Drive 3 EXIST = 1
+Drive 4 EXIST = 0
+Drive 5 EXIST = 0
+
+Drive 13 EXIST = 0
+Drive 9 EXIST = 1
+[FTP]
+ServerName = ProFTPD
+Enable = False
+Port = 21
+MaxInstances = 30
+User = guest
+Group = guest
+DefaultRoot = /share
+MaxAnonymous = 30
+AllowAnonymous = False
+Unicode = 0
+CharsetRemote = 999
+SSL MODE = 1
+Passive Enabled = 1
+Bandwidth Enabled = 0
+Max connection per account = 10
+EnableUserWanIp = FALSE
+WanIp = 
+[DHCP Server]
+Enable = FALSE
+Start Range = 169.254.1.100
+End Range = 169.254.1.200
+Max Lease Time = 86400
+
+[Printers]
+Support = FALSE
+Enable = False
+Name =
+Comment = Printer port on NAS
+
+Phy exist = 0
+Phy exist2 = 0
+Phy exist3 = 0
+Phy exist4 = 0
+Phy exist5 = 0
+[LOGO]
+Show PIC Index = 1
+PIC Counter = 10
+Default LOGO Image Path = /etc/config/logo/default_logo_img.gif
+Upload LOGO Image Path = /etc/config/logo/upload_logo_img.gif
+PIC1 LOGO Image Path = /etc/config/logo/pic1_logo_img.gif
+PIC2 LOGO Image Path = /etc/config/logo/pic2_logo_img.gif
+PIC3 LOGO Image Path = /etc/config/logo/pic3_logo_img.gif
+PIC4 LOGO Image Path = /etc/config/logo/pic4_logo_img.gif
+PIC5 LOGO Image Path = /etc/config/logo/pic5_logo_img.gif
+LOGO Image Size Limitation = 20480
+
+[UPS]
+Support = TRUE
+Serial UPS = FALSE
+Snmp UPS = TRUE
+Daemon Type = 1
+UPS IP = 0.0.0.0
+Enable = FALSE
+UPS Type = PhxTec-A1000
+Shutdown System In = 5
+ValidCOM = 1
+AC Power = OK
+Battery Power = OK
+
+[Misc]
+Disk StandBy Timeout = 5
+Disk StandBy Timeout Enable = TRUE
+Disk Free Size Alert = 3072
+Disk Free Size Alert Enable = TRUE
+Buzzer Warning Enable = TRUE
+Wake On Lan = FALSE
+
+System Started = TRUE
+Configured = TRUE
+Reset Password Switch = TRUE
+Custom Temp = 0
+system low temp = 40
+system high temp = 48
+[HWTEST]
+mini PCI = Agere Systems
+
+[MySQL]
+Enable = FALSE
+DB_Init = FALSE
+[LOGIN]
+SSH Enable = TRUE
+SSH Port = 22
+TELNET Enable = FALSE
+TELNET Port = 13131
+
+[Index]
+Qphoto_LOGO = FALSE
+Qdownlod_LOGO = FALSE
+
+[iSCSI]
+Company Info = 2004-04.com.qnap
+Model Name = TS-439
+[END_FLAG]
+[usb copy]
+usb_copy_avail = 1
+lock flag = 0
+usb copying = 0
+copy func old = 0
+copy func = 0
+internal = Qusb
+copy type = 0
+[UPnP Service]
+Enable = TRUE
+[NFS]
+Enable = TRUE
+[TwonkyMedia]
+Enable = TRUE
+[iTune]
+Enable = TRUE
+Password Enabled = 0
+Code Page = CP437
+[Bonjour Service]
+Web = 1
+Web Service Name = american
+SAMBA = 1
+SAMBA Service Name = american(SAMBA)
+AFP = 1
+AFP Service Name = american(AFP)
+SSH = 0
+SSH Service Name = american(SSH)
+FTP = 0
+FTP Service Name = american(FTP)
+[QRAID1]
+device name = 

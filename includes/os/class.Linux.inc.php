@@ -1055,6 +1055,18 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
+                } elseif (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf")
+                   && ($contents = @file_get_contents($filename))
+                   && preg_match("/^Version\s*=\s*([\d\.]+)\r?\nBuild\sNumber\s*=\s*(\S+)/m", $contents, $ver_buf)) {
+                    $buf = $ver_buf[1]."-".$ver_buf[2];
+                    if (isset($list['QTS']['Image'])) {
+                        $this->sys->setDistributionIcon($list['QTS']['Image']);
+                    }
+                    if (isset($list['QTS']['Name'])) {
+                        $this->sys->setDistribution($list['QTS']['Name']." ".trim($buf));
+                    } else {
+                        $this->sys->setDistribution(trim($buf));
+                    }
                 }
             }
             /* restore error level */
