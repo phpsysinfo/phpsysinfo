@@ -590,7 +590,7 @@ class Linux extends OS
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                             }
                         }
-                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="") && ($buf > 0) && ($buf < 65535)) {
                             $speed = trim($buf);
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
