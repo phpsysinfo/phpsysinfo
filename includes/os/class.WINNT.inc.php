@@ -369,7 +369,7 @@ class WINNT extends OS
      */
     private function _network()
     {
-        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded'));
+        $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
         $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
         $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID', 'Speed'));
 
@@ -393,17 +393,23 @@ class WINNT extends OS
                      }
                 }
                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                    $speedinfo = null;
                     foreach ($allNetworkAdapter as $NetworkAdapter) {
                         if ($ar_name[1]==$NetworkAdapter['GUID']) {
                              if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
                                  if ($NetworkAdapter['Speed'] > 1000000000) {
-                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000000)."Gb/s");
+                                     $speedinfo = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
                                  } else {
-                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($NetworkAdapter['Speed']/1000000)."Mb/s");
+                                     $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
                                  }
                              }
                              break;
                          }
+                    }
+                    if (($speedinfo !== null) && ($speedinfo !== "")) {
+                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
+                    } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
+                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
                     }
                 }
             }
@@ -427,26 +433,28 @@ class WINNT extends OS
                             }
                         }
                     }
-                    $speed = null;
+                    $speedinfo = null;
                     foreach ($allNetworkAdapter as $NetworkAdapter) {
                         if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Name']) === $cname) {
-                             if ($speed !== null) {
-                                 $speed = ""; //multiple with the same name
+                             if ($speedinfo !== null) {
+                                 $speedinfo = ""; //multiple with the same name
                              } else {
                                  if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
                                      if ($NetworkAdapter['Speed'] > 1000000000) {
-                                         $speed = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
+                                         $speedinfo = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
                                      } else {
-                                         $speed = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                         $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
                                      }
                                  } else {
-                                     $speed = "";
+                                     $speedinfo = "";
                                  }
                              }
                         }
                     }
-                    if (($speed !== null) && ($speed !== "")) {
-                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed);
+                    if (($speedinfo !== null) && ($speedinfo !== "")) {
+                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
+                    } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
+                        $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
                     }
                 }
             }
