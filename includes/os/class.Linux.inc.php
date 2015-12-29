@@ -83,6 +83,13 @@ class Linux extends OS
 
             if ($machine != "") {
                 $this->sys->setMachine(trim($machine));
+            } elseif (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
+               && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+               && preg_match("/^Rsync\sModel\s*=\s*QNAP/m", $buf)
+               && CommonFunctions::fileexists($filename="/etc/platform.conf") // Platform detection
+               && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+               && preg_match("/^DISPLAY_NAME\s*=\s*(\S+)/m", $buf, $mach_buf) && ($mach_buf[1]!=="")) {
+                $this->sys->setMachine("QNAP ".$mach_buf[1]);
             }
         }
     }
@@ -1057,6 +1064,7 @@ class Linux extends OS
                     }
                 } elseif (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+                   && preg_match("/^Rsync\sModel\s*=\s*QNAP/m", $buf)
                    && preg_match("/^Version\s*=\s*([\d\.]+)\r?\nBuild\sNumber\s*=\s*(\S+)/m", $buf, $ver_buf)) {
                     $buf = $ver_buf[1]."-".$ver_buf[2];
                     if (isset($list['QTS']['Image'])) {
