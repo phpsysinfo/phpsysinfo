@@ -404,29 +404,53 @@ class Linux extends OS
      */
     private function _pci()
     {
-        if (!$arrResults = Parser::lspci()) {
-            if (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
-                $booDevice = false;
-                $arrBuf = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($arrBuf as $strLine) {
-                    if (preg_match('/Bus/', $strLine)) {
-                        $booDevice = true;
-                        continue;
+        if ($arrResults = Parser::lspci()) {
+            foreach ($arrResults as $dev) {
+                $this->sys->setPciDevices($dev);
+            }
+        } elseif (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
+            $booDevice = false;
+            $arrBuf = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($arrBuf as $strLine) {
+                if (preg_match('/Bus/', $strLine)) {
+                    $booDevice = true;
+                    continue;
+                }
+                if ($booDevice) {
+                    list($strKey, $strValue) = preg_split('/: /', $strLine, 2);
+                    if (!preg_match('/bridge/i', $strKey) && !preg_match('/USB/i ', $strKey)) {
+                        $dev = new HWDevice();
+                        $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strValue)));
+                        $this->sys->setPciDevices($dev);
                     }
-                    if ($booDevice) {
-                        list($strKey, $strValue) = preg_split('/: /', $strLine, 2);
-                        if (!preg_match('/bridge/i', $strKey) && !preg_match('/USB/i ', $strKey)) {
-                            $dev = new HWDevice();
-                            $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strValue)));
-                            $this->sys->setPciDevices($dev);
-                        }
-                        $booDevice = false;
-                    }
+                    $booDevice = false;
                 }
             }
         } else {
-            foreach ($arrResults as $dev) {
-                $this->sys->setPciDevices($dev);
+            $pcidevices = glob('/sys/bus/pci/devices/*/uevent', GLOB_NOSORT);
+            if (($total = count($pcidevices)) > 0) {
+                $buf = "";
+                for ($i = 0; $i < $total; $i++) {
+                    if (CommonFunctions::rfts($pcidevices[$i], $buf, 0, 4096, false) && (trim($buf) != "")) {
+                        $pcibuf = "";
+                        if (preg_match("/^PCI_CLASS=(\S+)/m", trim($buf), $subbuf)) {
+                            $pcibuf = "Class ".$subbuf[1];
+                        }
+                        if (preg_match("/^PCI_ID=(\S+)/m", trim($buf), $subbuf)) {
+                            $pcibuf .= " Device ".$subbuf[1];
+                        }
+                        if (preg_match("/^DRIVER=(\S+)/m", trim($buf), $subbuf)) {
+                            $pcibuf .= " Driver ".$subbuf[1];
+                        }
+                        $dev = new HWDevice();
+                        if (trim($pcibuf) != "") {
+                            $dev->setName(trim($pcibuf));
+                        } else {
+                            $dev->setName("unknown");
+                        }
+                        $this->sys->setPciDevices($dev);
+                    }
+                }
             }
         }
     }
@@ -576,12 +600,10 @@ class Linux extends OS
         if (($total = count($i2cdevices)) > 0) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
-                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false)) {
-                    if (trim($buf) != "") {
-                        $dev = new HWDevice();
-                        $dev->setName(trim($buf));
-                        $this->sys->setI2cDevices($dev);
-                    }
+                if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
+                    $dev = new HWDevice();
+                    $dev->setName(trim($buf));
+                    $this->sys->setI2cDevices($dev);
                 }
             }
         }
