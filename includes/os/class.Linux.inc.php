@@ -494,28 +494,7 @@ class Linux extends OS
     private function _usb()
     {
         $devnum = -1;
-        if (!CommonFunctions::executeProgram('lsusb', '', $bufr, PSI_DEBUG)) {
-            if (CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
-                $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($bufe as $buf) {
-                    if (preg_match('/^T/', $buf)) {
-                        $devnum += 1;
-                        $results[$devnum] = "";
-                    } elseif (preg_match('/^S:/', $buf)) {
-                        list($key, $value) = preg_split('/: /', $buf, 2);
-                        list($key, $value2) = preg_split('/=/', $value, 2);
-                        if (trim($key) != "SerialNumber") {
-                            $results[$devnum] .= " ".trim($value2);
-                        }
-                    }
-                }
-                foreach ($results as $var) {
-                    $dev = new HWDevice();
-                    $dev->setName($var);
-                    $this->sys->setUsbDevices($dev);
-                }
-            }
-        } else {
+        if (CommonFunctions::executeProgram('lsusb', '', $bufr, PSI_DEBUG) && (trim($bufr) !== "")) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 7);
@@ -526,6 +505,60 @@ class Linux extends OS
                 } elseif (isset($device[5]) && trim($device[5]) != "") {
                     $dev = new HWDevice();
                     $dev->setName("unknown");
+                    $this->sys->setUsbDevices($dev);
+                }
+            }
+        } elseif (CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($bufe as $buf) {
+                if (preg_match('/^T/', $buf)) {
+                    $devnum += 1;
+                    $results[$devnum] = "";
+                } elseif (preg_match('/^S:/', $buf)) {
+                    list($key, $value) = preg_split('/: /', $buf, 2);
+                    list($key, $value2) = preg_split('/=/', $value, 2);
+                    if ((trim($key) == "Manufacturer") && (preg_match("/^linux\s/i", trim($value2)))) {
+                        $value2 = "Linux";
+                    }
+                    if (trim($key) != "SerialNumber") {
+                        $results[$devnum] .= " ".trim($value2);
+                    }
+                }
+            }
+            foreach ($results as $var) {
+                $dev = new HWDevice();
+                $var = trim($var);
+                if ($var != "") {
+                    $dev->setName($var);
+                } else {
+                    $dev->setName("unknown");
+                }
+                $this->sys->setUsbDevices($dev);
+            }
+        } else {
+            $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+            if (($total = count($usbdevices)) > 0) {
+                $buf = "";
+                for ($i = 0; $i < $total; $i++) {
+                    $product = preg_replace("/\/idProduct$/", "/product", $usbdevices[$i]);
+                    $manufacturer = preg_replace("/\/idProduct$/", "/manufacturer", $usbdevices[$i]);
+                    $usbbuf = "";
+                    if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                        if (preg_match("/^linux\s/i", trim($buf))) {
+                            $usbbuf = "Linux";
+                        } else {
+                            $usbbuf = trim($buf); 
+                        }
+                    }
+                    if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                            $usbbuf .= " ".trim($buf); 
+                    }
+                    $dev = new HWDevice();
+                    if (trim($usbbuf) != "") {
+                        $dev->setName(trim($usbbuf));
+                    } else {
+                        $dev->setName("unknown");
+                    }
                     $this->sys->setUsbDevices($dev);
                 }
             }
