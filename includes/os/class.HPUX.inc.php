@@ -156,17 +156,22 @@ class HPUX extends OS
         if (CommonFunctions::rfts('/proc/pci', $bufr)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/Bus/', $buf)) {
+                if (preg_match('/^Bus\s/', $buf)) {
                     $device = true;
                     continue;
                 }
                 if ($device) {
+                    $dev = new HWDevice();
+                    $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($buf)));
+                    $this->sys->setPciDevices($dev);
+/*
                     list($key, $value) = preg_split('/: /', $buf, 2);
                     if (!preg_match('/bridge/i', $key) && !preg_match('/USB/i', $key)) {
                         $dev = new HWDevice();
                         $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($value)));
                         $this->sys->setPciDevices($dev);
                     }
+*/
                     $device = false;
                 }
             }

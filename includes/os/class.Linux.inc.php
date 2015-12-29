@@ -412,17 +412,22 @@ class Linux extends OS
             $booDevice = false;
             $arrBuf = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($arrBuf as $strLine) {
-                if (preg_match('/Bus/', $strLine)) {
+                if (preg_match('/^Bus\s/', $strLine)) {
                     $booDevice = true;
                     continue;
                 }
                 if ($booDevice) {
+                    $dev = new HWDevice();
+                    $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strLine)));
+                    $this->sys->setPciDevices($dev);
+/*
                     list($strKey, $strValue) = preg_split('/: /', $strLine, 2);
                     if (!preg_match('/bridge/i', $strKey) && !preg_match('/USB/i ', $strKey)) {
                         $dev = new HWDevice();
                         $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strValue)));
                         $this->sys->setPciDevices($dev);
                     }
+*/
                     $booDevice = false;
                 }
             }
