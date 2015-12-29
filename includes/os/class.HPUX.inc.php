@@ -156,7 +156,7 @@ class HPUX extends OS
         if (CommonFunctions::rfts('/proc/pci', $bufr)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/^Bus\s/', $buf)) {
+                if (preg_match('/^\s*Bus\s/', $buf)) {
                     $device = true;
                     continue;
                 }

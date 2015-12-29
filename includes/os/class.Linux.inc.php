@@ -412,7 +412,7 @@ class Linux extends OS
             $booDevice = false;
             $arrBuf = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($arrBuf as $strLine) {
-                if (preg_match('/^Bus\s/', $strLine)) {
+                if (preg_match('/^\s*Bus\s/', $strLine)) {
                     $booDevice = true;
                     continue;
                 }
