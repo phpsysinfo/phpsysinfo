@@ -439,7 +439,7 @@ class Linux extends OS
                     if (CommonFunctions::rfts($pcidevices[$i], $buf, 0, 4096, false) && (trim($buf) != "")) {
                         $pcibuf = "";
                         if (preg_match("/^PCI_CLASS=(\S+)/m", trim($buf), $subbuf)) {
-                            $pcibuf = "Class ".$subbuf[1];
+                            $pcibuf = "Class ".$subbuf[1].":";
                         }
                         if (preg_match("/^PCI_ID=(\S+)/m", trim($buf), $subbuf)) {
                             $pcibuf .= " Device ".$subbuf[1];
