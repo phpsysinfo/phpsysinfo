@@ -71,6 +71,10 @@ class SNMPPInfo extends PSI_Plugin
                 }
             break;
         case 'php-snmp':
+                if (!extension_loaded("snmp")) {
+                    $this->global_error->addError("Requirements error", "SNMPPInfo plugin requires the snmp extension to php in order to work properly");
+                    break;
+                }
                 snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
                 snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
                 if (defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES)) {
