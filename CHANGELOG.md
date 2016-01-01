@@ -11,6 +11,8 @@ phpSysInfo 3.2.5
 
  - [NEW] reloading plugins also for frontend "bootstrap"
  - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD
+ - [NEW] Coretemp monitoring also on Linux
+ - [NEW] QTSsnmp - SNMP sensors monitoring for QTS Linux
 
 phpSysInfo 3.2.4
 ----------------

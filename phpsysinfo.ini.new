@@ -181,6 +181,7 @@ TEMP_FORMAT="c"
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
 ; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
+; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
