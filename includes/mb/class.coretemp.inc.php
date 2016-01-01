@@ -41,13 +41,16 @@ class Coretemp extends Sensors
                     $dev = new SensorDevice();
                     $dev->setValue(trim($buf)/1000);
                     $label = preg_replace("/_input$/", "_label", $tempsensor[$i]);
+                    $crit = preg_replace("/_input$/", "_crit", $tempsensor[$i]);
                     $max = preg_replace("/_input$/", "_max", $tempsensor[$i]);
                     if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
                         $dev->setName(trim($buf));
                     } else {
                         $dev->setName('unknown');
                     }
-                    if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                    if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                        $dev->setMax(trim($buf)/1000);
+                    } elseif (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
                         $dev->setMax(trim($buf)/1000);
                     }
                     $this->mbinfo->setMbTemp($dev);
