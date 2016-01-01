@@ -33,17 +33,39 @@ class Coretemp extends Sensors
      */
     private function _temperature()
     {
-        $smp = 1;
-        CommonFunctions::executeProgram('sysctl', '-n kern.smp.cpus', $smp);
-        for ($i = 0; $i < $smp; $i++) {
-            $temp = 0;
-            if (CommonFunctions::executeProgram('sysctl', '-n dev.cpu.'.$i.'.temperature', $temp)) {
-                $temp = preg_replace('/C/', '', $temp);
-                $dev = new SensorDevice();
-                $dev->setName("CPU ".($i + 1));
-                $dev->setValue($temp);
-                $dev->setMax(70);
-                $this->mbinfo->setMbTemp($dev);
+        if (PSI_OS == 'Linux') {
+           $tempsensor = glob("/sys/devices/platform/coretemp.0/temp*_input", GLOB_NOSORT);
+           if (($total = count($tempsensor)) > 0) {
+                $buf = "";
+                for ($i = 0; $i < $total; $i++) if (CommonFunctions::rfts($tempsensor[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
+                    $dev = new SensorDevice();
+                    $dev->setValue(trim($buf)/1000);
+                    $label = preg_replace("/_input$/", "_label", $tempsensor[$i]);
+                    $max = preg_replace("/_input$/", "_max", $tempsensor[$i]);
+                    if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                        $dev->setName(trim($buf));
+                    } else {
+                        $dev->setName('unknown');
+                    }
+                    if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                        $dev->setMax(trim($buf)/1000);
+                    }
+                    $this->mbinfo->setMbTemp($dev);
+                }
+            }
+        } else {
+            $smp = 1;
+            CommonFunctions::executeProgram('sysctl', '-n kern.smp.cpus', $smp);
+            for ($i = 0; $i < $smp; $i++) {
+                $temp = 0;
+                if (CommonFunctions::executeProgram('sysctl', '-n dev.cpu.'.$i.'.temperature', $temp)) {
+                    $temp = preg_replace('/C/', '', $temp);
+                    $dev = new SensorDevice();
+                    $dev->setName("CPU ".($i + 1));
+                    $dev->setValue($temp);
+//                    $dev->setMax(70);
+                    $this->mbinfo->setMbTemp($dev);
+                }
             }
         }
     }

@@ -173,7 +173,7 @@ TEMP_FORMAT="c"
 ; - HWSensors      http://www.openbsd.org/ (OpenBSD)
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (WinNT)
-; - Coretemp       No addon tool neded (FreeBSD)
+; - Coretemp       No addon tool neded (FreeBSD/Linux)
 ; - IPMI           http://openipmi.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
