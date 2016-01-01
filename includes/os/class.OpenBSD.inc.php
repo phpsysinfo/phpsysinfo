@@ -146,7 +146,7 @@ class OpenBSD extends BSDCommon
                     } elseif ($ar_buf2[2]=="K") {
                         $dev->setCache($ar_buf2[1]*1024);
                     }
-                } else {   
+                } else {
                     $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($feats as $feat) {
                         if (($feat=="vmx") || ($feat=="svm")) {
@@ -154,7 +154,7 @@ class OpenBSD extends BSDCommon
                         }
                     }
                 }
-            } elseif ($was){
+            } elseif ($was) {
                 break;
             }
         }

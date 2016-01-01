@@ -576,11 +576,11 @@ class Linux extends OS
                         if (preg_match("/^linux\s/i", trim($buf))) {
                             $usbbuf = "Linux";
                         } else {
-                            $usbbuf = trim($buf); 
+                            $usbbuf = trim($buf);
                         }
                     }
                     if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                            $usbbuf .= " ".trim($buf); 
+                            $usbbuf .= " ".trim($buf);
                     }
                     $dev = new HWDevice();
                     if (trim($usbbuf) != "") {

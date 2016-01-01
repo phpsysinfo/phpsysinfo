@@ -390,7 +390,7 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^Remaining capacity:\s*(.*)%$/', $roworig, $data)) {
                 $bat['capacity'] = $data[1];
-            
+
             /* OpenBSD */
             } elseif (preg_match('/^hw.sensors.acpibat0.volt0=(.*) VDC \(voltage\)$/', $roworig, $data)) {
                 $bat['design_voltage'] = 1000*$data[1];

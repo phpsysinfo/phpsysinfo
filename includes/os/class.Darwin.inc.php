@@ -379,7 +379,7 @@ class Darwin extends BSDCommon
                                     $unit = "G";
                                 } else {
                                     $unit = "M";
-                                } 
+                                }
                                 if (preg_match('/[<\s]([^\s<]+)-duplex/i', $buf2, $ar_buf3))
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]));
                                 else
