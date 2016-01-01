@@ -43,6 +43,7 @@ class Coretemp extends Sensors
                     $label = preg_replace("/_input$/", "_label", $tempsensor[$i]);
                     $crit = preg_replace("/_input$/", "_crit", $tempsensor[$i]);
                     $max = preg_replace("/_input$/", "_max", $tempsensor[$i]);
+                    $crit_alarm = preg_replace("/_input$/", "_crit_alarm", $tempsensor[$i]);
                     if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
                         $dev->setName(trim($buf));
                     } else {
@@ -50,6 +51,9 @@ class Coretemp extends Sensors
                     }
                     if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
                         $dev->setMax(trim($buf)/1000);
+                        if (CommonFunctions::fileexists($crit_alarm) && CommonFunctions::rfts($crit_alarm, $buf, 1, 4096, false) && (trim($buf) === "1")) {
+                            $dev->setEvent("Critical Alarm");
+                        }
                     } elseif (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
                         $dev->setMax(trim($buf)/1000);
                     }
