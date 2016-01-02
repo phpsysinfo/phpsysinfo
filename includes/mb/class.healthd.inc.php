@@ -91,17 +91,17 @@ class Healthd extends Sensors
         $dev1 = new SensorDevice();
         $dev1->setName('fan1');
         $dev1->setValue($ar_buf[4]);
-        $dev1->setMin(3000);
+//        $dev1->setMin(3000);
         $this->mbinfo->setMbFan($dev1);
         $dev2 = new SensorDevice();
         $dev2->setName('fan2');
         $dev2->setValue($ar_buf[5]);
-        $dev2->setMin(3000);
+//        $dev2->setMin(3000);
         $this->mbinfo->setMbFan($dev2);
         $dev3 = new SensorDevice();
         $dev3->setName('fan3');
         $dev3->setValue($ar_buf[6]);
-        $dev3->setMin(3000);
+//        $dev3->setMin(3000);
         $this->mbinfo->setMbFan($dev3);
     }
 

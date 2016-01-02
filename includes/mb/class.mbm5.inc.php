@@ -98,7 +98,7 @@ class MBM5 extends Sensors
             $dev = new SensorDevice();
             $dev->setName($this->_buf_label[$intPosi]);
             $dev->setValue($hits[0]);
-            $dev->setMin(3000);
+//            $dev->setMin(3000);
             $this->mbinfo->setMbFan($dev);
         }
     }
