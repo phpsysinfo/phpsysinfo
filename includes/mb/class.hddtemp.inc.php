@@ -114,7 +114,7 @@ class HDDTemp extends Sensors
                     if (is_numeric($data[3])) {
                         $dev->setValue($data[3]);
                     }
-                    $dev->setMax(60);
+//                    $dev->setMax(60);
                     $this->mbinfo->setMbTemp($dev);
                 }
             }

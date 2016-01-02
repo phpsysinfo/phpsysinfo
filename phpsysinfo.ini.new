@@ -207,6 +207,7 @@ SENSOR_PROGRAM=false
 ; - PiTemp         (no matter - always command)
 ; - OHM            (no matter - always command)
 ; - ThermalZone    (no matter - always command)
+; - QTSsnmp        (no matter - always command)
 ;
 SENSOR_ACCESS="command"
 

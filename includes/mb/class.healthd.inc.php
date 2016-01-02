@@ -66,17 +66,17 @@ class Healthd extends Sensors
         $dev1 = new SensorDevice();
         $dev1->setName('temp1');
         $dev1->setValue($ar_buf[1]);
-        $dev1->setMax(70);
+//        $dev1->setMax(70);
         $this->mbinfo->setMbTemp($dev1);
         $dev2 = new SensorDevice();
         $dev2->setName('temp1');
         $dev2->setValue($ar_buf[2]);
-        $dev2->setMax(70);
+//        $dev2->setMax(70);
         $this->mbinfo->setMbTemp($dev2);
         $dev3 = new SensorDevice();
         $dev3->setName('temp1');
         $dev3->setValue($ar_buf[3]);
-        $dev3->setMax(70);
+//        $dev3->setMax(70);
         $this->mbinfo->setMbTemp($dev3);
     }
 

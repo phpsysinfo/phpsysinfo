@@ -78,7 +78,7 @@ class MBMon extends Sensors
                 if ($data[2] <> '0') {
                     $dev = new SensorDevice();
                     $dev->setName($data[1]);
-                    $dev->setMax(70);
+//                    $dev->setMax(70);
                     if ($data[2] < 250) {
                         $dev->setValue($data[2]);
                     }
@@ -101,7 +101,7 @@ class MBMon extends Sensors
                     $dev = new SensorDevice();
                     $dev->setName($data[1]);
                     $dev->setValue($data[2]);
-                    $dev->setMax(3000);
+//                    $dev->setMax(3000);
                     $this->mbinfo->setMbFan($dev);
                 }
             }
