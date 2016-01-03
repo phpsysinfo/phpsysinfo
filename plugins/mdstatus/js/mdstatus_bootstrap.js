@@ -77,7 +77,7 @@ function renderPlugin_mdstatus(data) {
                 if (i) {
                     html += "<tr><td></td><td>";
                 } else {
-                    html += "<tr><th>"+genlang(3, false, 'mdstatus')"</th><td>";
+                    html += "<tr><th>"+genlang(3, false, 'mdstatus')+"</th><td>";
                 }
 
                 if (mditems[i]['Disks'] !== undefined) {
