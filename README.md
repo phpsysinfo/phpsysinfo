@@ -20,7 +20,7 @@ CURRENT TESTED PLATFORMS
 - DragonFly
 - HP-UX
 - Darwin/OSX
-- Windows 2000 / 2003 / 2008 / XP / Vista / 7 / 8 / 8.1 / 10
+- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2012 / 8 / 8.1 / 10
 - Android
 - > PHP 5.2 or later
   - With PCRE, XML, XSL, MBString and SimpleXML extension.
