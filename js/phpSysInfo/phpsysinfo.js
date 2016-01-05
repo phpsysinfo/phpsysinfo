@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded;
 
 
 /**
@@ -992,7 +992,9 @@ function refreshMemory(xml) {
                 tree.push(memoryindex);
             }
             if (!isNaN(app) || !isNaN(buff) || !isNaN(cached)) {
-                closed.push(memoryindex);
+                if (!showMemoryInfosExpanded) {
+                    closed.push(memoryindex);
+                }
             }
         });
     });
@@ -1007,7 +1009,9 @@ function refreshMemory(xml) {
 
         $("Memory Swap Mount", xml).each(function getDevices(id) {
             var free = 0, total = 0, used = 0, percent = 0, mpoint = "", mpid = 0;
-            closed.push(swapindex);
+            if (!showMemoryInfosExpanded) {
+                    closed.push(swapindex);
+            }
             free = parseInt($(this).attr("Free"), 10);
             used = parseInt($(this).attr("Used"), 10);
             total = parseInt($(this).attr("Total"), 10);
@@ -1443,6 +1447,7 @@ $(document).ready(function buildpage() {
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
 
     if ($("#language option").size() < 2) {
         current_language = $("#language").val().toString();

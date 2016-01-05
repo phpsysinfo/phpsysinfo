@@ -110,6 +110,11 @@ SHOW_CPULIST_EXPANDED=true
 SHOW_CPUINFO_EXPANDED=false
 
 
+; Show memory infos expanded
+;
+SHOW_MEMORY_INFOS_EXPANDED=false
+
+
 ; Define the interval for refreshing data in ms
 ; - 0 : disabled
 ; - 1000 : 1 second
