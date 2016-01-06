@@ -98,19 +98,6 @@ class SunOS extends OS
     }
 
     /**
-     * Number of Users
-     *
-     * @return void
-     */
-    private function _users()
-    {
-        if (CommonFunctions::executeProgram('who', '-q', $buf, PSI_DEBUG)) {
-            $who = preg_split('/=/', $buf);
-            $this->sys->setUsers($who[1]);
-        }
-    }
-
-    /**
      * Processor Load
      * optionally create a loadbar
      *

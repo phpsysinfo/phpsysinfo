@@ -192,7 +192,7 @@ class WINNT extends OS
      *
      * @return void
      */
-    private function _users()
+    protected function _users()
     {
         if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);

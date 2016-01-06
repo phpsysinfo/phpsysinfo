@@ -229,7 +229,7 @@ class Minix extends OS
      *
      * @return void
      */
-    private function _users()
+    protected function _users()
     {
         if (CommonFunctions::executeProgram('uptime', '', $buf)) {
             if (preg_match("/, (.*) users, load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {

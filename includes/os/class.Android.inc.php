@@ -57,7 +57,7 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _users()
+    protected function _users()
     {
         $this->sys->setUsers(1);
     }

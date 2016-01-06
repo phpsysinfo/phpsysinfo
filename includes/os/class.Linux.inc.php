@@ -167,21 +167,6 @@ class Linux extends OS
     }
 
     /**
-     * Number of Users
-     *
-     * @return void
-     */
-    private function _users()
-    {
-        if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
-            if (strlen(trim($strBuf)) > 0) {
-                $lines = preg_split('/\n/', $strBuf);
-                $this->sys->setUsers(count($lines));
-            }
-        }
-    }
-
-    /**
      * Processor Load
      * optionally create a loadbar
      *

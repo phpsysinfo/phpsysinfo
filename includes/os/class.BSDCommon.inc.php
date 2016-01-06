@@ -225,18 +225,6 @@ abstract class BSDCommon extends OS
     }
 
     /**
-     * Number of Users
-     *
-     * @return void
-     */
-    protected function users()
-    {
-        if (CommonFunctions::executeProgram('who', '| wc -l', $buf, PSI_DEBUG)) {
-            $this->sys->setUsers($buf);
-        }
-    }
-
-    /**
      * Processor Load
      * optionally create a loadbar
      *
@@ -583,10 +571,10 @@ abstract class BSDCommon extends OS
         $this->cpuinfo();
         $this->filesystems();
         $this->kernel();
-        $this->users();
         $this->loadavg();
         $this->hostname();
         $this->scsi();
         $this->usb();
+        $this->_users();
     }
 }

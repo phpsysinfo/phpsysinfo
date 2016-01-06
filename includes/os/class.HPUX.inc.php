@@ -73,19 +73,6 @@ class HPUX extends OS
     }
 
     /**
-     * Number of Users
-     *
-     * @return void
-     */
-    private function _users()
-    {
-        if (CommonFunctions::executeProgram('who', '-q', $ret)) {
-            $who = preg_split('/=/', $ret, -1, PREG_SPLIT_NO_EMPTY);
-            $this->sys->setUsers($who[1]);
-        }
-    }
-
-    /**
      * Processor Load
      * optionally create a loadbar
      *

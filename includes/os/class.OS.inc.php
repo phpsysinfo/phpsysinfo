@@ -70,11 +70,26 @@ abstract class OS implements PSI_Interface_OS
     }
 
     /**
+     * Number of Users
+     *
+     * @return void
+     */
+    protected function _users()
+    {
+        if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
+            if (strlen(trim($strBuf)) > 0) {
+                $lines = preg_split('/\n/', $strBuf);
+                $this->sys->setUsers(count($lines));
+            }
+        }
+    }
+
+    /**
      * IP of the Host
      *
      * @return void
      */
-    protected function ip()
+    protected function _ip()
     {
         if (PSI_USE_VHOST === true) {
             if ((($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) //is server address defined
@@ -107,7 +122,7 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
-        $this->ip();
+        $this->_ip();
 
         return $this->sys;
     }
