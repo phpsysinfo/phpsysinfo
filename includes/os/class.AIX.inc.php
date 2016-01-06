@@ -80,8 +80,11 @@ class AIX extends OS
      */
     private function _users()
     {
-        if (CommonFunctions::executeProgram('who', '| wc -l', $buf, PSI_DEBUG)) {
-            $this->sys->setUsers($buf);
+        if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
+            if (strlen(trim($strBuf)) > 0) {
+                $lines = preg_split('/\n/', $strBuf);
+                $this->sys->setUsers(count($lines));
+            }
         }
     }
 
