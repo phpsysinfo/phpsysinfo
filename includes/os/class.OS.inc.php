@@ -81,6 +81,11 @@ abstract class OS implements PSI_Interface_OS
                 $lines = preg_split('/\n/', $strBuf);
                 $this->sys->setUsers(count($lines));
             }
+        } elseif (CommonFunctions::executeProgram('uptime', '', $buf)) {
+            //if (preg_match("/,\s+(\d+)\s+user[s]?,\s+load average[s]?:\s+(.*),\s+(.*),\s+(.*)$/", $buf, $ar_buf)) {
+            if (preg_match("/,\s+(\d+)\s+user[s]?,/", $buf, $ar_buf)) {
+                $this->sys->setUsers($ar_buf[1]);
+            }
         }
     }
 

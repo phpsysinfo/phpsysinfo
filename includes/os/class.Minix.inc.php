@@ -224,19 +224,6 @@ class Minix extends OS
         }
     }
 
-    /**
-     * Number of Users
-     *
-     * @return void
-     */
-    protected function _users()
-    {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/, (.*) users, load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
-                $this->sys->setUsers($ar_buf[1]);
-            }
-        }
-    }
 
     /**
      * Virtual Host Name
