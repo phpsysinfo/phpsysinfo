@@ -224,7 +224,6 @@ class Minix extends OS
         }
     }
 
-
     /**
      * Virtual Host Name
      *
