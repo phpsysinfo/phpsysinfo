@@ -53,7 +53,7 @@ function renderPlugin_mdstatus(data) {
     }
 
     if (data['Plugins']['Plugin_MDStatus'] !== undefined) {
-        $('#mdstatus').empty();
+        $('#mdstatus-data').empty();
         if (data['Plugins']['Plugin_MDStatus']['Supported_Types'] !== undefined) {
             var stitems = items(data['Plugins']['Plugin_MDStatus']['Supported_Types']['Type']);
             if (stitems.length > 0) {
@@ -62,7 +62,7 @@ function renderPlugin_mdstatus(data) {
                     htmltypes += stitems[i]["@attributes"]["Name"] + " ";
                 }
                 htmltypes += "</th><tr>";
-                $('#mdstatus').append(htmltypes);
+                $('#mdstatus-data').append(htmltypes);
                 $('#block_mdstatus').show();
             } else {
                 $('#block_mdstatus').hide();
@@ -128,7 +128,7 @@ function renderPlugin_mdstatus(data) {
 
                 html +="</td></tr>";
             }
-            $('#mdstatus').append(html);
+            $('#mdstatus-data').append(html);
 
             for (var i = 0; i < mditems.length ; i++) {
                 if (mditems[i]['Disks'] !== undefined) {

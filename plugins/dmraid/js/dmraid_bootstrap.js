@@ -73,7 +73,7 @@ function renderPlugin_dmraid(data) {
 
                 html +="</td></tr>";
             }
-            $('#dmraid').empty().append(html);
+            $('#dmraid-data').empty().append(html);
 
             for (var i = 0; i < dmitems.length ; i++) {
                 if (dmitems[i]['Disks'] !== undefined) {

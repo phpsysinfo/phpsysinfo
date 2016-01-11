@@ -70,6 +70,7 @@ endforeach;
             <div class="panel-heading"><span id="lang_002">System vitals</span></div>
             <div class="panel-body">
                 <table id="vitals" class="table table-hover table-condensed">
+                    <tbody>
                     <tr>
                         <th><span id="lang_003">Hostname</span></th>
                         <td><span data-bind="Hostname"></span></td>
@@ -114,6 +115,7 @@ endforeach;
                         <th><span id="lang_110">Processes</span></th>
                         <td><span data-bind="Processes"></span></td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -124,6 +126,8 @@ endforeach;
             <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
             <div class="panel-body">
                 <table id="hardware" class="table table-hover table-condensed">
+                    <tbody id="hardware-data">
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -362,6 +366,8 @@ endforeach;
             <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
             <div class="panel-body">
                 <table id="ups" class="table table-hover table-condensed">
+                    <tbody id="ups-data">
+                    </tbody>
                 </table>
             </div>
         </div>

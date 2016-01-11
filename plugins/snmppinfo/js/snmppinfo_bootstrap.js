@@ -46,13 +46,6 @@ function renderPlugin_snmppinfo(data) {
         var printers = items(data['Plugins']['Plugin_SNMPPInfo']['Printer']);
         if (printers.length > 0) {
             var html = "";
-            html+="<thead>";
-            html+="<tr>";
-            html+="<th>"+genlang(3, false, 'snmppinfo')+"</th>"; // Printer
-            html+="<th>"+genlang(4, false, 'snmppinfo')+"</th>"; // Percent
-            html+="<th class=\"rightCell\">"+genlang(5, false,'snmppinfo')+"</th>"; // Units
-            html+="</tr>";
-            html+="</thead>";
             for (var i = 0; i < printers.length; i++) {
                 html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
                 html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
@@ -75,7 +68,7 @@ function renderPlugin_snmppinfo(data) {
                 }
             }
 
-            $("#snmppinfo").empty().append(html);
+            $("#snmppinfo-data").empty().append(html);
 
             for (var i = 0; i < printers.length; i++) {
                 $('#snmppinfo-'+ i).render(printers[i]["@attributes"], directives);

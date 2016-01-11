@@ -621,10 +621,10 @@ function renderHardware(data) {
             }
         }
         catch (err) {
-            $("#hardware-"+hw_type).hide();
+            $("#hardware-data"+hw_type).hide();
         }
     }
-    $("#hardware").empty().append(html);
+    $("#hardware-data").empty().append(html);
 
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
@@ -1204,7 +1204,7 @@ function renderUPS(data) {
             html+="</tr>";
         }
 
-        $("#ups").empty().append(html);
+        $("#ups-data").empty().append(html);
 
         try {
             var datas = items(data["UPSInfo"]["UPS"]);

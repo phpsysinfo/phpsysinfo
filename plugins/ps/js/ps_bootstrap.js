@@ -19,15 +19,6 @@ function renderPlugin_ps(data) {
         if (psitems.length > 0) {
  
             var html = "", ps_item = [], expanded = 1;
-            html+="<thead>";
-            html+="<tr>";
-            html+="<th>"+genlang(3, false, 'ps')+"</th>";// Command
-            html+="<th>"+genlang(4, false, 'ps')+"</th>"; // Process ID
-            html+="<th>"+genlang(5, false, 'ps')+"</th>"; // Parent ID
-            html+="<th>"+genlang(6, false, 'ps')+"</th>"; // Memory Usage
-            html+="</tr>";
-            html+="</thead>";
-
             for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
                 
@@ -43,7 +34,7 @@ function renderPlugin_ps(data) {
                 html+="</tr>";
             } 
 
-            $("#ps").empty().append(html);
+            $("#ps-data").empty().append(html);
             
             $('#ps').treegrid({
                 initialState: 'expanded',
