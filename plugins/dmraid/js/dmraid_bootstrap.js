@@ -68,7 +68,6 @@ function renderPlugin_dmraid(data) {
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(11, true, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Spares"]) + "</td></tr>";	// Spares
                     html += "</table>";
                     html += "</td></tr>";
-                    html += "</table>";
                 }
 
                 html +="</td></tr>";
