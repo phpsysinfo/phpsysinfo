@@ -123,7 +123,6 @@ function renderPlugin_mdstatus(data) {
                     }
                     html += "</table>";
                     html += "</td></tr>";
-                    html += "</table>";
                 }
 
                 html +="</td></tr>";
