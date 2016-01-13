@@ -603,6 +603,11 @@ class XML
         if (!$this->_plugin_request || $this->_complete_request) {
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
+                    // unstable version check
+                    if (!is_numeric(substr(PSI_VERSION, -1))) {
+                        $this->_errors->addError("WARN", "This is an unstable version of phpSysInfo, some things may not work correctly");
+                    }
+
                     // Safe mode check
                     $safe_mode = @ini_get("safe_mode") ? true : false;
                     if ($safe_mode) {
