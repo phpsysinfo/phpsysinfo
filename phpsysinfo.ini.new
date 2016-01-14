@@ -552,7 +552,7 @@ FILE="/var/lib/update-notifier/updates-available"
 ;             if access error try execute first: chmod 4755 /usr/bin/uprecords
 ;             This method is not recommended for safety reasons!
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "uprecords.txt"; content is the output from "env TZ=GMT uprecords -a -w")
+;          with the filename "uprecords.txt"; content is the output from "TZ=GMT uprecords -a -w")
 ;
 ACCESS="command"
 
