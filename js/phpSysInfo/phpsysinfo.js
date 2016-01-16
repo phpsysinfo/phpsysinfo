@@ -631,7 +631,7 @@ function refreshVitals(xml) {
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
         $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='$(this).ifixpng(\"./gfx/blank.gif\");' />&nbsp;" + distro); //onload IE6 PNG fix
+        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='if (typeof($(this).ifixpng)===\"function\") $(this).ifixpng(\"./gfx/blank.gif\");' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
         if (typeof(lastboot.toUTCString)==="function") {
             $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()

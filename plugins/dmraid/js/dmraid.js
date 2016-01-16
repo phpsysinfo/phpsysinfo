@@ -92,7 +92,7 @@ function dmraid_diskicon(xml) {
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_dmraid_biun\" src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px;\" onload=\"$(this).ifixpng('./gfx/blank.gif');\" />"; //onload IE6 PNG fix
+        html += "<img class=\"plugin_dmraid_biun\" src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px;\" onload=\"if (typeof($(this).ifixpng)==='function') $(this).ifixpng('./gfx/blank.gif');\" />"; //onload IE6 PNG fix
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });

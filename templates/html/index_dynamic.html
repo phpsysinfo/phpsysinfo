@@ -26,7 +26,9 @@
     <script type="text/JavaScript" src="./js.php?name=jquery.jgrowl"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.timers"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.treeTable"></script>
+<!--[if lte IE 6]>
     <script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
+<![endif]-->
     <script type="text/JavaScript" src="./js.php?name=phpsysinfo"></script>
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
     <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
