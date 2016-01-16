@@ -25,7 +25,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="container">
         <a class="navbar-brand">
-            <img class="logo" alt="" src="gfx/logo_48.png" title="reload" style="display:inline; width:32px;"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
+            <img class="logo" alt="" src="gfx/logo_32.gif" title="reload" style="display:inline; width:32px;"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:inline; visibility: hidden;"/>
             <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="display:inline; visibility: hidden;"/>
         </a>
@@ -412,10 +412,7 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
-
-<!--[if lt IE 7]>
-<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js">IE7_PNG_SUFFIX=".png";</script>
-<![endif]-->
+<script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
 <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>

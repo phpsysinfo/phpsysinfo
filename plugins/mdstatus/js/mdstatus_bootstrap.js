@@ -46,7 +46,7 @@ function renderPlugin_mdstatus(data) {
                 alt = "error";
                 break;
         }
-        html += "<img src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" />";
+        html += "<img src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" onload=\"$(this).ifixpng('./gfx/blank.gif');\" />";
         html += "<small>" + data["Name"] + "</small>";
         html += "</div>";
         return html;
