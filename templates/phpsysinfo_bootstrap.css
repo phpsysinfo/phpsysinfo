@@ -110,6 +110,11 @@ table.borderless td,table.borderless th{
     cursor: pointer;
 }
 
+.panel-heading {
+  background-color: #337ab7!important;
+  border-color: #337ab7!important;
+}
+
 .reload {
     background-image: url("../gfx/reload.gif");
     vertical-align: middle;
