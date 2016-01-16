@@ -28,6 +28,14 @@
 var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded;
 
+/**
+ * Fix PNG loading on IE6 or below
+ */
+function PNGload(png) {
+    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
+        png.ifixpng('./gfx/blank.gif');
+    }
+}
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -631,7 +639,7 @@ function refreshVitals(xml) {
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
         $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='if (typeof($(this).ifixpng)===\"function\") $(this).ifixpng(\"./gfx/blank.gif\");' />&nbsp;" + distro); //onload IE6 PNG fix
+        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
         if (typeof(lastboot.toUTCString)==="function") {
             $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()

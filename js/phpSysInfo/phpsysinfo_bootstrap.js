@@ -12,6 +12,15 @@ var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins 
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
 
 /**
+ * Fix PNG loading on IE6 or below
+ */
+function PNGload(png) {
+    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
+        png.ifixpng('./gfx/blank.gif');
+    }
+}
+
+/**
  * generate a cookie, if not exist, and add an entry to it<br><br>
  * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
  * @param {String} name name that holds the value
@@ -424,7 +433,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px;height:32px;" onload="if (typeof($(this).ifixpng)===\'function\') $(this).ifixpng(\'./gfx/blank.gif\');" />' + " " +this["Distro"]; //onload IE6 PNG fix
+                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this["Distro"]; //onload IE6 PNG fix
             }
         },
         LoadAvg: {
