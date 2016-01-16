@@ -37,23 +37,27 @@ wbr {
 
 .treegrid-span {
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-spanbold {
     font-weight: bold;
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-indent {
     width: 16px;
     height: 16px;
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-expander {
     width: 0px;
     height: 16px;
     display: table-cell;
+    *float: left;
     cursor: pointer;
 }
 
@@ -63,6 +67,7 @@ wbr {
     position: relative;
     top: 1px;
     display: table-cell;
+    *float: left;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
