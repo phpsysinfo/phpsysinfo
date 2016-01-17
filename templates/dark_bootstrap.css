@@ -83,20 +83,20 @@ wbr {
 }
 /* IE6 fix */
 * html .normalicon-right {
-    background: url('../gfx/right_grey.gif') no-repeat;
+    background: url('../gfx/right_gray.gif') no-repeat;
     height: 14px;
 }
 * html .normalicon-down {
-    background: url('../gfx/down_grey.gif') no-repeat;
+    background: url('../gfx/down_gray.gif') no-repeat;
     height: 14px;
 }
 /* IE7 fix */
 *+html .normalicon-right {
-    background: url('../gfx/right_grey.gif') no-repeat;
+    background: url('../gfx/right_gray.gif') no-repeat;
     height: 14px;
 }
 *+html .normalicon-down {
-    background: url('../gfx/down_grey.gif') no-repeat;
+    background: url('../gfx/down_gray.gif') no-repeat;
     height: 14px;
 }
 
