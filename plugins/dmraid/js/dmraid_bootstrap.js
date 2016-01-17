@@ -29,7 +29,7 @@ function renderPlugin_dmraid(data) {
                 alt = "error";
                 break;
         }
-        html += "<img src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" />"; //onload IE6 PNG fix
+        html += "<img src=\"./plugins/dmraid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"float:left;width:60px;height:60px;\" onload=\"PNGload($(this));\" />"; //onload IE6 PNG fix
         html += "<small>" + data["Name"] + "</small>";
         html += "</div>";
         return html;
