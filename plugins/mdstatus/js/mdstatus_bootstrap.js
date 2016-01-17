@@ -95,7 +95,7 @@ function renderPlugin_mdstatus(data) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
 
-                    html += "</td></tr><tr><td>";
+                    html += "</td></tr>";
                     if (mditems[i]['Action'] !== undefined) {
                         var buildedaction = raid_buildaction(mditems[i]['Action']['@attributes']);
                         if (buildedaction) {
@@ -103,6 +103,7 @@ function renderPlugin_mdstatus(data) {
                         }
                     }
 
+                    html += "<tr><td>";
                     html += "<table id=\"mdstatus-" + i + "\" class=\"table table-hover table-condensed\"><tbody>";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">" + mditems[i]["@attributes"]["Device_Name"] + "</span></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, true,'mdstatus')+"</span></td><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
