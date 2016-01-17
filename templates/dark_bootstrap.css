@@ -81,6 +81,24 @@ wbr {
 .normalicon-down:before {
     content: "\25bc";
 }
+/* IE6 fix */
+* html .normalicon-right {
+    background: url('../gfx/right_grey.gif') no-repeat;
+    height: 14px;
+}
+* html .normalicon-down {
+    background: url('../gfx/down_grey.gif') no-repeat;
+    height: 14px;
+}
+/* IE7 fix */
+*+html .normalicon-right {
+    background: url('../gfx/right_grey.gif') no-repeat;
+    height: 14px;
+}
+*+html .normalicon-down {
+    background: url('../gfx/down_grey.gif') no-repeat;
+    height: 14px;
+}
 
 table.sortable thead th {
     cursor: pointer;
