@@ -53,7 +53,7 @@ function dmraid_buildinfos(xml, id) {
     html += "<tr><td>" + genlang(11, true, "DMRaid") + "</td><td>" + devspares + "</td></tr>";
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
-    button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
+    button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -107,14 +107,16 @@ function dmraid_populate(xml) {
     var htmltypes = "";
 
     $("#Plugin_DMRaidTable").empty();
+    $("#Plugin_DMRaidTable").append("<tbody>");
+
     $("Plugins Plugin_DMRaid Raid", xml).each(function dmraid_getdevice(id) {
         var htmldisks = "", htmldisklist = "", topic = "", name = "", buildedaction = "";
         name = $(this).attr("Device_Name");
         htmldisklist += dmraid_diskicon(this);
-        htmldisks += "<table style=\"width:100%;\">";
+        htmldisks += "<table style=\"width:100%;\"><tbody>";
         htmldisks += "<tr><td>" + htmldisklist + "</td></tr>";
-        htmldisks += "<tr><td>" + dmraid_buildinfos($(this), id) + "<td></tr>";
-        htmldisks += "</table>";
+        htmldisks += "<tr><td>" + dmraid_buildinfos($(this), id) + "</td></tr>";
+        htmldisks += "</tbody></table>";
         if (id) {
             topic = "";
         }
@@ -134,6 +136,8 @@ function dmraid_populate(xml) {
         });
         dmraid_show = true;
     });
+
+    $("#Plugin_DMRaidTable").append("</tbody>");
 }
 
 /**

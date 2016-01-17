@@ -7,9 +7,9 @@ function renderPlugin_mdstatus(data) {
             if ((name !== undefined) && (parseInt(name) !== -1)) {
                 percent = Math.round(parseFloat(data['Percent']));
                 html += "<div>" + genlang(13, true,'mdstatus') + ":" + String.fromCharCode(160) + name + "<br/>";
-                html += '<table style="width:100%;"><tr><td style="width:50%;"><div class="progress">' +
+                html += '<table style="width:100%;"><tbody><tr><td style="width:50%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
-                        '</div><div class="percent">' + percent + '%</div></td><td></td></tr></table>';
+                        '</div><div class="percent">' + percent + '%</div></td><td></td></tr></tbody></table>';
                 html += genlang(14, true,'mdstatus') + ":" + String.fromCharCode(160) + data['Time_To_Finish'] + String.fromCharCode(160) + data['Time_Unit'];
                 html += "</div>";
             }
@@ -87,7 +87,7 @@ function renderPlugin_mdstatus(data) {
                     var devactive = parseInt(mditems[i]["@attributes"]["Disks_Active"]);
                     var devregis = parseInt(mditems[i]["@attributes"]["Disks_Registered"]);
 
-                    html += "<table style=\"width:100%;\">";
+                    html += "<table style=\"width:100%;\"><tbody>";
                     html += "<tr><td>";
 
                     var diskitems = items(mditems[i]['Disks']['Disk']);
@@ -103,7 +103,7 @@ function renderPlugin_mdstatus(data) {
                         }
                     }
 
-                    html += "<table id=\"mdstatus-" + i + "\" class=\"table table-hover table-condensed\">";
+                    html += "<table id=\"mdstatus-" + i + "\" class=\"table table-hover table-condensed\"><tbody>";
                     html += "<tr class=\"treegrid-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">" + mditems[i]["@attributes"]["Device_Name"] + "</span></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, true,'mdstatus')+"</span></td><td>" + mditems[i]["@attributes"]["Disk_Status"] + "</td></tr>";
                     html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, true ,'mdstatus')+"</span></td><td>" + mditems[i]["@attributes"]["Level"] + "</td></tr>";
@@ -121,8 +121,9 @@ function renderPlugin_mdstatus(data) {
                     if (devactive !== -1 && devregis !== -1) {
                         html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(12, true, 'mdstatus')+"</span></td><td>" + devregis + "/<wbr>" + devactive + "</td></tr>";
                     }
-                    html += "</table>";
+                    html += "</tbody></table>";
                     html += "</td></tr>";
+                    html += "</tbody></table>";
                 }
 
                 html +="</td></tr>";

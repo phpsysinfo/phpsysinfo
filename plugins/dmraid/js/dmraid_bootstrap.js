@@ -47,7 +47,7 @@ function renderPlugin_dmraid(data) {
                 }
 
                 if (dmitems[i]['Disks'] !== undefined) {
-                    html += "<table style=\"width:100%;\">";
+                    html += "<table style=\"width:100%;\"><tbody>";
                     html += "<tr><td>";
 
                     var diskitems = items(dmitems[i]['Disks']['Disk']);
@@ -56,7 +56,7 @@ function renderPlugin_dmraid(data) {
                     }
 
                     html += "</td></tr><tr><td>";
-                    html += "<table id=\"dmraid-" + i + "\"class=\"table table-hover table-condensed\">";
+                    html += "<table id=\"dmraid-" + i + "\"class=\"table table-hover table-condensed\"><tbody>";
                     html += "<tr class=\"treegrid-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + dmitems[i]["@attributes"]["Device_Name"] + "</span></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, true, 'dmraid')+"</span></td><td>" + dmitems[i]["@attributes"]["Name"] + "</td></tr>";  		// Name
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, true, 'dmraid')+"</span></td><td>" + dmitems[i]["@attributes"]["Disk_Status"] + "</td></tr>"; 	// Status
@@ -66,8 +66,9 @@ function renderPlugin_dmraid(data) {
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, true, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Subsets"]) + "</td></tr>"; // Subsets
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(10, true, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Devs"]) + "</td></tr>";  	// Devices
                     html += "<tr class=\"treegrid-parent-dmraid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(11, true, 'dmraid')+"</span></td><td>" + parseInt(dmitems[i]["@attributes"]["Spares"]) + "</td></tr>";	// Spares
-                    html += "</table>";
+                    html += "</tbody></table>";
                     html += "</td></tr>";
+                    html += "</tbody></table>";
                 }
 
                 html +="</td></tr>";
