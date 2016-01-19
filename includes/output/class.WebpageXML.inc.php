@@ -90,18 +90,6 @@ class WebpageXML extends Output implements PSI_Interface_Output
              */
             define('PSI_MBINFO', serialize($foundsp));
 
-            // check if there is a valid hddtemp configuration in phpsysinfo.ini
-            $found = false;
-            if (PSI_HDD_TEMP !== false) {
-                $found = true;
-            }
-            /**
-             * hddtemp information available or not
-             *
-             * @var boolean
-             */
-            define('PSI_HDDTEMP', $found);
-
             // check if there is a valid ups configuration in phpsysinfo.ini
             $foundup = array();
             if (defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM)) {

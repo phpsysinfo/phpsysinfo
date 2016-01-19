@@ -511,22 +511,6 @@ class XML
                 }
             }
         }
-
-        if (PSI_HDDTEMP) {
-            $hddtemp = new HDDTemp();
-            $hddtemp_data = $hddtemp->getMBInfo();
-            foreach ($hddtemp_data->getMbTemp() as $dev) {
-                if ($temp == null) {
-                    $temp = $mbinfo->addChild('Temperature');
-                }
-                $item = $temp->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMax() !== null) {
-                    $item->addAttribute('Max', $dev->getMax());
-                }
-            }
-        }
     }
 
     /**

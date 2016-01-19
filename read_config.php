@@ -20,6 +20,8 @@ if (!defined('PSI_CONFIG_FILE')) {
         foreach ($config as $name=>$group) {
             if (strtoupper($name)=="MAIN") {
                 $name_prefix='PSI_';
+            } elseif (strtoupper(substr($name), 0, 7)=="SENSOR_") {
+                $name_prefix='PSI_'.strtoupper($name).'_';
             } else {
                 $name_prefix='PSI_PLUGIN_'.strtoupper($name).'_';
             }

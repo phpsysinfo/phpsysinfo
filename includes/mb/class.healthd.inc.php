@@ -38,13 +38,13 @@ class Healthd extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (strtolower(PSI_SENSOR_ACCESS)) {
+        switch (defined('PSI_SENSOR_HEALTHD_ACCESS')?strtolower(PSI_SENSOR_HEALTHD_ACCESS):'command') {
         case 'command':
             $lines = "";
             CommonFunctions::executeProgram('healthdc', '-t', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
-        case 'file':
+        case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/healthd.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
