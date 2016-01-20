@@ -33,7 +33,7 @@ class MBMon extends Sensors
     private $_lines = array();
 
     /**
-     * fill the private content var through tcp or file access
+     * fill the private content var through tcp, command or data access
      */
     public function __construct()
     {
