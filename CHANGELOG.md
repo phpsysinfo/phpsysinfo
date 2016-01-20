@@ -16,6 +16,7 @@ phpSysInfo 3.2.5
  - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD
  - [NEW] Coretemp monitoring also on Linux
  - [NEW] QTSsnmp - SNMP sensors monitoring for QTS Linux
+ - [NEW] Hwmon - sensors monitoring for Linux
  - [NEW] Separate configuration sections for motherboard monitoring sensors programs
 
 phpSysInfo 3.2.4
