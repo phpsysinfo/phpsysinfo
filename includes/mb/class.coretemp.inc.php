@@ -51,7 +51,7 @@ class Coretemp extends Sensors
                         if ($labelname !== "") { 
                             $dev->setName($labelname);
                         } else {
-                            $dev->setName("unknown");
+                            $dev->setName('unknown');
                         }
                     }
                     if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
