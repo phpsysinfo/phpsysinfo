@@ -243,8 +243,8 @@ class Hwmon extends Sensors
     public function build()
     {
        $hwpaths = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
-       if (($total = count($hwpaths)) > 0) {
-            for ($h = 0; $h < $total; $h++) {
+       if (($totalh = count($hwpaths)) > 0) {
+            for ($h = 0; $h < $totalh; $h++) {
                 $this->_temperature($hwpaths[$h]);
                 $this->_voltage($hwpaths[$h]);
                 $this->_fans($hwpaths[$h]);
