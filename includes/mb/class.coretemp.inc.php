@@ -34,35 +34,41 @@ class Coretemp extends Sensors
     private function _temperature()
     {
         if (PSI_OS == 'Linux') {
-           $tempsensor = glob("/sys/devices/platform/coretemp.0/temp*_input", GLOB_NOSORT);
-           if (($total = count($tempsensor)) > 0) {
-                $buf = "";
-                for ($i = 0; $i < $total; $i++) if (CommonFunctions::rfts($tempsensor[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev = new SensorDevice();
-                    $dev->setValue(trim($buf)/1000);
-                    $label = preg_replace("/_input$/", "_label", $tempsensor[$i]);
-                    $crit = preg_replace("/_input$/", "_crit", $tempsensor[$i]);
-                    $max = preg_replace("/_input$/", "_max", $tempsensor[$i]);
-                    $crit_alarm = preg_replace("/_input$/", "_crit_alarm", $tempsensor[$i]);
-                    if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                        $dev->setName(trim($buf));
-                    } else {
-                        $labelname = trim(preg_replace("/_input$/", "",  pathinfo($tempsensor[$i], PATHINFO_BASENAME)));
-                        if ($labelname !== "") {
-                            $dev->setName($labelname);
-                        } else {
-                            $dev->setName('unknown');
+           $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
+           if (($totalh = count($hwpaths)) > 0) {
+               $buf = "";
+               for ($h = 0; $h < $totalh; $h++) {
+                   $tempsensor = glob($hwpaths[$h]."temp*_input", GLOB_NOSORT);
+                   if (($total = count($tempsensor)) > 0) {
+                        $buf = "";
+                        for ($i = 0; $i < $total; $i++) if (CommonFunctions::rfts($tempsensor[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
+                            $dev = new SensorDevice();
+                            $dev->setValue(trim($buf)/1000);
+                            $label = preg_replace("/_input$/", "_label", $tempsensor[$i]);
+                            $crit = preg_replace("/_input$/", "_crit", $tempsensor[$i]);
+                            $max = preg_replace("/_input$/", "_max", $tempsensor[$i]);
+                            $crit_alarm = preg_replace("/_input$/", "_crit_alarm", $tempsensor[$i]);
+                            if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                                $dev->setName(trim($buf));
+                            } else {
+                                $labelname = trim(preg_replace("/_input$/", "",  pathinfo($tempsensor[$i], PATHINFO_BASENAME)));
+                                if ($labelname !== "") {
+                                    $dev->setName($labelname);
+                                } else {
+                                    $dev->setName('unknown');
+                                }
+                            }
+                            if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                                $dev->setMax(trim($buf)/1000);
+                                if (CommonFunctions::fileexists($crit_alarm) && CommonFunctions::rfts($crit_alarm, $buf, 1, 4096, false) && (trim($buf) === "1")) {
+                                    $dev->setEvent("Critical Alarm");
+                                }
+                            } elseif (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                                $dev->setMax(trim($buf)/1000);
+                            }
+                            $this->mbinfo->setMbTemp($dev);
                         }
                     }
-                    if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                        $dev->setMax(trim($buf)/1000);
-                        if (CommonFunctions::fileexists($crit_alarm) && CommonFunctions::rfts($crit_alarm, $buf, 1, 4096, false) && (trim($buf) === "1")) {
-                            $dev->setEvent("Critical Alarm");
-                        }
-                    } elseif (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                        $dev->setMax(trim($buf)/1000);
-                    }
-                    $this->mbinfo->setMbTemp($dev);
                 }
             }
         } else {
