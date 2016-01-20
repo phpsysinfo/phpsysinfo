@@ -47,7 +47,7 @@ class Hwmon extends Sensors
                     $dev->setName(trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
-                    if ($labelname !== "") { 
+                    if ($labelname !== "") {
                         $dev->setName($labelname);
                     } else {
                         $dev->setName('unknown');
@@ -87,7 +87,7 @@ class Hwmon extends Sensors
                     $dev->setName(trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
-                    if ($labelname !== "") { 
+                    if ($labelname !== "") {
                         $dev->setName($labelname);
                     } else {
                         $dev->setName('unknown');
@@ -129,7 +129,7 @@ class Hwmon extends Sensors
                     $dev->setName(trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
-                    if ($labelname !== "") { 
+                    if ($labelname !== "") {
                         $dev->setName($labelname);
                     } else {
                         $dev->setName('unknown');
@@ -172,7 +172,7 @@ class Hwmon extends Sensors
                     $dev->setName(trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
-                    if ($labelname !== "") { 
+                    if ($labelname !== "") {
                         $dev->setName($labelname);
                     } else {
                         $dev->setName('unknown');
@@ -213,7 +213,7 @@ class Hwmon extends Sensors
                     $dev->setName(trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
-                    if ($labelname !== "") { 
+                    if ($labelname !== "") {
                         $dev->setName($labelname);
                     } else {
                         $dev->setName('unknown');

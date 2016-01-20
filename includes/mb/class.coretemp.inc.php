@@ -48,7 +48,7 @@ class Coretemp extends Sensors
                         $dev->setName(trim($buf));
                     } else {
                         $labelname = trim(preg_replace("/_input$/", "",  pathinfo($tempsensor[$i], PATHINFO_BASENAME)));
-                        if ($labelname !== "") { 
+                        if ($labelname !== "") {
                             $dev->setName($labelname);
                         } else {
                             $dev->setName('unknown');
