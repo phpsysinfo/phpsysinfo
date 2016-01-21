@@ -69,7 +69,7 @@ class SNMPPInfo extends PSI_Plugin
                         }
                     }
                 }
-            break;
+                break;
         case 'php-snmp':
                 if (!extension_loaded("snmp")) {
                     $this->global_error->addError("Requirements error", "SNMPPInfo plugin requires the snmp extension to php in order to work properly");
@@ -138,7 +138,7 @@ class SNMPPInfo extends PSI_Plugin
                         }
                     }
                 }
-            break;
+                break;
         case 'data':
                 if (defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES)) {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_SNMPPINFO_DEVICES)) {
