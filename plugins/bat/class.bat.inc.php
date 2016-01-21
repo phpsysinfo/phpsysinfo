@@ -507,9 +507,19 @@ class BAT extends PSI_Plugin
             $xmlbat = $this->xml->addChild("Bat");
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&
                 isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
-                $xmlbat->addAttribute("FullCapacity", 100);
-                $xmlbat->addAttribute("RemainingCapacity", $bat_item['capacity']);
-                $xmlbat->addAttribute("CapacityUnit", "%");
+                if (isset($bat_item['capacity_unit']) && ($bat_item['capacity_unit'] !== "???")
+                   && (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] > 0))) {
+                    $xmlbat->addAttribute("CapacityUnit", $bat_item['capacity_unit']);
+                    $xmlbat->addAttribute("RemainingCapacity", round($bat_item['capacity']*$bat_item['full_capacity']/100));
+                    $xmlbat->addAttribute("FullCapacity", $bat_item['full_capacity']);
+                    if (isset($bat_item['design_capacity'])) {
+                        $xmlbat->addAttribute("DesignCapacity", $bat_item['design_capacity']);
+                    }
+                } else {
+                    $xmlbat->addAttribute("FullCapacity", 100);
+                    $xmlbat->addAttribute("RemainingCapacity", $bat_item['capacity']);
+                    $xmlbat->addAttribute("CapacityUnit", "%");
+                }
             } else {
                 if (isset($bat_item['full_capacity'])) {
                     if (isset($bat_item['design_capacity'])) {
