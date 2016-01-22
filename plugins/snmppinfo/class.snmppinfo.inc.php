@@ -97,7 +97,7 @@ class SNMPPInfo extends PSI_Plugin
                         if (! empty($bufferarr)) {
                             $buffer="";
                             foreach ($bufferarr as $id=>$string) {
-                                $buffer=$buffer.$id." = ".$string."\n";
+                                $buffer .= $id." = ".$string."\n";
                             }
 
                             if (! PSI_DEBUG) {
@@ -112,7 +112,7 @@ class SNMPPInfo extends PSI_Plugin
                             }
                             if (! empty($bufferarr2)) {
                                 foreach ($bufferarr2 as $id=>$string) {
-                                    $buffer=$buffer.$id." = ".$string."\n";
+                                    $buffer .= $id." = ".$string."\n";
                                 }
                             }
 
@@ -128,7 +128,7 @@ class SNMPPInfo extends PSI_Plugin
                             }
                             if (! empty($bufferarr3)) {
                                 foreach ($bufferarr3 as $id=>$string) {
-                                    $buffer=$buffer.$id." = ".$string."\n";
+                                    $buffer .= $id." = ".$string."\n";
                                 }
                             }
 
