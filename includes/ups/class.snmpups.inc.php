@@ -149,127 +149,123 @@ class SNMPups extends UPS
         if (empty($this->_output)) {
             return;
         }
-        foreach ($this->_output as $ups) {
-            $lines = preg_split('/\r?\n/', $ups);
+        foreach ($this->_output as $result) {
             $dev = new UPSDevice();
-            $status1 = "";
+            $status = "";
             $status2 = "";
             $status3 = "";
-            foreach ($lines as $line) {
-                $dev->setMode("SNMP");
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.1\.1\.2\.0 = STRING:\s(.*)/', $line, $data)) {
-                    $dev->setName(trim($data[1], "\""));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.1\.1\.1\.0 = STRING:\s(.*)/', $line, $data)) {
-                    $dev->setModel(trim($data[1], "\""));
-                }
-                 if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.1\.1\.0 = INTEGER:\s(.*)/', $line, $data)) {
-                    switch (trim($data[1])) {
-                        case 1: $status1 = "Unknown";
-                                break;
-                        case 2: $status1 = "On Line";
-                                break;
-                        case 3: $status1 = "On Battery";
-                                break;
-                        case 4: $status1 = "On Smart Boost";
-                                break;
-                        case 5: $status1 = "Timed Sleeping";
-                                break;
-                        case 6: $status1 = "Software Bypass";
-                                break;
-                        case 7: $status1 = "Off";
-                                break;
-                        case 8: $status1 = "Rebooting";
-                                break;
-                        case 9: $status1 = "Switched Bypass";
-                                break;
-                        case 10:$status1 = "Hardware Failure Bypass";
-                                break;
-                        case 11:$status1 = "Sleeping Until Power Returns";
-                                break;
-                        case 12:$status1 = "On Smart Trim";
-                                break;
-                       default: $status1 = "Unknown state: ".trim($data[1]);
-                                break;
-                    }
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.1\.0 = INTEGER:\s(.*)/', $line, $data)) {
-                    switch (trim($data[1])) {
-                        case 1: $status2 = "Battery Unknown";
-                                break;
-                        case 2: break;
-                        case 3: $status2 = "Battery Low";
-                                break;
-                       default: $status2 = "Battery Unknown: ".trim($data[1]);
-                                break;
-                    }
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.4\.0 = INTEGER:\s(.*)/', $line, $data)) {
-                    switch (trim($data[1])) {
-                        case 1: break;
-                        case 2: $status3 = "Replace Battery";
-                                break;
-                       default: $status3 = "Replace Battery: ".trim($data[1]);
-                                break;
-                    }
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.3\.1\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLineVoltage(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.2\.1\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLineVoltage(trim($data[1]));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.3\.3\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLoad(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.2\.3\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLoad(trim($data[1]));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.4\.0 = INTEGER:\s(.*)/', $line, $data)) {
-                    $dev->setBatteryVoltage(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.8\.0 = INTEGER:\s(.*)/', $line, $data)) {
-                    $dev->setBatteryVoltage(trim($data[1]));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.1\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setBatterCharge(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.1\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setBatterCharge(trim($data[1]));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.3\.0 = Timeticks:\s\((\d*)\)/', $line, $data)) {
-                    $dev->setTimeLeft($data[1]/6000);
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.2\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setTemperatur(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.2\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setTemperatur(trim($data[1]));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.3\.0 = STRING:\s(.*)/', $line, $data)) {
-                    $dev->setBatteryDate(trim($data[1], "\""));
-                }
-                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.3\.4\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLineFrequency(trim($data[1])/10);
-                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.2\.4\.0 = Gauge32:\s(.*)/', $line, $data)) {
-                    $dev->setLineFrequency(trim($data[1]));
+            $dev->setMode("SNMP");
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.1\.1\.2\.0 = STRING:\s(.*)/m', $result, $data)) {
+                $dev->setName(trim($data[1], "\" \r\t"));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.1\.1\.1\.0 = STRING:\s(.*)/m', $result, $data)) {
+                $dev->setModel(trim($data[1], "\" \r\t"));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
+                switch (trim($data[1])) {
+                    case 1: $status = "Unknown";
+                            break;
+                    case 2: $status = "On Line";
+                            break;
+                    case 3: $status = "On Battery";
+                            break;
+                    case 4: $status = "On Smart Boost";
+                            break;
+                    case 5: $status = "Timed Sleeping";
+                            break;
+                    case 6: $status = "Software Bypass";
+                            break;
+                    case 7: $status = "Off";
+                            break;
+                    case 8: $status = "Rebooting";
+                            break;
+                    case 9: $status = "Switched Bypass";
+                            break;
+                    case 10:$status = "Hardware Failure Bypass";
+                            break;
+                    case 11:$status = "Sleeping Until Power Returns";
+                            break;
+                    case 12:$status = "On Smart Trim";
+                            break;
+                   default: $status = "Unknown state (".trim($data[1]).")";
+                            break;
                 }
             }
-            $status = "";
-            if ($status1 !== "") {
-                 $status = $status1;
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
+                $batstat = "";
+                switch (trim($data[1])) {
+                    case 1: $batstat = "Battery Unknown";
+                            break;
+                    case 2: break;
+                    case 3: $batstat = "Battery Low";
+                            break;
+                   default: $batstat = "Battery Unknown (".trim($data[1]).")";
+                            break;
+                }
+                if ($batstat !== "") {
+                    if ($status !== "") {
+                        $status .= ", ".$batstat;
+                    } else {
+                        $status = $batstat;
+                    }
+                }
             }
-            if ($status2 !== "") {
-                 if ($status !== "") {
-                     $status .= ", ".$status2;
-                 } else {
-                     $status = $status2;
-                 }
-            }
-            if ($status3 !== "") {
-                 if ($status !== "") {
-                     $status .= ", ".$status3;
-                 } else {
-                     $status = $status3;
-                 }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.4\.0 = INTEGER:\s(.*)/m', $result, $data)) {
+                $batstat = "";
+                switch (trim($data[1])) {
+                    case 1: break;
+                    case 2: $batstat = "Replace Battery";
+                            break;
+                   default: $batstat = "Replace Battery (".trim($data[1]).")";
+                            break;
+                }
+                if ($batstat !== "") {
+                    if ($status !== "") {
+                        $status .= ", ".$batstat;
+                    } else {
+                        $status = $batstat;
+                    }
+                }
             }
             if ($status !== "") {
                $dev->setStatus(trim($status));
+            }
+
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.3\.1\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLineVoltage(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.2\.1\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLineVoltage(trim($data[1]));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.3\.3\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLoad(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.2\.3\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLoad(trim($data[1]));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.4\.0 = INTEGER:\s(.*)/m', $result, $data)) {
+                $dev->setBatteryVoltage(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.8\.0 = INTEGER:\s(.*)/m', $result, $data)) {
+                $dev->setBatteryVoltage(trim($data[1]));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.1\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setBatterCharge(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.1\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setBatterCharge(trim($data[1]));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.3\.0 = Timeticks:\s\((\d*)\)/m', $result, $data)) {
+                $dev->setTimeLeft(trim($data[1])/6000);
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.3\.2\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setTemperatur(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.2\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setTemperatur(trim($data[1]));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.3\.0 = STRING:\s(.*)/m', $result, $data)) {
+                $dev->setBatteryDate(trim($data[1], "\" \r\t"));
+            }
+            if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.3\.4\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLineFrequency(trim($data[1])/10);
+            } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.3\.2\.4\.0 = Gauge32:\s(.*)/m', $result, $data)) {
+                $dev->setLineFrequency(trim($data[1]));
             }
 
             $this->upsinfo->setUpsDevices($dev);

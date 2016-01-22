@@ -30,7 +30,7 @@ abstract class UPS implements PSI_Interface_UPS
      *
      * @var Error
      */
-    protected $error;
+    public $error;
 
     /**
      * main object for ups information
