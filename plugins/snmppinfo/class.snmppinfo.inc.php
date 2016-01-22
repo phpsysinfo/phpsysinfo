@@ -60,11 +60,11 @@ class SNMPPInfo extends PSI_Plugin
 
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen(trim($buffer2)) > 0) {
-                               $this->_filecontent[$printer] = $this->_filecontent[$printer]."\n".$buffer2;
+                               $this->_filecontent[$printer] .= "\n".$buffer2;
                             }
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
                             if (strlen(trim($buffer3)) > 0) {
-                               $this->_filecontent[$printer] =  $this->_filecontent[$printer]."\n".$buffer3;
+                               $this->_filecontent[$printer] .= "\n".$buffer3;
                             }
                         }
                     }
