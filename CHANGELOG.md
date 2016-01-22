@@ -11,6 +11,7 @@ phpSysInfo 3.2.5
  - [ADD] SHOW_NETWORK_INFOS_EXPANDED option
  - [ADD] SHOW_MEMORY_INFOS_EXPANDED option
  - [ADD] QTS to detected distros
+ - [ADD] SNMPups - monitoring UPS via SNMP
 
  - [NEW] reloading plugins also for frontend "bootstrap"
  - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD

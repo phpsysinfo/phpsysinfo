@@ -294,10 +294,12 @@ SHOW_NETWORK_INFOS_EXPANDED=false
 
 ; Define the ups monitoring program
 ; We support the following programs so far
-; - 1. Apcupsd        http://www.apcupsd.com/
-; - 2. Nut            http://www.networkupstools.org/
-; - 3. PowerSoftPlus  http://ever.eu/
-; - 4. pmset          based on the result of the command "pmset -g batt" on Darwin system
+; - Apcupsd        http://www.apcupsd.com/
+; - Nut            http://www.networkupstools.org/
+; - PowerSoftPlus  http://ever.eu/
+; - pmset          based on the result of the command "pmset -g batt" on Darwin system
+; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
+;
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
 ;
@@ -324,6 +326,20 @@ UPS_APCUPSD_CGI_ENABLE=false
 ; It uses the defaults if not specified.
 ;
 UPS_NUT_LIST=false
+
+
+; SNMPups supports multiple UPSes
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The default port is 161
+; List must be specified.
+;
+UPS_SNMPUPS_LIST=false
+
+
+; define how to access the SNMP data
+; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
+; - "command" execute snmpwalk command
+;
+UPS_SNMPUPS_ACCESS="php-snmp"
 
 
 ; ********************************
