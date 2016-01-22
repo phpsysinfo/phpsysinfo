@@ -433,7 +433,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this["Distro"]; //onload IE6 PNG fix
+                return '<img src="gfx/images/' + this["Distroicon"] + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this["Distro"]; //onload IE6 PNG fix
             }
         },
         LoadAvg: {
@@ -618,7 +618,7 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120', false) + ":</span></td>"; //Number of devices
+                    html+="<td><span class=\"treegrid-span\">" + genlang('120', true) + ":</span></td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -1152,7 +1152,7 @@ function renderUPS(data) {
         },
         LineFrequency: {
             html: function () {
-                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, false); //Hz
+                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, true); //Hz
             }
         },
         BatteryVoltage: {
@@ -1162,7 +1162,7 @@ function renderUPS(data) {
         },
         TimeLeftMinutes: {
             html: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, false); //minutes
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, true); //minutes
             }
         },
         LoadPercent: {

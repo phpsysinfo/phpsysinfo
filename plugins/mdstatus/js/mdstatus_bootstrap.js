@@ -61,7 +61,7 @@ function renderPlugin_mdstatus(data) {
                 for (var i = 0; i < stitems.length ; i++) {
                     htmltypes += stitems[i]["@attributes"]["Name"] + " ";
                 }
-                htmltypes += "</th><tr>";
+                htmltypes += "</th></tr>";
                 $('#mdstatus-data').append(htmltypes);
                 $('#block_mdstatus').show();
             } else {

@@ -653,21 +653,25 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
+        $("#s_processes_2").html(processes);
         if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
             $("#s_processes_1").append(" (");
+            $("#s_processes_2").append(" (");
             var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
             for (var proc_type in typelist) {
                 if (eval("p" + proc_type)) {
                     if (not_first) {
                         $("#s_processes_1").append(", ");
+                        $("#s_processes_2").append(", ");
                     }
                     $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
+                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
                     not_first = true;
                 }
             }
             $("#s_processes_1").append(") ");
+            $("#s_processes_2").append(") ");
         }
-        $("#s_processes_2").html($("#s_processes_1").html());
     });
 }
 
@@ -1308,59 +1312,59 @@ function refreshUps(xml) {
         html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
         index = tree.push(0);
         if (model !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, false) + "</span></td><td>" + model + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, true) + "</span></td><td>" + model + "</td></tr>\n";
             tree.push(index);
         }
         if (start_time !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72, false) + "</span></td><td>" + start_time + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72, true) + "</span></td><td>" + start_time + "</td></tr>\n";
             tree.push(index);
         }
         if (upsstatus !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73, false) + "</span></td><td>" + upsstatus + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73, true) + "</span></td><td>" + upsstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84, false) + "</span></td><td>" + temperature + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84, true) + "</span></td><td>" + temperature + "</td></tr>\n";
             tree.push(index);
         }
         if (outages_count !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74, false) + "</span></td><td>" + outages_count + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74, true) + "</span></td><td>" + outages_count + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75, false) + "</span></td><td>" + last_outage + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75, true) + "</span></td><td>" + last_outage + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage_finish !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76, false) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76, true) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
             tree.push(index);
         }
         if (line_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77, false) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77, true) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (line_frequency !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108, false) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108, true) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(load_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78, false) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78, true) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_date !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104, false) + "</span></td><td>" + battery_date + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104, true) + "</span></td><td>" + battery_date + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79, false) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79, true) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(battery_charge_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80, false) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80, true) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (time_left_minutes !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81, false) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83, false) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81, true) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83, true) + "</td></tr>\n";
             tree.push(index);
         }
         values=true;
