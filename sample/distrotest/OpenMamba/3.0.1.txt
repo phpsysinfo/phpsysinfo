@@ -1,0 +1,31 @@
+----------lsb_release -a----------
+LSB Version:	core-4.1-noarch:core-4.1-x86-64
+Distributor ID:	openmamba
+Description:	openmamba release 3.0.1 for x86_64 (milestone3)
+Release:	3.0.1
+Codename:	milestone3
+----------/etc/lsb-release----------
+DISTRIB_ID=openmamba
+DISTRIB_RELEASE=2.90.0
+DISTRIB_CODENAME=rolling
+DISTRIB_DESCRIPTION="openmamba 2.90.0"
+LSB_VERSION=core-4.1-x86-64:core-4.1-noarch
+----------/etc/openmamba-release----------
+openmamba release 3.0.1 for x86_64 (milestone3)
+----------/etc/os-release----------
+NAME=openmamba
+VERSION="3.0.1 (milestone3)"
+ID=openmamba
+VERSION_ID="3.0.1"
+PRETTY_NAME="openmamba GNU/Linux 3.0.1 for x86_64 (milestone3)"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:openmamba:openmamba:3.0.1"
+HOME_URL="http://www.openmamba.org/"
+BUG_REPORT_URL="http://bugs.openmamba.org/"
+OPENMAMBA_MILESTONE="milestone3"
+OPENMAMBA_CODENAME="milestone3"
+OPENMAMBA_FORUM_URL="http://forum.openmamba.org/"
+OPENMAMBA_GIT_URL="http://gitlab.mambasoft.it/openmamba/"
+OPENMAMBA_WEBBUILD_URL="http://www.openmamba.org/distribution/webbuild.php"
+----------/etc/system-release----------
+openmamba release 3.0.1 for x86_64 (milestone3)
