@@ -18,14 +18,14 @@ USED     : used for the entire bootstrap userinterface
 html5shiv-printshiv.js
 ---------
 VERSION  : 3.7.2
-URL      : https://code.google.com/p/html5shiv-printshiv/
+URL      : https://github.com/aFarkas/html5shiv/
 DESC     : Enabling HTML5 Shiv Script and Print Support on old IE6-9 Browser Safari 4.x and Firefox 3.x
 USED     : used for the entire bootstrap userinterface
 
 console-shim.js
 ---------
 VERSION  : 
-URL      : https://github.com/liamnewmarch/console-shim
+URL      : https://github.com/liamnewmarch/console-shim/
 DESC     : Shim to make browsers store console messages without Dev Tools open (e.g. IE9)
 USED     : used for the entire bootstrap userinterface
 
@@ -34,4 +34,11 @@ sorttable.js
 VERSION  : 2+2014.12.25.12_fix-noinit
 URL      : http://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
+USED     : used for the entire bootstrap userinterface
+
+html5shiv-printshiv.js
+---------
+VERSION  : 1.4.2+accesserrorfix
+URL      : https://github.com/scottjehl/Respond/
+DESC     : A fast & lightweight polyfill for min/max-width CSS3 Media Queries (for IE 6-8, and more) 
 USED     : used for the entire bootstrap userinterface
