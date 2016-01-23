@@ -1461,7 +1461,7 @@ $(document).ready(function buildpage() {
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
 
-    if ($("#language option").size() < 2) {
+    if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
         changeLanguage();
         for (i = 0; i < plugin_liste.length; i += 1) {
@@ -1492,7 +1492,7 @@ $(document).ready(function buildpage() {
             return false;
         });
     }
-    if ($("#template option").size() < 2) {
+    if ($("#template option").length < 2) {
         switchStyle($("#template").val().toString());
     } else {
         cookie_template = readCookie("psi_template");

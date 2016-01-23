@@ -321,7 +321,7 @@ $(document).ready(function () {
             plugins = plugtmp.split(',');
         }
 
-        if ($("#language option").size() < 2) {
+        if ($("#language option").length < 2) {
             current_language = $("#language").val().toString();
 /* not visible any objects
             changeLanguage();
@@ -359,7 +359,7 @@ $(document).ready(function () {
                 return false;
             });
         }
-        if ($("#template option").size() < 2) {
+        if ($("#template option").length < 2) {
             switchStyle($("#template").val().toString());
         } else {
             cookie_template = readCookie("psi_bootstrap_template");
