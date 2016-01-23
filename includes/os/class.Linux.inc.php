@@ -554,26 +554,28 @@ class Linux extends OS
             if (($total = count($usbdevices)) > 0) {
                 $buf = "";
                 for ($i = 0; $i < $total; $i++) {
-                    $product = preg_replace("/\/idProduct$/", "/product", $usbdevices[$i]);
-                    $manufacturer = preg_replace("/\/idProduct$/", "/manufacturer", $usbdevices[$i]);
-                    $usbbuf = "";
-                    if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                        if (preg_match("/^linux\s/i", trim($buf))) {
-                            $usbbuf = "Linux";
-                        } else {
-                            $usbbuf = trim($buf);
+                    if (CommonFunctions::rfts($usbdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) { //is readable
+                        $product = preg_replace("/\/idProduct$/", "/product", $usbdevices[$i]);
+                        $manufacturer = preg_replace("/\/idProduct$/", "/manufacturer", $usbdevices[$i]);
+                        $usbbuf = "";
+                        if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                            if (preg_match("/^linux\s/i", trim($buf))) {
+                                $usbbuf = "Linux";
+                            } else {
+                                $usbbuf = trim($buf);
+                            }
                         }
-                    }
-                    if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                        if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
                             $usbbuf .= " ".trim($buf);
+                        }
+                        $dev = new HWDevice();
+                        if (trim($usbbuf) != "") {
+                            $dev->setName(trim($usbbuf));
+                        } else {
+                            $dev->setName("unknown");
+                        }
+                        $this->sys->setUsbDevices($dev);
                     }
-                    $dev = new HWDevice();
-                    if (trim($usbbuf) != "") {
-                        $dev->setName(trim($usbbuf));
-                    } else {
-                        $dev->setName("unknown");
-                    }
-                    $this->sys->setUsbDevices($dev);
                 }
             }
         }
