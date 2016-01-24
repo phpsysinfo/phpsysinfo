@@ -73,7 +73,7 @@ function readCookie(name) {
 function switchStyle(template) {
     $('link[rel*=style][title]').each(function getTitle(i) {
         if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + "_bootstrap.css");
+            this.setAttribute('href', 'templates/' + template + "_bootstrap.css");
         }
     });
 }
