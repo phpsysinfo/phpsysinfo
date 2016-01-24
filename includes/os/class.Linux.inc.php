@@ -822,7 +822,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _distro()
+    protected function _distro()
     {
         $this->sys->setDistribution("Linux");
         $list = @parse_ini_file(APP_ROOT."/data/distros.ini", true);
