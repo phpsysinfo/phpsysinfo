@@ -18,7 +18,9 @@ phpSysInfo 3.2.5
  - [NEW] Coretemp monitoring also on Linux
  - [NEW] QTSsnmp - SNMP sensors monitoring for QTS Linux
  - [NEW] Hwmon - sensors monitoring for Linux
+ - [NEW] SpeedFan - sensors monitoring for WinNT
  - [NEW] Separate configuration sections for motherboard monitoring sensors programs
+
 
 phpSysInfo 3.2.4
 ----------------
