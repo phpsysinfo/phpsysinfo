@@ -194,7 +194,7 @@ class WINNT extends OS
      */
     protected function _users()
     {
-        if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+        if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -591,7 +591,7 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen(trim($strBuf)) > 0)) {
+        if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen($strBuf) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }

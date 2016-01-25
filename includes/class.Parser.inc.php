@@ -93,7 +93,7 @@ class Parser
                 }
             }
         }
-        if (CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG) && (trim($df)!=="")) {
+        if (CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG) && ($df!=="")) {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (PSI_SHOW_INODES) {
                 if (CommonFunctions::executeProgram('df', '-i '.$df_param, $df2, PSI_DEBUG)) {

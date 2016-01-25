@@ -172,7 +172,7 @@ class CommonFunctions
     }
 
     /**
-     * Execute a system program. return a trim()'d result.
+     * Execute a system program. return a trim()'d result (when $doTrim is true).
      * does very crude pipe checking.  you need ' | ' for it to work
      * ie $program = CommonFunctions::executeProgram('netstat', '-anp | grep LIST');
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
@@ -181,10 +181,11 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
+     * @param boolean $doTrim         en- or disables result triming
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
+    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $doTrim = true)
     {
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArgs));
@@ -254,7 +255,9 @@ class CommonFunctions
             return false;
         }
         $strError = trim($strError);
-        $strBuffer = trim($strBuffer);
+        if ($doTrim) {
+            $strBuffer = trim($strBuffer);
+        }
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.' '.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
         }

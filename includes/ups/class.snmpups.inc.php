@@ -49,21 +49,21 @@ class SNMPups extends UPS
                     }
                     foreach ($upss as $ups) {
                         CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$ups." .1.3.6.1.4.1.318.1.1.1.1", $buffer, PSI_DEBUG);
-                        if (strlen(trim($buffer)) > 0) {
+                        if (strlen($buffer) > 0) {
                             $this->_output[$ups] = $buffer;
                             $buffer = "";
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$ups." .1.3.6.1.4.1.318.1.1.1.2", $buffer, PSI_DEBUG);
-                            if (strlen(trim($buffer)) > 0) {
+                            if (strlen($buffer) > 0) {
                                 $this->_output[$ups] .=  "\n".$buffer;
                             }
                             $buffer = "";
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$ups." .1.3.6.1.4.1.318.1.1.1.3", $buffer, PSI_DEBUG);
-                            if (strlen(trim($buffer)) > 0) {
+                            if (strlen($buffer) > 0) {
                                 $this->_output[$ups] .=  "\n".$buffer;
                             }
                             $buffer = "";
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$ups." .1.3.6.1.4.1.318.1.1.1.4", $buffer, PSI_DEBUG);
-                            if (strlen(trim($buffer)) > 0) {
+                            if (strlen($buffer) > 0) {
                                 $this->_output[$ups] .=  "\n".$buffer;
                             }
                         }

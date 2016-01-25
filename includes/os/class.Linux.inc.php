@@ -124,14 +124,14 @@ class Linux extends OS
         $result = "";
         if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
             CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
-            $result = trim($strBuf);
+            $result = $strBuf;
             if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
                 if (preg_match('/SMP/', $strBuf)) {
                     $result .= ' (SMP)';
                 }
             }
             if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
-                $result .= ' '.trim($strBuf);
+                $result .= ' '.$strBuf;
             }
         } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) &&  preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
             $result = $ar_buf[1];
@@ -830,7 +830,7 @@ class Linux extends OS
             return;
         }
         // We have the '2>/dev/null' because Ubuntu gives an error on this command which causes the distro to be unknown
-        if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen(trim($distro_info)) > 0)) {
+        if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen($distro_info) > 0)) {
             $distro_tmp = preg_split("/\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);

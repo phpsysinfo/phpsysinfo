@@ -35,9 +35,8 @@ class SunOS extends OS
      */
     private function _kstat($key)
     {
-        if (CommonFunctions::executeProgram('kstat', '-p d '.$key, $m, PSI_DEBUG) &&
-         !is_null($m) && (trim($m)!=="")) {
-            list($key, $value) = preg_split("/\t/", trim($m), 2);
+        if (CommonFunctions::executeProgram('kstat', '-p d '.$key, $m, PSI_DEBUG) && ($m!=="")) {
+            list($key, $value) = preg_split("/\t/", $m, 2);
 
             return trim($value);
         } else {
@@ -71,16 +70,15 @@ class SunOS extends OS
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && (trim($os)!="")) {
-            $os = trim($os);
-            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && (trim($version)!="")) {
-                $os.=' '.trim($version);
+        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && ($os!="")) {
+            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && ($version!="")) {
+                $os.=' '.$version;
             }
-            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && (trim($subversion)!="")) {
-                $os.=' ('.trim($subversion).')';
+            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && ($subversion!="")) {
+                $os.=' ('.$subversion.')';
             }
-            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && (trim($platform)!="")) {
-                $os.=' '.trim($platform);
+            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && ($platform!="")) {
+                $os.=' '.$platform;
             }
             $this->sys->setKernel($os);
         }
@@ -118,9 +116,8 @@ class SunOS extends OS
      */
     private function _cpuinfo()
     {
-        if (CommonFunctions::executeProgram('kstat', '-p d cpu_info:*:cpu_info*:core_id', $m, PSI_DEBUG) &&
-         !is_null($m) && (trim($m)!=="")) {
-            $cpuc = count(preg_split('/\n/', trim($m), -1, PREG_SPLIT_NO_EMPTY));
+        if (CommonFunctions::executeProgram('kstat', '-p d cpu_info:*:cpu_info*:core_id', $m, PSI_DEBUG) && ($m!=="")) {
+            $cpuc = count(preg_split('/\n/', $m, -1, PREG_SPLIT_NO_EMPTY));
             for ($cpu=0; $cpu < $cpuc; $cpu++) {
                 $dev = new CpuDevice();
                 if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
@@ -133,10 +130,10 @@ class SunOS extends OS
                     $dev->setModel($buf);
                 } elseif (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':cpu_type')) !== "") {
                     $dev->setModel($buf);
-                } elseif (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && (trim($buf)!="")) {
-                    $dev->setModel(trim($buf));
-                } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && (trim($buf)!="")) {
-                    $dev->setModel(trim($buf));
+                } elseif (CommonFunctions::executeProgram('uname', '-p', $buf, PSI_DEBUG) && ($buf!="")) {
+                    $dev->setModel($buf);
+                } elseif (CommonFunctions::executeProgram('uname', '-i', $buf, PSI_DEBUG) && ($buf!="")) {
+                    $dev->setModel($buf);
                 }
                 $this->sys->setCpus($dev);
             }
@@ -180,8 +177,7 @@ class SunOS extends OS
                         }
                     }
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0], $bufr2, PSI_DEBUG)
-                           && !is_null($bufr2) && (trim($bufr2) !== "")) {
+                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0], $bufr2, PSI_DEBUG) && ($bufr2!=="")) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+ether\s+(\S+)/i', $buf2, $ar_buf2))
@@ -190,8 +186,7 @@ class SunOS extends OS
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             }
                         }
-                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0].' inet6', $bufr2, PSI_DEBUG)
-                           && !is_null($bufr2) && (trim($bufr2) !== "")) {
+                        if (CommonFunctions::executeProgram('ifconfig', $ar_buf[0].' inet6', $bufr2, PSI_DEBUG) && ($bufr2!=="")) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
                                 if (preg_match('/^\s+inet6\s+([^\s\/]+)/i', $buf2, $ar_buf2)

@@ -77,7 +77,7 @@ abstract class OS implements PSI_Interface_OS
     protected function _users()
     {
         if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
-            if (strlen(trim($strBuf)) > 0) {
+            if (strlen($strBuf) > 0) {
                 $lines = preg_split('/\n/', $strBuf);
                 $this->sys->setUsers(count($lines));
             }
