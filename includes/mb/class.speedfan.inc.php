@@ -36,7 +36,7 @@ class SpeedFan extends Sensors
     {
         parent::__construct();
         if (CommonFunctions::executeProgram("SFInterop.exe", "", $buffer, PSI_DEBUG, false) && (strlen($buffer) > 0)) {
-           preg_match("/^([\d ]*)\r\n([\d ]*)\r\n([\d ]*)\r\n$/", $buffer, $this->_filecontent);
+           preg_match("/^([\d\.- ]*)\r\n([\d ]*)\r\n([\d -]*)\r\n$/", $buffer, $this->_filecontent);
         }
     }
 
