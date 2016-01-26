@@ -189,7 +189,7 @@ TEMP_FORMAT="c"
 ; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
 ; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ; - Hwmon          No addon tool neded (Linux)
-; - SpeedFan       http://www.almico.com/speedfan.php http://klaus-b.net/Projects/Libraries/SpeedFanConnector.aspx (WinNT)
+; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"

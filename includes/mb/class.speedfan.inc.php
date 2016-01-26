@@ -35,8 +35,16 @@ class SpeedFan extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (CommonFunctions::executeProgram("SFInterop.exe", "", $buffer, PSI_DEBUG, false) && (strlen($buffer) > 0)) {
-           preg_match("/^([\d\.- ]*)\r\n([\d ]*)\r\n([\d -]*)\r\n$/", $buffer, $this->_filecontent);
+        if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG, false) && (strlen($buffer) > 0)) {
+            if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
+                $this->_filecontent["temp"] = $out[1];
+            }
+            if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
+                $this->_filecontent["fans"] = $out[1];
+            }
+            if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
+                $this->_filecontent["volt"] = $out[1];
+            }
         }
     }
 
@@ -48,8 +56,8 @@ class SpeedFan extends Sensors
      */
     private function _temperature()
     {
-        if (isset($this->_filecontent[3]) && (trim($this->_filecontent[3]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent[3]));
+        if (isset($this->_filecontent["temp"]) && (trim($this->_filecontent["temp"]) !== "")) {
+            $values = preg_split("/ /", trim($this->_filecontent["temp"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
                 $dev->setName("Temp".$id);
@@ -66,8 +74,8 @@ class SpeedFan extends Sensors
      */
     private function _fans()
     {
-        if (isset($this->_filecontent[2]) && (trim($this->_filecontent[2]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent[2]));
+        if (isset($this->_filecontent["fans"]) && (trim($this->_filecontent["fans"]) !== "")) {
+            $values = preg_split("/ /", trim($this->_filecontent["fans"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
                 $dev->setName("Fan".$id);
@@ -84,8 +92,8 @@ class SpeedFan extends Sensors
      */
     private function _voltage()
     {
-        if (isset($this->_filecontent[1]) && (trim($this->_filecontent[1]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent[1]));
+        if (isset($this->_filecontent["volt"]) && (trim($this->_filecontent["volt"]) !== "")) {
+            $values = preg_split("/ /", trim($this->_filecontent["volt"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
                 $dev->setName("In".$id);
