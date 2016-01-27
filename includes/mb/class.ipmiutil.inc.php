@@ -49,7 +49,7 @@ class IPMIutil extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_IPMIUTIL_ACCESS');
             break;
         }
     }

@@ -56,7 +56,7 @@ class LMSensors extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_LMSENSORS_ACCESS');
             break;
         }
     }

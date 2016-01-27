@@ -49,7 +49,7 @@ class IPMI extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_IPMI_ACCESS');
             break;
         }
     }
