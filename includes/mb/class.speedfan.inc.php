@@ -35,7 +35,7 @@ class SpeedFan extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_SPEEDFAN_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
+        switch (defined('PSI_SENSOR_SPEEDFAN_ACCESS')?strtolower(PSI_SENSOR_SPEEDFAN_ACCESS):'command') {
         case 'command':
             if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG) && (strlen($buffer) > 0)) {
                 if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
