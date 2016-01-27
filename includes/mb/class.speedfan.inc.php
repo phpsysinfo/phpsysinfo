@@ -35,16 +35,36 @@ class SpeedFan extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG, false) && (strlen($buffer) > 0)) {
-            if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
-                $this->_filecontent["temp"] = $out[1];
+        switch (defined('PSI_SENSOR_SPEEDFAN_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
+        case 'command':
+            if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG) && (strlen($buffer) > 0)) {
+                if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["temp"] = $out[1];
+                }
+                if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["fans"] = $out[1];
+                }
+                if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["volt"] = $out[1];
+                }
             }
-            if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
-                $this->_filecontent["fans"] = $out[1];
+            break;
+        case 'data':
+            if (CommonFunctions::rfts(APP_ROOT.'/data/speedfan.txt', $buffer) && (strlen($buffer) > 0)) {
+                if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["temp"] = $out[1];
+                }
+                if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["fans"] = $out[1];
+                }
+                if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
+                    $this->_filecontent["volt"] = $out[1];
+                }
             }
-            if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
-                $this->_filecontent["volt"] = $out[1];
-            }
+            break;
+        default:
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_SPEEDFAN_ACCESS');
+            break;
         }
     }
 
@@ -60,7 +80,7 @@ class SpeedFan extends Sensors
             $values = preg_split("/ /", trim($this->_filecontent["temp"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
-                $dev->setName("Temp".$id);
+                $dev->setName("temp".$id);
                 $dev->setValue($value);
                 $this->mbinfo->setMbTemp($dev);
             }
@@ -78,7 +98,7 @@ class SpeedFan extends Sensors
             $values = preg_split("/ /", trim($this->_filecontent["fans"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
-                $dev->setName("Fan".$id);
+                $dev->setName("fan".$id);
                 $dev->setValue($value);
                 $this->mbinfo->setMbFan($dev);
             }
@@ -96,7 +116,7 @@ class SpeedFan extends Sensors
             $values = preg_split("/ /", trim($this->_filecontent["volt"]));
             foreach ($values as $id=>$value) {
                 $dev = new SensorDevice();
-                $dev->setName("In".$id);
+                $dev->setName("in".$id);
                 $dev->setValue($value);
                 $this->mbinfo->setMbVolt($dev);
             }

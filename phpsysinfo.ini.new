@@ -415,6 +415,14 @@ ACCESS="command"
 ;
 ACCESS="command"
 
+[sensor_speedfan]
+; SpeedFan motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'speedfanget' command
+; - ACCESS="data"  //read data from file data/speedfan.txt
+;
+ACCESS="command"
+
 
 ; ********************************
 ;        PLUGINS PARAMETERS
