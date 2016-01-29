@@ -10,7 +10,7 @@ phpSysInfo 3.2.5
  - [ADD] Show network interfaces infos for NetBSD and OpenBSD
  - [ADD] SHOW_NETWORK_INFOS_EXPANDED option
  - [ADD] SHOW_MEMORY_INFOS_EXPANDED option
- - [ADD] QTS and OpenMamba to detected distros
+ - [ADD] QTS, OpenMamba and HipServ to detected distros
  - [ADD] SNMPups - monitoring UPS via SNMP
 
  - [NEW] reloading plugins also for frontend "bootstrap"

@@ -1,0 +1,2 @@
+----------/etc/redhat-release----------
+HipServ
