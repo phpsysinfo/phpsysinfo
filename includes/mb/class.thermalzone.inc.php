@@ -119,13 +119,16 @@ class ThermalZone extends Sensors
                     }
                 }
             }
-            if ($notwas &&
-               ((CommonFunctions::rfts('/proc/acpi/thermal_zone/THM0/temperature', $buf, 1, 4096, false) && !is_null($buf) && (trim($buf) != ""))
-               ||(CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false) && !is_null($buf) && (trim($buf) != "")))) {
-                $dev = new SensorDevice();
-                $dev->setName("ThermalZone");
-                $dev->setValue(trim(substr($buf, 23, 4)));
-                $this->mbinfo->setMbTemp($dev);
+            if ($notwas) {
+                foreach (glob('/proc/acpi/thermal_zone/TH*/temperature') as $thermalzone) {
+                    $temp = null;
+                    if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
+                        $dev = new SensorDevice();
+                        $dev->setName("ThermalZone");
+                        $dev->setValue(trim(substr($temp, 23, 4)));
+                        $this->mbinfo->setMbTemp($dev);
+                    }
+                }
             }
         }
     }
