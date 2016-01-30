@@ -124,7 +124,11 @@ class ThermalZone extends Sensors
                     $temp = null;
                     if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
                         $dev = new SensorDevice();
-                        $dev->setName("ThermalZone");
+                        if (preg_match("/^\/proc\/acpi\/thermal_zone\/(.+)\/temperature$/", $thermalzone, $name)) {
+                           $dev->setName("ThermalZone ".$name[1]);
+                        } else {
+                            $dev->setName("ThermalZone");
+                        }
                         $dev->setValue(trim(substr($temp, 23, 4)));
                         $this->mbinfo->setMbTemp($dev);
                     }
