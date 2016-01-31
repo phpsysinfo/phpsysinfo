@@ -650,7 +650,7 @@ class Linux extends OS
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                             }
                         }
-                        if ($macaddr != "" ) {
+                        if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
                         if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="") && ($buf > 0) && ($buf < 65535)) {
@@ -677,7 +677,7 @@ class Linux extends OS
             foreach ($lines as $line) {
                 if (preg_match("/^\d+:\s+([^\s:]+)/", $line, $ar_buf)) {
                     if ($was) {
-                        if ($macaddr != "" ) {
+                        if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
                         if ($speedinfo != "") {
@@ -731,7 +731,7 @@ class Linux extends OS
                 }
             }
             if ($was) {
-                if ($macaddr != "" ) {
+                if ($macaddr != "") {
                     $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                 }
                 if ($speedinfo != "") {
@@ -747,7 +747,7 @@ class Linux extends OS
                     if ($was) {
                         $dev->setErrors($errors);
                         $dev->setDrops($drops);
-                        if ($macaddr != "" ) {
+                        if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
                         if ($speedinfo != "") {
@@ -824,7 +824,7 @@ class Linux extends OS
             if ($was) {
                 $dev->setErrors($errors);
                 $dev->setDrops($drops);
-                if ($macaddr != "" ) {
+                if ($macaddr != "") {
                     $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                 }
                 if ($speedinfo != "") {
