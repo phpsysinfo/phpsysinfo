@@ -68,7 +68,6 @@ class SpeedFan extends Sensors
         }
     }
 
-
     /**
      * get temperature information
      *
