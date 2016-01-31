@@ -645,7 +645,7 @@ class Linux extends OS
                                    || preg_match('/^'.trim($dev_name).':\s+ip\s+(\S+)\s+mask/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6\saddr:\s([^\/\s]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+inet[6]?\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)) //ip
+                                   || preg_match('/^\s+inet6?\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)) //ip
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                             }
                         }
@@ -723,7 +723,7 @@ class Linux extends OS
                                     } else {
                                          $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                                     }
-                                 } elseif (preg_match('/^\s+inet[6]?\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2))
+                                 } elseif (preg_match('/^\s+inet6?\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2))
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                         }
                     }
