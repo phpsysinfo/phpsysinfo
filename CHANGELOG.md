@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.5
 ----------------
  - [UPD] jQuery 2.2.0 and jQuery 1.12.0
+ - [UPD] Partial PHP 5.1 compatibility
 
  - [ADD] Show network interfaces infos for NetBSD and OpenBSD
  - [ADD] SHOW_NETWORK_INFOS_EXPANDED option
