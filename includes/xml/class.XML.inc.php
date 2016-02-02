@@ -355,9 +355,7 @@ class XML
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
         $mount->addAttribute('MountPointID', $i);
-        if ($dev->getFsType()!=="") {
-            $mount->addAttribute('FSType', $dev->getFsType());
-        }
+        if ($dev->getFsType()!=="") $mount->addAttribute('FSType', $dev->getFsType());
         $mount->addAttribute('Name', $dev->getName());
         $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
@@ -587,6 +585,9 @@ class XML
     private function _buildXml()
     {
         if (!$this->_plugin_request || $this->_complete_request) {
+            if (version_compare("5.2", PHP_VERSION, ">")) {
+                $this->_errors->addError("ERROR", "PHP 5.2 or greater is required, some things may not work correctly");
+            }
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
                     // unstable version check
