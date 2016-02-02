@@ -355,7 +355,9 @@ class XML
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
         $mount->addAttribute('MountPointID', $i);
-        $mount->addAttribute('FSType', $dev->getFsType());
+        if ($dev->getFsType()!=="") {
+            $mount->addAttribute('FSType', $dev->getFsType());
+        }
         $mount->addAttribute('Name', $dev->getName());
         $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
