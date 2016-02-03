@@ -150,8 +150,8 @@ class Parser
 
                         $notwas = true;
                         if (isset($mount_parm)) {
-                            foreach ($mount_parm as $mount_param) { //name find
-                                if ($mount_param['name']===trim($df_buf[0])) {
+                            foreach ($mount_parm as $mount_param) { //name and mountpoint find
+                                if (($mount_param['name']===trim($df_buf[0])) && ($mount_param['mountpoint']===$df_buf[5])) {
                                     $dev->setFsType($mount_param['fstype']);
                                     if (PSI_SHOW_MOUNT_OPTION) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
