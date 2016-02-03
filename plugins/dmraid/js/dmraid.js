@@ -86,7 +86,7 @@ function dmraid_diskicon(xml) {
             alt = "fail";
             break;
         default:
-            alert("--" + diskstatus + "--");
+//            alert("--" + diskstatus + "--");
             img = "error.png";
             alt = "error";
             break;

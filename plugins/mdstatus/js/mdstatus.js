@@ -115,7 +115,7 @@ function mdstatus_diskicon(xml) {
             alt = "spare";
             break;
         default:
-            alert("--" + diskstatus + "--");
+//            alert("--" + diskstatus + "--");
             img = "error.png";
             alt = "error";
             break;

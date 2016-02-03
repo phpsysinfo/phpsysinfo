@@ -40,7 +40,7 @@ function renderPlugin_mdstatus(data) {
                 alt = "warning";
                 break;
             default:
-                alert("--" + data["Status"] + "--");
+//                alert("--" + data["Status"] + "--");
                 img = "error.png";
                 alt = "error";
                 break;

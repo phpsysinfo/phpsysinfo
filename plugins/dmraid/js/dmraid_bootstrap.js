@@ -23,7 +23,7 @@ function renderPlugin_dmraid(data) {
                 alt = "warning";
                 break;
             default:
-                alert("--" + data["Status"] + "--");
+//                alert("--" + data["Status"] + "--");
                 img = "error.png";
                 alt = "error";
                 break;
