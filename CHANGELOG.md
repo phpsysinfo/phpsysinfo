@@ -20,7 +20,7 @@ phpSysInfo 3.2.5
  - [NEW] Hwmon - sensors monitoring for Linux
  - [NEW] SpeedFan - sensors monitoring for WinNT
  - [NEW] Separate configuration sections for motherboard monitoring sensors programs
-
+ - [NEW] List of IP addresses of clients authorized to run
 
 phpSysInfo 3.2.4
 ----------------

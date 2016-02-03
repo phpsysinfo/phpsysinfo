@@ -41,6 +41,30 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    if (defined('PSI_ALLOWED') && is_string(PSI_ALLOWED)) {
+        if (preg_match(ARRAY_EXP, PSI_ALLOWED)) {
+            $allowed = eval(strtolower(PSI_ALLOWED));
+        } else {
+            $allowed = array(strtolower(PSI_ALLOWED));
+        }
+        
+        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } else {
+            if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+                $ip = $_SERVER["HTTP_CLIENT_IP"];
+            } else {
+                $ip = $_SERVER["REMOTE_ADDR"];
+            }
+        }
+        $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
+
+        if (!in_array($ip, $allowed, true)) {
+            echo "Client IP address not allowed";
+            die();
+        }
+    }
+
     /* default error handler */
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
@@ -233,7 +257,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     }
 
     if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
-        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode isue test
+        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode issue test
             define('PSI_JSON_ISSUE', true); // Problem must be solved
         }
     }
