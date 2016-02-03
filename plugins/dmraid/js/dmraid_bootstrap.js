@@ -6,8 +6,7 @@ function renderPlugin_dmraid(data) {
 
         html += "<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:20px; width:64px;\">";
         switch (data["Status"]) {
-            case " ":
-            case "":
+            case "ok":
                 img = "harddriveok.png";
                 alt = "ok";
                 break;

@@ -69,8 +69,7 @@ function dmraid_diskicon(xml) {
         diskstatus = $(this).attr("Status");
         diskname = $(this).attr("Name");
         switch (diskstatus) {
-        case " ":
-        case "":
+        case "ok":
             img = "harddriveok.png";
             alt = "ok";
             break;

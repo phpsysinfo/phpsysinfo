@@ -119,7 +119,7 @@ class MDStatus extends PSI_Plugin
                             $replace = array("", "");
                             $this->_result['devices'][$dev]['partitions'][$partition[1]]['status'] = str_replace($search, $replace, trim($partition[5]));
                         } else {
-                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['status'] = " ";
+                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['status'] = "ok";
                         }
                     }
                 }
