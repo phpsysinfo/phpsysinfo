@@ -150,8 +150,36 @@ class Parser
 
                         $notwas = true;
                         if (isset($mount_parm)) {
-                            foreach ($mount_parm as $mount_param) {
+                            foreach ($mount_parm as $mount_param) { //name find
                                 if ($mount_param['name']===trim($df_buf[0])) {
+                                    $dev->setFsType($mount_param['fstype']);
+                                    if (PSI_SHOW_MOUNT_OPTION) {
+                                        if (PSI_SHOW_MOUNT_CREDENTIALS) {
+                                            $dev->setOptions($mount_param['options']);
+                                        } else {
+                                            $mpo=$mount_param['options'];
+
+                                            $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
+                                            $mpo=preg_replace('/,guest,/i', ',', $mpo);
+
+                                            $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
+                                            $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                            $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                            $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
+
+                                            $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
+                                            $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
+
+                                            $dev->setOptions($mpo);
+                                        }
+                                    }
+                                    $notwas = false;
+                                    break;
+                                }
+                            }
+                            if ($notwas) foreach ($mount_parm as $mount_param) { //mountpoint find
+                                if ($mount_param['mountpoint']===$df_buf[5]) {
                                     $dev->setFsType($mount_param['fstype']);
                                     if (PSI_SHOW_MOUNT_OPTION) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
