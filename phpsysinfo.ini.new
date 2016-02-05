@@ -41,6 +41,12 @@ JS_COMPRESSION="Normal"
 ;
 ADD_PATHS=false
 
+; List of IP addresses of clients authorized to run
+; Example : ALLOWED="127.0.0.1,192.168.1.48" //allowed IP 127.0.0.1 and 192.168.1.48
+;           ALLOWED=false //no IP checking
+;
+ALLOWED=false
+
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
 ; - PLUGINS="MDStatus,PS"  //list of plugins
@@ -110,6 +116,11 @@ SHOW_CPULIST_EXPANDED=true
 SHOW_CPUINFO_EXPANDED=false
 
 
+; Show memory infos expanded
+;
+SHOW_MEMORY_INFOS_EXPANDED=false
+
+
 ; Define the interval for refreshing data in ms
 ; - 0 : disabled
 ; - 1000 : 1 second
@@ -167,13 +178,14 @@ TEMP_FORMAT="c"
 
 
 ; Define the motherboard monitoring program
-; We support the following programs so far
+; We support the following programs far
+; - HDDtemp        http://www.guzu.net/linux/hddtemp.php (Linux)
 ; - LMSensors      http://www.lm-sensors.org/ (Linux)
 ; - Healthd        http://healthd.thehousleys.net/ (FreeBSD)
 ; - HWSensors      http://www.openbsd.org/ (OpenBSD)
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
-; - MBM5           http://mbm.livewiredev.com/ (WinNT)
-; - Coretemp       No addon tool neded (FreeBSD)
+; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
+; - Coretemp       No addon tool neded (FreeBSD/Linux)
 ; - IPMI           http://openipmi.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
@@ -181,33 +193,14 @@ TEMP_FORMAT="c"
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
 ; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
+; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
+; - Hwmon          No addon tool neded (Linux)
+; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
 ;
 SENSOR_PROGRAM=false
-
-
-; Define how to access the monitor program
-; Available methods for the above list are in the following list
-; default method "command" should be fine for everybody
-; if multiple SENSOR_PROGRAM defined must fit to all
-; !!! tcp connections are only made local and on the default port !!!
-; - LMSensors      command, file
-; - Healthd        command, file
-; - HWSensors      (no matter - always command)
-; - MBMon          command, file, tcp
-; - MBM5           (no matter - always file)
-; - Coretemp       (no matter - always command)
-; - IPMI           command, file
-; - FreeIPMI       command, file
-; - IPMIutil       command, file
-; - K8Temp         command, file
-; - PiTemp         (no matter - always command)
-; - OHM            (no matter - always command)
-; - ThermalZone    (no matter - always command)
-;
-SENSOR_ACCESS="command"
 
 ; Show events of sensors
 ; - true : show events
@@ -215,14 +208,7 @@ SENSOR_ACCESS="command"
 ;
 SENSOR_EVENTS=true
 
-
-; Hddtemp program
-; If the hddtemp program is available we can read the temperature, if hdd is smart capable
-; !!ATTENTION!! hddtemp might be a security issue
-; - HDD_TEMP="tcp"  //read data from hddtemp deamon (localhost:7634)
-; - HDD_TEMP="command"  //read data from hddtemp programm (must be set suid)
-;
-HDD_TEMP=false
+; Some sensors programs contain an additional configuration in the relevant sections [sensor_...]
 
 
 ; ********************************
@@ -235,6 +221,7 @@ HDD_TEMP=false
 ; - false : do not show mount point
 ;
 SHOW_MOUNT_POINT=true
+
 
 ; Show mount option
 ; - true : show mount option
@@ -275,6 +262,7 @@ HIDE_FS_TYPES=""
 ;
 HIDE_DISKS=""
 
+
 ; Filesystem usage warning threshold in percent
 ; - 0 : disabled
 ; - 90 : 90%
@@ -295,10 +283,15 @@ FS_USAGE_THRESHOLD=90
 HIDE_NETWORK_INTERFACE=""
 
 
-; Show network interfaces infos for Linux, Android, FreeBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
+; Show network interfaces infos for Linux, Android, FreeBSD, NetBSD, OpenBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
 SHOW_NETWORK_INFOS=true
+
+
+; Show network infos expanded
+;
+SHOW_NETWORK_INFOS_EXPANDED=false
 
 
 ; ********************************
@@ -308,10 +301,12 @@ SHOW_NETWORK_INFOS=true
 
 ; Define the ups monitoring program
 ; We support the following programs so far
-; - 1. Apcupsd        http://www.apcupsd.com/
-; - 2. Nut            http://www.networkupstools.org/
-; - 3. PowerSoftPlus  http://ever.eu/
-; - 4. pmset          based on the result of the command "pmset -g batt" on Darwin system
+; - Apcupsd        http://www.apcupsd.com/
+; - Nut            http://www.networkupstools.org/
+; - PowerSoftPlus  http://ever.eu/
+; - pmset          based on the result of the command "pmset -g batt" on Darwin system
+; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
+;
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
 ;
@@ -340,6 +335,101 @@ UPS_APCUPSD_CGI_ENABLE=false
 UPS_NUT_LIST=false
 
 
+; SNMPups supports multiple UPSes
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The default port is 161
+; List must be specified.
+;
+UPS_SNMPUPS_LIST=false
+
+
+; define how to access the SNMP data
+; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
+; - "command" execute snmpwalk command
+;
+UPS_SNMPUPS_ACCESS="php-snmp"
+
+
+; ********************************
+;    SENSORS PROGRAMS PARAMETERS
+; ********************************
+
+
+[sensor_hddtemp]
+; Hddtemp motherboard monitoring program configuration
+;
+; If the hddtemp program is available we can read the temperature, if hdd is smart capable
+; !!ATTENTION!! hddtemp might be a security issue
+; - ACCESS="command"  //read data from 'hddtemp' command (must be set suid)
+; - ACCESS="tcp"  //read data from hddtemp deamon (localhost:7634)
+;
+ACCESS="command"
+
+[sensor_lmsensors]
+; LMSensors motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'sensors' command
+; - ACCESS="data"  //read data from file data/lmsensors.txt
+;
+ACCESS="command"
+
+[sensor_healthd]
+; Healthd motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'healthdc' command
+; - ACCESS="data"  //read data from file data/healthd.txt
+;
+ACCESS="command"
+
+[sensor_mbmon]
+; MBMon motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'mbmon -c 1 -r' command
+; - ACCESS="data"  //read data from file data/mbmon.txt
+; - ACCESS="tcp"  //read data from mbmon deamon (localhost:411)
+;
+ACCESS="command"
+
+[sensor_ipmi]
+; IPMI motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'ipmitool sensor' command
+; - ACCESS="data"  //read data from file data/ipmi.txt
+;
+ACCESS="command"
+
+[sensor_freeipmi]
+; FreeIPMI motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'ipmi-sensors --output-sensor-thresholds' program
+; - ACCESS="data"  //read data from file data/freeipmi.txt
+;
+ACCESS="command"
+
+[sensor_ipmiutil]
+; IPMIutil motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'ipmiutil sensor -stw' command
+; - ACCESS="data"  //read data from file data/ipmiutil.txt
+;
+ACCESS="command"
+
+[sensor_k8temp]
+; K8Temp motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'k8temp' command
+; - ACCESS="data"  //read data from file data/k8temp.txt
+;
+ACCESS="command"
+
+[sensor_speedfan]
+; SpeedFan motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'speedfanget' command
+; - ACCESS="data"  //read data from file data/speedfan.txt
+;
+ACCESS="command"
+
+
 ; ********************************
 ;        PLUGINS PARAMETERS
 ; ********************************
@@ -349,8 +439,11 @@ UPS_NUT_LIST=false
 ; BAT Plugin configuration
 
 ; define how to access the battery statistic data
-; - "command" read /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
-;             on newer kernel or on Android read file from /sys/class/power_supply/
+; - "command" read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
+;             on newer kernel or on Android read files from /sys/class/power_supply/
+              on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
+              on FreeBSD read data from 'acpiconf -i batt' command
+              on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output
 ;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
@@ -451,7 +544,7 @@ PROCESSES="mysqld, sshd, explorer.exe"
 
 [quotas]
 ; Quotas Plugin configuration
-;
+
 ; define how to access the repquota statistic data
 ; - "command" repquota command is run everytime the block gets refreshed or build
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "quotas.txt"; content is the output from "repquota -au")
@@ -502,9 +595,9 @@ IDS="005-RAW_VALUE,194-RAW_VALUE,4-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW
 ; - "data" a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "snmppinfo{printer_number}.txt";
 ; content is the output from:
-;    snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.1.5 > snmppinfo{printer_number}.txt
-;    snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.43.11.1.1 >> snmppinfo{printer_number}.txt
-;    snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.43.18.1.1 >> snmppinfo{printer_number}.txt
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.1.5 > snmppinfo{printer_number}.txt
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.43.11.1.1 >> snmppinfo{printer_number}.txt
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 {printer_address} .1.3.6.1.2.1.43.18.1.1 >> snmppinfo{printer_number}.txt
 ;
 ACCESS="php-snmp"
 
@@ -538,7 +631,7 @@ FILE="/var/lib/update-notifier/updates-available"
 ;             if access error try execute first: chmod 4755 /usr/bin/uprecords
 ;             This method is not recommended for safety reasons!
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "uprecords.txt"; content is the output from "env TZ=GMT uprecords -a -w")
+;          with the filename "uprecords.txt"; content is the output from "TZ=GMT uprecords -a -w")
 ;
 ACCESS="command"
 

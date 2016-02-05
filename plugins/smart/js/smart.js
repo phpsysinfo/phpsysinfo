@@ -111,6 +111,7 @@ function smart_populate(xml) {
  * load the xml via ajax
  */
 function smart_request() {
+    $("#Reload_SMARTTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=SMART",
         dataType: "xml",
@@ -125,7 +126,6 @@ function smart_request() {
             smart_populate(xml);
             if (smart_show) {
                 plugin_translate("SMART");
-                $("#Reload_SMARTTable").attr("title",datetime());
                 $("#Plugin_SMART").show();
             }
         }
@@ -142,5 +142,6 @@ $(document).ready(function smart_buildpage() {
 
     $("#Reload_SMARTTable").click(function smart_reload(id) {
         smart_request();
+        $(this).attr("title", datetime());
     });
 });

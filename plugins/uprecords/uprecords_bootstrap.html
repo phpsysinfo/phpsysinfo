@@ -1,23 +1,25 @@
 <div class="col-lg-12" id="block_uprecords" style="display:none;">
     <div class="panel panel-primary">
-        <div class="panel-heading"><span id="lang_plugin_uprecords_001">Uprecords</span></div>
+        <div class="panel-heading"><span id="lang_plugin_uprecords_001">Uprecords</span>
+            <div id="reload_uprecords" class="reload" title="reload"></div>
+        </div>
         <div class="panel-body">
             <table id="uprecords" class="table table-hover table-condensed">
                 <thead>
-                <tr>
-                    <th><span id="lang_plugin_uprecords_101">#</span></th>
-                    <th><span id="lang_plugin_uprecords_102">Uptime</span></th>
-                    <th><span id="lang_plugin_uprecords_103">System</span></th>
-                    <th><span id="lang_plugin_uprecords_104">Boot up</span></th>
-                </tr>
+                    <tr>
+                        <th><span id="lang_plugin_uprecords_101">#</span></th>
+                        <th><span id="lang_plugin_uprecords_102">Uptime</span></th>
+                        <th><span id="lang_plugin_uprecords_103">System</span></th>
+                        <th><span id="lang_plugin_uprecords_104">Boot up</span></th>
+                    </tr>
                 </thead>
                 <tbody id="uprecords-data">
-                <tr>
-                    <th><span data-bind="hash"></span></th>
-                    <td><span data-bind="Uptime"></span></td>
-                    <td><span data-bind="System"></span></td>
-                    <td><span data-bind="Bootup"></span></td>
-                </tr>
+                    <tr>
+                        <th><span data-bind="hash"></span></th>
+                        <td><span data-bind="Uptime"></span></td>
+                        <td><span data-bind="System"></span></td>
+                        <td><span data-bind="Bootup"></span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -1,8 +1,20 @@
 <div class="col-lg-12" id="block_ps" style="display:none;">
     <div class="panel panel-primary">
-        <div class="panel-heading"><span id="lang_plugin_ps_001">Processes Status</span></div>
+        <div class="panel-heading"><span id="lang_plugin_ps_001">Processes Status</span>
+            <div id="reload_ps" class="reload" title="reload"></div>
+        </div>
         <div class="panel-body">
             <table id="ps" class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th><span id="lang_plugin_ps_003">Command</span></th>
+                        <th><span id="lang_plugin_ps_004">Process ID</span></th>
+                        <th><span id="lang_plugin_ps_005">Parent ID</span></th>
+                        <th><span id="lang_plugin_ps_006">Memory Usage</span></th>
+                    </tr>
+                </thead>
+                <tbody id="ps-data" >
+                </tbody>
             </table>
         </div>
     </div>

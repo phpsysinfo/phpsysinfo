@@ -2,13 +2,13 @@
  * DataTables sorting
  */
 .sorting_asc {
-    background: url('../../gfx/sort_asc.png') no-repeat center right;
+    background: url('../../gfx/sort_asc.gif') no-repeat center right;
 }
 
 .sorting_desc {
-    background: url('../../gfx/sort_desc.png') no-repeat center right;
+    background: url('../../gfx/sort_desc.gif') no-repeat center right;
 }
 
 .sorting {
-    background: url('../../gfx/sort_both.png') no-repeat center right;
+    background: url('../../gfx/sort_both.gif') no-repeat center right;
 }

@@ -86,6 +86,7 @@ class ThermalZone extends Sensors
                 }
             }
         } else {
+            $notwas = true;
             foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
@@ -101,6 +102,8 @@ class ThermalZone extends Sensors
                         $temp_type = null;
                         if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 0, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
                             $dev->setName($temp_type);
+                        } else {
+                            $dev->setName("ThermalZone");
                         }
 
                         $temp_max = null;
@@ -111,6 +114,22 @@ class ThermalZone extends Sensors
                             $dev->setMax($temp_max);
                         }
 
+                        $notwas = false;
+                        $this->mbinfo->setMbTemp($dev);
+                    }
+                }
+            }
+            if ($notwas) {
+                foreach (glob('/proc/acpi/thermal_zone/TH*/temperature') as $thermalzone) {
+                    $temp = null;
+                    if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
+                        $dev = new SensorDevice();
+                        if (preg_match("/^\/proc\/acpi\/thermal_zone\/(.+)\/temperature$/", $thermalzone, $name)) {
+                           $dev->setName("ThermalZone ".$name[1]);
+                        } else {
+                            $dev->setName("ThermalZone");
+                        }
+                        $dev->setValue(trim(substr($temp, 23, 4)));
                         $this->mbinfo->setMbTemp($dev);
                     }
                 }

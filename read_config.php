@@ -20,6 +20,8 @@ if (!defined('PSI_CONFIG_FILE')) {
         foreach ($config as $name=>$group) {
             if (strtoupper($name)=="MAIN") {
                 $name_prefix='PSI_';
+            } elseif (strtoupper(substr($name, 0, 7))=="SENSOR_") {
+                $name_prefix='PSI_'.strtoupper($name).'_';
             } else {
                 $name_prefix='PSI_PLUGIN_'.strtoupper($name).'_';
             }
@@ -36,6 +38,30 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
+        }
+    }
+
+    if (defined('PSI_ALLOWED') && is_string(PSI_ALLOWED)) {
+        if (preg_match(ARRAY_EXP, PSI_ALLOWED)) {
+            $allowed = eval(strtolower(PSI_ALLOWED));
+        } else {
+            $allowed = array(strtolower(PSI_ALLOWED));
+        }
+        
+        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } else {
+            if (isset($_SERVER["HTTP_CLIENT_IP"])) {
+                $ip = $_SERVER["HTTP_CLIENT_IP"];
+            } else {
+                $ip = $_SERVER["REMOTE_ADDR"];
+            }
+        }
+        $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
+
+        if (!in_array($ip, $allowed, true)) {
+            echo "Client IP address not allowed";
+            die();
         }
     }
 
@@ -86,6 +112,8 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents('/etc/sysconfig/language');
             } elseif (file_exists('/etc/profile.d/lang.sh')) {
                 $contents = @file_get_contents('/etc/profile.d/lang.sh');
+            } elseif (file_exists('/etc/profile')) {
+                $contents = @file_get_contents('/etc/profile');
             } else {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
@@ -141,7 +169,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
                && $contents && (preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches)
-               || preg_match('/^export (LANG="?[^"\n]*"?)/m', $contents, $matches))) {
+               || preg_match('/^\s*export (LANG="?[^"\n]*"?)/m', $contents, $matches))) {
                 if (!defined('PSI_SYSTEM_CODEPAGE') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                     foreach ($lines as $line) {
                         if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
@@ -229,7 +257,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     }
 
     if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
-        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode isue test
+        if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode issue test
             define('PSI_JSON_ISSUE', true); // Problem must be solved
         }
     }

@@ -40,6 +40,7 @@
         <attribute name="TxBytes" type="integer" use="required"></attribute>
         <attribute name="Err" type="integer" use="required"></attribute>
         <attribute name="Drops" type="integer" use="required"></attribute>
+        <attribute name="Info" type="string" use="optional"></attribute>
     </complexType>
 
 
@@ -174,13 +175,13 @@
     <complexType name="Hardware">
         <attribute name="Name" type="string" use="optional"></attribute>
         <sequence>
-            <element name="PCI" type="tns:PCI" minOccurs="1" maxOccurs="1"></element>
-            <element name="USB" type="tns:USB" minOccurs="1" maxOccurs="1"></element>
-            <element name="IDE" type="tns:IDE" minOccurs="1" maxOccurs="1"></element>
-            <element name="SCSI" type="tns:SCSI" minOccurs="1" maxOccurs="1"></element>
-            <element name="TB" type="tns:TB" minOccurs="1" maxOccurs="1"></element>
-            <element name="I2C" type="tns:I2C" minOccurs="1" maxOccurs="1"></element>
-            <element name="CPU" type="tns:CPU" minOccurs="1" maxOccurs="1"></element>
+            <element name="PCI" type="tns:PCI" minOccurs="0" maxOccurs="1"></element>
+            <element name="USB" type="tns:USB" minOccurs="0" maxOccurs="1"></element>
+            <element name="IDE" type="tns:IDE" minOccurs="0" maxOccurs="1"></element>
+            <element name="SCSI" type="tns:SCSI" minOccurs="0" maxOccurs="1"></element>
+            <element name="TB" type="tns:TB" minOccurs="0" maxOccurs="1"></element>
+            <element name="I2C" type="tns:I2C" minOccurs="0" maxOccurs="1"></element>
+            <element name="CPU" type="tns:CPU" minOccurs="0" maxOccurs="1"></element>
         </sequence>
     </complexType>
 

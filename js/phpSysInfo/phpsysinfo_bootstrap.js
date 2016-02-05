@@ -8,7 +8,17 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = []; plugin_liste = [];
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], plugin_liste = [],
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
+
+/**
+ * Fix PNG loading on IE6 or below
+ */
+function PNGload(png) {
+    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
+        png.ifixpng('./gfx/blank.gif');
+    }
+}
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -63,7 +73,7 @@ function readCookie(name) {
 function switchStyle(template) {
     $('link[rel*=style][title]').each(function getTitle(i) {
         if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + "_bootstrap.css");
+            this.setAttribute('href', 'templates/' + template + "_bootstrap.css");
         }
     });
 }
@@ -197,6 +207,7 @@ function changeLanguage(plugin) {
         }
     });
 }
+
 function reload(initiate) {
     $("#errorbutton").css("visibility", "hidden");
     $("#errors").empty();
@@ -246,23 +257,45 @@ function reload(initiate) {
     });
 
     for (var i = 0; i < plugins.length; i++) {
-        $.ajax({
-             dataType: "json",
-             url: "xml.php?plugin=" + plugins[i] + "&json",
-             pluginname: plugins[i],
-             success: function (data) {
-                try {
-                    // dynamic call
-                    window['renderPlugin_' + this.pluginname](data);
-                    changeLanguage(this.pluginname);
-                    plugin_liste.pushIfNotExist(this.pluginname);
-                }
-                catch (err) {
-                }
-                renderErrors(data);
-            }
-        });
+        plugin_request(plugins[i]);
+        if ($("#reload_"+plugins[i]).length > 0) {
+            $("#reload_"+plugins[i]).attr("title", "reload");
+        }
+
     }
+    if (initiate === true) {
+        for (var i = 0; i < plugins.length; i++) {
+            if ($("#reload_"+plugins[i]).length > 0) {
+                $("#reload_"+plugins[i]).click(function() {
+                    plugin_request(this.id.substring(7)); //cut "reload_" from name
+                    $(this).attr("title", datetime());
+                });
+            }
+        }
+    }
+}
+
+/**
+ * load the plugin json via ajax
+ */
+function plugin_request(pluginname) {
+
+    $.ajax({
+         dataType: "json",
+         url: "xml.php?plugin=" + pluginname + "&json",
+         pluginname: pluginname,
+         success: function (data) {
+            try {
+                // dynamic call
+                window['renderPlugin_' + this.pluginname](data);
+                changeLanguage(this.pluginname);
+                plugin_liste.pushIfNotExist(this.pluginname);
+            }
+            catch (err) {
+            }
+            renderErrors(data);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -279,12 +312,16 @@ $(document).ready(function () {
 
     $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
 
+        showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
+        showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
+        showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+
         plugtmp = $("#plugins").val().toString();
         if (plugtmp.length >0 ){
             plugins = plugtmp.split(',');
         }
 
-        if ($("#language option").size() < 2) {
+        if ($("#language option").length < 2) {
             current_language = $("#language").val().toString();
 /* not visible any objects
             changeLanguage();
@@ -322,7 +359,7 @@ $(document).ready(function () {
                 return false;
             });
         }
-        if ($("#template option").size() < 2) {
+        if ($("#template option").length < 2) {
             switchStyle($("#template").val().toString());
         } else {
             cookie_template = readCookie("psi_bootstrap_template");
@@ -396,7 +433,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" style="width:32px;"/>' + " " +this["Distro"];
+                return '<img src="gfx/images/' + this["Distroicon"] + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this["Distro"]; //onload IE6 PNG fix
             }
         },
         LoadAvg: {
@@ -581,7 +618,7 @@ function renderHardware(data) {
                 if (i == 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120', false) + ":</span></td>"; //Number of devices
+                    html+="<td><span class=\"treegrid-span\">" + genlang('120', true) + ":</span></td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -593,10 +630,10 @@ function renderHardware(data) {
             }
         }
         catch (err) {
-            $("#hardware-"+hw_type).hide();
+            $("#hardware-data"+hw_type).hide();
         }
     }
-    $("#hardware").empty().append(html);
+    $("#hardware-data").empty().append(html);
 
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
@@ -646,14 +683,14 @@ function renderHardware(data) {
         expanderExpandedClass: 'normalicon normalicon-down',
         expanderCollapsedClass: 'normalicon normalicon-right'
     });
-    if (data["Options"]["@attributes"]["showCPUListExpanded"] !== "false") {
+    if (showCPUListExpanded) {
         try {
             $('#hardware-CPU').treegrid('expand');
         }
         catch (err) {
         }
     }
-    if (data["Options"]["@attributes"]["showCPUInfoExpanded"] === "true") {
+    if (showCPUInfoExpanded && showCPUListExpanded) {
         try {
             var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
             for (var i = 0; i < datas.length; i++) {
@@ -891,7 +928,7 @@ function renderNetwork(data) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
             }
             $('#network').treegrid({
-                initialState: 'collapsed',
+                initialState: showNetworkInfosExpanded?'expanded':'collapsed',
                 expanderExpandedClass: 'normalicon normalicon-down',
                 expanderCollapsedClass: 'normalicon normalicon-right'
             });
@@ -1115,7 +1152,7 @@ function renderUPS(data) {
         },
         LineFrequency: {
             html: function () {
-                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, false); //Hz
+                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, true); //Hz
             }
         },
         BatteryVoltage: {
@@ -1125,7 +1162,7 @@ function renderUPS(data) {
         },
         TimeLeftMinutes: {
             html: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, false); //minutes
+                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, true); //minutes
             }
         },
         LoadPercent: {
@@ -1176,7 +1213,7 @@ function renderUPS(data) {
             html+="</tr>";
         }
 
-        $("#ups").empty().append(html);
+        $("#ups-data").empty().append(html);
 
         try {
             var datas = items(data["UPSInfo"]["UPS"]);
@@ -1428,6 +1465,29 @@ Array.prototype.pushIfNotExist = function(val) {
         this.push(val);
     }
 };
+
+/**
+ * generate a formatted datetime string of the current datetime
+ * @return {String} formatted datetime string
+ */
+function datetime() {
+    var date, day = 0, month = 0, year = 0, hour = 0, minute = 0, days = "", months = "", years = "", hours = "", minutes = "";
+    date = new Date();
+    day = date.getDate();
+    month = date.getMonth() + 1;
+    year = date.getFullYear();
+    hour = date.getHours();
+    minute = date.getMinutes();
+
+    // format values smaller that 10 with a leading 0
+    days = (day < 10) ? "0" + day.toString() : day.toString();
+    months = (month < 10) ? "0" + month.toString() : month.toString();
+    years = (year < 1000) ? year.toString() : year.toString();
+    minutes = (minute < 10) ? "0" + minute.toString() : minute.toString();
+    hours = (hour < 10) ? "0" + hour.toString() : hour.toString();
+
+    return days + "." + months + "." + years + " - " + hours + ":" + minutes;
+}
 
 /**
  * round a given value to the specified precision, difference to Math.round() is that there

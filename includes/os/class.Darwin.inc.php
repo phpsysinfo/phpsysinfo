@@ -34,9 +34,9 @@ class Darwin extends BSDCommon
     {
         parent::__construct();
         $this->error->addWarning("The Darwin version of phpSysInfo is a work in progress, some things currently don't work!");
-        $this->setCPURegExp1("CPU: (.*) \((.*)-MHz (.*)\)");
+        $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
-        $this->setSCSIRegExp1("^(.*): <(.*)> .*SCSI.*device");
+        $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
     } */
 
     /**
@@ -354,7 +354,7 @@ class Darwin extends BSDCommon
             $lines = preg_split("/\n/", $netstat, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($lines as $line) {
                 $ar_buf = preg_split("/\s+/", $line, 10);
-                if (! empty($ar_buf[0])) {
+                if (!empty($ar_buf[0])) {
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[0]);
                     $dev->setTxBytes($ar_buf[8]);
@@ -367,13 +367,24 @@ class Darwin extends BSDCommon
                         $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($bufe2 as $buf2) {
                             if (preg_match('/^\s+ether\s+(\S+)/i', $buf2, $ar_buf2))
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', $ar_buf2[1]));
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').preg_replace('/:/', '-', strtoupper($ar_buf2[1])));
                             elseif (preg_match('/^\s+inet\s+(\S+)\s+netmask/i', $buf2, $ar_buf2))
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                             elseif ((preg_match('/^\s+inet6\s+([^\s%]+)\s+prefixlen/i', $buf2, $ar_buf2)
                                   || preg_match('/^\s+inet6\s+([^\s%]+)%\S+\s+prefixlen/i', $buf2, $ar_buf2))
                                   && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
+                            elseif (preg_match('/^\s+media:\s+/i', $buf2) && preg_match('/[\(\s](\d+)(G*)base/i', $buf2, $ar_buf2)) {
+                                if (isset($ar_buf2[2]) && strtoupper($ar_buf2[2])=="G") {
+                                    $unit = "G";
+                                } else {
+                                    $unit = "M";
+                                }
+                                if (preg_match('/[<\s]([^\s<]+)-duplex/i', $buf2, $ar_buf3))
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].$unit.'b/s '.strtolower($ar_buf3[1]));
+                                else
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].$unit.'b/s');
+                            }
                         }
                     }
                     $this->sys->setNetDevices($dev);

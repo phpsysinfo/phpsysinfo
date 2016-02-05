@@ -27,8 +27,8 @@ define('APP_ROOT', dirname(__FILE__));
  */
 define('PSI_INTERNAL_XML', false);
 
-if (version_compare("5.2", PHP_VERSION, ">")) {
-    die("PHP 5.2 or greater is required!!!");
+if (version_compare("5.1.3", PHP_VERSION, ">")) {
+    die("PHP 5.1.3 or greater is required!!!");
 }
 if (!extension_loaded("pcre")) {
     die("phpSysInfo requires the pcre extension to php in order to work properly.");

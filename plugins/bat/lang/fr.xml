@@ -45,4 +45,7 @@
   <expression id="plugin_bat_013" name="bat_cycle_count">
     <exp>Cycle Count</exp>
   </expression>
+  <expression id="plugin_bat_014" name="bat_full_capacity">
+    <exp>Capacité pleine</exp>
+  </expression>
 </tns:translationPlugin>

@@ -75,17 +75,6 @@ class AIX extends OS
     }
 
     /**
-     * Number of Users
-     * @return void
-     */
-    private function _users()
-    {
-        if (CommonFunctions::executeProgram('who', '| wc -l', $buf, PSI_DEBUG)) {
-            $this->sys->setUsers($buf);
-        }
-    }
-
-    /**
      * Processor Load
      * optionally create a loadbar
      * @return void

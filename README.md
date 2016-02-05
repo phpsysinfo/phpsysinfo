@@ -5,7 +5,7 @@ phpSysInfo
 * Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
 * Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
 * Copyright (c), 2007-2015, Erkan Valentin
-* Copyright (c), 2009-2015, Mieczyslaw Nalewaj (namiltd@users.sf.net)
+* Copyright (c), 2009-2016, Mieczyslaw Nalewaj (namiltd@users.sf.net)
 * Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
 
 
@@ -20,9 +20,9 @@ CURRENT TESTED PLATFORMS
 - DragonFly
 - HP-UX
 - Darwin/OSX
-- Windows 2000 / 2003 / XP / Vista / 7 / 8 / 8.1 / 10
+- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10
 - Android
-- > PHP 5.2 or later
+- > PHP 5.2 or later (partial PHP 5.1.3 compatibility)
   - With PCRE, XML, XSL, MBString and SimpleXML extension.
 
 ####Platforms currently in progress:

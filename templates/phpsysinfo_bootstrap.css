@@ -34,23 +34,27 @@ wbr {
 
 .treegrid-span {
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-spanbold {
     font-weight: bold;
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-indent {
     width: 16px;
     height: 16px;
     display: table-cell;
+    *float: left;
 }
 
 .treegrid-expander {
     width: 0px;
     height: 16px;
     display: table-cell;
+    *float: left;
     cursor: pointer;
 }
 
@@ -60,6 +64,7 @@ wbr {
     position: relative;
     top: 1px;
     display: table-cell;
+    *float: left;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -72,6 +77,24 @@ wbr {
 }
 .normalicon-down:before {
     content: "\25bc";
+}
+/* IE6 fix */
+* html .normalicon-right {
+    background: url('../gfx/right_black.gif') no-repeat;
+    height: 14px;
+}
+* html .normalicon-down {
+    background: url('../gfx/down_black.gif') no-repeat;
+    height: 14px;
+}
+/* IE7 fix */
+*+html .normalicon-right {
+    background: url('../gfx/right_black.gif') no-repeat;
+    height: 14px;
+}
+*+html .normalicon-down {
+    background: url('../gfx/down_black.gif') no-repeat;
+    height: 14px;
 }
 
 table.sortable thead th {
@@ -103,4 +126,19 @@ table.borderless td,table.borderless th{
 
 .language {
     cursor: pointer;
+}
+
+.panel-heading {
+  background-color: #337ab7!important;
+  border-color: #337ab7!important;
+}
+
+.reload {
+    background-image: url("../gfx/reload.gif");
+    vertical-align: middle;
+    float: right;
+    cursor: pointer;
+    border: 0px;
+    width: 16px;
+    height: 16px;    
 }

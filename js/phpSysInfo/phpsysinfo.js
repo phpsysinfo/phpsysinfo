@@ -25,8 +25,17 @@
 
 "use strict";
 
-var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [];
+var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], langarr = [],
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded;
 
+/**
+ * Fix PNG loading on IE6 or below
+ */
+function PNGload(png) {
+    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
+        png.ifixpng('./gfx/blank.gif');
+    }
+}
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -630,7 +639,7 @@ function refreshVitals(xml) {
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
         $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='$(this).ifixpng(\"./gfx/blank.gif\");' />&nbsp;" + distro); //onload IE6 PNG fix
+        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
         if (typeof(lastboot.toUTCString)==="function") {
             $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()
@@ -644,21 +653,25 @@ function refreshVitals(xml) {
         $("#s_codepage_1").html(codepage);
         $("#s_codepage_2").html(codepage);
         $("#s_processes_1").html(processes);
+        $("#s_processes_2").html(processes);
         if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
             $("#s_processes_1").append(" (");
+            $("#s_processes_2").append(" (");
             var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
             for (var proc_type in typelist) {
                 if (eval("p" + proc_type)) {
                     if (not_first) {
                         $("#s_processes_1").append(", ");
+                        $("#s_processes_2").append(", ");
                     }
                     $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
+                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
                     not_first = true;
                 }
             }
             $("#s_processes_1").append(") ");
+            $("#s_processes_2").append(") ");
         }
-        $("#s_processes_2").html($("#s_processes_1").html());
     });
 }
 
@@ -672,12 +685,6 @@ function refreshVitals(xml) {
  */
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
-    var showCPUInfoExpanded = "";
-    var showCPUListExpanded = "";
-    $("Options", xml).each(function getOptions(id) {
-        showCPUInfoExpanded = $(this).attr("showCPUInfoExpanded");
-        showCPUListExpanded = $(this).attr("showCPUListExpanded");
-    });
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
         var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
         cpucount += 1;
@@ -692,12 +699,12 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         bogo = parseInt($(this).attr("Bogomips"), 10);
         load = parseInt($(this).attr("Load"), 10);
 
-        if (showCPUListExpanded === 'false') {
+        if (!showCPUListExpanded) {
             collapsed.push(rootposition);
         }
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + model + "</span></td></tr>\n";
         cpucoreposition = tree.push(rootposition);
-        if (showCPUInfoExpanded !== 'true') {
+        if (!showCPUInfoExpanded) {
             collapsed.push(cpucoreposition);
         }
         if (!isNaN(speed)) {
@@ -907,13 +914,15 @@ function refreshNetwork(xml) {
 
         info = $(this).attr("Info");
         if ( (info !== undefined) && (info != "") ) {
-            var i =0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
+            var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
                 html +="<tr><td><span class=\"treespan\">" + infos[i] + "</span></td><td></td><td></td><td></td></tr>";
                 tree.push(networkindex);
             }
-            closed.push(networkindex);
+            if (!showNetworkInfosExpanded) {
+                closed.push(networkindex);
+            }
         }
     });
     html += "</tbody>\n";
@@ -995,7 +1004,9 @@ function refreshMemory(xml) {
                 tree.push(memoryindex);
             }
             if (!isNaN(app) || !isNaN(buff) || !isNaN(cached)) {
-                closed.push(memoryindex);
+                if (!showMemoryInfosExpanded) {
+                    closed.push(memoryindex);
+                }
             }
         });
     });
@@ -1010,7 +1021,9 @@ function refreshMemory(xml) {
 
         $("Memory Swap Mount", xml).each(function getDevices(id) {
             var free = 0, total = 0, used = 0, percent = 0, mpoint = "", mpid = 0;
-            closed.push(swapindex);
+            if (!showMemoryInfosExpanded) {
+                    closed.push(swapindex);
+            }
             free = parseInt($(this).attr("Free"), 10);
             used = parseInt($(this).attr("Used"), 10);
             total = parseInt($(this).attr("Total"), 10);
@@ -1299,59 +1312,59 @@ function refreshUps(xml) {
         html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
         index = tree.push(0);
         if (model !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, false) + "</span></td><td>" + model + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, true) + "</span></td><td>" + model + "</td></tr>\n";
             tree.push(index);
         }
         if (start_time !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72, false) + "</span></td><td>" + start_time + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72, true) + "</span></td><td>" + start_time + "</td></tr>\n";
             tree.push(index);
         }
         if (upsstatus !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73, false) + "</span></td><td>" + upsstatus + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73, true) + "</span></td><td>" + upsstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84, false) + "</span></td><td>" + temperature + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84, true) + "</span></td><td>" + temperature + "</td></tr>\n";
             tree.push(index);
         }
         if (outages_count !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74, false) + "</span></td><td>" + outages_count + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74, true) + "</span></td><td>" + outages_count + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75, false) + "</span></td><td>" + last_outage + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75, true) + "</span></td><td>" + last_outage + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage_finish !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76, false) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76, true) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
             tree.push(index);
         }
         if (line_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77, false) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77, true) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (line_frequency !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108, false) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108, true) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(load_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78, false) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78, true) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_date !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104, false) + "</span></td><td>" + battery_date + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104, true) + "</span></td><td>" + battery_date + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79, false) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79, true) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(battery_charge_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80, false) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80, true) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (time_left_minutes !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81, false) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83, false) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81, true) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83, true) + "</td></tr>\n";
             tree.push(index);
         }
         values=true;
@@ -1443,7 +1456,12 @@ function settimer(xml) {
 $(document).ready(function buildpage() {
     var i = 0, cookie_template = null, cookie_language = null;
 
-    if ($("#language option").size() < 2) {
+    showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
+    showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
+    showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
+
+    if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
         changeLanguage();
         for (i = 0; i < plugin_liste.length; i += 1) {
@@ -1474,7 +1492,7 @@ $(document).ready(function buildpage() {
             return false;
         });
     }
-    if ($("#template option").size() < 2) {
+    if ($("#template option").length < 2) {
         switchStyle($("#template").val().toString());
     } else {
         cookie_template = readCookie("psi_template");

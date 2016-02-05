@@ -70,11 +70,46 @@ abstract class OS implements PSI_Interface_OS
     }
 
     /**
+     * Number of Users
+     *
+     * @return void
+     */
+    protected function _users()
+    {
+        if (CommonFunctions::executeProgram('who', '', $strBuf, PSI_DEBUG)) {
+            if (strlen($strBuf) > 0) {
+                $lines = preg_split('/\n/', $strBuf);
+                $this->sys->setUsers(count($lines));
+            }
+        } elseif (CommonFunctions::executeProgram('uptime', '', $buf, PSI_DEBUG) && preg_match("/,\s+(\d+)\s+user[s]?,/", $buf, $ar_buf)) {
+        //} elseif (CommonFunctions::executeProgram('uptime', '', $buf) && preg_match("/,\s+(\d+)\s+user[s]?,\s+load average[s]?:\s+(.*),\s+(.*),\s+(.*)$/", $buf, $ar_buf)) {
+            $this->sys->setUsers($ar_buf[1]);
+        } else {
+            $processlist = glob('/proc/*/cmdline', GLOB_NOSORT);
+            if (($total = count($processlist)) > 0) {
+                $count = 0;
+                $buf = "";
+                for ($i = 0; $i < $total; $i++) {
+                    if (CommonFunctions::rfts($processlist[$i], $buf, 0, 4096, false)) {
+                        $name = str_replace(chr(0), ' ', trim($buf));
+                        if (preg_match("/^-/", $name)) {
+                            $count++;
+                        }
+                    }
+                }
+                if ($count > 0) {
+                    $this->sys->setUsers($count);
+                }
+            }
+        }
+    }
+
+    /**
      * IP of the Host
      *
      * @return void
      */
-    protected function ip()
+    protected function _ip()
     {
         if (PSI_USE_VHOST === true) {
             if ((($result = getenv('SERVER_ADDR')) || ($result = getenv('LOCAL_ADDR'))) //is server address defined
@@ -107,7 +142,7 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
-        $this->ip();
+        $this->_ip();
 
         return $this->sys;
     }

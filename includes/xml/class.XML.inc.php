@@ -355,7 +355,7 @@ class XML
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
         $mount->addAttribute('MountPointID', $i);
-        $mount->addAttribute('FSType', $dev->getFsType());
+        if ($dev->getFsType()!=="") $mount->addAttribute('FSType', $dev->getFsType());
         $mount->addAttribute('Name', $dev->getName());
         $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
@@ -511,22 +511,6 @@ class XML
                 }
             }
         }
-
-        if (PSI_HDDTEMP) {
-            $hddtemp = new HDDTemp();
-            $hddtemp_data = $hddtemp->getMBInfo();
-            foreach ($hddtemp_data->getMbTemp() as $dev) {
-                if ($temp == null) {
-                    $temp = $mbinfo->addChild('Temperature');
-                }
-                $item = $temp->addChild('Item');
-                $item->addAttribute('Label', $dev->getName());
-                $item->addAttribute('Value', $dev->getValue());
-                if ($dev->getMax() !== null) {
-                    $item->addAttribute('Max', $dev->getMax());
-                }
-            }
-        }
     }
 
     /**
@@ -601,8 +585,16 @@ class XML
     private function _buildXml()
     {
         if (!$this->_plugin_request || $this->_complete_request) {
+            if (version_compare("5.2", PHP_VERSION, ">")) {
+                $this->_errors->addError("ERROR", "PHP 5.2 or greater is required, some things may not work correctly");
+            }
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
+                    // unstable version check
+                    if (!is_numeric(substr(PSI_VERSION, -1))) {
+                        $this->_errors->addError("WARN", "This is an unstable version of phpSysInfo, some things may not work correctly");
+                    }
+
                     // Safe mode check
                     $safe_mode = @ini_get("safe_mode") ? true : false;
                     if ($safe_mode) {
@@ -718,8 +710,6 @@ class XML
         } else {
             $options->addAttribute('threshold', 90);
         }
-        $options->addAttribute('showCPUListExpanded', defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
-        $options->addAttribute('showCPUInfoExpanded', defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         if (count($this->_plugins) > 0) {
             if ($this->_plugin_request) {
                 $plug = $this->_xml->addChild('UsedPlugins');
@@ -729,11 +719,13 @@ class XML
                 foreach ($this->_plugins as $plugin) {
                     $plug->addChild('Plugin')->addAttribute('name', $plugin);
                 }
+/*
             } else {
                 $plug = $this->_xml->addChild('UnusedPlugins');
                 foreach ($this->_plugins as $plugin) {
                     $plug->addChild('Plugin')->addAttribute('name', $plugin);
                 }
+*/
             }
         }
     }

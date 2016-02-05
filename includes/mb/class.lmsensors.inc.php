@@ -33,12 +33,12 @@ class LMSensors extends Sensors
     private $_lines = array();
 
     /**
-     * fill the private content var through tcp or file access
+     * fill the private content var through command or data access
      */
     public function __construct()
     {
         parent::__construct();
-        switch (strtolower(PSI_SENSOR_ACCESS)) {
+        switch (defined('PSI_SENSOR_LMSENSORS_ACCESS')?strtolower(PSI_SENSOR_LMSENSORS_ACCESS):'command') {
         case 'command':
             if (CommonFunctions::executeProgram("sensors", "", $lines)) {
                 // Martijn Stolk: Dirty fix for misinterpreted output of sensors,
@@ -48,7 +48,7 @@ class LMSensors extends Sensors
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
-        case 'file':
+        case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/lmsensors.txt', $lines)) {
                 $lines = str_replace(":\n", ":", $lines);
                 $lines = str_replace("\n\n", "\n", $lines);
@@ -56,7 +56,7 @@ class LMSensors extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_LMSENSORS_ACCESS');
             break;
         }
     }

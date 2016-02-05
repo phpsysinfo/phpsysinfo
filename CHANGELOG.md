@@ -3,6 +3,25 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.5
+----------------
+ - [UPD] jQuery 2.2.0 and jQuery 1.12.0
+
+ - [ADD] Show network interfaces infos for NetBSD and OpenBSD
+ - [ADD] SHOW_NETWORK_INFOS_EXPANDED option
+ - [ADD] SHOW_MEMORY_INFOS_EXPANDED option
+ - [ADD] QTS, OpenMamba and HipServ to detected distros
+ - [ADD] SNMPups - monitoring UPS via SNMP
+
+ - [NEW] reloading plugins also for frontend "bootstrap"
+ - [NEW] Network speed info on WinNT, Linux, Android, Darwin, NetBSD, OpenBSD and FreeBSD
+ - [NEW] Coretemp monitoring also on Linux
+ - [NEW] QTSsnmp - SNMP sensors monitoring for QTS Linux
+ - [NEW] Hwmon - sensors monitoring for Linux
+ - [NEW] SpeedFan - sensors monitoring for WinNT
+ - [NEW] Separate configuration sections for motherboard monitoring sensors programs
+ - [NEW] List of IP addresses of clients authorized to run
+
 phpSysInfo 3.2.4
 ----------------
  - [ADD] Solus to detected distros

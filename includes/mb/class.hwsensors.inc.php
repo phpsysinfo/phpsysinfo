@@ -33,7 +33,7 @@ class HWSensors extends Sensors
     private $_lines = array();
 
     /**
-     * fill the private content var through tcp or file access
+     * fill the private content var through command
      */
     public function __construct()
     {

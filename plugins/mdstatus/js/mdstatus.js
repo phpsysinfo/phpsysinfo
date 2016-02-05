@@ -44,26 +44,26 @@ function mdstatus_buildinfos(xml, id) {
     devalgo = parseInt($(xml).attr("Algorithm"), 10);
     devactive = parseInt($(xml).attr("Disks_Active"), 10);
     devregis = parseInt($(xml).attr("Disks_Registered"), 10);
-    html += "<tr><td>" + genlang(5, false, "MDStatus") + "</td><td>" + devstatus + "</td></tr>";
-    html += "<tr><td>" + genlang(6, false, "MDStatus") + "</td><td>" + devlevel + "</td></tr>";
+    html += "<tr><td>" + genlang(5, true, "MDStatus") + "</td><td>" + devstatus + "</td></tr>";
+    html += "<tr><td>" + genlang(6, true, "MDStatus") + "</td><td>" + devlevel + "</td></tr>";
     if (devchunk !== -1) {
-        html += "<tr><td>" + genlang(7, false, "MDStatus") + "</td><td>" + devchunk + "K</td></tr>";
+        html += "<tr><td>" + genlang(7, true, "MDStatus") + "</td><td>" + devchunk + "K</td></tr>";
     }
     if (devalgo !== -1) {
-        html += "<tr><td>" + genlang(8, false, "MDStatus") + "</td><td>" + devalgo + "</td></tr>";
+        html += "<tr><td>" + genlang(8, true, "MDStatus") + "</td><td>" + devalgo + "</td></tr>";
     }
     if (devsuper !== -1) {
-        html += "<tr><td>" + genlang(9, false, "MDStatus") + "</td><td>" + genlang(10, false, "MDStatus") + "</td></tr>";
+        html += "<tr><td>" + genlang(9, true, "MDStatus") + "</td><td>" + genlang(10, true, "MDStatus") + "</td></tr>";
     }
     else {
-        html += "<tr><td>" + genlang(9, false, "MDStatus") + "</td><td>" + genlang(11, false, "MDStatus") + "</td></tr>";
+        html += "<tr><td>" + genlang(9, true, "MDStatus") + "</td><td>" + genlang(11, true, "MDStatus") + "</td></tr>";
     }
     if (devactive !== -1 && devregis !== -1) {
-        html += "<tr><td>" + genlang(12, false, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
+        html += "<tr><td>" + genlang(12, true, "MDStatus") + "</td><td>" + devregis + "/" + devactive + "</td></tr>";
     }
-    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
-    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, false, "MDStatus") + "</h3>";
-    button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\">" + html + "</table>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
+    button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -80,10 +80,10 @@ function mdstatus_buildaction(xml) {
             tunit = $(this).attr("Time_Unit");
             percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
-            html += genlang(13, false, "MDStatus") + ":&nbsp;" + name + "<br/>";
+            html += genlang(13, true, "MDStatus") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
             html += "<br/>";
-            html += genlang(14, false, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
+            html += genlang(14, true, "MDStatus") + ":&nbsp;" + time + "&nbsp;" + tunit;
             html += "</div>";
         }
     });
@@ -102,8 +102,7 @@ function mdstatus_diskicon(xml) {
         diskstatus = $(this).attr("Status");
         diskname = $(this).attr("Name");
         switch (diskstatus) {
-        case " ":
-        case "":
+        case "ok":
             img = "harddriveok.png";
             alt = "ok";
             break;
@@ -116,12 +115,12 @@ function mdstatus_diskicon(xml) {
             alt = "spare";
             break;
         default:
-            alert("--" + diskstatus + "--");
+//            alert("--" + diskstatus + "--");
             img = "error.png";
             alt = "error";
             break;
         }
-        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px\" onload=\"$(this).ifixpng('./gfx/blank.gif');\" />"; //onload IE6 PNG fix
+        html += "<img class=\"plugin_mdstatus_biun\" src=\"./plugins/mdstatus/gfx/" + img + "\" alt=\"" + alt + "\" title=\"\" style=\"width:60px;height:60px\" onload=\"PNGload($(this));\" />"; //onload IE6 PNG fix
         html += "<small>" + diskname + "</small>";
         html += "</div>";
     });
@@ -136,6 +135,7 @@ function mdstatus_populate(xml) {
     var htmltypes = "";
 
     $("#Plugin_MDStatusTable").empty();
+    $("#Plugin_MDStatusTable").append("<tbody>");
 
     $("Plugins Plugin_MDStatus Supported_Types Type", xml).each(function mdstatus_getsupportedtypes(id) {
 //        htmltypes += "<li>" + $(this).attr("Name") + "</li>";
@@ -151,14 +151,14 @@ function mdstatus_populate(xml) {
         var htmldisks = "", htmldisklist = "", topic = "", name = "", buildedaction = "";
         name = $(this).attr("Device_Name");
         htmldisklist += mdstatus_diskicon(this);
-        htmldisks += "<table style=\"width:100%;\">";
+        htmldisks += "<table style=\"width:100%;\"><tbody>";
         htmldisks += "<tr><td>" + htmldisklist + "</td></tr>";
         buildedaction = mdstatus_buildaction($(this));
         if (buildedaction) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
-        htmldisks += "<tr><td>" + mdstatus_buildinfos($(this), id) + "<td></tr>";
-        htmldisks += "</table>";
+        htmldisks += "<tr><td>" + mdstatus_buildinfos($(this), id) + "</td></tr>";
+        htmldisks += "</tbody></table>";
         if (id) {
             topic = "";
         }
@@ -180,15 +180,18 @@ function mdstatus_populate(xml) {
     });
 
     if ($("Plugins Plugin_MDStatus Unused_Devices", xml).length > 0) {
-        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, false, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
+        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, true, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
         mdstatus_show = true;
     }
+
+    $("#Plugin_MDStatusTable").append("</tbody>");
 }
 
 /**
  * load the xml via ajax
  */
 function mdstatus_request() {
+    $("#Reload_MDStatusTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=MDStatus",
         dataType: "xml",
@@ -200,7 +203,6 @@ function mdstatus_request() {
             mdstatus_populate(xml);
             if (mdstatus_show) {
                 plugin_translate("MDStatus");
-                $("#Reload_MDStatusTable").attr("title",datetime());
                 $("#Plugin_MDStatus").show();
             }
         }
@@ -221,5 +223,6 @@ $(document).ready(function mdstatus_buildpage() {
 
     $("#Reload_MDStatusTable").click(function mdstatus_reload(id) {
         mdstatus_request();
+        $(this).attr("title", datetime());
     });
 });

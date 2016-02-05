@@ -180,6 +180,10 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("language", $this->_language);
         $tpl->set("languages", $this->_languages);
         $tpl->set("picklanguage", $this->_pick_language);
+        $tpl->set("showCPUListExpanded", defined('PSI_SHOW_CPULIST_EXPANDED') ? (PSI_SHOW_CPULIST_EXPANDED ? 'true' : 'false') : 'true');
+        $tpl->set("showCPUInfoExpanded", defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
+        $tpl->set("showNetworkInfosExpanded", defined('PSI_SHOW_NETWORK_INFOS_EXPANDED') ? (PSI_SHOW_NETWORK_INFOS_EXPANDED ? 'true' : 'false') : 'false');
+        $tpl->set("showMemoryInfosExpanded", defined('PSI_SHOW_MEMORY_INFOS_EXPANDED') ? (PSI_SHOW_MEMORY_INFOS_EXPANDED ? 'true' : 'false') : 'false');
 
         echo $tpl->fetch();
     }

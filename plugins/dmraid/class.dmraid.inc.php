@@ -83,7 +83,7 @@ class DMRaid extends PSI_Plugin
                 $lines = preg_split("/\r?\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
                     if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
-                        $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "";
+                        $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "ok";
                     } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
                         if ($partition[2]=="broken") {
                             $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';

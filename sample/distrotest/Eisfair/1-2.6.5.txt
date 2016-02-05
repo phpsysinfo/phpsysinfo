@@ -1,0 +1,10 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	eisfair project
+Description:	eisfair-1
+Release:	2.6.5
+Codename:	n/a
+----------/etc/version----------
+2.6.5
+----------/etc/eisfair-system----------
+eisfair-1

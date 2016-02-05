@@ -33,24 +33,24 @@ class Healthd extends Sensors
     private $_lines = array();
 
     /**
-     * fill the private content var through tcp or file access
+     * fill the private content var through command or data access
      */
     public function __construct()
     {
         parent::__construct();
-        switch (strtolower(PSI_SENSOR_ACCESS)) {
+        switch (defined('PSI_SENSOR_HEALTHD_ACCESS')?strtolower(PSI_SENSOR_HEALTHD_ACCESS):'command') {
         case 'command':
             $lines = "";
             CommonFunctions::executeProgram('healthdc', '-t', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
-        case 'file':
+        case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/healthd.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_HEALTHD_ACCESS');
             break;
         }
     }
@@ -66,17 +66,17 @@ class Healthd extends Sensors
         $dev1 = new SensorDevice();
         $dev1->setName('temp1');
         $dev1->setValue($ar_buf[1]);
-        $dev1->setMax(70);
+//        $dev1->setMax(70);
         $this->mbinfo->setMbTemp($dev1);
         $dev2 = new SensorDevice();
         $dev2->setName('temp1');
         $dev2->setValue($ar_buf[2]);
-        $dev2->setMax(70);
+//        $dev2->setMax(70);
         $this->mbinfo->setMbTemp($dev2);
         $dev3 = new SensorDevice();
         $dev3->setName('temp1');
         $dev3->setValue($ar_buf[3]);
-        $dev3->setMax(70);
+//        $dev3->setMax(70);
         $this->mbinfo->setMbTemp($dev3);
     }
 
@@ -91,17 +91,17 @@ class Healthd extends Sensors
         $dev1 = new SensorDevice();
         $dev1->setName('fan1');
         $dev1->setValue($ar_buf[4]);
-        $dev1->setMin(3000);
+//        $dev1->setMin(3000);
         $this->mbinfo->setMbFan($dev1);
         $dev2 = new SensorDevice();
         $dev2->setName('fan2');
         $dev2->setValue($ar_buf[5]);
-        $dev2->setMin(3000);
+//        $dev2->setMin(3000);
         $this->mbinfo->setMbFan($dev2);
         $dev3 = new SensorDevice();
         $dev3->setName('fan3');
         $dev3->setValue($ar_buf[6]);
-        $dev3->setMin(3000);
+//        $dev3->setMin(3000);
         $this->mbinfo->setMbFan($dev3);
     }
 

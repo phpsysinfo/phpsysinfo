@@ -63,10 +63,10 @@ function uprecords_buildTable() {
     html += "<table id=\"Plugin_uprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
-    html += "      <th>" + genlang(101, true, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(102, true, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(103, true, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(104, true, "uprecords") + "</th>\n";
+    html += "      <th>" + genlang(101, false, "uprecords") + "</th>\n";
+    html += "      <th>" + genlang(102, false, "uprecords") + "</th>\n";
+    html += "      <th>" + genlang(103, false, "uprecords") + "</th>\n";
+    html += "      <th>" + genlang(104, false, "uprecords") + "</th>\n";
     html += "    </tr>\n";
     html += "  </thead>\n";
     html += "  <tbody id=\"Plugin_uprecordsTable-tbody\">\n";
@@ -80,21 +80,21 @@ function uprecords_buildTable() {
  */
 
 function uprecords_request() {
+    $("#Reload_uprecordsTable").attr("title", "reload");
     $.ajax({
         url: "xml.php?plugin=uprecords",
         dataType: "xml",
         error: function uprecords_error() {
-        $.jGrowl("Error loading XML document for Plugin uprecords!");
-    },
-    success: function uprecords_buildblock(xml) {
-        populateErrors(xml);
-        uprecords_populate(xml);
-        if (uprecords_show) {
-            plugin_translate("uprecords");
-            $("#Reload_uprecordsTable").attr("title",datetime());
-            $("#Plugin_uprecords").show();
+            $.jGrowl("Error loading XML document for Plugin uprecords!");
+        },
+        success: function uprecords_buildblock(xml) {
+            populateErrors(xml);
+            uprecords_populate(xml);
+            if (uprecords_show) {
+                plugin_translate("uprecords");
+                $("#Plugin_uprecords").show();
+            }
         }
-    }
     });
 }
 
@@ -108,5 +108,6 @@ $(document).ready(function uprecords_buildpage() {
 
     $("#Reload_uprecordsTable").click(function uprecords_reload(id) {
         uprecords_request();
+        $(this).attr("title", datetime());
     });
 });

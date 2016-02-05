@@ -38,19 +38,19 @@ class K8Temp extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (strtolower(PSI_SENSOR_ACCESS)) {
+        switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
         case 'command':
             $lines = "";
             CommonFunctions::executeProgram('k8temp', '', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
-        case 'file':
+        case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/k8temp.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_K8TEMP_ACCESS');
             break;
         }
     }
@@ -67,7 +67,7 @@ class K8Temp extends Sensors
                 if ($data[2] > 0) {
                     $dev = new SensorDevice();
                     $dev->setName($data[1]);
-                    $dev->setMax('70.0');
+//                    $dev->setMax('70.0');
                     if ($data[2] < 250) {
                         $dev->setValue($data[2]);
                     }

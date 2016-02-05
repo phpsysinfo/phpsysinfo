@@ -26,7 +26,9 @@
     <script type="text/JavaScript" src="./js.php?name=jquery.jgrowl"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.timers"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.treeTable"></script>
+<!--[if lte IE 6]>
     <script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
+<![endif]-->
     <script type="text/JavaScript" src="./js.php?name=phpsysinfo"></script>
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
     <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
@@ -37,10 +39,14 @@
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
   </head>
   <body>
+    <input type="hidden" id="showCPUListExpanded" value="<?php echo $showCPUListExpanded;?>"/>
+    <input type="hidden" id="showCPUInfoExpanded" value="<?php echo $showCPUInfoExpanded;?>"/>
+    <input type="hidden" id="showNetworkInfosExpanded" value="<?php echo $showNetworkInfosExpanded;?>"/>
+    <input type="hidden" id="showMemoryInfosExpanded" value="<?php echo $showMemoryInfosExpanded;?>"/>
     <div id="loader">
       <h1>
         <a href="#errors" class="nyroModal">
-          <img id="loadwarn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="" alt="warning" />
+          <img id="loadwarn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="errors" alt="errors" />
         </a>
       Loading... please wait!</h1>
       <div id="container2">
@@ -60,7 +66,7 @@
     <div id="container" style="display:none;">
       <h1>
         <a href="#errors" class="nyroModal">
-          <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="" alt="warning" />
+          <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="errors" alt="errors" />
         </a>
         <span id="title">
           <span id="lang_001">System information</span>

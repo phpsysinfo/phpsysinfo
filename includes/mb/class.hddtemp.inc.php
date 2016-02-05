@@ -35,8 +35,8 @@ class HDDTemp extends Sensors
     private function _temperature()
     {
         $ar_buf = array();
-        switch (strtolower(PSI_HDD_TEMP)) {
-        case "tcp":
+        switch (defined('PSI_SENSOR_HDDTEMP_ACCESS')?strtolower(PSI_SENSOR_HDDTEMP_ACCESS):'command') {
+        case 'tcp':
             $lines = '';
             // Timo van Roermund: connect to the hddtemp daemon, use a 5 second timeout.
             $fp = @fsockopen('localhost', 7634, $errno, $errstr, 5);
@@ -52,7 +52,7 @@ class HDDTemp extends Sensors
             $lines = str_replace("||", "|\n|", $lines);
             $ar_buf = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
-        case "command":
+        case 'command':
             $strDrives = "";
             $strContent = "";
             $hddtemp_value = "";
@@ -114,7 +114,7 @@ class HDDTemp extends Sensors
                     if (is_numeric($data[3])) {
                         $dev->setValue($data[3]);
                     }
-                    $dev->setMax(60);
+//                    $dev->setMax(60);
                     $this->mbinfo->setMbTemp($dev);
                 }
             }

@@ -33,23 +33,23 @@ class FreeIPMI extends Sensors
     private $_lines = array();
 
     /**
-     * fill the private content var through tcp or file access
+     * fill the private content var through command or data access
      */
     public function __construct()
     {
         parent::__construct();
-        switch (strtolower(PSI_SENSOR_ACCESS)) {
+        switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
-        case 'file':
+        case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/freeipmi.txt', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_ACCESS');
+            $this->error->addConfigError('__construct()', 'PSI_SENSOR_FREEIPMI_ACCESS');
             break;
         }
     }

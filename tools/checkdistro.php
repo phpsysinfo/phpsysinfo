@@ -3,11 +3,6 @@ echo "<!DOCTYPE html>";
 echo "<meta charset=\"UTF-8\">";
 echo "<title> </title>";
 echo "<body>";
-if (PHP_OS != 'Linux') {
-    echo "Test works only on Linux";
-    echo "</body>";
-    die();
-}
 
 define('APP_ROOT', dirname(__FILE__).'/..');
 require_once APP_ROOT.'/includes/interface/class.PSI_Interface_OS.inc.php';
@@ -22,7 +17,7 @@ $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
 
-class Error
+class PSI_Error
 {
     public static function singleton()
     {
@@ -48,6 +43,7 @@ class CommonFunctions
         global $log_file;
         if (file_exists($log_file)) {
             $contents = @file_get_contents($log_file);
+            $contents = preg_replace("/\r\n/", "\n", $contents);
             if ($contents && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($string, '/')."\-\-\-\-\-\-\-\-\-\-\n/m", $contents, $matches, PREG_OFFSET_CAPTURE)) {
                 $findIndex = $matches[0][1];
                 if (preg_match("/\n/m", $contents, $matches, PREG_OFFSET_CAPTURE, $findIndex)) {
@@ -101,7 +97,7 @@ class CommonFunctions
         if (file_exists($log_file)
             && ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release"))
             && ($contents = @file_get_contents($log_file))
-            && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\n/m", $contents)) {
+            && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents)) {
             return true;
         }
 
@@ -114,7 +110,15 @@ class CommonFunctions
     }
 }
 
-$system = new Linux();
+class _Linux extends Linux
+{
+    public function build()
+    {
+        parent::_distro();
+    }
+}
+
+$system = new _Linux();
 if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
     echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\"";
     echo "<tr>";

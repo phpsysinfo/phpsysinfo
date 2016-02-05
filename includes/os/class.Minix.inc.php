@@ -144,7 +144,7 @@ class Minix extends OS
                 $this->sys->setPciDevices($dev);
             }
         }
-        if (!(isset($arrResults) && is_array($arrResults)) && is_array($results = Parser::lspci())) {
+        if (!(isset($arrResults) && is_array($arrResults)) && ($results = Parser::lspci())) {
             /* if access error: chmod 4755 /usr/bin/lspci */
             foreach ($results as $dev) {
                 $this->sys->setPciDevices($dev);
@@ -220,20 +220,6 @@ class Minix extends OS
         if (CommonFunctions::executeProgram('uptime', '', $buf)) {
             if (preg_match("/load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
-            }
-        }
-    }
-
-    /**
-     * Number of Users
-     *
-     * @return void
-     */
-    private function _users()
-    {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/, (.*) users, load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
-                $this->sys->setUsers($ar_buf[1]);
             }
         }
     }

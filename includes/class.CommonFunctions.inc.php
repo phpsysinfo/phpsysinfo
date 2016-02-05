@@ -107,7 +107,7 @@ class CommonFunctions
                 }
             }
         } elseif (PSI_OS == 'Android') {
-             $exceptPath = '/system/bin';
+            $exceptPath = '/system/bin';
         }
 
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
@@ -322,17 +322,17 @@ class CommonFunctions
                     }
                 } else {
                     if ($booErrorRep) {
-                         $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
                     }
 
                     return false;
                 }
             } else {
-                    if ($booErrorRep) {
-                         $error->addError('fopen('.$strFileName.')', 'file permission error');
-                    }
+                if ($booErrorRep) {
+                    $error->addError('fopen('.$strFileName.')', 'file permission error');
+                }
 
-                    return false;
+                return false;
             }
         } else {
             if ($booErrorRep) {
