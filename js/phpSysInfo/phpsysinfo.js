@@ -1308,8 +1308,12 @@ function refreshUps(xml) {
         battery_voltage = $(this).attr("BatteryVoltage");
         battery_charge_percent = parseInt($(this).attr("BatteryChargePercent"), 10);
         time_left_minutes = $(this).attr("TimeLeftMinutes");
-
-        html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
+        
+        if (mode !== undefined) {
+            html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
+        } else {
+            html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
+        }
         index = tree.push(0);
         if (model !== undefined) {
             html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, true) + "</span></td><td>" + model + "</td></tr>\n";
