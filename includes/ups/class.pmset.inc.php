@@ -76,6 +76,7 @@ class Pmset extends UPS
                         $dev->setTimeLeft($minutes);
                     }
                 }
+                $dev->setMode("pmset");
                 $this->upsinfo->setUpsDevices($dev);
             }
         }
