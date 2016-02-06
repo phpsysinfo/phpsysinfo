@@ -534,7 +534,9 @@ class XML
                     if ($ups->getModel() !== "") {
                         $item->addAttribute('Model', $ups->getModel());
                     }
-                    $item->addAttribute('Mode', $ups->getMode());
+                    if ($ups->getMode() !== "") {
+                        $item->addAttribute('Mode', $ups->getMode());
+                    }
                     if ($ups->getStartTime() !== "") {
                         $item->addAttribute('StartTime', $ups->getStartTime());
                     }
