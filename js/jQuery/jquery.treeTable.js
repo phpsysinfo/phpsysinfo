@@ -15,7 +15,7 @@ with it, as long as you keep this copyright notice on the page
 	},
     buildText = function(parno, preStr){//Recursively build up the text for the images that make it work
       var mp=mapa[parno], ro=0, pre="", pref, img;
-      for (var y=0,yl=mp.length;y<yl;y++){
+      if (mp!==undefined) for (var y=0,yl=mp.length;y<yl;y++){
         ro = mp[y];
         if (mapa[ro]){//It's a parent as well. Build it's string and move on to it's children
           pre=(y==yl-1)? opts.blankImg: opts.vertLineImg;
