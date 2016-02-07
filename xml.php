@@ -33,11 +33,13 @@ require_once APP_ROOT.'/includes/autoloader.inc.php';
 
 // check what xml part should be generated
 if (isset($_GET['plugin'])) {
-    $plugin = basename(htmlspecialchars($_GET['plugin']));
-    if ($plugin == "complete") {
-        $output = new WebpageXML(true, null);
-    } elseif ($plugin != "") {
-        $output = new WebpageXML(false, $plugin);
+    if ((trim($_GET['plugin'])!=="") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
+        $plugin = strtolower($_GET['plugin']);
+        if ($plugin == "complete") {
+            $output = new WebpageXML(true, null);
+        } else {
+            $output = new WebpageXML(false, $plugin);
+        }
     } else {
         unset($output);
     }
