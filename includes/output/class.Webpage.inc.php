@@ -153,10 +153,10 @@ class Webpage extends Output implements PSI_Interface_Output
         $dirlist = CommonFunctions::gdc(APP_ROOT.'/language/');
         sort($dirlist);
         foreach ($dirlist as $file) {
-            $lang_ext = substr($file, strlen($file) - 4);
-            $lang_name = substr($file, 0, strlen($file) - 4);
+            $lang_ext = strtolower(substr($file, strlen($file) - 4));
+            $lang_name = strtolower(substr($file, 0, strlen($file) - 4));
             if ($lang_ext == ".xml") {
-                array_push(strtolower($this->_languages), $lang_name);
+                array_push($this->_languages, $lang_name);
             }
         }
     }
