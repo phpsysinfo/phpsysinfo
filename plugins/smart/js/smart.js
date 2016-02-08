@@ -112,7 +112,7 @@ function smart_populate(xml) {
 function smart_request() {
     $("#Reload_SMARTTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=SMART&xml=" + PSI_XML,
+        url: "xml.php?plugin=SMART",
         dataType: "xml",
         error: function smart_error() {
             $.jGrowl("Error loading XML document for Plugin SMART");
