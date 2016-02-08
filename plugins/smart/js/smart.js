@@ -73,6 +73,7 @@ function smart_populate(xml) {
     // Get datas that the user want to be displayed
     $("Plugins Plugin_SMART columns column", xml).each(function smart_find_columns() {
         columns[parseInt($(this).attr("id"), 10)] = $(this).attr("name");
+        smart_show = true;
     });
 
     // Now we add selected datas in the table
@@ -100,11 +101,9 @@ function smart_populate(xml) {
             else {
                 display.push("<span style=\"display:none;\">" + values[i] + "</span>" + values[i]);
             }
-//          }
         });
         smart_table.fnAddData(display);
     });
-    smart_show = true;
 }
 
 /**
@@ -113,7 +112,7 @@ function smart_populate(xml) {
 function smart_request() {
     $("#Reload_SMARTTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=SMART",
+        url: "xml.php?plugin=SMART&xml=" + PSI_XML,
         dataType: "xml",
         error: function smart_error() {
             $.jGrowl("Error loading XML document for Plugin SMART");
