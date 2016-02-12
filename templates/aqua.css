@@ -166,16 +166,19 @@ table tfoot td {
 
 .treeimg {
     display: table-cell;
+    *float: left;
     vertical-align: top;
 }
 
 .treespan {
     display: table-cell;
+    *float: left;
     vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: bold;
     display: table-cell;
+    *float: left;
     vertical-align: middle;
 }
