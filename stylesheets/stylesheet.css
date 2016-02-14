@@ -155,6 +155,9 @@ a.button span {
 #download-zip span {
   background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
 }
+#download-zip {
+  margin-right: 0px;
+}
 #download-tar-gz span {
   background: transparent url(../images/tar-gz-icon.png) 12px 50% no-repeat;
 }
@@ -162,9 +165,14 @@ a.button span {
   background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
 }
 #view-on-github {
-  margin-right: 0;
+  margin-right: 0px;
 }
-
+#demos span {
+  background: transparent url(../images/logo_23.png) 12px 50% no-repeat;
+}
+#demos {
+  margin-right: 0px;
+}
 code, pre {
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
   color: #222;
