@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.6
+----------------
+ - [ADD] NeoKylin to detected distros
+
 phpSysInfo 3.2.5
 ----------------
  - [UPD] jQuery 2.2.0 and jQuery 1.12.0

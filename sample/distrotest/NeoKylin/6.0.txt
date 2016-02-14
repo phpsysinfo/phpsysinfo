@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
+Distributor ID:	NeoKylin Linux Desktop 
+Description:	NeoKylin Linux Desktop V6.0
+Release:	V6.0
+Codename:	n/a
+----------/etc/cs2c-release----------
+NeoKylin Linux Desktop V6.0
+----------/etc/neokylin-release----------
+NeoKylin Linux Desktop V6.0
+----------/etc/os-release----------
+NAME="NeoKylin Linux Desktop"
+VERSION="V6.0"
+ID=neokylin
+VERSION_ID=6.0
+PRETTY_NAME="NeoKylin Linux Desktop V6.0"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:nkwinproject:NKWin:V6.0"
+----------/etc/redhat-release----------
+NeoKylin Linux Desktop V6.0
+----------/etc/system-release----------
+NeoKylin Linux Desktop V6.0
