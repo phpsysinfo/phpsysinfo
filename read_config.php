@@ -47,7 +47,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         } else {
             $allowed = array(strtolower(PSI_ALLOWED));
         }
-        
+
         if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
             $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
         } else {
