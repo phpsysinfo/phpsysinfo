@@ -120,6 +120,15 @@ class CommonFunctions
 
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
         if ((bool) ini_get('open_basedir')) {
+            if (version_compare("5.2.16", PHP_VERSION, ">")) { // below 5.2.16
+                $aspath = false;
+            } elseif (version_compare("5.3", PHP_VERSION, ">")) { // 5.2.16 to 5.2.99
+                $aspath = true;
+            } elseif (version_compare("5.3.4", PHP_VERSION, ">")) { // 5.3.0 to 5.3.3
+                $aspath = false;
+            } else { // 5.3.4 and up
+                $aspath = true;
+            }
             if (PSI_OS == 'WINNT') {
                 $open_basedir = preg_split('/;/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
             } else {
@@ -140,6 +149,9 @@ class CommonFunctions
                 $inBaseDir = false;
                 if (PSI_OS == 'WINNT') {
                     foreach ($open_basedir as $openbasedir) {
+                        if ($aspath) {
+                            $openbasedir = rtrim($openbasedir, "\\")."\\";
+                        }
                         if (substr($openbasedir, -1)=="\\") {
                             $str_Path = $strPathS;
                         } else {
@@ -152,6 +164,9 @@ class CommonFunctions
                     }
                 } else {
                     foreach ($open_basedir as $openbasedir) {
+                        if ($aspath) {
+                            $openbasedir = rtrim($openbasedir, "/")."/";
+                        }
                         if (substr($openbasedir, -1)=="/") {
                             $str_Path = $strPathS;
                         } else {
@@ -384,6 +399,15 @@ class CommonFunctions
 
         // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
         if ((bool) ini_get('open_basedir')) {
+            if (version_compare("5.2.16", PHP_VERSION, ">")) { // below 5.2.16
+                $aspath = false;
+            } elseif (version_compare("5.3", PHP_VERSION, ">")) { // 5.2.16 to 5.2.99
+                $aspath = true;
+            } elseif (version_compare("5.3.4", PHP_VERSION, ">")) { // 5.3.0 to 5.3.3
+                $aspath = false;
+            } else { // 5.3.4 and up
+                $aspath = true;
+            }
             $strPath = $path_parts['dirname'];
 
             if (PSI_OS == 'WINNT') {
@@ -402,6 +426,9 @@ class CommonFunctions
             $inBaseDir = false;
             if (PSI_OS == 'WINNT') {
                 foreach ($open_basedir as $openbasedir) {
+                    if ($aspath) {
+                        $openbasedir = rtrim($openbasedir, "\\")."\\";
+                    }
                     if (substr($openbasedir, -1)=="\\") {
                         $str_Path = $strPathS;
                     } else {
@@ -414,6 +441,9 @@ class CommonFunctions
                 }
             } else {
                 foreach ($open_basedir as $openbasedir) {
+                    if ($aspath) {
+                        $openbasedir = rtrim($openbasedir, "/")."/";
+                    }
                     if (substr($openbasedir, -1)=="/") {
                         $str_Path = $strPathS;
                     } else {
