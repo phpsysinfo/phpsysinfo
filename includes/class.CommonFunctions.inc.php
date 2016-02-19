@@ -118,23 +118,6 @@ class CommonFunctions
             $exceptPath = '/system/bin';
         }
 
-        // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
-        if ((bool) ini_get('open_basedir')) {
-            if (version_compare("5.2.16", PHP_VERSION, ">")) { // below 5.2.16
-                $aspath = false;
-            } elseif (version_compare("5.3", PHP_VERSION, ">")) { // 5.2.16 to 5.2.99
-                $aspath = true;
-            } elseif (version_compare("5.3.4", PHP_VERSION, ">")) { // 5.3.0 to 5.3.3
-                $aspath = false;
-            } else { // 5.3.4 and up
-                $aspath = true;
-            }
-            if (PSI_OS == 'WINNT') {
-                $open_basedir = preg_split('/;/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
-            } else {
-                $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
-            }
-        }
         foreach ($arrPath as $strPath) {
             // Path with and without trailing slash
             if (PSI_OS == 'WINNT') {
@@ -143,44 +126,6 @@ class CommonFunctions
             } else {
                 $strPath = rtrim($strPath, "/");
                 $strPathS = $strPath."/";
-            }
-            // To avoid "open_basedir restriction in effect" error when testing paths if restriction is enabled
-            if (isset($open_basedir)) {
-                $inBaseDir = false;
-                if (PSI_OS == 'WINNT') {
-                    foreach ($open_basedir as $openbasedir) {
-                        if ($aspath) {
-                            $openbasedir = rtrim($openbasedir, "\\")."\\";
-                        }
-                        if (substr($openbasedir, -1)=="\\") {
-                            $str_Path = $strPathS;
-                        } else {
-                            $str_Path = $strPath;
-                        }
-                        if (stripos($str_Path, $openbasedir) === 0) {
-                            $inBaseDir = true;
-                            break;
-                        }
-                    }
-                } else {
-                    foreach ($open_basedir as $openbasedir) {
-                        if ($aspath) {
-                            $openbasedir = rtrim($openbasedir, "/")."/";
-                        }
-                        if (substr($openbasedir, -1)=="/") {
-                            $str_Path = $strPathS;
-                        } else {
-                            $str_Path = $strPath;
-                        }
-                        if (strpos($str_Path, $openbasedir) === 0) {
-                            $inBaseDir = true;
-                            break;
-                        }
-                    }
-                }
-                if ($inBaseDir == false) {
-                    continue;
-                }
             }
             if (($strPath !== $exceptPath) && !is_dir($strPath)) {
                 continue;
@@ -389,74 +334,6 @@ class CommonFunctions
                 if (substr(PSI_LOG, 0, 1)=="-") {
                     return false;
                 }
-            }
-        }
-
-        $path_parts = pathinfo($strFileName);
-        if (empty($path_parts['basename'])) {
-            return false;
-        }
-
-        // If open_basedir defined, fill the $open_basedir array with authorized paths,. (Not tested when no open_basedir restriction)
-        if ((bool) ini_get('open_basedir')) {
-            if (version_compare("5.2.16", PHP_VERSION, ">")) { // below 5.2.16
-                $aspath = false;
-            } elseif (version_compare("5.3", PHP_VERSION, ">")) { // 5.2.16 to 5.2.99
-                $aspath = true;
-            } elseif (version_compare("5.3.4", PHP_VERSION, ">")) { // 5.3.0 to 5.3.3
-                $aspath = false;
-            } else { // 5.3.4 and up
-                $aspath = true;
-            }
-            $strPath = $path_parts['dirname'];
-
-            if (PSI_OS == 'WINNT') {
-                $open_basedir = preg_split('/;/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
-            } else {
-                $open_basedir = preg_split('/:/', ini_get('open_basedir'), -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            // Path with trailing slash
-            if (PSI_OS == 'WINNT') {
-                $strPathS = $strPath."\\";
-            } else {
-                $strPathS = $strPath."/";
-            }
-
-            $inBaseDir = false;
-            if (PSI_OS == 'WINNT') {
-                foreach ($open_basedir as $openbasedir) {
-                    if ($aspath) {
-                        $openbasedir = rtrim($openbasedir, "\\")."\\";
-                    }
-                    if (substr($openbasedir, -1)=="\\") {
-                        $str_Path = $strPathS;
-                    } else {
-                        $str_Path = $strPath;
-                    }
-                    if (stripos($str_Path, $openbasedir) === 0) {
-                        $inBaseDir = true;
-                        break;
-                    }
-                }
-            } else {
-                foreach ($open_basedir as $openbasedir) {
-                    if ($aspath) {
-                        $openbasedir = rtrim($openbasedir, "/")."/";
-                    }
-                    if (substr($openbasedir, -1)=="/") {
-                        $str_Path = $strPathS;
-                    } else {
-                        $str_Path = $strPath;
-                    }
-                    if (strpos($str_Path, $openbasedir) === 0) {
-                        $inBaseDir = true;
-                        break;
-                    }
-                }
-            }
-            if (!$inBaseDir) {
-                return false;
             }
         }
 
