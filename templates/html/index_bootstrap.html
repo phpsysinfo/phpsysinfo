@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -141,35 +141,37 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_027">Memory Usage</span></div>
             <div class="panel-body">
-                <table id="memory" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_034-u01">Type</span></th>
-                            <th><span id="lang_033-u02">Usage</span></th>
-                            <th class="rightCell"><span id="lang_035-u03">Free</span></th>
-                            <th class="rightCell"><span id="lang_036-u04">Used</span></th>
-                            <th class="rightCell"><span id="lang_037-u05">Size</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="memory-data">
-                        <tr>
-                            <th><span data-bind="Type"></span></th>
-                            <td><span data-bind="Usage"></span></td>
-                            <td class="rightCell"><span data-bind="Free"></span></td>
-                            <td class="rightCell"><span data-bind="Used"></span></td>
-                            <td class="rightCell"><span data-bind="Total"></span></td>
-                        </tr>
-                    </tbody>
-                    <tfoot id="swap-data" style="display:none;">
-                        <tr>
-                            <th><span data-bind="Name"></span></th>
-                            <td><span data-bind="Usage"></span></td>
-                            <td class="rightCell"><span data-bind="Free"></span></td>
-                            <td class="rightCell"><span data-bind="Used"></span></td>
-                            <td class="rightCell"><span data-bind="Total"></span></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div class="table-responsive">
+                    <table id="memory" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_034-u01">Type</span></th>
+                                <th><span id="lang_033-u02">Usage</span></th>
+                                <th class="rightCell"><span id="lang_035-u03">Free</span></th>
+                                <th class="rightCell"><span id="lang_036-u04">Used</span></th>
+                                <th class="rightCell"><span id="lang_037-u05">Size</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="memory-data">
+                            <tr>
+                                <th><span data-bind="Type"></span></th>
+                                <td><span data-bind="Usage"></span></td>
+                                <td class="rightCell"><span data-bind="Free"></span></td>
+                                <td class="rightCell"><span data-bind="Used"></span></td>
+                                <td class="rightCell"><span data-bind="Total"></span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot id="swap-data" style="display:none;">
+                            <tr>
+                                <th><span data-bind="Name"></span></th>
+                                <td><span data-bind="Usage"></span></td>
+                                <td class="rightCell"><span data-bind="Free"></span></td>
+                                <td class="rightCell"><span data-bind="Used"></span></td>
+                                <td class="rightCell"><span data-bind="Total"></span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -180,41 +182,43 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_030">Mounted Filesystems</span></div>
             <div class="panel-body">
-                <table id="filesystem" class="table table-hover table-condensed sortable">
-                    <thead>
-                        <tr>
-                            <th id="filesystem_MountPoint"><span id="lang_031">Mountpoint</span></th>
-                            <th><span id="lang_034-u06">Type</span></th>
-                            <th><span id="lang_032">Partition</span></th>
-                            <th><span id="lang_033-u07">Usage</span></th>
-                            <th class="rightCell sorttable_numeric"><span id="lang_035-u08">Free</span></th>
-                            <th class="rightCell sorttable_numeric"><span id="lang_036-u09">Used</span></th>
-                            <th class="rightCell sorttable_numeric"><span id="lang_037-u10">Size</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="filesystem-data">
-                        <tr>
-                            <th><span data-bind="MountPoint"></span></th>
-                            <td><span data-bind="FSType"></span></td>
-                            <td><span data-bind="Name"></span></td>
-                            <td><span data-bind="Percent"></span></td>
-                            <td class="rightCell"><span data-bind="Free"></span></td>
-                            <td class="rightCell"><span data-bind="Used"></span></td>
-                            <td class="rightCell"><span data-bind="Total"></span></td>
-                        </tr>
-                    </tbody>
-                    <tfoot id="filesystem-foot">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <th><span id="lang_038">Totals</span></th>
-                            <th><span data-bind="Percent"></span></th>
-                            <th class="rightCell"><span data-bind="Free"></span></th>
-                            <th class="rightCell"><span data-bind="Used"></span></th>
-                            <th class="rightCell"><span data-bind="Total"></span></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div class="table-responsive">
+                    <table id="filesystem" class="table table-hover table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th id="filesystem_MountPoint"><span id="lang_031">Mountpoint</span></th>
+                                <th><span id="lang_034-u06">Type</span></th>
+                                <th><span id="lang_032">Partition</span></th>
+                                <th><span id="lang_033-u07">Usage</span></th>
+                                <th class="rightCell sorttable_numeric"><span id="lang_035-u08">Free</span></th>
+                                <th class="rightCell sorttable_numeric"><span id="lang_036-u09">Used</span></th>
+                                <th class="rightCell sorttable_numeric"><span id="lang_037-u10">Size</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesystem-data">
+                            <tr>
+                                <th><span data-bind="MountPoint"></span></th>
+                                <td><span data-bind="FSType"></span></td>
+                                <td><span data-bind="Name"></span></td>
+                                <td><span data-bind="Percent"></span></td>
+                                <td class="rightCell"><span data-bind="Free"></span></td>
+                                <td class="rightCell"><span data-bind="Used"></span></td>
+                                <td class="rightCell"><span data-bind="Total"></span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot id="filesystem-foot">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th><span id="lang_038">Totals</span></th>
+                                <th><span data-bind="Percent"></span></th>
+                                <th class="rightCell"><span data-bind="Free"></span></th>
+                                <th class="rightCell"><span data-bind="Used"></span></th>
+                                <th class="rightCell"><span data-bind="Total"></span></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -225,18 +229,19 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
             <div class="panel-body">
-                <table id="network" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th style="width:60%"><span id="lang_022">Device</span></th>
-                            <th class="rightCell"><span id="lang_023">Receive</span></th>
-                            <th class="rightCell"><span id="lang_024">Send</span></th>
-                            <th class="rightCell"><span id="lang_025">Err/<wbr>Drop</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="network-data">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="network" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width:60%"><span id="lang_022">Device</span></th>
+                                <th class="rightCell"><span id="lang_023">Receive</span></th>
+                                <th class="rightCell"><span id="lang_024">Send</span></th>
+                                <th class="rightCell"><span id="lang_025">Err/<wbr>Drop</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="network-data"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -245,24 +250,26 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_052">Voltage</span></div>
             <div class="panel-body">
-                <table id="voltage" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_059-u11">Label</span></th>
-                            <th class="rightCell"><span id="lang_054-u12">Value</span></th>
-                            <th class="rightCell"><span id="lang_055-u13">Min</span></th>
-                            <th class="rightCell"><span id="lang_056">Max</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="voltage-data">
-                        <tr>
-                            <th><span data-bind="Label"></span></th>
-                            <td class="rightCell"><span data-bind="Value"></span></td>
-                            <td class="rightCell"><span data-bind="Min"></span></td>
-                            <td class="rightCell"><span data-bind="Max"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="voltage" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u11">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u12">Value</span></th>
+                                <th class="rightCell"><span id="lang_055-u13">Min</span></th>
+                                <th class="rightCell"><span id="lang_056">Max</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="voltage-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Min"></span></td>
+                                <td class="rightCell"><span data-bind="Max"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -271,22 +278,24 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_051">Temperatures</span></div>
             <div class="panel-body">
-                <table id="temperature" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_059-u14">Label</span></th>
-                            <th class="rightCell"><span id="lang_054-u15">Value</span></th>
-                            <th class="rightCell"><span id="lang_058-u16">Limit</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="temperature-data">
-                        <tr>
-                            <th><span data-bind="Label"></span></th>
-                            <td class="rightCell"><span data-bind="Value"></span></td>
-                            <td class="rightCell"><span data-bind="Max"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="temperature" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u14">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u15">Value</span></th>
+                                <th class="rightCell"><span id="lang_058-u16">Limit</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="temperature-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Max"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -295,22 +304,24 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_053">Fans</span></div>
             <div class="panel-body">
-                <table id="fans" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_059-u17">Label</span></th>
-                            <th class="rightCell"><span id="lang_054-u18">Value</span></th>
-                            <th class="rightCell"><span id="lang_055-u19">Min</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="fans-data">
-                        <tr>
-                            <th><span data-bind="Label"></span></th>
-                            <td class="rightCell"><span data-bind="Value"></span></td>
-                            <td class="rightCell"><span data-bind="Min"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="fans" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u17">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u18">Value</span></th>
+                                <th class="rightCell"><span id="lang_055-u19">Min</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="fans-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Min"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -319,22 +330,24 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_105">Currents</span></div>
             <div class="panel-body">
-                <table id="current" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_059-u20">Label</span></th>
-                            <th class="rightCell"><span id="lang_054-u21">Value</span></th>
-                            <th class="rightCell"><span id="lang_058-u22">Limit</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="current-data">
-                        <tr>
-                            <th><span data-bind="Label"></span></th>
-                            <td class="rightCell"><span data-bind="Value"></span></td>
-                            <td class="rightCell"><span data-bind="Max"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="current" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u20">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u21">Value</span></th>
+                                <th class="rightCell"><span id="lang_058-u22">Limit</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="current-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Max"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -343,22 +356,24 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_102">Power</span></div>
             <div class="panel-body">
-                <table id="power" class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th><span id="lang_059-u23">Label</span></th>
-                            <th class="rightCell"><span id="lang_054-u24">Value</span></th>
-                            <th class="rightCell"><span id="lang_058-u25">Limit</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="power-data">
-                        <tr>
-                            <th><span data-bind="Label"></span></th>
-                            <td class="rightCell"><span data-bind="Value"></span></td>
-                            <td class="rightCell"><span data-bind="Max"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="power" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u23">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u24">Value</span></th>
+                                <th class="rightCell"><span id="lang_058-u25">Limit</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="power-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Max"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
