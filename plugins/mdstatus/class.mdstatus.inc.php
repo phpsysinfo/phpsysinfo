@@ -148,6 +148,42 @@ class MDStatus extends PSI_Plugin
                     $this->_result['devices'][$dev]['registered'] = -1;
                     $this->_result['devices'][$dev]['active'] = -1;
                 }
+                if (isset($this->_result['devices'][$dev]['partitions'])) {
+                    asort($this->_result['devices'][$dev]['partitions']);
+                }
+                if (preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
+                    if (($partcount=count($this->_result['devices'][$dev]['partitions'])) == $reslen) {
+                        $partnr = 0;
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status'])=="ok") {
+                                $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            }
+                            $partnr++;
+                        }
+                    } elseif ($reslen-$partcount == 1){
+                        $partnr = 0;
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($res[1][$partnr]=='_') {
+                                $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']-1;
+                                $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                            }
+                            $partnr++;
+                        }
+                        if ($res[1][$partnr]=='_') {
+                            $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']+1;
+                            $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                        }
+                        asort($this->_result['devices'][$dev]['partitions']);
+                    } else {
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                        }
+                        for ($partnr=0; $partnr<$reslen-$partcount; $partnr++) {
+                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']=1000+$partnr;
+                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['status']="E";
+                        }
+                    }
+                }
                 if (preg_match(('/([a-z]+)( *)=( *)([0-9\.]+)%/'), $this->_filecontent[$count + 1], $res) || (preg_match(('/([a-z]+)( *)=( *)([0-9\.]+)/'), $optionline, $res))) {
                     list($this->_result['devices'][$dev]['action']['name'], $this->_result['devices'][$dev]['action']['percent']) = preg_split("/=/", str_replace("%", "", $res[0]));
                     if (preg_match(('/([a-z]*=[0-9\.]+[a-z]+)/'), $this->_filecontent[$count + 1], $res)) {
