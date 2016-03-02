@@ -186,7 +186,9 @@ class MDStatus extends PSI_Plugin
                         asort($this->_result['devices'][$dev]['partitions']);
                     } else {
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                            $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                                $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            }
                         }
                         for ($partnr=0; $partnr<$reslen-$notsparecount; $partnr++) {
                                 $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']=1000+$partnr;
