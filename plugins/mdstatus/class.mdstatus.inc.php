@@ -152,22 +152,32 @@ class MDStatus extends PSI_Plugin
                     asort($this->_result['devices'][$dev]['partitions']);
                 }
                 if (preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
-                    if (($partcount=count($this->_result['devices'][$dev]['partitions'])) == $reslen) {
-                        $partnr = 0;
-                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                            if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status'])=="ok") {
-                                $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
-                            }
-                            $partnr++;
+                    $notsparecount = 0;
+                    foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                        if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                            $notsparecount++;
                         }
-                    } elseif ($reslen-$partcount == 1){
+                    }
+                    if ($notsparecount == $reslen) {
                         $partnr = 0;
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                            if ($res[1][$partnr]=='_') {
-                                $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']-1;
-                                $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                                if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok")) {
+                                    $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                                }
+                                $partnr++;
                             }
-                            $partnr++;
+                        }
+                    } elseif ($reslen-$notsparecount == 1){
+                        $partnr = 0;
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                                if ($res[1][$partnr]=='_') {
+                                    $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']-1;
+                                    $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                                }
+                                $partnr++;
+                            }
                         }
                         if ($res[1][$partnr]=='_') {
                             $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']+1;
@@ -178,7 +188,7 @@ class MDStatus extends PSI_Plugin
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
                             $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
                         }
-                        for ($partnr=0; $partnr<$reslen-$partcount; $partnr++) {
+                        for ($partnr=0; $partnr<$reslen-$notsparecount; $partnr++) {
                                 $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']=1000+$partnr;
                                 $this->_result['devices'][$dev]['partitions']["none".$partnr]['status']="E";
                         }
