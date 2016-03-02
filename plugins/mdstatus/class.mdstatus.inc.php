@@ -186,7 +186,7 @@ class MDStatus extends PSI_Plugin
                         asort($this->_result['devices'][$dev]['partitions']);
                     } else {
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok") {
                                 $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
                             }
                         }
