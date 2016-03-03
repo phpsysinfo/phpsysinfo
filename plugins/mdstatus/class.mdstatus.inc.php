@@ -184,6 +184,11 @@ class MDStatus extends PSI_Plugin
                             $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
                         }
                         asort($this->_result['devices'][$dev]['partitions']);
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($diskkey=="none") {
+                                $this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']="unknown";
+                            }
+                        }
                     } else {
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
                             if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok") {
@@ -191,7 +196,7 @@ class MDStatus extends PSI_Plugin
                             }
                         }
                         for ($partnr=0; $partnr<$reslen-$notsparecount; $partnr++) {
-                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']=1000+$partnr;
+                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']="unknown";
                                 $this->_result['devices'][$dev]['partitions']["none".$partnr]['status']="E";
                         }
                     }
