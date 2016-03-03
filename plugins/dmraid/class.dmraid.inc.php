@@ -92,7 +92,7 @@ class DMRaid extends PSI_Plugin
                 foreach ($lines as $line) {
                     if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
                         $disk = $data[1];
-                    }  elseif (($disk!=="") && preg_match('/^\s+State:\s+(\S+)\s+\(([^\)\s]+)\s*([\d]*)(%*)([^\)]*)\)/', $line, $data)) {
+                    } elseif (($disk!=="") && preg_match('/^\s+State:\s+(\S+)\s+\(([^\)\s]+)\s*([\d]*)(%*)([^\)]*)\)/', $line, $data)) {
                         $disksinfo[$disk]['status'] = trim($data[1]);
                         $disksinfo[$disk]['substatus'] = trim($data[2]);
                         if (trim($data[4])=="%") {
@@ -105,19 +105,19 @@ class DMRaid extends PSI_Plugin
             $group = "";
             foreach ($lines as $line) {
                 if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
-                    $group = $data[1]; 
+                    $group = $data[1];
                 } elseif ($group!=="") {
                     if (preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
                         $this->_result['devices'][$group]['size'] = trim($data[1]);
                     } elseif (preg_match('/^\s+State:\s+(.+)/', $line, $data)) {
                         $this->_result['devices'][$group]['status'] = trim($data[1]);
-                    }elseif (preg_match('/^\s+RAIDLevel:\s+(.+)/', $line, $data)) {
+                    } elseif (preg_match('/^\s+RAIDLevel:\s+(.+)/', $line, $data)) {
                         $this->_result['devices'][$group]['type'] = trim($data[1]);
-                    }elseif (preg_match('/^\s+Components:\s+(\d+)/', $line, $data)) {
+                    } elseif (preg_match('/^\s+Components:\s+(\d+)/', $line, $data)) {
                         $this->_result['devices'][$group]['devs'] = trim($data[1]);
-                    }elseif (preg_match('/^\s+Label:\s+(.+)/', $line, $data)) {
+                    } elseif (preg_match('/^\s+Label:\s+(.+)/', $line, $data)) {
                         $this->_result['devices'][$group]['name'] = trim($data[1]);
-                    }elseif (preg_match('/^\s+Subdisks:\s+(.+)/', $line, $data)) {
+                    } elseif (preg_match('/^\s+Subdisks:\s+(.+)/', $line, $data)) {
                         $disks = preg_split('/\s*,\s*/', trim($data[1]), -1, PREG_SPLIT_NO_EMPTY);
                         $nones = 0;
                         foreach ($disks as $disk) {
@@ -137,7 +137,7 @@ class DMRaid extends PSI_Plugin
                                         }
                                     } else {
                                         $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'ok';
-                                    }                                   
+                                    }
                                 } elseif ($partition[2]=="NONE") {
                                     $this->_result['devices'][$group]['partitions']["none".$nones]['status'] = 'E';
                                     $nones++;

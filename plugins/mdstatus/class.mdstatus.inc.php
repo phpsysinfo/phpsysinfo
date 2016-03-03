@@ -168,7 +168,7 @@ class MDStatus extends PSI_Plugin
                                 $partnr++;
                             }
                         }
-                    } elseif ($reslen-$notsparecount == 1){
+                    } elseif ($reslen-$notsparecount == 1) {
                         $partnr = 0;
                         foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
                             if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
