@@ -38,4 +38,7 @@
   <expression id="plugin_dmraid_011" name="dmraid_spares">
     <exp>Резервировано</exp>
   </expression>
+  <expression id="plugin_dmraid_012" name="dmraid_curact">
+    <exp>Текущее действие</exp>
+  </expression>
 </tns:translationPlugin>

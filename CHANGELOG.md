@@ -9,6 +9,7 @@ phpSysInfo 3.2.6
 
  - [ADD] NeoKylin to detected distros
  - [ADD] schabau template
+ - [ADD] DMRaid plugin - FreeBSD graid info
 
 phpSysInfo 3.2.5
 ----------------

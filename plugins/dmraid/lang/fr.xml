@@ -38,4 +38,7 @@
   <expression id="plugin_dmraid_011" name="dmraid_spares">
     <exp>Rechanges</exp>
   </expression>
+  <expression id="plugin_dmraid_012" name="dmraid_curact">
+    <exp>Action courante</exp>
+  </expression>
 </tns:translationPlugin>

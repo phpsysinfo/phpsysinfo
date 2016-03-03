@@ -48,7 +48,11 @@ class DMRaid extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_DMRAID_ACCESS)) {
         case 'command':
-            CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $buffer);
+            if (PSI_OS == 'FreeBSD') {
+                CommonFunctions::executeProgram("graid", "list", $buffer);
+            } else {
+                CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $buffer);
+            }
             break;
         case 'data':
             CommonFunctions::rfts(APP_ROOT."/data/dmraid.txt", $buffer);
@@ -58,7 +62,11 @@ class DMRaid extends PSI_Plugin
             break;
         }
         if (trim($buffer) != "") {
-            $this->_filecontent = preg_split("/(\r?\n\*\*\* )|(\r?\n--> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            if (PSI_OS == 'FreeBSD') {
+                $this->_filecontent = preg_split("/Consumers:\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $this->_filecontent = preg_split("/(\r?\n\*\*\* )|(\r?\n--> )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            }
         } else {
             $this->_filecontent = array();
         }
@@ -76,53 +84,118 @@ class DMRaid extends PSI_Plugin
         if (empty($this->_filecontent)) {
             return;
         }
-        $group = "";
-        foreach ($this->_filecontent as $block) {
-            if (preg_match('/^(NOTICE: )|(ERROR: )/m', $block)) {
-                $group = "";
-                $lines = preg_split("/\r?\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
+        if (PSI_OS == 'FreeBSD') {
+            $disksinfo = array();
+            if (isset($this->_filecontent[1]) && (trim($this->_filecontent[1])!=="")) {
+                $lines = preg_split("/\r?\n/", trim($this->_filecontent[1]), -1, PREG_SPLIT_NO_EMPTY);
+                $disk = "";
                 foreach ($lines as $line) {
-                    if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
-                        $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "ok";
-                    } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
-                        if ($partition[2]=="broken") {
-                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
-                        } else {
-                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'W';
+                    if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
+                        $disk = $data[1];
+                    }  elseif (($disk!=="") && preg_match('/^\s+State:\s+(\S+)\s+\(([^\)\s]+)\s*([\d]*)(%*)([^\)]*)\)/', $line, $data)) {
+                        $disksinfo[$disk]['status'] = trim($data[1]);
+                        $disksinfo[$disk]['substatus'] = trim($data[2]);
+                        if (trim($data[4])=="%") {
+                            $disksinfo[$disk]['percent'] = trim($data[3]);
                         }
                     }
                 }
-            } else {
-                if (preg_match('/^Group superset\s+(.+)/m', $block, $arrname)) {
-                    $group = trim($arrname[1]);
+            }
+            $lines = preg_split("/\r?\n/", trim($this->_filecontent[0]), -1, PREG_SPLIT_NO_EMPTY);
+            $group = "";
+            foreach ($lines as $line) {
+                if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
+                    $group = $data[1]; 
+                } elseif ($group!=="") {
+                    if (preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
+                        $this->_result['devices'][$group]['size'] = trim($data[1]);
+                    } elseif (preg_match('/^\s+State:\s+(.+)/', $line, $data)) {
+                        $this->_result['devices'][$group]['status'] = trim($data[1]);
+                    }elseif (preg_match('/^\s+RAIDLevel:\s+(.+)/', $line, $data)) {
+                        $this->_result['devices'][$group]['type'] = trim($data[1]);
+                    }elseif (preg_match('/^\s+Components:\s+(\d+)/', $line, $data)) {
+                        $this->_result['devices'][$group]['devs'] = trim($data[1]);
+                    }elseif (preg_match('/^\s+Label:\s+(.+)/', $line, $data)) {
+                        $this->_result['devices'][$group]['name'] = trim($data[1]);
+                    }elseif (preg_match('/^\s+Subdisks:\s+(.+)/', $line, $data)) {
+                        $disks = preg_split('/\s*,\s*/', trim($data[1]), -1, PREG_SPLIT_NO_EMPTY);
+                        $nones = 0;
+                        foreach ($disks as $disk) {
+                            if (preg_match("/^(\S+)\s+\(([^\)]+)\)/", $disk, $partition)) {
+                                if ($partition[2]=="ACTIVE") {
+                                    if (isset($disksinfo[$partition[1]]["status"])) {
+                                        if ($disksinfo[$partition[1]]["status"]!=="ACTIVE") {
+                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'W';
+                                        } elseif ($disksinfo[$partition[1]]["substatus"]=="ACTIVE") {
+                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'ok';
+                                        } else {
+                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'W';
+                                            if (isset($disksinfo[$partition[1]]["percent"])) {
+                                                $this->_result['devices'][$group]['action']['name'] = $disksinfo[$partition[1]]["substatus"];
+                                                $this->_result['devices'][$group]['action']['percent'] = $disksinfo[$partition[1]]["percent"];
+                                            }
+                                        }
+                                    } else {
+                                        $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'ok';
+                                    }                                   
+                                } elseif ($partition[2]=="NONE") {
+                                    $this->_result['devices'][$group]['partitions']["none".$nones]['status'] = 'E';
+                                    $nones++;
+                                }
+                            }
+                        }
+                    }
                 }
-                if (preg_match('/^name\s*:\s*(.*)/m', $block, $arrname)) {
-                    if ($group=="") {
+            }
+        } else {
+            $group = "";
+            foreach ($this->_filecontent as $block) {
+                if (preg_match('/^(NOTICE: )|(ERROR: )/m', $block)) {
+                    $group = "";
+                    $lines = preg_split("/\r?\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($lines as $line) {
+                        if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
+                            $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "ok";
+                        } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
+                            if ($partition[2]=="broken") {
+                                $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
+                            } else {
+                                $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'W';
+                            }
+                        }
+                    }
+                } else {
+                    if (preg_match('/^Group superset\s+(.+)/m', $block, $arrname)) {
                         $group = trim($arrname[1]);
                     }
-                    $this->_result['devices'][$group]['name'] = $arrname[1];
-                    if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
-                        $this->_result['devices'][$group]['size'] = trim($size[1]);
+                    if (preg_match('/^name\s*:\s*(.*)/m', $block, $arrname)) {
+                        if ($group=="") {
+                            $group = trim($arrname[1]);
+                        }
+                        $this->_result['devices'][$group]['name'] = $arrname[1];
+                        if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
+                            $this->_result['devices'][$group]['size'] = trim($size[1]);
+                        }
+                        if (preg_match('/^stride\s*:\s*(.*)/m', $block, $stride)) {
+                                $this->_result['devices'][$group]['stride'] = trim($stride[1]);
+                        }
+                        if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
+                            $this->_result['devices'][$group]['type'] = trim($type[1]);
+                        }
+                        if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
+                            $this->_result['devices'][$group]['status'] = trim($status[1]);
+                        }
+                        if (preg_match('/^subsets\s*:\s*(.*)/m', $block, $subsets)) {
+                            $this->_result['devices'][$group]['subsets'] = trim($subsets[1]);
+                        }
+                        if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
+                            $this->_result['devices'][$group]['devs'] = trim($devs[1]);
+                        }
+                        if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)) {
+                                $this->_result['devices'][$group]['spares'] = trim($spares[1]);
+                        }
+                        $group = "";
                     }
-                    if (preg_match('/^stride\s*:\s*(.*)/m', $block, $stride)) {
-                            $this->_result['devices'][$group]['stride'] = trim($stride[1]);
-                    }
-                    if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
-                        $this->_result['devices'][$group]['type'] = trim($type[1]);
-                    }
-                    if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
-                        $this->_result['devices'][$group]['status'] = trim($status[1]);
-                    }
-                    if (preg_match('/^subsets\s*:\s*(.*)/m', $block, $subsets)) {
-                        $this->_result['devices'][$group]['subsets'] = trim($subsets[1]);
-                    }
-                    if (preg_match('/^devs\s*:\s*(.*)/m', $block, $devs)) {
-                        $this->_result['devices'][$group]['devs'] = trim($devs[1]);
-                    }
-                    if (preg_match('/^spares\s*:\s*(.*)/m', $block, $spares)) {
-                            $this->_result['devices'][$group]['spares'] = trim($spares[1]);
-                    }
-                    $group = "";
                 }
             }
         }
@@ -154,15 +227,20 @@ class DMRaid extends PSI_Plugin
                 $dev->addAttribute("Disk_Status", $device["status"]);
                 $dev->addAttribute("Name", $device["name"]);
                 $dev->addAttribute("Size", $device["size"]);
-                $dev->addAttribute("Stride", $device["stride"]);
-                $dev->addAttribute("Subsets", $device["subsets"]);
+                if (isset($device['stride'])) $dev->addAttribute("Stride", $device["stride"]);
+                if (isset($device['subsets'])) $dev->addAttribute("Subsets", $device["subsets"]);
                 $dev->addAttribute("Devs", $device["devs"]);
-                $dev->addAttribute("Spares", $device["spares"]);
+                if (isset($device['spares'])) $dev->addAttribute("Spares", $device["spares"]);
+                if (isset($device['action'])) {
+                    $action = $dev->addChild("Action");
+                    $action->addAttribute("Percent", $device['action']['percent']);
+                    $action->addAttribute("Name", $device['action']['name']);
+                }
                 $disks = $dev->addChild("Disks");
                 if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                     $disktemp = $disks->addChild("Disk");
                     $disktemp->addAttribute("Name", $diskkey);
-                    if ($device["status"]=='ok') {
+                    if (($device["status"]=='ok') || ($device["status"]=='OPTIMAL')) {
                         $disktemp->addAttribute("Status", $disk['status']);
                     } else {
                         $disktemp->addAttribute("Status", 'W');
