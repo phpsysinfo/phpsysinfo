@@ -1,0 +1,37 @@
+Geom name: Intel-76494d3c
+State: OPTIMAL
+Metadata: Intel
+Providers:
+1. Name: raid/r0
+   Mediasize: 1000202043392 (931G)
+   Sectorsize: 512
+   Stripesize: 4096
+   Stripeoffset: 0
+   Mode: r2w2e3
+   Subdisks: ada0 (ACTIVE), ada1 (ACTIVE)
+   Dirty: Yes
+   State: OPTIMAL
+   Strip: 65536
+   Components: 2
+   Transformation: RAID1
+   RAIDLevel: RAID1
+   Label: lstewart
+Consumers:
+1. Name: ada0
+   Mediasize: 1000204886016 (931G)
+   Sectorsize: 512
+   Stripesize: 4096
+   Stripeoffset: 0
+   Mode: r1w1e1
+   ReadErrors: 0
+   Subdisks: r0(lstewart):0 <at> 0
+   State: ACTIVE (ACTIVE)
+2. Name: ada1
+   Mediasize: 1000204886016 (931G)
+   Sectorsize: 512
+   Stripesize: 4096
+   Stripeoffset: 0
+   Mode: r1w1e1
+   ReadErrors: 0
+   Subdisks: r0(lstewart):1 <at> 0
+   State: ACTIVE (ACTIVE)
