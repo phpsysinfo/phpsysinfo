@@ -8,7 +8,7 @@ phpSysInfo 3.2.6
  - [UPD] jQuery 2.2.1 and jQuery 1.12.1
 
  - [ADD] NeoKylin to detected distros
- - [ADD] schabau template
+ - [ADD] schabau and lingruby template
  - [ADD] DMRaid plugin - FreeBSD graid info
 
 phpSysInfo 3.2.5
