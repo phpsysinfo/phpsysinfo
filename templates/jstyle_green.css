@@ -1,6 +1,14 @@
 /*
  $Id: jstyle_green.css 518 2011-10-28 08:09:07Z namiltd $
  */
+a {
+    color:#c03000;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
 
 * {
     margin:0;
@@ -30,6 +38,13 @@ body {
     _width: 945px; /* ie6 */
 }
 
+p {
+    line-height:1.6;
+    padding:4px 10px 2px;
+    text-align:left;
+    vertical-align:top;
+}
+
 h1 {
     color:#693;
     font-family:Georgia, serif;
@@ -53,23 +68,6 @@ h2 {
     text-transform:uppercase;
 }
 
-p {
-    line-height:1.6;
-    padding:4px 10px 2px;
-    text-align:left;
-    vertical-align:top;
-}
-
-table {
-    width:100%;
-}
-.plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
-}
-
 th,td,h3 {
     font-size:100%;
     padding:4px 10px 2px;
@@ -77,54 +75,8 @@ th,td,h3 {
     vertical-align:top;
 }
 
-a {
-    color:#c03000;
-    text-decoration:none;
-}
-
-a:hover {
-    text-decoration:underline;
-}
-
-/****/
-
-.bar {
-    background-color:#C1DC70;
-}
-
-.barwarn {
-    background-color:#DC8B70;
-}
-
-.even {
-    background:#EBE8DA;
-}
-
-.right {
-    padding-right:20px;
-    text-align:right;
-}
-
-/****/
-
-#filesystemTable thead tr .header {
-    cursor:pointer;
-}
-
-#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
-    padding:0 30px;
-}
-
-#vitals,#network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #ups {
-    float:left;
-    margin:10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding:1px;
-    width:451px;
-}
-
-#memory,#filesystem {
-    width:915px;
+table {
+    width:100%;
 }
 
 #select {
@@ -135,6 +87,27 @@ a:hover {
     width:100px;
 }
 
+#vitals,#network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #ups {
+    float:left;
+    margin:10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding:1px;
+    width:451px;
+}
+
+#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
+    padding:0 30px;
+}
+
+#memory,#filesystem {
+    width:915px;
+}
+
+
+#filesystemTable thead tr .header {
+    cursor:pointer;
+}
+
 #footer {
     clear:both;
     color:#5C5C5C;
@@ -143,6 +116,30 @@ a:hover {
     margin:12px;
     padding:13px 25px;
     text-align:center;
+}
+
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
+}
+
+.even {
+    background:#EBE8DA;
+}
+
+.bar {
+    background-color:#C1DC70;
+}
+
+.barwarn {
+    background-color:#DC8B70;
+}
+
+.right {
+    padding-right:20px;
+    text-align:right;
 }
 
 .treeimg {

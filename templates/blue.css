@@ -1,3 +1,12 @@
+a {
+    text-decoration: none;
+    color: #efefef;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -34,7 +43,7 @@ p {
 }
 
 h1 {
-    color: #FFF;
+    color: #fff;
     font-size: 170%;
     font-weight: bold;
     line-height: 1.5em;
@@ -42,7 +51,7 @@ h1 {
     _margin: 0 15px 0 10px; /* ie6 */
     padding: 10px 10px;
     text-align: center;
-    text-shadow: #444444 2px 2px 3px;
+    text-shadow: #444 2px 2px 3px;
 }
 
 h2 {
@@ -54,19 +63,7 @@ h2 {
     line-height: 1.5em;
     padding: 3px 10px;
     /*text-transform: uppercase;*/
-    text-shadow: #333333 2px 2px 2px;
-}
-
-table {
-    width: 100%;
-}
-
-.plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
-    background-color: #F6F6F6;
+    text-shadow: #333 2px 2px 2px;
 }
 
 th, td, h3 {
@@ -76,18 +73,13 @@ th, td, h3 {
     vertical-align: top;
 }
 
-a {
-    text-decoration: none;
-    color: #EFEFEF;
-}
-
-a:hover {
-    text-decoration: underline;
+table {
+    width: 100%;
 }
 
 #select {
     text-align: right;
-    color: #FFF
+    color: #fff
 }
 
 #select select {
@@ -111,14 +103,13 @@ a:hover {
     width: 915px;
 }
 
-
 #filesystemTable thead tr .header {
     cursor: pointer;
 }
 
 #footer {
     clear: both;
-    color: #FFF;
+    color: #fff;
     margin: 12px;
     padding: 13px 25px;
     line-height: 18px;
@@ -126,12 +117,20 @@ a:hover {
     text-align: center;
 }
 
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
+    background-color: #f6f6f6;
+}
+
 .odd {
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
 }
 
 .even {
-    background-color: #EFEFEF;
+    background-color: #efefef;
 }
 
 .bar {

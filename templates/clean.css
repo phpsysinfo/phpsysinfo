@@ -8,7 +8,9 @@ a {
 
 a:hover {
     text-decoration: underline;
-}* {
+}
+
+* {
     margin: 0;
     padding: 0;
 }
@@ -35,6 +37,13 @@ body {
     padding: 20px 20px 0 20px;
 }
 
+p {
+    padding: 4px 10px 2px 10px;
+    line-height: 1.6;
+    text-align: left;
+    vertical-align: top;
+}
+
 h1 {
     margin: 0 10px;
     _margin: 0 15px 0 10px; /* ie6 */
@@ -44,6 +53,34 @@ h1 {
     font-size: 130%;
     line-height: 1.5em;
     color: #224970;
+}
+
+h2 {
+    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+    font-size: 120%;
+    padding: 3px 10px;
+    text-transform: uppercase;
+    line-height: 1.5em;
+    color: #224970;
+    text-align: left;
+}
+
+th, td, h3 {
+    padding: 4px 10px 2px 10px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 100%;
+}
+
+table {
+    width: 100%;
+    border-top: solid 2px #dadada;
+    border-bottom: solid 2px #dadada;
+    background-color: #f3f8fc;
+}
+
+table th {
+    color: #330;
 }
 
 #select {
@@ -63,39 +100,16 @@ h1 {
     color: #000;
 }
 
-h2 {
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: 120%;
-    padding: 3px 10px;
-    text-transform: uppercase;
-    line-height: 1.5em;
-    color: #224970;
-    text-align: left;
+#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
+    padding: 0px 30px;
 }
 
-table {
-    width: 100%;
-    border-top: solid 2px #DADADA;
-    border-bottom: solid 2px #DADADA;
-    background-color: #F3F8FC;
+#memory, #filesystem {
+    width: 915px;
 }
 
-.plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
-}
-
-.treeTable {
-    border: none;
-}
-
-th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 100%;
+#filesystemTable thead tr .header {
+    cursor: pointer;
 }
 
 #footer {
@@ -108,31 +122,19 @@ th, td, h3 {
     text-align: center;
 }
 
-#memory, #filesystem {
-    width: 915px;
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
 }
 
 .bar {
-    background-color: #2F659B;
+    background-color: #2f659b;
 }
 
 .barwarn {
-    background-color: #9B2F65;
-}
-
-p {
-    padding: 4px 10px 2px 10px;
-    line-height: 1.6;
-    text-align: left;
-    vertical-align: top;
-}
-
-table th {
-    color: #333300;
-}
-
-#filesystemTable thead tr .header {
-    cursor: pointer;
+    background-color: #9b2f65;
 }
 
 .right {
@@ -140,8 +142,8 @@ table th {
     padding-right: 20px;
 }
 
-#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.treeTable {
+    border: none;
 }
 
 .treeimg {

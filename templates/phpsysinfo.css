@@ -8,7 +8,9 @@ a {
 
 a:hover {
     text-decoration: underline;
-}* {
+}
+
+* {
     margin: 0;
     padding: 0;
 }
@@ -36,16 +38,48 @@ body {
     _bac\kground: #fff; /* ie6 only */
 }
 
+p {
+    padding: 4px 10px 2px 10px;
+    line-height: 1.6;
+    text-align: left;
+    vertical-align: top;
+}
+
 h1 {
     margin: 0 10px;
     _margin: 0 15px 0 10px; /* ie6 */
     padding: 10px 10px;
-    border-top: 1px solid #8A6E5A;
-    border-bottom: 1px solid #8A6E5A;
+    border-top: 1px solid #8a6e5a;
+    border-bottom: 1px solid #8a6e5a;
     font-size: 2em;
     font-weight: normal;
     color: #fff;
-    background: #8A6E5A;
+    background: #8a6e5a;
+}
+
+h2 {
+    padding: 5px 10px;
+    font-family: "trebuchet ms";
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 0.0em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #5a7e8a;
+}
+
+th, td, h3 {
+    padding: 4px 10px 2px 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+h3 {
+    font-size: 120%;
+}
+
+table {
+    width: 100%;
 }
 
 #select {
@@ -63,50 +97,15 @@ h1 {
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     padding: 1px;
-    border: 1px solid #5A7E8A;
+    border: 1px solid #5a7e8a;
 }
 
-h2 {
-    padding: 5px 10px;
-    font-family: "trebuchet ms";
-    font-size: 1.2em;
-    font-weight: bold;
-    letter-spacing: 0.0em;
-    text-transform: uppercase;
-    color: #fff;
-    background: #5A7E8A;
+#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
+    padding: 0px 30px;
 }
 
-table {
-    width: 100%;
-}
-
-.plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
-    border: 1px solid #5A7E8A;
-}
-
-.dataTables_wrapper{
-    margin: 0 0 0 0 !important;
-    border: 0px !important;
-}
-
-
-th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-}
-
-h3 {
-    font-size: 120%;
-}
-
-.even {
-    background: #d6d6d6;
+#memory, #filesystem {
+    width: 915px;
 }
 
 #footer {
@@ -117,23 +116,24 @@ h3 {
     line-height: 18px;
 }
 
-#memory, #filesystem {
-    width: 915px;
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
+    border: 1px solid #5a7e8a;
+}
+
+.even {
+    background: #d6d6d6;
 }
 
 .bar {
-    background: #C1DC70 url("../gfx/html.gif");
+    background: #c1dc70 url("../gfx/html.gif");
 }
 
 .barwarn {
-    background: #DC8B70 url("../gfx/htmlwarn.gif");
-}
-
-p {
-    padding: 4px 10px 2px 10px;
-    line-height: 1.6;
-    text-align: left;
-    vertical-align: top;
+    background: #dc8b70 url("../gfx/htmlwarn.gif");
 }
 
 .right {
@@ -141,8 +141,9 @@ p {
     padding-right: 20px;
 }
 
-#pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.dataTables_wrapper{
+    margin: 0 0 0 0 !important;
+    border: 0px !important;
 }
 
 .treeimg {
