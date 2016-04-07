@@ -10,6 +10,7 @@ phpSysInfo 3.2.6
  - [ADD] NeoKylin to detected distros
  - [ADD] schabau and lingruby template
  - [ADD] DMRaid plugin - FreeBSD graid info
+ - [ADD] SNMPPInfo plugin - support for Ricoh printers
 
 phpSysInfo 3.2.5
 ----------------
