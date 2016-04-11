@@ -19,10 +19,10 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>IP-adress</exp>
   </expression>
   <expression id="005" name="kversion">
-    <exp>Kernel Version</exp>
+    <exp>Kernel-version</exp>
   </expression>
   <expression id="006" name="dversion">
-    <exp>Dist Namn</exp>
+    <exp>Distribution</exp>
   </expression>
   <expression id="007" name="uptime">
     <exp>Drifttid</exp>
@@ -43,10 +43,10 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Modell</exp>
   </expression>
   <expression id="013" name="cpuspeed">
-    <exp>Klockfrekvens</exp>
+    <exp>Processorhastighet</exp>
   </expression>
   <expression id="014" name="busspeed">
-    <exp>BUS-frekvens</exp>
+    <exp>Busshastighet</exp>
   </expression>
   <expression id="015" name="cache">
     <exp>Cachestorlek</exp>
@@ -70,7 +70,7 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Nätverksanvändning</exp>
   </expression>
   <expression id="022" name="device">
-    <exp>Enheter</exp>
+    <exp>Enhet</exp>
   </expression>
   <expression id="023" name="received">
     <exp>Mottaget</exp>
@@ -79,10 +79,10 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Skickat</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Fel/Förlorat</exp>
+    <exp>Fel/Tapp</exp>
   </expression>
   <expression id="026" name="connections">
-    <exp>Established Network Connections</exp>
+    <exp>Upprättade nätverksanslutningar</exp>
   </expression>
   <expression id="027" name="memusage">
     <exp>Minnesanvändning</exp>
@@ -103,7 +103,7 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Partition</exp>
   </expression>
   <expression id="033" name="percent">
-    <exp>Kapacitetsutnyttjande</exp>
+    <exp>Användning</exp>
   </expression>
   <expression id="034" name="type">
     <exp>Typ</exp>
@@ -157,10 +157,10 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>minuter</exp>
   </expression>
   <expression id="051" name="temperature">
-    <exp>Temperature</exp>
+    <exp>Temperatur</exp>
   </expression>
   <expression id="052" name="voltage">
-    <exp>Voltage</exp>
+    <exp>Spänning</exp>
   </expression>
   <expression id="053" name="fans">
     <exp>Fläktar</exp>
@@ -181,7 +181,7 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>Gräns</exp>
   </expression>
   <expression id="059" name="s_label">
-    <exp>Label</exp>
+    <exp>Etikett</exp>
   </expression>
   <expression id="060" name="degreec">
     <exp>C</exp>
@@ -196,67 +196,67 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>RPM</exp>
   </expression>
   <expression id="064" name="app">
-    <exp>Kernel + applications</exp>
+    <exp>Kärna + applikationer</exp>
   </expression>
   <expression id="065" name="buffers">
-    <exp>Buffers</exp>
+    <exp>Buffrat</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>Cached</exp>
+    <exp>Cachat</exp>
   </expression>
   <expression id="067" name="jumpto">
     <exp>Hoppa till</exp>
   </expression>
   <expression id="068" name="ups_title">
-    <exp>UPS information</exp>
+    <exp>UPS-information</exp>
   </expression>
   <expression id="069" name="ups_name">
-    <exp>Name</exp>
+    <exp>Namn</exp>
   </expression>
   <expression id="070" name="ups_model">
-    <exp>Model</exp>
+    <exp>Modell</exp>
   </expression>
   <expression id="071" name="ups_mode">
-    <exp>Mode</exp>
+    <exp>Läge</exp>
   </expression>
   <expression id="072" name="ups_start_time">
-    <exp>Started</exp>
+    <exp>Startad</exp>
   </expression>
   <expression id="073" name="ups_status">
     <exp>Status</exp>
   </expression>
   <expression id="074" name="ups_outages_count">
-    <exp>Outages</exp>
+    <exp>Avbrott</exp>
   </expression>
   <expression id="075" name="ups_last_outage">
-    <exp>Last outage cause</exp>
+    <exp>Orsak senaste avbrott</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Last outage timestamp</exp>
+    <exp>Tidpunkt senaste avbrott</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
-    <exp>Line voltage</exp>
+    <exp>Nätspänning</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Load percent</exp>
+    <exp>Belastning procent</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
-    <exp>Battery voltage</exp>
+    <exp>Batterispänning</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>Battery charge</exp>
+    <exp>Batteriladdning</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
-    <exp>Time left on batteries</exp>
+    <exp>Tid kvar på batteri</exp>
   </expression>
   <expression id="082" name="ups_voltage_mark">
     <exp>V</exp>
   </expression>
   <expression id="083" name="ups_minutes_mark">
-    <exp>minutes</exp>
+    <exp>minuter</exp>
   </expression>
   <expression id="084" name="ups_temperature">
-    <exp>Temperature</exp>
+    <exp>Temperatur</exp>
   </expression>
   <expression id="085" name="tb">
     <exp>TB</exp>
@@ -286,73 +286,73 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Virtualisering</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Senaste uppstart</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Systemets språk</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Kodtabell</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Detaljer</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Processorhastighet Max</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Processorhastighet Min</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Effekt</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Batteridatum</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Ström</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Maskin</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Nätfrekvens</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Processer</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>kör</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>sover</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>stoppade</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
-    <exp>zombie</exp>
+    <exp>zombier</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>väntande</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>övriga</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>TB-enheter</exp>
@@ -361,9 +361,9 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
     <exp>I2C-enheter</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Antal processorer</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Antal enheter</exp>
   </expression>
 </tns:translation>
