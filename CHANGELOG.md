@@ -8,7 +8,7 @@ phpSysInfo 3.2.6
  - [UPD] jQuery 2.2.3 and jQuery 1.12.3
  - [UPD] Swedish Translation sv.xml
 
- - [ADD] NeoKylin to detected distros
+ - [ADD] NeoKylin and Void to detected distros
  - [ADD] schabau and lingruby template
  - [ADD] DMRaid plugin - FreeBSD graid info
  - [ADD] SNMPPInfo plugin - support for Ricoh printers
