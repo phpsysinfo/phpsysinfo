@@ -36,7 +36,7 @@ URL      : http://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
 USED     : used for the entire bootstrap userinterface
 
-html5shiv-printshiv.js
+respond.js
 ---------
 VERSION  : 1.4.2+accesserrorfix
 URL      : https://github.com/scottjehl/Respond/
