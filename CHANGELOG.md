@@ -13,6 +13,8 @@ phpSysInfo 3.2.6
  - [ADD] DMRaid plugin - FreeBSD graid info
  - [ADD] SNMPPInfo plugin - support for Ricoh printers
 
+ - [NEW] sudo commands list
+
 phpSysInfo 3.2.5
 ----------------
  - [UPD] jQuery 2.2.0 and jQuery 1.12.0

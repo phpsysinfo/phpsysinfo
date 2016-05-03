@@ -47,6 +47,12 @@ ADD_PATHS=false
 ;
 ALLOWED=false
 
+; List of sudo commands
+; Example : SUDO_COMMANDS="iptables-save" //execute "sudo iptables-save" instead "iptables-save"
+;           SUDO_COMMANDS=false //no sudo commands
+;
+SUDO_COMMANDS=false
+
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
 ; - PLUGINS="MDStatus,PS"  //list of plugins

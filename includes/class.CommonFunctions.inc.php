@@ -178,11 +178,34 @@ class CommonFunctions
         $error = PSI_Error::singleton();
         if (!$strProgram) {
             if ($booErrorRep) {
-                $error->addError('find_program('.$strProgramname.')', 'program not found on the machine');
+                $error->addError('find_program("'.$strProgramname.'")', 'program not found on the machine');
             }
 
             return false;
+        } else {
+            $strProgram = '"'.$strProgram.'"';
         }
+
+        if ((PSI_OS !== 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+            if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
+                $sudocommands = eval(PSI_SUDO_COMMANDS);
+            } else {
+                $sudocommands = array(PSI_SUDO_COMMANDS);
+            }
+            if (in_array($strProgramname, $sudocommands)) {
+                $sudoProgram = self::_findProgram("sudo");
+                if (!$sudoProgram) {
+                    if ($booErrorRep) {
+                        $error->addError('find_program("sudo")', 'program not found on the machine');
+                    }
+
+                    return false;
+                } else {
+                    $strProgram = '"'.$sudoProgram.'" '.$strProgram;
+                }
+            }
+        }
+
         // see if we've gotten a |, if we have we need to do path checking on the cmd
         if ($strArgs) {
             $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
@@ -197,12 +220,12 @@ class CommonFunctions
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             if (PSI_OS == 'WINNT') {
-                $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>nul", "r");
+                $process = $pipes[1] = popen($strProgram.' '.$strArgs." 2>nul", "r");
             } else {
-                $process = $pipes[1] = popen('"'.$strProgram.'" '.$strArgs." 2>/dev/null", "r");
+                $process = $pipes[1] = popen($strProgram.' '.$strArgs." 2>/dev/null", "r");
             }
         } else {
-            $process = proc_open('"'.$strProgram.'" '.$strArgs, $descriptorspec, $pipes);
+            $process = proc_open($strProgram.' '.$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
             self::_timeoutfgets($pipes, $strBuffer, $strError);
