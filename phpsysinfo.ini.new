@@ -69,6 +69,7 @@ SUDO_COMMANDS=false
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
+; - Iptables       - show iptables rules list
 ;
 PLUGINS=false
 
@@ -646,3 +647,13 @@ ACCESS="command"
 ; default is 10
 ;
 MAX_ENTRIES = 10
+
+[iptables]
+; Iptables Plugin configuration
+
+; define how to access the iptables rules data
+; - "command" iptables-save command is run everytime the block gets refreshed or build
+;             if access error try to set: SUDO_COMMANDS="iptables-save" and to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /sbin/iptables-save
+; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "iptables.txt"; content is the output from "iptables-save")
+;
+ACCESS="command"

@@ -14,6 +14,7 @@ phpSysInfo 3.2.6
  - [ADD] SNMPPInfo plugin - support for Ricoh printers
 
  - [NEW] sudo commands list
+ - [NEW] plugin Iptables - iptables rules list
 
 phpSysInfo 3.2.5
 ----------------
@@ -178,7 +179,7 @@ phpSysInfo 3.1.10
 phpSysInfo 3.1.9
 ----------------
 
- - [NEW] New plugin DMRaid - software raid status
+ - [NEW] plugin DMRaid - software raid status
 
  - [ADD] Calculate, Tails, SMEServer, Semplice, SolydXK, Parsix, RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
 

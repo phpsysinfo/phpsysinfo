@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * Iptables Plugin
+ *
+ * PHP version 5
+ *
+ * @category  PHP
+ * @package   PSI_Plugin_Iptables
+ * @author    erpomata
+ * @copyright 2016 phpSysInfo
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @version   SVN: $Id: class.iptables.inc.php 661 2016-05-03 11:26:39Z erpomata $
+ * @link      http://phpsysinfo.sourceforge.net
+ */
+/**
+ * Iptables plugin, which displays all iptables informations available
+ *
+ * @category  PHP
+ * @package   PSI_Plugin_Iptables
+ * @author    erpomata
+ * @copyright 2016 phpSysInfo
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @version   Release: 1.0
+ * @link      http://phpsysinfo.sourceforge.net
+ */
+
+class iptables extends PSI_Plugin
+{
+    private $_lines;
+
+    public function __construct($enc)
+    {
+        parent::__construct(__CLASS__, $enc);
+
+        $this->_lines = array();
+    }
+
+    /**
+     * get iptables information
+     *
+     * @return array iptables in array with label
+     */
+
+    private function iptables()
+    {
+        $result = array();
+        $i = 0;
+
+        foreach ($this->_lines as $line) {
+            $result[$i]['rule'] = $line;
+            $i++;
+        }
+
+        return $result;
+    }
+
+    public function execute()
+    {
+        $this->_lines = array();
+        switch (strtolower(PSI_PLUGIN_IPTABLES_ACCESS)) {
+            case 'command':
+                $lines = "";
+                if (CommonFunctions::executeProgram('iptables-save', "", $lines) && !empty($lines))
+                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                break;
+            case 'data':
+                if (CommonFunctions::rfts(APP_ROOT."/data/iptables.txt", $lines) && !empty($lines))
+                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                break;
+            default:
+                $this->error->addConfigError('__construct()', 'PSI_PLUGIN_IPTABLES_ACCESS');
+                break;
+        }
+    }
+
+    public function xml()
+    {
+        if (empty($this->_lines))
+        return $this->xml->getSimpleXmlElement();
+
+        $arrBuff = $this->iptables();
+        if (sizeof($arrBuff) > 0) {
+            $iptables = $this->xml->addChild("iptables");
+            foreach ($arrBuff as $arrValue) {
+                $item = $iptables->addChild('Item');
+                $item->addAttribute('rule', $arrValue['rule']);
+            }
+        }
+
+        return $this->xml->getSimpleXmlElement();
+    }
+}
