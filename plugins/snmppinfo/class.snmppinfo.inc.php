@@ -197,7 +197,7 @@ class SNMPPInfo extends PSI_Plugin
             $result = preg_replace('/\s\r?\n([^\.])/', ' $1', $result);
             $lines = preg_split('/\r?\n/', $result);
             foreach ($lines as $line) {
-                if (preg_match('/^(.+) = Hex-STRING:\s(.+)/', $line, $linetmp)){
+                if (preg_match('/^(.+) = Hex-STRING:\s(.+)/', $line, $linetmp)) {
                     $hexchars = explode(" ", trim($linetmp[2]));
                     $newstring = "";
                     foreach ($hexchars as $hexchar) {
