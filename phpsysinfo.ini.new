@@ -631,6 +631,7 @@ UBUNTU_LANDSCAPE_FORMAT=true
 ;
 FILE="/var/lib/update-notifier/updates-available"
 
+
 [uprecords]
 ; Uprecords Plugin configuration
 
@@ -647,6 +648,7 @@ ACCESS="command"
 ; default is 10
 ;
 MAX_ENTRIES = 10
+
 
 [iptables]
 ; Iptables Plugin configuration
