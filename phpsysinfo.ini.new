@@ -567,7 +567,9 @@ ACCESS="command"
 ; - "command" smartctl command is run everytime the block gets refreshed or build
 ; if error: Smartctl open device: /dev/sda failed: Permission denied
 ;      Not recommended method:
-;          execute: chmod 4755 /usr/sbin/smartctl
+;               execute: chmod 4755 /usr/sbin/smartctl
+;      Second method:
+;            try to set: SUDO_COMMANDS="smartctl" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /usr/sbin/smartctl
 ; - "data" (a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "smart{disk_number}.txt";
 ;          content is the output from "smartctl --all device")
