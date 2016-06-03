@@ -555,7 +555,7 @@ function renderHardware(data) {
 
     var hw_directives = {
         hwName: {
-            text: function() {
+            html: function() {
                 return this["Name"];
             }
         },
