@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.2.6
 ----------------
- - [UPD] jQuery 2.2.3 and jQuery 1.12.3
+ - [UPD] jQuery 2.2.4 and jQuery 1.12.4
  - [UPD] Swedish Translation sv.xml
 
  - [ADD] NeoKylin and Void to detected distros
