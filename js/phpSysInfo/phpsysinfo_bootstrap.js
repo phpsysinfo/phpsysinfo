@@ -298,6 +298,7 @@ function plugin_request(pluginname) {
     });
 }
 
+/*
 function loadMultipleScripts(scripts, callback){
     var array = [];
 
@@ -315,6 +316,7 @@ function loadMultipleScripts(scripts, callback){
          }
     });
 }
+*/
 
 $(document).ready(function () {
     var cookie_template = null, cookie_language = null, plugtmp = "";
@@ -328,7 +330,8 @@ $(document).ready(function () {
 
     sorttable.init();
 
-    loadMultipleScripts(["./js.php?name=jquery.treegrid", "./js.php?name=bootstrap-modal"], function(data, status, jqxhr) {
+    //loadMultipleScripts(["./js.php?name=jquery.treegrid", "./js.php?name=bootstrap-modal"], function(data, status, jqxhr) {
+    $.getScript( "./js.php?name=bootstrap-modal"", function(data, status, jqxhr) {
 
         showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
         showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
