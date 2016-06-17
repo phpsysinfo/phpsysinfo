@@ -298,6 +298,13 @@ function plugin_request(pluginname) {
     });
 }
 
+function loadScripts(scripts) {
+    scripts.forEach(function (item, i) {
+        item = $.getScript(item);
+    });
+    return $.when.apply($, scripts);
+}
+
 $(document).ready(function () {
     var cookie_template = null, cookie_language = null, plugtmp = "";
 
@@ -310,7 +317,8 @@ $(document).ready(function () {
 
     sorttable.init();
 
-    $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+    //$.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+    loadScripts(["./js.php?name=jquery.treegrid","./js.php?name=bootstrap-modal"]).done(function(data, status, jqxhr) {
 
         showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
         showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
