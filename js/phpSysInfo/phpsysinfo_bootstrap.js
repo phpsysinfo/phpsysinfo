@@ -298,11 +298,22 @@ function plugin_request(pluginname) {
     });
 }
 
-function loadScripts(scripts) {
-    scripts.forEach(function (item, i) {
-        item = $.getScript(item);
+function loadMultipleScripts(scripts, callback){
+    var array = [];
+
+    scripts.forEach(function(script){
+        array.push($.getScript( script ))
     });
-    return $.when.apply($, scripts);
+
+    array.push($.Deferred(function(deferred){
+        $(deferred.resolve);
+    }));
+
+    $.when.apply($, array).done(function(){
+        if (callback){
+            callback();
+         }
+    });
 }
 
 $(document).ready(function () {
@@ -317,8 +328,7 @@ $(document).ready(function () {
 
     sorttable.init();
 
-    //$.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
-    loadScripts(["./js.php?name=jquery.treegrid","./js.php?name=bootstrap-modal"]).done(function(data, status, jqxhr) {
+    loadMultipleScripts(["./js.php?name=jquery.treegrid", "./js.php?name=bootstrap-modal"], function(data, status, jqxhr) {
 
         showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
         showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
