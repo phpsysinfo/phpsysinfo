@@ -1035,13 +1035,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return this["Value"] + String.fromCharCode(160) + genlang(63, true); //RPM
+                return round(this["Value"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Min: {
             html: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + genlang(63, true); //RPM
+                    return round(this["Min"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Label: {
