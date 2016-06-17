@@ -331,7 +331,7 @@ $(document).ready(function () {
     sorttable.init();
 
     //loadMultipleScripts(["./js.php?name=jquery.treegrid", "./js.php?name=bootstrap-modal"], function(data, status, jqxhr) {
-    $.getScript( "./js.php?name=bootstrap-modal"", function(data, status, jqxhr) {
+    $.getScript( "./js.php?name=bootstrap-modal", function(data, status, jqxhr) {
 
         showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
         showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
