@@ -448,9 +448,9 @@ ACCESS="command"
 ; define how to access the battery statistic data
 ; - "command" read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
 ;             on newer kernel or on Android read files from /sys/class/power_supply/
-              on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
-              on FreeBSD read data from 'acpiconf -i batt' command
-              on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
+;              on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
+;              on FreeBSD read data from 'acpiconf -i batt' command
+;              on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output
 ;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
