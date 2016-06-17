@@ -1,6 +1,6 @@
 /*
  * File:        jquery.dataTables.js
- * Version:     1.8.2+jquery1.9fix
+ * Version:     1.8.2+jquery1.9fix+parseJSONfix+bindfix
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
  * Created:     28/3/2008
@@ -319,7 +319,7 @@
 				nPaging.appendChild( nPrevious );
 				nPaging.appendChild( nNext );
 				
-				$(nPrevious).bind( 'click.DT', function() {
+				$(nPrevious).on( 'click.DT', function() {
 					if ( oSettings.oApi._fnPageChange( oSettings, "previous" ) )
 					{
 						/* Only draw when the page has actually changed */
@@ -327,7 +327,7 @@
 					}
 				} );
 				
-				$(nNext).bind( 'click.DT', function() {
+				$(nNext).on( 'click.DT', function() {
 					if ( oSettings.oApi._fnPageChange( oSettings, "next" ) )
 					{
 						fnCallbackDraw( oSettings );
@@ -335,8 +335,8 @@
 				} );
 				
 				/* Take the brutal approach to cancelling text selection */
-				$(nPrevious).bind( 'selectstart.DT', function () { return false; } );
-				$(nNext).bind( 'selectstart.DT', function () { return false; } );
+				$(nPrevious).on( 'selectstart.DT', function () { return false; } );
+				$(nNext).on( 'selectstart.DT', function () { return false; } );
 				
 				/* ID the first elements only */
 				if ( oSettings.sTableId !== '' && typeof oSettings.aanFeatures.p == "undefined" )
@@ -426,28 +426,28 @@
 				nPaging.appendChild( nNext );
 				nPaging.appendChild( nLast );
 				
-				$(nFirst).bind( 'click.DT', function () {
+				$(nFirst).on( 'click.DT', function () {
 					if ( oSettings.oApi._fnPageChange( oSettings, "first" ) )
 					{
 						fnCallbackDraw( oSettings );
 					}
 				} );
 				
-				$(nPrevious).bind( 'click.DT', function() {
+				$(nPrevious).on( 'click.DT', function() {
 					if ( oSettings.oApi._fnPageChange( oSettings, "previous" ) )
 					{
 						fnCallbackDraw( oSettings );
 					}
 				} );
 				
-				$(nNext).bind( 'click.DT', function() {
+				$(nNext).on( 'click.DT', function() {
 					if ( oSettings.oApi._fnPageChange( oSettings, "next" ) )
 					{
 						fnCallbackDraw( oSettings );
 					}
 				} );
 				
-				$(nLast).bind( 'click.DT', function() {
+				$(nLast).on( 'click.DT', function() {
 					if ( oSettings.oApi._fnPageChange( oSettings, "last" ) )
 					{
 						fnCallbackDraw( oSettings );
@@ -456,8 +456,8 @@
 				
 				/* Take the brutal approach to cancelling text selection */
 				$('span', nPaging)
-					.bind( 'mousedown.DT', function () { return false; } )
-					.bind( 'selectstart.DT', function () { return false; } );
+					.on( 'mousedown.DT', function () { return false; } )
+					.on( 'selectstart.DT', function () { return false; } );
 				
 				/* ID the first elements only */
 				if ( oSettings.sTableId !== '' && typeof oSettings.aanFeatures.p == "undefined" )
@@ -555,8 +555,8 @@
 					/* Build up the dynamic list forst - html and listeners */
 					var qjPaginateList = $('span:eq(2)', an[i]);
 					qjPaginateList.html( sList );
-					$('span', qjPaginateList).bind( 'click.DT', fnClick ).bind( 'mousedown.DT', fnFalse )
-						.bind( 'selectstart.DT', fnFalse );
+					$('span', qjPaginateList).on( 'click.DT', fnClick ).on( 'mousedown.DT', fnFalse )
+						.on( 'selectstart.DT', fnFalse );
 					
 					/* Update the 'premanent botton's classes */
 					anButtons = an[i].getElementsByTagName('span');
@@ -2175,7 +2175,7 @@
 			}
 			
 			/* Blitz all DT events */
-			$(oSettings.nTableWrapper).find('*').andSelf().unbind('.DT');
+			$(oSettings.nTableWrapper).find('*').andSelf().off('.DT');
 			
 			/* If there is an 'empty' indicator row, remove it */
 			$('tbody>tr>td.'+oSettings.oClasses.sRowEmpty, oSettings.nTable).parent().remove();
@@ -3051,7 +3051,7 @@
 						_fnSortAttachListener( oSettings, oSettings.aoColumns[i].nTh, i );
 						
 						/* Take the brutal approach to cancelling text selection in header */
-						$(oSettings.aoColumns[i].nTh).bind( 'mousedown.DT', fnNoSelect );
+						$(oSettings.aoColumns[i].nTh).on( 'mousedown.DT', fnNoSelect );
 					}
 					else
 					{
@@ -4288,7 +4288,7 @@
 			
 			var jqFilter = $("input", nFilter);
 			jqFilter.val( oSettings.oPreviousSearch.sSearch.replace('"','&quot;') );
-			jqFilter.bind( 'keyup.DT', function(e) {
+			jqFilter.on( 'keyup.DT', function(e) {
 				/* Update all other filter input elements for the new display */
 				var n = oSettings.aanFeatures.f;
 				for ( var i=0, iLen=n.length ; i<iLen ; i++ )
@@ -4310,7 +4310,7 @@
 				}
 			} );
 			
-			jqFilter.bind( 'keypress.DT', function(e) {
+			jqFilter.on( 'keypress.DT', function(e) {
 				/* Prevent default */
 				if ( e.keyCode == 13 )
 				{
@@ -4763,7 +4763,7 @@
 		 */
 		function _fnSortAttachListener ( oSettings, nNode, iDataIndex, fnCallback )
 		{
-			$(nNode).bind( 'click.DT', function (e) {
+			$(nNode).on( 'click.DT', function (e) {
 				/* If the column is not sortable - don't to anything */
 				if ( oSettings.aoColumns[iDataIndex].bSortable === false )
 				{
@@ -5300,7 +5300,7 @@
 			 */
 			$('select option[value="'+oSettings._iDisplayLength+'"]',nLength).attr("selected",true);
 			
-			$('select', nLength).bind( 'change.DT', function(e) {
+			$('select', nLength).on( 'change.DT', function(e) {
 				var iVal = $(this).val();
 				
 				/* Update all other length options for the new display */
@@ -6259,8 +6259,8 @@
 				 */
 				try
 				{
-					oData = (typeof $.parseJSON == 'function') ? 
-						$.parseJSON( sData.replace(/'/g, '"') ) : eval( '('+sData+')' );
+					oData = (typeof JSON.parse == 'function') ? 
+						JSON.parse( sData.replace(/'/g, '"') ) : eval( '('+sData+')' );
 				}
 				catch( e )
 				{
@@ -6355,8 +6355,8 @@
 			
 			if ( fnCallback !== null )
 			{
-				oData = (typeof $.parseJSON == 'function') ? 
-					$.parseJSON( sValue ) : eval( '('+sValue+')' );
+				oData = (typeof JSON.parse == 'function') ? 
+					JSON.parse( sValue ) : eval( '('+sValue+')' );
 				sFullCookie = fnCallback( sNameFile, oData, date.toGMTString(),
 					aParts.join('/')+"/" );
 			}

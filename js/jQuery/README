@@ -20,7 +20,7 @@ USED     : used for the entire userinterface
 
 jquery.dataTables.js
 --------------------
-VERSION  : 1.8.2+jquery1.9fix
+VERSION  : 1.8.2+jquery1.9fix+parseJSONfix+bindfix
 URL      : http://plugins.jquery.com/project/DataTables
 DESC     : dataTables is a jQuery plugin for turning a standard HTML table with THEAD and TBODY tags into a sortable
            table without page refreshes.
@@ -28,7 +28,7 @@ USED     : provide tablesorting for the filesystem table
 
 jquery.nyroModal.js
 -------------------
-VERSION  : 1.6.2+jquery1.8fix
+VERSION  : 1.6.2+jquery1.8fix+bindfix
 URL      : http://plugins.jquery.com/project/nyroModal
 DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
@@ -43,7 +43,7 @@ USED     : automatic reloading of the entire page
 
 jquery.jgrowl.js
 ----------------
-VERSION  : 1.2.6+jquery1.9fix+jquery3fix
+VERSION  : 1.2.6+jquery1.9fix+jquery3fix+bindfix
 URL      : http://plugins.jquery.com/project/jGrowl
 DESC     : jGrowl is a jQuery plugin that raises unobtrusive messages within the browser, similar to the way that OS X's Growl Framework works
 USED     : show alert and error message
