@@ -292,10 +292,10 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_FULL=(.*)$/', $roworig, $data)) {
                 $bat['full_capacity'] = ($data[1]/1000);
-                if ($data[1]>=1000000000) { // µWh or nWh detection
+                if ($data[1]>=1000000000) { // ÂµWh or nWh detection
                     if (!isset($bat['capacity_unit'])) {
-                        $bat['capacity_unit'] = "µWh";
-                    } elseif ($bat['capacity_unit'] != "µWh") {
+                        $bat['capacity_unit'] = "ÂµWh";
+                    } elseif ($bat['capacity_unit'] != "ÂµWh") {
                         $bat['capacity_unit'] = "???";
                     }
                 } else {
@@ -326,10 +326,10 @@ class BAT extends PSI_Plugin
             /* auxiary */
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_FULL_DESIGN=(.*)$/', $roworig, $data)) {
                 $bat['design_capacity'] = ($data[1]/1000);
-                if ($data[1]>=1000000000) { // µWh or nWh detection
+                if ($data[1]>=1000000000) { // ÂµWh or nWh detection
                     if (!isset($bat['capacity_unit'])) {
-                        $bat['capacity_unit'] = "µWh";
-                    } elseif ($bat['capacity_unit'] != "µWh") {
+                        $bat['capacity_unit'] = "ÂµWh";
+                    } elseif ($bat['capacity_unit'] != "ÂµWh") {
                         $bat['capacity_unit'] = "???";
                     }
                 } else {
@@ -467,10 +467,10 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^POWER_SUPPLY_ENERGY_FULL=(.*)$/', $roworig, $data)) {
                 $bat['full_capacity'] = ($data[1]/1000);
-                if ($data[1]>=1000000000) { // µWh or nWh detection
+                if ($data[1]>=1000000000) { // ÂµWh or nWh detection
                     if (!isset($bat['capacity_unit'])) {
-                        $bat['capacity_unit'] = "µWh";
-                    } elseif ($bat['capacity_unit'] != "µWh") {
+                        $bat['capacity_unit'] = "ÂµWh";
+                    } elseif ($bat['capacity_unit'] != "ÂµWh") {
                         $bat['capacity_unit'] = "???";
                     }
                 } else {
