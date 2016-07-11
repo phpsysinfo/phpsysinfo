@@ -7,6 +7,7 @@ phpSysInfo 3.2.6
 ----------------
  - [UPD] jQuery 3.1.0 and jQuery 1.12.4
  - [UPD] Swedish Translation sv.xml
+ - [UPD] Norwegian Translation no.xml
 
  - [ADD] NeoKylin and Void to detected distros
  - [ADD] schabau and lingruby template
