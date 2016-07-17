@@ -19,7 +19,7 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>IP-adrssse</exp>
   </expression>
   <expression id="005" name="kversion">
-    <exp>Kernelversjon</exp>
+    <exp>Kjerneversjon</exp>
   </expression>
   <expression id="006" name="dversion">
     <exp>Distribusjon</exp>
@@ -34,13 +34,13 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>Last gjennomsnitt</exp>
   </expression>
   <expression id="010" name="hardware">
-    <exp>Hardwareinformasjon</exp>
+    <exp>Maskinvareinformasjon</exp>
   </expression>
   <expression id="011" name="numcpu">
     <exp>Prosessorer</exp>
   </expression>
   <expression id="012" name="cpumodel">
-    <exp>Model</exp>
+    <exp>Modell</exp>
   </expression>
   <expression id="013" name="cpuspeed">
     <exp>CPU frekvens</exp>
@@ -49,7 +49,7 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>BUS frekvens</exp>
   </expression>
   <expression id="015" name="cache">
-    <exp>Cachestørrelse</exp>
+    <exp>Mellomlagerstørrelse</exp>
   </expression>
   <expression id="016" name="bogomips">
     <exp>System Bogomips</exp>
@@ -82,7 +82,7 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>Err/Drop</exp>
   </expression>
   <expression id="026" name="connections">
-    <exp>Established Network Connections</exp>
+    <exp>Etablerte nettverkstilkoblinger</exp>
   </expression>
   <expression id="027" name="memusage">
     <exp>Minnebruk</exp>
@@ -196,31 +196,31 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>RPM</exp>
   </expression>
   <expression id="064" name="app">
-    <exp>Kernel + applikasjoner</exp>
+    <exp>Kjerne + applikasjoner</exp>
   </expression>
   <expression id="065" name="buffers">
     <exp>Buffere</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>Cached</exp>
+    <exp>Mellomlagret</exp>
   </expression>
   <expression id="067" name="jumpto">
     <exp>Vis</exp>
   </expression>
   <expression id="068" name="ups_title">
-    <exp>UPS information</exp>
+    <exp>UPS informasjon</exp>
   </expression>
   <expression id="069" name="ups_name">
-    <exp>Name</exp>
+    <exp>Navn</exp>
   </expression>
   <expression id="070" name="ups_model">
-    <exp>Model</exp>
+    <exp>Modell</exp>
   </expression>
   <expression id="071" name="ups_mode">
-    <exp>Mode</exp>
+    <exp>Modus</exp>
   </expression>
   <expression id="072" name="ups_start_time">
-    <exp>Started</exp>
+    <exp>Startet</exp>
   </expression>
   <expression id="073" name="ups_status">
     <exp>Status</exp>
@@ -238,25 +238,25 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>Line voltage</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Load percent</exp>
+    <exp>Prosentvis belastning</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
-    <exp>Battery voltage</exp>
+    <exp>Batteri volt</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>Battery charge</exp>
+    <exp>Batteri oppladning</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
-    <exp>Time left on batteries</exp>
+    <exp>Gjenstående batteritid</exp>
   </expression>
   <expression id="082" name="ups_voltage_mark">
     <exp>V</exp>
   </expression>
   <expression id="083" name="ups_minutes_mark">
-    <exp>minutes</exp>
+    <exp>minutter</exp>
   </expression>
   <expression id="084" name="ups_temperature">
-    <exp>Temperature</exp>
+    <exp>Temperatur</exp>
   </expression>
   <expression id="085" name="tb">
     <exp>TB</exp>
@@ -286,10 +286,10 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Virtualisering</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Siste oppstart</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
@@ -298,7 +298,7 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
     <exp>System Språk</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Kodeside</exp>
+    <exp>Tegnkoding</exp>
   </expression>
   <expression id="099" name="details">
     <exp>Detaljer</exp>
