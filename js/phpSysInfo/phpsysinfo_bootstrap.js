@@ -54,7 +54,7 @@ function readCookie(name) {
     var nameEQ = "", ca = [], c = '';
     nameEQ = name + "=";
     ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i += 1) {
+    for (var i = 0; i < ca.length; i++) {
         c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1, c.length);
@@ -176,7 +176,7 @@ function genlang(id, generate, plugin) {
     }
     if (generate) {
         html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter += 1;
+        langcounter++;
     }
     else {
         html += "<span id=\"lang_" + idString + "\">";
@@ -326,7 +326,7 @@ $(document).ready(function () {
         changeLanguage();
 */
 /* plugin_liste not initialized yet
-        for (var i = 0; i < plugin_liste.length; i += 1) {
+        for (var i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
 */
@@ -342,7 +342,7 @@ $(document).ready(function () {
         changeLanguage();
 */
 /* plugin_liste not initialized yet
-        for (var i = 0; i < plugin_liste.length; i += 1) {
+        for (var i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
 */
