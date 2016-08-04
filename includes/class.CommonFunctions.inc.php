@@ -327,6 +327,12 @@ class CommonFunctions
                         }
                     }
                 } else {
+                    /* restore error level */
+                    error_reporting($old_err_rep);
+                    /* restore error handler */
+                    if (function_exists('errorHandlerPsi')) {
+                        set_error_handler('errorHandlerPsi');
+                    }
                     if ($booErrorRep) {
                         $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
                     }
@@ -334,12 +340,6 @@ class CommonFunctions
                     return false;
                 }
             } else {
-                /* restore error level */
-                error_reporting($old_err_rep);
-                /* restore error handler */
-                if (function_exists('errorHandlerPsi')) {
-                    set_error_handler('errorHandlerPsi');
-                }
                 if ($booErrorRep) {
                     $error->addError('fopen('.$strFileName.')', 'file permission error');
                 }
