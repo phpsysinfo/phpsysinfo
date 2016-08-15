@@ -14,6 +14,7 @@ phpSysInfo 3.2.6
  - [ADD] schabau and lingruby template
  - [ADD] DMRaid plugin - FreeBSD graid info
  - [ADD] SNMPPInfo plugin - support for Ricoh printers
+ - [ADD] UpdateNotifier plugin - ACCESS option
 
  - [NEW] sudo commands list
  - [NEW] plugin Iptables - iptables rules list
