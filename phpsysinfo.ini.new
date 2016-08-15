@@ -621,6 +621,12 @@ DEVICES="192.168.0.5, 192.168.0.9"
 [updatenotifier]
 ; Update Notifier Plugin configuration
 
+; define how to access the updatenotifier statistic data
+; - "command" execute command /usr/lib/update-notifier/apt-check
+; - "data" reads data from file defined in FILE parameter
+;
+ACCESS="data"
+
 ; define the update info file format
 ; - true: Ubuntu Landscape format (file: /var/lib/update-notifier/updates-available)
 ; - false: universal format   (format: A;B)
@@ -629,7 +635,7 @@ DEVICES="192.168.0.5, 192.168.0.9"
 ;
 UBUNTU_LANDSCAPE_FORMAT=true
 
-; define the update info file
+; define the update info file. The default is: /var/lib/update-notifier/updates-available
 ;
 FILE="/var/lib/update-notifier/updates-available"
 
