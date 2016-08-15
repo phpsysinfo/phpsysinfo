@@ -257,6 +257,9 @@ if (!defined('PSI_CONFIG_FILE')) {
     }
 
     if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
+        if (!extension_loaded("xml")) {
+            die("phpSysInfo requires the xml extension to php in order to work properly.");
+        }
         if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode issue test
             define('PSI_JSON_ISSUE', true); // Problem must be solved
         }
