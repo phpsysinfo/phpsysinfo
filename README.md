@@ -81,7 +81,7 @@ PLATFORM SPECIFIC ISSUES
   an authentication mechanism for the directory in the IIS admin
   interface for the directory where phpSysInfo is installed. Then you
   will be asked for an user and a password when opening the page. At this
-  point it is necassary to log in with an user that will be able to
+  point it is necessary to log in with an user that will be able to
   connect to the WMI interface. If you use the wrong user and/or password
   you might get an "ACCESS DENIED ERROR".
 
