@@ -185,7 +185,7 @@ TEMP_FORMAT="c"
 
 
 ; Define the motherboard monitoring program
-; We support the following programs far
+; We support the following programs so far
 ; - HDDtemp        http://www.guzu.net/linux/hddtemp.php (Linux)
 ; - LMSensors      http://www.lm-sensors.org/ (Linux)
 ; - Healthd        http://healthd.thehousleys.net/ (FreeBSD)
