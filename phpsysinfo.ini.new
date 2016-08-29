@@ -64,7 +64,7 @@ SUDO_COMMANDS=false
 ; - PSStatus       - show a graphical representation if a process is running or not
 ; - Quotas         - show a table with all quotas that are active and there current state
 ; - SMART          - show S.M.A.R.T. information from drives that support it
-; - BAT            - show battery state on a laptop, tablet or phone 
+; - BAT            - show battery state on a laptop, tablet or phone
 ; - IPMIInfo       - show IPMI status
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
