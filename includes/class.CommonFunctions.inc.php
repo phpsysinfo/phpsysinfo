@@ -295,20 +295,7 @@ class CommonFunctions
         $error = PSI_Error::singleton();
         if (file_exists($strFileName)) {
             if (is_readable($strFileName)) {
-                /* default error handler */
-                if (function_exists('errorHandlerPsi')) {
-                    restore_error_handler();
-                }
-                /* fatal errors only */
-                $old_err_rep = error_reporting();
-                error_reporting(E_ERROR);
                 if ($fd = fopen($strFileName, 'r')) {
-                    /* restore error level */
-                    error_reporting($old_err_rep);
-                    /* restore error handler */
-                    if (function_exists('errorHandlerPsi')) {
-                        set_error_handler('errorHandlerPsi');
-                    }
                     while (!feof($fd)) {
                         $strFile .= fgets($fd, $intBytes);
                         if ($intLines <= $intCurLine && $intLines != 0) {
@@ -327,12 +314,6 @@ class CommonFunctions
                         }
                     }
                 } else {
-                    /* restore error level */
-                    error_reporting($old_err_rep);
-                    /* restore error handler */
-                    if (function_exists('errorHandlerPsi')) {
-                        set_error_handler('errorHandlerPsi');
-                    }
                     if ($booErrorRep) {
                         $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
                     }
