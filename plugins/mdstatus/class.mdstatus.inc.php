@@ -140,7 +140,7 @@ class MDStatus extends PSI_Plugin
                 } else {
                     $this->_result['devices'][$dev]['algorithm'] = -1;
                 }
-                if (preg_match('/\[([0-9]+)\/([0-9]+)\]/', $optionline, $res))
+                if (preg_match('/\[([0-9]+)\/([0-9]+)\]/', $optionline, $res)) {
                     $this->_result['devices'][$dev]['registered'] = $res[1];
                     $this->_result['devices'][$dev]['active'] = $res[2];
                 } else {
