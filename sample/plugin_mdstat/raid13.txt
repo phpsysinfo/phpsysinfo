@@ -1,0 +1,17 @@
+Personalities : [linear] [raid0] [raid1] [raid10] [raid6] [raid5] [raid4] [multipath] 
+md1 : active raid1 sdb3[0] sda3[1]
+      3897063616 blocks super 1.0 [2/2] [UU]
+      
+md256 : active raid1 sda2[1] sdb2[0]
+      530112 blocks super 1.0 [2/2] [UU]
+      bitmap: 0/1 pages [0KB], 65536KB chunk
+
+md13 : active raid1 sdb4[0] sda4[1]
+      458880 blocks super 1.0 [24/2] [UU______________________]
+      bitmap: 1/1 pages [4KB], 65536KB chunk
+
+md9 : active raid1 sdb1[0] sda1[1]
+      530048 blocks super 1.0 [24/2] [UU______________________]
+      bitmap: 1/1 pages [4KB], 65536KB chunk
+
+unused devices: <none>
