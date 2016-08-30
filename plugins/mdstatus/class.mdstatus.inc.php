@@ -150,7 +150,7 @@ class MDStatus extends PSI_Plugin
                 if (isset($this->_result['devices'][$dev]['partitions'])) {
                     asort($this->_result['devices'][$dev]['partitions']);
                 }
-                if (preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
+                if (($this->_result['devices'][$dev]['registered']<24) && preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
                     $notsparecount = 0;
                     foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
                         if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
