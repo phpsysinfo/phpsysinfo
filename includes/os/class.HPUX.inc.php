@@ -226,7 +226,7 @@ class HPUX extends OS
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
-                    $devnum += 1;
+                    $devnum++;
                     $results[$devnum] = "";
                 } elseif (preg_match('/^S:/', $buf)) {
                     list($key, $value) = preg_split('/: /', $buf, 2);

@@ -71,7 +71,7 @@ function readCookie(name) {
     var nameEQ = "", ca = [], c = '', i = 0;
     nameEQ = name + "=";
     ca = document.cookie.split(';');
-    for (i = 0; i < ca.length; i += 1) {
+    for (i = 0; i < ca.length; i++) {
         c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1, c.length);
@@ -218,7 +218,7 @@ function genlang(id, generate, plugin) {
     }
     if (generate) {
         html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter += 1;
+        langcounter++;
     }
     else {
         html += "<span id=\"lang_" + idString + "\">";
@@ -687,7 +687,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
         var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "";
-        cpucount += 1;
+        cpucount++;
         model = $(this).attr("Model");
         speed = parseInt($(this).attr("CpuSpeed"), 10);
         speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
@@ -754,7 +754,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
 function countCpu(xml) {
     var cpucount = 0;
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
-        cpucount += 1;
+        cpucount++;
     });
     return cpucount;
 }
@@ -770,7 +770,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
         var name = "", count = 0;
-        devicecount += 1;
+        devicecount++;
         name = $(this).attr("Name");
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
@@ -789,7 +789,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
 function countHWDevice(xml, type) {
     var devicecount = 0;
     $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
-        devicecount += 1;
+        devicecount++;
     });
     return devicecount;
 }
@@ -1308,8 +1308,12 @@ function refreshUps(xml) {
         battery_voltage = $(this).attr("BatteryVoltage");
         battery_charge_percent = parseInt($(this).attr("BatteryChargePercent"), 10);
         time_left_minutes = $(this).attr("TimeLeftMinutes");
-
-        html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
+        
+        if (mode !== undefined) {
+            html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + " (" + mode + ")</span></td></tr>\n";
+        } else {
+            html += "<tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
+        }
         index = tree.push(0);
         if (model !== undefined) {
             html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, true) + "</span></td><td>" + model + "</td></tr>\n";
@@ -1423,7 +1427,7 @@ function reload() {
             refreshCurrent(xml);
             refreshUps(xml);
 
-            for (var i = 0; i < plugin_liste.length; i += 1) {
+            for (var i = 0; i < plugin_liste.length; i++) {
                 try {
                     //dynamic call
                     window[plugin_liste[i].toLowerCase() + '_request']();
@@ -1464,7 +1468,7 @@ $(document).ready(function buildpage() {
     if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
         changeLanguage();
-        for (i = 0; i < plugin_liste.length; i += 1) {
+        for (i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
     } else {
@@ -1476,7 +1480,7 @@ $(document).ready(function buildpage() {
             current_language = $("#language").val().toString();
         }
         changeLanguage();
-        for (i = 0; i < plugin_liste.length; i += 1) {
+        for (i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
         $('#language').show();
@@ -1486,7 +1490,7 @@ $(document).ready(function buildpage() {
             current_language = $("#language").val().toString();
             createCookie('psi_language', current_language, 365);
             changeLanguage();
-            for (i = 0; i < plugin_liste.length; i += 1) {
+            for (i = 0; i < plugin_liste.length; i++) {
                 changeLanguage(plugin_liste[i]);
             }
             return false;

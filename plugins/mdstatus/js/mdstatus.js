@@ -114,6 +114,10 @@ function mdstatus_diskicon(xml) {
             img = "harddrivespare.png";
             alt = "spare";
             break;
+        case "W":
+            img = "harddrivewarn.png";
+            alt = "spare";
+            break;
         default:
 //            alert("--" + diskstatus + "--");
             img = "error.png";

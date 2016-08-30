@@ -110,7 +110,7 @@ class Webpage extends Output implements PSI_Interface_Output
         if (!defined("PSI_DEFAULT_TEMPLATE") || (($this->_template = strtolower(trim(PSI_DEFAULT_TEMPLATE))) == "") || !file_exists(APP_ROOT.'/templates/'.$this->_template.".css")) {
             $this->_template = 'phpsysinfo';
         }
-        if (!defined("PSI_DEFAULT_BOOTSTRAP_TEMPLATE") || (($this->_bootstrap_template = strtolower(trim(PSI_DEFAULT_BOOTSTRAP_TEMPLATE))) == "") || !file_exists(APP_ROOT.'/templates/'.$this->_bootstrap_template.".css")) {
+        if (!defined("PSI_DEFAULT_BOOTSTRAP_TEMPLATE") || (($this->_bootstrap_template = strtolower(trim(PSI_DEFAULT_BOOTSTRAP_TEMPLATE))) == "") || !file_exists(APP_ROOT.'/templates/'.$this->_bootstrap_template."_bootstrap.css")) {
             $this->_bootstrap_template = 'phpsysinfo';
         }
         $this->_pick_template = !defined("PSI_SHOW_PICKLIST_TEMPLATE") || (PSI_SHOW_PICKLIST_TEMPLATE !== false);
@@ -153,8 +153,8 @@ class Webpage extends Output implements PSI_Interface_Output
         $dirlist = CommonFunctions::gdc(APP_ROOT.'/language/');
         sort($dirlist);
         foreach ($dirlist as $file) {
-            $lang_ext = substr($file, strlen($file) - 4);
-            $lang_name = substr($file, 0, strlen($file) - 4);
+            $lang_ext = strtolower(substr($file, strlen($file) - 4));
+            $lang_name = strtolower(substr($file, 0, strlen($file) - 4));
             if ($lang_ext == ".xml") {
                 array_push($this->_languages, $lang_name);
             }

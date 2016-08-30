@@ -1,6 +1,6 @@
 Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
 md1 : active raid1 sdb2[2](F) sda2[1]
-      155181952 blocks super 1.2 [2/1] [_U]
+      155181952 blocks super 1.2 [2/1] [U_]
       
 md0 : active raid1 sdb1[2] sda1[1]
       975296 blocks super 1.2 [2/2] [UU]

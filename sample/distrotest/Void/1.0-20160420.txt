@@ -1,0 +1,11 @@
+----------lsb_release -a----------
+LSB Version:	1.0
+Distributor ID:	VoidLinux
+Description:	Void Linux
+Release:	rolling
+Codename:	void
+----------/etc/os-release----------
+NAME="void"
+ID="void"
+DISTRIB_ID="void"
+PRETTY_NAME="void"

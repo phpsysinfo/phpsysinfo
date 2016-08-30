@@ -73,6 +73,7 @@ function smart_populate(xml) {
     // Get datas that the user want to be displayed
     $("Plugins Plugin_SMART columns column", xml).each(function smart_find_columns() {
         columns[parseInt($(this).attr("id"), 10)] = $(this).attr("name");
+        smart_show = true;
     });
 
     // Now we add selected datas in the table
@@ -100,11 +101,9 @@ function smart_populate(xml) {
             else {
                 display.push("<span style=\"display:none;\">" + values[i] + "</span>" + values[i]);
             }
-//          }
         });
         smart_table.fnAddData(display);
     });
-    smart_show = true;
 }
 
 /**

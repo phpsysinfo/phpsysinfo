@@ -39,4 +39,7 @@
   <expression id="plugin_dmraid_011" name="dmraid_spares">
     <exp>Spares</exp>
   </expression>
+  <expression id="plugin_dmraid_012" name="dmraid_curact">
+    <exp>Current Action</exp>
+  </expression>
 </tns:translationPlugin>

@@ -148,6 +148,59 @@ class MDStatus extends PSI_Plugin
                     $this->_result['devices'][$dev]['registered'] = -1;
                     $this->_result['devices'][$dev]['active'] = -1;
                 }
+                if (isset($this->_result['devices'][$dev]['partitions'])) {
+                    asort($this->_result['devices'][$dev]['partitions']);
+                }
+                if (preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
+                    $notsparecount = 0;
+                    foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                        if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                            $notsparecount++;
+                        }
+                    }
+                    if ($notsparecount == $reslen) {
+                        $partnr = 0;
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                                if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok")) {
+                                    $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                                }
+                                $partnr++;
+                            }
+                        }
+                    } elseif ($reslen-$notsparecount == 1) {
+                        $partnr = 0;
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S") {
+                                if ($res[1][$partnr]=='_') {
+                                    $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']-1;
+                                    $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                                }
+                                $partnr++;
+                            }
+                        }
+                        if ($res[1][$partnr]=='_') {
+                            $this->_result['devices'][$dev]['partitions']["none"]['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']+1;
+                            $this->_result['devices'][$dev]['partitions']["none"]['status']="E";
+                        }
+                        asort($this->_result['devices'][$dev]['partitions']);
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($diskkey=="none") {
+                                $this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']="unknown";
+                            }
+                        }
+                    } else {
+                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok") {
+                                $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            }
+                        }
+                        for ($partnr=0; $partnr<$reslen-$notsparecount; $partnr++) {
+                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['raid_index']="unknown";
+                                $this->_result['devices'][$dev]['partitions']["none".$partnr]['status']="E";
+                        }
+                    }
+                }
                 if (preg_match(('/([a-z]+)( *)=( *)([0-9\.]+)%/'), $this->_filecontent[$count + 1], $res) || (preg_match(('/([a-z]+)( *)=( *)([0-9\.]+)/'), $optionline, $res))) {
                     list($this->_result['devices'][$dev]['action']['name'], $this->_result['devices'][$dev]['action']['percent']) = preg_split("/=/", str_replace("%", "", $res[0]));
                     if (preg_match(('/([a-z]*=[0-9\.]+[a-z]+)/'), $this->_filecontent[$count + 1], $res)) {
@@ -157,11 +210,6 @@ class MDStatus extends PSI_Plugin
                         $this->_result['devices'][$dev]['action']['finish_time'] = -1;
                         $this->_result['devices'][$dev]['action']['finish_unit'] = -1;
                     }
-                } else {
-                    $this->_result['devices'][$dev]['action']['name'] = -1;
-                    $this->_result['devices'][$dev]['action']['percent'] = -1;
-                    $this->_result['devices'][$dev]['action']['finish_time'] = -1;
-                    $this->_result['devices'][$dev]['action']['finish_unit'] = -1;
                 }
             } else {
                 $count++;
@@ -212,11 +260,13 @@ class MDStatus extends PSI_Plugin
                 $dev->addAttribute("Algorithm", $device["algorithm"]);
                 $dev->addAttribute("Disks_Registered", $device["registered"]);
                 $dev->addAttribute("Disks_Active", $device["active"]);
-                $action = $dev->addChild("Action");
-                $action->addAttribute("Percent", $device['action']['percent']);
-                $action->addAttribute("Name", $device['action']['name']);
-                $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
-                $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
+                if (isset($device['action'])) {
+                    $action = $dev->addChild("Action");
+                    $action->addAttribute("Percent", $device['action']['percent']);
+                    $action->addAttribute("Name", $device['action']['name']);
+                    $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
+                    $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
+                }
                 $disks = $dev->addChild("Disks");
                 foreach ($device['partitions'] as $diskkey=>$disk) {
                     $disktemp = $disks->addChild("Disk");

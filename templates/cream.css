@@ -1,6 +1,16 @@
 /*
  $Id
- */ * {
+ */
+a {
+    text-decoration: none;
+    color: #c03000;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+* {
     margin: 0;
     padding: 0;
 }
@@ -10,8 +20,8 @@ wbr {
 }
 
 html {
-    background: url("cream/bg.gif") repeat-x #F8F2E3;
-    color: #444B54;
+    background: url("cream/bg.gif") repeat-x #f8f2e3;
+    color: #444b54;
     font-size: 100%;
     height: 100%;
 }
@@ -47,7 +57,7 @@ h1 {
 }
 
 h2 {
-    background-color: #444B54;
+    background-color: #444b54;
     color: #fff;
     font-size: 130%;
     font-weight: bold;
@@ -56,20 +66,6 @@ h2 {
     text-transform: uppercase;
 }
 
-table {
-    width: 100%;
-    background-color: #fff;
-}
-
-.plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
-    background: #fff;
-}
-
-
 th, td, h3 {
     font-size: 100%;
     padding: 4px 10px 2px 10px;
@@ -77,13 +73,9 @@ th, td, h3 {
     vertical-align: top;
 }
 
-a {
-    text-decoration: none;
-    color: #c03000;
-}
-
-a:hover {
-    text-decoration: underline;
+table {
+    width: 100%;
+    background-color: #fff;
 }
 
 #select {
@@ -111,14 +103,13 @@ a:hover {
     width: 915px;
 }
 
-
 #filesystemTable thead tr .header {
     cursor: pointer;
 }
 
 #footer {
     clear: both;
-    color: #5C5C5C;
+    color: #5c5c5c;
     margin: 12px;
     padding: 13px 25px;
     line-height: 18px;
@@ -126,17 +117,24 @@ a:hover {
     text-align: center;
 }
 
+.plugin {
+    float: left;
+    margin: 10px 0 0 10px;
+    _margin: 10px 5px 0 5px; /* ie6 */
+    padding: 1px;
+    background: #fff;
+}
 
 .even {
-    background-color: #FBFBF9;
+    background-color: #fbfbf9;
 }
 
 .bar {
-    background-color: #58626D;
+    background-color: #58626d;
 }
 
 .barwarn {
-    background-color: #9B2F65;
+    background-color: #9b2f65;
 }
 
 .right {
@@ -146,16 +144,19 @@ a:hover {
 
 .treeimg {
     display: table-cell;
+    *float: left;
     vertical-align: top;
 }
 
 .treespan {
     display: table-cell;
+    *float: left;
     vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: bold;
     display: table-cell;
+    *float: left;
     vertical-align: middle;
 }

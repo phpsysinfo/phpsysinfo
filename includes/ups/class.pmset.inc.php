@@ -38,8 +38,8 @@ class Pmset extends UPS
     public function __construct()
     {
         parent::__construct();
-        CommonFunctions::executeProgram('pmset', '-g batt', $temp);
-        if (! empty($temp)) {
+        $temp = "";
+        if (CommonFunctions::executeProgram('pmset', '-g batt', $temp) && !empty($temp)) {
             $this->_output[] = $temp;
         }
     }
@@ -51,28 +51,34 @@ class Pmset extends UPS
      */
    private function _info()
     {
+        if (empty($this->_output)) {
+            return;
+        }
         $model = array();
         $percCharge = array();
         $lines = explode(PHP_EOL, implode($this->_output));
-        $dev = new UPSDevice();
-        $model = explode('FW:',  $lines[1]);
-        if (strpos($model[0], 'InternalBattery') === false) {
-            $percCharge = explode(';',  $lines[1]);
-            $dev->setName('UPS');
-            if ($model !== false) {
-                $dev->setModel(substr(trim($model[0]), 1));
-            }
-            if ($percCharge !== false) {
-                $dev->setBatterCharge(trim(substr($percCharge[0], -4, 3)));
-                $dev->setStatus(trim($percCharge[1]));
-                if (isset($percCharge[2])) {
-                    $time = explode(':', $percCharge[2]);
-                    $hours = $time[0];
-                    $minutes = $hours*60+substr($time[1], 0, 2);
-                    $dev->setTimeLeft($minutes);
+        if (count($lines)>1) {
+            $model = explode('FW:',  $lines[1]);
+            if (strpos($model[0], 'InternalBattery') === false) {
+                $dev = new UPSDevice();
+                $percCharge = explode(';',  $lines[1]);
+                $dev->setName('UPS');
+                if ($model !== false) {
+                    $dev->setModel(substr(trim($model[0]), 1));
                 }
+                if ($percCharge !== false) {
+                    $dev->setBatterCharge(trim(substr($percCharge[0], -4, 3)));
+                    $dev->setStatus(trim($percCharge[1]));
+                    if (isset($percCharge[2])) {
+                        $time = explode(':', $percCharge[2]);
+                        $hours = $time[0];
+                        $minutes = $hours*60+substr($time[1], 0, 2);
+                        $dev->setTimeLeft($minutes);
+                    }
+                }
+                $dev->setMode("pmset");
+                $this->upsinfo->setUpsDevices($dev);
             }
-            $this->upsinfo->setUpsDevices($dev);
         }
     }
 

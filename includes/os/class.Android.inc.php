@@ -170,10 +170,10 @@ class Android extends Linux
     {
         if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
             $buf = "";
-            if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf)) {
+            if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf) && (trim($ar_buf[1]) !== "unknown")) {
                 $buf .= ' '.trim($ar_buf[1]);
             }
-            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf) && (trim($buf) !== trim($ar_buf[1]))) {
+            if (preg_match('/^ro\.product\.model=([^\n]+)/m', $lines, $ar_buf) && (trim($ar_buf[1]) !== trim($buf))) {
                 $buf .= ' '.trim($ar_buf[1]);
             }
             if (preg_match('/^ro\.semc\.product\.name=([^\n]+)/m', $lines, $ar_buf)) {

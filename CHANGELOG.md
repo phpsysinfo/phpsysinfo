@@ -3,6 +3,22 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.6
+----------------
+ - [UPD] jQuery 3.1.0 and jQuery 1.12.4
+ - [UPD] bootstrap 3.3.7
+ - [UPD] Swedish Translation sv.xml
+ - [UPD] Norwegian Translation no.xml
+
+ - [ADD] NeoKylin and Void to detected distros
+ - [ADD] schabau and lingruby template
+ - [ADD] DMRaid plugin - FreeBSD graid info
+ - [ADD] SNMPPInfo plugin - support for Ricoh printers
+ - [ADD] UpdateNotifier plugin - ACCESS option
+
+ - [NEW] sudo commands list
+ - [NEW] plugin Iptables - iptables rules list
+
 phpSysInfo 3.2.5
 ----------------
  - [UPD] jQuery 2.2.0 and jQuery 1.12.0
@@ -166,7 +182,7 @@ phpSysInfo 3.1.10
 phpSysInfo 3.1.9
 ----------------
 
- - [NEW] New plugin DMRaid - software raid status
+ - [NEW] plugin DMRaid - software raid status
 
  - [ADD] Calculate, Tails, SMEServer, Semplice, SolydXK, Parsix, RedFlag, Amazon, Korora, OpenMandriva, SteamOS, ROSA Enterprise Server and ROSA Desktop Fresh to detected distros
 

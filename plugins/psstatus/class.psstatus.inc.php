@@ -113,9 +113,6 @@ class PSStatus extends PSI_Plugin
      */
     public function execute()
     {
-        if (empty($this->_filecontent)) {
-            return;
-        }
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
             if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
                 $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);

@@ -245,6 +245,7 @@ class WINNT extends OS
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
+                    $this->_wmi = false; // No WMI info on ReactOS yet
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution($ar_temp[1]);
                     $this->sys->setKernel($ar_temp[2]);
@@ -545,14 +546,15 @@ class WINNT extends OS
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {
-                    if (preg_match('/\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*\n\s*([\d\.\,]+).*$/', $out_value, $out_dig)) {
-                        $size = preg_replace('/(\.)|(\,)/', '', $out_dig[1]);
-                        $used = preg_replace('/(\.)|(\,)/', '', $out_dig[2]);
-                        $free = preg_replace('/(\.)|(\,)/', '', $out_dig[3]);
+                    if (preg_match('/\n\s*([\d\.,\xFF]+).*\n\s*([\d\.,\xFF]+).*\n\s*([\d\.\,\xFF]+).*$/', $out_value, $out_dig)) {
+                        $size = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[1]);
+                        $used = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[2]);
+                        $free = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[3]);
                         if ($used + $free == $size) {
                             $dev = new DiskDevice();
                             $dev->setMountPoint($letter.":");
                             $dev->setFsType('Unknown');
+                            $dev->setName('Unknown');
                             $dev->setTotal($size);
                             $dev->setFree($free);
                             $dev->setUsed($used);

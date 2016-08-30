@@ -6,7 +6,7 @@
  * Licensed under the MIT license
  *
  * $Date: 2010-02-23 (Tue, 23 Feb 2010) $
- * $version: 1.6.2+jquery1.8fix
+ * $version: 1.6.2+jquery1.8fix+bindfix
  */
 jQuery(function($) {
 
@@ -87,8 +87,8 @@ jQuery(function($) {
 			var me = $(this);
 			if (this.nodeName.toLowerCase() == 'form') {
 				me
-				.unbind('submit.nyroModal')
-				.bind('submit.nyroModal', function(e) {
+				.off('submit.nyroModal')
+				.on('submit.nyroModal', function(e) {
 					if(e.isDefaultPrevented())
 						return false;
 					if (me.data('nyroModalprocessing'))
@@ -107,8 +107,8 @@ jQuery(function($) {
 				});
 			} else {
 				me
-				.unbind('click.nyroModal')
-				.bind('click.nyroModal', function(e) {
+				.off('click.nyroModal')
+				.on('click.nyroModal', function(e) {
 					if(e.isDefaultPrevented())
 						return false;
 					e.preventDefault();
@@ -422,7 +422,7 @@ jQuery(function($) {
 					.error(loadingError)
 					.load(function() {
 						debug('Image Loaded: '+this.src);
-						$(this).unbind('load');
+						$(this).off('load');
 						var w = modal.tmp.width();
 						var h = modal.tmp.height();
 						modal.tmp.css({lineHeight: ''});
@@ -726,7 +726,7 @@ jQuery(function($) {
 						backgroundColor: currentSettings.bgColor
 					}, currentSettings.cssOpt.bg))
 				.before(iframeHideIE);
-			modal.bg.bind('click.nyroModal', clickBg);
+			modal.bg.on('click.nyroModal', clickBg);
 			modal.loading = $('#nyroModalLoading')
 				.css(currentSettings.cssOpt.loading)
 				.hide();
@@ -748,12 +748,12 @@ jQuery(function($) {
 				});
 			}
 
-			$(document).bind('keydown.nyroModal', keyHandler);
+			$(document).on('keydown.nyroModal', keyHandler);
 			modal.content.css({width: 'auto', height: 'auto'});
 			modal.contentWrapper.css({width: 'auto', height: 'auto'});
 
 			if (!currentSettings.blocker && currentSettings.windowResize) {
-				$(window).bind('resize.nyroModal', function() {
+				$(window).on('resize.nyroModal', function() {
 					window.clearTimeout(windowResizeTimeout);
 					windowResizeTimeout = window.setTimeout(windowResizeHandler, 200);
 				});
@@ -925,8 +925,8 @@ jQuery(function($) {
 			.addClass(currentSettings.errorClass)
 			.html(currentSettings.contentError);
 		$(currentSettings.closeSelector, modal.loading)
-			.unbind('click.nyroModal')
-			.bind('click.nyroModal', removeModal);
+			.off('click.nyroModal')
+			.on('click.nyroModal', removeModal);
 		setMarginLoading();
 		modal.loading
 			.css({
@@ -963,8 +963,8 @@ jQuery(function($) {
 		modal.content.append(modal.scripts);
 
 		$(currentSettings.closeSelector, modal.contentWrapper)
-			.unbind('click.nyroModal')
-			.bind('click.nyroModal', removeModal);
+			.off('click.nyroModal')
+			.on('click.nyroModal', removeModal);
 		$(currentSettings.openSelector, modal.contentWrapper).nyroModal(getCurrentSettingsNew());
 	}
 
@@ -1241,9 +1241,9 @@ jQuery(function($) {
 		if (e)
 			e.preventDefault();
 		if (modal.full && modal.ready) {
-			$(document).unbind('keydown.nyroModal');
+			$(document).off('keydown.nyroModal');
 			if (!currentSettings.blocker)
-				$(window).unbind('resize.nyroModal');
+				$(window).off('resize.nyroModal');
 			modal.ready = false;
 			modal.anim = true;
 			modal.closing = true;
@@ -1314,8 +1314,8 @@ jQuery(function($) {
 				else
 					modal.loading.html(currentSettings.contentLoading);
 				$(currentSettings.closeSelector, modal.loading)
-					.unbind('click.nyroModal')
-					.bind('click.nyroModal', removeModal);
+					.off('click.nyroModal')
+					.on('click.nyroModal', removeModal);
 				setMarginLoading();
 				currentSettings.showLoading(modal, currentSettings, function(){modal.anim=false;showContentOrLoading();});
 			}
@@ -1360,7 +1360,7 @@ jQuery(function($) {
 		jFrom.attr('target', '');
 		$('input[name='+currentSettings.formIndicator+']', currentSettings.from).remove();
 		var iframe = modal.tmp.children('iframe');
-		var iframeContent = iframe.unbind('load').contents().find(currentSettings.selector || 'body').not('script[src]');
+		var iframeContent = iframe.off('load').contents().find(currentSettings.selector || 'body').not('script[src]');
 		iframe.attr('src', 'about:blank'); // Used to stop the loading in FF
 		modal.tmp.html(iframeContent.html());
 		if (modal.tmp.html()) {
@@ -1431,7 +1431,7 @@ jQuery(function($) {
 
 	function endRemove() {
 		debug('endRemove');
-		$(document).unbind('keydown', keyHandler);
+		$(document).off('keydown', keyHandler);
 		modal.anim = false;
 		modal.full.remove();
 		modal.full = null;

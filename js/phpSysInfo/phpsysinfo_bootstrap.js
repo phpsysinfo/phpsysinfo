@@ -54,7 +54,7 @@ function readCookie(name) {
     var nameEQ = "", ca = [], c = '';
     nameEQ = name + "=";
     ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i += 1) {
+    for (var i = 0; i < ca.length; i++) {
         c = ca[i];
         while (c.charAt(0) === ' ') {
             c = c.substring(1, c.length);
@@ -176,7 +176,7 @@ function genlang(id, generate, plugin) {
     }
     if (generate) {
         html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter += 1;
+        langcounter++;
     }
     else {
         html += "<span id=\"lang_" + idString + "\">";
@@ -298,6 +298,7 @@ function plugin_request(pluginname) {
     });
 }
 
+
 $(document).ready(function () {
     var cookie_template = null, cookie_language = null, plugtmp = "";
 
@@ -310,77 +311,74 @@ $(document).ready(function () {
 
     sorttable.init();
 
-    $.getScript( "./js.php?name=bootstrap", function(data, status, jqxhr) {
+    showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
+    showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
+    showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
 
-        showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
-        showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
-        showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    plugtmp = $("#plugins").val().toString();
+    if (plugtmp.length >0 ){
+        plugins = plugtmp.split(',');
+    }
 
-        plugtmp = $("#plugins").val().toString();
-        if (plugtmp.length >0 ){
-            plugins = plugtmp.split(',');
+    if ($("#language option").length < 2) {
+        current_language = $("#language").val().toString();
+/* not visible any objects
+        changeLanguage();
+*/
+/* plugin_liste not initialized yet
+        for (var i = 0; i < plugin_liste.length; i++) {
+            changeLanguage(plugin_liste[i]);
         }
-
-        if ($("#language option").length < 2) {
+*/
+    } else {
+        cookie_language = readCookie("psi_language");
+        if (cookie_language !== null) {
+            current_language = cookie_language;
+            $("#language").val(current_language);
+        } else {
             current_language = $("#language").val().toString();
+        }
 /* not visible any objects
-            changeLanguage();
+        changeLanguage();
 */
 /* plugin_liste not initialized yet
-            for (var i = 0; i < plugin_liste.length; i += 1) {
-                changeLanguage(plugin_liste[i]);
-            }
+        for (var i = 0; i < plugin_liste.length; i++) {
+            changeLanguage(plugin_liste[i]);
+        }
 */
-        } else {
-            cookie_language = readCookie("psi_language");
-            if (cookie_language !== null) {
-                current_language = cookie_language;
-                $("#language").val(current_language);
-            } else {
-                current_language = $("#language").val().toString();
-            }
-/* not visible any objects
+        $('#language').show();
+        $('span[id=lang_045]').show(); 
+        $("#language").change(function changeLang() {
+            current_language = $("#language").val().toString();
+            createCookie('psi_language', current_language, 365);
             changeLanguage();
-*/
-/* plugin_liste not initialized yet
-            for (var i = 0; i < plugin_liste.length; i += 1) {
+            for (var i = 0; i < plugin_liste.length; i++) {
                 changeLanguage(plugin_liste[i]);
             }
-*/
-            $('#language').show();
-            $('span[id=lang_045]').show(); 
-            $("#language").change(function changeLang() {
-                current_language = $("#language").val().toString();
-                createCookie('psi_language', current_language, 365);
-                changeLanguage();
-                for (var i = 0; i < plugin_liste.length; i++) {
-                    changeLanguage(plugin_liste[i]);
-                }
-                return false;
-            });
-        }
-        if ($("#template option").length < 2) {
-            switchStyle($("#template").val().toString());
-        } else {
-            cookie_template = readCookie("psi_bootstrap_template");
-            if (cookie_template !== null) {
-                $("#template").val(cookie_template);
-            }
-            switchStyle($("#template").val().toString());
-            $('#template').show();
-            $('span[id=lang_044]').show();
-            $("#template").change(function changeTemplate() {
-                switchStyle($("#template").val().toString());
-                createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
-                return false;
-            });
-        }
-
-        reload(true);
-
-        $(".logo").click(function () {
-            reload();
+            return false;
         });
+    }
+    if ($("#template option").length < 2) {
+        switchStyle($("#template").val().toString());
+    } else {
+        cookie_template = readCookie("psi_bootstrap_template");
+        if (cookie_template !== null) {
+            $("#template").val(cookie_template);
+        }
+        switchStyle($("#template").val().toString());
+        $('#template').show();
+        $('span[id=lang_044]').show();
+        $("#template").change(function changeTemplate() {
+            switchStyle($("#template").val().toString());
+            createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
+            return false;
+        });
+    }
+
+    reload(true);
+
+    $(".logo").click(function () {
+        reload();
     });
 });
 
@@ -555,7 +553,7 @@ function renderHardware(data) {
 
     var hw_directives = {
         hwName: {
-            text: function() {
+            html: function() {
                 return this["Name"];
             }
         },
@@ -1027,13 +1025,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return this["Value"] + String.fromCharCode(160) + genlang(63, true); //RPM
+                return round(this["Value"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Min: {
             html: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + genlang(63, true); //RPM
+                    return round(this["Min"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Label: {
