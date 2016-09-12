@@ -47,7 +47,7 @@ class Nut extends UPS
                 $upses = array(PSI_UPS_NUT_LIST);
             }
             foreach ($upses as $ups) {
-                CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output);
+                CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
                 $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($ups_names as $ups_name) {
                     CommonFunctions::executeProgram('upsc', trim($ups_name).'@'.trim($ups), $temp, PSI_DEBUG);
