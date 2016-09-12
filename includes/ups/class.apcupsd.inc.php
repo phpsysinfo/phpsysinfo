@@ -75,7 +75,7 @@ class Apcupsd extends UPS
                 $dev->setName(trim($data[1]));
             }
             if (preg_match('/^MODEL\s*:\s*(.*)$/m', $ups, $data)) {
-                $model=trim($data[1]);
+                $model = trim($data[1]);
                 if (preg_match('/^APCMODEL\s*:\s*(.*)$/m', $ups, $data)) {
                     $dev->setModel($model.' ('.trim($data[1]).')');
                 } else {
@@ -92,7 +92,10 @@ class Apcupsd extends UPS
                 $dev->setStatus(trim($data[1]));
             }
             if (preg_match('/^ITEMP\s*:\s*(.*)$/m', $ups, $data)) {
-                $dev->setTemperatur(trim($data[1]));
+                $temperatur = trim($data[1]);
+                if (($temperatur !== "-273.1 C") && ($temperatur !== "-273.1 C Internal")) {
+                    $dev->setTemperatur($temperatur);
+                }
             }
             // Outages
             if (preg_match('/^NUMXFERS\s*:\s*(.*)$/m', $ups, $data)) {
