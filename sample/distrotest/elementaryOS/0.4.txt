@@ -15,8 +15,9 @@ ID="elementary"
 ID_LIKE=ubuntu
 PRETTY_NAME="elementary OS 0.4 Loki"
 VERSION_ID="0.4"
-HOME_URL="http://www.elementary.io/"
-SUPPORT_URL="http://www.elementary.io/support/"
+HOME_URL="http://elementary.io/"
+SUPPORT_URL="http://elementary.io/support/"
 BUG_REPORT_URL="https://bugs.launchpad.net/elementary/+filebug"
+----------/etc/upstream-release----------
 ----------/etc/debian_version----------
 stretch/sid
