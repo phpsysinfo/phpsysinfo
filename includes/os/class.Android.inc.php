@@ -141,6 +141,7 @@ class Android extends Linux
             foreach ($arrResult as $dev) {
                 $this->sys->setDiskDevices($dev);
             }
+        }
     }
 
     /**
