@@ -879,7 +879,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _filesystems()
+    protected function _filesystems()
     {
         $df_args = "";
         $hideFstypes = array();
