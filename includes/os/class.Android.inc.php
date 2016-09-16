@@ -67,7 +67,7 @@ class Android extends Linux
      *
      * @return void
      */
-    protected function _filesystems()
+    private function _filesystems()
     {
         $notwas = true;
         if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG)) {
@@ -137,8 +137,10 @@ class Android extends Linux
             }
         }
         if ($notwas) { // try Linux df style
-            parent::_filesystems();
-        }
+            $arrResult = Parser::df("-P 2>/dev/null");
+            foreach ($arrResult as $dev) {
+                $this->sys->setDiskDevices($dev);
+            }
     }
 
     /**
