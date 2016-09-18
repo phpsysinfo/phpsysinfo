@@ -70,7 +70,7 @@ class Android extends Linux
     private function _filesystems()
     {
         $notwas = true;
-        if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG) && preg_match("/\s+[0-9\.]+[KMGT]\s+/", $df)) {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
                 $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
@@ -137,7 +137,7 @@ class Android extends Linux
             }
         }
         if ($notwas) { // try Linux df style
-            $arrResult = Parser::df("-P 2>/dev/null");
+            $arrResult = Parser::df("-P 2>/dev/null", false);
             foreach ($arrResult as $dev) {
                 $this->sys->setDiskDevices($dev);
             }
