@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.7
+----------------
+ - [UPD] jQuery 3.1.1
+
 phpSysInfo 3.2.6
 ----------------
  - [UPD] jQuery 3.1.0 and jQuery 1.12.4
