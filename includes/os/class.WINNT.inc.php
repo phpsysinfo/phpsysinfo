@@ -88,18 +88,30 @@ class WINNT extends OS
     private function _getCodeSet()
     {
         $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage'));
-        if ($buffer) {
-            $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
-            $lang = "";
-            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
-                if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
-                    $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
+        if (!$buffer) {
+            if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage /v ACP', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ACP\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
+                $buffer[0]['CodeSet'] = $buffer2[1];
+            }
+            if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language /v Default', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*Default\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
+                $buffer[0]['OSLanguage'] = hexdec($buffer2[1]);
+            }
+        }
+        if ($buffer && isset($buffer[0])) {
+            if (isset($buffer[0]['CodeSet'])) {
+                $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
+            }
+            if (isset($buffer[0]['OSLanguage'])) {
+                $lang = "";
+                if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                    if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
+                        $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
+                    }
                 }
+                if ($lang == "") {
+                    $lang = 'Unknown';
+                }
+                $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
             }
-            if ($lang == "") {
-                $lang = 'Unknown';
-            }
-            $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
         }
     }
 
@@ -136,6 +148,9 @@ class WINNT extends OS
             if ($hnm = getenv('SERVER_NAME')) $this->sys->setHostname($hnm);
         } else {
             $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
+            if (!$buffer && CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName /v ComputerName', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ComputerName\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
+                    $buffer[0]['Name'] = $buffer2[1];
+            }
             if ($buffer) {
                 $result = $buffer[0]['Name'];
                 $ip = gethostbyname($result);
@@ -194,7 +209,7 @@ class WINNT extends OS
      */
     protected function _users()
     {
-        if (CommonFunctions::executeProgram("quser", "", $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -231,25 +246,42 @@ class WINNT extends OS
             }
             $this->sys->setDistribution($buffer[0]['Caption']);
 
-            if ((($kernel[1] == ".") && ($kernel[0] <5)) || (substr($kernel, 0, 4) == "5.0."))
+            if ((($kernel[1] == '.') && ($kernel[0] <5)) || (substr($kernel, 0, 4) == '5.0.'))
                 $icon = 'Win2000.png';
-            elseif ((substr($kernel, 0, 4) == "6.0.") || (substr($kernel, 0, 4) == "6.1."))
+            elseif ((substr($kernel, 0, 4) == '6.0.') || (substr($kernel, 0, 4) == '6.1.'))
                 $icon = 'WinVista.png';
-            elseif ((substr($kernel, 0, 4) == "6.2.") || (substr($kernel, 0, 4) == "6.3.") || (substr($kernel, 0, 4) == "6.4.") || (substr($kernel, 0, 5) == "10.0."))
+            elseif ((substr($kernel, 0, 4) == '6.2.') || (substr($kernel, 0, 4) == '6.3.') || (substr($kernel, 0, 4) == '6.4.') || (substr($kernel, 0, 5) == '10.0.'))
                 $icon = 'Win8.png';
             else
                 $icon = 'WinXP.png';
             $this->sys->setDistributionIcon($icon);
-        } elseif (CommonFunctions::executeProgram("cmd", "/c ver 2>nul", $ver_value, false)) {
+        } elseif (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false)) {
                 if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
                     $this->_wmi = false; // No WMI info on ReactOS yet
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
-                    $this->sys->setDistribution($ar_temp[1]);
-                    $this->sys->setKernel($ar_temp[2]);
-                    $this->sys->setDistributionIcon('Win2000.png');
+                    if (CommonFunctions::executeProgram('reg', 'query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName 2>&1', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ProductName\s+REG_SZ\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                        if (preg_match("/^Microsoft /", $buffer2[1])) {
+                            $this->sys->setDistribution($buffer2[1]);
+                        } else {
+                            $this->sys->setDistribution("Microsoft ".$buffer2[1]);
+                        }
+                    } else {
+                        $this->sys->setDistribution($ar_temp[1]);
+                    }
+                    $kernel = $ar_temp[2];
+                    $this->sys->setKernel($kernel);
+                    if ((($kernel[1] == '.') && ($kernel[0] <5)) || (substr($kernel, 0, 4) == '5.0.'))
+                        $icon = 'Win2000.png';
+                    elseif ((substr($kernel, 0, 4) == '6.0.') || (substr($kernel, 0, 4) == '6.1.'))
+                        $icon = 'WinVista.png';
+                    elseif ((substr($kernel, 0, 4) == '6.2.') || (substr($kernel, 0, 4) == '6.3.') || (substr($kernel, 0, 4) == '6.4.') || (substr($kernel, 0, 5) == '10.0.'))
+                        $icon = 'Win8.png';
+                    else
+                        $icon = 'WinXP.png';
+                    $this->sys->setDistributionIcon($icon);
                 } else {
                     $this->sys->setDistribution("WinNT");
                     $this->sys->setDistributionIcon('Win2000.png');
@@ -544,8 +576,8 @@ class WINNT extends OS
         }
         if (!$buffer && ($this->sys->getDistribution()=="ReactOS")) {
             // test for command 'free' on current disk
-            if (CommonFunctions::executeProgram("cmd", "/c free 2>nul", $out_value, true)) {
-                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram("cmd", "/c free ".$letter.": 2>nul", $out_value, false)) {
+            if (CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, true)) {
+                for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
                     if (preg_match('/\n\s*([\d\.,\xFF]+).*\n\s*([\d\.,\xFF]+).*\n\s*([\d\.\,\xFF]+).*$/', $out_value, $out_dig)) {
                         $size = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[1]);
                         $used = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[2]);
@@ -593,7 +625,7 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (CommonFunctions::executeProgram("qprocess", "*", $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
