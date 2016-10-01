@@ -555,7 +555,7 @@ class WINNT extends OS
                $devnr = 0;
                foreach ($netstrs as $netstr) {
                    $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
-                   if (sizeof($netstrls)>2) {
+                   if (sizeof($netstrls)>1) {
                        $dev = new NetDevice();
                        foreach ($netstrls as $nr=>$netstrl) {
                            if ($nr === 0) {
