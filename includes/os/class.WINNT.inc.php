@@ -28,11 +28,32 @@
 class WINNT extends OS
 {
     /**
+     * holds the data from WMI Win32_OperatingSystem
+     *
+     * @var string
+     */
+    private $_Win32_OperatingSystem = null;
+
+    /**
+     * holds the data from WMI Win32_ComputerSystem
+     *
+     * @var string
+     */
+    private $_Win32_ComputerSystem = null;
+
+    /**
+     * holds the data from WMI Win32_Processor
+     *
+     * @var string
+     */
+    private $_Win32_Processor = null;
+
+    /**
      * holds the data from systeminfo command
      *
      * @var string
      */
-    private $_si = null;
+    private $_systeminfo = null;
 
     /**
      * holds the COM object that we pull all the WMI data from
@@ -61,6 +82,50 @@ class WINNT extends OS
      * @var string
      */
     private $_syslang = null;
+
+    /**
+     * reads the data from WMI Win32_OperatingSystem
+     *
+     * @var string
+     */
+    private function _get_Win32_OperatingSystem()
+    {
+        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage','LastBootUpTime', 'LocalDateTime','Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture','TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        return $this->_Win32_OperatingSystem;
+    }
+
+    /**
+     * reads the data from WMI Win32_ComputerSystem
+     *
+     * @var string
+     */
+    private function _get_Win32_ComputerSystem()
+    {
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model'));
+        return $this->_Win32_ComputerSystem;
+    }
+
+    /**
+     * reads the data from WMI Win32_Processor
+     *
+     * @var string
+     */
+    private function _get_Win32_Processor()
+    {
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'MaxClockSpeed'));
+        return $this->_Win32_Processor;
+    }
+
+    /**
+     * reads the data from systeminfo
+     *
+     * @var string
+     */
+    private function _get_systeminfo()
+    {
+        if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
+        return $this->_systeminfo;
+    }
 
     /**
      * build the global Error object and create the WMI connection
@@ -94,7 +159,7 @@ class WINNT extends OS
      */
     private function _getCodeSet()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage'));
+        $buffer = $this->_get_Win32_OperatingSystem();
         if (!$buffer) {
             if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage /v ACP', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ACP\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
                 $buffer[0]['CodeSet'] = $buffer2[1];
@@ -154,7 +219,7 @@ class WINNT extends OS
         if (PSI_USE_VHOST === true) {
             if ($hnm = getenv('SERVER_NAME')) $this->sys->setHostname($hnm);
         } else {
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name'));
+            $buffer = $this->_get_Win32_ComputerSystem();
             if (!$buffer && CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName /v ComputerName', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ComputerName\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
                     $buffer[0]['Name'] = $buffer2[1];
             }
@@ -188,7 +253,7 @@ class WINNT extends OS
     {
         $result = 0;
         date_default_timezone_set('UTC');
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('LastBootUpTime', 'LocalDateTime'));
+        $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
             $byear = intval(substr($buffer[0]['LastBootUpTime'], 0, 4));
             $bmonth = intval(substr($buffer[0]['LastBootUpTime'], 4, 2));
@@ -238,7 +303,7 @@ class WINNT extends OS
      */
     private function _distro()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture'));
+        $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
             $kernel = $buffer[0]['Version'];
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
@@ -246,7 +311,7 @@ class WINNT extends OS
             }
             if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
                 $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
-            } elseif (($allCpus = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('AddressWidth'))) && isset($allCpus[0]['AddressWidth'])) {
+            } elseif (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['AddressWidth'])) {
                 $this->sys->setKernel($kernel.' ('.$allCpus[0]['AddressWidth'].'-bit)');
             } else {
                 $this->sys->setKernel($kernel);
@@ -309,7 +374,7 @@ class WINNT extends OS
     {
         $loadavg = "";
         $sum = 0;
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage'));
+        $buffer = $this->_get_Win32_Processor();
         if ($buffer) {
             foreach ($buffer as $load) {
                 $value = $load['LoadPercentage'];
@@ -330,7 +395,7 @@ class WINNT extends OS
      */
     private function _cpuinfo()
     {
-        $allCpus = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'MaxClockSpeed'));
+        $allCpus = $this->_get_Win32_Processor();
         if (!$allCpus) {
             if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor /s', $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
@@ -374,7 +439,7 @@ class WINNT extends OS
      */
     private function _machine()
     {
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Manufacturer', 'Model'));
+        $buffer = $this->_get_Win32_ComputerSystem();
         if ($buffer) {
             $buf = "";
             if (isset($buffer[0]['Manufacturer'])) {
@@ -545,37 +610,35 @@ class WINNT extends OS
 
                 $this->sys->setNetDevices($dev);
             }
-        } elseif ((($this->_si !== null) || CommonFunctions::executeProgram('systeminfo', '', $this->_si, false)) && (strlen($this->_si) > 0) ) { 
-            if (preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $this->_si, $matches, PREG_OFFSET_CAPTURE)) {
-               $netbuf = substr($this->_si, $matches[0][1]);
-               if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
-                   $netbuf = substr($netbuf, 0, $matches2[0][1]);
-               }
-               $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
-               $devnr = 0;
-               foreach ($netstrs as $netstr) {
-                   $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
-                   if (sizeof($netstrls)>1) {
-                       $dev = new NetDevice();
-                       foreach ($netstrls as $nr=>$netstrl) {
-                           if ($nr === 0) {
-                               $name = trim($netstrl);
-                               if ($name !== "" ) {
-                                   $dev->setName($name);
-                               } else {
-                                   $dev->setName('dev'.$devnr);
-                                   $devnr++;
-                               }
-                           } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
-                               $ipaddres = trim($netinfo[1]);
-                               if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                                   $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
+        } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
+           $netbuf = substr($buffer, $matches[0][1]);
+           if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
+               $netbuf = substr($netbuf, 0, $matches2[0][1]);
+           }
+           $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
+           $devnr = 0;
+           foreach ($netstrs as $netstr) {
+               $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
+               if (sizeof($netstrls)>1) {
+                   $dev = new NetDevice();
+                   foreach ($netstrls as $nr=>$netstrl) {
+                       if ($nr === 0) {
+                           $name = trim($netstrl);
+                           if ($name !== "" ) {
+                               $dev->setName($name);
+                           } else {
+                               $dev->setName('dev'.$devnr);
+                               $devnr++;
                            }
+                       } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
+                           $ipaddres = trim($netinfo[1]);
+                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                               $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                        }
-                       $this->sys->setNetDevices($dev);
                    }
+                   $this->sys->setNetDevices($dev);
                }
-            }
+           }
         }
     }
 
@@ -589,7 +652,7 @@ class WINNT extends OS
     private function _memory()
     {
         if ($this->_wmi) {
-            $buffer = CommonFunctions::getWMI($this->_wmi, "Win32_OperatingSystem", array('TotalVisibleMemorySize', 'FreePhysicalMemory'));
+            $buffer = $this->_get_Win32_OperatingSystem();
             if ($buffer) {
                 $this->sys->setMemTotal($buffer[0]['TotalVisibleMemorySize'] * 1024);
                 $this->sys->setMemFree($buffer[0]['FreePhysicalMemory'] * 1024);
@@ -606,13 +669,11 @@ class WINNT extends OS
                 $dev->setFsType('swap');
                 $this->sys->setSwapDevices($dev);
             }
-        } elseif ((($this->_si !== null) || CommonFunctions::executeProgram('systeminfo', '', $this->_si, false)) && (strlen($this->_si) > 0) ) {
-//            if (preg_match("/:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+\s([\d \xFF]+)\sMB\r\n.*:\s+(\S+)\r\n/m", $this->_si, $buffer2)) {
-            if (preg_match("/:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+\s([\d \xFF]+)\sMB\r\n/m", $this->_si, $buffer2)) {
-                $this->sys->setMemTotal(preg_replace('/(\s)|(\xFF)/', '', $buffer2[1]) * 1024 * 1024);
-                $this->sys->setMemFree(preg_replace('/(\s)|(\xFF)/', '', $buffer2[2]) * 1024 * 1024);
-                $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
-            }
+        } elseif (($buffer = $this->_get_systeminfo()) && preg_match("/:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+\s([\d \xFF]+)\sMB\r\n/m", $buffer, $buffer2)) {
+//           && (preg_match("/:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+:\s([\d \xFF]+)\sMB\r\n.+\s([\d \xFF]+)\sMB\r\n.*:\s+(\S+)\r\n/m", $buffer, $buffer2)) {
+            $this->sys->setMemTotal(preg_replace('/(\s)|(\xFF)/', '', $buffer2[1]) * 1024 * 1024);
+            $this->sys->setMemFree(preg_replace('/(\s)|(\xFF)/', '', $buffer2[2]) * 1024 * 1024);
+            $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
         }
     }
 
