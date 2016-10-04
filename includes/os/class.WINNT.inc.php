@@ -30,21 +30,21 @@ class WINNT extends OS
     /**
      * holds the data from WMI Win32_OperatingSystem
      *
-     * @var string
+     * @var array
      */
     private $_Win32_OperatingSystem = null;
 
     /**
      * holds the data from WMI Win32_ComputerSystem
      *
-     * @var string
+     * @var array
      */
     private $_Win32_ComputerSystem = null;
 
     /**
      * holds the data from WMI Win32_Processor
      *
-     * @var string
+     * @var array
      */
     private $_Win32_Processor = null;
 
@@ -86,7 +86,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_OperatingSystem
      *
-     * @var string
+     * @var array
      */
     private function _get_Win32_OperatingSystem()
     {
@@ -97,7 +97,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_ComputerSystem
      *
-     * @var string
+     * @var array
      */
     private function _get_Win32_ComputerSystem()
     {
@@ -108,7 +108,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_Processor
      *
-     * @var string
+     * @var array
      */
     private function _get_Win32_Processor()
     {
