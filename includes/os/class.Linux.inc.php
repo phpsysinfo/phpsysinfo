@@ -149,6 +149,10 @@ class Linux extends OS
                     $result .= ' [docker]';
                 }
             }
+            if (CommonFunctions::rfts('/proc/version', $strBuf2, 0, 4096, false)
+                && preg_match('/^Linux version [\d\.]+-Microsoft/', $strBuf2)) {
+                    $result .= ' [lxss]';
+            }
             $this->sys->setKernel($result);
         }
     }
@@ -1222,11 +1226,6 @@ class Linux extends OS
             if (function_exists('errorHandlerPsi')) {
                 set_error_handler('errorHandlerPsi');
             }
-        }
-        if (preg_match('/^Ubuntu/', $this->sys->getDistribution()) 
-            && CommonFunctions::rfts('/proc/version', $strBuf2, 0, 4096, false)
-            && preg_match('/^Linux version [\d\.]+-Microsoft/', $strBuf2)) {
-                $this->sys->setDistribution($this->sys->getDistribution().' [Microsoft]' );
         }
     }
 
