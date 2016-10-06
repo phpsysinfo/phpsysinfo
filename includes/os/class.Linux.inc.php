@@ -149,7 +149,7 @@ class Linux extends OS
                     $result .= ' [docker]';
                 }
             }
-            if (CommonFunctions::rfts('/proc/version', $strBuf2, 0, 4096, false)
+            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)
                 && preg_match('/^Linux version [\d\.]+-Microsoft/', $strBuf2)) {
                     $result .= ' [lxss]';
             }
