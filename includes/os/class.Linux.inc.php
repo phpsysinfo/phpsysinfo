@@ -1223,6 +1223,11 @@ class Linux extends OS
                 set_error_handler('errorHandlerPsi');
             }
         }
+        if (preg_match('/^Ubuntu/', $this->sys->getDistribution()) 
+            && CommonFunctions::rfts('/proc/version', $strBuf2, 0, 4096, false)
+            && preg_match('/^Linux version [\d\.]+-Microsoft/', $strBuf2)) {
+                $this->sys->setDistribution($this->sys->getDistribution().' [Microsoft]' );
+        }
     }
 
     /**
