@@ -495,150 +495,167 @@ class WINNT extends OS
     {
         if ($this->_wmi) {
             $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
-            $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
-            $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID', 'Speed'));
-
-            foreach ($allDevices as $device) {
-                $dev = new NetDevice();
-                $name = $device['Name'];
-
-                if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
-                    foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                        if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
-                            $dev->setName($NetworkAdapterConfiguration['Description']);
-                            if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                                $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
-                                if (isset($NetworkAdapterConfiguration['IPAddress']))
-                                    foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                        if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
-                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
-                            }
-
-                            break;
-                         }
-                     }
-                     if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                         $speedinfo = null;
-                         foreach ($allNetworkAdapter as $NetworkAdapter) {
-                             if ($ar_name[1]==$NetworkAdapter['GUID']) {
-                             if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
-                                     if ($NetworkAdapter['Speed'] > 1000000000) {
-                                         $speedinfo = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
-                                     } else {
-                                         $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
-                                     }
-                                 }
-                                 break;
-                             }
-                         }
-                         if (($speedinfo !== null) && ($speedinfo !== "")) {
-                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
-                         } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
-                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
+            if (!$allDevices && CommonFunctions::executeProgram('ipconfig', '/all', $devicesbuf, false) && (trim($devicesbuf) !== "")) {
+                $netdevices = preg_split('/^(Ethernet)|(Wireless) [^\n]+\n\r\n/m', $devicesbuf, -1, PREG_SPLIT_NO_EMPTY);
+                if (sizeof($netdevices)>1)  foreach ($netdevices as $devnr=>$netdevice) if ($devnr > 0) {
+                    $bufe = preg_split("/\r\n   /", trim($netdevice), -1, PREG_SPLIT_NO_EMPTY);
+                    $notdiss = true;
+                    foreach ($bufe as $buf) {
+                        list($key, $value) = preg_split('/[\s\.]+: /', $buf, 2);
+                        if (($key == "Media State") && (trim($value) == "Media disconnected")) {
+                            $notdiss = false;
+                        } elseif ($notdiss && ($key == "Description") && (trim($value) !== "")) {
+                            $allDevices[] = array('Name'=>trim($value), 'BytesSentPersec'=>0, 'BytesTotalPersec'=>0, 'BytesReceivedPersec'=>0, 'PacketsReceivedErrors'=>0, 'PacketsReceivedDiscarded'=>0, 'CurrentBandwidth'=>0); 
                         }
                     }
                 }
-                if ($dev->getName() == "") { //no isatap or no isatap description
-                    $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
-                    if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                        $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
-                    $dev->setName($name);
+            }
+            if ($allDevices) {
+                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
+                $allNetworkAdapter = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID', 'Speed'));
 
-                    if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                foreach ($allDevices as $device) {
+                    $dev = new NetDevice();
+                    $name = $device['Name'];
+
+                    if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name, $ar_name)) { //isatap device
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                            if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
-                                if ($dev->getInfo() !== null) {
-                                    $dev->setInfo(''); //multiple with the same name
-                                } else {
+                            if ($ar_name[1]==$NetworkAdapterConfiguration['SettingID']) {
+                                $dev->setName($NetworkAdapterConfiguration['Description']);
+                                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                                     $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
                                         foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                            if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                            if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                 }
-                            }
-                        }
-                        $speedinfo = null;
-                        foreach ($allNetworkAdapter as $NetworkAdapter) {
-                            if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Name']) === $cname) {
-                                if ($speedinfo !== null) {
-                                    $speedinfo = ""; //multiple with the same name
-                                } else {
-                                    if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
-                                        if ($NetworkAdapter['Speed'] > 1000000000) {
+
+                                break;
+                             }
+                         }
+                         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                             $speedinfo = null;
+                             foreach ($allNetworkAdapter as $NetworkAdapter) {
+                                 if ($ar_name[1]==$NetworkAdapter['GUID']) {
+                                     if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
+                                         if ($NetworkAdapter['Speed'] > 1000000000) {
                                              $speedinfo = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
-                                        } else {
-                                            $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
-                                        }
+                                         } else {
+                                             $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                         }
+                                     }
+                                     break;
+                                 }
+                             }
+                             if (($speedinfo !== null) && ($speedinfo !== "")) {
+                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
+                             } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
+                             }
+                        }
+                    }
+                    if ($dev->getName() == "") { //no isatap or no isatap description
+                        $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
+                        if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
+                            $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
+                        $dev->setName($name);
+
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                            foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                                if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
+                                    if ($dev->getInfo() !== null) {
+                                        $dev->setInfo(''); //multiple with the same name
                                     } else {
-                                        $speedinfo = "";
+                                        $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                        if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                            foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                                if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                     }
                                 }
                             }
-                        }
-                        if (($speedinfo !== null) && ($speedinfo !== "")) {
-                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
-                        } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
-                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
+                            $speedinfo = null;
+                            foreach ($allNetworkAdapter as $NetworkAdapter) {
+                                if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapter['Name']) === $cname) {
+                                    if ($speedinfo !== null) {
+                                        $speedinfo = ""; //multiple with the same name
+                                    } else {
+                                        if (!empty($NetworkAdapter['Speed']) && ($NetworkAdapter['Speed']!=="9223372036854775807")) {
+                                            if ($NetworkAdapter['Speed'] > 1000000000) {
+                                                 $speedinfo = ($NetworkAdapter['Speed']/1000000000)."Gb/s";
+                                            } else {
+                                                $speedinfo = ($NetworkAdapter['Speed']/1000000)."Mb/s";
+                                            }
+                                        } else {
+                                            $speedinfo = "";
+                                        }
+                                    }
+                                }
+                            }
+                            if (($speedinfo !== null) && ($speedinfo !== "")) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speedinfo);
+                            } elseif (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
+                            }
                         }
                     }
-                }
 
-                // http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/win32_perfrawdata_tcpip_networkinterface.asp
-                // there is a possible bug in the wmi interfaceabout uint32 and uint64: http://www.ureader.com/message/1244948.aspx, so that
-                // magative numbers would occour, try to calculate the nagative value from total - positive number
-                $txbytes = $device['BytesSentPersec'];
-                $rxbytes = $device['BytesReceivedPersec'];
-                if (($txbytes < 0) && ($rxbytes < 0)) {
-                    $txbytes += 4294967296;
-                    $rxbytes += 4294967296;
-                } elseif ($txbytes < 0) {
-                    if ($device['BytesTotalPersec'] > $rxbytes)
-                       $txbytes = $device['BytesTotalPersec'] - $rxbytes;
-                    else
-                       $txbytes += 4294967296;
-                } elseif ($rxbytes < 0) {
-                    if ($device['BytesTotalPersec'] > $txbytes)
-                       $rxbytes = $device['BytesTotalPersec'] - $txbytes;
-                    else
-                       $rxbytes += 4294967296;
-                }
-                $dev->setTxBytes($txbytes);
-                $dev->setRxBytes($rxbytes);
-                $dev->setErrors($device['PacketsReceivedErrors']);
-                $dev->setDrops($device['PacketsReceivedDiscarded']);
+                    // http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/win32_perfrawdata_tcpip_networkinterface.asp
+                    // there is a possible bug in the wmi interfaceabout uint32 and uint64: http://www.ureader.com/message/1244948.aspx, so that
+                    // magative numbers would occour, try to calculate the nagative value from total - positive number
+                    $txbytes = $device['BytesSentPersec'];
+                    $rxbytes = $device['BytesReceivedPersec'];
+                    if (($txbytes < 0) && ($rxbytes < 0)) {
+                        $txbytes += 4294967296;
+                        $rxbytes += 4294967296;
+                    } elseif ($txbytes < 0) {
+                        if ($device['BytesTotalPersec'] > $rxbytes)
+                           $txbytes = $device['BytesTotalPersec'] - $rxbytes;
+                        else
+                           $txbytes += 4294967296;
+                    } elseif ($rxbytes < 0) {
+                        if ($device['BytesTotalPersec'] > $txbytes)
+                           $rxbytes = $device['BytesTotalPersec'] - $txbytes;
+                        else
+                           $rxbytes += 4294967296;
+                    }
+                    $dev->setTxBytes($txbytes);
+                    $dev->setRxBytes($rxbytes);
+                    $dev->setErrors($device['PacketsReceivedErrors']);
+                    $dev->setDrops($device['PacketsReceivedDiscarded']);
 
-                $this->sys->setNetDevices($dev);
+                    $this->sys->setNetDevices($dev);
+                }
+            } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
+                $netbuf = substr($buffer, $matches[0][1]);
+                if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
+                    $netbuf = substr($netbuf, 0, $matches2[0][1]);
+                }
+                $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
+                $devnr = 0;
+                foreach ($netstrs as $netstr) {
+                    $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
+                    if (sizeof($netstrls)>1) {
+                        $dev = new NetDevice();
+                        foreach ($netstrls as $nr=>$netstrl) {
+                            if ($nr === 0) {
+                                $name = trim($netstrl);
+                                if ($name !== "" ) {
+                                    $dev->setName($name);
+                                } else {
+                                    $dev->setName('dev'.$devnr);
+                                    $devnr++;
+                                }
+                            } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
+                                $ipaddres = trim($netinfo[1]);
+                                if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
+                            }
+                        }
+                        $this->sys->setNetDevices($dev);
+                    }
+                }
             }
-        } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
-           $netbuf = substr($buffer, $matches[0][1]);
-           if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
-               $netbuf = substr($netbuf, 0, $matches2[0][1]);
-           }
-           $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
-           $devnr = 0;
-           foreach ($netstrs as $netstr) {
-               $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
-               if (sizeof($netstrls)>1) {
-                   $dev = new NetDevice();
-                   foreach ($netstrls as $nr=>$netstrl) {
-                       if ($nr === 0) {
-                           $name = trim($netstrl);
-                           if ($name !== "" ) {
-                               $dev->setName($name);
-                           } else {
-                               $dev->setName('dev'.$devnr);
-                               $devnr++;
-                           }
-                       } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
-                           $ipaddres = trim($netinfo[1]);
-                           if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                               $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
-                       }
-                   }
-                   $this->sys->setNetDevices($dev);
-               }
-           }
         }
     }
 
