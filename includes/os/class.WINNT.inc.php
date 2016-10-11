@@ -607,34 +607,34 @@ class WINNT extends OS
 
                     $this->sys->setNetDevices($dev);
                 }
-            } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
-                $netbuf = substr($buffer, $matches[0][1]);
-                if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
-                    $netbuf = substr($netbuf, 0, $matches2[0][1]);
-                }
-                $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
-                $devnr = 0;
-                foreach ($netstrs as $netstr) {
-                    $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
-                    if (sizeof($netstrls)>1) {
-                        $dev = new NetDevice();
-                        foreach ($netstrls as $nr=>$netstrl) {
-                            if ($nr === 0) {
-                                $name = trim($netstrl);
-                                if ($name !== "" ) {
-                                    $dev->setName($name);
-                                } else {
-                                    $dev->setName('dev'.$devnr);
-                                    $devnr++;
-                                }
-                            } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
-                                $ipaddres = trim($netinfo[1]);
-                                if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
+            } 
+        } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
+            $netbuf = substr($buffer, $matches[0][1]);
+            if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
+                $netbuf = substr($netbuf, 0, $matches2[0][1]);
+            }
+            $netstrs = preg_split('/^'.$matches[1][0].'\[\d+\]:/m', $netbuf, -1, PREG_SPLIT_NO_EMPTY);
+            $devnr = 0;
+            foreach ($netstrs as $netstr) {
+                $netstrls = preg_split('/\r\n/', $netstr, -1, PREG_SPLIT_NO_EMPTY);
+                if (sizeof($netstrls)>1) {
+                    $dev = new NetDevice();
+                    foreach ($netstrls as $nr=>$netstrl) {
+                        if ($nr === 0) {
+                            $name = trim($netstrl);
+                            if ($name !== "" ) {
+                                $dev->setName($name);
+                            } else {
+                                $dev->setName('dev'.$devnr);
+                                $devnr++;
                             }
+                        } elseif (preg_match('/\[\d+\]:\s+(.+)/', $netstrl, $netinfo)) {
+                            $ipaddres = trim($netinfo[1]);
+                            if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                         }
-                        $this->sys->setNetDevices($dev);
                     }
+                    $this->sys->setNetDevices($dev);
                 }
             }
         }
