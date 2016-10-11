@@ -517,14 +517,18 @@ class WINNT extends OS
                     && (strlen($strBuf) > 0) 
                     && preg_match_all('/^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\Network\\\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\\\({[^{]+})\\\\Connection\r\n\s+Name\s+REG_SZ\s+([^\r\n]+)/mi',$strBuf, $buffer)) {
                     for ($i = 0; $i < sizeof($buffer[0]); $i++) {
-                        $aliases[$buffer[2][$i]] = $buffer[1][$i];
+                        if (!isset($aliases[$buffer[2][$i]])) { // duplicate checking
+                            $aliases[$buffer[2][$i]] = $buffer[1][$i];
+                        } else {
+                            $aliases[$buffer[2][$i]] = "";
+                        }
                     }
                 }
                 $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
                 foreach ($allDevices as $device) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
-                    if (($aliases) && isset($aliases[$name])) {
+                    if (($aliases) && isset($aliases[$name]) && ($aliases[$name] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                             if ($aliases[$name]==$NetworkAdapterConfiguration['SettingID']) {
                                 $dev->setName($NetworkAdapterConfiguration['Description']);
