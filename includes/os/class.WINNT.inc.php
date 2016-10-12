@@ -494,7 +494,10 @@ class WINNT extends OS
     private function _network()
     {
         if ($this->_wmi) {
-            $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
+            $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkAdapter', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
+            if (!$allDevices) {
+                $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
+            }
             /*if (!$allDevices && CommonFunctions::executeProgram('ipconfig', '/all', $devicesbuf, false) && (trim($devicesbuf) !== "")) {
                 $netdevices = preg_split('/^(Ethernet)|(Wireless)|(Tunnel) [^\n]+\n\r\n/m', $devicesbuf, -1, PREG_SPLIT_NO_EMPTY);
                 if (sizeof($netdevices)>1)  foreach ($netdevices as $devnr=>$netdevice) if ($devnr > 0) {
@@ -525,7 +528,7 @@ class WINNT extends OS
                     }
                 }
                 $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
-                foreach ($allDevices as $device) {
+                foreach ($allDevices as $device) if ($device['CurrentBandwidth'] > 0) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
                     if (($aliases) && isset($aliases[$name]) && ($aliases[$name] !== "")) {
