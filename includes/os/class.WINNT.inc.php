@@ -528,31 +528,24 @@ class WINNT extends OS
                     }
                 }
                 $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
-                foreach ($allDevices as $device) if ($device['CurrentBandwidth'] > 0) {
+                foreach ($allDevices as $device) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
+                    $macexist = false;
                     if (($aliases) && isset($aliases[$name]) && ($aliases[$name] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                             if ($aliases[$name]==$NetworkAdapterConfiguration['SettingID']) {
                                 $dev->setName($NetworkAdapterConfiguration['Description']);
+                                if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                                    if ($NetworkAdapterConfiguration['MACAddress']!=="") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                    if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
                                         foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                            if (($ipaddres!="0.0.0.0") && ($ipaddres!="::") && !preg_match('/^fe80::/i', $ipaddres))
+                                            if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                 }
 
                                 break;
-                            }
-                        }
-                        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                            if (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
-                                if ($speedinfo > 1000000000) {
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000000)."Gb/s");
-                                } else {
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
-                                }
                             }
                         }
                     }
@@ -564,20 +557,30 @@ class WINNT extends OS
                             $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
                         $dev->setName($name);
 
-                        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                            foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                                if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
+                        foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                            if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
+                                $macexist = $macexist || (trim($NetworkAdapterConfiguration['MACAddress']) !== "");
+
+                                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                                     if ($dev->getInfo() !== null) {
                                         $dev->setInfo(''); //multiple with the same name
                                     } else {
-                                        if ($NetworkAdapterConfiguration['MACAddress']!=="") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                        if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                         if (isset($NetworkAdapterConfiguration['IPAddress']))
                                             foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                                if (($ipaddres!="0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
+                                                if (($ipaddres != "0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
                                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                     }
                                 }
                             }
+                        }
+                    }
+                    if ($macexist
+                        || ($device['CurrentBandwidth'] > 0)
+                        || ($device['BytesTotalPersec'] != 0)
+                        || ($device['BytesSentPersec'] != 0)
+                        || ($device['BytesReceivedPersec'] != 0)) { // hide unused
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                             if (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
                                 if ($speedinfo > 1000000000) {
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000000)."Gb/s");
@@ -586,33 +589,33 @@ class WINNT extends OS
                                 }
                             }
                         }
-                    }
 
-                    // http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/win32_perfrawdata_tcpip_networkinterface.asp
-                    // there is a possible bug in the wmi interfaceabout uint32 and uint64: http://www.ureader.com/message/1244948.aspx, so that
-                    // magative numbers would occour, try to calculate the nagative value from total - positive number
-                    $txbytes = $device['BytesSentPersec'];
-                    $rxbytes = $device['BytesReceivedPersec'];
-                    if (($txbytes < 0) && ($rxbytes < 0)) {
-                        $txbytes += 4294967296;
-                        $rxbytes += 4294967296;
-                    } elseif ($txbytes < 0) {
-                        if ($device['BytesTotalPersec'] > $rxbytes)
-                           $txbytes = $device['BytesTotalPersec'] - $rxbytes;
-                        else
-                           $txbytes += 4294967296;
-                    } elseif ($rxbytes < 0) {
-                        if ($device['BytesTotalPersec'] > $txbytes)
-                           $rxbytes = $device['BytesTotalPersec'] - $txbytes;
-                        else
-                           $rxbytes += 4294967296;
-                    }
-                    $dev->setTxBytes($txbytes);
-                    $dev->setRxBytes($rxbytes);
-                    $dev->setErrors($device['PacketsReceivedErrors']);
-                    $dev->setDrops($device['PacketsReceivedDiscarded']);
+                        // http://msdn.microsoft.com/library/default.asp?url=/library/en-us/wmisdk/wmi/win32_perfrawdata_tcpip_networkinterface.asp
+                        // there is a possible bug in the wmi interfaceabout uint32 and uint64: http://www.ureader.com/message/1244948.aspx, so that
+                        // magative numbers would occour, try to calculate the nagative value from total - positive number
+                        $txbytes = $device['BytesSentPersec'];
+                        $rxbytes = $device['BytesReceivedPersec'];
+                        if (($txbytes < 0) && ($rxbytes < 0)) {
+                            $txbytes += 4294967296;
+                            $rxbytes += 4294967296;
+                        } elseif ($txbytes < 0) {
+                            if ($device['BytesTotalPersec'] > $rxbytes)
+                               $txbytes = $device['BytesTotalPersec'] - $rxbytes;
+                            else
+                               $txbytes += 4294967296;
+                        } elseif ($rxbytes < 0) {
+                            if ($device['BytesTotalPersec'] > $txbytes)
+                               $rxbytes = $device['BytesTotalPersec'] - $txbytes;
+                            else
+                               $rxbytes += 4294967296;
+                        }
+                        $dev->setTxBytes($txbytes);
+                        $dev->setRxBytes($rxbytes);
+                        $dev->setErrors($device['PacketsReceivedErrors']);
+                        $dev->setDrops($device['PacketsReceivedDiscarded']);
 
-                    $this->sys->setNetDevices($dev);
+                        $this->sys->setNetDevices($dev);
+                    }
                 }
             } 
         } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
