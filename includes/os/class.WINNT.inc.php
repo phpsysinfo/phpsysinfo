@@ -579,7 +579,9 @@ class WINNT extends OS
                         || ($device['CurrentBandwidth'] > 0)
                         || ($device['BytesTotalPersec'] != 0)
                         || ($device['BytesSentPersec'] != 0)
-                        || ($device['BytesReceivedPersec'] != 0)) { // hide unused
+                        || ($device['BytesReceivedPersec'] != 0)
+                        || ($device['PacketsReceivedErrors'] != 0)
+                        || ($device['PacketsReceivedDiscarded'] != 0)) { // hide unused
                         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                             if (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
                                 if ($speedinfo > 1000000000) {
