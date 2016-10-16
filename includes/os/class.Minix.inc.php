@@ -158,12 +158,13 @@ class Minix extends OS
      */
     private function _kernel()
     {
-        foreach ($this->readdmesg() as $line) {
-            if (preg_match('/kernel: MINIX (.*) \((.*)\)/', $line, $ar_buf)) {
-                $branch = $ar_buf[2];
-            }
-        }
         if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
+            foreach ($this->readdmesg() as $line) {
+                if (preg_match('/kernel: MINIX (\d+\.\d+\.\d+)\. \((.+)\)/', $line, $ar_buf)) {
+                    $branch = $ar_buf[2];
+                    break;
+                }
+            }
             if (isset($branch))
                $this->sys->setKernel($ret.' ('.$branch.')');
             else
