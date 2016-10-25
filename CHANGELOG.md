@@ -8,7 +8,7 @@ phpSysInfo 3.2.7
  - [UPD] jQuery 3.1.1
  - [UPD] Network interfaces info for WinNT
 
- - [ADD] Devuan to detected distros
+ - [ADD] Devuan and SalentOS to detected distros
 
 phpSysInfo 3.2.6
 ----------------
