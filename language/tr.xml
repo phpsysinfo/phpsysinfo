@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: tr.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
+phpSysInfo language file Turkish Language: 
+	Created by: Kamil Sarıaydın
+	Updated by: Emre Saracoglu (4 November 2016 - https://github.com/emresaracoglu)
 -->
 <tns:translation language="turkish" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -19,13 +21,13 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>IP</exp>
   </expression>
   <expression id="005" name="kversion">
-    <exp>Kernel Versiyon</exp>
+    <exp>Çekirdek Versiyonu</exp>
   </expression>
   <expression id="006" name="dversion">
     <exp>Dağıtım Adı</exp>
   </expression>
   <expression id="007" name="uptime">
-    <exp>Uptime</exp>
+    <exp>Çalışma Süresi</exp>
   </expression>
   <expression id="008" name="users">
     <exp>Aktif Kullanıcı</exp>
@@ -43,13 +45,13 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>Model</exp>
   </expression>
   <expression id="013" name="cpuspeed">
-    <exp>CPU Speed</exp>
+    <exp>CPU Hızı</exp>
   </expression>
   <expression id="014" name="busspeed">
-    <exp>BUS Speed</exp>
+    <exp>BUS Hızı</exp>
   </expression>
   <expression id="015" name="cache">
-    <exp>Cache Size</exp>
+    <exp>Önbellek Boyutu</exp>
   </expression>
   <expression id="016" name="bogomips">
     <exp>Sistem Bogomips</exp>
@@ -79,7 +81,7 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>Yollandı</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Err/Drop</exp>
+    <exp>Hata/Drop</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Kurulan Ağ Bağlantıları</exp>
@@ -163,25 +165,25 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>Voltaj</exp>
   </expression>
   <expression id="053" name="fans">
-    <exp>Fans</exp>
+    <exp>Fanlar</exp>
   </expression>
   <expression id="054" name="s_value">
-    <exp>Value</exp>
+    <exp>Değer</exp>
   </expression>
   <expression id="055" name="s_min">
-    <exp>Min</exp>
+    <exp>Taban</exp>
   </expression>
   <expression id="056" name="s_max">
-    <exp>Max</exp>
+    <exp>Tavan</exp>
   </expression>
   <expression id="057" name="hysteresis">
-    <exp>Hysteresis</exp>
+    <exp>Geçikme</exp>
   </expression>
   <expression id="058" name="s_limit">
     <exp>Limit</exp>
   </expression>
   <expression id="059" name="s_label">
-    <exp>Label</exp>
+    <exp>Etiket</exp>
   </expression>
   <expression id="060" name="degreec">
     <exp>C</exp>
@@ -196,13 +198,13 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>RPM</exp>
   </expression>
   <expression id="064" name="app">
-    <exp>Kernel + applications</exp>
+    <exp>Çekirdek + uygulamalar</exp>
   </expression>
   <expression id="065" name="buffers">
-    <exp>Buffers</exp>
+    <exp>Tamponlar</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>Cached</exp>
+    <exp>Ön Belleğe Alındı</exp>
   </expression>
   <expression id="067" name="jumpto">
     <exp>Jump to</exp>
@@ -217,7 +219,7 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>Model</exp>
   </expression>
   <expression id="071" name="ups_mode">
-    <exp>Mode</exp>
+    <exp>Modu</exp>
   </expression>
   <expression id="072" name="ups_start_time">
     <exp>Başlangıç</exp>
@@ -226,13 +228,13 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>Durum</exp>
   </expression>
   <expression id="074" name="ups_outages_count">
-    <exp>Outages</exp>
+    <exp>Kesintiler</exp>
   </expression>
   <expression id="075" name="ups_last_outage">
-    <exp>Last outage cause</exp>
+    <exp>Son Kesinti Sebebi</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Last outage timestamp</exp>
+    <exp>Son Kesinti Zamanı</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
     <exp>Hat voltajı</exp>
@@ -295,64 +297,64 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Sistem Lisanı</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Kod Sayfa</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Detaylar</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>CPU Tavan Hızı</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>CPU Taban Hızı</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Güç</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Batarya Tarihi</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Mevcut</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Makine</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Hat Frekansı</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>İşlemciler</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>çalışıyor</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>uyuyor</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>durduruldu</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>bekliyor</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>diğer</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>TB Aygıtlar</exp>
@@ -361,9 +363,9 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın
     <exp>I2C Aygıtlar</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>İşlemcilerin numaralari</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Sürücülerin numaralari</exp>
   </expression>
 </tns:translation>
