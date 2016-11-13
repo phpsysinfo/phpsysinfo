@@ -52,21 +52,21 @@ class PS extends PSI_Plugin
         case 'command':
             if (PSI_OS == 'WINNT') {
                 try {
-                    $objLocator = new COM("WbemScripting.SWbemLocator");
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
                     $wmi = $objLocator->ConnectServer();
-                    $os_wmi = $wmi->InstancesOf('Win32_OperatingSystem');
+                    $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     foreach ($os_wmi as $os) {
-                        $memtotal = $os->TotalVisibleMemorySize * 1024;
+                        $memtotal = $os['TotalVisibleMemorySize'] * 1024;
                     }
-                    $process_wmi = $wmi->InstancesOf('Win32_Process');
+                    $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
-                        if (strlen(trim($process->CommandLine)) > 0) {
-                            $ps = trim($process->CommandLine);
+                        if (strlen(trim($process['CommandLine'])) > 0) {
+                            $ps = trim($process['CommandLine']);
                         } else {
-                            $ps = trim($process->Caption);
+                            $ps = trim($process['Caption']);
                         }
-                        if (trim($process->ProcessId) != 0) {
-                            $memusage = round(trim($process->WorkingSetSize) * 100 / $memtotal, 1);
+                        if (trim($process['ProcessId']) != 0) {
+                            $memusage = round(trim($process['WorkingSetSize']) * 100 / $memtotal, 1);
                             //ParentProcessId
                             //Unique identifier of the process that creates a process. Process identifier numbers are reused, so they
                             //only identify a process for the lifetime of that process. It is possible that the process identified by
@@ -75,7 +75,7 @@ class PS extends PSI_Plugin
                             //use the CreationDate property to determine whether the specified parent was created after the process
                             //represented by this Win32_Process instance was created.
                             //=> subtrees of processes may be missing (WHAT TODO?!?)
-                            $this->_filecontent[] = trim($process->ProcessId)." ".trim($process->ParentProcessId)." ".$memusage." ".$ps;
+                            $this->_filecontent[] = trim($process['ProcessId'])." ".trim($process['ParentProcessId'])." ".$memusage." ".$ps;
                         }
                     }
                 } catch (Exception $e) {

@@ -133,19 +133,10 @@ class WINNT extends OS
     public function __construct()
     {
         parent::__construct();
-        // don't set this params for local connection, it will not work
-        $strHostname = '';
-        $strUser = '';
-        $strPassword = '';
         try {
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
-            if ($strHostname == "") {
-                $this->_wmi = $objLocator->ConnectServer();
-
-            } else {
-                $this->_wmi = $objLocator->ConnectServer($strHostname, 'root\CIMv2', $strHostname.'\\'.$strUser, $strPassword);
-            }
+            $this->_wmi = $objLocator->ConnectServer();
         } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }

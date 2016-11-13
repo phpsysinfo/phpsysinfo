@@ -55,11 +55,11 @@ class PSStatus extends PSI_Plugin
         case 'command':
             if (PSI_OS == 'WINNT') {
                 try {
-                    $objLocator = new COM("WbemScripting.SWbemLocator");
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
                     $wmi = $objLocator->ConnectServer();
-                    $process_wmi = $wmi->InstancesOf('Win32_Process');
+                    $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
                     foreach ($process_wmi as $process) {
-                        $this->_filecontent[] = array(strtolower(trim($process->Caption)), trim($process->ProcessId));
+                        $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
                     }
                 } catch (Exception $e) {
                 }

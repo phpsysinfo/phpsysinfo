@@ -40,19 +40,10 @@ class ThermalZone extends Sensors
         parent::__construct();
         if (PSI_OS == 'WINNT') {
             $_wmi = null;
-            // don't set this params for local connection, it will not work
-            $strHostname = '';
-            $strUser = '';
-            $strPassword = '';
             try {
                 // initialize the wmi object
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                if ($strHostname == "") {
-                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI');
-
-                } else {
-                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI', $strHostname.'\\'.$strUser, $strPassword);
-                }
+                $_wmi = $objLocator->ConnectServer('', 'root\WMI');
             } catch (Exception $e) {
                 $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
             }
