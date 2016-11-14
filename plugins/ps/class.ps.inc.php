@@ -53,7 +53,7 @@ class PS extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $wmi = $objLocator->ConnectServer();
+                    $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     foreach ($os_wmi as $os) {
                         $memtotal = $os['TotalVisibleMemorySize'] * 1024;

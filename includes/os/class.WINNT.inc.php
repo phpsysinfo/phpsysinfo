@@ -136,7 +136,7 @@ class WINNT extends OS
         try {
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
-            $this->_wmi = $objLocator->ConnectServer();
+            $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
         } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }

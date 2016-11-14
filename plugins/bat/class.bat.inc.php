@@ -40,7 +40,7 @@ class BAT extends PSI_Plugin
                 try {
                     // initialize the wmi object
                     $objLocatorCIM = new COM('WbemScripting.SWbemLocator');
-                    $_cim = $objLocatorCIM->ConnectServer();
+                    $_cim = $objLocatorCIM->ConnectServer('', 'root\CIMv2');
 
                     // initialize the wmi object
                     $objLocatorWMI = new COM('WbemScripting.SWbemLocator');
