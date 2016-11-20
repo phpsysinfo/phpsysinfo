@@ -10,6 +10,8 @@ phpSysInfo 3.2.7
 
  - [ADD] Devuan and SalentOS to detected distros
 
+ - [NEW] Raspberry Pi detection
+
 phpSysInfo 3.2.6
 ----------------
  - [UPD] jQuery 3.1.0 and jQuery 1.12.4

@@ -255,6 +255,115 @@ class Linux extends OS
     }
 
     /**
+     * Set Raspberry device name
+     *
+     * @return CPU name
+     */
+    private function setRaspberry($revihex)
+    {
+        $machine = '';
+        $pcb = '';
+        $cpuname = '';
+
+        switch (strtolower($revihex)) {
+        case '0002':
+        case '0003':
+            $machine = ' B';
+            $pcb = ' (PCB 1.0)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0004':
+        case '0005':
+        case '0006':
+        case '000d':
+        case '000e':
+        case '000f':
+            $machine = ' B';
+            $pcb = ' (PCB 2.0)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0007':
+        case '0008':
+        case '0009':
+            $machine = ' A';
+            $pcb = ' (PCB 2.0)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0011':
+        case '0014':
+            $machine = ' Compute Module';
+            $pcb = ' (PCB 1.0)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0012':
+        case '0015':
+            $machine = ' A+';
+            $pcb = ' (PCB 1.1)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0010':
+            $machine = ' B+';
+            $pcb = ' (PCB 1.0)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        case '0013':
+            $machine = ' B+';
+            $pcb = ' (PCB 1.2)';
+            $cpuname = 'ARM1176JZF-S';
+            break;
+        default:
+            $revi = hexdec($revihex);
+            if ($revi & 0x800000) {
+                $pcb = ' (PCB 1.'.($revi & 15).')';
+                $cpu = ($revi >> 12) & 15;
+                switch ($cpu) {
+                    case 0: $cpuname = 'ARM1176JZF-S';
+                            break;
+                    case 1: $cpuname = 'Cortex-A7';
+                            break;
+                    case 2: $cpuname = 'Cortex-A53';
+                            break;
+                }
+                $ver = ($revi >> 4) & 255;
+                switch ($ver) {
+                    case 0:
+                        $machine = ' A';
+                        break;
+                    case 1:
+                        $machine = ' B';
+                        break;
+                    case 2:
+                        $machine = ' A+';
+                        break;
+                    case 3:
+                        $machine = ' B+';
+                        break;
+                    case 4:
+                        $machine = ' 2 B';
+                        break;
+                    case 5:
+                        $machine = ' Alpha';
+                        break;
+                    case 7:
+                        $machine = ' Compute Module';
+                        break;
+                    case 8:
+                        $machine = ' 3 B';
+                        break;
+                    case 9:
+                        $machine = ' Zero';
+                        break;
+                }
+            }
+        }
+
+        if ($this->sys->getMachine() === "") {
+            $this->sys->setMachine('Raspberry Pi'.$machine.$pcb);
+        }
+        return $cpuname;
+    }
+
+    /**
      * CPU information
      * All of the tags here are highly architecture dependant.
      *
@@ -264,10 +373,53 @@ class Linux extends OS
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
+
+            //first stage
+            $_arch = null;
+            $_impl = null;
+            $_hard = null;
+            $_revi = null;
+            $_cpus = null;
+            $_buss = null;
+            foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
+                $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($details as $detail) {
+                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
+                    if (count($arrBuff) == 2) {
+                        switch (strtolower($arrBuff[0])) {
+                        case 'cpu architecture':
+                            $_arch = trim($arrBuff[1]);
+                            break;
+                        case 'cpu implementer':
+                            $_impl = trim($arrBuff[1]);
+                            break;
+                        case 'hardware':
+                            $_hard = trim($arrBuff[1]);
+                            break;
+                        case 'revision':
+                            $_revi = trim($arrBuff[1]);
+                            break;
+                        case 'cpu frequency':
+                            if (preg_match('/^(\d+)\s+Hz/i', trim($arrBuff[1]), $bufr2)) {
+                                $_cpus = round($bufr2[1]/1000000);
+                            }
+                            break;
+                        case 'system bus frequency':
+                            if (preg_match('/^(\d+)\s+Hz/i', trim($arrBuff[1]), $bufr2)) {
+                                $_buss = round($bufr2[1]/1000000);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //second stage
             $procname = null;
-            foreach ($processors as $processor) {
+            foreach ($processors as $processor) if (preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $proc = null;
                 $arch = null;
+                $impl = null;
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
@@ -310,7 +462,7 @@ class Linux extends OS
                         case 'initial bogomips':
                         case 'bogomips':
                         case 'cpu0bogo':
-                            $dev->setBogomips($arrBuff[1]);
+                            $dev->setBogomips(round($arrBuff[1]));
                             break;
                         case 'flags':
                             if (preg_match("/ vmx/", $arrBuff[1])) {
@@ -332,9 +484,16 @@ class Linux extends OS
                         case 'cpu architecture':
                             $arch = trim($arrBuff[1]);
                             break;
+                        case 'cpu implementer':
+                            $impl = trim($arrBuff[1]);
+                            break;
                         }
                     }
                 }
+                if ($arch === null) $arch = $_arch;
+                if ($impl === null) $impl = $_impl;
+
+
                 // sparc64 specific code follows
                 // This adds the ability to display the cache that a CPU has
                 // Originally made by Sven Blumenstein <bazik@gentoo.org> in 2004
@@ -352,6 +511,9 @@ class Linux extends OS
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS
                 }
+
+                if (($dev->getBusSpeed() == 0) && ($_buss !== null)) $dev->setBusSpeed($_buss);
+                if (($dev->getCpuSpeed() == 0) && ($_cpus !== null)) $dev->setCpuSpeed($_cpus);
 
                 if ($proc != null) {
                     if (!is_numeric($proc)) {
@@ -377,6 +539,19 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
                     }
+                    // Raspbery detection
+                    if (($arch === '7') && ($impl === '0x41')
+                      && (($_hard === 'BCM2708') || ($_hard === 'BCM2709') || ($_hard === 'BCM2710'))
+                      && ($_revi !== null)) {
+                        if (($cputype = $this->setRaspberry($_revi)) !== "") {
+                            if (($cpumodel = $dev->getModel()) !== "") {
+                                $dev->setModel($cpumodel.' - '.$cputype);
+                            } else {
+                                $dev->setModel($cputype);
+                            }
+                        }
+                    }
+
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
