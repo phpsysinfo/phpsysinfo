@@ -344,7 +344,7 @@ class Linux extends OS
                     case 5:
                         $machine = ' Alpha';
                         break;
-                    case 7:
+                    case 6:
                         $machine = ' Compute Module';
                         break;
                     case 8:
