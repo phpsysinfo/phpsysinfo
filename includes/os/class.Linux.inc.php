@@ -259,7 +259,7 @@ class Linux extends OS
      *
      * @return CPU name
      */
-    private function setRaspberry($revihex)
+    private function setRaspberry($revihex, $cpupart)
     {
         $machine = '';
         $pcb = '';
@@ -270,7 +270,7 @@ class Linux extends OS
         case '0003':
             $machine = ' B';
             $pcb = ' (PCB 1.0)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0004':
         case '0005':
@@ -280,36 +280,36 @@ class Linux extends OS
         case '000f':
             $machine = ' B';
             $pcb = ' (PCB 2.0)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0007':
         case '0008':
         case '0009':
             $machine = ' A';
             $pcb = ' (PCB 2.0)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0011':
         case '0014':
             $machine = ' Compute Module';
             $pcb = ' (PCB 1.0)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0012':
         case '0015':
             $machine = ' A+';
             $pcb = ' (PCB 1.1)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0010':
             $machine = ' B+';
             $pcb = ' (PCB 1.0)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         case '0013':
             $machine = ' B+';
             $pcb = ' (PCB 1.2)';
-            $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
             break;
         default:
             $revi = hexdec($revihex);
@@ -317,11 +317,11 @@ class Linux extends OS
                 $pcb = ' (PCB 1.'.($revi & 15).')';
                 $cpu = ($revi >> 12) & 15;
                 switch ($cpu) {
-                    case 0: $cpuname = 'ARM1176JZF-S';
+                    case 0: if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
                             break;
-                    case 1: $cpuname = 'Cortex-A7';
+                    case 1: if ($cpupart==="0xc07") $cpuname = 'Cortex-A7';
                             break;
-                    case 2: $cpuname = 'Cortex-A53';
+                    case 2: if ($cpupart==="0xd03") $cpuname = 'Cortex-A53';
                             break;
                 }
                 $ver = ($revi >> 4) & 255;
@@ -377,6 +377,7 @@ class Linux extends OS
             //first stage
             $_arch = null;
             $_impl = null;
+            $_part = null;
             $_hard = null;
             $_revi = null;
             $_cpus = null;
@@ -392,6 +393,9 @@ class Linux extends OS
                             break;
                         case 'cpu implementer':
                             $_impl = trim($arrBuff[1]);
+                            break;
+                        case 'cpu part':
+                            $_part = trim($arrBuff[1]);
                             break;
                         case 'hardware':
                             $_hard = trim($arrBuff[1]);
@@ -420,6 +424,7 @@ class Linux extends OS
                 $proc = null;
                 $arch = null;
                 $impl = null;
+                $part = null;
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
@@ -487,11 +492,15 @@ class Linux extends OS
                         case 'cpu implementer':
                             $impl = trim($arrBuff[1]);
                             break;
+                        case 'cpu part':
+                            $part = trim($arrBuff[1]);
+                            break;
                         }
                     }
                 }
                 if ($arch === null) $arch = $_arch;
                 if ($impl === null) $impl = $_impl;
+                if ($part === null) $part = $_part;
 
 
                 // sparc64 specific code follows
@@ -543,7 +552,7 @@ class Linux extends OS
                     if (($arch === '7') && ($impl === '0x41')
                       && (($_hard === 'BCM2708') || ($_hard === 'BCM2709') || ($_hard === 'BCM2710'))
                       && ($_revi !== null)) {
-                        if (($cputype = $this->setRaspberry($_revi)) !== "") {
+                        if (($cputype = $this->setRaspberry($_revi, $part)) !== "") {
                             if (($cpumodel = $dev->getModel()) !== "") {
                                 $dev->setModel($cpumodel.' - '.$cputype);
                             } else {

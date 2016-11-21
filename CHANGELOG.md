@@ -10,7 +10,7 @@ phpSysInfo 3.2.7
 
  - [ADD] Devuan and SalentOS to detected distros
 
- - [NEW] Raspberry Pi detection
+ - [NEW] Raspberry Pi detection on Linux
 
 phpSysInfo 3.2.6
 ----------------
