@@ -261,106 +261,46 @@ class Linux extends OS
      */
     private function setRaspberry($revihex, $cpupart)
     {
-        $machine = '';
-        $pcb = '';
-        $cpuname = '';
+        $list = @parse_ini_file(APP_ROOT."/data/raspberry.ini", true);
+        if (!$list) {
+            return '';
+        }
 
-        switch (strtolower($revihex)) {
-        case '0002':
-        case '0003':
-            $machine = ' B';
-            $pcb = ' (PCB 1.0)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0004':
-        case '0005':
-        case '0006':
-        case '000d':
-        case '000e':
-        case '000f':
-            $machine = ' B';
-            $pcb = ' (PCB 2.0)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0007':
-        case '0008':
-        case '0009':
-            $machine = ' A';
-            $pcb = ' (PCB 2.0)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0011':
-        case '0014':
-            $machine = ' Compute Module';
-            $pcb = ' (PCB 1.0)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0012':
-        case '0015':
-            $machine = ' A+';
-            $pcb = ' (PCB 1.1)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0010':
-            $machine = ' B+';
-            $pcb = ' (PCB 1.0)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        case '0013':
-            $machine = ' B+';
-            $pcb = ' (PCB 1.2)';
-            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-            break;
-        default:
-            $revi = hexdec($revihex);
-            if ($revi & 0x800000) {
-                $pcb = ' (PCB 1.'.($revi & 15).')';
-                $cpu = ($revi >> 12) & 15;
-                switch ($cpu) {
-                    case 0: if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
-                            break;
-                    case 1: if ($cpupart==='0xc07') $cpuname = 'Cortex-A7';
-                            break;
-                    case 2: if ($cpupart==='0xd03') $cpuname = 'Cortex-A53';
-                            break;
+        if (strlen($revihex) == 4) {
+            if ($this->sys->getMachine() === "") {
+                if (isset($list['old']['_'.$revihex])) {
+                    $this->sys->setMachine('Raspberry Pi '.$list['old']['_'.$revihex]);
+                } else {
+                    $this->sys->setMachine('Raspberry Pi');
                 }
-                $ver = ($revi >> 4) & 255;
-                switch ($ver) {
-                    case 0:
-                        $machine = ' A';
-                        break;
-                    case 1:
-                        $machine = ' B';
-                        break;
-                    case 2:
-                        $machine = ' A+';
-                        break;
-                    case 3:
-                        $machine = ' B+';
-                        break;
-                    case 4:
-                        $machine = ' 2 B';
-                        break;
-                    case 5:
-                        $machine = ' Alpha';
-                        break;
-                    case 6:
-                        $machine = ' Compute Module';
-                        break;
-                    case 8:
-                        $machine = ' 3 B';
-                        break;
-                    case 9:
-                        $machine = ' Zero';
-                        break;
+            }
+            if (isset($list['cpu'][0])) {
+                $cpu_buf = preg_split("/:/", $list['cpu'][0], 2);
+                if (trim($cpupart) === trim($cpu_buf[0])) {
+                    return trim($cpu_buf[1]);
+                } else {
+                    return '';
+                }
+            }
+        } elseif (($revi = hexdec($revihex)) & 0x800000) {
+            if ($this->sys->getMachine() === "") {
+                $model = ($revi >> 4) & 255;
+                if (isset($list['model'][$model])) {
+                    $this->sys->setMachine('Raspberry Pi '.$list['model'][$model].' (PCB 1.'.($revi & 15).')');
+                } else {
+                    $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revi & 15).')');
+                }
+            }
+            $cpu = ($revi >> 12) & 15;
+            if (isset($list['cpu'][$cpu])) {
+                $cpu_buf = preg_split("/:/", $list['cpu'][$cpu], 2);
+                if (trim($cpupart) === trim($cpu_buf[0])) {
+                    return trim($cpu_buf[1]);
+                } else {
+                    return '';
                 }
             }
         }
-
-        if ($this->sys->getMachine() === "") {
-            $this->sys->setMachine('Raspberry Pi'.$machine.$pcb);
-        }
-        return $cpuname;
     }
 
     /**
