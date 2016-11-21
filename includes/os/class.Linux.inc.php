@@ -270,7 +270,7 @@ class Linux extends OS
         case '0003':
             $machine = ' B';
             $pcb = ' (PCB 1.0)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0004':
         case '0005':
@@ -280,36 +280,36 @@ class Linux extends OS
         case '000f':
             $machine = ' B';
             $pcb = ' (PCB 2.0)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0007':
         case '0008':
         case '0009':
             $machine = ' A';
             $pcb = ' (PCB 2.0)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0011':
         case '0014':
             $machine = ' Compute Module';
             $pcb = ' (PCB 1.0)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0012':
         case '0015':
             $machine = ' A+';
             $pcb = ' (PCB 1.1)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0010':
             $machine = ' B+';
             $pcb = ' (PCB 1.0)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         case '0013':
             $machine = ' B+';
             $pcb = ' (PCB 1.2)';
-            if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+            if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
             break;
         default:
             $revi = hexdec($revihex);
@@ -317,11 +317,11 @@ class Linux extends OS
                 $pcb = ' (PCB 1.'.($revi & 15).')';
                 $cpu = ($revi >> 12) & 15;
                 switch ($cpu) {
-                    case 0: if ($cpupart==="0xb76") $cpuname = 'ARM1176JZF-S';
+                    case 0: if ($cpupart==='0xb76') $cpuname = 'ARM1176JZF-S';
                             break;
-                    case 1: if ($cpupart==="0xc07") $cpuname = 'Cortex-A7';
+                    case 1: if ($cpupart==='0xc07') $cpuname = 'Cortex-A7';
                             break;
-                    case 2: if ($cpupart==="0xd03") $cpuname = 'Cortex-A53';
+                    case 2: if ($cpupart==='0xd03') $cpuname = 'Cortex-A53';
                             break;
                 }
                 $ver = ($revi >> 4) & 255;
