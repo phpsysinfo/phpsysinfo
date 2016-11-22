@@ -9,6 +9,7 @@ phpSysInfo 3.2.7
  - [UPD] Network interfaces info for WinNT
  - [UPD] Turkish Translation tr.xml
  - [UPD] Greek Translation gr.xml
+ - [UPD] Korean Translation ko.xml
 
  - [ADD] Devuan and SalentOS to detected distros
 
