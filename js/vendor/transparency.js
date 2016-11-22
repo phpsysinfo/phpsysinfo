@@ -1,5 +1,5 @@
 /* ========================================================================
- * transparency.js v0.1.0
+ * transparency.js v0.10.0
  * http://leonidas.github.io/transparency/
  * Licensed under MIT (https://github.com/leonidas/transparency/blob/master/LICENSE)
  * ======================================================================== */
