@@ -37,7 +37,7 @@ USED     : provide a modal dialog, that is shown when errors are found during ex
 jquery.timer.js
 ----------------
 VERSION  : 0.1
-URL      : http://plugins.jquery.com/project/Timer
+URL      : http://plugins.jquery.com/project/Timer; https://github.com/sloat/timer
 DESC     : provides a cleaner way to handle intervals
 USED     : automatic reloading of the entire page
 
