@@ -34,7 +34,7 @@ DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
            in this way: if there are error elements in the xml file
 
-jquery.timers.js
+jquery.timer.js
 ----------------
 VERSION  : 0.1
 URL      : http://plugins.jquery.com/project/Timer
