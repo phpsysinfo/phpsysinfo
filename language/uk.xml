@@ -22,7 +22,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Версія ядра</exp>
   </expression>
   <expression id="006" name="dversion">
-    <exp>Назва дістрибутиву</exp>
+    <exp>Назва дистрибутиву</exp>
   </expression>
   <expression id="007" name="uptime">
     <exp>Час роботи</exp>
@@ -148,13 +148,13 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Згенеровано за допомогою</exp>
   </expression>
   <expression id="048" name="days">
-    <exp>дні</exp>
+    <exp>днів</exp>
   </expression>
   <expression id="049" name="hours">
-    <exp>години</exp>
+    <exp>годин</exp>
   </expression>
   <expression id="050" name="minutes">
-    <exp>хвилини</exp>
+    <exp>хвилин</exp>
   </expression>
   <expression id="051" name="temperature">
     <exp>Температура</exp>
@@ -286,10 +286,10 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Віртуалізація</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Останнє завантаження</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
@@ -334,25 +334,25 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Процеси</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>працюють</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>сплять</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>зупинено</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
-    <exp>zombie</exp>
+    <exp>зомбі</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>очікують</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>інше</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>TB пристрої</exp>
