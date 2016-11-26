@@ -10,6 +10,7 @@ phpSysInfo 3.2.7
  - [UPD] Turkish Translation tr.xml
  - [UPD] Greek Translation gr.xml
  - [UPD] Korean Translation ko.xml
+ - [UPD] Ukrainian Translation uk.xml
 
  - [ADD] Devuan and SalentOS to detected distros
 
