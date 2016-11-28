@@ -326,30 +326,30 @@ class Linux extends OS
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
                     $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if (count($arrBuff) == 2) {
+                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
                         switch (strtolower($arrBuff[0])) {
                         case 'cpu architecture':
-                            $_arch = trim($arrBuff[1]);
+                            $_arch = $arrBuff1;
                             break;
                         case 'cpu implementer':
-                            $_impl = trim($arrBuff[1]);
+                            $_impl = $arrBuff1;
                             break;
                         case 'cpu part':
-                            $_part = trim($arrBuff[1]);
+                            $_part = $arrBuff1;
                             break;
                         case 'hardware':
-                            $_hard = trim($arrBuff[1]);
+                            $_hard = $arrBuff1;
                             break;
                         case 'revision':
-                            $_revi = trim($arrBuff[1]);
+                            $_revi = $arrBuff1;
                             break;
                         case 'cpu frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', trim($arrBuff[1]), $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
                                 $_cpus = round($bufr2[1]/1000000);
                             }
                             break;
                         case 'system bus frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', trim($arrBuff[1]), $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
                                 $_buss = round($bufr2[1]/1000000);
                             }
                             break;
@@ -369,10 +369,10 @@ class Linux extends OS
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
                     $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if (count($arrBuff) == 2) {
+                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
                         switch (strtolower($arrBuff[0])) {
                         case 'processor':
-                            $proc = trim($arrBuff[1]);
+                            $proc = $arrBuff1;
                             if (is_numeric($proc)) {
                                 if (strlen($procname)>0) {
                                     $dev->setModel($procname);
@@ -386,54 +386,54 @@ class Linux extends OS
                         case 'cpu model':
                         case 'cpu type':
                         case 'cpu':
-                            $dev->setModel($arrBuff[1]);
+                            $dev->setModel($arrBuff1);
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            if ($arrBuff[1] > 0) { //openSUSE fix
-                                $dev->setCpuSpeed($arrBuff[1]);
+                            if ($arrBuff1 > 0) { //openSUSE fix
+                                $dev->setCpuSpeed($arrBuff1);
                             }
                             break;
                         case 'cycle frequency [hz]':
-                            $dev->setCpuSpeed($arrBuff[1] / 1000000);
+                            $dev->setCpuSpeed($arrBuff1 / 1000000);
                             break;
                         case 'cpu0clktck':
-                            $dev->setCpuSpeed(hexdec($arrBuff[1]) / 1000000); // Linux sparc64
+                            $dev->setCpuSpeed(hexdec($arrBuff1) / 1000000); // Linux sparc64
                             break;
                         case 'l2 cache':
                         case 'cache size':
-                            $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff[1]) * 1024);
+                            $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff1) * 1024);
                             break;
                         case 'initial bogomips':
                         case 'bogomips':
                         case 'cpu0bogo':
-                            $dev->setBogomips(round($arrBuff[1]));
+                            $dev->setBogomips(round($arrBuff1));
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/", $arrBuff[1])) {
+                            if (preg_match("/ vmx/", $arrBuff1)) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/", $arrBuff[1])) {
+                            } elseif (preg_match("/ svm/", $arrBuff1)) {
                                 $dev->setVirt("svm");
-                            } elseif (preg_match("/ hypervisor/", $arrBuff[1])) {
+                            } elseif (preg_match("/ hypervisor/", $arrBuff1)) {
                                 $dev->setVirt("hypervisor");
                             }
                             break;
                         case 'i size':
                         case 'd size':
                             if ($dev->getCache() === null) {
-                                $dev->setCache($arrBuff[1] * 1024);
+                                $dev->setCache($arrBuff1 * 1024);
                             } else {
-                                $dev->setCache($dev->getCache() + ($arrBuff[1] * 1024));
+                                $dev->setCache($dev->getCache() + ($arrBuff1 * 1024));
                             }
                             break;
                         case 'cpu architecture':
-                            $arch = trim($arrBuff[1]);
+                            $arch = $arrBuff1;
                             break;
                         case 'cpu implementer':
-                            $impl = trim($arrBuff[1]);
+                            $impl = $arrBuff1;
                             break;
                         case 'cpu part':
-                            $part = trim($arrBuff[1]);
+                            $part = $arrBuff1;
                             break;
                         }
                     }
@@ -498,6 +498,10 @@ class Linux extends OS
                             } else {
                                 $dev->setModel($cputype);
                             }
+                        }
+                    } else { // other hardware
+                        if (($_hard !== null) && ($this->sys->getMachine() === "")) {
+                            $this->sys->setMachine($_hard);
                         }
                     }
 
