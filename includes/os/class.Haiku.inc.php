@@ -67,7 +67,6 @@ class Haiku extends OS
                     }
                     if ($cpuspeed != "")$dev->setCpuSpeed($cpuspeed);
                     $this->sys->setCpus($dev);
-                  //echo ">>>>>".$cpu;
                 }
             }
         }
