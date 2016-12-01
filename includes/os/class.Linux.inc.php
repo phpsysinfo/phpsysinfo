@@ -301,6 +301,7 @@ class Linux extends OS
                 }
             }
         }
+        return '';
     }
 
     /**
