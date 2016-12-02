@@ -266,23 +266,7 @@ class Linux extends OS
             return '';
         }
 
-        if (strlen($revihex) == 4) {
-            if ($this->sys->getMachine() === "") {
-                if (isset($list['old']['_'.$revihex])) {
-                    $this->sys->setMachine('Raspberry Pi '.$list['old']['_'.$revihex]);
-                } else {
-                    $this->sys->setMachine('Raspberry Pi');
-                }
-            }
-            if (isset($list['cpu'][0])) {
-                $cpu_buf = preg_split("/:/", $list['cpu'][0], 2);
-                if (trim($cpupart) === trim($cpu_buf[0])) {
-                    return trim($cpu_buf[1]);
-                } else {
-                    return '';
-                }
-            }
-        } elseif (($revi = hexdec($revihex)) & 0x800000) {
+        if (($revi = hexdec($revihex)) & 0x800000) {
             if ($this->sys->getMachine() === "") {
                 $model = ($revi >> 4) & 255;
                 if (isset($list['model'][$model])) {
@@ -299,9 +283,28 @@ class Linux extends OS
                 } else {
                     return '';
                 }
+            } else {
+                return '';
+            }
+        } else {
+            if ($this->sys->getMachine() === "") {
+                if (isset($list['old'][$revi & 0xffff])) {
+                    $this->sys->setMachine('Raspberry Pi '.$list['old'][$revi & 0xffff]);
+                } else {
+                    $this->sys->setMachine('Raspberry Pi');
+                }
+            }
+            if (isset($list['cpu'][0])) {
+                $cpu_buf = preg_split("/:/", $list['cpu'][0], 2);
+                if (trim($cpupart) === trim($cpu_buf[0])) {
+                    return trim($cpu_buf[1]);
+                } else {
+                    return '';
+                }
+            } else {
+                return '';
             }
         }
-        return '';
     }
 
     /**
