@@ -262,7 +262,7 @@ class Linux extends OS
     private function setRaspberry($revihex, $cpupart)
     {
         $list = @parse_ini_file(APP_ROOT."/data/raspberry.ini", true);
-        if (!$list) {
+        if (!$list || preg_match('/[^0-9,a-f]/', $revihex)) {
             return '';
         }
 
