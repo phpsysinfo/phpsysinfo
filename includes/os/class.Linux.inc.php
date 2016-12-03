@@ -288,8 +288,8 @@ class Linux extends OS
             }
         } else {
             if ($this->sys->getMachine() === "") {
-                if (isset($list['old'][$revi & 0xffff])) {
-                    $this->sys->setMachine('Raspberry Pi '.$list['old'][$revi & 0xffff]);
+                if (isset($list['old'][$revi & 0x7fffff])) {
+                    $this->sys->setMachine('Raspberry Pi '.$list['old'][$revi & 0x7fffff]);
                 } else {
                     $this->sys->setMachine('Raspberry Pi');
                 }
