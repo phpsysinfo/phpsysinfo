@@ -981,13 +981,13 @@ class Linux extends OS
         if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
             $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                if (preg_match('/^MemTotal:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemTotal($ar_buf[1] * 1024);
-                } elseif (preg_match('/^MemFree:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                } elseif (preg_match('/^MemFree:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemFree($ar_buf[1] * 1024);
-                } elseif (preg_match('/^Cached:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                } elseif (preg_match('/^Cached:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemCache($ar_buf[1] * 1024);
-                } elseif (preg_match('/^Buffers:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                } elseif (preg_match('/^Buffers:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemBuffer($ar_buf[1] * 1024);
                 }
             }
