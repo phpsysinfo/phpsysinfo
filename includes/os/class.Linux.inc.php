@@ -406,7 +406,7 @@ class Linux extends OS
                             break;
                         case 'l2 cache':
                         case 'cache size':
-                            $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff1) * 1024);
+                            $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff1)) * 1024);
                             break;
                         case 'initial bogomips':
                         case 'bogomips':
