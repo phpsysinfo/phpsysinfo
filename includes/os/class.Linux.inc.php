@@ -454,7 +454,7 @@ class Linux extends OS
                 $sparclist = array('SUNW,UltraSPARC@0,0', 'SUNW,UltraSPARC-II@0,0', 'SUNW,UltraSPARC@1c,0', 'SUNW,UltraSPARC-IIi@1c,0', 'SUNW,UltraSPARC-II@1c,0', 'SUNW,UltraSPARC-IIe@0,0');
                 foreach ($sparclist as $name) {
                     if (CommonFunctions::rfts('/proc/openprom/'.$name.'/ecache-size', $buf, 1, 32, false)) {
-                        $dev->setCache(base_convert($buf, 16, 10));
+                        $dev->setCache(base_convert(trim($buf), 16, 10));
                     }
                 }
                 // sparc64 specific code ends
@@ -474,15 +474,15 @@ class Linux extends OS
                     }
                     // variable speed processors specific code follows
                     if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_cur_freq', $buf, 1, 4096, false)) {
-                        $dev->setCpuSpeed($buf / 1000);
+                        $dev->setCpuSpeed(trim($buf) / 1000);
                     } elseif (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/scaling_cur_freq', $buf, 1, 4096, false)) {
-                        $dev->setCpuSpeed($buf / 1000);
+                        $dev->setCpuSpeed(trim($buf) / 1000);
                     }
                     if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
-                        $dev->setCpuSpeedMax($buf / 1000);
+                        $dev->setCpuSpeedMax(trim($buf) / 1000);
                     }
                     if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_min_freq', $buf, 1, 4096, false)) {
-                        $dev->setCpuSpeedMin($buf / 1000);
+                        $dev->setCpuSpeedMin(trim($buf) / 1000);
                     }
                     // variable speed processors specific code ends
                     if (PSI_LOAD_BAR) {
