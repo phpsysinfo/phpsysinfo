@@ -532,7 +532,8 @@ class WINNT extends OS
                                 $dev->setName($NetworkAdapterConfiguration['Description']);
                                 if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                                    if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                    if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
+                                       && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
                                         foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
@@ -559,7 +560,8 @@ class WINNT extends OS
                                     if ($dev->getInfo() !== null) {
                                         $dev->setInfo(''); //multiple with the same name
                                     } else {
-                                        if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                        if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) 
+                                           && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                         if (isset($NetworkAdapterConfiguration['IPAddress']))
                                             foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                                 if (($ipaddres != "0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))

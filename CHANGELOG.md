@@ -13,6 +13,7 @@ phpSysInfo 3.2.7
  - [UPD] Ukrainian Translation uk.xml
 
  - [ADD] Devuan and SalentOS to detected distros
+ - [ADD] HIDE_NETWORK_MACADDR option
 
  - [NEW] Raspberry Pi detection on Linux
 

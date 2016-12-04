@@ -317,13 +317,14 @@ class Haiku extends OS
                         }
 
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                            if (preg_match('/\sEthernet,\s+Address:\s(\S*)/i', $line, $ar_buf2))
-                                    $dev->setInfo(preg_replace('/:/', '-', strtoupper($ar_buf2[1])));
-                            elseif (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2))
-                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
-                                 elseif (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2)
-                                          && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1]))
-                                            $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
+                            if (preg_match('/\sEthernet,\s+Address:\s(\S*)/i', $line, $ar_buf2)) {
+                                if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $dev->setInfo(preg_replace('/:/', '-', strtoupper($ar_buf2[1])));
+                            } elseif (preg_match('/^\s+inet\saddr:\s(\S*),/i', $line, $ar_buf2)) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
+                            } elseif (preg_match('/^\s+inet6\saddr:\s(\S*),/i', $line, $ar_buf2)
+                                     && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1])) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
+                            }
                         }
                     }
                 }
