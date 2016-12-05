@@ -42,7 +42,7 @@ class Android extends Linux
     private function _kernel()
     {
         if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-            if (preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
+            if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
                 $result = $ar_buf[1];
                 if (preg_match('/SMP/', $strBuf)) {
                     $result .= ' (SMP)';
