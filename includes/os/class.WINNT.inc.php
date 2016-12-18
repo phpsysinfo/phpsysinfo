@@ -90,7 +90,7 @@ class WINNT extends OS
      */
     private function _get_Win32_OperatingSystem()
     {
-        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage','LastBootUpTime', 'LocalDateTime','Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture','TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
         return $this->_Win32_OperatingSystem;
     }
 
@@ -392,7 +392,7 @@ class WINNT extends OS
                 $lines = preg_split('/\n/', $strBuf);
                 $coreCount = -1;
                 foreach ($lines as $line) {
-                    if (preg_match('/^HKEY_LOCAL_MACHINE\\\\HARDWARE\\\\DESCRIPTION\\\\System\\\\CentralProcessor\\\\\d+/i',$line)) {
+                    if (preg_match('/^HKEY_LOCAL_MACHINE\\\\HARDWARE\\\\DESCRIPTION\\\\System\\\\CentralProcessor\\\\\d+/i', $line)) {
                         $coreCount++;
                     } elseif ($coreCount >= 0) {
                         if (preg_match("/^\s*ProcessorNameString\s+REG_SZ\s+(.+)\s*$/i", $line, $buffer2)) {
@@ -486,7 +486,7 @@ class WINNT extends OS
     {
         if ($this->_wmi) {
             $buffer = $this->_get_Win32_OperatingSystem();
-            if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && preg_match('/^(\d+)\.(\d+)/',$buffer[0]['Version'], $version)
+            if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && preg_match('/^(\d+)\.(\d+)/', $buffer[0]['Version'], $version)
                 &&(($version[1] == 6) && ($version[2] >= 2)) || ($version[1] > 6)) { // minimal windows 2012 or windows 8
                 $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkAdapter', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
             } else {
@@ -509,10 +509,10 @@ class WINNT extends OS
             }*/
             if ($allDevices) {
                 $aliases = array();
-                if (preg_match('/^windows-(\d+)$/',$this->_codepage, $codepage) 
+                if (preg_match('/^windows-(\d+)$/', $this->_codepage, $codepage) 
                     && CommonFunctions::executeProgram('cmd', '/c chcp '.$codepage[1].' && reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network /v Name /s', $strBuf, false) 
                     && (strlen($strBuf) > 0) 
-                    && preg_match_all('/^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\Network\\\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\\\({[^{]+})\\\\Connection\r\n\s+Name\s+REG_SZ\s+([^\r\n]+)/mi',$strBuf, $buffer)) {
+                    && preg_match_all('/^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\Network\\\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\\\({[^{]+})\\\\Connection\r\n\s+Name\s+REG_SZ\s+([^\r\n]+)/mi', $strBuf, $buffer)) {
                     for ($i = 0; $i < sizeof($buffer[0]); $i++) {
                         if (!isset($aliases[$buffer[2][$i]])) { // duplicate checking
                             $aliases[$buffer[2][$i]] = $buffer[1][$i];
@@ -630,7 +630,7 @@ class WINNT extends OS
                     foreach ($netstrls as $nr=>$netstrl) {
                         if ($nr === 0) {
                             $name = trim($netstrl);
-                            if ($name !== "" ) {
+                            if ($name !== "") {
                                 $dev->setName($name);
                             } else {
                                 $dev->setName('dev'.$devnr);
