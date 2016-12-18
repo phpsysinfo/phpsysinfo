@@ -46,10 +46,11 @@ class Minix extends OS
      *
      * @return array
      */
+    protected function readdmesg()
     {
         if (count($this->_dmesg) === 0) {
             if (CommonFunctions::rfts('/var/log/messages', $buf)) {
-                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1',$buf);
+                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
                     $parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             }
