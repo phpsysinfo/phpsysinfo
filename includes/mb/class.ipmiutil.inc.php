@@ -189,6 +189,12 @@ class IPMIutil extends Sensors
                 $dev->setName($buffer[4]);
                 $dev->setValue($value[1]);
                 if (isset($buffer[7]) && $buffer[7] == "Thresholds") {
+                    if ((isset($buffer[8]) && preg_match("/^lo-crit\s(\S+)\s*$/", $buffer[8], $limits))
+                        ||(isset($buffer[9]) && preg_match("/^lo-crit\s(\S+)\s*$/", $buffer[9], $limits))
+                        ||(isset($buffer[10]) && preg_match("/^lo-crit\s(\S+)\s*$/", $buffer[10], $limits))
+                        ||(isset($buffer[11]) && preg_match("/^lo-crit\s(\S+)\s*$/", $buffer[11], $limits))) {
+                        $dev->setMin($limits[1]);
+                    }
                     if ((isset($buffer[8]) && preg_match("/^hi-crit\s(\S+)\s*$/", $buffer[8], $limits))
                         ||(isset($buffer[9]) && preg_match("/^hi-crit\s(\S+)\s*$/", $buffer[9], $limits))
                         ||(isset($buffer[10]) && preg_match("/^hi-crit\s(\S+)\s*$/", $buffer[10], $limits))

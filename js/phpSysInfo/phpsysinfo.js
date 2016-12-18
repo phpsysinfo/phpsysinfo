@@ -1134,8 +1134,8 @@ function refreshTemp(xml) {
     $("MBInfo Temperature Item", xml).each(function getTemperatures(id) {
         var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
+        value = $(this).attr("Value");
+        limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
             _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
@@ -1227,8 +1227,8 @@ function refreshPower(xml) {
     $("MBInfo Power Item", xml).each(function getPowers(id) {
         var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
+        value = $(this).attr("Value");
+        limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
         event = $(this).attr("Event");
@@ -1255,16 +1255,21 @@ function refreshCurrent(xml) {
     var values = false;
     $("#currentTable tbody").empty();
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", min = 0, max = 0, _min = "", _max = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
-        if (isFinite(limit))
-            _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
+        value = $(this).attr("Value");
+
+        max = parseFloat($(this).attr("Max"));
+        if (isFinite(max))
+            _max = round(max, 2) + "&nbsp;" + genlang(106, true);
+        min = parseFloat($(this).attr("Min"));
+        if (isFinite(min))
+            _min = round(min, 2) + "&nbsp;" + genlang(106, true);
+
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {

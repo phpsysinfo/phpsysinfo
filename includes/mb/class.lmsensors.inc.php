@@ -75,6 +75,8 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
+                ;
             } else {
                 preg_match("/(.*):(.*)/", $line, $data);
             }
@@ -107,49 +109,51 @@ class LMSensors extends Sensors
                     $data[$key] = trim($value);
                 }
             }
-            $dev = new SensorDevice();
+            if (isset($data[1])) {
+                $dev = new SensorDevice();
 
-            if (strlen($data[1]) == 4) {
-                if ($data[1][0] == "T") {
+                if (strlen($data[1]) == 4) {
+                    if ($data[1][0] == "T") {
 
-                    if ($data[1][1] == "A") {
-                        $data[1] = $data[1] . " Ambient";
-                    } elseif ($data[1][1] == "C") {
-                        $data[1] = $data[1] . " CPU";
-                    } elseif ($data[1][1] == "G") {
-                        $data[1] = $data[1] . " GPU";
-                    } elseif ($data[1][1] == "H") {
-                        $data[1] = $data[1] . " Harddisk";
-                    } elseif ($data[1][1] == "L") {
-                        $data[1] = $data[1] . " LCD";
-                    } elseif ($data[1][1] == "O") {
-                        $data[1] = $data[1] . " ODD";
-                    } elseif ($data[1][1] == "B") {
-                        $data[1] = $data[1] . " Battery";
-                    }
+                        if ($data[1][1] == "A") {
+                            $data[1] = $data[1] . " Ambient";
+                        } elseif ($data[1][1] == "C") {
+                            $data[1] = $data[1] . " CPU";
+                        } elseif ($data[1][1] == "G") {
+                            $data[1] = $data[1] . " GPU";
+                        } elseif ($data[1][1] == "H") {
+                            $data[1] = $data[1] . " Harddisk";
+                        } elseif ($data[1][1] == "L") {
+                            $data[1] = $data[1] . " LCD";
+                        } elseif ($data[1][1] == "O") {
+                            $data[1] = $data[1] . " ODD";
+                        } elseif ($data[1][1] == "B") {
+                            $data[1] = $data[1] . " Battery";
+                        }
 
-                    if ($data[1][3] == "H") {
-                        $data[1] = $data[1] . " Heatsink";
-                    } elseif ($data[1][3] == "P") {
-                        $data[1] = $data[1] . " Proximity";
-                    } elseif ($data[1][3] == "D") {
-                        $data[1] = $data[1] . " Die";
+                        if ($data[1][3] == "H") {
+                            $data[1] = $data[1] . " Heatsink";
+                        } elseif ($data[1][3] == "P") {
+                            $data[1] = $data[1] . " Proximity";
+                        } elseif ($data[1][3] == "D") {
+                            $data[1] = $data[1] . " Die";
+                        }
                     }
                 }
-            }
 
-            $dev->setName($data[1]);
-            $dev->setValue($data[2]);
+                $dev->setName($data[1]);
+                $dev->setValue($data[2]);
 
-            if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4], $data[6]));
-            } elseif (isset($data[4]) && $data[2] <= $data[4]) {
-                   $dev->setMax($data[4]);
+                if (isset($data[6]) && $data[2] <= $data[6]) {
+                    $dev->setMax(max($data[4], $data[6]));
+                } elseif (isset($data[4]) && $data[2] <= $data[4]) {
+                    $dev->setMax($data[4]);
+                }
+                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbTemp($dev);
             }
-            if (preg_match("/\sALARM(\s*)$/", $line)) {
-                $dev->setEvent("Alarm");
-            }
-            $this->mbinfo->setMbTemp($dev);
         }
     }
 
@@ -166,6 +170,8 @@ class LMSensors extends Sensors
             if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
             } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*)/", $line, $data);
@@ -191,16 +197,18 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) RPM$/", $line, $data);
             }
-            $dev = new SensorDevice();
-            $dev->setName(trim($data[1]));
-            $dev->setValue(trim($data[2]));
-            if (isset($data[4])) {
-                $dev->setMin(trim($data[4]));
+            if (isset($data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($data[1]));
+                $dev->setValue(trim($data[2]));
+                if (isset($data[4])) {
+                    $dev->setMin(trim($data[4]));
+                }
+                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbFan($dev);
             }
-            if (preg_match("/\sALARM(\s*)$/", $line)) {
-                $dev->setEvent("Alarm");
-            }
-            $this->mbinfo->setMbFan($dev);
         }
     }
 
@@ -275,9 +283,14 @@ class LMSensors extends Sensors
         $ar_buf = array();
         foreach ($this->_lines as $line) {
             $data = array();
+/* not tested yet
             if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+            } else
+*/
+            if (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*)/", $line, $data);
@@ -313,19 +326,24 @@ class LMSensors extends Sensors
                     $data[$key] = trim($value);
                 }
             }
-            $dev = new SensorDevice();
-            $dev->setName($data[1]);
-            $dev->setValue($data[2]);
+            if (isset($data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName($data[1]);
+                $dev->setValue($data[2]);
 
-            if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4], $data[6]));
-            } elseif (isset($data[4]) && $data[2] <= $data[4]) {
-                   $dev->setMax($data[4]);
+/* not tested yet
+                if (isset($data[6]) && $data[2] <= $data[6]) {
+                    $dev->setMax(max($data[4], $data[6]));
+                } else
+*/
+                if (isset($data[4]) && $data[2] <= $data[4]) {
+                    $dev->setMax($data[4]);
+                }
+                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbPower($dev);
             }
-            if (preg_match("/\sALARM(\s*)$/", $line)) {
-                $dev->setEvent("Alarm");
-            }
-            $this->mbinfo->setMbPower($dev);
         }
     }
 
@@ -341,7 +359,7 @@ class LMSensors extends Sensors
             $data = array();
             if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*)/", $line, $data);
@@ -356,14 +374,9 @@ class LMSensors extends Sensors
         }
         foreach ($ar_buf as $line) {
             $data = array();
-/* not tested yet
             if (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)\)/", $line, $data)) {
                 ;
             } elseif (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)/", $line, $data)) {
-                ;
-            } else
-*/
-            if (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A\)(.*)/", $line, $data)) {
                 ;
             } elseif (preg_match("/(.*):(.*) A[ \t]+/", $line, $data)) {
                 ;
@@ -377,19 +390,21 @@ class LMSensors extends Sensors
                     $data[$key] = trim($value);
                 }
             }
-            $dev = new SensorDevice();
-            $dev->setName($data[1]);
-            $dev->setValue($data[2]);
-
-            if (isset($data[6]) && $data[2] <= $data[6]) {
-                  $dev->setMax(max($data[4], $data[6]));
-            } elseif (isset($data[4]) && $data[2] <= $data[4]) {
-                   $dev->setMax($data[4]);
+            if (isset($data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName($data[1]);
+                $dev->setValue($data[2]);
+                if (isset($data[4])) {
+                    $dev->setMin($data[4]);
+                }
+                if (isset($data[6])) {
+                    $dev->setMax($data[6]);
+                }
+                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbCurrent($dev);
             }
-            if (preg_match("/\sALARM(\s*)$/", $line)) {
-                $dev->setEvent("Alarm");
-            }
-            $this->mbinfo->setMbCurrent($dev);
         }
     }
 

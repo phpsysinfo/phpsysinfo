@@ -1104,6 +1104,12 @@ function renderCurrent(data) {
                 return this["Value"] + String.fromCharCode(160) + "A";
             }
         },
+        Min: {
+            text: function () {
+                if (this["Min"] !== undefined)
+                    return this["Min"] + String.fromCharCode(160) + "A";
+            }
+        },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
