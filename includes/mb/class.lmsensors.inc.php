@@ -68,28 +68,7 @@ class LMSensors extends Sensors
      */
     private function _temperature()
     {
-        $ar_buf = array();
-        foreach ($this->_lines as $line) {
-            $data = array();
-            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
-                ;
-            } else {
-                preg_match("/(.*):(.*)/", $line, $data);
-            }
-            if (count($data) > 1) {
-                $temp = substr(trim($data[2]), -1);
-                switch ($temp) {
-                case "C":
-//                case "F":
-                    array_push($ar_buf, $line);
-                }
-            }
-        }
-        foreach ($ar_buf as $line) {
+       foreach ($this->_lines as $line) {
             $data = array();
             if (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C,(.*)=(.*).C\)(.*)\)/", $line, $data)) {
                 ;
@@ -97,7 +76,7 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C[ \t]+/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*).C[ ]*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*).C$/", $line, $data);
@@ -164,27 +143,7 @@ class LMSensors extends Sensors
      */
     private function _fans()
     {
-        $ar_buf = array();
         foreach ($this->_lines as $line) {
-            $data = array();
-            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
-                ;
-            } else {
-                preg_match("/(.*):(.*)/", $line, $data);
-            }
-            if (count($data) > 1) {
-                $temp = substr(trim($data[2]), -4);
-                switch ($temp) {
-                case " RPM":
-                    array_push($ar_buf, $line);
-                }
-            }
-        }
-        foreach ($ar_buf as $line) {
             $data = array();
             if (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
                 ;
@@ -192,7 +151,7 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM[ \t]+/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM[ ]*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) RPM$/", $line, $data);
@@ -219,31 +178,13 @@ class LMSensors extends Sensors
      */
     private function _voltage()
     {
-        $ar_buf = array();
         foreach ($this->_lines as $line) {
-            $data = array();
-            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
-                ;
-            } else {
-                preg_match("/(.*):(.*)/", $line, $data);
-            }
-            if (count($data) > 1) {
-                $temp = substr(trim($data[2]), -2);
-                switch ($temp) {
-                case " V":
-                    array_push($ar_buf, $line);
-                }
-            }
-        }
-        foreach ($ar_buf as $line) {
             $data = array();
             if (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
                 ;
             } elseif (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V[ \t]+/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) V[ ]*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) V$/", $line, $data);
@@ -280,30 +221,7 @@ class LMSensors extends Sensors
      */
     private function _power()
     {
-        $ar_buf = array();
         foreach ($this->_lines as $line) {
-            $data = array();
-/* not tested yet
-            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } else
-*/
-            if (preg_match("/(.*):(.*)\((.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
-                ;
-            } else {
-                preg_match("/(.*):(.*)/", $line, $data);
-            }
-            if (count($data) > 1) {
-                $temp = substr(trim($data[2]), -2);
-                switch ($temp) {
-                case " W":
-                    array_push($ar_buf, $line);
-                }
-            }
-        }
-        foreach ($ar_buf as $line) {
             $data = array();
 /* not tested yet
             if (preg_match("/(.*):(.*) W[ ]*\((.*)=(.*) W,(.*)=(.*) W\)(.*)\)/", $line, $data)) {
@@ -314,7 +232,7 @@ class LMSensors extends Sensors
 */
             if (preg_match("/(.*):(.*) W[ ]*\((.*)=(.*) W\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) W[ \t]+/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) W[ ]*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) W$/", $line, $data);
@@ -354,31 +272,13 @@ class LMSensors extends Sensors
      */
     private function _current()
     {
-        $ar_buf = array();
         foreach ($this->_lines as $line) {
-            $data = array();
-            if (preg_match("/(.*):(.*)\((.*)=(.*),(.*)=(.*)\)(.*)/", $line, $data)) {
-                ;
-            } elseif (preg_match("/(.*):(.*)\(/", $line, $data)) {
-                ;
-            } else {
-                preg_match("/(.*):(.*)/", $line, $data);
-            }
-            if (count($data) > 1) {
-                $temp = substr(trim($data[2]), -2);
-                switch ($temp) {
-                case " A":
-                    array_push($ar_buf, $line);
-                }
-            }
-        }
-        foreach ($ar_buf as $line) {
             $data = array();
             if (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)\)/", $line, $data)) {
                 ;
             } elseif (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) A[ \t]+/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) A[ ]*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) A$/", $line, $data);
