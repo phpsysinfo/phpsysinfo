@@ -154,6 +154,13 @@ class LMSensors extends Sensors
                 preg_match("/(.*):(.*) RPM$/", $line, $data);
             }
             if (count($data)>2) {
+                 foreach ($data as $key=>$value) {
+                    if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
+                        $data[$key] = 0+trim($newvalue[1]);
+                    } else {
+                        $data[$key] = trim($value);
+                    }
+                }
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
                 $dev->setValue(trim($data[2]));
@@ -237,8 +244,8 @@ class LMSensors extends Sensors
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
-                    if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = trim($newvalue[1]);
+                    if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
+                        $data[$key] = 0+trim($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
