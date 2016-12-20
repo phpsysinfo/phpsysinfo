@@ -81,7 +81,7 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*).C$/", $line, $data);
             }
-            if (isset($data[1])) {
+            if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
                         $data[$key] = 0+trim($newvalue[1]);
@@ -153,7 +153,7 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) RPM$/", $line, $data);
             }
-            if (isset($data[1])) {
+            if (count($data)>2) {
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
                 $dev->setValue(trim($data[2]));
@@ -187,7 +187,7 @@ class LMSensors extends Sensors
                 preg_match("/(.*):(.*) V$/", $line, $data);
             }
 
-            if (isset($data[1])) {
+            if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
                         $data[$key] = 0+trim($newvalue[1]);
@@ -235,7 +235,7 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) W$/", $line, $data);
             }
-            if (isset($data[1])) {
+            if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
                         $data[$key] = trim($newvalue[1]);
@@ -281,7 +281,7 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) A$/", $line, $data);
             }
-            if (isset($data[1])) {
+            if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
                         $data[$key] = trim($newvalue[1]);
