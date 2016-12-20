@@ -81,19 +81,17 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*).C$/", $line, $data);
             }
-            foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                    $data[$key] = 0+trim($newvalue[1]);
-                } else {
-                    $data[$key] = trim($value);
-                }
-            }
             if (isset($data[1])) {
+                foreach ($data as $key=>$value) {
+                    if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
+                        $data[$key] = 0+trim($newvalue[1]);
+                    } else {
+                        $data[$key] = trim($value);
+                    }
+                }
                 $dev = new SensorDevice();
-
                 if (strlen($data[1]) == 4) {
                     if ($data[1][0] == "T") {
-
                         if ($data[1][1] == "A") {
                             $data[1] = $data[1] . " Ambient";
                         } elseif ($data[1][1] == "C") {
@@ -122,7 +120,6 @@ class LMSensors extends Sensors
 
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
-
                 if (isset($data[6]) && $data[2] <= $data[6]) {
                     $dev->setMax(max($data[4], $data[6]));
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
@@ -189,14 +186,15 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) V$/", $line, $data);
             }
-            foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
-                    $data[$key] = 0+trim($newvalue[1]);
-                } else {
-                    $data[$key] = trim($value);
-                }
-            }
+
             if (isset($data[1])) {
+                foreach ($data as $key=>$value) {
+                    if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
+                        $data[$key] = 0+trim($newvalue[1]);
+                    } else {
+                        $data[$key] = trim($value);
+                    }
+                }
                 $dev = new SensorDevice();
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
@@ -237,14 +235,14 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) W$/", $line, $data);
             }
-            foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
-                } else {
-                    $data[$key] = trim($value);
-                }
-            }
             if (isset($data[1])) {
+                foreach ($data as $key=>$value) {
+                    if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
+                        $data[$key] = trim($newvalue[1]);
+                    } else {
+                        $data[$key] = trim($value);
+                    }
+                }
                 $dev = new SensorDevice();
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
@@ -283,14 +281,14 @@ class LMSensors extends Sensors
             } else {
                 preg_match("/(.*):(.*) A$/", $line, $data);
             }
-            foreach ($data as $key=>$value) {
-                if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
-                    $data[$key] = trim($newvalue[1]);
-                } else {
-                    $data[$key] = trim($value);
-                }
-            }
             if (isset($data[1])) {
+                foreach ($data as $key=>$value) {
+                    if (preg_match("/^\+?([0-9\.]+).?$/", trim($value), $newvalue)) {
+                        $data[$key] = trim($newvalue[1]);
+                    } else {
+                        $data[$key] = trim($value);
+                    }
+                }
                 $dev = new SensorDevice();
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
