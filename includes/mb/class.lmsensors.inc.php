@@ -70,13 +70,13 @@ class LMSensors extends Sensors
     {
        foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C,(.*)=(.*).C\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C,(.*)=(.*).C\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C,(.*)=(.*).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C,(.*)=(.*).C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C[ ]*\((.*)=(.*).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C[ ]*\(/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*).C\s*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*).C$/", $line, $data);
@@ -125,7 +125,7 @@ class LMSensors extends Sensors
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
@@ -142,13 +142,13 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM[ ]*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM[ ]*\(/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) RPM\s*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) RPM$/", $line, $data);
@@ -167,7 +167,7 @@ class LMSensors extends Sensors
                 if (isset($data[4])) {
                     $dev->setMin(trim($data[4]));
                 }
-                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbFan($dev);
@@ -184,11 +184,11 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) V\s*\((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V[ ]*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) V\s*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V[ ]*\(/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) V\s*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) V$/", $line, $data);
@@ -211,7 +211,7 @@ class LMSensors extends Sensors
                 if (isset($data[6])) {
                     $dev->setMax($data[6]);
                 }
-                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbVolt($dev);
@@ -229,15 +229,15 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             $data = array();
 /* not tested yet
-            if (preg_match("/(.*):(.*) W[ ]*\((.*)=(.*) W,(.*)=(.*) W\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W,(.*)=(.*) W\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) W[ ]*\((.*)=(.*) W,(.*)=(.*) W\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W,(.*)=(.*) W\)(.*)/", $line, $data)) {
                 ;
             } else
 */
-            if (preg_match("/(.*):(.*) W[ ]*\((.*)=(.*) W\)(.*)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) W[ ]*\(/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) W\s*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) W$/", $line, $data);
@@ -262,7 +262,7 @@ class LMSensors extends Sensors
                 if (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbPower($dev);
@@ -279,11 +279,11 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)\)/", $line, $data)) {
+            if (preg_match("/(.*):(.*) A\s*\((.*)=(.*) A,(.*)=(.*) A\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) A[ ]*\((.*)=(.*) A,(.*)=(.*) A\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) A\s*\((.*)=(.*) A,(.*)=(.*) A\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) A[ ]*\(/", $line, $data)) {
+            } elseif (preg_match("/(.*):(.*) A\s*\(/", $line, $data)) {
                 ;
             } else {
                 preg_match("/(.*):(.*) A$/", $line, $data);
@@ -305,7 +305,7 @@ class LMSensors extends Sensors
                 if (isset($data[6])) {
                     $dev->setMax($data[6]);
                 }
-                if (preg_match("/\sALARM(\s*)$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbCurrent($dev);
