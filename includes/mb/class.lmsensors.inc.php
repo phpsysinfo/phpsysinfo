@@ -38,26 +38,23 @@ class LMSensors extends Sensors
     public function __construct()
     {
         parent::__construct();
+        $lines = "";
         switch (defined('PSI_SENSOR_LMSENSORS_ACCESS')?strtolower(PSI_SENSOR_LMSENSORS_ACCESS):'command') {
         case 'command':
-            if (CommonFunctions::executeProgram("sensors", "", $lines)) {
-                // Martijn Stolk: Dirty fix for misinterpreted output of sensors,
-                // where info could come on next line when the label is too long.
-                $lines = str_replace(":\n", ":", $lines);
-                $lines = str_replace("\n\n", "\n", $lines);
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            }
+            CommonFunctions::executeProgram("sensors", "", $lines);
             break;
         case 'data':
-            if (CommonFunctions::rfts(APP_ROOT.'/data/lmsensors.txt', $lines)) {
-                $lines = str_replace(":\n", ":", $lines);
-                $lines = str_replace("\n\n", "\n", $lines);
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            }
+            CommonFunctions::rfts(APP_ROOT.'/data/lmsensors.txt', $lines);
             break;
         default:
             $this->error->addConfigError('__construct()', 'PSI_SENSOR_LMSENSORS_ACCESS');
             break;
+        }
+
+        if (trim($lines) !== "") {
+            $lines = str_replace(":\n", ":", $lines);
+            $lines = str_replace("\n\n", "\n", $lines);
+            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
         }
     }
 
@@ -70,16 +67,16 @@ class LMSensors extends Sensors
     {
        foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C,(.*)=(.*).C\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C,(.*)=(.*).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C\s*\((.*)=(.*).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*).C\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+).C\s*\(/", $line, $data)) {
                 ;
             } else {
-                preg_match("/(.*):(.*).C$/", $line, $data);
+                preg_match("/^(.+):(.+).C$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
@@ -89,23 +86,36 @@ class LMSensors extends Sensors
                         $data[$key] = trim($value);
                     }
                 }
-                $dev = new SensorDevice();
                 if (strlen($data[1]) == 4) {
                     if ($data[1][0] == "T") {
                         if ($data[1][1] == "A") {
                             $data[1] = $data[1] . " Ambient";
+                        } elseif ($data[1][1] == "B") {
+                            $data[1] = $data[1] . " Battery";
                         } elseif ($data[1][1] == "C") {
                             $data[1] = $data[1] . " CPU";
                         } elseif ($data[1][1] == "G") {
                             $data[1] = $data[1] . " GPU";
                         } elseif ($data[1][1] == "H") {
-                            $data[1] = $data[1] . " Harddisk";
+                            $data[1] = $data[1] . " Harddisk Bay";
+                        } elseif ($data[1][1] == "h") {
+                            $data[1] = $data[1] . " Heatpipe";
                         } elseif ($data[1][1] == "L") {
                             $data[1] = $data[1] . " LCD";
+                        } elseif ($data[1][1] == "M") {
+                            $data[1] = $data[1] . " Memory";
+                        } elseif ($data[1][1] == "m") {
+                            $data[1] = $data[1] . " Memory Contr.";
+                        } elseif ($data[1][1] == "N") {
+                            $data[1] = $data[1] . " Northbridge";
                         } elseif ($data[1][1] == "O") {
-                            $data[1] = $data[1] . " ODD";
-                        } elseif ($data[1][1] == "B") {
-                            $data[1] = $data[1] . " Battery";
+                            $data[1] = $data[1] . " Optical Drive";
+                        } elseif ($data[1][1] == "p") {
+                            $data[1] = $data[1] . " Power supply";
+                        } elseif ($data[1][1] == "S") {
+                            $data[1] = $data[1] . " Slot";
+                        } elseif ($data[1][1] == "s") {
+                            $data[1] = $data[1] . " Slot";
                         }
 
                         if ($data[1][3] == "H") {
@@ -118,6 +128,7 @@ class LMSensors extends Sensors
                     }
                 }
 
+                $dev = new SensorDevice();
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
                 if (isset($data[6]) && $data[2] <= $data[6]) {
@@ -142,16 +153,16 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) RPM\s*\((.+)=(.+) RPM,(.+)=(.+)\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM,(.*)=(.*)\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) RPM\s*\((.+)=(.+) RPM,(.+)=(.+)\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM\s*\((.*)=(.*) RPM\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) RPM\s*\((.+)=(.+) RPM\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) RPM\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) RPM\s*\(/", $line, $data)) {
                 ;
             } else {
-                preg_match("/(.*):(.*) RPM$/", $line, $data);
+                preg_match("/^(.+):(.+) RPM$/", $line, $data);
             }
             if (count($data)>2) {
                  foreach ($data as $key=>$value) {
@@ -184,14 +195,14 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) V\s*\((.*)=(.*) V,(.*)=(.*) V\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V\s*\((.*)=(.*) V,(.*)=(.*) V\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) V\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) V\s*\(/", $line, $data)) {
                 ;
             } else {
-                preg_match("/(.*):(.*) V$/", $line, $data);
+                preg_match("/^(.+):(.+) V$/", $line, $data);
             }
 
             if (count($data)>2) {
@@ -229,18 +240,18 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             $data = array();
 /* not tested yet
-            if (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W,(.*)=(.*) W\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W,(.*)=(.*) W\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)/", $line, $data)) {
                 ;
             } else
 */
-            if (preg_match("/(.*):(.*) W\s*\((.*)=(.*) W\)(.*)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) W\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) W\s*\(/", $line, $data)) {
                 ;
             } else {
-                preg_match("/(.*):(.*) W$/", $line, $data);
+                preg_match("/^(.+):(.+) W$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
@@ -279,14 +290,14 @@ class LMSensors extends Sensors
     {
         foreach ($this->_lines as $line) {
             $data = array();
-            if (preg_match("/(.*):(.*) A\s*\((.*)=(.*) A,(.*)=(.*) A\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) A\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) A\s*\((.*)=(.*) A,(.*)=(.*) A\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) A\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/(.*):(.*) A\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) A\s*\(/", $line, $data)) {
                 ;
             } else {
-                preg_match("/(.*):(.*) A$/", $line, $data);
+                preg_match("/^(.+):(.+) A$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
