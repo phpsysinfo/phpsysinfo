@@ -1081,7 +1081,7 @@ function refreshFilesystems(xml) {
         var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "";
         mpid = parseInt($(this).attr("MountPointID"), 10);
         type = $(this).attr("FSType");
-        name = $(this).attr("Name");
+        name = $(this).attr("Name").replace(/;/g, ";<wbr>"); /* split long name */
         free = parseInt($(this).attr("Free"), 10);
         used = parseInt($(this).attr("Used"), 10);
         size = parseInt($(this).attr("Total"), 10);

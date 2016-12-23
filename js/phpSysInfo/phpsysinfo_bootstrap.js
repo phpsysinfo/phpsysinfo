@@ -838,7 +838,7 @@ function renderFilesystem(data) {
         },
         Name: {
             html: function () {
-                return this["Name"] + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+                return this["Name"].replace(/;/g, ";<wbr>") + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
             }
         },
         Percent: {
