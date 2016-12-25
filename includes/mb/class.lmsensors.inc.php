@@ -67,7 +67,7 @@ class LMSensors extends Sensors
     {
         $applesmc = false;
         foreach ($this->_lines as $line) {
-            if (strpos($line, ':') === false) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 $applesmc = preg_match("/^applesmc-/", $line);
             }
             $data = array();
