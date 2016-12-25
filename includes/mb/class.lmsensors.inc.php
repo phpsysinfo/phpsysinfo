@@ -65,7 +65,11 @@ class LMSensors extends Sensors
      */
     private function _temperature()
     {
-       foreach ($this->_lines as $line) {
+        $applesmc = false;
+        foreach ($this->_lines as $line) {
+            if (strpos($line, ':') === false) {
+                $applesmc = preg_match("/^applesmc-/", $line);
+            }
             $data = array();
             if (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
                 ;
@@ -86,7 +90,7 @@ class LMSensors extends Sensors
                         $data[$key] = trim($value);
                     }
                 }
-                if (strlen($data[1]) == 4) {
+                if ($applesmc && (strlen($data[1]) == 4)) {
                     if ($data[1][0] == "T") {
                         if ($data[1][1] == "A") {
                             $data[1] = $data[1] . " Ambient";
