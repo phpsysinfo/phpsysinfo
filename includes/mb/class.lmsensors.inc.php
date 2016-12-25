@@ -116,6 +116,8 @@ class LMSensors extends Sensors
                             $data[1] = $data[1] . " Slot";
                         } elseif ($data[1][1] == "s") {
                             $data[1] = $data[1] . " Slot";
+                        } elseif ($data[1][1] == "W") {
+                            $data[1] = $data[1] . " Airport";
                         }
 
                         if ($data[1][3] == "H") {
