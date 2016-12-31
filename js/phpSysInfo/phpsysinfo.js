@@ -819,46 +819,14 @@ function refreshHardware(xml) {
         html += fillCpu(xml, tree, tree.push(0), closed);
     }
 
-    if (countHWDevice(xml, 'PCI')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(17, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'PCI', tree, index);
-    }
-
-    if (countHWDevice(xml, 'IDE')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(18, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'IDE', tree, index);
-    }
-
-    if (countHWDevice(xml, 'SCSI')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(19, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'SCSI', tree, index);
-    }
-
-    if (countHWDevice(xml, 'USB')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(20, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'USB', tree, index);
-    }
-
-    if (countHWDevice(xml, 'TB')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(117, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'TB', tree, index);
-    }
-
-    if (countHWDevice(xml, 'I2C')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(118, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'I2C', tree, index);
+    var typelist = {PCI:17,IDE:18,SCSI:19,USB:20,TB:117,I2C:118};
+    for (var dev_type in typelist) {
+        if (countHWDevice(xml, dev_type)) {
+            html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(typelist[dev_type], false) + "</span></td></tr>\n";
+            index = tree.push(0);
+            closed.push(index);
+            html += fillHWDevice(xml, dev_type, tree, index);
+        }
     }
 
     html += "   </tbody>\n";
