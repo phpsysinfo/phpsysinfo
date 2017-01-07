@@ -85,8 +85,7 @@ class CommonFunctions
             }
         } else { //directory defined
             array_push($arrPath, $path_parts['dirname']);
-            $strProgram = $path_parts['filename'];
-            $strProgram .= '.'.$path_parts['extension'];
+            $strProgram = $path_parts['basename'];
         }
 
         //add some default paths if we still have no paths here
