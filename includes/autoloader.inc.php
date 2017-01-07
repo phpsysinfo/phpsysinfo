@@ -67,7 +67,7 @@ function __autoload($class_name)
 function errorHandlerPsi($level, $message, $file, $line)
 {
     $error = PSI_Error::singleton();
-    if (PSI_DEBUG || ($level !== 2) || !(preg_match("/^[^:]*: open_basedir /", $message) || preg_match("/^fopen\(/", $message) )) { // disable open_basedir and fopen warnings
+    if (PSI_DEBUG || ($level !== 2) || !(preg_match("/^[^:]*: open_basedir /", $message) || preg_match("/^fopen\(/", $message) || preg_match("/^is_readable\(/", $message))) { // disable open_basedir, is_readable and fopen warnings
         $error->addPhpError("errorHandlerPsi : ", "Level : ".$level." Message : ".$message." File : ".$file." Line : ".$line);
     }
 }

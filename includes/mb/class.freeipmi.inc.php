@@ -152,6 +152,7 @@ class FreeIPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1]);
                 $dev->setValue($buffer[3]);
+                if ($buffer[6] != "N/A") $dev->setMin($buffer[6]);
                 if ($buffer[9] != "N/A") $dev->setMax($buffer[9]);
                 if ($buffer[11] != "'OK'") $dev->setEvent(trim($buffer[11], "'"));
                 $this->mbinfo->setMbCurrent($dev);

@@ -3,7 +3,7 @@ versions, links and simple description of used jquery files
 
 jquery.js
 ---------
-VERSION  : 3.1.0
+VERSION  : 3.1.1
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle
            events, perform animations, and add Ajax interactions to your web pages.
@@ -34,10 +34,10 @@ DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
            in this way: if there are error elements in the xml file
 
-jquery.timers.js
+jquery.timer.js
 ----------------
 VERSION  : 0.1
-URL      : http://plugins.jquery.com/project/Timer
+URL      : http://plugins.jquery.com/project/Timer; https://github.com/sloat/timer
 DESC     : provides a cleaner way to handle intervals
 USED     : automatic reloading of the entire page
 

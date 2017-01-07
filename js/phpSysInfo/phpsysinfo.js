@@ -819,46 +819,14 @@ function refreshHardware(xml) {
         html += fillCpu(xml, tree, tree.push(0), closed);
     }
 
-    if (countHWDevice(xml, 'PCI')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(17, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'PCI', tree, index);
-    }
-
-    if (countHWDevice(xml, 'IDE')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(18, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'IDE', tree, index);
-    }
-
-    if (countHWDevice(xml, 'SCSI')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(19, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'SCSI', tree, index);
-    }
-
-    if (countHWDevice(xml, 'USB')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(20, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'USB', tree, index);
-    }
-
-    if (countHWDevice(xml, 'TB')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(117, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'TB', tree, index);
-    }
-
-    if (countHWDevice(xml, 'I2C')) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(118, false) + "</span></td></tr>\n";
-        index = tree.push(0);
-        closed.push(index);
-        html += fillHWDevice(xml, 'I2C', tree, index);
+    var typelist = {PCI:17,IDE:18,SCSI:19,USB:20,TB:117,I2C:118};
+    for (var dev_type in typelist) {
+        if (countHWDevice(xml, dev_type)) {
+            html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(typelist[dev_type], false) + "</span></td></tr>\n";
+            index = tree.push(0);
+            closed.push(index);
+            html += fillHWDevice(xml, dev_type, tree, index);
+        }
     }
 
     html += "   </tbody>\n";
@@ -1081,7 +1049,7 @@ function refreshFilesystems(xml) {
         var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "";
         mpid = parseInt($(this).attr("MountPointID"), 10);
         type = $(this).attr("FSType");
-        name = $(this).attr("Name");
+        name = $(this).attr("Name").replace(/;/g, ";<wbr>"); /* split long name */
         free = parseInt($(this).attr("Free"), 10);
         used = parseInt($(this).attr("Used"), 10);
         size = parseInt($(this).attr("Total"), 10);
@@ -1134,8 +1102,8 @@ function refreshTemp(xml) {
     $("MBInfo Temperature Item", xml).each(function getTemperatures(id) {
         var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
+        value = $(this).attr("Value");
+        limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
             _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
@@ -1227,8 +1195,8 @@ function refreshPower(xml) {
     $("MBInfo Power Item", xml).each(function getPowers(id) {
         var label = "", value = "", limit = 0, _limit = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
+        value = $(this).attr("Value");
+        limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
         event = $(this).attr("Event");
@@ -1255,16 +1223,21 @@ function refreshCurrent(xml) {
     var values = false;
     $("#currentTable tbody").empty();
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", min = 0, max = 0, _min = "", _max = "", event = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value").replace(/\+/g, "");
-        limit = ($(this).attr("Max") !== undefined) ? parseFloat($(this).attr("Max").replace(/\+/g, "")) : 'NaN';
-        if (isFinite(limit))
-            _limit = round(limit, 2) + "&nbsp;" + genlang(106, true);
+        value = $(this).attr("Value");
+
+        max = parseFloat($(this).attr("Max"));
+        if (isFinite(max))
+            _max = round(max, 2) + "&nbsp;" + genlang(106, true);
+        min = parseFloat($(this).attr("Min"));
+        if (isFinite(min))
+            _min = round(min, 2) + "&nbsp;" + genlang(106, true);
+
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {

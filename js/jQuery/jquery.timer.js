@@ -3,8 +3,7 @@
  *	jQuery Timer plugin v0.1
  *		Matt Schmidt [http://www.mattptr.net]
  *
- *	Licensed under the BSD License:
- *		http://mattptr.net/license/license.txt
+ *	Licensed under the MIT License
  *
  */
  

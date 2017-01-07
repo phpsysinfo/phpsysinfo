@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID:	elementary
+Description:	elementary OS 0.4 Loki
+Release:	0.4
+Codename:	loki
+----------/etc/lsb-release----------
+DISTRIB_ID="elementary"
+DISTRIB_RELEASE=0.4
+DISTRIB_CODENAME=loki
+DISTRIB_DESCRIPTION="elementary OS 0.4 Loki"
+----------/etc/os-release----------
+NAME="elementary OS"
+VERSION="0.4 Loki"
+ID="elementary"
+ID_LIKE=ubuntu
+PRETTY_NAME="elementary OS 0.4 Loki"
+VERSION_ID="0.4"
+HOME_URL="http://elementary.io/"
+SUPPORT_URL="http://elementary.io/support/"
+BUG_REPORT_URL="https://bugs.launchpad.net/elementary/+filebug"
+----------/etc/upstream-release----------
+----------/etc/debian_version----------
+stretch/sid

@@ -65,11 +65,12 @@ class CommonFunctions
             return;
         }
         $arrPath = array();
-        if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
-            $strProgram .= '.exe';
-            $path_parts = pathinfo($strProgram);
-        }
+
         if (empty($path_parts['dirname']) || ($path_parts['dirname'] == '.')) {
+            if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
+                $strProgram .= '.exe';
+                $path_parts = pathinfo($strProgram);
+            }
             if (PSI_OS == 'WINNT') {
                 $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
             } else {
@@ -82,17 +83,10 @@ class CommonFunctions
                     $arrPath = array_merge(array(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
                 }
             }
-        } else {
+        } else { //directory defined
             array_push($arrPath, $path_parts['dirname']);
-            $strProgram = $path_parts['basename'];
-            if (empty($path_parts['extension'])) {
-                if (PSI_OS == 'WINNT') {
-                    $strProgram .= '.exe';
-                    $path_parts = pathinfo($strProgram);
-                }
-            } else {
-                $strProgram .= '.'.$path_parts['extension'];
-            }
+            $strProgram = $path_parts['filename'];
+            $strProgram .= '.'.$path_parts['extension'];
         }
 
         //add some default paths if we still have no paths here
@@ -183,7 +177,9 @@ class CommonFunctions
 
             return false;
         } else {
-            $strProgram = '"'.$strProgram.'"';
+            if (preg_match('/\s/', $strProgram)) {
+                $strProgram = '"'.$strProgram.'"';
+            }
         }
 
         if ((PSI_OS !== 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
@@ -201,7 +197,11 @@ class CommonFunctions
 
                     return false;
                 } else {
-                    $strProgram = '"'.$sudoProgram.'" '.$strProgram;
+                    if (preg_match('/\s/', $sudoProgram)) {
+                        $strProgram = '"'.$sudoProgram.'" '.$strProgram;
+                    } else {
+                        $strProgram = $sudoProgram.' '.$strProgram;
+                    }
                 }
             }
         }
@@ -216,16 +216,17 @@ class CommonFunctions
                     $strArgs = preg_replace("/\| ".$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
                 }
             }
+            $strArgs = ' '.$strArgs;
         }
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             if (PSI_OS == 'WINNT') {
-                $process = $pipes[1] = popen($strProgram.' '.$strArgs." 2>nul", "r");
+                $process = $pipes[1] = popen($strProgram.$strArgs." 2>nul", "r");
             } else {
-                $process = $pipes[1] = popen($strProgram.' '.$strArgs." 2>/dev/null", "r");
+                $process = $pipes[1] = popen($strProgram.$strArgs." 2>/dev/null", "r");
             }
         } else {
-            $process = proc_open($strProgram.' '.$strArgs, $descriptorspec, $pipes);
+            $process = proc_open($strProgram.$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
             self::_timeoutfgets($pipes, $strBuffer, $strError);
@@ -249,7 +250,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.' '.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {

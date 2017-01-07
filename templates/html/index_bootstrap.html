@@ -257,10 +257,38 @@ endforeach;
                                 <th><span id="lang_059-u11">Label</span></th>
                                 <th class="rightCell"><span id="lang_054-u12">Value</span></th>
                                 <th class="rightCell"><span id="lang_055-u13">Min</span></th>
-                                <th class="rightCell"><span id="lang_056">Max</span></th>
+                                <th class="rightCell"><span id="lang_056-u14">Max</span></th>
                             </tr>
                         </thead>
                         <tbody id="voltage-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                                <td class="rightCell"><span data-bind="Min"></span></td>
+                                <td class="rightCell"><span data-bind="Max"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="block_current" class="col-lg-6" style="display:none;">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><span id="lang_105">Current</span></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="current" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u15">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u16">Value</span></th>
+                                <th class="rightCell"><span id="lang_055-u17">Min</span></th>
+                                <th class="rightCell"><span id="lang_056-u18">Max</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="current-data">
                             <tr>
                                 <th><span data-bind="Label"></span></th>
                                 <td class="rightCell"><span data-bind="Value"></span></td>
@@ -282,9 +310,9 @@ endforeach;
                     <table id="temperature" class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th><span id="lang_059-u14">Label</span></th>
-                                <th class="rightCell"><span id="lang_054-u15">Value</span></th>
-                                <th class="rightCell"><span id="lang_058-u16">Limit</span></th>
+                                <th><span id="lang_059-u19">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u20">Value</span></th>
+                                <th class="rightCell"><span id="lang_058-u21">Limit</span></th>
                             </tr>
                         </thead>
                         <tbody id="temperature-data">
@@ -308,9 +336,9 @@ endforeach;
                     <table id="fans" class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th><span id="lang_059-u17">Label</span></th>
-                                <th class="rightCell"><span id="lang_054-u18">Value</span></th>
-                                <th class="rightCell"><span id="lang_055-u19">Min</span></th>
+                                <th><span id="lang_059-u22">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u23">Value</span></th>
+                                <th class="rightCell"><span id="lang_055-u24">Min</span></th>
                             </tr>
                         </thead>
                         <tbody id="fans-data">
@@ -318,32 +346,6 @@ endforeach;
                                 <th><span data-bind="Label"></span></th>
                                 <td class="rightCell"><span data-bind="Value"></span></td>
                                 <td class="rightCell"><span data-bind="Min"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="block_current" class="col-lg-3" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_105">Currents</span></div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table id="current" class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th><span id="lang_059-u20">Label</span></th>
-                                <th class="rightCell"><span id="lang_054-u21">Value</span></th>
-                                <th class="rightCell"><span id="lang_058-u22">Limit</span></th>
-                            </tr>
-                        </thead>
-                        <tbody id="current-data">
-                            <tr>
-                                <th><span data-bind="Label"></span></th>
-                                <td class="rightCell"><span data-bind="Value"></span></td>
-                                <td class="rightCell"><span data-bind="Max"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -360,9 +362,9 @@ endforeach;
                     <table id="power" class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th><span id="lang_059-u23">Label</span></th>
-                                <th class="rightCell"><span id="lang_054-u24">Value</span></th>
-                                <th class="rightCell"><span id="lang_058-u25">Limit</span></th>
+                                <th><span id="lang_059-u25">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u26">Value</span></th>
+                                <th class="rightCell"><span id="lang_058-u27">Limit</span></th>
                             </tr>
                         </thead>
                         <tbody id="power-data">

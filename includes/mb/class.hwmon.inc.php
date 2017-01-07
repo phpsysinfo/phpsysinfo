@@ -163,7 +163,7 @@ class Hwmon extends Sensors
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (CommonFunctions::rfts($sensor[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
                 $dev = new SensorDevice();
-                $dev->setValue(trim($buf));
+                $dev->setValue(trim($buf)/1000000);
                 $label = preg_replace("/_input$/", "_label", $sensor[$i]);
                 $alarm = preg_replace("/_input$/", "_alarm", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
@@ -179,10 +179,10 @@ class Hwmon extends Sensors
                     }
                 }
                 if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setMax(trim($buf));
+                    $dev->setMax(trim($buf)/1000000);
                 }
                 if (CommonFunctions::fileexists($min) && CommonFunctions::rfts($min, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setMin(trim($buf));
+                    $dev->setMin(trim($buf)/1000000);
                 }
                 if (CommonFunctions::fileexists($alarm) && CommonFunctions::rfts($alarm, $buf, 1, 4096, false) && (trim($buf) === "1")) {
                     $dev->setEvent("Alarm");

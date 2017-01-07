@@ -838,7 +838,7 @@ function renderFilesystem(data) {
         },
         Name: {
             html: function () {
-                return this["Name"] + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+                return this["Name"].replace(/;/g, ";<wbr>") + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
             }
         },
         Percent: {
@@ -1102,6 +1102,12 @@ function renderCurrent(data) {
         Value: {
             text: function () {
                 return this["Value"] + String.fromCharCode(160) + "A";
+            }
+        },
+        Min: {
+            text: function () {
+                if (this["Min"] !== undefined)
+                    return this["Min"] + String.fromCharCode(160) + "A";
             }
         },
         Max: {

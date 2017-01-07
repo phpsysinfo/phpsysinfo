@@ -42,7 +42,7 @@ class Android extends Linux
     private function _kernel()
     {
         if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-            if (preg_match('/version (.*?) /', $strBuf, $ar_buf)) {
+            if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
                 $result = $ar_buf[1];
                 if (preg_match('/SMP/', $strBuf)) {
                     $result .= ' (SMP)';
@@ -69,7 +69,8 @@ class Android extends Linux
      */
     private function _filesystems()
     {
-        if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG)) {
+        $notwas = true;
+        if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG) && preg_match("/\s+[0-9\.]+[KMGT]\s+/", $df)) {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
                 $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
@@ -130,8 +131,15 @@ class Android extends Linux
                             }
                         }
                         $this->sys->setDiskDevices($dev);
+                        $notwas = false;
                     }
                 }
+            }
+        }
+        if ($notwas) { // try Linux df style
+            $arrResult = Parser::df("-P 2>/dev/null", false);
+            foreach ($arrResult as $dev) {
+                $this->sys->setDiskDevices($dev);
             }
         }
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: ko.xml 699 2012-09-15 11:57:13Z namiltd $ -->
 <!--
-phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
+phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD SkyKlouD
 -->
 <tns:translation language="korea" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -16,16 +16,16 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>Canonical 호스트명</exp>
   </expression>
   <expression id="004" name="ip">
-    <exp>Listening IP</exp>
+    <exp>할당된 IP</exp>
   </expression>
   <expression id="005" name="kversion">
     <exp>커널 버전</exp>
   </expression>
   <expression id="006" name="dversion">
-    <exp>제품명</exp>
+    <exp>배포판 이름</exp>
   </expression>
   <expression id="007" name="uptime">
-    <exp>사용시간</exp>
+    <exp>사용 시간</exp>
   </expression>
   <expression id="008" name="users">
     <exp>현재 사용자들</exp>
@@ -37,7 +37,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>하드웨어 정보</exp>
   </expression>
   <expression id="011" name="numcpu">
-    <exp>프로세스</exp>
+    <exp>프로세서</exp>
   </expression>
   <expression id="012" name="cpumodel">
     <exp>모델</exp>
@@ -55,16 +55,16 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>자체 테스트 클럭</exp>
   </expression>
   <expression id="017" name="pci">
-    <exp>PCI 장치들</exp>
+    <exp>PCI 장치</exp>
   </expression>
   <expression id="018" name="ide">
-    <exp>IDE 장치들</exp>
+    <exp>IDE 장치</exp>
   </expression>
   <expression id="019" name="scsi">
-    <exp>SCSI 장치들</exp>
+    <exp>SCSI 장치</exp>
   </expression>
   <expression id="020" name="usb">
-    <exp>USB 장치들</exp>
+    <exp>USB 장치</exp>
   </expression>
   <expression id="021" name="netusage">
     <exp>네트워크 사용량</exp>
@@ -79,7 +79,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>보냄</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>에러/실패</exp>
+    <exp>오류</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>접속된 네트워크</exp>
@@ -97,7 +97,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>마운트된 시스템</exp>
   </expression>
   <expression id="031" name="mount">
-    <exp>마운트지점</exp>
+    <exp>마운트 지점</exp>
   </expression>
   <expression id="032" name="partition">
     <exp>파티션</exp>
@@ -106,7 +106,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>사용량</exp>
   </expression>
   <expression id="034" name="type">
-    <exp>타입</exp>
+    <exp>종류</exp>
   </expression>
   <expression id="035" name="free">
     <exp>남은 공간</exp>
@@ -142,10 +142,10 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>언어</exp>
   </expression>
   <expression id="046" name="submit">
-    <exp>Submit</exp>
+    <exp>제출</exp>
   </expression>
   <expression id="047" name="created">
-    <exp>제작소 :</exp>
+    <exp>제작자 : </exp>
   </expression>
   <expression id="048" name="days">
     <exp>일</exp>
@@ -160,13 +160,13 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>온도</exp>
   </expression>
   <expression id="052" name="voltage">
-    <exp>Voltage</exp>
+    <exp>전압</exp>
   </expression>
   <expression id="053" name="fans">
-    <exp>Fans</exp>
+    <exp>쿨링 팬</exp>
   </expression>
   <expression id="054" name="s_value">
-    <exp>Value</exp>
+    <exp>값</exp>
   </expression>
   <expression id="055" name="s_min">
     <exp>최소</exp>
@@ -175,19 +175,19 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>최대</exp>
   </expression>
   <expression id="057" name="hysteresis">
-    <exp>Hysteresis</exp>
+    <exp>히스테리시스</exp>
   </expression>
   <expression id="058" name="s_limit">
-    <exp>Limit</exp>
+    <exp>제한</exp>
   </expression>
   <expression id="059" name="s_label">
     <exp>Label</exp>
   </expression>
   <expression id="060" name="degreec">
-    <exp>C</exp>
+    <exp>도 (섭씨)</exp>
   </expression>
   <expression id="061" name="degreef">
-    <exp>F</exp>
+    <exp>도 (화씨)</exp>
   </expression>
   <expression id="062" name="voltage_mark">
     <exp>V</exp>
@@ -205,7 +205,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>캐쉬</exp>
   </expression>
   <expression id="067" name="jumpto">
-    <exp>Jump to</exp>
+    <exp>이동 : </exp>
   </expression>
   <expression id="068" name="ups_title">
     <exp>UPS 정보</exp>
@@ -217,7 +217,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>모델</exp>
   </expression>
   <expression id="071" name="ups_mode">
-    <exp>Mode</exp>
+    <exp>모드</exp>
   </expression>
   <expression id="072" name="ups_start_time">
     <exp>Started</exp>
@@ -235,19 +235,19 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>Last outage timestamp</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
-    <exp>Line voltage</exp>
+    <exp>라인 전압</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
     <exp>Load percent</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
-    <exp>Battery voltage</exp>
+    <exp>배터리 전압</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
     <exp>배터리 충전</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
-    <exp>Time left on batteries</exp>
+    <exp>배터리 남은 시간</exp>
   </expression>
   <expression id="082" name="ups_voltage_mark">
     <exp>V</exp>
@@ -286,84 +286,84 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>가상화</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>마지막 부트 시간</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>시스템 언어</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>코드 페이지 (인코딩)</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>세부 사항</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>CPU 최대 속도</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>CPU 최소 속도</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>전력</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>배터리 시간</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>전류</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>기기</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>라인 주파수</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>프로세스</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>실행 중</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
     <exp>sleeping</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>중지됨</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>대기 중</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>기타 프로세스</exp>
   </expression>
   <expression id="117" name="tb">
-    <exp>TB 장치들</exp>
+    <exp>TB 장치</exp>
   </expression>
   <expression id="118" name="i2c">
-    <exp>I2C 장치들</exp>
+    <exp>I2C 장치</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>프로세서 개수</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>디바이스 개수</exp>
   </expression>
 </tns:translation>

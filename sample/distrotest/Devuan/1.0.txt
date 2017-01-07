@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+Distributor ID:	Devuan
+Description:	Devuan GNU/Linux 1.0 (jessie)
+Release:	1.0
+Codename:	jessie
+----------/etc/os-release----------
+PRETTY_NAME="Devuan GNU/Linux 1 (jessie)"
+NAME="Devuan GNU/Linux"
+VERSION_ID="1"
+VERSION="1 (jessie)"
+ID=devuan
+HOME_URL="http://www.devuan.org/"
+SUPPORT_URL="http://www.devuan.org/support/"
+BUG_REPORT_URL="https://bugs.devuan.org/"
+----------/etc/debian_version----------
+7.9
+----------/etc/devuan_version----------
+jessie

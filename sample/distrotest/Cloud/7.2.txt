@@ -1,0 +1,24 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	n/a
+Description:	NAME="CloudLinux"
+Release:	n/a
+Codename:	n/a
+----------/etc/cloudlinux-release----------
+CloudLinux release 7.2 (Valeri Kubasov) 
+----------/etc/os-release----------
+NAME="CloudLinux"
+VERSION="7.2 (Valeri Kubasov)"
+ID="cloudlinux"
+ID_LIKE="rhel fedora centos"
+VERSION_ID="7.2"
+PRETTY_NAME="CloudLinux 7.2 (Valeri Kubasov)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:cloudlinux:cloudlinux:7"
+HOME_URL="https://www.cloudlinux.com/"
+BUG_REPORT_URL="https://helpdesk.cloudlinux.com/"
+
+----------/etc/redhat-release----------
+CloudLinux release 7.2 (Valeri Kubasov) 
+----------/etc/system-release----------
+CloudLinux release 7.2 (Valeri Kubasov) 

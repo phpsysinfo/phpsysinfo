@@ -296,6 +296,11 @@ HIDE_NETWORK_INTERFACE=""
 SHOW_NETWORK_INFOS=true
 
 
+; Hide MAC address in the infos
+;
+HIDE_NETWORK_MACADDR=false
+
+
 ; Show network infos expanded
 ;
 SHOW_NETWORK_INFOS_EXPANDED=false

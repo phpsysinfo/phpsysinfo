@@ -1,0 +1,20 @@
+----------lsb_release -a----------
+Distributor ID:	SalentOS
+Description:	SalentOS 1.0 Luppìu
+Release:	1.0
+Codename:	luppiu
+----------/etc/lsb-release----------
+DISTRIB_ID=SalentOS
+DISTRIB_RELEASE=1.0
+DISTRIB_CODENAME=luppiu
+DISTRIB_DESCRIPTION="SalentOS 1.0 Luppìu"
+----------/etc/os-release----------
+PRETTY_NAME="SalentOS Luppìu (jessie)"
+NAME="SalentOS"
+VERSION_ID="1"
+VERSION="1 (luppìu)"
+ID=salentos
+HOME_URL="http://salentos.it/"
+SUPPORT_URL="http://salentos.it/community/"
+----------/etc/debian_version----------
+8.6

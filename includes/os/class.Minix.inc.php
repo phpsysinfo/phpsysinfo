@@ -50,8 +50,8 @@ class Minix extends OS
     {
         if (count($this->_dmesg) === 0) {
             if (CommonFunctions::rfts('/var/log/messages', $buf)) {
-                    $parts = preg_split("/kernel: APIC/", $buf, -1, PREG_SPLIT_NO_EMPTY);
-//                    $parts = preg_split("/ syslogd: restart\n/", $buf, -1, PREG_SPLIT_NO_EMPTY);
+                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
+                    $parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             }
         }
@@ -159,12 +159,13 @@ class Minix extends OS
      */
     private function _kernel()
     {
-        foreach ($this->readdmesg() as $line) {
-            if (preg_match('/kernel: MINIX (.*) \((.*)\)/', $line, $ar_buf)) {
-                $branch = $ar_buf[2];
-            }
-        }
         if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
+            foreach ($this->readdmesg() as $line) {
+                if (preg_match('/kernel: MINIX (\d+\.\d+\.\d+)\. \((.+)\)/', $line, $ar_buf)) {
+                    $branch = $ar_buf[2];
+                    break;
+                }
+            }
             if (isset($branch))
                $this->sys->setKernel($ret.' ('.$branch.')');
             else

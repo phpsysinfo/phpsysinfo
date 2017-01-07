@@ -172,6 +172,7 @@ class IPMI extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($buffer[0]);
                 $dev->setValue($buffer[1]);
+                if ($buffer[5] != "na") $dev->setMin($buffer[5]);
                 if ($buffer[8] != "na") $dev->setMax($buffer[8]);
                 /* incorrect events recognition
                 switch ($buffer[3]) {

@@ -40,19 +40,10 @@ class ThermalZone extends Sensors
         parent::__construct();
         if (PSI_OS == 'WINNT') {
             $_wmi = null;
-            // don't set this params for local connection, it will not work
-            $strHostname = '';
-            $strUser = '';
-            $strPassword = '';
             try {
                 // initialize the wmi object
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                if ($strHostname == "") {
-                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI');
-
-                } else {
-                    $_wmi = $objLocator->ConnectServer($strHostname, 'root\WMI', $strHostname.'\\'.$strUser, $strPassword);
-                }
+                $_wmi = $objLocator->ConnectServer('', 'root\WMI');
             } catch (Exception $e) {
                 $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
             }
@@ -93,6 +84,8 @@ class ThermalZone extends Sensors
                 if (CommonFunctions::rfts($thermalzonetemp, $temp, 0, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
                     if ($temp >= 1000) {
                         $temp = $temp / 1000;
+                    } elseif ($temp >= 200) {
+                        $temp = $temp / 10;
                     }
 
                     if ($temp > -40) {
@@ -107,9 +100,11 @@ class ThermalZone extends Sensors
                         }
 
                         $temp_max = null;
-                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > 0)) {
+                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > -40)) {
                             if ($temp_max >= 1000) {
                                 $temp_max = $temp_max / 1000;
+                            } elseif ($temp_max >= 200) {
+                                $temp_max = $temp_max / 10;
                             }
                             $dev->setMax($temp_max);
                         }

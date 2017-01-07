@@ -58,7 +58,7 @@ class Parser
      *
      * @return array
      */
-    public static function df($df_param = "")
+    public static function df($df_param = "", $get_inodes = true)
     {
         $arrResult = array();
         if (CommonFunctions::executeProgram('mount', '', $mount, PSI_DEBUG)) {
@@ -110,7 +110,7 @@ class Parser
         }
         if (CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG) && ($df!=="")) {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
-            if (PSI_SHOW_INODES) {
+            if ($get_inodes && PSI_SHOW_INODES) {
                 if (CommonFunctions::executeProgram('df', '-i '.$df_param, $df2, PSI_DEBUG)) {
                     $df2 = preg_split("/\n/", $df2, -1, PREG_SPLIT_NO_EMPTY);
                     // Store inode use% in an associative array (df_inodes) for later use
@@ -212,7 +212,7 @@ class Parser
                             $dev->setFsType('unknown');
                         }
 
-                        if (PSI_SHOW_INODES && isset($df_inodes[trim($df_buf[0])])) {
+                        if ($get_inodes && PSI_SHOW_INODES && isset($df_inodes[trim($df_buf[0])])) {
                             $dev->setPercentInodesUsed($df_inodes[trim($df_buf[0])]);
                         }
                         $arrResult[] = $dev;

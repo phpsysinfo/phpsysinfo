@@ -37,29 +37,14 @@ class BAT extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 $_cim = null; //root\CIMv2
                 $_wmi = null; //root\WMI
-                // don't set this params for local connection, it will not work
-                $strHostname = '';
-                $strUser = '';
-                $strPassword = '';
                 try {
                     // initialize the wmi object
                     $objLocatorCIM = new COM('WbemScripting.SWbemLocator');
-                    if ($strHostname == "") {
-                        $_cim = $objLocatorCIM->ConnectServer();
-
-                    } else {
-                        $_cim = $objLocatorCIM->ConnectServer($strHostname, 'root\CIMv2', $strHostname.'\\'.$strUser, $strPassword);
-                    }
+                    $_cim = $objLocatorCIM->ConnectServer('', 'root\CIMv2');
 
                     // initialize the wmi object
                     $objLocatorWMI = new COM('WbemScripting.SWbemLocator');
-                    if ($strHostname == "") {
-                        $_wmi = $objLocatorWMI->ConnectServer($strHostname, 'root\WMI');
-
-                    } else {
-                        $_wmi = $objLocatorWMI->ConnectServer($strHostname, 'root\WMI', $strHostname.'\\'.$strUser, $strPassword);
-                    }
-
+                    $_wmi = $objLocatorWMI->ConnectServer('', 'root\WMI');
                 } catch (Exception $e) {
                     $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 }
