@@ -150,7 +150,7 @@ class Linux extends OS
                 }
             }
             if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)
-                && preg_match('/^Linux version [\d\.]+-Microsoft/', $strBuf2)) {
+                && preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
                     $result .= ' [lxss]';
             }
             $this->sys->setKernel($result);
