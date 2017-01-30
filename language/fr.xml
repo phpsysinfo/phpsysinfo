@@ -319,7 +319,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>Date de la batterie</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Actuel</exp>
+    <exp>Courant</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>

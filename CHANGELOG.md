@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.8
+----------------
+ - [UPD] French Translation fr.xml
+
 phpSysInfo 3.2.7
 ----------------
  - [UPD] jQuery 3.1.1
