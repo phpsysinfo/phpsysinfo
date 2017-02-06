@@ -69,7 +69,7 @@ class FreeBSD extends BSDCommon
                     if (preg_match('/^<Link/i', $ar_buf[2])) {
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[0]);
-                        if (strlen($ar_buf[3]) < 17) { /* no Address */
+                        if (strlen($ar_buf[3]) < 17 && $ar_buf[0] != $ar_buf[3]) { /* no Address */
                             if (isset($ar_buf[11]) && (trim($ar_buf[11]) != '')) { /* Idrop column exist*/
                               $dev->setTxBytes($ar_buf[9]);
                               $dev->setRxBytes($ar_buf[6]);
