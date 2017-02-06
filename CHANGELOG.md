@@ -7,6 +7,8 @@ phpSysInfo 3.2.8
 ----------------
  - [UPD] French Translation fr.xml
 
+ - [FIX] Fixed incorrect network usage on FreeBSD 11
+
 phpSysInfo 3.2.7
 ----------------
  - [UPD] jQuery 3.1.1
