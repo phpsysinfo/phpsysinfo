@@ -9,7 +9,7 @@ function renderPlugin_ps(data) {
         },
         Name: {
             html: function () {
-                return this["Name"].replace(/,/g, ",<wbr>"); /* split long name */;
+                return this["Name"].replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>"); /* split long name */;
             }
         }
     };
