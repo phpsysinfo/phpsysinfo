@@ -462,8 +462,12 @@ class WINNT extends OS
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
-                if (PSI_LOAD_BAR && (count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
-                    $cpu->setLoad($cpubuffer['cpu'.$i]);
+                if (PSI_LOAD_BAR) {
+                    if ((count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
+                        $cpu->setLoad($cpubuffer['cpu'.$i]);
+                    } elseif (($cpuCount == 1) && ($buffer = $this->_get_Win32_Processor()) && isset($buffer[$i]) && isset($buffer[$i]['LoadPercentage'])) {
+                        $cpu->setLoad($buffer[$i]['LoadPercentage']);
+                    }
                 }
                 $this->sys->setCpus($cpu);
             }
