@@ -48,6 +48,13 @@ class WINNT extends OS
      */
     private $_Win32_Processor = null;
 
+     /**
+     * holds the data from WMI Win32_PerfFormattedData_PerfOS_Processor
+     *
+     * @var array
+     */
+    private $_Win32_PerfFormattedData_PerfOS_Processor = null;
+
     /**
      * holds the data from systeminfo command
      *
@@ -112,8 +119,27 @@ class WINNT extends OS
      */
     private function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'MaxClockSpeed'));
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed'));
         return $this->_Win32_Processor;
+    }
+
+    /**
+     * reads the data from WMI Win32_PerfFormattedData_PerfOS_Processor
+     *
+     * @var array
+     */
+    private function _get_Win32_PerfFormattedData_PerfOS_Processor()
+    {
+        if ($this->_Win32_PerfFormattedData_PerfOS_Processor === null) {
+            $cpubuffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfFormattedData_PerfOS_Processor', array('Name', 'PercentProcessorTime'));
+            $this->_Win32_PerfFormattedData_PerfOS_Processor = array();
+            if ($cpubuffer) foreach ($cpubuffer as $cpu) {
+                if (isset($cpu['Name']) && isset($cpu['PercentProcessorTime'])) {
+                    $this->_Win32_PerfFormattedData_PerfOS_Processor[$cpu['Name']] = $cpu['PercentProcessorTime'];
+                }
+            }
+        }
+        return $this->_Win32_PerfFormattedData_PerfOS_Processor;
     }
 
     /**
@@ -372,9 +398,24 @@ class WINNT extends OS
                 $loadavg .= $value.' ';
                 $sum += $value;
             }
-            $this->sys->setLoad(trim($loadavg));
-            if (PSI_LOAD_BAR) {
-                $this->sys->setLoadPercent($sum / count($buffer));
+            if (count($buffer) == 1) {  
+                $cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor();
+                if ($cpubuffer && isset($cpubuffer["_Total"])) {
+                    $this->sys->setLoad($cpubuffer["_Total"]);
+                    if (PSI_LOAD_BAR) {
+                        $this->sys->setLoadPercent($cpubuffer["_Total"]);
+                    }
+                } else {
+                    $this->sys->setLoad(trim($loadavg));
+                    if (PSI_LOAD_BAR) {
+                        $this->sys->setLoadPercent($sum);
+                    }
+                }
+            } else {
+                $this->sys->setLoad(trim($loadavg));
+                if (PSI_LOAD_BAR) {
+                    $this->sys->setLoadPercent($sum / count($buffer));
+                }
             }
         }
     }
@@ -404,20 +445,26 @@ class WINNT extends OS
                 }
             }
         }
+
         foreach ($allCpus as $oneCpu) {
-            $coreCount = 1;
-            if (isset($oneCpu['NumberOfCores'])) {
-                $coreCount = $oneCpu['NumberOfCores'];
+            $cpuCount = 1;
+            if (isset($oneCpu['NumberOfLogicalProcessors'])) {
+                $cpuCount = $oneCpu['NumberOfLogicalProcessors'];
+            } elseif (isset($oneCpu['NumberOfCores'])) {
+                $cpuCount = $oneCpu['NumberOfCores'];
             }
-            for ($i = 0; $i < $coreCount; $i++) {
+            for ($i = 0; $i < $cpuCount; $i++) {
                 $cpu = new CpuDevice();
                 if (isset($oneCpu['Name'])) $cpu->setModel($oneCpu['Name']);
-                if (isset($oneCpu['L2CacheSize'])) $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
+                if (isset($oneCpu['L3CacheSize'])) $cpu->setCache($oneCpu['L3CacheSize'] * 1024);
                 if (isset($oneCpu['CurrentClockSpeed'])) {
                     $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
+                if (PSI_LOAD_BAR && (count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer[$i])) {
+                    $cpu->setLoad($cpubuffer[$i]);
+                }
                 $this->sys->setCpus($cpu);
             }
         }
