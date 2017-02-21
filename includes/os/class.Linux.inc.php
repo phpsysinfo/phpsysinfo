@@ -404,7 +404,7 @@ class Linux extends OS
                         case 'cpu0clktck':
                             $dev->setCpuSpeed(hexdec($arrBuff1) / 1000000); // Linux sparc64
                             break;
-                        case 'l2 cache':
+                        case 'l3 cache':
                         case 'cache size':
                             $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff1)) * 1024);
                             break;
