@@ -465,7 +465,7 @@ class WINNT extends OS
                 if (PSI_LOAD_BAR) {
                     if ((count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
                         $cpu->setLoad($cpubuffer['cpu'.$i]);
-                    } elseif (($cpuCount == 1) && ($buffer = $this->_get_Win32_Processor()) && isset($buffer[$i]) && isset($buffer[$i]['LoadPercentage'])) {
+                    } elseif (($cpuCount == 1) && ($buffer = $this->_get_Win32_Processor()) && (count($allCpus) == count($buffer)) && isset($buffer[$i]) && isset($buffer[$i]['LoadPercentage'])) {
                         $cpu->setLoad($buffer[$i]['LoadPercentage']);
                     }
                 }
