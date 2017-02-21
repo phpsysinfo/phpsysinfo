@@ -135,7 +135,7 @@ class WINNT extends OS
             $this->_Win32_PerfFormattedData_PerfOS_Processor = array();
             if ($cpubuffer) foreach ($cpubuffer as $cpu) {
                 if (isset($cpu['Name']) && isset($cpu['PercentProcessorTime'])) {
-                    $this->_Win32_PerfFormattedData_PerfOS_Processor[$cpu['Name']] = $cpu['PercentProcessorTime'];
+                    $this->_Win32_PerfFormattedData_PerfOS_Processor['cpu'.$cpu['Name']] = $cpu['PercentProcessorTime'];
                 }
             }
         }
@@ -400,10 +400,10 @@ class WINNT extends OS
             }
             if (count($buffer) == 1) {  
                 $cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor();
-                if ($cpubuffer && isset($cpubuffer["_Total"])) {
-                    $this->sys->setLoad($cpubuffer["_Total"]);
+                if ($cpubuffer && isset($cpubuffer['cpu_Total'])) {
+                    $this->sys->setLoad($cpubuffer['cpu_Total']);
                     if (PSI_LOAD_BAR) {
-                        $this->sys->setLoadPercent($cpubuffer["_Total"]);
+                        $this->sys->setLoadPercent($cpubuffer['cpu_Total']);
                     }
                 } else {
                     $this->sys->setLoad(trim($loadavg));
@@ -462,8 +462,8 @@ class WINNT extends OS
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
-                if (PSI_LOAD_BAR && (count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer[$i])) {
-                    $cpu->setLoad($cpubuffer[$i]);
+                if (PSI_LOAD_BAR && (count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
+                    $cpu->setLoad($cpubuffer['cpu'.$i]);
                 }
                 $this->sys->setCpus($cpu);
             }
