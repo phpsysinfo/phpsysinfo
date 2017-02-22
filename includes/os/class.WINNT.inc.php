@@ -398,7 +398,8 @@ class WINNT extends OS
                 $loadavg .= $value.' ';
                 $sum += $value;
             }
-            if (count($buffer) == 1) {  
+            if ((count($buffer) == 1) && ((isset($buffer[0]['NumberOfLogicalProcessors']) && ($buffer[0]['NumberOfLogicalProcessors'] > 1))
+                   || (isset($buffer[0]['NumberOfCores']) && ($buffer[0]['NumberOfCores'] > 1)))) {
                 $cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor();
                 if ($cpubuffer && isset($cpubuffer['cpu_Total'])) {
                     $this->sys->setLoad($cpubuffer['cpu_Total']);
@@ -446,6 +447,17 @@ class WINNT extends OS
             }
         }
 
+       $globalcpus = 0;
+       foreach ($allCpus as $oneCpu) {
+            $cpuCount = 1;
+            if (isset($oneCpu['NumberOfLogicalProcessors'])) {
+                $cpuCount = $oneCpu['NumberOfLogicalProcessors'];
+            } elseif (isset($oneCpu['NumberOfCores'])) {
+                $cpuCount = $oneCpu['NumberOfCores'];
+            }
+            $globalcpus+=$cpuCount;
+        }
+    
         foreach ($allCpus as $oneCpu) {
             $cpuCount = 1;
             if (isset($oneCpu['NumberOfLogicalProcessors'])) {
@@ -463,10 +475,12 @@ class WINNT extends OS
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
                 if (PSI_LOAD_BAR) {
-                    if ((count($allCpus) == 1) && ($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
-                        $cpu->setLoad($cpubuffer['cpu'.$i]);
-                    } elseif (($cpuCount == 1) && ($buffer = $this->_get_Win32_Processor()) && (count($allCpus) == count($buffer)) && isset($buffer[$i]) && isset($buffer[$i]['LoadPercentage'])) {
-                        $cpu->setLoad($buffer[$i]['LoadPercentage']);
+                    if ((count($allCpus) == 1) && ($globalcpus > 1)) {
+                        if (($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {
+                            $cpu->setLoad($cpubuffer['cpu'.$i]);
+                        }
+                    } elseif (count($allCpus) == $globalcpus) {
+                        if (isset($oneCpu['LoadPercentage'])) $cpu->setLoad($oneCpu['LoadPercentage']);
                     }
                 }
                 $this->sys->setCpus($cpu);
