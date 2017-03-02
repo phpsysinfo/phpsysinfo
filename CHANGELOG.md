@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.8
 ----------------
  - [UPD] French Translation fr.xml
+ - [UPD] CPU usage on WinNT
 
  - [FIX] Fixed incorrect network usage on FreeBSD 11
 
