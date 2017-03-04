@@ -9,7 +9,7 @@
  * @package   PSI_Plugin_Iptables
  * @author    erpomata
  * @copyright 2016 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.iptables.inc.php 661 2016-05-03 11:26:39Z erpomata $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI_Plugin_Iptables
  * @author    erpomata
  * @copyright 2016 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 1.0
  * @link      http://phpsysinfo.sourceforge.net
  */
