@@ -46,13 +46,13 @@ class Linux extends OS
      */
     private function _machine()
     {
+        $machine = "";
         if ((CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
            ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))) {
-            $this->sys->setMachine(trim($ar_buf[1]));
+            $machine = trim($ar_buf[1]);
         } else { //data from /sys/devices/virtual/dmi/id/
-            $machine = "";
             $product = "";
             $board = "";
             $bios = "";
@@ -80,17 +80,27 @@ class Linux extends OS
             if ($bios != "") {
                 $machine .= ", BIOS ".$bios;
             }
+        }
 
+        if ($machine != "") {
+            $machine = trim(preg_replace("/ ?To be filled by O\.E\.M\. ?/", "", $machine));
+        }
+
+        if (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
+           && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+           && preg_match("/^Rsync\sModel\s*=\s*QNAP/m", $buf)
+           && CommonFunctions::fileexists($filename="/etc/platform.conf") // Platform detection
+           && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+           && preg_match("/^DISPLAY_NAME\s*=\s*(\S+)/m", $buf, $mach_buf) && ($mach_buf[1]!=="")) {
             if ($machine != "") {
-                $this->sys->setMachine(trim($machine));
-            } elseif (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
-               && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-               && preg_match("/^Rsync\sModel\s*=\s*QNAP/m", $buf)
-               && CommonFunctions::fileexists($filename="/etc/platform.conf") // Platform detection
-               && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-               && preg_match("/^DISPLAY_NAME\s*=\s*(\S+)/m", $buf, $mach_buf) && ($mach_buf[1]!=="")) {
-                $this->sys->setMachine("QNAP ".$mach_buf[1]);
+                $machine = "QNAP ".$mach_buf[1].' - '.$machine;
+            } else {
+                $machine = "QNAP ".$mach_buf[1];
             }
+        }
+
+        if ($machine != "") {
+            $this->sys->setMachine($machine);
         }
     }
 
