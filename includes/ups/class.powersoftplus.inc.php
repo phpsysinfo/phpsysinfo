@@ -8,7 +8,7 @@
  * @package   PSI_UPS
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   SVN: $Id: class.powersoftplus.inc.php 661 2014-06-13 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
 */
@@ -19,7 +19,7 @@
  * @package   PSI_UPS
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
 */

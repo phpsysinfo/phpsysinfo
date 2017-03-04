@@ -8,7 +8,7 @@
  * @package   PSI_Plugin_PS
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   SVN: $Id: class.ps.inc.php 692 2012-09-08 17:12:08Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -24,7 +24,7 @@
  * @package   PSI_Plugin_PS
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */

@@ -7,6 +7,7 @@
  * @category  PHP
  * @package   PSI_Sensor
  * @author    Marc Hillesheim <hawkeyexp@gmail.com>
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @copyright 2012 Marc Hillesheim
  * @link      http://pi.no-ip.biz
  */

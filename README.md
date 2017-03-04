@@ -117,5 +117,5 @@ page at SourceForge (http://sourceforge.net/projects/phpsysinfo/).
 LICENSING
 ---------
 
-This program and all associated files are released under the GNU Public
-License, see [COPYING](COPYING) for details.
+This program and is released under the GNU Public License Version 2
+or any later version, see [COPYING](COPYING) for details.

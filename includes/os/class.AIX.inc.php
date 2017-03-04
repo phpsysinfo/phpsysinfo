@@ -8,7 +8,7 @@
  * @package   PSI AIX OS class
  * @author    Krzysztof Paz (kpaz@gazeta.pl) based on HPUX of Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2011 Krzysztof Paz
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   SVN: $Id: class.AIX.inc.php 287 2009-06-26 12:11:59Z Krzysztof Paz, IBM POLSKA
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
 * @package   PSI AIX OS class
 * @author    Krzysztof Paz (kpaz@gazeta.pl) based on Michael Cramer <BigMichi1@users.sourceforge.net>
 * @copyright 2011 Krzysztof Paz
-* @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+* @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
 * @version   Release: 3.0
 * @link      http://phpsysinfo.sourceforge.net
 */

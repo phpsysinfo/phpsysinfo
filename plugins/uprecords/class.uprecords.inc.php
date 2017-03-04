@@ -9,7 +9,7 @@
  * @package   PSI_Plugin_Uprecords
  * @author    Ambrus Sandor Olah <aolah76@freemail.hu>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   SVN: $Id: class.uprecords.inc.php 661 2014-01-08 11:26:39Z aolah76 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI_Plugin_Uprecords
  * @author    Ambrus Sandor Olah <aolah76@freemail.hu>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2 or later
  * @version   Release: 1.0
  * @link      http://phpsysinfo.sourceforge.net
  */
