@@ -30,7 +30,7 @@ class Healthd extends Sensors
      *
      * @var array
      */
-    private $_lines = array();
+    private $_values = array();
 
     /**
      * fill the private content var through command or data access
@@ -40,13 +40,19 @@ class Healthd extends Sensors
         parent::__construct();
         switch (defined('PSI_SENSOR_HEALTHD_ACCESS')?strtolower(PSI_SENSOR_HEALTHD_ACCESS):'command') {
         case 'command':
-            $lines = "";
-            CommonFunctions::executeProgram('healthdc', '-t', $lines);
-            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            if (CommonFunctions::executeProgram('healthdc', '-t', $lines)) {
+                $lines0 = preg_split("/\n/", $lines, 1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines0) == 1) {
+                    $this->_values = preg_split("/\t+/", $lines0[0]);
+                }
+            }
             break;
         case 'data':
             if (CommonFunctions::rfts(APP_ROOT.'/data/healthd.txt', $lines)) {
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                $lines0 = preg_split("/\n/", $lines, 1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines0) == 1) {
+                    $this->_values = preg_split("/\t+/", $lines0[0]);
+                }
             }
             break;
         default:
@@ -62,22 +68,23 @@ class Healthd extends Sensors
      */
     private function _temperature()
     {
-        $ar_buf = preg_split("/\t+/", $this->_lines);
-        $dev1 = new SensorDevice();
-        $dev1->setName('temp1');
-        $dev1->setValue($ar_buf[1]);
-//        $dev1->setMax(70);
-        $this->mbinfo->setMbTemp($dev1);
-        $dev2 = new SensorDevice();
-        $dev2->setName('temp1');
-        $dev2->setValue($ar_buf[2]);
-//        $dev2->setMax(70);
-        $this->mbinfo->setMbTemp($dev2);
-        $dev3 = new SensorDevice();
-        $dev3->setName('temp1');
-        $dev3->setValue($ar_buf[3]);
-//        $dev3->setMax(70);
-        $this->mbinfo->setMbTemp($dev3);
+        if (count($this->_values) == 14) {
+            $dev1 = new SensorDevice();
+            $dev1->setName('temp1');
+            $dev1->setValue($this->_values[1]);
+//            $dev1->setMax(70);
+            $this->mbinfo->setMbTemp($dev1);
+            $dev2 = new SensorDevice();
+            $dev2->setName('temp1');
+            $dev2->setValue($this->_values[2]);
+//            $dev2->setMax(70);
+            $this->mbinfo->setMbTemp($dev2);
+            $dev3 = new SensorDevice();
+            $dev3->setName('temp1');
+            $dev3->setValue($this->_values[3]);
+//            $dev3->setMax(70);
+            $this->mbinfo->setMbTemp($dev3);
+        }
     }
 
     /**
@@ -87,22 +94,23 @@ class Healthd extends Sensors
      */
     private function _fans()
     {
-        $ar_buf = preg_split("/\t+/", $this->_lines);
-        $dev1 = new SensorDevice();
-        $dev1->setName('fan1');
-        $dev1->setValue($ar_buf[4]);
-//        $dev1->setMin(3000);
-        $this->mbinfo->setMbFan($dev1);
-        $dev2 = new SensorDevice();
-        $dev2->setName('fan2');
-        $dev2->setValue($ar_buf[5]);
-//        $dev2->setMin(3000);
-        $this->mbinfo->setMbFan($dev2);
-        $dev3 = new SensorDevice();
-        $dev3->setName('fan3');
-        $dev3->setValue($ar_buf[6]);
-//        $dev3->setMin(3000);
-        $this->mbinfo->setMbFan($dev3);
+        if (count($this->_values) == 14) {
+            $dev1 = new SensorDevice();
+            $dev1->setName('fan1');
+            $dev1->setValue($this->_values[4]);
+//            $dev1->setMin(3000);
+            $this->mbinfo->setMbFan($dev1);
+            $dev2 = new SensorDevice();
+            $dev2->setName('fan2');
+            $dev2->setValue($this->_values[5]);
+//            $dev2->setMin(3000);
+            $this->mbinfo->setMbFan($dev2);
+            $dev3 = new SensorDevice();
+            $dev3->setName('fan3');
+            $dev3->setValue($this->_values[6]);
+//            $dev3->setMin(3000);
+            $this->mbinfo->setMbFan($dev3);
+        }
     }
 
     /**
@@ -112,35 +120,36 @@ class Healthd extends Sensors
      */
     private function _voltage()
     {
-        $ar_buf = preg_split("/\t+/", $this->_lines);
-        $dev1 = new SensorDevice();
-        $dev1->setName('Vcore1');
-        $dev1->setValue($ar_buf[7]);
-        $this->mbinfo->setMbVolt($dev1);
-        $dev2 = new SensorDevice();
-        $dev2->setName('Vcore2');
-        $dev2->setValue($ar_buf[8]);
-        $this->mbinfo->setMbVolt($dev2);
-        $dev3 = new SensorDevice();
-        $dev3->setName('3volt');
-        $dev3->setValue($ar_buf[9]);
-        $this->mbinfo->setMbVolt($dev3);
-        $dev4 = new SensorDevice();
-        $dev4->setName('+5Volt');
-        $dev4->setValue($ar_buf[10]);
-        $this->mbinfo->setMbVolt($dev4);
-        $dev5 = new SensorDevice();
-        $dev5->setName('+12Volt');
-        $dev5->setValue($ar_buf[11]);
-        $this->mbinfo->setMbVolt($dev5);
-        $dev6 = new SensorDevice();
-        $dev6->setName('-12Volt');
-        $dev6->setValue($ar_buf[12]);
-        $this->mbinfo->setMbVolt($dev6);
-        $dev7 = new SensorDevice();
-        $dev7->setName('-5Volt');
-        $dev7->setValue($ar_buf[13]);
-        $this->mbinfo->setMbVolt($dev7);
+        if (count($this->_values) == 14) {
+            $dev1 = new SensorDevice();
+            $dev1->setName('Vcore1');
+            $dev1->setValue($this->_values[7]);
+            $this->mbinfo->setMbVolt($dev1);
+            $dev2 = new SensorDevice();
+            $dev2->setName('Vcore2');
+            $dev2->setValue($this->_values[8]);
+            $this->mbinfo->setMbVolt($dev2);
+            $dev3 = new SensorDevice();
+            $dev3->setName('3volt');
+            $dev3->setValue($this->_values[9]);
+            $this->mbinfo->setMbVolt($dev3);
+            $dev4 = new SensorDevice();
+            $dev4->setName('+5Volt');
+            $dev4->setValue($this->_values[10]);
+            $this->mbinfo->setMbVolt($dev4);
+            $dev5 = new SensorDevice();
+            $dev5->setName('+12Volt');
+            $dev5->setValue($this->_values[11]);
+            $this->mbinfo->setMbVolt($dev5);
+            $dev6 = new SensorDevice();
+            $dev6->setName('-12Volt');
+            $dev6->setValue($this->_values[12]);
+            $this->mbinfo->setMbVolt($dev6);
+            $dev7 = new SensorDevice();
+            $dev7->setName('-5Volt');
+            $dev7->setValue($this->_values[13]);
+            $this->mbinfo->setMbVolt($dev7);
+        }
     }
 
     /**

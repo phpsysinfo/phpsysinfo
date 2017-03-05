@@ -9,6 +9,7 @@ phpSysInfo 3.2.8
  - [UPD] CPU usage on WinNT
 
  - [FIX] Fixed incorrect network usage on FreeBSD 11
+ - [FIX] Fixed healthd sensors
 
 phpSysInfo 3.2.7
 ----------------
