@@ -189,8 +189,8 @@ class SimpleXMLExtended
                 $enclist = mb_list_encodings();
                 if (in_array($this->_encoding, $enclist)) {
                     return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
-                } elseif (function_exists("iconv")) {
-                    return iconv($this->_encoding, 'UTF-8', trim($str));
+                } elseif (function_exists("iconv") && (($iconvout=iconv($this->_encoding, 'UTF-8', trim($str)))!==false)) {
+                    return $iconvout;
                 } else {
                     return mb_convert_encoding(trim($str), 'UTF-8');
                 }
