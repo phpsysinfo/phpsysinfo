@@ -186,16 +186,21 @@ class SimpleXMLExtended
 
                  return $strr;
             } else {
+                if (preg_match("/^windows-\d+ \((.+)\)$/", $this->_encoding, $buf)) {
+                    $encoding = $buf[1];
+                } else {
+                    $encoding = $this->_encoding;
+                }
                 $enclist = mb_list_encodings();
-                if (in_array($this->_encoding, $enclist)) {
-                    return mb_convert_encoding(trim($str), 'UTF-8', $this->_encoding);
+                if (in_array($encoding, $enclist)) {
+                    return mb_convert_encoding(trim($str), 'UTF-8', $encoding);
                 } elseif (function_exists("iconv")) {
-                    if (($iconvout=iconv($this->_encoding, 'UTF-8', trim($str)))!==false) {
+                    if (($iconvout=iconv($encoding, 'UTF-8', trim($str)))!==false) {
                         return $iconvout;
                     } else {
                         return mb_convert_encoding(trim($str), 'UTF-8');
                     }
-                } elseif (function_exists("libiconv") && (($iconvout=libiconv($this->_encoding, 'UTF-8', trim($str)))!==false)) {
+                } elseif (function_exists("libiconv") && (($iconvout=libiconv($encoding, 'UTF-8', trim($str)))!==false)) {
                     return $iconvout;
                 } else {
                     return mb_convert_encoding(trim($str), 'UTF-8');

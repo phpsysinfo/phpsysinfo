@@ -11,6 +11,7 @@ phpSysInfo 3.2.8
 
  - [FIX] Fixed incorrect network usage on FreeBSD 11
  - [FIX] Fixed healthd sensors
+ - [FIX] Fixed displaying for code pages windows-932, windows-949 and windows-950 for WinNT
 
 phpSysInfo 3.2.7
 ----------------
