@@ -187,7 +187,11 @@ class WINNT extends OS
         }
         if ($buffer && isset($buffer[0])) {
             if (isset($buffer[0]['CodeSet'])) {
-                $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
+                if ($buffer[0]['CodeSet'] == 949) {
+                    $this->_codepage = 'EUC-KR';
+                } else {
+                    $this->_codepage = 'windows-'.$buffer[0]['CodeSet'];
+                }
             }
             if (isset($buffer[0]['OSLanguage'])) {
                 $lang = "";
