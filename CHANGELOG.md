@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.2.8
 ----------------
- - [UPD] jQuery 3.2.0
+ - [UPD] jQuery 3.2.1
  - [UPD] French Translation fr.xml
  - [UPD] CPU usage on WinNT
 
