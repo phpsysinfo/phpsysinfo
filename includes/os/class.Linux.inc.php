@@ -277,7 +277,7 @@ class Linux extends OS
         }
 
         if (($revi = hexdec($revihex)) & 0x800000) {
-            if ($this->sys->getMachine() === "") {
+            if ($this->sys->getMachine() === '') {
                 $model = ($revi >> 4) & 255;
                 if (isset($list['model'][$model])) {
                     $this->sys->setMachine('Raspberry Pi '.$list['model'][$model].' (PCB 1.'.($revi & 15).')');
@@ -297,7 +297,7 @@ class Linux extends OS
                 return '';
             }
         } else {
-            if ($this->sys->getMachine() === "") {
+            if ($this->sys->getMachine() === '') {
                 if (isset($list['old'][$revi & 0x7fffff])) {
                     $this->sys->setMachine('Raspberry Pi '.$list['old'][$revi & 0x7fffff]);
                 } else {
@@ -326,6 +326,8 @@ class Linux extends OS
     protected function _cpuinfo()
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
+            $cpulist = @parse_ini_file(APP_ROOT."/data/cpus.ini", true);
+
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -502,21 +504,28 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
                         $dev->setTemp(substr($buf, 25, 2));
                     }
-                    // Raspbery detection
-                    if (($arch === '7') && ($impl === '0x41')
-                      && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
-                      && ($_revi !== null)) {
-                        if (($cputype = $this->setRaspberry($_revi, $part)) !== "") {
-                            if (($cpumodel = $dev->getModel()) !== "") {
+
+                    if (($arch === '7') && ($impl !== null) && ($part !== null)) {
+                        $cputype = '';
+                        if (($impl === '0x41')
+                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
+                           && ($_revi !== null)) { // Raspbery detection
+                            $cputype = $this->setRaspberry($_revi, $part);
+                        } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other ARM hardware
+                            $this->sys->setMachine($_hard);
+                        }
+                        if (($cputype === '') && ($cpulist) && (isset($cpulist['cpu'][$cpuimplpart = strtolower($impl.','.$part)]))) {
+                            $cputype = $cpulist['cpu'][$cpuimplpart];
+                        }
+                        if ($cputype !== '') {
+                            if (($cpumodel = $dev->getModel()) !== '') {
                                 $dev->setModel($cpumodel.' - '.$cputype);
                             } else {
                                 $dev->setModel($cputype);
                             }
                         }
-                    } else { // other hardware
-                        if (($_hard !== null) && ($this->sys->getMachine() === "")) {
-                            $this->sys->setMachine($_hard);
-                        }
+                    } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other hardware
+                        $this->sys->setMachine($_hard);
                     }
 
                     if ($dev->getModel() === "") {
