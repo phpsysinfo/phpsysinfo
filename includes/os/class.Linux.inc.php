@@ -265,59 +265,6 @@ class Linux extends OS
     }
 
     /**
-     * Set Raspberry device name
-     *
-     * @return CPU name
-     */
-    private function setRaspberry($revihex, $cpupart)
-    {
-        $list = @parse_ini_file(APP_ROOT."/data/raspberry.ini", true);
-        if (!$list || preg_match('/[^0-9a-f]/', $revihex)) {
-            return '';
-        }
-
-        if (($revi = hexdec($revihex)) & 0x800000) {
-            if ($this->sys->getMachine() === '') {
-                $model = ($revi >> 4) & 255;
-                if (isset($list['model'][$model])) {
-                    $this->sys->setMachine('Raspberry Pi '.$list['model'][$model].' (PCB 1.'.($revi & 15).')');
-                } else {
-                    $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revi & 15).')');
-                }
-            }
-            $cpu = ($revi >> 12) & 15;
-            if (isset($list['cpu'][$cpu])) {
-                $cpu_buf = preg_split("/:/", $list['cpu'][$cpu], 2);
-                if (trim($cpupart) === trim($cpu_buf[0])) {
-                    return trim($cpu_buf[1]);
-                } else {
-                    return '';
-                }
-            } else {
-                return '';
-            }
-        } else {
-            if ($this->sys->getMachine() === '') {
-                if (isset($list['old'][$revi & 0x7fffff])) {
-                    $this->sys->setMachine('Raspberry Pi '.$list['old'][$revi & 0x7fffff]);
-                } else {
-                    $this->sys->setMachine('Raspberry Pi');
-                }
-            }
-            if (isset($list['cpu'][0])) {
-                $cpu_buf = preg_split("/:/", $list['cpu'][0], 2);
-                if (trim($cpupart) === trim($cpu_buf[0])) {
-                    return trim($cpu_buf[1]);
-                } else {
-                    return '';
-                }
-            } else {
-                return '';
-            }
-        }
-    }
-
-    /**
      * CPU information
      * All of the tags here are highly architecture dependant.
      *
@@ -326,7 +273,8 @@ class Linux extends OS
     protected function _cpuinfo()
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
-            $cpulist = @parse_ini_file(APP_ROOT."/data/cpus.ini", true);
+            $cpulist = null;
+            $raslist = null;
 
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
@@ -506,22 +454,39 @@ class Linux extends OS
                     }
 
                     if (($arch === '7') && ($impl !== null) && ($part !== null)) {
-                        $cputype = '';
                         if (($impl === '0x41')
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
                            && ($_revi !== null)) { // Raspbery detection
-                            $cputype = $this->setRaspberry($_revi, $part);
+                            if ($raslist === null) $raslist = @parse_ini_file(APP_ROOT."/data/raspberry.ini", true);
+                            if ($raslist && !preg_match('/[^0-9a-f]/', $_revi)) {
+                                if (($revidec = hexdec($_revi)) & 0x800000) {
+                                    if ($this->sys->getMachine() === '') {
+                                        $model = ($revidec >> 4) & 255;
+                                        if (isset($raslist['model'][$model])) {
+                                            $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).')');
+                                        } else {
+                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).')');
+                                        }
+                                    }
+                                } else {
+                                    if ($this->sys->getMachine() === '') {
+                                        if (isset($raslist['old'][$revidec & 0x7fffff])) {
+                                            $this->sys->setMachine('Raspberry Pi '.$raslist['old'][$revidec & 0x7fffff]);
+                                        } else {
+                                            $this->sys->setMachine('Raspberry Pi');
+                                        }
+                                    }
+                                }
+                            }
                         } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other ARM hardware
                             $this->sys->setMachine($_hard);
                         }
-                        if (($cputype === '') && ($cpulist) && (isset($cpulist['cpu'][$cpuimplpart = strtolower($impl.','.$part)]))) {
-                            $cputype = $cpulist['cpu'][$cpuimplpart];
-                        }
-                        if ($cputype !== '') {
+                        if ($cpulist === null) $cpulist = @parse_ini_file(APP_ROOT."/data/cpus.ini", true);
+                        if ($cpulist && (isset($cpulist['cpu'][$cpuimplpart = strtolower($impl.','.$part)]))) {
                             if (($cpumodel = $dev->getModel()) !== '') {
-                                $dev->setModel($cpumodel.' - '.$cputype);
+                                $dev->setModel($cpumodel.' - '.$cpulist['cpu'][$cpuimplpart]);
                             } else {
-                                $dev->setModel($cputype);
+                                $dev->setModel($cpulist['cpu'][$cpuimplpart]);
                             }
                         }
                     } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other hardware
