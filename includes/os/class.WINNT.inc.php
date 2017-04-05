@@ -647,7 +647,7 @@ class WINNT extends OS
                         }
                     }
                     if ($macexist
-                        || ($device['CurrentBandwidth'] > 0)
+                        || ($device['CurrentBandwidth'] >= 1000000)
                         || ($device['BytesTotalPersec'] != 0)
                         || ($device['BytesSentPersec'] != 0)
                         || ($device['BytesReceivedPersec'] != 0)
