@@ -453,7 +453,7 @@ class Linux extends OS
                         $dev->setTemp(substr($buf, 25, 2));
                     }
 
-                    if (($arch === '7') && ($impl !== null) && ($part !== null)) {
+                    if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
                            && ($_revi !== null)) { // Raspbery detection
