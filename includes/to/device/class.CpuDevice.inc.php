@@ -188,7 +188,7 @@ class CpuDevice
     /**
      * Sets $_virt.
      *
-     * @param String $_virt
+     * @param string $virt
      *
      * @see Cpu::$_virt
      *

@@ -56,13 +56,13 @@ class CommonFunctions
      *
      * @param string $strProgram name of the program
      *
-     * @return string complete path and name of the program
+     * @return string|null complete path and name of the program
      */
     private static function _findProgram($strProgram)
     {
         $path_parts = pathinfo($strProgram);
         if (empty($path_parts['basename'])) {
-            return;
+            return null;
         }
         $arrPath = array();
 
@@ -132,6 +132,8 @@ class CommonFunctions
                 return $strProgrammpath;
             }
         }
+
+        return null;
     }
 
     /**

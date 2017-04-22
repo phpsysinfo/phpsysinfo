@@ -30,7 +30,7 @@ class HDDTemp extends Sensors
      * get the temperature information from hddtemp
      * access is available through tcp or command
      *
-     * @return array temperatures in array
+     * @return void
      */
     private function _temperature()
     {

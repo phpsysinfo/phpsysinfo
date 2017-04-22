@@ -29,7 +29,7 @@ class PSI_Error
      * holds the instance of this class
      *
      * @static
-     * @var object
+     * @var PSI_Error
      */
     private static $_instance;
 
@@ -59,7 +59,7 @@ class PSI_Error
     /**
      * Singleton function
      *
-     * @return Error instance of the class
+     * @return PSI_Error instance of the class
      */
     public static function singleton()
     {
@@ -240,8 +240,8 @@ class PSI_Error
                 if (isset($val['args'][0])) {
                     $strFunc .= ' ';
                     $strComma = '';
-                    foreach ($val['args'] as $val) {
-                        $strFunc .= $strComma.$this->_printVar($val);
+                    foreach ($val['args'] as $valArgs) {
+                        $strFunc .= $strComma.$this->_printVar($valArgs);
                         $strComma = ', ';
                     }
                     $strFunc .= ' ';

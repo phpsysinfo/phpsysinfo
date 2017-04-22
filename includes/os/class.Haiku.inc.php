@@ -37,7 +37,7 @@ class Haiku extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {
@@ -65,7 +65,9 @@ class Haiku extends OS
                             $dev->setVirt("svm");
                         }
                     }
-                    if ($cpuspeed != "")$dev->setCpuSpeed($cpuspeed);
+                    if ($cpuspeed != "") {
+                        $dev->setCpuSpeed($cpuspeed);
+                    }
                     $this->sys->setCpus($dev);
                 }
             }
@@ -135,7 +137,7 @@ class Haiku extends OS
     private function _kernel()
     {
         if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
-               $this->sys->setKernel($ret);
+            $this->sys->setKernel($ret);
         }
     }
 

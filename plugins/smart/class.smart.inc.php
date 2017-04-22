@@ -261,7 +261,7 @@ class SMART extends PSI_Plugin
     /**
      * generates the XML content for the plugin
      *
-     * @return SimpleXMLObject entire XML content for the plugin
+     * @return SimpleXMLElement entire XML content for the plugin
      */
     public function xml()
     {

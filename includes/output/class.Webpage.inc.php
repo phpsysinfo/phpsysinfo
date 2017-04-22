@@ -90,6 +90,7 @@ class Webpage extends Output implements PSI_Interface_Output
 
     /**
      * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
+     * @param string $indexname
      */
     public function __construct($indexname="dynamic")
     {
