@@ -311,7 +311,7 @@ class AIX extends OS
 
     /**
      * IBM AIX informations by K.PAZ
-     * @return void
+     * @return array
      */
     private function readaixdata()
     {

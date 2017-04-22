@@ -62,7 +62,7 @@ class Minix extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {

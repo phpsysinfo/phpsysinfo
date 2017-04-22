@@ -204,7 +204,7 @@ class UPSDevice
     /**
      * Sets $_batteryVoltage.
      *
-     * @param object $batteryVoltage battery volt
+     * @param Integer $batteryVoltage battery volt
      *
      * @see UPSDevice::$_batteryVoltage
      *

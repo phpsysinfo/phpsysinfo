@@ -44,7 +44,7 @@ class QNX extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {

@@ -116,7 +116,7 @@ class Healthd extends Sensors
     /**
      * get voltage information
      *
-     * @return array voltage in array with lable
+     * @return void
      */
     private function _voltage()
     {

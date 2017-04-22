@@ -196,7 +196,7 @@ class Android extends Linux
     /**
      * PCI devices
      *
-     * @return array
+     * @return void
      */
     private function _pci()
     {
@@ -216,7 +216,7 @@ class Android extends Linux
     /**
      * USB devices
      *
-     * @return array
+     * @return void
      */
     private function _usb()
     {

@@ -93,7 +93,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_OperatingSystem
      *
-     * @var array
+     * @return array
      */
     private function _get_Win32_OperatingSystem()
     {
@@ -104,7 +104,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_ComputerSystem
      *
-     * @var array
+     * @return array
      */
     private function _get_Win32_ComputerSystem()
     {
@@ -115,7 +115,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_Processor
      *
-     * @var array
+     * @return array
      */
     private function _get_Win32_Processor()
     {
@@ -126,7 +126,7 @@ class WINNT extends OS
     /**
      * reads the data from WMI Win32_PerfFormattedData_PerfOS_Processor
      *
-     * @var array
+     * @return array
      */
     private function _get_Win32_PerfFormattedData_PerfOS_Processor()
     {
@@ -145,7 +145,7 @@ class WINNT extends OS
     /**
      * reads the data from systeminfo
      *
-     * @var string
+     * @return string
      */
     private function _get_systeminfo()
     {

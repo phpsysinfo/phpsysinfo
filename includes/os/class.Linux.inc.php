@@ -623,7 +623,7 @@ class Linux extends OS
     /**
      * USB devices
      *
-     * @return array
+     * @return void
      */
     private function _usb()
     {

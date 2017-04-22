@@ -28,7 +28,8 @@ class Parser
     /**
      * parsing the output of lspci command
      *
-     * @return Array
+     * @param bool $debug
+     * @return array
      */
     public static function lspci($debug = PSI_DEBUG)
     {
@@ -55,6 +56,7 @@ class Parser
      * parsing the output of df command
      *
      * @param string $df_param additional parameter for df command
+     * @param bool $get_inodes
      *
      * @return array
      */

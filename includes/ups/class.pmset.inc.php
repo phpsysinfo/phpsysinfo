@@ -47,7 +47,7 @@ class Pmset extends UPS
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return array
+     * @return void
      */
    private function _info()
     {

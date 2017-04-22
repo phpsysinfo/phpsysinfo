@@ -55,7 +55,7 @@ class DragonFly extends BSDCommon
     /**
      * get network information
      *
-     * @return array
+     * @return void
      */
     private function _network()
     {
@@ -81,7 +81,7 @@ class DragonFly extends BSDCommon
     /**
      * get the ide information
      *
-     * @return array
+     * @return void
      */
     protected function ide()
     {

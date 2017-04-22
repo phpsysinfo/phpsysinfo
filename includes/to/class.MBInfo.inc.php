@@ -30,7 +30,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbTemp = array();
 
@@ -39,7 +39,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbFan = array();
 
@@ -48,7 +48,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbVolt = array();
 
@@ -57,7 +57,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbPower = array();
 
@@ -66,7 +66,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbCurrent = array();
 
@@ -75,7 +75,7 @@ class MBInfo
      *
      * @see System::$_mbFan
      *
-     * @return Array
+     * @return array
      */
     public function getMbFan()
     {
@@ -89,7 +89,7 @@ class MBInfo
      *
      * @see System::$_mbFan
      *
-     * @return Void
+     * @return void
      */
     public function setMbFan($mbFan)
     {
@@ -101,7 +101,7 @@ class MBInfo
      *
      * @see System::$_mbTemp
      *
-     * @return Array
+     * @return array
      */
     public function getMbTemp()
     {
@@ -111,11 +111,11 @@ class MBInfo
     /**
      * Sets $_mbTemp.
      *
-     * @param Sensor $mbTemp temp device
+     * @param array $mbTemp temp device
      *
      * @see System::$_mbTemp
      *
-     * @return Void
+     * @return void
      */
     public function setMbTemp($mbTemp)
     {
@@ -127,7 +127,7 @@ class MBInfo
      *
      * @see System::$_mbVolt
      *
-     * @return Array
+     * @return array
      */
     public function getMbVolt()
     {
@@ -137,11 +137,11 @@ class MBInfo
     /**
      * Sets $_mbVolt.
      *
-     * @param Sensor $mbVolt voltage device
+     * @param SensorDevice $mbVolt voltage device
      *
      * @see System::$_mbVolt
      *
-     * @return Void
+     * @return void
      */
     public function setMbVolt($mbVolt)
     {
@@ -153,7 +153,7 @@ class MBInfo
      *
      * @see System::$_mbPower
      *
-     * @return Array
+     * @return array
      */
     public function getMbPower()
     {
@@ -163,11 +163,11 @@ class MBInfo
     /**
      * Sets $_mbPower.
      *
-     * @param Sensor $mbPower power device
+     * @param SensorDevice $mbPower power device
      *
      * @see System::$_mbPower
      *
-     * @return Void
+     * @return void
      */
     public function setMbPower($mbPower)
     {
@@ -178,7 +178,7 @@ class MBInfo
      *
      * @see System::$_mbCurrent
      *
-     * @return Array
+     * @return array
      */
     public function getMbCurrent()
     {
@@ -188,11 +188,11 @@ class MBInfo
     /**
      * Sets $_mbCurrent.
      *
-     * @param Sensor $mbCurrent current device
+     * @param SensorDevice $mbCurrent current device
      *
      * @see System::$_mbCurrent
      *
-     * @return Void
+     * @return void
      */
     public function setMbCurrent($mbCurrent)
     {
