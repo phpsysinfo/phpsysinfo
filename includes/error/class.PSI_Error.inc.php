@@ -113,8 +113,8 @@ class PSI_Error
     /**
      * add a config error to the internal list
      *
-     * @param object $strCommand Command, which cause the Error
-     * @param object $strMessage additional Message, to describe the Error
+     * @param string $strCommand Command, which cause the Error
+     * @param string $strMessage additional Message, to describe the Error
      *
      * @return void
      */
@@ -126,8 +126,8 @@ class PSI_Error
     /**
      * add a php error to the internal list
      *
-     * @param object $strCommand Command, which cause the Error
-     * @param object $strMessage additional Message, to describe the Error
+     * @param string $strCommand Command, which cause the Error
+     * @param string $strMessage additional Message, to describe the Error
      *
      * @return void
      */

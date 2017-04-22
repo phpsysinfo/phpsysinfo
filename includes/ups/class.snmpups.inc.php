@@ -29,7 +29,7 @@ class SNMPups extends UPS
     /**
      * internal storage for all gathered data
      *
-     * @var Array
+     * @var array
      */
     private $_output = array();
 

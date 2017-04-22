@@ -49,7 +49,7 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * all available templates
      *
-     * @var Array
+     * @var array
      */
     private $_templates = array();
 
@@ -63,14 +63,14 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * all available bootstrap templates
      *
-     * @var Array
+     * @var array
      */
     private $_bootstrap_templates = array();
 
     /**
      * all available languages
      *
-     * @var Array
+     * @var array
      */
     private $_languages = array();
 

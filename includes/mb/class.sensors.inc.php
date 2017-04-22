@@ -28,7 +28,7 @@ abstract class Sensors implements PSI_Interface_Sensor
     /**
      * object for error handling
      *
-     * @var Error
+     * @var PSI_Error
      */
     protected $error;
 

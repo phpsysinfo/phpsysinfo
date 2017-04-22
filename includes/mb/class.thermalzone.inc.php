@@ -25,7 +25,7 @@
  */
 class ThermalZone extends Sensors
 {
-/**
+    /**
      * holds the COM object that we pull all the WMI data from
      *
      * @var Object

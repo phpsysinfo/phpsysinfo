@@ -28,14 +28,14 @@ class Template
     /**
      * Vars used in the template
      *
-     * @Array
+     * @var array
      */
     private $_vars;
 
     /**
      * Template file
      *
-     * @String
+     * @var string
      */
     private $_file;
 
@@ -53,8 +53,8 @@ class Template
     /**
      * Set a template variable.
      *
-     * @param string variable name
-     * @param string variable value
+     * @param string $name variable name
+     * @param string|array|Template $value variable value
      */
     public function set($name, $value)
     {

@@ -28,7 +28,7 @@ abstract class UPS implements PSI_Interface_UPS
     /**
      * object for error handling
      *
-     * @var Error
+     * @var PSI_Error
      */
     public $error;
 

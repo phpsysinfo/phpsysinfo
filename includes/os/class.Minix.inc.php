@@ -129,6 +129,7 @@ class Minix extends OS
     {
         if (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
             $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+            $arrResults = array();
             foreach ($arrLines as $strLine) {
                $arrParams = preg_split('/\s+/', trim($strLine), 4);
                if (count($arrParams) == 4)

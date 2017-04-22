@@ -645,7 +645,7 @@ class System
     /**
      * Sets $_machine.
      *
-     * @param Interger $machine machine
+     * @param string $machine machine
      *
      * @see System::$_machine
      *

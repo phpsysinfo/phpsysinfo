@@ -43,7 +43,7 @@ class PS extends PSI_Plugin
     /**
      * read the data into an internal array and also call the parent constructor
      *
-     * @param String $enc encoding
+     * @param string $enc encoding
      */
     public function __construct($enc)
     {
@@ -55,8 +55,10 @@ class PS extends PSI_Plugin
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
+                    $memtotal = 0;
                     foreach ($os_wmi as $os) {
                         $memtotal = $os['TotalVisibleMemorySize'] * 1024;
+                        break;
                     }
                     $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
@@ -97,7 +99,7 @@ class PS extends PSI_Plugin
                         $processlist = glob('/proc/*/status', GLOB_NOSORT);
                         if (($total = count($processlist)) > 0) {
                             natsort($processlist); //first sort
-                            $prosess = array();
+                            $process = array();
                             foreach ($processlist as $processitem) { //second sort
                                 $process[] = $processitem;
                             }
@@ -198,7 +200,7 @@ class PS extends PSI_Plugin
         if (isset($items[0])) {
             $this->_result = $items[0];
         } else {
-            $_result = array();
+            $this->_result = array();
         }
     }
     /**
@@ -218,9 +220,9 @@ class PS extends PSI_Plugin
     /**
      * recursive function to allow appending child processes to a parent process
      *
-     * @param Array             $child      part of the array which should be appended to the XML
+     * @param array             $child      part of the array which should be appended to the XML
      * @param SimpleXMLExtended $xml        XML-Object to which the array content is appended
-     * @param Array             &$positions array with parent positions in xml structure
+     * @param array             &$positions array with parent positions in xml structure
      *
      * @return SimpleXMLExtended Object with the appended array content
      */

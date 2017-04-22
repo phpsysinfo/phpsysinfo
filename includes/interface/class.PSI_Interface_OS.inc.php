@@ -47,4 +47,11 @@ interface PSI_Interface_OS
      * @return System
      */
     public function getSys();
+
+    /**
+     * get os specific language
+     *
+     * @return string
+     */
+    public function getLanguage();
 }
