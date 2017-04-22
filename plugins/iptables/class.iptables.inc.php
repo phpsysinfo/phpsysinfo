@@ -69,7 +69,7 @@ class iptables extends PSI_Plugin
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
-                $this->error->addConfigError('__construct()', 'PSI_PLUGIN_IPTABLES_ACCESS');
+                $this->global_error->addConfigError('__construct()', 'PSI_PLUGIN_IPTABLES_ACCESS');
                 break;
         }
     }

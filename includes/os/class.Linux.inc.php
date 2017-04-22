@@ -628,6 +628,7 @@ class Linux extends OS
     private function _usb()
     {
         $devnum = -1;
+        $results = array();
         if (CommonFunctions::executeProgram('lsusb', '', $bufr, PSI_DEBUG) && (trim($bufr) !== "")) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
@@ -794,6 +795,9 @@ class Linux extends OS
         } elseif (CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && (trim($bufr)!="")) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $macaddr = "";
+            $speedinfo = "";
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^\d+:\s+([^\s:]+)/", $line, $ar_buf)) {
                     if ($was) {
@@ -863,6 +867,11 @@ class Linux extends OS
         } elseif (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $errors = 0;
+            $drops = 0;
+            $macaddr = "";
+            $speedinfo = "";
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^([^\s:]+)/", $line, $ar_buf)) {
                     if ($was) {

@@ -25,7 +25,7 @@ function renderPlugin_ps(data) {
                 if (ps_item["ParentID"]==="0") {
                     html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + "\" style=\"display:none;\" >";
                 } else {
-                    html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + " treegrid-parent-ps-" + ps_item["ParentID"] + "\" style=\"ddisplay:none;\" >";
+                    html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + " treegrid-parent-ps-" + ps_item["ParentID"] + "\" style=\"display:none;\" >";
                 }
                 html+="<td><span class=\"treegrid-span\" data-bind=\"Name\"></span></td>";
                 html+="<td><span data-bind=\"PID\"></span></td>";

@@ -294,6 +294,9 @@ class Haiku extends OS
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $errors = 0;
+            $drops = 0;
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^(\S+)/", $line, $ar_buf)) {
                     if ($was) {

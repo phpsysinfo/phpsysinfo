@@ -28,7 +28,7 @@ abstract class OS implements PSI_Interface_OS
     /**
      * object for error handling
      *
-     * @var Error
+     * @var PSI_Error
      */
     protected $error;
 

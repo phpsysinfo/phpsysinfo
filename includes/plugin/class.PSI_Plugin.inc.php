@@ -61,9 +61,8 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      * build the global Error object, read the configuration and check if all files are available
      * for a minimalistic function of the plugin
      *
-     * @param String $plugin_name name of the plugin
-     * @param String $enc         target encoding
-     *
+     * @param string $plugin_name name of the plugin
+     * @param string $enc         target encoding
      * @return void
      */
     public function __construct($plugin_name, $enc)
@@ -120,9 +119,9 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
     /**
      * create the xml template where plugin information are added to
      *
-     * @param String $enc target encoding
+     * @param string $enc target encoding
      *
-     * @return Void
+     * @return void
      */
     private function _createXml($enc)
     {

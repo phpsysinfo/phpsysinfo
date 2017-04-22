@@ -37,7 +37,7 @@ interface PSI_Interface_Plugin
     /**
      * build the xml
      *
-     * @return SimpleXMLObject entire XML content for the plugin which than can be appended to the main XML
+     * @return SimpleXMLElement entire XML content for the plugin which than can be appended to the main XML
      */
     public function xml();
 }

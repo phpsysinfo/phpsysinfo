@@ -28,7 +28,7 @@ abstract class Output
     /**
      * error object for logging errors
      *
-     * @var Error
+     * @var PSI_Error
      */
     protected $error;
 

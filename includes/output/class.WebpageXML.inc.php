@@ -86,7 +86,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             /**
              * motherboard information
              *
-             * @var serialized array
+             * @var string serialized array
              */
             define('PSI_MBINFO', serialize($foundsp));
 
@@ -109,7 +109,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             /**
              * ups information
              *
-             * @var serialized array
+             * @var string serialized array
              */
             define('PSI_UPSINFO', serialize($foundup));
 

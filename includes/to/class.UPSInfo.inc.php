@@ -30,7 +30,7 @@ class UPSInfo
      *
      * @see UPSDevice
      *
-     * @var Array
+     * @var array
      */
     private $_upsDevices = array();
 
@@ -39,7 +39,7 @@ class UPSInfo
      *
      * @see UPSInfo::$_upsDevices
      *
-     * @return Array
+     * @return array
      */
     public function getUpsDevices()
     {
@@ -53,7 +53,7 @@ class UPSInfo
      *
      * @see UPSInfo::$_upsDevices
      *
-     * @return Void
+     * @return void
      */
     public function setUpsDevices($upsDevices)
     {

@@ -190,6 +190,7 @@ class QNX extends OS
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^([^\s:]+)/", $line, $ar_buf)) {
                     if ($was) {

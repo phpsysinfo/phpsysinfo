@@ -42,7 +42,7 @@ class SimpleXMLExtended
     /**
      * _CP437toUTF8Table for code page conversion for CP437
      *
-     * @var _CP437toUTF8Table array
+     * @var array _CP437toUTF8Table array
      */
     private static $_CP437toUTF8Table = array(
         "\xC3\x87","\xC3\xBC","\xC3\xA9","\xC3\xA2",
@@ -181,7 +181,7 @@ class SimpleXMLExtended
                 if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {
                     $strc = substr($str, $i, 1);
                     if ($strc < 128) $strr.=$strc;
-                        else $strr.=$_CP437toUTF8Table[$strc-128];
+                        else $strr.=self::$_CP437toUTF8Table[$strc-128];
                 }
 
                  return $strr;

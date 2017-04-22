@@ -47,7 +47,7 @@ class XML
     /**
      * object for error handling
      *
-     * @var Error
+     * @var PSI_Error
      */
     private $_errors;
 
@@ -213,7 +213,6 @@ class XML
      */
     private function _buildHardware()
     {
-        $dev = new HWDevice();
         $hardware = $this->_xml->addChild('Hardware');
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
@@ -638,7 +637,7 @@ class XML
     /**
      * get the xml object
      *
-     * @return string
+     * @return SimpleXmlElement
      */
     public function getXml()
     {

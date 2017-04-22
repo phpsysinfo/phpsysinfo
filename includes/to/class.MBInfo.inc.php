@@ -111,7 +111,7 @@ class MBInfo
     /**
      * Sets $_mbTemp.
      *
-     * @param array $mbTemp temp device
+     * @param SensorDevice $mbTemp temp device
      *
      * @see System::$_mbTemp
      *

@@ -493,7 +493,7 @@ class CommonFunctions
      * function for getting a list of values in the specified context
      * optionally filter this list, based on the list from third parameter
      *
-     * @param $wmi holds the COM object that we pull the WMI data from
+     * @param $wmi object holds the COM object that we pull the WMI data from
      * @param string $strClass name of the class where the values are stored
      * @param array  $strValue filter out only needed values, if not set all values of the class are returned
      *
