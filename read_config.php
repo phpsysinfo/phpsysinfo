@@ -9,6 +9,10 @@ if (!defined('PSI_CONFIG_FILE')) {
      */
     define('PSI_CONFIG_FILE', APP_ROOT.'/phpsysinfo.ini');
 
+    if (!file_exists(PSI_CONFIG_FILE) && file_exists(APP_ROOT.'/phpsysinfo.ini.new')) {
+        @rename(APP_ROOT.'/phpsysinfo.ini.new', APP_ROOT.'/phpsysinfo.ini');
+    }
+
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
     if (!is_readable(PSI_CONFIG_FILE) || !($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {

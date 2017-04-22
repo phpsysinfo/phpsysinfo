@@ -81,6 +81,7 @@ PLUGINS=false
 
 ; Define the default display mode
 ; auto: let user browser choose the mode
+; bootstrap: use twitter bootstrap template
 ; dynamic: use javascript to refresh data
 ; static: static page (use metatag to reload page)
 ; bootstrap: use twitter bootstrap template
