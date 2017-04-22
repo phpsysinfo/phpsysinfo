@@ -62,7 +62,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      * for a minimalistic function of the plugin
      *
      * @param string $plugin_name name of the plugin
-     * @param string $enc         target encoding
+     * @param string $enc target encoding
      * @return void
      */
     public function __construct($plugin_name, $enc)
