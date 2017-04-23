@@ -414,6 +414,7 @@ function renderVitals(data) {
             text: function () {
                 var lastboot;
                 var timestamp = 0;
+                var datetimeFormat;
                 if ((data["Generation"] !== undefined) && (data["Generation"]["@attributes"] !== undefined) && (data["Generation"]["@attributes"]["timestamp"] !== undefined) ) {
                     timestamp = parseInt(data["Generation"]["@attributes"]["timestamp"])*1000; //server time
                     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
@@ -421,11 +422,15 @@ function renderVitals(data) {
                     timestamp = Number(new Date()); //client time
                 }
                 lastboot = new Date(timestamp - (parseInt(this["Uptime"])*1000));
-                if (typeof(lastboot.toUTCString) === "function") {
-                    return lastboot.toUTCString(); //toUTCstring() or toLocaleString()
+                if (((datetimeFormat = data["Options"]["@attributes"]["datetimeFormat"]) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
+                    return lastboot.toLocaleString();
                 } else {
-                //deprecated
-                    return lastboot.toGMTString(); //toGMTString() or toLocaleString()
+                    if (typeof(lastboot.toUTCString) === "function") {
+                        return lastboot.toUTCString();
+                    } else {
+                    //deprecated
+                        return lastboot.toGMTString();
+                    }
                 }
             }
         },

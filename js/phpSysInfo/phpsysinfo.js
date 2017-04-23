@@ -575,7 +575,12 @@ function refreshVitals(xml) {
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
     var not_first = false;
+    var datetimeFormat = "";
     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
+
+    $("Options", xml).each(function getDatetimeFormat(id) {
+        datetimeFormat = $(this).attr("datetimeFormat");
+    });
 
     $("Vitals", xml).each(function getVitals(id) {
         hostname = $(this).attr("Hostname");
@@ -641,11 +646,15 @@ function refreshVitals(xml) {
         $("#s_kernel").html(kernel);
         $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
-        if (typeof(lastboot.toUTCString)==="function") {
-            $("#s_lastboot").html(lastboot.toUTCString()); //toUTCstring() or toLocaleString()
+        if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
+            $("#s_lastboot").html(lastboot.toLocaleString());
         } else {
-            //deprecated
-            $("#s_lastboot").html(lastboot.toGMTString()); //toGMTString() or toLocaleString()
+            if (typeof(lastboot.toUTCString)==="function") {
+                $("#s_lastboot").html(lastboot.toUTCString());
+            } else {
+                //deprecated
+                $("#s_lastboot").html(lastboot.toGMTString());
+            }
         }
         $("#s_users").html(users);
         $("#s_loadavg").html(loadavg);

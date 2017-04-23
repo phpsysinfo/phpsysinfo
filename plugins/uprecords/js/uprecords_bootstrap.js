@@ -5,6 +5,16 @@ function renderPlugin_uprecords(data) {
             html: function () {
                 return this["hash"];
             }
+        },
+        Bootup: {
+            html: function () {
+                if (((datetimeFormat = data["Options"]["@attributes"]["datetimeFormat"]) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
+                    var bootup = new Date(this["Bootup"]);
+                    return bootup.toLocaleString();
+                } else {
+                    return this["Bootup"];
+                }
+            }            
         }
     };
 

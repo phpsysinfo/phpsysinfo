@@ -179,6 +179,13 @@ BYTE_FORMAT="auto_binary"
 TEMP_FORMAT="c"
 
 
+; Format in which datetime is displayed
+; - "UTC"    shown as UTC string
+; - "locale" shown as Locale string
+;
+DATETIME_FORMAT="UTC"
+
+
 ; ********************************
 ;       SENSORS PARAMETERS
 ; ********************************
