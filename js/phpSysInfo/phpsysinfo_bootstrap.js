@@ -949,19 +949,19 @@ function renderVoltage(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "V";
+                return round(this["Value"],2) + String.fromCharCode(160) + "V";
             }
         },
         Min: {
             text: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + "V";
+                    return round(this["Min"],2) + String.fromCharCode(160) + "V";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "V";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "V";
             }
         },
         Label: {
@@ -1068,13 +1068,13 @@ function renderPower(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "W";
+                return round(this["Value"],2) + String.fromCharCode(160) + "W";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "W";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "W";
             }
         },
         Label: {
@@ -1106,19 +1106,19 @@ function renderCurrent(data) {
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "A";
+                return round(this["Value"],2) + String.fromCharCode(160) + "A";
             }
         },
         Min: {
             text: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + "A";
+                    return round(this["Min"],2) + String.fromCharCode(160) + "A";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "A";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "A";
             }
         },
         Label: {
