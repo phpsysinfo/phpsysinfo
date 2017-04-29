@@ -139,6 +139,7 @@ class WINNT extends OS
                 }
             }
         }
+
         return $this->_Win32_PerfFormattedData_PerfOS_Processor;
     }
 
@@ -451,14 +452,14 @@ class WINNT extends OS
                             $allCpus[$coreCount]['Name'] = $buffer2[1];
                         } elseif (preg_match("/^\s*~MHz\s+REG_DWORD\s+(0x.+)\s*$/i", $line, $buffer2)) {
                             $allCpus[$coreCount]['CurrentClockSpeed'] = hexdec($buffer2[1]);
-                        } 
+                        }
                     }
                 }
             }
         }
 
-       $globalcpus = 0;
-       foreach ($allCpus as $oneCpu) {
+        $globalcpus = 0;
+        foreach ($allCpus as $oneCpu) {
             $cpuCount = 1;
             if (isset($oneCpu['NumberOfLogicalProcessors'])) {
                 $cpuCount = $oneCpu['NumberOfLogicalProcessors'];
@@ -467,7 +468,7 @@ class WINNT extends OS
             }
             $globalcpus+=$cpuCount;
         }
-    
+
         foreach ($allCpus as $oneCpu) {
             $cpuCount = 1;
             if (isset($oneCpu['NumberOfLogicalProcessors'])) {
@@ -581,16 +582,16 @@ class WINNT extends OS
                         if (($key == "Media State") && (trim($value) == "Media disconnected")) {
                             $notdiss = false;
                         } elseif ($notdiss && ($key == "Description") && (trim($value) !== "")) {
-                            $allDevices[] = array('Name'=>trim($value), 'BytesSentPersec'=>0, 'BytesTotalPersec'=>0, 'BytesReceivedPersec'=>0, 'PacketsReceivedErrors'=>0, 'PacketsReceivedDiscarded'=>0, 'CurrentBandwidth'=>0); 
+                            $allDevices[] = array('Name'=>trim($value), 'BytesSentPersec'=>0, 'BytesTotalPersec'=>0, 'BytesReceivedPersec'=>0, 'PacketsReceivedErrors'=>0, 'PacketsReceivedDiscarded'=>0, 'CurrentBandwidth'=>0);
                         }
                     }
                 }
             }*/
             if ($allDevices) {
                 $aliases = array();
-                if (preg_match('/^windows-(\d+)$/', $this->_codepage, $codepage) 
-                    && CommonFunctions::executeProgram('cmd', '/c chcp '.$codepage[1].' && reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network /v Name /s', $strBuf, false) 
-                    && (strlen($strBuf) > 0) 
+                if (preg_match('/^windows-(\d+)$/', $this->_codepage, $codepage)
+                    && CommonFunctions::executeProgram('cmd', '/c chcp '.$codepage[1].' && reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network /v Name /s', $strBuf, false)
+                    && (strlen($strBuf) > 0)
                     && preg_match_all('/^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\Network\\\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\\\({[^{]+})\\\\Connection\r\n\s+Name\s+REG_SZ\s+([^\r\n]+)/mi', $strBuf, $buffer)) {
                     for ($i = 0; $i < sizeof($buffer[0]); $i++) {
                         if (!isset($aliases[$buffer[2][$i]])) { // duplicate checking
@@ -639,7 +640,7 @@ class WINNT extends OS
                                     if ($dev->getInfo() !== null) {
                                         $dev->setInfo(''); //multiple with the same name
                                     } else {
-                                        if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) 
+                                        if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                            && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(preg_replace('/:/', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                         if (isset($NetworkAdapterConfiguration['IPAddress']))
                                             foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
@@ -694,7 +695,7 @@ class WINNT extends OS
                         $this->sys->setNetDevices($dev);
                     }
                 }
-            } 
+            }
         } elseif (($buffer = $this->_get_systeminfo()) && preg_match('/^(\s+)\[\d+\]:.*\r\n\s+[^\s\[]/m', $buffer, $matches, PREG_OFFSET_CAPTURE)) {
             $netbuf = substr($buffer, $matches[0][1]);
             if (preg_match('/^[^\s]/m', $netbuf, $matches2, PREG_OFFSET_CAPTURE)) {
@@ -850,7 +851,6 @@ class WINNT extends OS
         $processes[' '] = $processes['*'];
         $this->sys->setProcesses($processes);
     }
-
 
     /**
      * get the information
