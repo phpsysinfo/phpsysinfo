@@ -140,7 +140,7 @@ REFRESH=60000
 ; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
 ; - false : will not be displayed
 ;
-LOAD_BAR=false
+LOAD_BAR=true
 
 
 ; Display the virtual host name and address
