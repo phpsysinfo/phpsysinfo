@@ -42,7 +42,7 @@ class uprecords extends PSI_Plugin
      * @return array uprecords in array with label
      */
 
-    private function uprecords()
+    private function getUprecords()
     {
         $result = array();
         $i = 0;
@@ -107,7 +107,7 @@ class uprecords extends PSI_Plugin
         if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        $arrBuff = $this->uprecords();
+        $arrBuff = $this->getUprecords();
         if (sizeof($arrBuff) > 0) {
             $uprecords = $this->xml->addChild("Uprecords");
             foreach ($arrBuff as $arrValue) {

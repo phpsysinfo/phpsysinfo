@@ -39,7 +39,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array temperatures in array with label
      */
-    private function temperatures()
+    private function getTemperatures()
     {
         $result = array();
         $i = 0;
@@ -62,7 +62,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array voltage in array with label
      */
-    private function voltages()
+    private function getVoltages()
     {
         $result = array();
         $i = 0;
@@ -86,7 +86,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array fans in array with label
      */
-    private function fans()
+    private function getFans()
     {
         $result = array();
         $i = 0;
@@ -113,7 +113,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array misc in array with label
      */
-    private function powers()
+    private function getPowers()
     {
         $result = array();
         $i = 0;
@@ -136,7 +136,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array misc in array with label
      */
-    private function currents()
+    private function getCurrents()
     {
         $result = array();
         $i = 0;
@@ -159,7 +159,7 @@ class ipmiinfo extends PSI_Plugin
      *
      * @return array misc in array with label
      */
-    private function misc()
+    private function getMisc()
     {
         $result = array();
         $i = 0;
@@ -200,7 +200,7 @@ class ipmiinfo extends PSI_Plugin
         if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        $arrBuff = $this->temperatures();
+        $arrBuff = $this->getTemperatures();
         if (sizeof($arrBuff) > 0) {
             $temp = $this->xml->addChild("Temperatures");
             foreach ($arrBuff as $arrValue) {
@@ -211,7 +211,7 @@ class ipmiinfo extends PSI_Plugin
                 if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['Max']);
             }
         }
-        $arrBuff = $this->voltages();
+        $arrBuff = $this->getVoltages();
         if (sizeof($arrBuff) > 0) {
             $volt = $this->xml->addChild('Voltages');
             foreach ($arrBuff as $arrValue) {
@@ -223,7 +223,7 @@ class ipmiinfo extends PSI_Plugin
                 if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
             }
         }
-        $arrBuff = $this->fans();
+        $arrBuff = $this->getFans();
         if (sizeof($arrBuff) > 0) {
             $fan = $this->xml->addChild('Fans');
             foreach ($arrBuff as $arrValue) {
@@ -234,7 +234,7 @@ class ipmiinfo extends PSI_Plugin
                 if (isset($arrValue['Min'])) $item->addAttribute('Min', $arrValue['min']);
             }
         }
-        $arrBuff = $this->powers();
+        $arrBuff = $this->getPowers();
         if (sizeof($arrBuff) > 0) {
             $misc = $this->xml->addChild('Powers');
             foreach ($arrBuff as $arrValue) {
@@ -245,7 +245,7 @@ class ipmiinfo extends PSI_Plugin
                 if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
             }
         }
-        $arrBuff = $this->currents();
+        $arrBuff = $this->getCurrents();
         if (sizeof($arrBuff) > 0) {
             $misc = $this->xml->addChild('Currents');
             foreach ($arrBuff as $arrValue) {
@@ -256,7 +256,7 @@ class ipmiinfo extends PSI_Plugin
                 if (isset($arrValue['Max'])) $item->addAttribute('Max', $arrValue['max']);
             }
         }
-        $arrBuff = $this->misc();
+        $arrBuff = $this->getMisc();
         if (sizeof($arrBuff) > 0) {
             $misc = $this->xml->addChild('Misc');
             foreach ($arrBuff as $arrValue) {

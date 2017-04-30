@@ -42,7 +42,7 @@ class iptables extends PSI_Plugin
      * @return array iptables in array with label
      */
 
-    private function iptables()
+    private function getIptables()
     {
         $result = array();
         $i = 0;
@@ -79,7 +79,7 @@ class iptables extends PSI_Plugin
         if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        $arrBuff = $this->iptables();
+        $arrBuff = $this->getIptables();
         if (sizeof($arrBuff) > 0) {
             $iptables = $this->xml->addChild("iptables");
             foreach ($arrBuff as $arrValue) {
