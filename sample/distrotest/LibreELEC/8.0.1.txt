@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+LibreELEC (official) - Version: 8.0.1
+----------/etc/os-release----------
+NAME="LibreELEC"
+VERSION="8.0.1"
+ID="libreelec"
+VERSION_ID="8.0"
+PRETTY_NAME="LibreELEC (official) - Version: 8.0.1"
+HOME_URL="https://libreelec.tv"
+BUG_REPORT_URL="https://github.com/LibreELEC/LibreELEC.tv"
+BUILD_ID="b23f269dbe2bd0ce3aa253d835c76c7ca836ccff"
+OPENELEC_ARCH="Generic.x86_64"
+LIBREELEC_ARCH="Generic.x86_64"
+LIBREELEC_BUILD="official"
+----------/etc/release----------
+Generic.x86_64-8.0.1

@@ -13,7 +13,7 @@ phpSysInfo 3.2.8
  - [FIX] Fixed healthd sensors
  - [FIX] Fixed displaying for code pages windows-932, windows-949 and windows-950 for WinNT
 
- - [ADD] PureOS to detected distros
+ - [ADD] PureOS, OpenELEC, LibreELEC and Lakka to detected distros
  - [ADD] DATETIME_FORMAT option
 
 phpSysInfo 3.2.7
