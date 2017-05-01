@@ -31,8 +31,8 @@ define('PSI_INTERNAL_XML', true);
 
 require_once APP_ROOT.'/includes/autoloader.inc.php';
 
-if ((isset($_GET['json']) || isset($_GET['jsonp'])) && version_compare("5.2", PHP_VERSION, ">")) {
-    echo '<Error Message="PHP 5.2 or greater is required!" Function="ERROR"/>';
+if ((isset($_GET['json']) || isset($_GET['jsonp'])) && version_compare("5.2", PHP_VERSION, ">") && (!extension_loaded("json"))) {
+    echo '<Error Message="PHP 5.2 or greater or json extension to php required!" Function="ERROR"/>';
 } else {
     // check what xml part should be generated
     if (isset($_GET['plugin'])) {
