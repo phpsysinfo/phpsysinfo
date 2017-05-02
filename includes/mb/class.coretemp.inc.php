@@ -51,7 +51,7 @@ class Coretemp extends Sensors
                             if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (($buf = trim($buf)) != "")) {
                                 $dev->setName($buf);
                             } else {
-                                $labelname = trim(preg_replace("/_input$/", "",  pathinfo($tempsensor[$i], PATHINFO_BASENAME)));
+                                $labelname = trim(preg_replace("/_input$/", "", pathinfo($tempsensor[$i], PATHINFO_BASENAME)));
                                 if ($labelname !== "") {
                                     $dev->setName($labelname);
                                 } else {
