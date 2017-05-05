@@ -239,10 +239,8 @@ class PS extends PSI_Plugin
                 $xmlnode->addAttribute('MemoryUsage', $value[2]);
                 $xmlnode->addAttribute('Name', $value[3]);
                 if (PSI_OS !== 'WINNT') {
-                    if ($parentid === 1) {
-                        $xmlnode->addAttribute('Expanded', 0);
-                    }
-                    if (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[3] === "[kthreadd]")) {
+                    if (($parentid === 1) 
+                       || (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[3] === "[kthreadd]"))) {
                         $xmlnode->addAttribute('Expanded', 0);
                     }
                 }
