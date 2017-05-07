@@ -23,7 +23,7 @@ CURRENT TESTED PLATFORMS
 - Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 2016
 - Android
 - > PHP 5.1.3 or later
-  - With PCRE, XML, XSL, MBString and SimpleXML extension.
+  - With SimpleXML, PCRE, XML and DOM extension.
 
 ####Platforms currently in progress:
 - Haiku

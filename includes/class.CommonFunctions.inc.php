@@ -417,9 +417,9 @@ class CommonFunctions
         if ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PSI_OS == "WINNT")
-            $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
+            $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
         else
-            $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom');
+            $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring');
         $extensions = array_merge($arrExt, $arrReq);
         $text = "";
         $error = false;
