@@ -589,9 +589,6 @@ class XML
     private function _buildXml()
     {
         if (!$this->_plugin_request || $this->_complete_request) {
-            if (version_compare("5.2", PHP_VERSION, ">")) {
-                $this->_errors->addError("WARN", "PHP 5.2 or greater is required, some things may not work correctly");
-            }
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
                     // unstable version check
