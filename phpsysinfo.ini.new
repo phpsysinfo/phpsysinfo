@@ -200,7 +200,7 @@ DATETIME_FORMAT="UTC"
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
 ; - Coretemp       No addon tool neded (FreeBSD/Linux)
-; - IPMI           http://openipmi.sourceforge.net/ (Linux)
+; - IPMI           http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
