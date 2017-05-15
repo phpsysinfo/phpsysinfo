@@ -200,7 +200,7 @@ DATETIME_FORMAT="UTC"
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
 ; - Coretemp       No addon tool neded (FreeBSD/Linux)
-; - IPMI           http://ipmitool.sourceforge.net/ (Linux)
+; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
@@ -212,7 +212,7 @@ DATETIME_FORMAT="UTC"
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
-;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
+;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
 ;
 SENSOR_PROGRAM=false
 
@@ -408,11 +408,11 @@ ACCESS="command"
 ;
 ACCESS="command"
 
-[sensor_ipmi]
-; IPMI motherboard monitoring program configuration
+[sensor_ipmitool]
+; IPMItool motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmitool sensor' command
-; - ACCESS="data"  //read data from file data/ipmi.txt
+; - ACCESS="data"  //read data from file data/ipmitool.txt
 ;
 ACCESS="command"
 
