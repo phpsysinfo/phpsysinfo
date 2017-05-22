@@ -589,6 +589,14 @@ class WINNT extends OS
             }*/
             if ($allDevices) {
                 $aliases = array();
+                $allAdapters = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID'));
+                foreach ($allAdapters as $adapter) {
+                    if (isset($adapter['GUID'])){
+                        $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $adapter['Name']); //convert to canonical
+                        $aliases[$cname] = $adapter['GUID'];
+                    }
+                }
+
                 if (preg_match('/^windows-(\d+)$/', $this->_codepage, $codepage)
                     && CommonFunctions::executeProgram('cmd', '/c chcp '.$codepage[1].' && reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network /v Name /s', $strBuf, false)
                     && (strlen($strBuf) > 0)
@@ -596,7 +604,7 @@ class WINNT extends OS
                     for ($i = 0; $i < sizeof($buffer[0]); $i++) {
                         if (!isset($aliases[$buffer[2][$i]])) { // duplicate checking
                             $aliases[$buffer[2][$i]] = $buffer[1][$i];
-                        } else {
+                        } elseif ($aliases[$buffer[2][$i]] !== $buffer[1][$i]) { //duplicate and different
                             $aliases[$buffer[2][$i]] = "";
                         }
                     }
@@ -625,7 +633,7 @@ class WINNT extends OS
                         }
                     }
                     if ($dev->getName() == "") { //no alias or no alias description
-                        $cname=preg_replace('/[^A-Za-z0-9]/', '_', $name); //convert to canonical
+                        $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $name); //convert to canonical
                         if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
                             $name="Microsoft ISATAP Adapter";
                         elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
@@ -633,7 +641,7 @@ class WINNT extends OS
                         $dev->setName($name);
 
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                            if (preg_replace('/[^A-Za-z0-9]/', '_', $NetworkAdapterConfiguration['Description']) === $cname) {
+                            if (str_replace(array('(', ')', '#'), array('[', ']', '_'), $NetworkAdapterConfiguration['Description']) === $cname) {
                                 $macexist = $macexist || (trim($NetworkAdapterConfiguration['MACAddress']) !== "");
 
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
