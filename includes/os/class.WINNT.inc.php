@@ -256,11 +256,13 @@ class WINNT extends OS
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
                     $long = ip2long($ip);
-                    if (($long >= 167772160 && $long <= 184549375) ||
-                        ($long >= -1408237568 && $long <= -1407188993) ||
-                        ($long >= -1062731776 && $long <= -1062666241) ||
-                        ($long >= 2130706432 && $long <= 2147483647) || $long == -1) {
-                        $this->sys->setHostname($result); //internal ip
+                    if (($long >= 167772160 && $long <= 184549375) ||  // 10.0.0.0 to 10.255.255.255
+                        ($long >= -1408237568 && $long <= -1407188993) || // 172.16.0.0 to 172.31.255.255
+                        ($long >= -1062731776 && $long <= -1062666241) || // 192.168.0.0 to 192.168.255.255
+                        ($long >= 2130706432 && $long <= 2147483647) || // 127.0.0.0 to 127.255.255.255
+                        ($long >= -1442971392 && $long <= -1442906369) || // 169.254.1.0 to 169.254.254.255
+                        ($long == -1)) { // 255.255.255.255
+                        $this->sys->setHostname($result); // internal ip
                     } else {
                         $this->sys->setHostname(gethostbyaddr($ip));
                     }
