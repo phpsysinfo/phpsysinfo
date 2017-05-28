@@ -142,6 +142,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                             $out .= fread($r, 4096);
                                         } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
                                             $err .= fread($r, 4096);
+                                        }
                                     }
                                 }
 
