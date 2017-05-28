@@ -133,7 +133,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                 $w = null;
                                 $e = null;
 
-                                while (!(feof($pipes[1]) || feof($pipes[2]))) {
+                                while (!(feof($pipes[1]) && feof($pipes[2]))) {
                                     $read = array($pipes[1], $pipes[2]);
 
                                     $n = stream_select($read, $w, $e, 5);
@@ -145,10 +145,8 @@ if (!defined('PSI_CONFIG_FILE')) {
                                     foreach ($read as $r) {
                                         if ($r == $pipes[1]) {
                                             $out .= fread($r, 4096);
-                                        }
-                                        if ($r == $pipes[2]) {
+                                        } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
                                             $err .= fread($r, 4096);
-                                        }
                                     }
                                 }
 
