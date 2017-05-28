@@ -102,18 +102,13 @@ if (!defined('PSI_CONFIG_FILE')) {
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
         if (PHP_OS == 'Linux') {
-            if (file_exists('/etc/sysconfig/i18n')) {
-                $contents = @file_get_contents('/etc/sysconfig/i18n');
-            } elseif (file_exists('/etc/default/locale')) {
-                $contents = @file_get_contents('/etc/default/locale');
-            } elseif (file_exists('/etc/locale.conf')) {
-                $contents = @file_get_contents('/etc/locale.conf');
-            } elseif (file_exists('/etc/sysconfig/language')) {
-                $contents = @file_get_contents('/etc/sysconfig/language');
-            } elseif (file_exists('/etc/profile.d/lang.sh')) {
-                $contents = @file_get_contents('/etc/profile.d/lang.sh');
-            } elseif (file_exists('/etc/profile')) {
-                $contents = @file_get_contents('/etc/profile');
+            if (file_exists($fname = '/etc/sysconfig/i18n')
+               || file_exists($fname = '/etc/default/locale')
+               || file_exists($fname = '/etc/locale.conf')
+               || file_exists($fname = '/etc/sysconfig/language')
+               || file_exists($fname = '/etc/profile.d/lang.sh')
+               || file_exists($fname = '/etc/profile')) {
+                $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
@@ -168,11 +163,16 @@ if (!defined('PSI_CONFIG_FILE')) {
                && $contents && (preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^\s*export (LANG="?[^"\n]*"?)/m', $contents, $matches))) {
-                if (!defined('PSI_SYSTEM_CODEPAGE') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
-                    foreach ($lines as $line) {
-                        if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
-                            define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
-                            break;
+                if (!defined('PSI_SYSTEM_CODEPAGE')) {
+                    if (file_exists($vtfname = '/sys/module/vt/parameters/default_utf8')
+                       && (trim(@file_get_contents($vtfname)) === "1")) {
+                            define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+                    } elseif (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
+                        foreach ($lines as $line) {
+                            if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
+                                define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
+                                break;
+                            }
                         }
                     }
                 }
