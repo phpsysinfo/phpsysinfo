@@ -30,7 +30,7 @@ class IPMItool extends Sensors
      *
      * @var array
      */
-    private $_lines = array();
+    private $_buf = array();
 
     /**
      * fill the private content var through command or data access
@@ -38,19 +38,54 @@ class IPMItool extends Sensors
     public function __construct()
     {
         parent::__construct();
+        $lines = "";
         switch (defined('PSI_SENSOR_IPMITOOL_ACCESS')?strtolower(PSI_SENSOR_IPMITOOL_ACCESS):'command') {
         case 'command':
-            CommonFunctions::executeProgram('ipmitool', 'sensor', $lines);
-            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            CommonFunctions::executeProgram('ipmitool', 'sensor -v', $lines);
             break;
         case 'data':
-            if (CommonFunctions::rfts(APP_ROOT.'/data/ipmitool.txt', $lines)) {
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            }
+            CommonFunctions::rfts(APP_ROOT.'/data/ipmitool.txt', $lines);
             break;
         default:
             $this->error->addConfigError('__construct()', 'PSI_SENSOR_IPMITOOL_ACCESS');
             break;
+        }
+        if (trim($lines) !== "") {
+            $lines = preg_replace("/\n?Unable to read sensor/", "\nUnable to read sensor", $lines);
+            $sensors = preg_split("/Sensor ID\s+/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($sensors as $sensor) {
+                if (preg_match("/^:\s*(.+)\s\((0x[a-f\d]+)\)\r?\n/", $sensor, $name) && (($name1 = trim($name[1])) !== "")) {
+                    $sensorvalues = preg_split("/\r?\n/", $sensor, -1, PREG_SPLIT_NO_EMPTY);
+                    unset($sensorvalues[0]); //skip first
+                    $sens = array();
+                    $was = false;
+                    foreach ($sensorvalues as $sensorvalue) {
+                        if (preg_match("/^\s+\[(.+)\]$/", $sensorvalue, $buffer) && (($buffer1 = trim($buffer[1])) !== "")) {
+                            if (isset($sens['State'])) {
+                                $sens['State'] .= ', '.$buffer1;
+                            } else {
+                                $sens['State'] = $buffer1;
+                            }
+                            $was = true;
+                        } elseif (preg_match("/^([^:]+):(.+)$/", $sensorvalue, $buffer)
+                                && (($buffer1 = trim($buffer[1])) !== "")
+                                && (($buffer2 = trim($buffer[2])) !== "")) {
+                            $sens[$buffer1] = $buffer2;
+                            $was = true;
+                        }
+                    }
+                    if ($was  && !isset($sens['Unable to read sensor'])) {
+                        $sens['Sensor'] = $name1;
+                        if (isset($sens['Sensor Reading'])
+                            && preg_match("/^([\d\.]+)\s+\([^\)]*\)\s+(.+)$/", $sens['Sensor Reading'], $buffer)
+                            && (($buffer2 = trim($buffer[2])) !== "")) {
+                            $sens['Value'] = $buffer[1];
+                            $sens['Unit'] = $buffer2;
+                        }
+                        $this->_buf[intval($name[2], 0)] = $sens;
+                    }
+                }
+            }
         }
     }
 
@@ -61,19 +96,19 @@ class IPMItool extends Sensors
      */
     private function _temperature()
     {
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "degrees C" && $buffer[3] != "na") {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Temperature')
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'degrees C')
+               && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                /* incorrect events recognition
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                } */
+                $dev->setName($sensor['Sensor']);
+                $dev->setValue($sensor['Value']);
+                if (isset($sensor['Upper Critical']) && (($max = $sensor['Upper Critical']) != "na")) {
+                    $dev->setMax($max);
+                }
+                if (isset($sensor['Status']) && (($status = $sensor['Status']) != "ok")) {
+                    $dev->setEvent($status);
+                }
                 $this->mbinfo->setMbTemp($dev);
             }
         }
@@ -86,20 +121,22 @@ class IPMItool extends Sensors
      */
     private function _voltage()
     {
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Volts" && $buffer[3] != "na") {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Voltage')
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Volts')
+               && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[5] != "na") $dev->setMin($buffer[5]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                /* incorrect events recognition
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                } */
+                $dev->setName($sensor['Sensor']);
+                $dev->setValue($sensor['Value']);
+                if (isset($sensor['Upper Critical']) && (($max = $sensor['Upper Critical']) != "na")) {
+                    $dev->setMax($max);
+                }
+                if (isset($sensor['Lower Critical']) && (($min = $sensor['Lower Critical']) != "na")) {
+                    $dev->setMin($min);
+                }
+                if (isset($sensor['Status']) && (($status = $sensor['Status']) != "ok")) {
+                    $dev->setEvent($status);
+                }
                 $this->mbinfo->setMbVolt($dev);
             }
         }
@@ -112,23 +149,22 @@ class IPMItool extends Sensors
      */
     private function _fans()
     {
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "RPM" && $buffer[3] != "na") {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Fan')
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'RPM')
+               && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[5] != "na") {
-                    $dev->setMin($buffer[5]);
-                } elseif (($buffer[8] != "na") && ($buffer[8]<$buffer[1])) { //max instead min issue
-                    $dev->setMin($buffer[8]);
+                $dev->setName($sensor['Sensor']);
+                $dev->setValue($value = $sensor['Value']);
+                if (isset($sensor['Lower Critical']) && (($min = $sensor['Lower Critical']) != "na")) {
+                    $dev->setMin($min);
+                } elseif (isset($sensor['Upper Critical']) && (($max = $sensor['Upper Critical']) != "na")
+                          && ($max < $value)) { // max instead min issue
+                    $dev->setMin($max);
                 }
-                /* incorrect events recognition
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                } */
+                if (isset($sensor['Status']) && (($status = $sensor['Status']) != "ok")) {
+                    $dev->setEvent($status);
+                }
                 $this->mbinfo->setMbFan($dev);
             }
         }
@@ -141,19 +177,19 @@ class IPMItool extends Sensors
      */
     private function _power()
     {
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Watts" && $buffer[3] != "na") {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current')
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Watts')
+               && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                /* incorrect events recognition
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                } */
+                $dev->setName($sensor['Sensor']);
+                $dev->setValue($sensor['Value']);
+                if (isset($sensor['Upper Critical']) && (($max = $sensor['Upper Critical']) != "na")) {
+                    $dev->setMax($max);
+                }
+                if (isset($sensor['Status']) && (($status = $sensor['Status']) != "ok")) {
+                    $dev->setEvent($status);
+                }
                 $this->mbinfo->setMbPower($dev);
             }
         }
@@ -166,20 +202,22 @@ class IPMItool extends Sensors
      */
     private function _current()
     {
-        foreach ($this->_lines as $line) {
-            $buffer = preg_split("/\s*\|\s*/", $line);
-            if ($buffer[2] == "Amps" && $buffer[3] != "na") {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current')
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
+               && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
-                $dev->setName($buffer[0]);
-                $dev->setValue($buffer[1]);
-                if ($buffer[5] != "na") $dev->setMin($buffer[5]);
-                if ($buffer[8] != "na") $dev->setMax($buffer[8]);
-                /* incorrect events recognition
-                switch ($buffer[3]) {
-                    case "nr": $dev->setEvent("Non-Recoverable"); break;
-                    case "cr": $dev->setEvent("Critical"); break;
-                    case "nc": $dev->setEvent("Non-Critical"); break;
-                } */
+                $dev->setName($sensor['Sensor']);
+                $dev->setValue($sensor['Value']);
+                if (isset($sensor['Upper Critical']) && (($max = $sensor['Upper Critical']) != "na")) {
+                    $dev->setMax($max);
+                }
+                if (isset($sensor['Lower Critical']) && (($min = $sensor['Lower Critical']) != "na")) {
+                    $dev->setMin($min);
+                }
+                if (isset($sensor['Status']) && (($status = $sensor['Status']) != "ok")) {
+                    $dev->setEvent($status);
+                }
                 $this->mbinfo->setMbCurrent($dev);
             }
         }
