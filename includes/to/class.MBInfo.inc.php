@@ -71,6 +71,15 @@ class MBInfo
     private $_mbCurrent = array();
 
     /**
+     * array with SensorDevices for other
+     *
+     * @see SensorDevice
+     *
+     * @var array
+     */
+    private $_mbOther = array();
+
+    /**
      * Returns $_mbFan.
      *
      * @see System::$_mbFan
@@ -173,6 +182,7 @@ class MBInfo
     {
         array_push($this->_mbPower, $mbPower);
     }
+
     /**
      * Returns $_mbCurrent.
      *
@@ -197,5 +207,31 @@ class MBInfo
     public function setMbCurrent($mbCurrent)
     {
         array_push($this->_mbCurrent, $mbCurrent);
+    }
+
+    /**
+     * Returns $_mbOther.
+     *
+     * @see System::$_mbOther
+     *
+     * @return array
+     */
+    public function getMbOther()
+    {
+        return $this->_mbOther;
+    }
+
+    /**
+     * Sets $_mbOther.
+     *
+     * @param SensorDevice $mbOther other device
+     *
+     * @see System::$_mbOther
+     *
+     * @return void
+     */
+    public function setMbOther($mbOther)
+    {
+        array_push($this->_mbOther, $mbOther);
     }
 }

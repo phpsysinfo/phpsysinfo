@@ -1258,6 +1258,34 @@ function refreshCurrent(xml) {
 }
 
 /**
+ * (re)fill the other block with the values from the given xml<br><br>
+ * build the other information into a separate block, if there is no other information available the
+ * entire table will be removed to avoid HTML warnings
+ * @param {jQuery} xml phpSysInfo-XML
+ */
+function refreshOther(xml) {
+    var values = false;
+    $("#otherTable tbody").empty();
+    $("MBInfo Other Item", xml).each(function getOthers(id) {
+        var label = "", value = "", event = "";
+        label = $(this).attr("Label");
+        value = $(this).attr("Value");
+
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+        $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
+        values = true;
+    });
+    if (values) {
+        $("#other").show();
+    }
+    else {
+        $("#other").remove();
+    }
+}
+
+/**
  * (re)fill the ups block with the values from the given xml<br><br>
  * build the ups information into a separate block, if there is no ups information available the
  * entire table will be removed to avoid HTML warnings
@@ -1407,6 +1435,7 @@ function reload() {
             refreshTemp(xml);
             refreshPower(xml);
             refreshCurrent(xml);
+            refreshOther(xml);
             refreshUps(xml);
 
             for (var i = 0; i < plugin_liste.length; i++) {
@@ -1518,6 +1547,7 @@ $(document).ready(function buildpage() {
             refreshFan(xml);
             refreshPower(xml);
             refreshCurrent(xml);
+            refreshOther(xml);
             refreshUps(xml);
 
             displayPage(xml);

@@ -249,6 +249,7 @@ function reload(initiate) {
             renderFans(data);
             renderPower(data);
             renderCurrent(data);
+            renderOther(data);
             renderUPS(data);
             changeLanguage();
             $("#select").show();
@@ -1143,6 +1144,33 @@ function renderCurrent(data) {
     }
     catch (err) {
         $("#block_current").hide();
+    }
+}
+
+function renderOther(data) {
+    var directives = {
+        Label: {
+            html: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+            }
+        }
+    };
+
+    try {
+        var other_data = [];
+        var datas = items(data["MBInfo"]["Other"]["Item"]);
+        if (other_data.push_attrs(datas) > 0) {
+            $('#other-data').render(other_data, directives);
+            $("#block_other").show();
+        } else {
+            $("#block_other").hide();
+        }
+    }
+    catch (err) {
+        $("#block_other").hide();
     }
 }
 

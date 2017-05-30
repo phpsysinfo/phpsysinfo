@@ -161,6 +161,25 @@ class FreeIPMI extends Sensors
     }
 
     /**
+     * get other information
+     *
+     * @return void
+     */
+    private function _other()
+    {
+        foreach ($this->_lines as $line) {
+            $buffer = preg_split("/\s*\|\s*/", $line);
+             if ($buffer[4] == "N/A"
+                && $buffer[11] != "N/A") {
+                $dev = new SensorDevice();
+                $dev->setName($buffer[1].' ('.$buffer[2].')');
+                $dev->setValue(trim($buffer[11], '\''));
+                $this->mbinfo->setMbOther($dev);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_Sensor::build()
@@ -174,5 +193,6 @@ class FreeIPMI extends Sensors
         $this->_fans();
         $this->_power();
         $this->_current();
+        $this->_other();
     }
 }

@@ -15,6 +15,7 @@ phpSysInfo 3.2.8
 
  - [ADD] PureOS, OpenELEC, LibreELEC and Lakka to detected distros
  - [ADD] DATETIME_FORMAT option
+ - [ADD] FreeIPMI, IPMItool and IPMIutil other information
 
 phpSysInfo 3.2.7
 ----------------

@@ -366,4 +366,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   <expression id="120" name="no_devices">
     <exp>Anzahl Geräte</exp>
   </expression>
+  <expression id="121" name="other">
+    <exp>Other</exp>
+  </expression>
 </tns:translation>

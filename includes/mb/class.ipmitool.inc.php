@@ -224,6 +224,27 @@ class IPMItool extends Sensors
     }
 
     /**
+     * get other information
+     *
+     * @return void
+     */
+    private function _other()
+    {
+        foreach ($this->_buf as $sensor) {
+            if (isset($sensor['Sensor Type (Discrete)'])) {
+                $dev = new SensorDevice();
+                $dev->setName($sensor['Sensor'].' ('.$sensor['Sensor Type (Discrete)'].')');
+                if (isset($sensor['State'])) {
+                    $dev->setValue($sensor['State']);
+                } else {
+                    $dev->setValue('0x0');
+                }
+                $this->mbinfo->setMbOther($dev);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_Sensor::build()
@@ -237,5 +258,6 @@ class IPMItool extends Sensors
         $this->_fans();
         $this->_power();
         $this->_current();
+        $this->_other();
     }
 }

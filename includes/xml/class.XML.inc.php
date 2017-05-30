@@ -424,7 +424,7 @@ class XML
     private function _buildMbinfo()
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
-        $temp = $fan = $volt = $power = $current = null;
+        $temp = $fan = $volt = $power = $current = $other = null;
 
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
@@ -507,6 +507,18 @@ class XML
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
+                }
+
+                foreach ($mbinfo_detail->getMbOther() as $dev) {
+                    if ($other == null) {
+                        $other = $mbinfo->addChild('Other');
+                    }
+                    $item = $other->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
