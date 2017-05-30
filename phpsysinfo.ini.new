@@ -65,7 +65,6 @@ SUDO_COMMANDS=false
 ; - Quotas         - show a table with all quotas that are active and there current state
 ; - SMART          - show S.M.A.R.T. information from drives that support it
 ; - BAT            - show battery state on a laptop, tablet or phone
-; - IPMIInfo       - show IPMI status
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
@@ -472,18 +471,6 @@ ACCESS="command"
 ; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android and Linux)
 ;
 DEVICE="BAT0"
-
-
-[ipmiinfo]
-; ipmiinfo Plugin configuration
-
-; define how to access the IPMI statistic data
-; - "command" ipmitool command is run everytime the block gets refreshed or build
-;             if access error execute first: chmod 666 /dev/ipmi0
-; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "ipmiinfo.txt"; content is the output from "ipmitool sensor")
-;
-ACCESS="command"
 
 
 [mdstatus]

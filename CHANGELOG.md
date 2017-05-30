@@ -17,6 +17,8 @@ phpSysInfo 3.2.8
  - [ADD] DATETIME_FORMAT option
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
 
+ - [DEL] Removed deprecated IPMIinfo plugin
+
 phpSysInfo 3.2.7
 ----------------
  - [UPD] jQuery 3.1.1
