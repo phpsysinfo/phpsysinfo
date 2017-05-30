@@ -235,7 +235,7 @@ class IPMIutil extends Sensors
             if (isset($buffer[1]) && $buffer[1] == "Compact"
                && $buffer[5] !== "Init"
                && $buffer[5] !== "Unknown"
-               ) {
+               && $buffer[5] !== "NotAvailable") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[4].' ('.$buffer[2].')');
 
