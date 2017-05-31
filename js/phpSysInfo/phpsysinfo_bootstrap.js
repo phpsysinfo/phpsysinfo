@@ -325,7 +325,7 @@ $(document).ready(function () {
             var j = 0;
             for (var i = 0; i < blocks.length; i++) {
                 if ($("#block_"+blocks[i]).length > 0) {
-                    $("#container").children().eq(j).before($("#block_"+blocks[i]));
+                    $("#blockscontainer").children().eq(j).before($("#block_"+blocks[i]));
                     j++;
                 }
             }
