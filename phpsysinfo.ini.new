@@ -57,7 +57,7 @@ SUDO_COMMANDS=false
 ; Example : BLOCKS="network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
 ;           BLOCKS=false //hide all blocks
 ;
-BLOCKS="network,voltage,current,temperature,fans,power,other,ups"
+BLOCKS=true
 
 
 ; Plugins that should be included in xml and output
