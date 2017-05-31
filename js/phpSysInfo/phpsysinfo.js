@@ -1522,7 +1522,7 @@ $(document).ready(function buildpage() {
             blocks[0] = "true";
         } else {
             blocks = blocktmp.split(',');
-            var j = 8;
+            var j = 7;
             for (var i = 0; i < blocks.length; i++) {
                 if ($("#"+blocks[i]).length > 0) {
                     $("#container").children().eq(j).before($("#"+blocks[i]));
