@@ -19,6 +19,8 @@ phpSysInfo 3.2.8
 
  - [DEL] Removed deprecated IPMIinfo plugin
 
+ - [NEW] BLOCKS option - order of data blocks
+
 phpSysInfo 3.2.7
 ----------------
  - [UPD] jQuery 3.1.1

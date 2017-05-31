@@ -43,6 +43,7 @@
     <input type="hidden" id="showCPUInfoExpanded" value="<?php echo $showCPUInfoExpanded;?>"/>
     <input type="hidden" id="showNetworkInfosExpanded" value="<?php echo $showNetworkInfosExpanded;?>"/>
     <input type="hidden" id="showMemoryInfosExpanded" value="<?php echo $showMemoryInfosExpanded;?>"/>
+    <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
     <div id="loader">
       <h1>
         <a href="#errors" class="nyroModal">
@@ -203,9 +204,9 @@ if ($picklanguage) {
           </tbody>
         </table>
       </div>
-      <div id="temp" style="display:none;">
+      <div id="temperature" style="display:none;">
         <h2><span id="lang_051">Temperature</span></h2>
-        <table class="stripeMe" id="tempTable" style="border-spacing:0;">
+        <table class="stripeMe" id="temperatureTable" style="border-spacing:0;">
           <thead>
             <tr>
               <th><span id="lang_059-u14">Label</span></th>
@@ -217,9 +218,9 @@ if ($picklanguage) {
           </tbody>
         </table>
       </div>
-      <div id="fan" style="display:none;">
-        <h2><span id="lang_053">Fan</span></h2>
-        <table class="stripeMe" id="fanTable" style="border-spacing:0;">
+      <div id="fans" style="display:none;">
+        <h2><span id="lang_053">Fans</span></h2>
+        <table class="stripeMe" id="fansTable" style="border-spacing:0;">
           <thead>
             <tr>
               <th><span id="lang_059-u17">Label</span></th>

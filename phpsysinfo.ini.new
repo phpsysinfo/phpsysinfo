@@ -53,6 +53,13 @@ ALLOWED=false
 ;
 SUDO_COMMANDS=false
 
+; Order of data blocks
+; Example : BLOCKS="network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
+;           BLOCKS=false //hide all blocks
+;
+BLOCKS="network,voltage,current,temperature,fans,power,other,ups"
+
+
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
 ; - PLUGINS="MDStatus,PS"  //list of plugins

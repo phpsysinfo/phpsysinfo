@@ -185,6 +185,33 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("showCPUInfoExpanded", defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showNetworkInfosExpanded", defined('PSI_SHOW_NETWORK_INFOS_EXPANDED') ? (PSI_SHOW_NETWORK_INFOS_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showMemoryInfosExpanded", defined('PSI_SHOW_MEMORY_INFOS_EXPANDED') ? (PSI_SHOW_MEMORY_INFOS_EXPANDED ? 'true' : 'false') : 'false');
+        if (defined('PSI_BLOCKS')){
+            if (is_string(PSI_BLOCKS)) {
+                if (preg_match(ARRAY_EXP, PSI_BLOCKS)) {
+                    $blocks = eval(strtolower(PSI_BLOCKS));
+                } else {
+                    $blocks = array(strtolower(PSI_BLOCKS));
+                }
+                $blocklist = '';
+                $validblocks = array('network','voltage','current','temperature','fans','power','other','ups');
+                foreach ($blocks as $block) {
+                    if (in_array($block, $validblocks)) {
+                        if (empty($blocklist)) {
+                            $blocklist = $block;
+                        } else {
+                            $blocklist .= ','.$block;
+                        }
+                    }
+                }
+                if (!empty($blocklist)) {
+                    $tpl->set("blocks", $blocklist);
+                }
+            } elseif (PSI_BLOCKS) {
+                $tpl->set("blocks", 'true');
+            }
+        } else {
+            $tpl->set("blocks", 'true');
+        }
 
         echo $tpl->fetch();
     }

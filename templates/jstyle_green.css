@@ -87,7 +87,7 @@ table {
     width:100px;
 }
 
-#vitals,#network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #other, #ups {
+#vitals,#network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
     float:left;
     margin:10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */

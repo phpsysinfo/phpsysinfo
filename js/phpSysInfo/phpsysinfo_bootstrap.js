@@ -8,7 +8,7 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], plugin_liste = [],
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
 
 /**
@@ -301,7 +301,7 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null, plugtmp = "";
+    var cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -316,10 +316,27 @@ $(document).ready(function () {
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
 
+    blocktmp = $("#blocks").val().toString();
+    if (blocktmp.length >0 ){
+        if (blocktmp === "true") {
+            blocks[0] = "true";
+        } else {
+            blocks = blocktmp.split(',');
+            var j = 0;
+            for (var i = 0; i < blocks.length; i++) {
+                if ($("#block_"+blocks[i]).length > 0) {
+                    $("#container").children().eq(j).before($("#block_"+blocks[i]));
+                    j++;
+                }
+            }
+        }
+    }
+
     plugtmp = $("#plugins").val().toString();
     if (plugtmp.length >0 ){
         plugins = plugtmp.split(',');
     }
+
 
     if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
@@ -887,6 +904,11 @@ function renderFilesystem(data) {
 
 
 function renderNetwork(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('network') < 0))) {
+        $("#block_network").hide();
+        return;
+    }
+
     var directives = {
         RxBytes: {
             html: function () {
@@ -947,6 +969,11 @@ function renderNetwork(data) {
 }
 
 function renderVoltage(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('voltage') < 0))) {
+        $("#block_voltage").hide();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
@@ -990,6 +1017,11 @@ function renderVoltage(data) {
 }
 
 function renderTemperature(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('temperature') < 0))) {
+        $("#block_temperature").hide();
+        return;
+    }
+
     var directives = {
         Value: {
             html: function () {
@@ -1028,6 +1060,11 @@ function renderTemperature(data) {
 }
 
 function renderFans(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('fans') < 0))) {
+        $("#block_fans").hide();
+        return;
+    }
+
     var directives = {
         Value: {
             html: function () {
@@ -1066,6 +1103,11 @@ function renderFans(data) {
 }
 
 function renderPower(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('power') < 0))) {
+        $("#block_power").hide();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
@@ -1104,6 +1146,11 @@ function renderPower(data) {
 }
 
 function renderCurrent(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('current') < 0))) {
+        $("#block_current").hide();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
@@ -1148,6 +1195,11 @@ function renderCurrent(data) {
 }
 
 function renderOther(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('other') < 0))) {
+        $("#block_other").hide();
+        return;
+    }
+
     var directives = {
         Label: {
             html: function () {
@@ -1175,6 +1227,10 @@ function renderOther(data) {
 }
 
 function renderUPS(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('ups') < 0))) {
+        $("#block_ups").hide();
+        return;
+    }
 
     var directives = {
         Name: {
