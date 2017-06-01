@@ -579,7 +579,7 @@ function refreshVitals(xml) {
             $("#s_hostname_title").html(hostname);
             $("#s_ip_title").html(ip);
         });
-    //    return;
+        return;
     }
 
     var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
