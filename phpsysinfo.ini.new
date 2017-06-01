@@ -54,7 +54,7 @@ ALLOWED=false
 SUDO_COMMANDS=false
 
 ; Order of data blocks
-; Example : BLOCKS="network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
+; Example : BLOCKS="vitals,hardware,memory,filesystem,network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
 ;           BLOCKS=false //hide all blocks
 ;
 BLOCKS=true

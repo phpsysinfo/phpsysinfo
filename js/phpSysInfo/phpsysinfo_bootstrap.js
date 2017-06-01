@@ -325,7 +325,7 @@ $(document).ready(function () {
             var j = 0;
             for (var i = 0; i < blocks.length; i++) {
                 if ($("#block_"+blocks[i]).length > 0) {
-                    $("#blockscontainer").children().eq(j).before($("#block_"+blocks[i]));
+                    $("#output").children().eq(j).before($("#block_"+blocks[i]));
                     j++;
                 }
             }
@@ -422,6 +422,11 @@ function items(data) {
 }
 
 function renderVitals(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('vitals') < 0))) {
+        $("#block_vitals").remove();
+        return;
+    }
+
     var directives = {
         Uptime: {
             html: function () {
@@ -523,6 +528,10 @@ function renderVitals(data) {
 }
 
 function renderHardware(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('hardware') < 0))) {
+        $("#block_hardware").remove();
+        return;
+    }
 
     var directives = {
         Model: {
@@ -725,6 +734,11 @@ function renderHardware(data) {
 }
 
 function renderMemory(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('memory') < 0))) {
+        $("#block_memory").remove();
+        return;
+    }
+
     var directives = {
         Total: {
             html: function () {
@@ -838,6 +852,11 @@ function renderMemory(data) {
 }
 
 function renderFilesystem(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('filesystem') < 0))) {
+        $("#block_filesystem").remove();
+        return;
+    }
+
     var directives = {
         Total: {
             html: function () {
@@ -905,7 +924,7 @@ function renderFilesystem(data) {
 
 function renderNetwork(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('network') < 0))) {
-        $("#block_network").hide();
+        $("#block_network").remove();
         return;
     }
 
@@ -970,7 +989,7 @@ function renderNetwork(data) {
 
 function renderVoltage(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('voltage') < 0))) {
-        $("#block_voltage").hide();
+        $("#block_voltage").remove();
         return;
     }
 
@@ -1018,7 +1037,7 @@ function renderVoltage(data) {
 
 function renderTemperature(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('temperature') < 0))) {
-        $("#block_temperature").hide();
+        $("#block_temperature").remove();
         return;
     }
 
@@ -1061,7 +1080,7 @@ function renderTemperature(data) {
 
 function renderFans(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('fans') < 0))) {
-        $("#block_fans").hide();
+        $("#block_fans").remove();
         return;
     }
 
@@ -1104,7 +1123,7 @@ function renderFans(data) {
 
 function renderPower(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('power') < 0))) {
-        $("#block_power").hide();
+        $("#block_power").remove();
         return;
     }
 
@@ -1147,7 +1166,7 @@ function renderPower(data) {
 
 function renderCurrent(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('current') < 0))) {
-        $("#block_current").hide();
+        $("#block_current").remove();
         return;
     }
 
@@ -1196,7 +1215,7 @@ function renderCurrent(data) {
 
 function renderOther(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('other') < 0))) {
-        $("#block_other").hide();
+        $("#block_other").remove();
         return;
     }
 
@@ -1228,7 +1247,7 @@ function renderOther(data) {
 
 function renderUPS(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('ups') < 0))) {
-        $("#block_ups").hide();
+        $("#block_ups").remove();
         return;
     }
 

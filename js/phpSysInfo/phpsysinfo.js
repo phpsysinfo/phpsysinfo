@@ -345,7 +345,7 @@ function populateErrors(xml) {
 function displayPage(xml) {
     var versioni = "";
     $("#loader").hide();
-    $("#container").fadeIn("slow");
+    $("#output").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
     $("#version").html(versioni);
 }
@@ -569,7 +569,20 @@ function createBar(size, barclass) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVitals(xml) {
-    var hostname = "", ip = "", kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var hostname = "", ip = "";
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('vitals') < 0))) {
+        $("#vitals").remove();
+        $("Vitals", xml).each(function getVitals(id) {
+            hostname = $(this).attr("Hostname");
+            ip = $(this).attr("IPAddr");
+            document.title = "System information: " + hostname + " (" + ip + ")";
+            $("#s_hostname_title").html(hostname);
+            $("#s_ip_title").html(ip);
+        });
+    //    return;
+    }
+
+    var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
     var processes = 0, prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
@@ -808,6 +821,11 @@ function countHWDevice(xml, type) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshHardware(xml) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('hardware') < 0))) {
+        $("#hardware").remove();
+        return;
+    }
+
     var html = "", tree = [], closed = [], index = 0, machine = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10, false) + "</h2>\n";
@@ -940,6 +958,11 @@ function refreshNetwork(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshMemory(xml) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('memory') < 0))) {
+        $("#memory").remove();
+        return;
+    }
+
     var html = "", tree = [], closed = [];
 
     $("#memory").empty();
@@ -1051,6 +1074,11 @@ function refreshMemory(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshFilesystems(xml) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('filesystem') < 0))) {
+        $("#filesystem").remove();
+        return;
+    }
+
     var total_usage = 0, total_used = 0, total_free = 0, total_size = 0, threshold = 0;
 
     filesystemTable.fnClearTable();
@@ -1133,9 +1161,8 @@ function refreshTemp(xml) {
     });
     if (values) {
         $("#temperature").show();
-    }
-    else {
-        $("#temperature").remove();
+    } else {
+        $("#temperature").hide();
     }
 }
 
@@ -1171,9 +1198,8 @@ function refreshVoltage(xml) {
     });
     if (values) {
         $("#voltage").show();
-    }
-    else {
-        $("#voltage").remove();
+    } else {
+        $("#voltage").hide();
     }
 }
 
@@ -1206,9 +1232,8 @@ function refreshFans(xml) {
     });
     if (values) {
         $("#fans").show();
-    }
-    else {
-        $("#fans").remove();
+    } else {
+        $("#fans").hide();
     }
 }
 
@@ -1241,9 +1266,8 @@ function refreshPower(xml) {
     });
     if (values) {
         $("#power").show();
-    }
-    else {
-        $("#power").remove();
+    } else {
+        $("#power").hide();
     }
 }
 
@@ -1281,9 +1305,8 @@ function refreshCurrent(xml) {
     });
     if (values) {
         $("#current").show();
-    }
-    else {
-        $("#current").remove();
+    } else {
+        $("#current").hide();
     }
 }
 
@@ -1314,9 +1337,8 @@ function refreshOther(xml) {
     });
     if (values) {
         $("#other").show();
-    }
-    else {
-        $("#other").remove();
+    } else {
+        $("#other").hide();
     }
 }
 
@@ -1448,9 +1470,8 @@ function refreshUps(xml) {
             state: false
         });
         $("#ups").show();
-    }
-    else {
-        $("#ups").remove();
+    } else {
+        $("#ups").hide();
     }
 }
 
@@ -1522,10 +1543,10 @@ $(document).ready(function buildpage() {
             blocks[0] = "true";
         } else {
             blocks = blocktmp.split(',');
-            var j = 7;
+            var j = 2;
             for (var i = 0; i < blocks.length; i++) {
                 if ($("#"+blocks[i]).length > 0) {
-                    $("#container").children().eq(j).before($("#"+blocks[i]));
+                    $("#output").children().eq(j).before($("#"+blocks[i]));
                     j++;
                 }
             }

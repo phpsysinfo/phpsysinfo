@@ -193,7 +193,7 @@ class Webpage extends Output implements PSI_Interface_Output
                     $blocks = array(strtolower(PSI_BLOCKS));
                 }
                 $blocklist = '';
-                $validblocks = array('network','voltage','current','temperature','fans','power','other','ups');
+                $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
                 foreach ($blocks as $block) {
                     if (in_array($block, $validblocks)) {
                         if (empty($blocklist)) {
