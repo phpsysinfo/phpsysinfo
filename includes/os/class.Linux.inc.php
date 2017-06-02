@@ -229,10 +229,10 @@ class Linux extends OS
                     }
                 }
             }
+
             // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-            if (PSI_LOAD_BAR) {
-                sleep(1);
-            }
+            sleep(1);
+
             if (CommonFunctions::rfts('/proc/stat', $buf)) {
                 if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $line) {
