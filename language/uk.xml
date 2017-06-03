@@ -79,7 +79,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Відправлено</exp>
   </expression>
   <expression id="025" name="errors">
-    <exp>Err/Drop</exp>
+    <exp>Помилок/Дропів</exp>
   </expression>
   <expression id="026" name="connections">
     <exp>Встановлені мережеві з'єднання</exp>
@@ -232,7 +232,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Причина останнього переходу</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Част останнього переходу</exp>
+    <exp>Час останнього переходу</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
     <exp>Напруга мережі</exp>
@@ -253,7 +253,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>В</exp>
   </expression>
   <expression id="083" name="ups_minutes_mark">
-    <exp>мін.</exp>
+    <exp>хвил.</exp>
   </expression>
   <expression id="084" name="ups_temperature">
     <exp>Температура</exp>
@@ -295,43 +295,43 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Мова системи</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Кодування</exp>
   </expression>
   <expression id="099" name="details">
     <exp>Докладніше</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Максимальна швидкість CPU</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Мінімальна швидкість CPU</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Потужність</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Дата батареї</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Струм</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Машина</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Частота мережі</exp>
   </expression>
   <expression id="109" name="Hz">
-    <exp>Hz</exp>
+    <exp>Гц</exp>
   </expression>
   <expression id="110" name="Processes">
     <exp>Процеси</exp>
@@ -361,12 +361,12 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>I2C пристрої</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Кількість процесорів</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Кількість пристроїв</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>Інше</exp>
   </expression>
 </tns:translation>
