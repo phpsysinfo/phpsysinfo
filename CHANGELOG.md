@@ -8,6 +8,7 @@ phpSysInfo 3.2.8
  - [UPD] jQuery 3.2.1
  - [UPD] French Translation fr.xml
  - [UPD] CPU usage on WinNT
+ - [UPD] Ukrainian Translation uk.xml
 
  - [FIX] Fixed incorrect network usage on FreeBSD 11
  - [FIX] Fixed healthd sensors
