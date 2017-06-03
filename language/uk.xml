@@ -31,7 +31,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Користувачі</exp>
   </expression>
   <expression id="009" name="loadavg">
-    <exp>Середне навантаження</exp>
+    <exp>Середнє навантаження</exp>
   </expression>
   <expression id="010" name="hardware">
     <exp>Апаратні засоби</exp>
@@ -52,7 +52,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Розмір кешу</exp>
   </expression>
   <expression id="016" name="bogomips">
-    <exp>Продуктивніть у Bogomips</exp>
+    <exp>Продуктивність у Bogomips</exp>
   </expression>
   <expression id="017" name="pci">
     <exp>PCI пристрої</exp>
@@ -133,7 +133,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Відсутні</exp>
   </expression>
   <expression id="043" name="capacity">
-    <exp>Ємкість</exp>
+    <exp>Ємність</exp>
   </expression>
   <expression id="044" name="template">
     <exp>Шаблон</exp>
@@ -220,7 +220,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
     <exp>Режим</exp>
   </expression>
   <expression id="072" name="ups_start_time">
-    <exp>Час ввімкнення</exp>
+    <exp>Час увімкнення</exp>
   </expression>
   <expression id="073" name="ups_status">
     <exp>Стан</exp>
