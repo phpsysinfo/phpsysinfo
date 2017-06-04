@@ -1476,35 +1476,50 @@ function refreshUps(xml) {
 }
 
 /**
- * reload the page, this means all values are refreshed, except the plugins
+ * reload the page, this means all values are refreshed
  */
-function reload() {
+function reload(initiate) {
     $.ajax({
         url: 'xml.php',
         dataType: 'xml',
         error: function error() {
-            $.jGrowl("Error loading XML document!");
+            if ((typeof(initiate) === 'boolean') && (initiate === true)) {
+                $.jGrowl("Error loading XML document!", {
+                    sticky: true
+                });
+            } else {
+                $.jGrowl("Error loading XML document!");
+            }
         },
         success: function buildblocks(xml) {
+            if ((typeof(initiate) === 'boolean') && (initiate === true)) {
+                populateErrors(xml);
+            }
+
             refreshVitals(xml);
-            refreshNetwork(xml);
             refreshHardware(xml);
             refreshMemory(xml);
             refreshFilesystems(xml);
+            refreshNetwork(xml);
             refreshVoltage(xml);
-            refreshFans(xml);
-            refreshTemp(xml);
-            refreshPower(xml);
             refreshCurrent(xml);
+            refreshTemp(xml);
+            refreshFans(xml);
+            refreshPower(xml);
             refreshOther(xml);
             refreshUps(xml);
 
-            for (var i = 0; i < plugin_liste.length; i++) {
-                try {
-                    //dynamic call
-                    window[plugin_liste[i].toLowerCase() + '_request']();
-                }
-                catch (err) {
+            if ((typeof(initiate) === 'boolean') && (initiate === true)) {
+                displayPage(xml);
+                settimer(xml);
+            } else {
+                for (var i = 0; i < plugin_liste.length; i++) {
+                    try {
+                        //dynamic call
+                        window[plugin_liste[i].toLowerCase() + '_request']();
+                    }
+                    catch (err) {
+                    }
                 }
             }
 
@@ -1604,37 +1619,7 @@ $(document).ready(function buildpage() {
 
     filesystemtable();
 
-    $.ajax({
-        url: 'xml.php',
-        dataType: 'xml',
-        error: function error() {
-            $.jGrowl("Error loading XML document!", {
-                sticky: true
-            });
-        },
-        success: function buildblocks(xml) {
-            populateErrors(xml);
-
-            refreshVitals(xml);
-            refreshHardware(xml);
-            refreshNetwork(xml);
-            refreshMemory(xml);
-            refreshFilesystems(xml);
-            refreshTemp(xml);
-            refreshVoltage(xml);
-            refreshFans(xml);
-            refreshPower(xml);
-            refreshCurrent(xml);
-            refreshOther(xml);
-            refreshUps(xml);
-
-            displayPage(xml);
-            settimer(xml);
-
-            $('.stripeMe tr:nth-child(even)').addClass('even');
-            langcounter = 1;
-        }
-    });
+    reload(true);
 
     $("#errors").nyroModal();
 });

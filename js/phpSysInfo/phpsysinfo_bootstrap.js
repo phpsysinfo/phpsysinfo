@@ -234,7 +234,7 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
+            if ((typeof(initiate) === 'boolean') && (initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
                     setInterval(reload, refrtime);
             }
