@@ -131,19 +131,19 @@ table {
 
 .treeimg {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: top;
 }
 
 .treespan {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: normal;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
 }

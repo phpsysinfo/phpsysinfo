@@ -34,27 +34,27 @@ wbr {
 
 .treegrid-span {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-spanbold {
     font-weight: bold;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-indent {
     width: 16px;
     height: 16px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-expander {
     width: 0px;
     height: 16px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     cursor: pointer;
 }
 
@@ -64,7 +64,7 @@ wbr {
     position: relative;
     top: 1px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     font-style: normal;
     font-weight: normal;
     line-height: 1;
