@@ -129,6 +129,7 @@ table {
 }
 
 .bar {
+    margin-top: 1px;
     background: #c1dc70 url("../gfx/html.gif");
 }
 
