@@ -39,7 +39,7 @@ the message boards on SourceForge.
 INSTALLATION AND CONFIGURATION
 ------------------------------
 
-####Typical installation
+#### Typical installation
 
 Just decompress and untar the source (which you should have done by now,
 if you're reading this...), into your webserver's document root.
@@ -59,7 +59,7 @@ can do this.
 
 That's it.  Restart your webserver (if you changed php.ini), and voila.
 
-####Docker container installation
+#### Docker container installation
 
 - sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo
 - sudo docker run -i -p 8080:80 -t phpsysinfo
@@ -74,7 +74,7 @@ KNOWN PROBLEMS
 PLATFORM SPECIFIC ISSUES
 ------------------------
 
-####Windows with IIS
+#### Windows with IIS
   On Windows systems we get our informations through the WMI interface.
   If you run phpSysInfo on the IIS webserver, phpSysInfo will not connect
   to the WMI interface for security reasons. At this point you MUST set
@@ -88,7 +88,7 @@ PLATFORM SPECIFIC ISSUES
 SENSOR RELATED INFORMATION
 ---------------------------
 
-####MBM5
+#### MBM5
   Make sure you set MBM5 Interval Logging to csv and to the data
   directory of phpSysInfo. The file must be called MBM5. Also make sure
   MBM5 doesn't add symbols to the values. This is a Quick MBM5 log parser,
