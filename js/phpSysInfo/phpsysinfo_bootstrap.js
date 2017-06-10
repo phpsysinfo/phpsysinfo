@@ -1,4 +1,3 @@
-//var data_dbg;
 /**
  * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
  * ajax call
@@ -9,7 +8,7 @@
  * @return {jQuery} translation jQuery-Object
  */
 var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -315,6 +314,7 @@ $(document).ready(function () {
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    showNetworkActiveSpeed = $("#showNetworkActiveSpeed").val().toString()==="true";
 
     blocktmp = $("#blocks").val().toString();
     if (blocktmp.length >0 ){
@@ -931,12 +931,36 @@ function renderNetwork(data) {
     var directives = {
         RxBytes: {
             html: function () {
-                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]);
+                var htmladd = '';
+                if (showNetworkActiveSpeed) {
+                    for (var i = 0; i < oldnetwork.length ; i++) {
+                        if (oldnetwork[i][0] === this["Name"]) {
+                            var diff, difftime;
+                            if (((diff = this["RxBytes"] - oldnetwork[i][1]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[i][3]) > 0)) {
+                                htmladd ="<br>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)";
+                            }
+                            break;
+                        }
+                    }
+                }
+                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
             }
         },
         TxBytes: {
             html: function () {
-                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]);
+                var htmladd = '';
+                if (showNetworkActiveSpeed) {
+                    for (var i = 0; i < oldnetwork.length ; i++) {
+                        if (oldnetwork[i][0] === this["Name"]) {
+                            var diff, difftime;
+                            if (((diff = this["TxBytes"] - oldnetwork[i][2]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[i][3]) > 0)) {
+                                htmladd ="<br>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)";
+                            }
+                            break;
+                        }
+                    }
+                }
+                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
             }
         },
         Drops: {
@@ -947,9 +971,9 @@ function renderNetwork(data) {
     };
 
     var html = "";
+    var preoldnetwork = [];
 
     try {
-        var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
@@ -971,6 +995,9 @@ function renderNetwork(data) {
         if (i > 0) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
+                if (showNetworkActiveSpeed) {
+                    preoldnetwork.push([datas[i]["@attributes"]["Name"], datas[i]["@attributes"]["RxBytes"], datas[i]["@attributes"]["TxBytes"], data["Generation"]["@attributes"]["timestamp"]]);
+                }
             }
             $('#network').treegrid({
                 initialState: showNetworkInfosExpanded?'expanded':'collapsed',
@@ -984,6 +1011,10 @@ function renderNetwork(data) {
     }
     catch (err) {
         $("#block_network").hide();
+    }
+
+    if (showNetworkActiveSpeed) {
+        oldnetwork = preoldnetwork;
     }
 }
 

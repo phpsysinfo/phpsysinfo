@@ -21,6 +21,7 @@ phpSysInfo 3.2.8
  - [DEL] Removed deprecated IPMIinfo plugin
 
  - [NEW] BLOCKS option - order of data blocks
+ - [NEW] SHOW_NETWORK_ACTIVE_SPEED option
 
 phpSysInfo 3.2.7
 ----------------

@@ -319,6 +319,11 @@ HIDE_NETWORK_MACADDR=false
 SHOW_NETWORK_INFOS_EXPANDED=false
 
 
+; Show network active speed
+;
+SHOW_NETWORK_ACTIVE_SPEED=false
+
+
 ; ********************************
 ;        UPS PARAMETERS
 ; ********************************

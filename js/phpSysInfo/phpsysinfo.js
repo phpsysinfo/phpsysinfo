@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded;
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -887,7 +887,8 @@ function refreshNetwork(xml) {
         return;
     }
 
-    var tree = [], closed = [], html0= "", html1= "" ,html = "", isinfo = false;
+    var tree = [], closed = [], html0= "", html1= "" ,html = "", isinfo = false, preoldnetwork = [], timestamp;
+
     $("#network").empty();
 
     html0 += "<h2>" + genlang(21, false) + "</h2>\n";
@@ -901,16 +902,42 @@ function refreshNetwork(xml) {
     html1 += "    </tr>\n";
     html1 += "   </thead>\n";
 
+    if (showNetworkActiveSpeed) {
+        $("Generation", xml).each(function getTimestamp(id) {
+            timestamp = $(this).attr("timestamp");
+        });
+    }
+
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0;
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, i = 0, htmlrx = '', htmltx = '';
         name = $(this).attr("Name");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
-        html +="<tr><td><span class=\"treespan\">" + name + "</span></td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+
+        if (showNetworkActiveSpeed) {
+            for (i = 0; i < oldnetwork.length ; i++) {
+                if (oldnetwork[i][0] === name) {
+                    var diff, difftime;
+                    if (((diff = rx - oldnetwork[i][1]) > 0) && ((difftime = timestamp - oldnetwork[i][3]) > 0)) {
+                        htmlrx ="<br>("+formatBytes(round(diff/difftime, 2), xml)+"/s)";
+                    }
+                    if (((diff = tx - oldnetwork[i][2]) > 0) && (difftime > 0)) {
+                        htmltx ="<br>("+formatBytes(round(diff/difftime, 2), xml)+"/s)";
+                    }
+                    break;
+                }
+            }
+        }
+
+        html +="<tr><td><span class=\"treespan\">" + name + "</span></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
 
         networkindex = tree.push(0);
+
+        if (showNetworkActiveSpeed) {
+               preoldnetwork.push([name, rx, tx, timestamp]);
+        }
 
         info = $(this).attr("Info");
         if ( (info !== undefined) && (info != "") ) {
@@ -951,6 +978,10 @@ function refreshNetwork(xml) {
         highlight: false,
         state: false
       });
+
+    if (showNetworkActiveSpeed) {
+        oldnetwork = preoldnetwork;
+    }
 }
 
 /**
@@ -1551,6 +1582,7 @@ $(document).ready(function buildpage() {
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
+    showNetworkActiveSpeed = $("#showNetworkActiveSpeed").val().toString()==="true";
 
     blocktmp = $("#blocks").val().toString();
     if (blocktmp.length >0 ){
@@ -1559,7 +1591,7 @@ $(document).ready(function buildpage() {
         } else {
             blocks = blocktmp.split(',');
             var j = 2;
-            for (var i = 0; i < blocks.length; i++) {
+            for (i = 0; i < blocks.length; i++) {
                 if ($("#"+blocks[i]).length > 0) {
                     $("#output").children().eq(j).before($("#"+blocks[i]));
                     j++;
