@@ -921,10 +921,10 @@ function refreshNetwork(xml) {
                 if (oldnetwork[i][0] === name) {
                     var diff, difftime;
                     if (((diff = rx - oldnetwork[i][1]) > 0) && ((difftime = timestamp - oldnetwork[i][3]) > 0)) {
-                        htmlrx ="<br>("+formatBytes(round(diff/difftime, 2), xml)+"/s)";
+                        htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
                     }
                     if (((diff = tx - oldnetwork[i][2]) > 0) && (difftime > 0)) {
-                        htmltx ="<br>("+formatBytes(round(diff/difftime, 2), xml)+"/s)";
+                        htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
                     }
                     break;
                 }

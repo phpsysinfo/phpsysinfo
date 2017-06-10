@@ -937,7 +937,7 @@ function renderNetwork(data) {
                         if (oldnetwork[i][0] === this["Name"]) {
                             var diff, difftime;
                             if (((diff = this["RxBytes"] - oldnetwork[i][1]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[i][3]) > 0)) {
-                                htmladd ="<br>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)";
+                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
                             }
                             break;
                         }
