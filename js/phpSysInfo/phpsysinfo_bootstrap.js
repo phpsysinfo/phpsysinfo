@@ -8,7 +8,7 @@
  * @return {jQuery} translation jQuery-Object
  */
 var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, oldnetwork = [];
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, oldnetwork = [], refrTimer;
 
 /**
  * Fix PNG loading on IE6 or below
@@ -233,9 +233,12 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((typeof(initiate) === 'boolean') && (initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
+            if ((typeof(initiate) === 'boolean') && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
-                    setInterval(reload, refrtime);
+                    if ((initiate === false) && (typeof(refrTimer) === 'number')) {
+                        clearInterval(refrTimer);
+                    }
+                    refrTimer = setInterval(reload, refrtime);
             }
             renderErrors(data);
             renderVitals(data);
@@ -263,7 +266,7 @@ function reload(initiate) {
         }
 
     }
-    if (initiate === true) {
+    if ((typeof(initiate) === 'boolean') && (initiate === true)) {
         for (var i = 0; i < plugins.length; i++) {
             if ($("#reload_"+plugins[i]).length > 0) {
                 $("#reload_"+plugins[i]).click(function() {
@@ -396,7 +399,7 @@ $(document).ready(function () {
     reload(true);
 
     $(".logo").click(function () {
-        reload();
+        reload(false);
     });
 });
 
