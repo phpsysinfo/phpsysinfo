@@ -186,25 +186,42 @@ function genlang(id, generate, plugin) {
 
 /**
  * translates all expressions based on the translation xml file<br>
- * translation expressions must be in the format &lt;span id="lang???"&gt;&lt;/span&gt;, where ??? is
+ * translation expressions must be in the format &lt;span id="lang_???"&gt;&lt;/span&gt;, where ??? is
  * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
  * file nothing would be translated, so the initial value which is inside the span tag is displayed
  * @param {String} [plugin] name of the plugin
  */
 function changeLanguage(plugin) {
     var langId = "", langStr = "";
-    $('span[id*=lang_]').each(function translate(i) {
-        langId = this.getAttribute('id').substring(5);
-        if (langId.indexOf('-') !== -1) {
-            langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-        }
-        langStr = getTranslationString(langId, plugin);
-        if (langStr !== undefined) {
-            if (langStr.length > 0) {
-                this.innerHTML = langStr;
+    if (plugin === undefined) {
+        $('span[id*=lang_]').each(function translate(i) {
+            langId = this.getAttribute('id').substring(5);
+            if (langId.indexOf('-') !== -1) {
+                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
             }
-        }
-    });
+            if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
+                langStr = getTranslationString(langId);
+                if (langStr !== undefined) {
+                    if (langStr.length > 0) {
+                        this.innerHTML = langStr;
+                    }
+                }
+            }
+        });
+    } else {
+        $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
+            langId = this.getAttribute('id').substring(5);
+            if (langId.indexOf('-') !== -1) {
+                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
+            }
+            langStr = getTranslationString(langId, plugin);
+            if (langStr !== undefined) {
+                if (langStr.length > 0) {
+                    this.innerHTML = langStr;
+                }
+            }
+        });
+    }
 }
 
 function reload(initiate) {
