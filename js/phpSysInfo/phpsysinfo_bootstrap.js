@@ -941,7 +941,6 @@ function renderFilesystem(data) {
     }
 }
 
-
 function renderNetwork(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('network') < 0))) {
         $("#block_network").remove();
