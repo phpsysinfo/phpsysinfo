@@ -933,18 +933,13 @@ function refreshNetwork(xml) {
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
 
-        if (showNetworkActiveSpeed) {
-            for (i = 0; i < oldnetwork.length ; i++) {
-                if (oldnetwork[i][0] === name) {
-                    var diff, difftime;
-                    if (((diff = rx - oldnetwork[i][1]) > 0) && ((difftime = timestamp - oldnetwork[i][3]) > 0)) {
-                        htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
-                    }
-                    if (((diff = tx - oldnetwork[i][2]) > 0) && (difftime > 0)) {
-                        htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
-                    }
-                    break;
-                }
+        if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
+            var diff, difftime;
+            if (((diff = rx - oldnetwork[name]["rx"]) > 0) && ((difftime = timestamp - oldnetwork[name]["timestamp"]) > 0)) {
+                htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+            }
+            if (((diff = tx - oldnetwork[name]["tx"]) > 0) && (difftime > 0)) {
+                htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
             }
         }
 
@@ -953,7 +948,8 @@ function refreshNetwork(xml) {
         networkindex = tree.push(0);
 
         if (showNetworkActiveSpeed) {
-               preoldnetwork.push([name, rx, tx, timestamp]);
+            preoldnetwork.pushIfNotExist(name);
+            preoldnetwork[name] = {timestamp:timestamp, rx:rx, tx:tx};
         }
 
         info = $(this).attr("Info");
@@ -997,6 +993,10 @@ function refreshNetwork(xml) {
       });
 
     if (showNetworkActiveSpeed) {
+        while (oldnetwork.length > 0) {
+            delete oldnetwork[oldnetwork.length-1]; //remove last object
+            oldnetwork.pop(); //remove last object reference from array
+        }
         oldnetwork = preoldnetwork;
     }
 }

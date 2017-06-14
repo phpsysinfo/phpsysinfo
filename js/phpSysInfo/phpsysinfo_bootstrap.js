@@ -952,15 +952,10 @@ function renderNetwork(data) {
         RxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed) {
-                    for (var i = 0; i < oldnetwork.length ; i++) {
-                        if (oldnetwork[i][0] === this["Name"]) {
-                            var diff, difftime;
-                            if (((diff = this["RxBytes"] - oldnetwork[i][1]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[i][3]) > 0)) {
-                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
-                            }
-                            break;
-                        }
+                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                    var diff, difftime;
+                    if (((diff = this["RxBytes"] - oldnetwork[this["Name"]]["RxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                        htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
                     }
                 }
                 return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
@@ -969,15 +964,10 @@ function renderNetwork(data) {
         TxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed) {
-                    for (var i = 0; i < oldnetwork.length ; i++) {
-                        if (oldnetwork[i][0] === this["Name"]) {
-                            var diff, difftime;
-                            if (((diff = this["TxBytes"] - oldnetwork[i][2]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[i][3]) > 0)) {
-                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
-                            }
-                            break;
-                        }
+                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                    var diff, difftime;
+                    if (((diff = this["TxBytes"] - oldnetwork[this["Name"]]["TxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                        htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
                     }
                 }
                 return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
@@ -1016,7 +1006,8 @@ function renderNetwork(data) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
                 if (showNetworkActiveSpeed) {
-                    preoldnetwork.push([datas[i]["@attributes"]["Name"], datas[i]["@attributes"]["RxBytes"], datas[i]["@attributes"]["TxBytes"], data["Generation"]["@attributes"]["timestamp"]]);
+                    preoldnetwork.pushIfNotExist(datas[i]["@attributes"]["Name"]);
+                    preoldnetwork[datas[i]["@attributes"]["Name"]] = {timestamp:data["Generation"]["@attributes"]["timestamp"], RxBytes:datas[i]["@attributes"]["RxBytes"], TxBytes:datas[i]["@attributes"]["TxBytes"]};
                 }
             }
             $('#network').treegrid({
@@ -1034,6 +1025,10 @@ function renderNetwork(data) {
     }
 
     if (showNetworkActiveSpeed) {
+        while (oldnetwork.length > 0) {
+            delete oldnetwork[oldnetwork.length-1]; //remove last object
+            oldnetwork.pop(); //remove last object reference from array
+        }
         oldnetwork = preoldnetwork;
     }
 }
