@@ -82,18 +82,17 @@ function switchStyle(template) {
  * ajax call
  * @private
  * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
- * @param {String} plugname internal plugin name
+ * @param {String} langarrId internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-function getLanguage(plugin, plugname) {
+function getLanguage(plugin, langarrId) {
     var getLangUrl = "";
     if (current_language) {
         getLangUrl = 'language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
-    }
-    else {
+    } else {
         getLangUrl = 'language/language.php';
         if (plugin) {
             getLangUrl += "?plugin=" + plugin;
@@ -104,44 +103,23 @@ function getLanguage(plugin, plugname) {
         type: 'GET',
         dataType: 'xml',
         timeout: 100000,
-        async: false,
         error: function error() {
-            $.jGrowl("Error loading language!");
+//            $.jGrowl("Error loading language!");
         },
         success: function buildblocks(xml) {
             var idexp;
-            langxml[plugname] = xml;
-            if (langarr[plugname] === undefined) {
-                langarr.push(plugname);
-                langarr[plugname] = [];
+            langxml[langarrId] = xml;
+            if (langarr[langarrId] === undefined) {
+                langarr.push(langarrId);
+                langarr[langarrId] = [];
             }
-            $("expression", langxml[plugname]).each(function langstore(id) {
+            $("expression", langxml[langarrId]).each(function langstore(id) {
                 idexp = $("expression", xml).get(id);
-                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/<wbr>");
+                langarr[langarrId][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/<wbr>");
             });
+            changeSpanLanguage(plugin);
         }
     });
-}
-
-/**
- * internal function to get a given translation out of the translation file
- * @param {Number} langId id of the translation expression
- * @param {String} [plugin] name of the plugin
- * @return {String} translation string
- */
-function getTranslationString(langId, plugin) {
-    var plugname = current_language + "_";
-    if (plugin === undefined) {
-        plugname += "phpSysInfo";
-    }
-    else {
-        plugname += plugin;
-    }
-    if (langxml[plugname] === undefined) {
-        langxml.push(plugname);
-        getLanguage(plugin, plugname);
-    }
-    return langarr[plugname][langId.toString()];
 }
 
 /**
@@ -152,22 +130,24 @@ function getTranslationString(langId, plugin) {
  * @return {String} string which contains generated span tag for translation string
  */
 function genlang(id, generate, plugin) {
-    var html = "", idString = "", plugname = "";
+    var html = "", idString = "", plugname = "",
+        langarrId = current_language + "_";
+
     if (plugin === undefined) {
         plugname = "";
-    }
-    else {
+        langarrId += "phpSysInfo";
+    } else {
         plugname = plugin.toLowerCase();
+        langarrId += plugname;
     }
+
     if (id < 100) {
         if (id < 10) {
             idString = "00" + id.toString();
-        }
-        else {
+        } else {
             idString = "0" + id.toString();
         }
-    }
-    else {
+    } else {
         idString = id.toString();
     }
     if (plugin) {
@@ -176,11 +156,17 @@ function genlang(id, generate, plugin) {
     if (generate) {
         html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
         langcounter++;
-    }
-    else {
+    } else {
         html += "<span id=\"lang_" + idString + "\">";
     }
-    html += getTranslationString(idString, plugin) + "</span>";
+
+    if ((langxml[langarrId] !== undefined)
+        && (langarr[langarrId] !== undefined)) {
+        html += langarr[langarrId][idString];
+    }
+
+    html += "</span>";
+
     return html;
 }
 
@@ -192,15 +178,35 @@ function genlang(id, generate, plugin) {
  * @param {String} [plugin] name of the plugin
  */
 function changeLanguage(plugin) {
-    var langId = "", langStr = "";
+    var langarrId = current_language + "_";
+    
     if (plugin === undefined) {
+        langarrId += "phpSysInfo";
+    } else {
+        langarrId += plugin;
+    }
+
+    if (langxml[langarrId] !== undefined) {
+        changeSpanLanguage(plugin)
+    } else {
+        langxml.push(langarrId);
+        getLanguage(plugin, langarrId);
+    }
+}
+
+function changeSpanLanguage(plugin) {
+    var langId = "", langStr = "", plugId = "",
+        langarrId = current_language + "_";
+    
+    if (plugin === undefined) {
+        langarrId += "phpSysInfo";
         $('span[id*=lang_]').each(function translate(i) {
             langId = this.getAttribute('id').substring(5);
             if (langId.indexOf('-') !== -1) {
                 langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
             }
             if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
-                langStr = getTranslationString(langId);
+                langStr = langarr[langarrId][langId];
                 if (langStr !== undefined) {
                     if (langStr.length > 0) {
                         this.innerHTML = langStr;
@@ -209,12 +215,13 @@ function changeLanguage(plugin) {
             }
         });
     } else {
+        langarrId += plugin;
         $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
             langId = this.getAttribute('id').substring(5);
             if (langId.indexOf('-') !== -1) {
                 langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
             }
-            langStr = getTranslationString(langId, plugin);
+            langStr = langarr[langarrId][langId];
             if (langStr !== undefined) {
                 if (langStr.length > 0) {
                     this.innerHTML = langStr;
