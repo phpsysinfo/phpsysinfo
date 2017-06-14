@@ -36,7 +36,7 @@ function renderPlugin_snmppinfo(data) {
                 } else if (level==-3) {
                     return genlang(6, false, 'snmppinfo'); // enough
                 } else {
-                    return getlang(7, false, 'snmppinfo'); // unknown
+                    return genlang(7, false, 'snmppinfo'); // unknown
                 }
             }
         }
