@@ -220,7 +220,7 @@ function genlang(id, generate, plugin) {
  */
 function changeLanguage(plugin) {
     var langarrId = current_language + "_";
-    
+
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
     } else {
@@ -238,7 +238,7 @@ function changeLanguage(plugin) {
 function changeSpanLanguage(plugin) {
     var langId = "", langStr = "", plugId = "",
         langarrId = current_language + "_";
-    
+
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
         $('span[id*=lang_]').each(function translate(i) {
