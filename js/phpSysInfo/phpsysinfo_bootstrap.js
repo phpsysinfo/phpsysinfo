@@ -214,6 +214,8 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
+        $("#select").show();
+        $("#output").show();
     } else {
         langarrId += plugin;
         $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
@@ -278,8 +280,8 @@ function reload(initiate) {
             renderOther(data);
             renderUPS(data);
             changeLanguage();
-            $("#select").show();
-            $("#output").show();
+//            $("#select").show();
+//            $("#output").show();
         }
     });
 
