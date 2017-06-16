@@ -214,7 +214,7 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
-        $("#select").show();
+        $("#select").show(); //show if any language loaded
         $("#output").show();
     } else {
         langarrId += plugin;
@@ -230,6 +230,7 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
+        $('#panel_'+plugin.toLowerCase()).show(); //show plugin if any language loaded
     }
 }
 
@@ -252,7 +253,6 @@ function reload(initiate) {
                 }
                 if (errs > 0) {
                     $("#errorbutton").css("visibility", "visible");
-                    $("#output").show();
                 }
             }
         },
@@ -280,8 +280,6 @@ function reload(initiate) {
             renderOther(data);
             renderUPS(data);
             changeLanguage();
-//            $("#select").show();
-//            $("#output").show();
         }
     });
 
