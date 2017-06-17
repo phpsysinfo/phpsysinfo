@@ -254,6 +254,8 @@ function changeSpanLanguage(plugin) {
                     }
                 }
             }
+            $("#loader").hide();
+            $("#output").fadeIn("slow"); //show if any language loaded
         });
     } else {
         langarrId += plugin;
@@ -269,6 +271,7 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
+        $('#panel_'+plugin).show(); //show plugin if any language loaded
     }
 }
 
@@ -366,8 +369,8 @@ function populateErrors(xml) {
  */
 function displayPage(xml) {
     var versioni = "";
-    $("#loader").hide();
-    $("#output").fadeIn("slow");
+//    $("#loader").hide();
+//    $("#output").fadeIn("slow");
     versioni = $("Generation", xml).attr("version").toString();
     $("#version").html(versioni);
 }
@@ -1561,6 +1564,7 @@ function reload(initiate) {
             refreshPower(xml);
             refreshOther(xml);
             refreshUps(xml);
+            changeLanguage();
 
             if ((typeof(initiate) === 'boolean') && (initiate === true)) {
                 displayPage(xml);
@@ -1625,10 +1629,12 @@ $(document).ready(function buildpage() {
 
     if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
+/*
         changeLanguage();
         for (i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
+*/
     } else {
         cookie_language = readCookie("psi_language");
         if (cookie_language !== null) {
@@ -1637,10 +1643,12 @@ $(document).ready(function buildpage() {
         } else {
             current_language = $("#language").val().toString();
         }
+/*
         changeLanguage();
         for (i = 0; i < plugin_liste.length; i++) {
             changeLanguage(plugin_liste[i]);
         }
+*/
         $('#language').show();
         $('span[id=lang_045]').show();
         $("#language").change(function changeLang() {
@@ -1718,9 +1726,11 @@ function buildBlock(plugin, translationid, reload) {
     if (reload) {
         reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.gif\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
     }
-    block += "      <div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
+    block += "<div id=\"panel_" + plugin + "\" style=\"display:none;\">\n";
+    block += "<div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
     block += "<h2>" + reloadpic + genlang(translationid, false, plugin) + "</h2>\n";
-    block += "      </div>\n";
+    block += "</div>\n";
+    block += "</div>\n";
     return block;
 }
 
