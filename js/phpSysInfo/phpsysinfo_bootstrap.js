@@ -104,7 +104,8 @@ function getLanguage(plugin, langarrId) {
         dataType: 'xml',
         timeout: 100000,
         error: function error() {
-//            $.jGrowl("Error loading language!");
+            $("#errors").append("<li><b>Error loading language</b> - " + getLangUrl + "</li><br>");
+            $("#errorbutton").css("visibility", "visible");
         },
         success: function buildblocks(xml) {
             var idexp;
