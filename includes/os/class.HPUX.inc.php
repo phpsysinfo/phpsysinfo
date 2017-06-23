@@ -321,7 +321,7 @@ class HPUX extends OS
             $mounts = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (CommonFunctions::executeProgram('mount', '-v', $s, PSI_DEBUG)) {
                 $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
-                while (list(, $line) = each($lines)) {
+                foreach ($lines as $line) {
                     $a = preg_split('/ /', $line, -1, PREG_SPLIT_NO_EMPTY);
                     $fsdev[$a[0]] = $a[4];
                 }
