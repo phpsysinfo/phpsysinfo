@@ -22,7 +22,7 @@ error_reporting(E_ALL | E_STRICT);
  *
  * @return void
  */
-function __autoload($class_name)
+function psi_autoload($class_name)
 {
     //$class_name = str_replace('-', '', $class_name);
 
@@ -50,9 +50,11 @@ function __autoload($class_name)
 
     $error = PSI_Error::singleton();
 
-    $error->addError("_autoload(\"".$class_name."\")", "autoloading of class file (class.".$class_name.".inc.php) failed!");
+    $error->addError("psi_autoload(\"".$class_name."\")", "autoloading of class file (class.".$class_name.".inc.php) failed!");
     $error->errorsAsXML();
 }
+
+spl_autoload_register('psi_autoload');
 
 /**
  * sets a user-defined error handler function
