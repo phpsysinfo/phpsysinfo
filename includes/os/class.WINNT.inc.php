@@ -629,7 +629,7 @@ class WINNT extends OS
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                        && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
-                                        foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                        foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                 }
@@ -657,7 +657,7 @@ class WINNT extends OS
                                         if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                            && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                         if (isset($NetworkAdapterConfiguration['IPAddress']))
-                                            foreach($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
+                                            foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                                 if (($ipaddres != "0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
                                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
                                     }
