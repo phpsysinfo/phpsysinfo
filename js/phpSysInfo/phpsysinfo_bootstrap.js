@@ -36,8 +36,7 @@ function createCookie(name, value, days) {
             //deprecated
             expires = "; expires=" + date.toGMTString();
         }
-    }
-    else {
+    } else {
         expires = "";
     }
     document.cookie = name + "=" + value + expires + "; path=/";
@@ -342,7 +341,13 @@ $(document).ready(function () {
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
-    showNetworkActiveSpeed = $("#showNetworkActiveSpeed").val().toString()==="true";
+    switch ($("#showNetworkActiveSpeed").val().toString()) {
+        case "bps":  showNetworkActiveSpeed = 2;
+                      break;
+        case "true": showNetworkActiveSpeed = 1;
+                      break;
+        default:     showNetworkActiveSpeed = 0;
+    }
 
     blocktmp = $("#blocks").val().toString();
     if (blocktmp.length >0 ){
@@ -789,8 +794,7 @@ function renderMemory(data) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
-                }
-                else {
+                } else {
                     var rest = parseInt(this["@attributes"]["Percent"]);
                     var html = '<div class="progress">';
                     if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
@@ -962,7 +966,11 @@ function renderNetwork(data) {
                 if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
                     var diff, difftime;
                     if (((diff = this["RxBytes"] - oldnetwork[this["Name"]]["RxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
-                        htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        if (showNetworkActiveSpeed == 2) {
+                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                        } else {
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        }
                     }
                 }
                 return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
@@ -974,7 +982,11 @@ function renderNetwork(data) {
                 if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
                     var diff, difftime;
                     if (((diff = this["TxBytes"] - oldnetwork[this["Name"]]["TxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
-                        htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        if (showNetworkActiveSpeed == 2) {
+                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                        } else {
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        }
                     }
                 }
                 return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
@@ -1456,8 +1468,7 @@ function formatTemp(degreeC, tempFormat) {
     degree = parseFloat(degreeC);
     if (isNaN(degreeC)) {
         return "---";
-    }
-    else {
+    } else {
         switch (tempFormat.toLowerCase()) {
         case "f":
             return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true);
@@ -1479,12 +1490,10 @@ function formatTemp(degreeC, tempFormat) {
 function formatHertz(mhertz) {
     if (mhertz && mhertz < 1000) {
         return mhertz.toString() + String.fromCharCode(160) + genlang(92, true);
-    }
-    else {
+    } else {
         if (mhertz && mhertz >= 1000) {
             return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93, true);
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -1554,28 +1563,23 @@ function formatBytes(bytes, byteFormat) {
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
             show += String.fromCharCode(160) + genlang(91, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
                 show += String.fromCharCode(160) + genlang(85, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
                     show += String.fromCharCode(160) + genlang(41, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
                         show += String.fromCharCode(160) + genlang(40, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
                             show += String.fromCharCode(160) + genlang(39, true);
-                        }
-                        else {
+                        } else {
                                 show += bytes;
                                 show += String.fromCharCode(160) + genlang(96, true);
                         }
@@ -1588,31 +1592,59 @@ function formatBytes(bytes, byteFormat) {
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
             show += String.fromCharCode(160) + genlang(90, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
                 show += String.fromCharCode(160) + genlang(86, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
                     show += String.fromCharCode(160) + genlang(87, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
                         show += String.fromCharCode(160) + genlang(88, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
                             show += String.fromCharCode(160) + genlang(89, true);
-                        }
-                        else {
+                        } else {
                             show += bytes;
                             show += String.fromCharCode(160) + genlang(96, true);
                         }
+                    }
+                }
+            }
+        }
+    }
+    return show;
+}
+
+function formatBPS(bps) {
+    var show = "";
+
+    if (bps > Math.pow(1000, 5)) {
+        show += round(bps / Math.pow(1000, 5), 2);
+        show += String.fromCharCode(160) + 'Pb/s';
+    } else {
+        if (bps > Math.pow(1000, 4)) {
+            show += round(bps / Math.pow(1000, 4), 2);
+            show += String.fromCharCode(160) + 'Tb/s';
+        } else {
+            if (bps > Math.pow(1000, 3)) {
+                show += round(bps / Math.pow(1000, 3), 2);
+                show += String.fromCharCode(160) + 'Gb/s';
+            } else {
+                if (bps > Math.pow(1000, 2)) {
+                    show += round(bps / Math.pow(1000, 2), 2);
+                    show += String.fromCharCode(160) + 'Mb/s';
+                } else {
+                    if (bps > Math.pow(1000, 1)) {
+                        show += round(bps / Math.pow(1000, 1), 2);
+                        show += String.fromCharCode(160) + 'Kb/s';
+                    } else {
+                            show += bps;
+                            show += String.fromCharCode(160) + 'b/s';
                     }
                 }
             }

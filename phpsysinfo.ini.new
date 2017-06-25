@@ -320,6 +320,9 @@ SHOW_NETWORK_INFOS_EXPANDED=false
 
 
 ; Show network active speed
+; - true : display network active speed
+; - "bps" : display network active speed in bits per second (b/s, Kb/s, etc...)
+; - false : hide them
 ;
 SHOW_NETWORK_ACTIVE_SPEED=false
 

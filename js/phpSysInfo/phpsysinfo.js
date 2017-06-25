@@ -54,8 +54,7 @@ function createCookie(name, value, days) {
             //deprecated
             expires = "; expires=" + date.toGMTString();
         }
-    }
-    else {
+    } else {
         expires = "";
     }
     document.cookie = name + "=" + value + expires + "; path=/";
@@ -404,12 +403,10 @@ function formatUptime(sec) {
 function formatHertz(mhertz) {
     if (mhertz && mhertz < 1000) {
         return mhertz.toString() + "&nbsp;" + genlang(92, true);
-    }
-    else {
+    } else {
         if (mhertz && mhertz >= 1000) {
             return round(mhertz / 1000, 2) + "&nbsp;" + genlang(93, true);
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -479,28 +476,23 @@ function formatBytes(bytes, xml) {
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
             show += "&nbsp;" + genlang(91, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
                 show += "&nbsp;" + genlang(85, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
                     show += "&nbsp;" + genlang(41, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
                         show += "&nbsp;" + genlang(40, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
                             show += "&nbsp;" + genlang(39, true);
-                        }
-                        else {
+                        } else {
                                 show += bytes;
                                 show += "&nbsp;" + genlang(96, true);
                         }
@@ -513,31 +505,59 @@ function formatBytes(bytes, xml) {
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
             show += "&nbsp;" + genlang(90, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
                 show += "&nbsp;" + genlang(86, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
                     show += "&nbsp;" + genlang(87, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
                         show += "&nbsp;" + genlang(88, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
                             show += "&nbsp;" + genlang(89, true);
-                        }
-                        else {
+                        } else {
                             show += bytes;
                             show += "&nbsp;" + genlang(96, true);
                         }
+                    }
+                }
+            }
+        }
+    }
+    return show;
+}
+
+function formatBPS(bps) {
+    var show = "";
+
+    if (bps > Math.pow(1000, 5)) {
+        show += round(bps / Math.pow(1000, 5), 2);
+        show += String.fromCharCode(160) + 'Pb/s';
+    } else {
+        if (bps > Math.pow(1000, 4)) {
+            show += round(bps / Math.pow(1000, 4), 2);
+            show += String.fromCharCode(160) + 'Tb/s';
+        } else {
+            if (bps > Math.pow(1000, 3)) {
+                show += round(bps / Math.pow(1000, 3), 2);
+                show += String.fromCharCode(160) + 'Gb/s';
+            } else {
+                if (bps > Math.pow(1000, 2)) {
+                    show += round(bps / Math.pow(1000, 2), 2);
+                    show += String.fromCharCode(160) + 'Mb/s';
+                } else {
+                    if (bps > Math.pow(1000, 1)) {
+                        show += round(bps / Math.pow(1000, 1), 2);
+                        show += String.fromCharCode(160) + 'Kb/s';
+                    } else {
+                            show += bps;
+                            show += String.fromCharCode(160) + 'b/s';
                     }
                 }
             }
@@ -562,8 +582,7 @@ function formatTemp(degreeC, xml) {
     degree = parseFloat(degreeC);
     if (isNaN(degreeC)) {
         return "---";
-    }
-    else {
+    } else {
         switch (tempFormat) {
         case "f":
             return round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61, true);
@@ -944,10 +963,18 @@ function refreshNetwork(xml) {
         if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
             var diff, difftime;
             if (((diff = rx - oldnetwork[name]["rx"]) > 0) && ((difftime = timestamp - oldnetwork[name]["timestamp"]) > 0)) {
-                htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                if (showNetworkActiveSpeed == 2) {
+                    htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                } else {
+                    htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                }
             }
             if (((diff = tx - oldnetwork[name]["tx"]) > 0) && (difftime > 0)) {
-                htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                if (showNetworkActiveSpeed == 2) {
+                    htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                } else {
+                    htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                }
             }
         }
 
@@ -1608,7 +1635,13 @@ $(document).ready(function buildpage() {
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
-    showNetworkActiveSpeed = $("#showNetworkActiveSpeed").val().toString()==="true";
+    switch ($("#showNetworkActiveSpeed").val().toString()) {
+        case "bps":  showNetworkActiveSpeed = 2;
+                      break;
+        case "true": showNetworkActiveSpeed = 1;
+                      break;
+        default:     showNetworkActiveSpeed = 0;
+    }
 
     blocktmp = $("#blocks").val().toString();
     if (blocktmp.length >0 ){

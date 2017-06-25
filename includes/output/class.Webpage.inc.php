@@ -185,7 +185,7 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("showCPUInfoExpanded", defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showNetworkInfosExpanded", defined('PSI_SHOW_NETWORK_INFOS_EXPANDED') ? (PSI_SHOW_NETWORK_INFOS_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showMemoryInfosExpanded", defined('PSI_SHOW_MEMORY_INFOS_EXPANDED') ? (PSI_SHOW_MEMORY_INFOS_EXPANDED ? 'true' : 'false') : 'false');
-        $tpl->set("showNetworkActiveSpeed", defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') ? (PSI_SHOW_NETWORK_ACTIVE_SPEED ? 'true' : 'false') : 'false');
+        $tpl->set("showNetworkActiveSpeed", defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') ? (PSI_SHOW_NETWORK_ACTIVE_SPEED ? ((strtolower(PSI_SHOW_NETWORK_ACTIVE_SPEED) === 'bps') ? 'bps' :'true') : 'false') : 'false');
         if (defined('PSI_BLOCKS')){
             if (is_string(PSI_BLOCKS)) {
                 if (preg_match(ARRAY_EXP, PSI_BLOCKS)) {
