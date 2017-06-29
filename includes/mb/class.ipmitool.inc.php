@@ -97,7 +97,8 @@ class IPMItool extends Sensors
     private function _temperature()
     {
         foreach ($this->_buf as $sensor) {
-            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Temperature')
+            if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Temperature'))
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Temperature')))
                && isset($sensor['Unit']) && ($sensor['Unit'] == 'degrees C')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
@@ -122,7 +123,8 @@ class IPMItool extends Sensors
     private function _voltage()
     {
         foreach ($this->_buf as $sensor) {
-            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Voltage')
+            if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Voltage'))
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Voltage')))
                && isset($sensor['Unit']) && ($sensor['Unit'] == 'Volts')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
@@ -150,7 +152,8 @@ class IPMItool extends Sensors
     private function _fans()
     {
         foreach ($this->_buf as $sensor) {
-            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Fan')
+            if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Fan'))
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Fan')))
                && isset($sensor['Unit']) && ($sensor['Unit'] == 'RPM')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
@@ -178,7 +181,8 @@ class IPMItool extends Sensors
     private function _power()
     {
         foreach ($this->_buf as $sensor) {
-            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current')
+            if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current'))
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))
                && isset($sensor['Unit']) && ($sensor['Unit'] == 'Watts')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
@@ -203,8 +207,8 @@ class IPMItool extends Sensors
     private function _current()
     {
         foreach ($this->_buf as $sensor) {
-            if (isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current')
-               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
+            if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current'))
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
                 $dev->setName($sensor['Sensor']);
