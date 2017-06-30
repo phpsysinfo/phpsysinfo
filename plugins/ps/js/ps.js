@@ -32,7 +32,7 @@ var ps_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function ps_buildTable(xml) {
-    var html = "", tree = [], closed = [2];
+    var html = "", tree = [], closed = [];
 
     $("#Plugin_PS #Plugin_PSTable").remove();
 
