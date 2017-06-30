@@ -537,6 +537,10 @@ ACCESS="command"
 ;
 SHOW_KTHREADD_EXPANDED=true
 
+; Show PID 1 child list expanded
+;
+SHOW_PID1CHILD_EXPANDED=false
+
 
 [psstatus]
 ; PSStatus Plugin configuration

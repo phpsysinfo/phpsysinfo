@@ -7,9 +7,15 @@ function renderPlugin_ps(data) {
                         '</div><div class="percent">' + this["MemoryUsage"] + '%</div>';
             }
         },
+        CPUUsage: {
+            html: function () {
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["CPUUsage"] + '%;"></div>' +
+                        '</div><div class="percent">' + this["CPUUsage"] + '%</div>';
+            }
+        },
         Name: {
             html: function () {
-                return this["Name"].replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>"); /* split long name */;
+                return this["Name"].replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>").replace(/\./g, ".<wbr>"); /* split long name */;
             }
         }
     };
@@ -17,11 +23,11 @@ function renderPlugin_ps(data) {
     if (data['Plugins']['Plugin_PS'] !== undefined) {
         var psitems = items(data['Plugins']['Plugin_PS']['Process']);
         if (psitems.length > 0) {
- 
+
             var html = "", ps_item = [], expanded = 1;
             for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
-                
+
                 if (ps_item["ParentID"]==="0") {
                     html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + "\" style=\"display:none;\" >";
                 } else {
@@ -30,12 +36,13 @@ function renderPlugin_ps(data) {
                 html+="<td><span class=\"treegrid-span\" data-bind=\"Name\"></span></td>";
                 html+="<td><span data-bind=\"PID\"></span></td>";
                 html+="<td><span data-bind=\"PPID\"></span></td>";
-                html+="<td><span data-bind=\"MemoryUsage\"></span></td>";
+                html+="<td style=\"width:10%;\"><span data-bind=\"MemoryUsage\"></span></td>";
+                html+="<td style=\"width:10%;\"><span data-bind=\"CPUUsage\"></span></td>";
                 html+="</tr>";
-            } 
+            }
 
             $("#ps-data").empty().append(html);
-            
+
             $('#ps').treegrid({
                 initialState: 'expanded',
                 expanderExpandedClass: 'normalicon normalicon-down',

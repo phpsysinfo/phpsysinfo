@@ -24,4 +24,7 @@
   <expression id="plugin_ps_006" name="ps_mem">
     <exp>Utilisation mémoire</exp>
   </expression>
+  <expression id="plugin_ps_007" name="ps_cpu">
+    <exp>CPU Usage</exp>
+  </expression>
 </tns:translationPlugin>

@@ -17,6 +17,8 @@ phpSysInfo 3.2.8
  - [ADD] Container Linux, PureOS, OpenELEC, LibreELEC and Lakka to detected distros
  - [ADD] DATETIME_FORMAT option
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
+ - [ADD] PS plugin - CPU usage
+ - [ADD] PS plugin - SHOW_PID1CHILD_EXPANDED option
 
  - [DEL] Removed deprecated IPMIinfo plugin
 
