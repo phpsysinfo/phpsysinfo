@@ -40,8 +40,8 @@ function ps_buildTable(xml) {
     html += "   <thead>\n";
     html += "    <tr>\n";
     html += "     <th>" + genlang(3, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:80px;\">" + genlang(4, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:80px;\">" + genlang(5, false, "PS") + "</th>\n";
+    html += "     <th style=\"width:40px;\">" + genlang(4, false, "PS") + "</th>\n";
+    html += "     <th style=\"width:40px;\">" + genlang(5, false, "PS") + "</th>\n";
     html += "     <th style=\"width:120px;\">" + genlang(6, false, "PS") + "</th>\n";
     html += "     <th style=\"width:120px;\">" + genlang(7, false, "PS") + "</th>\n";
     html += "    </tr>\n";
