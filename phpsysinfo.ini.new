@@ -533,6 +533,14 @@ HIDE_RAID_DEVICES=""
 ;
 ACCESS="command"
 
+; Memory Usage info
+;
+MEMORY_USAGE=true
+
+; CPU Usage info
+;
+CPU_USAGE=true
+
 ; Show kthreadd child list expanded
 ;
 SHOW_KTHREADD_EXPANDED=true

@@ -24,7 +24,7 @@ function renderPlugin_ps(data) {
         var psitems = items(data['Plugins']['Plugin_PS']['Process']);
         if (psitems.length > 0) {
 
-            var html = "", ps_item = [], expanded = 1;
+            var html = "", ps_item = [], expanded = 0, memwas = false, cpuwas = false;
             for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
 
@@ -52,11 +52,29 @@ function renderPlugin_ps(data) {
             for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
                 $('#ps-'+(i+1)).render(ps_item, directives);
+                if (!memwas && (ps_item["MemoryUsage"] !== undefined)) {
+                    memwas = true;
+                }
+                if (!cpuwas && (ps_item["CPUUsage"] !== undefined)) {
+                    cpuwas = true;
+                }
                 expanded = ps_item["Expanded"];
                 if ((expanded !== undefined) && (expanded === "0")) {
                     $('#ps-'+(i+1)).treegrid('collapse');
                 }
             }
+
+            if (memwas) {
+                $('#ps td:nth-child(4),#ps th:nth-child(4)').show();
+            } else {
+                $('#ps td:nth-child(4),#ps th:nth-child(4)').hide();
+            }
+            if (cpuwas) {
+                $('#ps td:nth-child(5),#ps th:nth-child(5)').show();
+            } else {
+                $('#ps td:nth-child(5),#ps th:nth-child(5)').hide();
+            }
+
             $('#block_ps').show();
         } else {
             $('#block_ps').hide();

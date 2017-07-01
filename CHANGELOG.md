@@ -18,7 +18,7 @@ phpSysInfo 3.2.8
  - [ADD] DATETIME_FORMAT option
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
  - [ADD] PS plugin - CPU usage
- - [ADD] PS plugin - SHOW_PID1CHILD_EXPANDED option
+ - [ADD] PS plugin - MEMORY_USAGE, CPU_USAGE and SHOW_PID1CHILD_EXPANDED options
 
  - [DEL] Removed deprecated IPMIinfo plugin
 

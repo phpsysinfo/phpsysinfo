@@ -32,7 +32,7 @@ var ps_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function ps_buildTable(xml) {
-    var html = "", tree = [], closed = [];
+    var html = "", tree = [], closed = [], memwas = false, cpuwas = false;
 
     $("#Plugin_PS #Plugin_PSTable").remove();
 
@@ -63,6 +63,12 @@ function ps_buildTable(xml) {
         if (!isNaN(expanded) && (expanded === 0)) {
             closed.push(close);
         }
+        if (!memwas && !isNaN(percent)) {
+            memwas = true;
+        }
+        if (!cpuwas && !isNaN(cpu)) {
+            cpuwas = true;
+        }
         ps_show = true;
     });
 
@@ -70,6 +76,17 @@ function ps_buildTable(xml) {
     html += "  </table>\n";
 
     $("#Plugin_PS").append(html);
+
+    if (memwas) {
+        $('#Plugin_PSTable td:nth-child(4),#Plugin_PSTable th:nth-child(4)').show();
+    } else {
+        $('#Plugin_PSTable td:nth-child(4),#Plugin_PSTable th:nth-child(4)').hide();
+    }
+    if (cpuwas) {
+        $('#Plugin_PSTable td:nth-child(5),#Plugin_PSTable th:nth-child(5)').show();
+    } else {
+        $('#Plugin_PSTable td:nth-child(5),#Plugin_PSTable th:nth-child(5)').hide();
+    }
 
     $("#Plugin_PSTable").jqTreeTable(tree, {
         openImg: "./gfx/treeTable/tv-collapsable.gif",
