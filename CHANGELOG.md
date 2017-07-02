@@ -15,15 +15,15 @@ phpSysInfo 3.2.8
  - [FIX] Fixed displaying for code pages windows-932, windows-949 and windows-950 for WinNT
 
  - [ADD] Container Linux, PureOS, OpenELEC, LibreELEC and Lakka to detected distros
- - [ADD] DATETIME_FORMAT option
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
  - [ADD] PS plugin - CPU usage
  - [ADD] PS plugin - MEMORY_USAGE, CPU_USAGE and SHOW_PID1CHILD_EXPANDED options
 
- - [DEL] Removed deprecated IPMIinfo plugin
-
+ - [NEW] DATETIME_FORMAT option
  - [NEW] BLOCKS option - order of data blocks
  - [NEW] SHOW_NETWORK_ACTIVE_SPEED option
+
+ - [DEL] Removed deprecated IPMIinfo plugin
 
 phpSysInfo 3.2.7
 ----------------
