@@ -33,13 +33,6 @@ class WebpageXML extends Output implements PSI_Interface_Output
     private $_xml;
 
     /**
-     * only plugin xml
-     *
-     * @var boolean
-     */
-    private $_pluginRequest = false;
-
-    /**
      * complete xml
      *
      * @var boolean
@@ -60,7 +53,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
      */
     private function _prepare()
     {
-        if (!$this->_pluginRequest) {
+        if ($this->_pluginName === null) {
             // Figure out which OS we are running on, and detect support
             if (!file_exists(APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
                 $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
@@ -120,7 +113,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
         }
 
         // Create the XML
-        if ($this->_pluginRequest) {
+        if ($this->_pluginName !== null) {
             $this->_xml = new XML(false, $this->_pluginName);
         } else {
             $this->_xml = new XML($this->_completeXML);
@@ -169,7 +162,6 @@ class WebpageXML extends Output implements PSI_Interface_Output
         if ($plugin) {
             if (in_array(strtolower($plugin), CommonFunctions::getPlugins())) {
                 $this->_pluginName = $plugin;
-                $this->_pluginRequest = true;
             }
         }
         $this->_prepare();

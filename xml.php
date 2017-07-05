@@ -39,7 +39,7 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
         if ((trim($_GET['plugin'])!=="") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
             $plugin = strtolower($_GET['plugin']);
             if ($plugin == "complete") {
-                $output = new WebpageXML(true, null);
+                $output = new WebpageXML(true);
             } else {
                 $output = new WebpageXML(false, $plugin);
             }
@@ -47,7 +47,7 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
             unset($output);
         }
     } else {
-        $output = new WebpageXML(false, null);
+        $output = new WebpageXML(false);
     }
     // if $output is correct generate output in proper type
     if (isset($output) && is_object($output)) {

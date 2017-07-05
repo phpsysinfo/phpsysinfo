@@ -57,7 +57,7 @@ case "dynamic":
     $webpage->run();
     break;
 case "xml":
-    $webpage = new WebpageXML(true, null);
+    $webpage = new WebpageXML(true);
     $webpage->run();
     break;
 case "bootstrap":
