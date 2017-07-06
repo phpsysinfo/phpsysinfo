@@ -110,13 +110,12 @@ class WebpageXML extends Output implements PSI_Interface_Output
             if ($this->error->errorsExist()) {
                 $this->error->errorsAsXML();
             }
-        }
 
-        // Create the XML
-        if ($this->_pluginName !== null) {
-            $this->_xml = new XML(false, $this->_pluginName);
-        } else {
+            // Create the XML
             $this->_xml = new XML($this->_completeXML);
+        } else {
+            // Create the XML
+            $this->_xml = new XML(false, $this->_pluginName);
         }
     }
 
