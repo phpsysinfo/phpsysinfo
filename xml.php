@@ -38,7 +38,11 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
     if (isset($_GET['plugin'])) {
         if ((trim($_GET['plugin'])!=="") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
             $plugin = strtolower($_GET['plugin']);
-            if ($plugin == "complete") {
+            $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
+            if (in_array($plugin, $validblocks)) {
+                define('PSI_ONLY', $plugin);
+                $output = new WebpageXML(false);
+            } elseif ($plugin == "complete") {
                 $output = new WebpageXML(true);
             } else {
                 $output = new WebpageXML(false, $plugin);

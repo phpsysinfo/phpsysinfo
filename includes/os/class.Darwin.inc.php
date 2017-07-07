@@ -467,9 +467,15 @@ class Darwin extends BSDCommon
     public function build()
     {
         parent::build();
-        $this->_uptime();
-        $this->_network();
-        $this->_processes();
-        $this->_tb();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_uptime();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_tb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
     }
 }

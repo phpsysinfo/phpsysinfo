@@ -431,7 +431,7 @@ class XML
                 $mbinfo_data = new $mbinfoclass();
                 $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-                foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     if ($temp == null) {
                         $temp = $mbinfo->addChild('Temperature');
                     }
@@ -446,7 +446,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbFan() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
                     if ($fan == null) {
                         $fan = $mbinfo->addChild('Fans');
                     }
@@ -461,7 +461,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
                     if ($volt == null) {
                         $volt = $mbinfo->addChild('Voltage');
                     }
@@ -479,7 +479,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbPower() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
                     if ($power == null) {
                         $power = $mbinfo->addChild('Power');
                     }
@@ -494,7 +494,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
                     if ($current == null) {
                         $current = $mbinfo->addChild('Current');
                     }
@@ -512,7 +512,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbOther() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
                     if ($other == null) {
                         $other = $mbinfo->addChild('Other');
                     }
@@ -631,15 +631,15 @@ class XML
                 }
                 $this->_sys = $this->_sysinfo->getSys();
             }
-            $this->_buildVitals();
-            $this->_buildNetwork();
-            $this->_buildHardware();
-            $this->_buildMemory();
-            $this->_buildFilesystems();
-            $this->_buildMbinfo();
-            $this->_buildUpsinfo();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') $this->_buildVitals();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='network') $this->_buildNetwork();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') $this->_buildHardware();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='memory') $this->_buildMemory();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') $this->_buildFilesystems();
+            if (!defined('PSI_ONLY') || in_array(PSI_ONLY, array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='ups') $this->_buildUpsinfo();
         }
-        $this->_buildPlugins();
+        if (!defined('PSI_ONLY')) $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
 

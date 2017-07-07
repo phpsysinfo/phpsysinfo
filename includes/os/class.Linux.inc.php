@@ -1401,22 +1401,32 @@ class Linux extends OS
      */
     public function build()
     {
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_machine();
-        $this->_uptime();
-        $this->_users();
-        $this->_cpuinfo();
-        $this->_pci();
-        $this->_ide();
-        $this->_scsi();
-        $this->_usb();
-        $this->_i2c();
-        $this->_network();
-        $this->_memory();
-        $this->_filesystems();
-        $this->_loadavg();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+            $this->_loadavg();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_machine();
+            $this->_cpuinfo();
+            $this->_pci();
+            $this->_ide();
+            $this->_scsi();
+            $this->_usb();
+            $this->_i2c();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

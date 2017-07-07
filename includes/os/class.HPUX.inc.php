@@ -362,19 +362,29 @@ class HPUX extends OS
      */
     public function build()
     {
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_uptime();
-        $this->_users();
-        $this->_loadavg();
-        $this->_cpuinfo();
-        $this->_pci();
-        $this->_ide();
-        $this->_scsi();
-        $this->_usb();
-        $this->_network();
-        $this->_memory();
-        $this->_filesystems();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+            $this->_loadavg();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_cpuinfo();
+            $this->_pci();
+            $this->_ide();
+            $this->_scsi();
+            $this->_usb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

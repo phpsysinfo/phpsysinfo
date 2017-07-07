@@ -142,7 +142,9 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
-        $this->_ip();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_ip();
+        }
 
         return $this->sys;
     }

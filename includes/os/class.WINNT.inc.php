@@ -875,20 +875,30 @@ class WINNT extends OS
      */
     public function build()
     {
-        $this->_distro();
+        $this->_distro(); //share getDistribution()
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
-        $this->_hostname();
-        $this->_users();
-        $this->_machine();
-        $this->_uptime();
-        $this->_cpuinfo();
-        $this->_network();
-        $this->_hardware();
-        $this->_filesystems();
-        $this->_memory();
-        $this->_loadavg();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_hostname();
+            $this->_users();
+            $this->_uptime();
+            $this->_loadavg();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_machine();
+            $this->_cpuinfo();
+            $this->_hardware();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
     }
 }
