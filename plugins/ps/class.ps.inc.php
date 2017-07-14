@@ -259,6 +259,7 @@ class PS extends PSI_Plugin
                 if ((PSI_OS !== 'WINNT') &&
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
                     || (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[4] === "[kthreadd]")))) {
+                    $xmlnode->addAttribute('Expanded', 0);
                 }
             }
             if (isset($value['childs'])) {
