@@ -238,20 +238,22 @@ class Linux extends OS
                 if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $line) {
                         $cpu = $line[1];
-                        $buf2 = $line[2];
+                        if (isset($cpu_tmp[$cpu])) {
+                            $buf2 = $line[2];
 
-                        $ab = 0;
-                        $ac = 0;
-                        $ad = 0;
-                        $ae = 0;
-                        sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
-                        $load2 = $ab + $ac + $ad; // cpu.user + cpu.sys
-                        $total2 = $ab + $ac + $ad + $ae; // cpu.total
-                        $total = $cpu_tmp[$cpu]['total'];
-                        $load = $cpu_tmp[$cpu]['load'];
-                        $this->_cpu_loads[$cpu] = 0;
-                        if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
-                            $this->_cpu_loads[$cpu] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            $ab = 0;
+                            $ac = 0;
+                            $ad = 0;
+                            $ae = 0;
+                            sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
+                            $load2 = $ab + $ac + $ad; // cpu.user + cpu.sys
+                            $total2 = $ab + $ac + $ad + $ae; // cpu.total
+                            $total = $cpu_tmp[$cpu]['total'];
+                            $load = $cpu_tmp[$cpu]['load'];
+                            $this->_cpu_loads[$cpu] = 0;
+                            if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
+                                $this->_cpu_loads[$cpu] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            }
                         }
                     }
                 }
@@ -260,9 +262,9 @@ class Linux extends OS
 
         if (isset($this->_cpu_loads[$cpuline])) {
             return $this->_cpu_loads[$cpuline];
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     /**
