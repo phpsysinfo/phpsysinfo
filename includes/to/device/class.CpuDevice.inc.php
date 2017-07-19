@@ -310,10 +310,12 @@ class CpuDevice
      *
      * @return Integer
      */
+/*
     public function getTemp()
     {
         return $this->_temp;
     }
+*/
 
     /**
      * Sets $_temp.
@@ -324,10 +326,12 @@ class CpuDevice
      *
      * @return Void
      */
+/*
     public function setTemp($temp)
     {
         $this->_temp = $temp;
     }
+*/
 
     /**
      * Returns $_load.

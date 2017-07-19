@@ -451,11 +451,12 @@ class Linux extends OS
                     if (PSI_LOAD_BAR) {
                             $dev->setLoad($this->_parseProcStat('cpu'.$proc));
                     }
-
-                    if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)) {
-                        $dev->setTemp(substr($buf, 25, 2));
+/*
+                    if (CommonFunctions::rfts('/proc/acpi/thermal_zone/THRM/temperature', $buf, 1, 4096, false)
+                       &&  preg_match("/(\S+)\sC$/", $buf, $value)) {
+                        $dev->setTemp(value[1]);
                     }
-
+*/
                     if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))

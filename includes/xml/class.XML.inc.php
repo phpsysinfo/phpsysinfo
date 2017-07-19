@@ -280,9 +280,11 @@ class XML
             if ($oneCpu->getCpuSpeedMin() !== 0) {
                 $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
             }
+/*
             if ($oneCpu->getTemp() !== null) {
                 $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
             }
+*/
             if ($oneCpu->getBusSpeed() !== null) {
                 $tmp->addAttribute('BusSpeed', $oneCpu->getBusSpeed());
             }
