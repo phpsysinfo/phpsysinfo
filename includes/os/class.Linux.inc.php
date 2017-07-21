@@ -779,16 +779,15 @@ class Linux extends OS
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
-                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (trim($buf)!="") && ($buf > 0) && ($buf < 65535)) {
-                            $speed = trim($buf);
+                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535)) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
                             } else {
                                 $unit = "M";
                             }
-                            if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s '.strtolower(trim($buf)));
+                            if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/duplex', $buf, 1, 4096, false) && (($duplex=strtolower(trim($buf)))!="") && ($duplex!='unknown')) {
+                                $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s '.$duplex);
                             } else {
                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$speed.$unit.'b/s');
                             }
