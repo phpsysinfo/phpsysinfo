@@ -8,7 +8,7 @@
  * @return {jQuery} translation jQuery-Object
  */
 var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, oldnetwork = [], refrTimer;
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
  * Fix PNG loading on IE6 or below
@@ -341,6 +341,7 @@ $(document).ready(function () {
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
     switch ($("#showNetworkActiveSpeed").val().toString()) {
         case "bps":  showNetworkActiveSpeed = 2;
                       break;
@@ -656,10 +657,15 @@ function renderHardware(data) {
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
             html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
-            html+="<td></td>";
+            if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
+                html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
+            } else {
+                html+="<td></td>";
+            }
             html+="</tr>";
             for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact)
+                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
                     html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
@@ -706,9 +712,10 @@ function renderHardware(data) {
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
-            $('#hardware-CPU-'+ i).render(datas[i]["@attributes"]);
+            $('#hardware-CPU-'+ i).render(datas[i]["@attributes"], directives);
             for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact)
+                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     $('#hardware-CPU-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
             }

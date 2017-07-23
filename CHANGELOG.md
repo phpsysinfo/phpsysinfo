@@ -23,6 +23,7 @@ phpSysInfo 3.2.8
  - [NEW] BLOCKS option - order of data blocks
  - [NEW] SHOW_NETWORK_ACTIVE_SPEED option
  - [NEW] Ability to generate only part of the data
+ - [NEW] SHOW_CPULOAD_COMPACT option
 
  - [DEL] Removed deprecated IPMIinfo plugin
 

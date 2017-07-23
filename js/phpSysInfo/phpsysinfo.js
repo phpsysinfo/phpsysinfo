@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, oldnetwork = [];
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -768,45 +768,49 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         if (!showCPUListExpanded) {
             collapsed.push(rootposition);
         }
-        html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + model + "</span></td></tr>\n";
+        if (!isNaN(load) && showCPULoadCompact) {
+            html += "<tr><td><span class=\"treespan\">" + model + "</span></td><td>" + createBar(load) + "</td></tr>\n";
+        } else {
+            html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + model + "</span></td></tr>\n";
+        }
         cpucoreposition = tree.push(rootposition);
         if (!showCPUInfoExpanded) {
             collapsed.push(cpucoreposition);
         }
         if (!isNaN(speed)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(13, true) + ":</span></td><td>" + formatHertz(speed) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(13, true) + ":</span></td><td>" + formatHertz(speed) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(speedmax)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(100, true) + ":</span></td><td>" + formatHertz(speedmax) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(100, true) + ":</span></td><td>" + formatHertz(speedmax) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(speedmin)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(101, true) + ":</span></td><td>" + formatHertz(speedmin) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(101, true) + ":</span></td><td>" + formatHertz(speedmin) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(cache)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (virt != undefined) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(94, true) + ":</span></td><td>" + virt + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(94, true) + ":</span></td><td>" + virt + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bus)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(14, true) + ":</span></td><td>" + formatHertz(bus) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(14, true) + ":</span></td><td>" + formatHertz(bus) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(16, true) + ":</span></td><td>" + bogo.toString() + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(16, true) + ":</span></td><td>" + bogo.toString() + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(temp)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(51, true) + ":</span></td><td>" + formatTemp(temp, xml) + "</td></tr>\n";
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(51, true) + ":</span></td><td>" + formatTemp(temp, xml) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        if (!isNaN(load)) {
-            html += "<tr><td style=\"width:50%\"><span class=\"treespan\">" + genlang(9, true) + ":</span></td><td>" + createBar(load) + "</td></tr>\n";
+        if (!isNaN(load) && !showCPULoadCompact) {
+            html += "<tr><td style=\"width:66%\"><span class=\"treespan\">" + genlang(9, true) + ":</span></td><td>" + createBar(load) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
     });
@@ -1635,6 +1639,7 @@ $(document).ready(function buildpage() {
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
+    showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
     switch ($("#showNetworkActiveSpeed").val().toString()) {
         case "bps":  showNetworkActiveSpeed = 2;
                       break;
