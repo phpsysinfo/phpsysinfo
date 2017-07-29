@@ -9,6 +9,17 @@ phpSysInfo
 * Copyright (c), 2010-2012, Damien Roth ([sf.net/users/iysaak](https://sf.net/users/iysaak))
 
 
+REQUIREMENTS
+------------
+
+PHP 5.1.3 or later with SimpleXML, PCRE, XML and DOM extension.
+
+####Suggests
+- ext-mbstring: Required for *nix non UTF-8 systems
+- ext-com_dotnet: Required for Windows environments
+- ext-xsl: Required for static mode
+- ext-json: Required for bootstrap mode
+
 CURRENT TESTED PLATFORMS
 ------------------------
 
@@ -21,8 +32,6 @@ CURRENT TESTED PLATFORMS
 - Darwin/OSX
 - Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 2016
 - Android
-- PHP 5.1.3 or later
-  - With SimpleXML, PCRE, XML and DOM extension.
 
 #### Platforms currently in progress:
 - Haiku
