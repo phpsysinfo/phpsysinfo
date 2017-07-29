@@ -14,11 +14,11 @@ REQUIREMENTS
 
 PHP 5.1.3 or later with SimpleXML, PCRE, XML and DOM extension.
 
-#### Suggests:
-- ext-mbstring: Required for *nix non UTF-8 systems
-- ext-com_dotnet: Required for Windows environments
-- ext-xsl: Required for static mode
-- ext-json: Required for bootstrap mode
+#### Suggests extensions:
+- mbstring: Required for *nix non UTF-8 systems
+- com_dotnet: Required for Windows environments
+- xsl: Required for static mode
+- json: Required for bootstrap mode
 
 CURRENT TESTED PLATFORMS
 ------------------------
