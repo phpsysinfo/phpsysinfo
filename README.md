@@ -14,7 +14,7 @@ REQUIREMENTS
 
 PHP 5.1.3 or later with SimpleXML, PCRE, XML and DOM extension.
 
-#### Suggests extensions:
+#### Suggested extensions:
 - mbstring: Required for *nix non UTF-8 systems
 - com_dotnet: Required for Windows environments
 - xsl: Required for static mode
