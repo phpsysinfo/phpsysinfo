@@ -1,13 +1,12 @@
 phpSysInfo
 ==============
 
-* Copyright (c), 1999-2008, Uriah Welcome (precision@users.sf.net)
-* Copyright (c), 1999-2009, Michael Cramer (bigmichi1@users.sf.net)
-* Copyright (c), 2007-2008, Audun Larsen (xqus@users.sf.net)
-* Copyright (c), 2007-2015, Erkan Valentin
-* Copyright (c), 2009-2017, Mieczyslaw Nalewaj (namiltd@users.sf.net)
-* Copyright (c), 2010-2012, Damien Roth (iysaak@users.sf.net)
-
+* Copyright (c), 1999-2008, Uriah Welcome (sf.net/users/precision)
+* Copyright (c), 1999-2009, Michael Cramer (sf.net/users/bigmichi1)
+* Copyright (c), 2007-2008, Audun Larsen (sf.net/users/xqus)
+* Copyright (c), 2007-2015, Erkan Valentin (github.com/rk4an, sf.net/users/jacky672)
+* Copyright (c), 2009-2017, Mieczyslaw Nalewaj (github.com/namiltd, sf.net/users/namiltd)
+* Copyright (c), 2010-2012, Damien Roth (sf.net/users/iysaak)
 
 
 CURRENT TESTED PLATFORMS
