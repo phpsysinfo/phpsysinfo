@@ -101,9 +101,7 @@ First make sure you've read this file completely, especially the
 "INSTALLATION AND CONFIGURATION" section.  If it still doesn't work then
 you can:
 
-Submit a bug on SourceForge (preferred) (http://sourceforge.net/projects/phpsysinfo/)
-
-Ask for help in the forum (http://sourceforge.net/projects/phpsysinfo/)
+Ask for help or submit a bug on Github (https://github.com/phpsysinfo/phpsysinfo/issues)
 
 ***!! If you have any problems, please set `DEBUG` to true in `phpsysinfo.ini`
 and include any error messages in your bug report / help request !!***
@@ -111,8 +109,8 @@ and include any error messages in your bug report / help request !!***
 OTHER NOTES
 -----------
 
-If you have a great idea or want to help out, just drop by the project
-page at SourceForge (http://sourceforge.net/projects/phpsysinfo/).
+If you have a great idea or want to help out, just create a pull request with your change proposal
+in the [phpSysInfo](https://github.com/phpsysinfo/phpsysinfo) repository.
 
 LICENSING
 ---------
