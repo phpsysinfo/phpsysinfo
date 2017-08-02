@@ -361,7 +361,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>Périphériques I2C</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Nombre de Processeurs</exp>
   </expression>
   <expression id="120" name="no_devices">
     <exp>Nombre de périphériques</exp>
