@@ -129,11 +129,6 @@ SHOW_CPULIST_EXPANDED=true
 SHOW_CPUINFO_EXPANDED=false
 
 
-; Show CPU Load in compact mode
-;
-SHOW_CPULOAD_COMPACT=false
-
-
 ; Show memory infos expanded
 ;
 SHOW_MEMORY_INFOS_EXPANDED=false
@@ -149,6 +144,7 @@ REFRESH=60000
 
 ; Show a graph for current cpuload
 ; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
+; - "compact" : displayed like above but in compact mode
 ; - false : will not be displayed
 ;
 LOAD_BAR=true
