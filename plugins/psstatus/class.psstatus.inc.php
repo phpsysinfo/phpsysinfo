@@ -72,14 +72,14 @@ class PSStatus extends PSI_Plugin
                     }
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
                         foreach ($processes as $process) {
-                            CommonFunctions::executeProgram("pgrep", "-n -x ".$process, $buffer, PSI_DEBUG);
+                            CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
                                 $this->_filecontent[] = array($process, $buffer);
                             }
                         }
                     } else {
                         foreach ($processes as $process) {
-                            CommonFunctions::executeProgram("pidof", "-s ".$process, $buffer, PSI_DEBUG);
+                            CommonFunctions::executeProgram("pidof", "-s -x \"".$process."\"", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
                                 $this->_filecontent[] = array($process, $buffer);
                             }

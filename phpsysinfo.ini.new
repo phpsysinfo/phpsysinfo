@@ -559,7 +559,7 @@ SHOW_PID1CHILD_EXPANDED=false
 ;             information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "psstatus.txt"; content is the output from
-;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s $ps`; done</code>
+;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s -x "$ps"`; done</code>
 ;
 ACCESS="command"
 
