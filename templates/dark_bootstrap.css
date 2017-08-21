@@ -115,7 +115,11 @@ table.sortable thead th:hover {
     background: #3e444c;
 }
 
-table.table-hover > tbody > tr:hover {
+.table-hover > tbody > tr:hover {
+     background-color: #49515a;
+}
+
+.table-hover > tfoot > tr:hover {
      background-color: #49515a;
 }
 
