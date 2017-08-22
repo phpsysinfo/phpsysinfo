@@ -116,19 +116,21 @@ table.sortable thead th:hover {
 }
 
 .table-hover > tbody > tr:hover {
-     background-color: #49515a;
+    background-color: #49515a;
 }
 
 .table-hover > tfoot > tr:hover {
-     background-color: #49515a;
+    background-color: #49515a;
 }
 
 table.borderless td,table.borderless th {
-     border: none!important;
+    border: none!important;
 }
 
-.table .table {
-     background-color: #2e3338;
+.table {
+    background-color: #2e3338;
+    margin :0;
+}
 }
 
 .logo {
