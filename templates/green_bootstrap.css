@@ -196,3 +196,7 @@ table.borderless td,table.borderless th {
     width: 16px;
     height: 16px;    
 }
+
+.noborder {
+    border: none!important;
+}
