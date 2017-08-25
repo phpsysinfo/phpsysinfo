@@ -456,7 +456,7 @@ function items(data) {
 }
 
 function renderVitals(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('vitals') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#block_vitals").remove();
         return;
     }
@@ -562,7 +562,7 @@ function renderVitals(data) {
 }
 
 function renderHardware(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('hardware') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('hardware', blocks) < 0))) {
         $("#block_hardware").remove();
         return;
     }
@@ -774,7 +774,7 @@ function renderHardware(data) {
 }
 
 function renderMemory(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('memory') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('memory', blocks) < 0))) {
         $("#block_memory").remove();
         return;
     }
@@ -891,7 +891,7 @@ function renderMemory(data) {
 }
 
 function renderFilesystem(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('filesystem') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('filesystem', blocks) < 0))) {
         $("#block_filesystem").remove();
         return;
     }
@@ -961,7 +961,7 @@ function renderFilesystem(data) {
 }
 
 function renderNetwork(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('network') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('network', blocks) < 0))) {
         $("#block_network").remove();
         return;
     }
@@ -1060,7 +1060,7 @@ function renderNetwork(data) {
 }
 
 function renderVoltage(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('voltage') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('voltage', blocks) < 0))) {
         $("#block_voltage").remove();
         return;
     }
@@ -1108,7 +1108,7 @@ function renderVoltage(data) {
 }
 
 function renderTemperature(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('temperature') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('temperature', blocks) < 0))) {
         $("#block_temperature").remove();
         return;
     }
@@ -1151,7 +1151,7 @@ function renderTemperature(data) {
 }
 
 function renderFans(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('fans') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('fans', blocks) < 0))) {
         $("#block_fans").remove();
         return;
     }
@@ -1194,7 +1194,7 @@ function renderFans(data) {
 }
 
 function renderPower(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('power') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('power', blocks) < 0))) {
         $("#block_power").remove();
         return;
     }
@@ -1237,7 +1237,7 @@ function renderPower(data) {
 }
 
 function renderCurrent(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('current') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('current', blocks) < 0))) {
         $("#block_current").remove();
         return;
     }
@@ -1286,7 +1286,7 @@ function renderCurrent(data) {
 }
 
 function renderOther(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('other') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('other', blocks) < 0))) {
         $("#block_other").remove();
         return;
     }
@@ -1318,7 +1318,7 @@ function renderOther(data) {
 }
 
 function renderUPS(data) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('ups') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('ups', blocks) < 0))) {
         $("#block_ups").remove();
         return;
     }

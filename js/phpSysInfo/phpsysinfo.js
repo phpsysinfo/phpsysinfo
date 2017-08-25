@@ -614,7 +614,7 @@ function createBar(size, barclass) {
  */
 function refreshVitals(xml) {
     var hostname = "", ip = "";
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('vitals') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#vitals").remove();
         $("Vitals", xml).each(function getVitals(id) {
             hostname = $(this).attr("Hostname");
@@ -869,7 +869,7 @@ function countHWDevice(xml, type) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshHardware(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('hardware') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('hardware', blocks) < 0))) {
         $("#hardware").remove();
         return;
     }
@@ -930,7 +930,7 @@ function refreshHardware(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshNetwork(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('network') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('network', blocks) < 0))) {
         $("#network").remove();
         return;
     }
@@ -1045,7 +1045,7 @@ function refreshNetwork(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshMemory(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('memory') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('memory', blocks) < 0))) {
         $("#memory").remove();
         return;
     }
@@ -1161,7 +1161,7 @@ function refreshMemory(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshFilesystems(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('filesystem') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('filesystem', blocks) < 0))) {
         $("#filesystem").remove();
         return;
     }
@@ -1226,7 +1226,7 @@ function refreshFilesystems(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshTemp(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('temperature') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('temperature', blocks) < 0))) {
         $("#temperature").remove();
         return;
     }
@@ -1260,7 +1260,7 @@ function refreshTemp(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVoltage(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('voltage') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('voltage', blocks) < 0))) {
         $("#voltage").remove();
         return;
     }
@@ -1297,7 +1297,7 @@ function refreshVoltage(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshFans(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('fans') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('fans', blocks) < 0))) {
         $("#fans").remove();
         return;
     }
@@ -1331,7 +1331,7 @@ function refreshFans(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshPower(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('power') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('power', blocks) < 0))) {
         $("#power").remove();
         return;
     }
@@ -1365,7 +1365,7 @@ function refreshPower(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshCurrent(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('current') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('current', blocks) < 0))) {
         $("#current").remove();
         return;
     }
@@ -1404,7 +1404,7 @@ function refreshCurrent(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshOther(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('other') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('other', blocks) < 0))) {
         $("#other").remove();
         return;
     }
@@ -1436,7 +1436,7 @@ function refreshOther(xml) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshUps(xml) {
-    if ((blocks.length <= 0) || ((blocks[0] !== "true") && (blocks.indexOf('ups') < 0))) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('ups', blocks) < 0))) {
         $("#ups").remove();
         return;
     }
