@@ -634,15 +634,13 @@ function renderHardware(data) {
     };
 
     var html="";
-    var wasfirst=false;
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th class=\"noborder\" style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
-        html+="<td class=\"noborder\"><span data-bind=\"Name\"></span></td>";
-        html+="<td class=\"noborder\"></td>";
+        html+="<th style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
+        html+="<td><span data-bind=\"Name\"></span></td>";
+        html+="<td></td>";
         html+="</tr>";
-        wasfirst = true;
     }
 
     var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Load:9};
@@ -651,36 +649,18 @@ function renderHardware(data) {
         for (var i = 0; i < datas.length; i++) {
              if (i == 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
-                if (!wasfirst) {
-                    html+="<th class=\"noborder\">CPU</th>";
-                    html+="<td class=\"noborder\"><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
-                    html+="<td class=\"rightCell noborder\"><span id=\"CPUCount\"></span></td>";
-                    wasfirst = true;
-                } else {
-                    html+="<th>CPU</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
-                    html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
-                }
+                html+="<th>CPU</th>";
+                html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
+                html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
                 html+="</tr>";
             }
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
-            if (!wasfirst) {
-                html+="<th class=\"noborder\"></th>";
-                html+="<td class=\"noborder\"><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
-                if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
-                    html+="<td style=\"width:15%;\" class=\"rightCell noborder\"><span data-bind=\"Load\"></span></td>";
-                } else {
-                    html+="<td class=\"noborder\"></td>";
-                }
-                wasfirst = true;
+            html+="<th></th>";
+            html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
+            if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
+                html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
             } else {
-                html+="<th></th>";
-                html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
-                if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
-                    html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
-                } else {
-                    html+="<td></td>";
-                }
+                html+="<td></td>";
             }
             html+="</tr>";
             for (var proc_param in paramlist) {
@@ -1388,20 +1368,13 @@ function renderUPS(data) {
     if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
         var html="";
         var paramlist = {Model:70,StartTime:72,Status:73,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
-        var wasfirst=false;
 
         try {
             var datas = items(data["UPSInfo"]["UPS"]);
             for (var i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-                if (!wasfirst) {
-                    html+="<td class=\"noborder\" style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
-                    html+="<td class=\"noborder\"></td>";
-                    wasfirst = true;
-                } else {
-                    html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
-                    html+="<td></td>";
-                }
+                html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
+                html+="<td></td>";
                 html+="</tr>";
                 for (var proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
