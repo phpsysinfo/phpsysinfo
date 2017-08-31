@@ -84,7 +84,7 @@ class iptables extends PSI_Plugin
             $iptables = $this->xml->addChild("iptables");
             foreach ($arrBuff as $arrValue) {
                 $item = $iptables->addChild('Item');
-                $item->addAttribute('rule', $arrValue['rule']);
+                $item->addAttribute('Rule', $arrValue['rule']);
             }
         }
 
