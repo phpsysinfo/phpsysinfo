@@ -51,20 +51,20 @@ class PSStatus extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
-        switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
-        case 'command':
-            if (PSI_OS == 'WINNT') {
-                try {
-                    $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                    $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
-                    foreach ($process_wmi as $process) {
-                        $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
+        if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+            switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
+            case 'command':
+                if (PSI_OS == 'WINNT') {
+                    try {
+                        $objLocator = new COM('WbemScripting.SWbemLocator');
+                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                        $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
+                        foreach ($process_wmi as $process) {
+                            $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
+                        }
+                    } catch (Exception $e) {
                     }
-                } catch (Exception $e) {
-                }
-            } else {
-                if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                } else {
                     if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
                         $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
                     } else {
@@ -86,21 +86,21 @@ class PSStatus extends PSI_Plugin
                         }
                     }
                 }
-            }
-            break;
-        case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/psstatus.txt", $buffer);
-            $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($processes as $process) {
-                $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($ps) == 2) {
-                    $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                break;
+            case 'data':
+                CommonFunctions::rfts(APP_ROOT."/data/psstatus.txt", $buffer);
+                $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($processes as $process) {
+                    $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
+                    if (count($ps) == 2) {
+                        $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                    }
                 }
+                break;
+            default:
+                $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in phpsysinfo.ini");
+                break;
             }
-            break;
-        default:
-            $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in phpsysinfo.ini");
-            break;
         }
     }
 
