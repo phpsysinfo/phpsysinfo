@@ -244,7 +244,7 @@ class IPMIutil extends Sensors
                     $value = hexdec($buffer5s[0]) & 0xff;
                     if ($buffer5s[1] === 'DiscreteEvt') {
                         $dev->setValue('0x'.dechex($value));
-                    } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0))  {
+                    } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0)) {
                         $dev->setValue('0x'.dechex($value - 1));
                     } else {
                         $dev->setValue($buffer5);

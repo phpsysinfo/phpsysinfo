@@ -251,7 +251,7 @@ class Android extends Linux
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {        
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_pci();

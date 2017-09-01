@@ -593,7 +593,7 @@ class WINNT extends OS
                 $aliases = array();
                 $allAdapters = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID'));
                 foreach ($allAdapters as $adapter) {
-                    if (isset($adapter['GUID'])){
+                    if (isset($adapter['GUID'])) {
                         $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $adapter['Name']); //convert to canonical
                         if (!isset($aliases[$cname])) { // duplicate checking
                             $aliases[$cname] = $adapter['GUID'];

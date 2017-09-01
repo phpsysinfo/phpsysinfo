@@ -40,7 +40,7 @@ class PingTest extends PSI_Plugin
             } else {
                 $addresses = array(PSI_PLUGIN_PINGTEST_ADDRESSES);
             }
-        
+
             switch (strtolower(PSI_PLUGIN_PINGTEST_ACCESS)) {
             case 'command':
                 if (PSI_OS == 'WINNT') {
