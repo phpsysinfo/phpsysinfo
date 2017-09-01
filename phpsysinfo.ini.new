@@ -710,8 +710,9 @@ ACCESS="command"
 ;define the Addresses
 ;
 ; string contains a list of addresses that are checked
+; Example : ADDRESSES="127.0.0.1,8.8.8.8"
 ;
-ADDRESSES="127.0.0.1"
+ADDRESSES=""
 
 ; Define ping timeout in seconds
 ; - 0 : default ping command timeout
