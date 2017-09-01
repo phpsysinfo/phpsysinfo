@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: en.xml 661 2017-09-01 09:01:17Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
@@ -7,7 +7,7 @@ phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_pingtest_001" name="ps_title">
-    <exp>Test Pinga</exp>
+    <exp>Test Pingu</exp>
   </expression>
   <expression id="plugin_pingtest_002" name="ps_date">
     <exp>Ostatnie odświeżenie</exp>
@@ -16,7 +16,7 @@ phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
     <exp>Adres</exp>
   </expression>
   <expression id="plugin_pingtest_004" name="ps_pingtime">
-    <exp>Czas Pinga</exp>
+    <exp>Czas Pingu</exp>
   </expression>
   <expression id="plugin_pingtest_005" name="ps_lost">
     <exp>zagubiony</exp>
