@@ -24,6 +24,7 @@ phpSysInfo 3.2.8
  - [NEW] SHOW_NETWORK_ACTIVE_SPEED option
  - [NEW] Ability to generate only part of the data
  - [NEW] LOAD_BAR compact mode option
+ - [ADD] PingTest plugin
 
  - [DEL] Removed deprecated IPMIinfo plugin
 

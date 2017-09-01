@@ -76,6 +76,7 @@ BLOCKS=true
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
 ; - Iptables       - show iptables rules list
+; - PingTest       - show Ping Test info
 ;
 PLUGINS=false
 
@@ -694,3 +695,27 @@ MAX_ENTRIES = 10
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "iptables.txt"; content is the output from "iptables-save")
 ;
 ACCESS="command"
+
+
+[pingtest]
+; PingTest Plugin configuration
+
+; define how to access the psstatus statistic data
+; - "command" ping command is run everytime the block gets refreshed or build 
+; - "data" a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "pingtest.txt";
+;
+ACCESS="command"
+
+;define the Addresses
+;
+; string contains a list of addresses that are checked
+;
+ADDRESSES="127.0.0.1"
+
+; Define ping timeout in seconds
+; - 0 : default ping command timeout
+; - 3 : 3 seconds
+; Default is 2 seconds
+;
+TIMEOUT=2
