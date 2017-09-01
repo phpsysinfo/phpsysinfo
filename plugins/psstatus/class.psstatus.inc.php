@@ -121,19 +121,11 @@ class PSStatus extends PSI_Plugin
             }
             if ((PSI_OS == 'WINNT') && (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 foreach ($processes as $process) {
-                    if ($this->_recursiveinarray(strtolower($process), $this->_filecontent)) {
-                        $this->_result[] = array($process, true);
-                    } else {
-                        $this->_result[] = array($process, false);
-                    }
+                    $this->_result[] = array($process, $this->process_inarray(strtolower($process), $this->_filecontent));
                 }
             } else {
                 foreach ($processes as $process) {
-                    if ($this->_recursiveinarray($process, $this->_filecontent)) {
-                        $this->_result[] = array($process, true);
-                    } else {
-                        $this->_result[] = array($process, false);
-                    }
+                    $this->_result[] = array($process, $this->process_inarray($process, $this->_filecontent));
                 }
             }
         }
@@ -156,17 +148,17 @@ class PSStatus extends PSI_Plugin
     }
 
     /**
-     * checks an array recursive if an value is in, extended version of in_array()
+     * checks an array if process name is in
      *
      * @param mixed $needle   what to find
      * @param array $haystack where to find
      *
      * @return boolean true - found<br>false - not found
      */
-    private function _recursiveinarray($needle, $haystack)
+    private function process_inarray($needle, $haystack)
     {
         foreach ($haystack as $stalk) {
-            if ($needle == $stalk || (is_array($stalk) && $this->_recursiveinarray($needle, $stalk))) {
+            if ($needle === $stalk[0]) {
                 return true;
             }
         }
