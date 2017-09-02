@@ -108,6 +108,10 @@ table {
     cursor: pointer;
 }
 
+#filesystemTable thead tr th {
+    cursor: pointer;
+}
+
 #footer {
     clear: both;
     color: #5c5c5c;

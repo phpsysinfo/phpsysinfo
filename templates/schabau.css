@@ -104,7 +104,7 @@ table {
     width: 915px;
 }
 
-#filesystemTable thead tr .header {
+#filesystemTable thead tr th {
     cursor: pointer;
 }
 

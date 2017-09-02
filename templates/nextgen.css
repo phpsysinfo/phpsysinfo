@@ -115,6 +115,10 @@ table {
     width: 915px;
 }
 
+#filesystemTable thead tr th {
+    cursor: pointer;
+}
+
 #footer {
     color: #777;
     clear: both;
