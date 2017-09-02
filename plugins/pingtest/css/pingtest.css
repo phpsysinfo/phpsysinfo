@@ -1,0 +1,6 @@
+/*
+ $Id: pingtest.css 1 2017-09-02 10:17:22Z namiltd $
+ */
+#plugin_pingtestTable thead tr .header {
+    cursor: pointer;
+}
