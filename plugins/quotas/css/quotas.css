@@ -1,7 +1,7 @@
 /*
  $Id: quotas.css 661 2012-08-27 11:26:39Z namiltd $
  */
-#plugin_quotasTable thead tr .header {
+#Plugin_QuotasTable thead tr .header {
     cursor: pointer;
     text-align: center;
 }

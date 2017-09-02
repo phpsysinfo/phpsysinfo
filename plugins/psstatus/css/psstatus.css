@@ -1,6 +1,6 @@
 /*
  $Id: psstatus.css 661 2012-08-27 11:26:39Z namiltd $
  */
-#plugin_psstatusTable thead tr .header {
+#Plugin_PSStatusTable thead tr .header {
     cursor: pointer;
 }
