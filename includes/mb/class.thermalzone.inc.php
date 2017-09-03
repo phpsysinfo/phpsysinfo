@@ -81,7 +81,7 @@ class ThermalZone extends Sensors
             foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
-                if (CommonFunctions::rfts($thermalzonetemp, $temp, 0, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
+                if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && !is_null($temp) && (trim($temp) != "")) {
                     if ($temp >= 1000) {
                         $temp = $temp / 1000;
                     } elseif ($temp >= 200) {
@@ -93,14 +93,14 @@ class ThermalZone extends Sensors
                         $dev->setValue($temp);
 
                         $temp_type = null;
-                        if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 0, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
+                        if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 1, 4096, false) && !is_null($temp_type) && (trim($temp_type) != "")) {
                             $dev->setName($temp_type);
                         } else {
                             $dev->setName("ThermalZone");
                         }
 
                         $temp_max = null;
-                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 0, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > -40)) {
+                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 1, 4096, false) && !is_null($temp_max) && (trim($temp_max) != "") && ($temp_max > -40)) {
                             if ($temp_max >= 1000) {
                                 $temp_max = $temp_max / 1000;
                             } elseif ($temp_max >= 200) {
