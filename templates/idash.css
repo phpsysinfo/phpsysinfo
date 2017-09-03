@@ -178,3 +178,7 @@ table {
     *float: left; /* ie6 ie7 */
     vertical-align: middle;
 }
+
+.tree tr td {
+    cursor: default;
+}
