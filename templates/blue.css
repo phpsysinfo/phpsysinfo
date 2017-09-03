@@ -168,5 +168,5 @@ table {
 }
 
 .tree tr td {
-    cursor: default;
+    cursor: auto;
 }

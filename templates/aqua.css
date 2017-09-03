@@ -177,5 +177,5 @@ table tfoot td {
 }
 
 .tree tr td {
-    cursor: default;
+    cursor: auto;
 }
