@@ -9,13 +9,10 @@ phpSysInfo language file Language: Czech Created by: Tomáš Růžička
   <expression id="plugin_psstatus_001" name="ps_title">
     <exp>Stav procesů</exp>
   </expression>
-  <expression id="plugin_psstatus_002" name="ps_date">
-    <exp>Aktualizováno</exp>
-  </expression>
-  <expression id="plugin_psstatus_003" name="ps_name">
+  <expression id="plugin_psstatus_002" name="ps_name">
     <exp>Název</exp>
   </expression>
-  <expression id="plugin_psstatus_004" name="ps_status">
+  <expression id="plugin_psstatus_003" name="ps_status">
     <exp>Stav</exp>
   </expression>
 </tns:translationPlugin>

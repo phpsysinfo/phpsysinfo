@@ -9,34 +9,31 @@
   <expression id="plugin_quotas_001" name="ps_title">
     <exp>Stare Quota</exp>
   </expression>
-  <expression id="plugin_quotas_002" name="quotas_date">
-    <exp>Ultimul refresh</exp>
-  </expression>
-  <expression id="plugin_quotas_003" name="quotas_user">
+  <expression id="plugin_quotas_002" name="quotas_user">
     <exp>Utilizator</exp>
   </expression>
-  <expression id="plugin_quotas_004" name="quotas_bused">
+  <expression id="plugin_quotas_003" name="quotas_bused">
     <exp>Bytes Folositi</exp>
   </expression>
-  <expression id="plugin_quotas_005" name="quotas_bsoft">
+  <expression id="plugin_quotas_004" name="quotas_bsoft">
     <exp>Bytes Soft</exp>
   </expression>
-  <expression id="plugin_quotas_006" name="quotas_bhard">
+  <expression id="plugin_quotas_005" name="quotas_bhard">
     <exp>Bytes Hard</exp>
   </expression>
-  <expression id="plugin_quotas_007" name="quotas_bpuse">
+  <expression id="plugin_quotas_006" name="quotas_bpuse">
     <exp>Bytes Percent Folosiți</exp>
   </expression>
-  <expression id="plugin_quotas_008" name="quotas_fused">
+  <expression id="plugin_quotas_007" name="quotas_fused">
     <exp>Fișiere Folosite</exp>
   </expression>
-  <expression id="plugin_quotas_009" name="quotas_fsoft">
+  <expression id="plugin_quotas_008" name="quotas_fsoft">
     <exp>Fișiere Soft</exp>
   </expression>
-  <expression id="plugin_quotas_010" name="quotas_fhard">
+  <expression id="plugin_quotas_009" name="quotas_fhard">
     <exp>Fișiere Hard</exp>
   </expression>
-  <expression id="plugin_quotas_011" name="quotas_fpuse">
+  <expression id="plugin_quotas_010" name="quotas_fpuse">
     <exp>Fișiere Percent Folosite</exp>
   </expression>
 </tns:translationPlugin>

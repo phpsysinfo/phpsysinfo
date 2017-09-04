@@ -10,10 +10,7 @@
   <expression id="plugin_smart_001" name="smart_title">
     <exp>S.M.A.R.T Informations</exp>
   </expression>
-  <expression id="plugin_smart_002" name="smart_date">
-    <exp>Last refresh</exp>
-  </expression>
-  <expression id="plugin_smart_003" name="smart_name">
+  <expression id="plugin_smart_002" name="smart_name">
     <exp>Name</exp>
   </expression>
   <expression id="plugin_smart_101" name="smart_raw_read_error_rate">

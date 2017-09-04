@@ -9,34 +9,31 @@
   <expression id="plugin_quotas_001" name="ps_title">
     <exp>Quota Status</exp>
   </expression>
-  <expression id="plugin_quotas_002" name="quotas_date">
-    <exp>Last Refresh</exp>
-  </expression>
-  <expression id="plugin_quotas_003" name="quotas_user">
+  <expression id="plugin_quotas_002" name="quotas_user">
     <exp>User</exp>
   </expression>
-  <expression id="plugin_quotas_004" name="quotas_bused">
+  <expression id="plugin_quotas_003" name="quotas_bused">
     <exp>Bytes Used</exp>
   </expression>
-  <expression id="plugin_quotas_005" name="quotas_bsoft">
+  <expression id="plugin_quotas_004" name="quotas_bsoft">
     <exp>Bytes Soft</exp>
   </expression>
-  <expression id="plugin_quotas_006" name="quotas_bhard">
+  <expression id="plugin_quotas_005" name="quotas_bhard">
     <exp>Bytes Hard</exp>
   </expression>
-  <expression id="plugin_quotas_007" name="quotas_bpuse">
+  <expression id="plugin_quotas_006" name="quotas_bpuse">
     <exp>Bytes Used Percent</exp>
   </expression>
-  <expression id="plugin_quotas_008" name="quotas_fused">
+  <expression id="plugin_quotas_007" name="quotas_fused">
     <exp>Files Used</exp>
   </expression>
-  <expression id="plugin_quotas_009" name="quotas_fsoft">
+  <expression id="plugin_quotas_008" name="quotas_fsoft">
     <exp>Files Soft</exp>
   </expression>
-  <expression id="plugin_quotas_010" name="quotas_fhard">
+  <expression id="plugin_quotas_009" name="quotas_fhard">
     <exp>Files Hard</exp>
   </expression>
-  <expression id="plugin_quotas_011" name="quotas_fpuse">
+  <expression id="plugin_quotas_010" name="quotas_fpuse">
     <exp>Files Used Percent</exp>
   </expression>
 </tns:translationPlugin>

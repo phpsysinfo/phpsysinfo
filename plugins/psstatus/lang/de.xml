@@ -9,13 +9,10 @@ phpSysInfo language file Language: German Created by: Michael Cramer
   <expression id="plugin_psstatus_001" name="ps_title">
     <exp>Prozess Status</exp>
   </expression>
-  <expression id="plugin_psstatus_002" name="ps_date">
-    <exp>Letzte Aktualisierung</exp>
-  </expression>
-  <expression id="plugin_psstatus_003" name="ps_name">
+  <expression id="plugin_psstatus_002" name="ps_name">
     <exp>Name</exp>
   </expression>
-  <expression id="plugin_psstatus_004" name="ps_status">
+  <expression id="plugin_psstatus_003" name="ps_status">
     <exp>Status</exp>
   </expression>
 </tns:translationPlugin>

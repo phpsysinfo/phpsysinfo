@@ -51,7 +51,4 @@
   <expression id="plugin_mdstatus_015" name="mdstatus_unused">
     <exp>Unused Disks</exp>
   </expression>
-  <expression id="plugin_mdstatus_016" name="mdstatus_refresh">
-    <exp>Last refresh</exp>
-  </expression>
 </tns:translationPlugin>

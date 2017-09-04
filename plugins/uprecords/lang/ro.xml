@@ -9,9 +9,6 @@
   <expression id="plugin_uprecords_001" name="uprecords_title">
     <exp>Uprecords</exp>
   </expression>
-  <expression id="plugin_uprecords_002" name="uprecords_date">
-    <exp>Ultimul refresh</exp>
-  </expression>
   <expression id="plugin_uprecords_101" name="uprecords_hash">
     <exp>#</exp>
   </expression>

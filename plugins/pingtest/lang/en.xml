@@ -9,16 +9,13 @@ phpSysInfo language file Language: English Created by: Mieczyslaw Nalewaj
   <expression id="plugin_pingtest_001" name="ps_title">
     <exp>Ping Test</exp>
   </expression>
-  <expression id="plugin_pingtest_002" name="ps_date">
-    <exp>Last refresh</exp>
-  </expression>
-  <expression id="plugin_pingtest_003" name="ps_address">
+  <expression id="plugin_pingtest_002" name="ps_address">
     <exp>Address</exp>
   </expression>
-  <expression id="plugin_pingtest_004" name="ps_pingtime">
+  <expression id="plugin_pingtest_003" name="ps_pingtime">
     <exp>Ping time</exp>
   </expression>
-  <expression id="plugin_pingtest_005" name="ps_lost">
+  <expression id="plugin_pingtest_004" name="ps_lost">
     <exp>lost</exp>
   </expression>
 </tns:translationPlugin>

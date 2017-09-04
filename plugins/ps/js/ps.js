@@ -39,11 +39,11 @@ function ps_buildTable(xml) {
     html += "  <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "    <tr>\n";
-    html += "     <th>" + genlang(3, false, "PS") + "</th>\n";
+    html += "     <th>" + genlang(2, false, "PS") + "</th>\n";
+    html += "     <th style=\"width:40px;\">" + genlang(3, false, "PS") + "</th>\n";
     html += "     <th style=\"width:40px;\">" + genlang(4, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:40px;\">" + genlang(5, false, "PS") + "</th>\n";
+    html += "     <th style=\"width:120px;\">" + genlang(5, false, "PS") + "</th>\n";
     html += "     <th style=\"width:120px;\">" + genlang(6, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:120px;\">" + genlang(7, false, "PS") + "</th>\n";
     html += "    </tr>\n";
     html += "   </thead>\n";
     html += "   <tbody class=\"tree\">\n";

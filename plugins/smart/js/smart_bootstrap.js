@@ -35,7 +35,7 @@ function renderPlugin_smart(data) {
 
         html+="<thead>";
         html+="<tr>";
-        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(3, false, 'smart')+"</th>";	// Name
+        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, false, 'smart')+"</th>";	// Name
         for (var i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"]["id"];
             if (smartnames[smartid] !== undefined) {
