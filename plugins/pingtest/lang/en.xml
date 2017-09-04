@@ -13,7 +13,7 @@ phpSysInfo language file Language: English Created by: Mieczyslaw Nalewaj
     <exp>Address</exp>
   </expression>
   <expression id="plugin_pingtest_003" name="ps_pingtime">
-    <exp>Ping time</exp>
+    <exp>Ping Time</exp>
   </expression>
   <expression id="plugin_pingtest_004" name="ps_lost">
     <exp>lost</exp>
