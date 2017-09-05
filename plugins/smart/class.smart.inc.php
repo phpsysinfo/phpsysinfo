@@ -87,7 +87,7 @@ class SMART extends PSI_Plugin
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
                         $wmi = $objLocator->ConnectServer('', 'root\wmi');
-                        $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('InstanceName', 'VendorSpecific'));
+                        $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                         foreach ($asd_wmi as $_nr=>$asd) {
                             $_name = "/dev/sd".chr(97+$_nr);
                             if (array_search($_name, $disks) !== false) {
