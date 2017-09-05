@@ -18,6 +18,7 @@ phpSysInfo 3.2.8
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
  - [ADD] PS plugin - CPU usage
  - [ADD] PS plugin - MEMORY_USAGE, CPU_USAGE and SHOW_PID1CHILD_EXPANDED options
+ - [UPD] SMART plugin - WMI access for WinNT
 
  - [NEW] DATETIME_FORMAT option
  - [NEW] BLOCKS option - order of data blocks

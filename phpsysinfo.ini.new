@@ -601,6 +601,7 @@ ACCESS="command"
 ; - "data" (a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "smart{disk_number}.txt";
 ;          content is the output from "smartctl --all device")
+; - "wmi" information is retrieved everytime through WMI (WinNT only)
 ;
 ACCESS="command"
 
