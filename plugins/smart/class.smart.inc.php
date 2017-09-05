@@ -84,51 +84,53 @@ class SMART extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'wmi':
                 if (PSI_OS == 'WINNT') {
+                    $asd_wmi = null;
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
                         $wmi = $objLocator->ConnectServer('', 'root\wmi');
                         $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
-                        foreach ($asd_wmi as $_nr=>$asd) {
-                            $_name = "/dev/sd".chr(97+$_nr);
-                            if (array_search($_name, $disks) !== false) {
-                                $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
-                                $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
-                                $asdvs = $asd['VendorSpecific'];
-                                for ($c = 2; $c < count($asdvs); $c += 12) {
-                                    //Attribute values 0x00, 0xff are invalid
-                                    $id = $asdvs[$c];
-                                    if (($id != 0) && ($id != 255)) { 
-                                        switch ($id) {
-                                            case 3: 
-                                                //raw16(avg16)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            case 5:
-                                            case 196:
-                                                //raw16(raw16)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            case 9:
-                                            case 240:
-                                                //raw24(raw8)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
-                                                break;
-                                            case 190:
-                                            case 194:
-                                                //tempminmax
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            default:
-                                                //raw48
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
-                                                break;
-                                        }
+                    } catch (Exception $e) {
+                    }
+                    //var_dump($asd_wmi);
+                    foreach ($asd_wmi as $_nr=>$asd) {
+                        $_name = "/dev/sd".chr(97+$_nr);
+                        if (array_search($_name, $disks) !== false) {
+                            $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
+                            $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
+                            $asdvs = $asd['VendorSpecific'];
+                            for ($c = 2; $c < count($asdvs); $c += 12) {
+                                //Attribute values 0x00, 0xff are invalid
+                                $id = $asdvs[$c];
+                                if (($id != 0) && ($id != 255)) { 
+                                    switch ($id) {
+                                        case 3: 
+                                            //raw16(avg16)
+                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        case 5:
+                                        case 196:
+                                            //raw16(raw16)
+                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        case 9:
+                                        case 240:
+                                            //raw24(raw8)
+                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
+                                            break;
+                                        case 190:
+                                        case 194:
+                                            //tempminmax
+                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        default:
+                                            //raw48
+                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
+                                            break;
                                     }
                                 }
-                                $this->_filecontent[$_name] .= "SMART Error Log Version";
                             }
+                            $this->_filecontent[$_name] .= "SMART Error Log Version";
                         }
-                    } catch (Exception $e) {
                     }
                 }
                 break;
