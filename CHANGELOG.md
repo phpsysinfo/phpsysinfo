@@ -18,14 +18,14 @@ phpSysInfo 3.2.8
  - [ADD] FreeIPMI, IPMItool and IPMIutil other information
  - [ADD] PS plugin - CPU usage
  - [ADD] PS plugin - MEMORY_USAGE, CPU_USAGE and SHOW_PID1CHILD_EXPANDED options
- - [UPD] SMART plugin - WMI access for WinNT
+ - [ADD] SMART plugin - WMI access for WinNT
 
  - [NEW] DATETIME_FORMAT option
  - [NEW] BLOCKS option - order of data blocks
  - [NEW] SHOW_NETWORK_ACTIVE_SPEED option
  - [NEW] Ability to generate only part of the data
  - [NEW] LOAD_BAR compact mode option
- - [ADD] PingTest plugin
+ - [NEW] PingTest plugin
 
  - [DEL] Removed deprecated IPMIinfo plugin
 
