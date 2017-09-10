@@ -1392,7 +1392,7 @@ function renderUPS(data) {
 
         if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
             html+="<tr>";
-            html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
+            html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99, false)+"</a>)</td>";
             html+="<td></td>";
             html+="</tr>";
         }
