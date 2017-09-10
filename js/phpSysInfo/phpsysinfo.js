@@ -1535,7 +1535,7 @@ function refreshUps(xml) {
     html += "          </tbody>\n";
     html += "        </table>\n";
     if (add_apcupsd_cgi_links){
-        html += " (<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
+        html += " (<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
     }
 
     $("#ups").append(html);
