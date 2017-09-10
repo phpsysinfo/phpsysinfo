@@ -31,7 +31,6 @@ wbr {
 }
 
 .ie8 .panel-primary {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#f0f0f0'); progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=225, Color='#f0f0f0')";
 }
 
 .navbar {
