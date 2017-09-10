@@ -9,10 +9,6 @@ wbr {
     display: inline-block;
 }
 
-.progress {
-    margin-bottom: 0;
-}
-
 .table td.rightCell, .table th.rightCell {
     text-align: right;
 }
@@ -167,6 +163,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .progress {
+    margin-bottom: 0;
     background-color: #1c1e22;
 }
 
@@ -202,4 +199,22 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     border: 0px;
     width: 16px;
     height: 16px;    
+}
+
+a, a:visited {
+    color: #fff;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.psihref, .psihref:visited {
+    color: #fff;
+}
+
+.psihref:hover {
+    text-decoration: underline;
+    color: #fff;
 }
