@@ -113,6 +113,9 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
+                    if (@exec('uname -o', $unameo) && (sizeof($unameo)>0)) {
+                        define('PSI_UNAMEO', trim($unameo[0]));
+                    }
                     if (!defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
                         if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' command
                             define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling

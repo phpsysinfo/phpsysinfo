@@ -76,7 +76,7 @@ class CommonFunctions
             } else {
                 $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
             }
-            if ((PSI_OS == 'Android') && (getenv('OSTYPE') === 'linux-android') && !empty($arrPath)) {
+            if (defined('PSI_UNAMEO') && (PSI_UNAMEO === 'Android') && !empty($arrPath)) {
                 array_push($arrPath, '/system/bin'); // Termux patch
             }
             if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
