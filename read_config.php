@@ -113,7 +113,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
-                    if (@exec('uname -o', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
+                    if (@exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
                         define('PSI_UNAMEO', $unameo0);
                     }
                     if (!defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
