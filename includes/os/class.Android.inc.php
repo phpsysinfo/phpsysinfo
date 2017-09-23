@@ -152,7 +152,7 @@ class Android extends Linux
     protected function _distro()
     {
         $buf = "";
-        if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)
+        if (CommonFunctions::rfts(PSI_BUILDPROP, $lines, 0, 4096, false)
             && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = trim($ar_buf[1]);
         }
@@ -176,7 +176,7 @@ class Android extends Linux
      */
     private function _machine()
     {
-        if (CommonFunctions::rfts('/system/build.prop', $lines, 0, 4096, false)) {
+        if (CommonFunctions::rfts(PSI_BUILDPROP, $lines, 0, 4096, false)) {
             $buf = "";
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf) && (trim($ar_buf[1]) !== "unknown")) {
                 $buf .= ' '.trim($ar_buf[1]);
