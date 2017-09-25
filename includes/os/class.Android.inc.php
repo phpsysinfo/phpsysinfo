@@ -27,6 +27,28 @@
 class Android extends Linux
 {
     /**
+     * holds the data from /system/build.prop file
+     *
+     * @var string
+     */
+    private $_buildprop = null;
+
+    /**
+     * reads the data from /system/build.prop file
+     *
+     * @return string
+     */
+    private function _get_buildprop()
+    {
+        if ($this->_buildprop === null) {
+           if (!CommonFunctions::rfts('/system/build.prop', $this->_buildprop, 0, 4096, false)) {
+               CommonFunctions::rfts('/system//build.prop', $this->_buildprop, 0, 4096, false); //fix some access issues
+           }
+        }
+        return $this->_buildprop;
+    }
+
+    /**
      * call parent constructor
      */
     public function __construct()
@@ -152,8 +174,7 @@ class Android extends Linux
     protected function _distro()
     {
         $buf = "";
-        if (CommonFunctions::rfts(PSI_BUILDPROP, $lines, 0, 4096, false)
-            && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
+        if (($lines = $this->_get_buildprop()) && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = trim($ar_buf[1]);
         }
         if (is_null($buf) || ($buf == "")) {
@@ -176,7 +197,7 @@ class Android extends Linux
      */
     private function _machine()
     {
-        if (CommonFunctions::rfts(PSI_BUILDPROP, $lines, 0, 4096, false)) {
+        if ($lines = $this->_get_buildprop()) {
             $buf = "";
             if (preg_match('/^ro\.product\.manufacturer=([^\n]+)/m', $lines, $ar_buf) && (trim($ar_buf[1]) !== "unknown")) {
                 $buf .= ' '.trim($ar_buf[1]);

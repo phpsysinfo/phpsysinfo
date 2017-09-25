@@ -113,11 +113,6 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
-                    if (!file_get_contents('/system/build.prop', null, null, 0, 1) && file_get_contents('/system//build.prop', null, null, 0, 1)) {
-                        define('PSI_BUILDPROP', '/system//build.prop'); //fix some access issues
-                    } else {
-                        define('PSI_BUILDPROP', '/system/build.prop');
-                    }
                     if (@exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
                         define('PSI_UNAMEO', $unameo0);
                     }
