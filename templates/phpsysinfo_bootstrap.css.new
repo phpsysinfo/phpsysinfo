@@ -132,7 +132,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .table {
-    background-color: #fff;
+    background-color: #fff!important;
     margin :0;
 }
 
