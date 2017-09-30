@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+Lakka (community) - Version: 2.0
+----------/etc/os-release----------
+NAME="Lakka"
+VERSION="2.0"
+ID="openelec"
+VERSION_ID="8.0"
+PRETTY_NAME="Lakka (community) - Version: 2.0"
+HOME_URL="https://libreelec.tv"
+BUG_REPORT_URL="https://github.com/lakkatv/Lakka-LibreELEC"
+BUILD_ID="a2a046c380609f2f7770bd21a362ade4dcc76f80"
+OPENELEC_ARCH="Generic.x86_64"
+LIBREELEC_ARCH="Generic.x86_64"
+LIBREELEC_BUILD="community"
+----------/etc/release----------
+Generic.x86_64-2.0

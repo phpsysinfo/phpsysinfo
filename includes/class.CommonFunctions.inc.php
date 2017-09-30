@@ -8,7 +8,7 @@
  * @package   PSI
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.CommonFunctions.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -56,13 +56,13 @@ class CommonFunctions
      *
      * @param string $strProgram name of the program
      *
-     * @return string complete path and name of the program
+     * @return string|null complete path and name of the program
      */
     private static function _findProgram($strProgram)
     {
         $path_parts = pathinfo($strProgram);
         if (empty($path_parts['basename'])) {
-            return;
+            return null;
         }
         $arrPath = array();
 
@@ -75,6 +75,9 @@ class CommonFunctions
                 $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
             } else {
                 $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+            }
+            if (defined('PSI_UNAMEO') && (PSI_UNAMEO === 'Android') && !empty($arrPath)) {
+                array_push($arrPath, '/system/bin'); // Termux patch
             }
             if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
                 if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
@@ -132,6 +135,8 @@ class CommonFunctions
                 return $strProgrammpath;
             }
         }
+
+        return null;
     }
 
     /**
@@ -415,9 +420,9 @@ class CommonFunctions
         if ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PSI_OS == "WINNT")
-            $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom', 'com_dotnet');
+            $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
         else
-            $arrReq = array('simplexml', 'pcre', 'xml', 'mbstring', 'dom');
+            $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring');
         $extensions = array_merge($arrExt, $arrReq);
         $text = "";
         $error = false;
@@ -491,7 +496,7 @@ class CommonFunctions
      * function for getting a list of values in the specified context
      * optionally filter this list, based on the list from third parameter
      *
-     * @param $wmi holds the COM object that we pull the WMI data from
+     * @param $wmi object holds the COM object that we pull the WMI data from
      * @param string $strClass name of the class where the values are stored
      * @param array  $strValue filter out only needed values, if not set all values of the class are returned
      *

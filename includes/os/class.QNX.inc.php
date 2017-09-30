@@ -8,7 +8,7 @@
  * @package   PSI QNX OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.QNX.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,19 +20,12 @@
  * @package   PSI QNX OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
 class QNX extends OS
 {
-    /**
-     * content of the syslog
-     *
-     * @var array
-     */
-    private $_dmesg = array();
-
     /**
      * call parent constructor
      */
@@ -44,7 +37,7 @@ class QNX extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {
@@ -190,6 +183,7 @@ class QNX extends OS
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^([^\s:]+)/", $line, $ar_buf)) {
                     if ($was) {
@@ -224,14 +218,24 @@ class QNX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The QNX version of phpSysInfo is a work in progress, some things currently don't work");
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_uptime();
-        $this->_users();
-        $this->_cpuinfo();
-        $this->_memory();
-        $this->_filesystems();
-        $this->_network();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_cpuinfo();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

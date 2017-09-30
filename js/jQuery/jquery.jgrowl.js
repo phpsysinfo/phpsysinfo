@@ -220,7 +220,7 @@
 
 
 			/** Notification Actions **/
-			$(notification),on("mouseover.jGrowl", function() {
+			$(notification).on("mouseover.jGrowl", function() {
 				$('div.jGrowl-notification', self.element).data("jGrowl.pause", true);
 			}).on("mouseout.jGrowl", function() {
 				$('div.jGrowl-notification', self.element).data("jGrowl.pause", false);

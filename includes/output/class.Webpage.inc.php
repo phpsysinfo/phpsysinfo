@@ -8,7 +8,7 @@
  * @package   PSI_Web
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Webpage.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_Web
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -49,7 +49,7 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * all available templates
      *
-     * @var Array
+     * @var array
      */
     private $_templates = array();
 
@@ -63,14 +63,14 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * all available bootstrap templates
      *
-     * @var Array
+     * @var array
      */
     private $_bootstrap_templates = array();
 
     /**
      * all available languages
      *
-     * @var Array
+     * @var array
      */
     private $_languages = array();
 
@@ -90,6 +90,7 @@ class Webpage extends Output implements PSI_Interface_Output
 
     /**
      * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
+     * @param string $indexname
      */
     public function __construct($indexname="dynamic")
     {
@@ -184,6 +185,35 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("showCPUInfoExpanded", defined('PSI_SHOW_CPUINFO_EXPANDED') ? (PSI_SHOW_CPUINFO_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showNetworkInfosExpanded", defined('PSI_SHOW_NETWORK_INFOS_EXPANDED') ? (PSI_SHOW_NETWORK_INFOS_EXPANDED ? 'true' : 'false') : 'false');
         $tpl->set("showMemoryInfosExpanded", defined('PSI_SHOW_MEMORY_INFOS_EXPANDED') ? (PSI_SHOW_MEMORY_INFOS_EXPANDED ? 'true' : 'false') : 'false');
+        $tpl->set("showNetworkActiveSpeed", defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') ? (PSI_SHOW_NETWORK_ACTIVE_SPEED ? ((strtolower(PSI_SHOW_NETWORK_ACTIVE_SPEED) === 'bps') ? 'bps' :'true') : 'false') : 'false');
+        $tpl->set("showCPULoadCompact", defined('PSI_LOAD_BAR') ? ((strtolower(PSI_LOAD_BAR) === 'compact') ? 'true' :'false') : 'false');
+        if (defined('PSI_BLOCKS')) {
+            if (is_string(PSI_BLOCKS)) {
+                if (preg_match(ARRAY_EXP, PSI_BLOCKS)) {
+                    $blocks = eval(strtolower(PSI_BLOCKS));
+                } else {
+                    $blocks = array(strtolower(PSI_BLOCKS));
+                }
+                $blocklist = '';
+                $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
+                foreach ($blocks as $block) {
+                    if (in_array($block, $validblocks)) {
+                        if (empty($blocklist)) {
+                            $blocklist = $block;
+                        } else {
+                            $blocklist .= ','.$block;
+                        }
+                    }
+                }
+                if (!empty($blocklist)) {
+                    $tpl->set("blocks", $blocklist);
+                }
+            } elseif (PSI_BLOCKS) {
+                $tpl->set("blocks", 'true');
+            }
+        } else {
+            $tpl->set("blocks", 'true');
+        }
 
         echo $tpl->fetch();
     }

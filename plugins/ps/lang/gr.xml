@@ -9,19 +9,19 @@
   <expression id="plugin_ps_001" name="ps_title">
     <exp>Διεργασίες Συστήματος</exp>
   </expression>
-  <expression id="plugin_ps_002" name="ps_date">
-    <exp>Ενημέρωση</exp>
-  </expression>
-  <expression id="plugin_ps_003" name="ps_command">
+  <expression id="plugin_ps_002" name="ps_command">
     <exp>Εντολή</exp>
   </expression>
-  <expression id="plugin_ps_004" name="ps_pid">
+  <expression id="plugin_ps_003" name="ps_pid">
     <exp>ID Διεργασίας</exp>
   </expression>
-  <expression id="plugin_ps_005" name="ps_ppid">
+  <expression id="plugin_ps_004" name="ps_ppid">
     <exp>ID Κύριας Διεργασίας</exp>
   </expression>
-  <expression id="plugin_ps_006" name="ps_mem">
+  <expression id="plugin_ps_005" name="ps_mem">
     <exp>Χρήση Μνήμης</exp>
+  </expression>
+  <expression id="plugin_ps_006" name="ps_cpu">
+    <exp>CPU Usage</exp>
   </expression>
 </tns:translationPlugin>

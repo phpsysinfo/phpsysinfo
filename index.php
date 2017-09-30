@@ -9,7 +9,7 @@
  * @package   PSI
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: index.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -57,7 +57,7 @@ case "dynamic":
     $webpage->run();
     break;
 case "xml":
-    $webpage = new WebpageXML(true, null);
+    $webpage = new WebpageXML(true);
     $webpage->run();
     break;
 case "bootstrap":

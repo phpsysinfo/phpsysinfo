@@ -8,22 +8,19 @@
   <expression id="plugin_snmppinfo_001" name="snmppinfo_title">
     <exp>Imprimantes</exp>
   </expression>
-  <expression id="plugin_snmppinfo_002" name="snmppinfo_date">
-    <exp>Dernière actualisation</exp>
-  </expression>
-  <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
+  <expression id="plugin_snmppinfo_002" name="snmppinfo_printer">
     <exp>Imprimante</exp>
   </expression>
-  <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
+  <expression id="plugin_snmppinfo_003" name="snmppinfo_percent">
     <exp>Pourcent</exp>
   </expression>
-  <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
+  <expression id="plugin_snmppinfo_004" name="snmppinfo_units">
     <exp>Unité</exp>
   </expression>
-  <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
+  <expression id="plugin_snmppinfo_005" name="snmppinfo_enough">
     <exp>suffisamment</exp>
   </expression>
-  <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
+  <expression id="plugin_snmppinfo_006" name="snmppinfo_unknown">
     <exp>inconnu</exp>
   </expression>
 </tns:translationPlugin>

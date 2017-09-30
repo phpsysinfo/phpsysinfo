@@ -316,10 +316,10 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Date de la batterie</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Courant</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
@@ -343,16 +343,16 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>sleeping</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>arrêté</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>en attente</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>autre</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>Périphériques TB</exp>
@@ -361,9 +361,12 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>Périphériques I2C</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Nombre de Processeurs</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Nombre de périphériques</exp>
+  </expression>
+  <expression id="121" name="other">
+    <exp>Other</exp>
   </expression>
 </tns:translation>

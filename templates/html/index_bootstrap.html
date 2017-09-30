@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lte IE 8 ]> <html class="ie8" lang="en"> <![endif]-->
+<!--[if (gt IE 8)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,18 +20,21 @@
 
 <body>
 
-<input type="hidden" id="plugins" value="<?php $plugins = ""; foreach (CommonFunctions::getPlugins() as $plugin) : $plugins .= $plugin.","; endforeach; echo substr($plugins, 0, -1);?>"/>
+<input type="hidden" id="plugins" value="<?php $plugins = ''; foreach (CommonFunctions::getPlugins() as $plugin) : $plugins .= $plugin.','; endforeach; echo substr($plugins, 0, -1);?>"/>
 <input type="hidden" id="showCPUListExpanded" value="<?php echo $showCPUListExpanded;?>"/>
 <input type="hidden" id="showCPUInfoExpanded" value="<?php echo $showCPUInfoExpanded;?>"/>
 <input type="hidden" id="showNetworkInfosExpanded" value="<?php echo $showNetworkInfosExpanded;?>"/>
+<input type="hidden" id="showNetworkActiveSpeed" value="<?php echo $showNetworkActiveSpeed;?>"/>
+<input type="hidden" id="showCPULoadCompact" value="<?php echo $showCPULoadCompact;?>"/>
+<input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
 <div class="navbar navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand">
-            <img class="logo" alt="" src="gfx/logo_32.gif" title="reload" style="display:inline; width:32px;"/> phpSysInfo <sup><?php echo PSI_VERSION; ?></sup>
+        <div class="navbar-brand">
+            <img class="logo" alt="" src="gfx/logo_32.gif" title="reload" style="display:inline; width:32px;"/> phpSysInfo <sup><a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a></sup>
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:inline; visibility: hidden;"/>
             <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="display:inline; visibility: hidden;"/>
-        </a>
+        </div>
         <div id="select" class="select" style="text-align:right;padding-top:20px;display:none;">
             <span id="lang_044" style="display:none;">Template</span>
             <select class="template" id="template" style="display:none;">
@@ -64,14 +68,13 @@ endforeach;
     </div>
 </div>
 
-<div class="container" id="output" style="display:none;">
-
-<div class="row">
+<div class="container">
+<div id="output" class="row" style="display:none;">
     <div id="block_vitals" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_002">System vitals</span></div>
             <div class="panel-body">
-                <table id="vitals" class="table table-hover table-condensed">
+                <table id="vitals" class="table table-hover table-condensed noborderattop">
                     <tbody>
                         <tr>
                             <th><span id="lang_003">Hostname</span></th>
@@ -127,16 +130,14 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
             <div class="panel-body">
-                <table id="hardware" class="table table-hover table-condensed">
+                <table id="hardware" class="table table-hover table-condensed noborderattop">
                     <tbody id="hardware-data">
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
     <div id="block_memory" class="col-lg-12" style="display:none;">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_027">Memory Usage</span></div>
@@ -175,9 +176,7 @@ endforeach;
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
     <div id="block_filesystem" class="col-lg-12" style="display:none;">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_030">Mounted Filesystems</span></div>
@@ -222,9 +221,7 @@ endforeach;
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
     <div id="block_network" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
@@ -380,11 +377,35 @@ endforeach;
         </div>
     </div>
 
+    <div id="block_other" class="col-lg-6" style="display:none;">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><span id="lang_121">Other</span></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="other" class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><span id="lang_059-u28">Label</span></th>
+                                <th class="rightCell"><span id="lang_054-u29">Value</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="other-data">
+                            <tr>
+                                <th><span data-bind="Label"></span></th>
+                                <td class="rightCell"><span data-bind="Value"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="block_ups" class="col-lg-6" style="display:none;">
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
             <div class="panel-body">
-                <table id="ups" class="table table-hover table-condensed">
+                <table id="ups" class="table table-hover table-condensed noborderattop">
                     <tbody id="ups-data">
                     </tbody>
                 </table>
@@ -420,6 +441,7 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <!-- /.modal -->
 
 </div>
+
 <!--[if lt IE 9]>
     <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
 <![endif]-->

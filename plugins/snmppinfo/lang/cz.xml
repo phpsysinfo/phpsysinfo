@@ -9,22 +9,19 @@
   <expression id="plugin_snmppinfo_001" name="snmppinfo_title">
     <exp>Informace o tiskárnách</exp>
   </expression>
-  <expression id="plugin_snmppinfo_002" name="snmppinfo_date">
-    <exp>Poslední aktualizace</exp>
-  </expression>
-  <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
+  <expression id="plugin_snmppinfo_002" name="snmppinfo_printer">
     <exp>Tiskárna</exp>
   </expression>
-  <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
+  <expression id="plugin_snmppinfo_003" name="snmppinfo_percent">
     <exp>Procenta</exp>
   </expression>
-  <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
+  <expression id="plugin_snmppinfo_004" name="snmppinfo_units">
     <exp>Jednotky</exp>
   </expression>
-  <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
+  <expression id="plugin_snmppinfo_005" name="snmppinfo_enough">
     <exp>dostatek</exp>
   </expression>
-  <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
+  <expression id="plugin_snmppinfo_006" name="snmppinfo_unknown">
     <exp>neznámé</exp>
   </expression>
 </tns:translationPlugin>

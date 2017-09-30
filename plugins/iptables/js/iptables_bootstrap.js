@@ -1,9 +1,9 @@
 function renderPlugin_iptables(data) {
 
     var directives = {
-        rule: {
+        Rule: {
             html: function () {
-                return this["rule"];
+                return this["Rule"];
             }
         }
     };

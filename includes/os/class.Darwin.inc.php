@@ -8,7 +8,7 @@
  * @package   PSI Darwin OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Darwin.inc.php 638 2012-08-24 09:40:48Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -21,7 +21,7 @@
  * @package   PSI Darwin OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -467,9 +467,15 @@ class Darwin extends BSDCommon
     public function build()
     {
         parent::build();
-        $this->_uptime();
-        $this->_network();
-        $this->_processes();
-        $this->_tb();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_uptime();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_tb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
     }
 }

@@ -9,22 +9,19 @@
   <expression id="plugin_snmppinfo_001" name="snmppinfo_title">
     <exp>Информация о принтерах</exp>
   </expression>
-  <expression id="plugin_snmppinfo_002" name="snmppinfo_date">
-    <exp>Последнее обновление</exp>
-  </expression>
-  <expression id="plugin_snmppinfo_003" name="snmppinfo_printer">
+  <expression id="plugin_snmppinfo_002" name="snmppinfo_printer">
     <exp>Принтер</exp>
   </expression>
-  <expression id="plugin_snmppinfo_004" name="snmppinfo_percent">
+  <expression id="plugin_snmppinfo_003" name="snmppinfo_percent">
     <exp>Процент</exp>
   </expression>
-  <expression id="plugin_snmppinfo_005" name="snmppinfo_units">
+  <expression id="plugin_snmppinfo_004" name="snmppinfo_units">
     <exp>Еденицы</exp>
   </expression>
-  <expression id="plugin_snmppinfo_006" name="snmppinfo_enough">
+  <expression id="plugin_snmppinfo_005" name="snmppinfo_enough">
     <exp>достаточно</exp>
   </expression>
-  <expression id="plugin_snmppinfo_007" name="snmppinfo_unknown">
+  <expression id="plugin_snmppinfo_006" name="snmppinfo_unknown">
     <exp>неизвестный</exp>
   </expression>
 </tns:translationPlugin>

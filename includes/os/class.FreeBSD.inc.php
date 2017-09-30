@@ -8,7 +8,7 @@
  * @package   PSI FreeBSD OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.FreeBSD.inc.php 696 2012-09-09 11:24:04Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI FreeBSD OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -69,7 +69,7 @@ class FreeBSD extends BSDCommon
                     if (preg_match('/^<Link/i', $ar_buf[2])) {
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[0]);
-                        if (strlen($ar_buf[3]) < 17) { /* no Address */
+                        if ((strlen($ar_buf[3]) < 17) && ($ar_buf[0] != $ar_buf[3])) { /* no MAC or dev name*/
                             if (isset($ar_buf[11]) && (trim($ar_buf[11]) != '')) { /* Idrop column exist*/
                               $dev->setTxBytes($ar_buf[9]);
                               $dev->setRxBytes($ar_buf[6]);
@@ -192,10 +192,16 @@ class FreeBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        $this->_memoryadditional();
-        $this->_distroicon();
-        $this->_network();
-        $this->_uptime();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distroicon();
+            $this->_uptime();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memoryadditional();
+        }
     }
 }

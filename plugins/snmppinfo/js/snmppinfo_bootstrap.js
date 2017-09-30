@@ -34,9 +34,9 @@ function renderPlugin_snmppinfo(data) {
                 } else if (max==-2 && (level>=0) && (level<=100) ) {
                     return level+" / 100";
                 } else if (level==-3) {
-                    return genlang(6, false, 'snmppinfo'); // enough
+                    return genlang(5, false, 'snmppinfo'); // enough
                 } else {
-                    return getlang(7, false, 'snmppinfo'); // unknown
+                    return genlang(6, false, 'snmppinfo'); // unknown
                 }
             }
         }

@@ -366,4 +366,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="120" name="no_devices">
     <exp>Αριθμός Συσκευών</exp>
   </expression>
+  <expression id="121" name="other">
+    <exp>Άλλο</exp>
+  </expression>
 </tns:translation>

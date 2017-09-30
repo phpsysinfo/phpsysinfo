@@ -8,7 +8,7 @@
  * @package   PSI Haiku OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Haiku.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI Haiku OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -37,7 +37,7 @@ class Haiku extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {
@@ -65,7 +65,9 @@ class Haiku extends OS
                             $dev->setVirt("svm");
                         }
                     }
-                    if ($cpuspeed != "")$dev->setCpuSpeed($cpuspeed);
+                    if ($cpuspeed != "") {
+                        $dev->setCpuSpeed($cpuspeed);
+                    }
                     $this->sys->setCpus($dev);
                 }
             }
@@ -135,7 +137,7 @@ class Haiku extends OS
     private function _kernel()
     {
         if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
-               $this->sys->setKernel($ret);
+            $this->sys->setKernel($ret);
         }
     }
 
@@ -292,6 +294,9 @@ class Haiku extends OS
         if (CommonFunctions::executeProgram('ifconfig', '', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
+            $errors = 0;
+            $drops = 0;
+            $dev = null;
             foreach ($lines as $line) {
                 if (preg_match("/^(\S+)/", $line, $ar_buf)) {
                     if ($was) {
@@ -367,18 +372,28 @@ class Haiku extends OS
     public function build()
     {
         $this->error->addError("WARN", "The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_uptime();
-        $this->_users();
-        $this->_loadavg();
-        $this->_pci();
-        $this->_usb();
-        $this->_cpuinfo();
-        $this->_memory();
-        $this->_filesystems();
-        $this->_network();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+            $this->_loadavg();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+           $this->_cpuinfo();
+           $this->_pci();
+           $this->_usb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

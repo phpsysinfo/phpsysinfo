@@ -8,7 +8,7 @@
  * @package   PSI_UPS
  * @author    Robert Pelletier <drizzt@menzonet.org>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.nut.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_UPS
  * @author    Robert Pelletier <drizzt@menzonet.org>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -47,7 +47,7 @@ class Pmset extends UPS
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return array
+     * @return void
      */
    private function _info()
     {
@@ -58,10 +58,10 @@ class Pmset extends UPS
         $percCharge = array();
         $lines = explode(PHP_EOL, implode($this->_output));
         if (count($lines)>1) {
-            $model = explode('FW:',  $lines[1]);
+            $model = explode('FW:', $lines[1]);
             if (strpos($model[0], 'InternalBattery') === false) {
                 $dev = new UPSDevice();
-                $percCharge = explode(';',  $lines[1]);
+                $percCharge = explode(';', $lines[1]);
                 $dev->setName('UPS');
                 if ($model !== false) {
                     $dev->setModel(substr(trim($model[0]), 1));

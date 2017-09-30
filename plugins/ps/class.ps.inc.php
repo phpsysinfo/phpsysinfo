@@ -8,7 +8,7 @@
  * @package   PSI_Plugin_PS
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.ps.inc.php 692 2012-09-08 17:12:08Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -24,7 +24,7 @@
  * @package   PSI_Plugin_PS
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -43,7 +43,7 @@ class PS extends PSI_Plugin
     /**
      * read the data into an internal array and also call the parent constructor
      *
-     * @param String $enc encoding
+     * @param string $enc encoding
      */
     public function __construct($enc)
     {
@@ -55,9 +55,18 @@ class PS extends PSI_Plugin
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
+                    $memtotal = 0;
                     foreach ($os_wmi as $os) {
                         $memtotal = $os['TotalVisibleMemorySize'] * 1024;
+                        break;
                     }
+
+                    $perf_wmi = CommonFunctions::getWMI($wmi, 'Win32_PerfFormattedData_PerfProc_Process', array('IDProcess', 'CreatingProcessID', 'PercentProcessorTime'));
+                    $proccpu = array();
+                    foreach ($perf_wmi as $perf) {
+                        $proccpu[trim($perf['IDProcess'])] = array('ParentProcessId'=>trim($perf['CreatingProcessID']), 'PercentProcessorTime'=>trim($perf['PercentProcessorTime']));
+                    }
+
                     $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
                         if (strlen(trim($process['CommandLine'])) > 0) {
@@ -65,8 +74,13 @@ class PS extends PSI_Plugin
                         } else {
                             $ps = trim($process['Caption']);
                         }
-                        if (trim($process['ProcessId']) != 0) {
+                        if (($procid = trim($process['ProcessId'])) != 0) {
                             $memusage = round(trim($process['WorkingSetSize']) * 100 / $memtotal, 1);
+                            $parentid  = trim($process['ParentProcessId']);
+                            $cpu = 0;
+                            if (isset($proccpu[$procid]) && ($proccpu[$procid]['ParentProcessId'] == $parentid)) {
+                                $cpu = $proccpu[$procid]['PercentProcessorTime'];
+                            }
                             //ParentProcessId
                             //Unique identifier of the process that creates a process. Process identifier numbers are reused, so they
                             //only identify a process for the lifetime of that process. It is possible that the process identified by
@@ -75,14 +89,14 @@ class PS extends PSI_Plugin
                             //use the CreationDate property to determine whether the specified parent was created after the process
                             //represented by this Win32_Process instance was created.
                             //=> subtrees of processes may be missing (WHAT TODO?!?)
-                            $this->_filecontent[] = trim($process['ProcessId'])." ".trim($process['ParentProcessId'])." ".$memusage." ".$ps;
+                            $this->_filecontent[] = $procid." ".$parentid." ".$memusage." ".$cpu." ".$ps;
                         }
                     }
                 } catch (Exception $e) {
                 }
             } else {
-                CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,args", $buffer, PSI_DEBUG);
-                if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n\s*\d+\s+\d+\s+[\d\.]+\s+.+/", $buffer))) { //alternative method if no data
+                CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,pcpu,args", $buffer, PSI_DEBUG);
+                if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n\s*\d+\s+\d+\s+[\d\.]+\s+[\d\.]+\s+.+/", $buffer))) { //alternative method if no data
                     if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
                         $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
                         $totalmem = 0;
@@ -92,12 +106,12 @@ class PS extends PSI_Plugin
                                 break;
                             }
                         }
-                        $buffer = "  PID  PPID %MEM COMMAND\n";
+                        $buffer = "  PID  PPID %MEM %CPU COMMAND\n";
 
                         $processlist = glob('/proc/*/status', GLOB_NOSORT);
                         if (($total = count($processlist)) > 0) {
                             natsort($processlist); //first sort
-                            $prosess = array();
+                            $process = array();
                             foreach ($processlist as $processitem) { //second sort
                                 $process[] = $processitem;
                             }
@@ -129,7 +143,7 @@ class PS extends PSI_Plugin
                                                 $args = "[".$args."]";
                                             }
                                         }
-                                        $buffer .= $pid." ".$ppid." ".$pmem." ".$args."\n";
+                                        $buffer .= $pid." ".$ppid." ".$pmem." 0.0 ".$args."\n";
                                     }
 
                                 }
@@ -169,8 +183,8 @@ class PS extends PSI_Plugin
         }
         $items = array();
         foreach ($this->_filecontent as $roworig) {
-            $row = preg_split("/[\s]+/", trim($roworig), 4);
-            if (count($row) != 4) {
+            $row = preg_split("/[\s]+/", trim($roworig), 5);
+            if (count($row) != 5) {
                 break;
             }
             foreach ($row as $key=>$val) {
@@ -188,7 +202,8 @@ class PS extends PSI_Plugin
                         $items[$zombie]["0"] = $zombie;
                         $items[$zombie]["1"] = "0";
                         $items[$zombie]["2"] = "0";
-                        $items[$zombie]["3"] = "unknown";
+                        $items[$zombie]["3"] = "0";
+                        $items[$zombie]["4"] = "unknown";
                         $items[0]['childs'][$zombie] = &$items[$zombie];
                     }
                     break; //first is sufficient
@@ -198,7 +213,7 @@ class PS extends PSI_Plugin
         if (isset($items[0])) {
             $this->_result = $items[0];
         } else {
-            $_result = array();
+            $this->_result = array();
         }
     }
     /**
@@ -218,9 +233,9 @@ class PS extends PSI_Plugin
     /**
      * recursive function to allow appending child processes to a parent process
      *
-     * @param Array             $child      part of the array which should be appended to the XML
+     * @param array             $child      part of the array which should be appended to the XML
      * @param SimpleXMLExtended $xml        XML-Object to which the array content is appended
-     * @param Array             &$positions array with parent positions in xml structure
+     * @param array             &$positions array with parent positions in xml structure
      *
      * @return SimpleXMLExtended Object with the appended array content
      */
@@ -234,15 +249,17 @@ class PS extends PSI_Plugin
                 $parentid = array_search($value[1], $positions);
                 $xmlnode->addAttribute('ParentID', $parentid);
                 $xmlnode->addAttribute('PPID', $value[1]);
-                $xmlnode->addAttribute('MemoryUsage', $value[2]);
-                $xmlnode->addAttribute('Name', $value[3]);
-                if (PSI_OS !== 'WINNT') {
-                    if ($parentid === 1) {
-                        $xmlnode->addAttribute('Expanded', 0);
-                    }
-                    if (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[3] === "[kthreadd]")) {
-                        $xmlnode->addAttribute('Expanded', 0);
-                    }
+                if (!defined('PSI_PLUGIN_PS_MEMORY_USAGE') || (PSI_PLUGIN_PS_MEMORY_USAGE !== false)) {
+                    $xmlnode->addAttribute('MemoryUsage', $value[2]);
+                }
+                if (!defined('PSI_PLUGIN_PS_CPU_USAGE') || (PSI_PLUGIN_PS_CPU_USAGE !== false)) {
+                    $xmlnode->addAttribute('CPUUsage', $value[3]);
+                }
+                $xmlnode->addAttribute('Name', $value[4]);
+                if ((PSI_OS !== 'WINNT') &&
+                    ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
+                    || (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[4] === "[kthreadd]")))) {
+                    $xmlnode->addAttribute('Expanded', 0);
                 }
             }
             if (isset($value['childs'])) {

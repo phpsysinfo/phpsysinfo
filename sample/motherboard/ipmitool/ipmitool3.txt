@@ -1,0 +1,350 @@
+Sensor ID              : OS Boot Status (0x0)
+ Entity ID             : 34.0
+ Sensor Type (Discrete): OS Boot
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : POST Error (0x1)
+ Entity ID             : 34.1
+ Sensor Type (Discrete): System Firmwares
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : Memory ECC (0x2)
+ Entity ID             : 34.2
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : DIMM1C ECC (0xe0)
+ Entity ID             : 34.16
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : DIMM2A ECC (0xe1)
+ Entity ID             : 34.17
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : DIMM3D ECC (0xe2)
+ Entity ID             : 34.18
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : DIMM4B ECC (0xe3)
+ Entity ID             : 34.19
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : PCI-E Error (0x3)
+ Entity ID             : 34.3
+ Sensor Type (Discrete): Critical Interrupt
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : NMI (0x4)
+ Entity ID             : 34.4
+ Sensor Type (Discrete): Critical Interrupt
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : Therm-Trip0 (0xfc)
+ Entity ID             : 3.113
+ Sensor Type (Discrete): Processor
+ States Asserted       : Digital State
+                         [State Deasserted]
+
+Sensor ID              : CPU Prochot (0x26)
+ Entity ID             : 3.3
+ Sensor Type (Discrete): Processor
+
+Sensor ID              : CPU0 Vcore  (0x82)
+ Entity ID             : 3.5
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 0.911 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : System VTT  (0x83)
+ Entity ID             : 3.6
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 1.137 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : CPU Socket Occup (0x1f)
+ Entity ID             : 3.9
+ Sensor Type (Discrete): Processor
+
+Sensor ID              : System 12V (0x8e)
+ Entity ID             : 7.1
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 12.040 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : System 5V (0x7e)
+ Entity ID             : 7.2
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 5.195 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : Standby 5V (0x7f)
+ Entity ID             : 7.3
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 5.078 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : System 3.3V (0x80)
+ Entity ID             : 7.4
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 3.379 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : Standby 3.3V (0x81)
+ Entity ID             : 7.5
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 3.255 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : DDR3 1.5V (0x84)
+ Entity ID             : 8.1
+ Sensor Type (Analog)  : Voltage
+ Sensor Reading        : 1.539 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Event Status          : Event Messages Disabled
+ Assertion Events      : 
+ Event Enable          : Event Messages Disabled
+ Assertions Enabled    : unc- 
+
+Sensor ID              : REAR FAN (0x10)
+ Entity ID             : 29.1
+ Sensor Type (Analog)  : Fan
+ Sensor Reading        : 2447.022 (+/- inf) RPM
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 959.233
+ Upper Non-Recoverable : na
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : CPU FAN (0x12)
+ Entity ID             : 29.2
+ Sensor Type (Analog)  : Fan
+ Sensor Reading        : 2220.446 (+/- inf) RPM
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 1303.305
+ Upper Non-Recoverable : na
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : SYS Ambient Temp (0xf)
+ Entity ID             : 64.1
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 23 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : 40.000
+ Upper Critical        : 42.000
+ Upper Non-Recoverable : 46.000
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ unr+ 
+ Deassertions Enabled  : ucr+ unr+ 
+
+Sensor ID              : CPU0 Dmn0 Temp (0x97)
+ Entity ID             : 65.1
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 30 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 84.000
+ Upper Non-Recoverable : 127.000
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ unr+ 
+ Deassertions Enabled  : ucr+ unr+ 
+
+Sensor ID              : CPU0 Dmn1 Temp (0x98)
+ Entity ID             : 65.2
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        :  Unable to read sensor: Device Not Present
+
+ Event Status          : Unavailable
+ Assertions Enabled    : ucr+ unr+ 
+ Deassertions Enabled  : ucr+ unr+ 
+
+Sensor ID              : DDR Ambient Temp (0xd)
+ Entity ID             : 66.1
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 41 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 72.500
+ Upper Non-Recoverable : 77.500
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ unr+ 
+ Deassertions Enabled  : ucr+ unr+ 
+
+Sensor ID              : PCI Ambient Temp (0xe)
+ Entity ID             : 66.2
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 36 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 66.000
+ Upper Non-Recoverable : 71.000
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ unr+ 
+ Deassertions Enabled  : ucr+ unr+ 
+
+Sensor ID              : DIMM2A Temp (0x91)
+ Entity ID             : 66.4
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 29.500 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 87.000
+ Upper Non-Recoverable : na
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : DIMM1C Temp (0x92)
+ Entity ID             : 66.5
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        :  Unable to read sensor: Device Not Present
+
+ Event Status          : Unavailable
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : DIMM4B Temp (0x93)
+ Entity ID             : 66.6
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        : 30.500 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 87.000
+ Upper Non-Recoverable : na
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : DIMM3D Temp (0x94)
+ Entity ID             : 66.7
+ Sensor Type (Analog)  : Temperature
+ Sensor Reading        :  Unable to read sensor: Device Not Present
+
+ Event Status          : Unavailable
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : Watchdog (0xfe)
+ Entity ID             : 46.126
+ Sensor Type (Discrete): Watchdog
+
+Sensor ID              : Chassis (0xfd)
+ Entity ID             : 23.1
+ Sensor Type (Discrete): Chassis
+ States Asserted       : Digital State
+                         [State Deasserted]
+
+Sensor ID              : ACPI State (0xfc)
+ Entity ID             : 34.1
+ Sensor Type (Discrete): System ACPI Power State
+ States Asserted       : System ACPI Power State
+                         [S0/G0: working]
+

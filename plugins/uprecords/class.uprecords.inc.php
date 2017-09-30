@@ -9,7 +9,7 @@
  * @package   PSI_Plugin_Uprecords
  * @author    Ambrus Sandor Olah <aolah76@freemail.hu>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.uprecords.inc.php 661 2014-01-08 11:26:39Z aolah76 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI_Plugin_Uprecords
  * @author    Ambrus Sandor Olah <aolah76@freemail.hu>
  * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 1.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -42,7 +42,7 @@ class uprecords extends PSI_Plugin
      * @return array uprecords in array with label
      */
 
-    private function uprecords()
+    private function getUprecords()
     {
         $result = array();
         $i = 0;
@@ -97,7 +97,7 @@ class uprecords extends PSI_Plugin
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
-                $this->error->addConfigError('__construct()', 'PSI_PLUGIN_UPRECORDS_ACCESS');
+                $this->global_error->addConfigError('__construct()', 'PSI_PLUGIN_UPRECORDS_ACCESS');
                 break;
         }
     }
@@ -107,7 +107,7 @@ class uprecords extends PSI_Plugin
         if (empty($this->_lines))
         return $this->xml->getSimpleXmlElement();
 
-        $arrBuff = $this->uprecords();
+        $arrBuff = $this->getUprecords();
         if (sizeof($arrBuff) > 0) {
             $uprecords = $this->xml->addChild("Uprecords");
             foreach ($arrBuff as $arrValue) {

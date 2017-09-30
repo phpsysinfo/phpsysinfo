@@ -1,0 +1,14 @@
+----------lsb_release -a----------
+OpenELEC (official) - Version: 8.0.3
+----------/etc/os-release----------
+NAME="OpenELEC"
+VERSION="8.0.3"
+ID="openelec"
+VERSION_ID="8.0"
+PRETTY_NAME="OpenELEC (official) - Version: 8.0.3"
+HOME_URL="http://www.openelec.tv"
+BUG_REPORT_URL="https://github.com/OpenELEC/OpenELEC.tv"
+OPENELEC_ARCH="Generic.x86_64"
+OPENELEC_BUILD="official"
+----------/etc/release----------
+Generic.x86_64-8.0.3

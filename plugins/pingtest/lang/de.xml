@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: de.xml 661 2017-09-01 09:01:17Z namiltd $ -->
+<!--
+phpSysInfo language file Language: German Created by: Mieczyslaw Nalewaj
+-->
+<tns:translationPlugin language="german" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_pingtest_001" name="ps_title">
+    <exp>Ping-Test</exp>
+  </expression>
+  <expression id="plugin_pingtest_002" name="ps_address">
+    <exp>Adresse</exp>
+  </expression>
+  <expression id="plugin_pingtest_003" name="ps_pingtime">
+    <exp>Pingzeit</exp>
+  </expression>
+  <expression id="plugin_pingtest_004" name="ps_lost">
+    <exp>verloren</exp>
+  </expression>
+</tns:translationPlugin>

@@ -9,43 +9,40 @@
   <expression id="plugin_bat_001" name="bat_title">
     <exp>Battery Status</exp>
   </expression>
-  <expression id="plugin_bat_002" name="bat_date">
-    <exp>Last refresh</exp>
-  </expression>
-  <expression id="plugin_bat_003" name="bat_design_capacity">
+  <expression id="plugin_bat_002" name="bat_design_capacity">
     <exp>Design capacity</exp>
   </expression>
-  <expression id="plugin_bat_004" name="bat_remaining_capacity">
+  <expression id="plugin_bat_003" name="bat_remaining_capacity">
     <exp>Remaining capacity</exp>
   </expression>
-  <expression id="plugin_bat_005" name="bat_design_voltage">
+  <expression id="plugin_bat_004" name="bat_design_voltage">
     <exp>Design voltage</exp>
   </expression>
-  <expression id="plugin_bat_006" name="bat_present_voltage">
+  <expression id="plugin_bat_005" name="bat_present_voltage">
     <exp>Present voltage</exp>
   </expression>
-  <expression id="plugin_bat_007" name="bat_item">
+  <expression id="plugin_bat_006" name="bat_item">
     <exp>Items</exp>
   </expression>
-  <expression id="plugin_bat_008" name="bat_value">
+  <expression id="plugin_bat_007" name="bat_value">
     <exp>Values</exp>
   </expression>
-  <expression id="plugin_bat_009" name="bat_charging_state">
+  <expression id="plugin_bat_008" name="bat_charging_state">
     <exp>Charging state</exp>
   </expression>
-  <expression id="plugin_bat_010" name="bat_battery_type">
+  <expression id="plugin_bat_009" name="bat_battery_type">
     <exp>Battery Type</exp>
   </expression>
-  <expression id="plugin_bat_011" name="bat_battery_temperature">
+  <expression id="plugin_bat_010" name="bat_battery_temperature">
     <exp>Battery Temperature</exp>
   </expression>
-  <expression id="plugin_bat_012" name="bat_battery_condition">
+  <expression id="plugin_bat_011" name="bat_battery_condition">
     <exp>Battery Condition</exp>
   </expression>
-  <expression id="plugin_bat_013" name="bat_cycle_count">
+  <expression id="plugin_bat_012" name="bat_cycle_count">
     <exp>Cycle Count</exp>
   </expression>
-  <expression id="plugin_bat_014" name="bat_full_capacity">
+  <expression id="plugin_bat_013" name="bat_full_capacity">
     <exp>Full capacity</exp>
   </expression>
 </tns:translationPlugin>

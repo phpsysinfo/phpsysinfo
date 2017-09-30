@@ -9,10 +9,6 @@ wbr {
     display: inline-block;
 }
 
-.progress {
-    margin-bottom: 0;
-}
-
 .table td.rightCell, .table th.rightCell {
     text-align: right;
 }
@@ -24,6 +20,13 @@ wbr {
 .panel-primary {
     background-color: #2e3338;
     border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.ie8 .panel-primary {
 }
 
 .navbar {
@@ -37,27 +40,27 @@ wbr {
 
 .treegrid-span {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-spanbold {
     font-weight: bold;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-indent {
     width: 16px;
     height: 16px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-expander {
     width: 0px;
     height: 16px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     cursor: pointer;
 }
 
@@ -67,7 +70,7 @@ wbr {
     position: relative;
     top: 1px;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -115,16 +118,21 @@ table.sortable thead th:hover {
     background: #3e444c;
 }
 
-table.table-hover > tbody > tr:hover {
-     background-color: #49515a;
+.table-hover > tbody > tr:hover {
+    background-color: #49515a;
 }
 
-table.borderless td,table.borderless th {
-     border: none!important;
+.table-hover > tfoot > tr:hover {
+    background-color: #49515a;
 }
 
-.table .table {
-     background-color: #2e3338;
+table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
+    border: none!important;
+}
+
+.table {
+    background-color: #2e3338;
+    margin :0;
 }
 
 .logo {
@@ -155,6 +163,7 @@ table.borderless td,table.borderless th {
 }
 
 .progress {
+    margin-bottom: 0;
     background-color: #1c1e22;
 }
 
@@ -190,4 +199,22 @@ table.borderless td,table.borderless th {
     border: 0px;
     width: 16px;
     height: 16px;    
+}
+
+a, a:visited {
+    color: #fff;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.psihref, .psihref:visited {
+    color: #fff;
+}
+
+.psihref:hover {
+    text-decoration: underline;
+    color: #fff;
 }

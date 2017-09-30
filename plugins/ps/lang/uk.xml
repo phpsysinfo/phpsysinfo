@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2017-06-03 16:32:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Ukrainian Created by: Rostyslav Gaitkulov (nightfly)
+  -->
+<tns:translationPlugin language="ukrainian" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_ps_001" name="ps_title">
+    <exp>Стан процесів</exp>
+  </expression>
+  <expression id="plugin_ps_002" name="ps_command">
+    <exp>Команда</exp>
+  </expression>
+  <expression id="plugin_ps_003" name="ps_pid">
+    <exp>ID процесу</exp>
+  </expression>
+  <expression id="plugin_ps_004" name="ps_ppid">
+    <exp>ID батьківський</exp>
+  </expression>
+  <expression id="plugin_ps_005" name="ps_mem">
+    <exp>Використано пам`яті</exp>
+  </expression>
+  <expression id="plugin_ps_006" name="ps_cpu">
+    <exp>CPU Usage</exp>
+  </expression>
+</tns:translationPlugin>

@@ -8,7 +8,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.System.inc.php 255 2009-06-17 13:39:41Z bigmichi1 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -100,7 +100,7 @@ class System
      *
      * @see CpuDevice
      *
-     * @var Array
+     * @var array
      */
     private $_cpus = array();
 
@@ -109,7 +109,7 @@ class System
      *
      * @see NetDevice
      *
-     * @var Array
+     * @var array
      */
     private $_netDevices = array();
 
@@ -118,7 +118,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_pciDevices = array();
 
@@ -127,7 +127,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_ideDevices = array();
 
@@ -136,7 +136,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_scsiDevices = array();
 
@@ -145,7 +145,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_usbDevices = array();
 
@@ -154,7 +154,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_tbDevices = array();
 
@@ -163,7 +163,7 @@ class System
      *
      * @see HWDevice
      *
-     * @var Array
+     * @var array
      */
     private $_i2cDevices = array();
 
@@ -172,7 +172,7 @@ class System
      *
      * @see DiskDevice
      *
-     * @var Array
+     * @var array
      */
     private $_diskDevices = array();
 
@@ -223,25 +223,25 @@ class System
      *
      * @see DiskDevice
      *
-     * @var Array
+     * @var array
      */
     private $_swapDevices = array();
 
     /**
      * array of types of processes
      *
-     * @var Array
+     * @var array
      */
     private $_processes = array();
 
     /**
      * remove duplicate Entries and Count
      *
-     * @param Array $arrDev list of HWDevices
+     * @param array $arrDev list of HWDevices
      *
      * @see HWDevice
      *
-     * @return Array
+     * @return array
      */
     public static function removeDupsAndCount($arrDev)
     {
@@ -645,7 +645,7 @@ class System
     /**
      * Sets $_machine.
      *
-     * @param Interger $machine machine
+     * @param string $machine machine
      *
      * @see System::$_machine
      *
@@ -671,7 +671,7 @@ class System
     /**
      * Sets $_uptime.
      *
-     * @param Interger $uptime uptime
+     * @param integer $uptime uptime
      *
      * @see System::$_uptime
      *
@@ -713,7 +713,7 @@ class System
      *
      * @see System::$_cpus
      *
-     * @return Array
+     * @return array
      */
     public function getCpus()
     {
@@ -723,7 +723,7 @@ class System
     /**
      * Sets $_cpus.
      *
-     * @param Cpu $cpus cpu device
+     * @param CpuDevice $cpus cpu device
      *
      * @see System::$_cpus
      * @see CpuDevice
@@ -740,7 +740,7 @@ class System
      *
      * @see System::$_netDevices
      *
-     * @return Array
+     * @return array
      */
     public function getNetDevices()
     {
@@ -767,7 +767,7 @@ class System
      *
      * @see System::$_pciDevices
      *
-     * @return Array
+     * @return array
      */
     public function getPciDevices()
     {
@@ -794,7 +794,7 @@ class System
      *
      * @see System::$_ideDevices
      *
-     * @return Array
+     * @return array
      */
     public function getIdeDevices()
     {
@@ -821,7 +821,7 @@ class System
      *
      * @see System::$_scsiDevices
      *
-     * @return Array
+     * @return array
      */
     public function getScsiDevices()
     {
@@ -848,7 +848,7 @@ class System
      *
      * @see System::$_usbDevices
      *
-     * @return Array
+     * @return array
      */
     public function getUsbDevices()
     {
@@ -875,7 +875,7 @@ class System
      *
      * @see System::$_tbDevices
      *
-     * @return Array
+     * @return array
      */
     public function getTbDevices()
     {
@@ -902,7 +902,7 @@ class System
      *
      * @see System::$_i2cDevices
      *
-     * @return Array
+     * @return array
      */
     public function getI2cDevices()
     {
@@ -929,7 +929,7 @@ class System
      *
      * @see System::$_diskDevices
      *
-     * @return Array
+     * @return array
      */
     public function getDiskDevices()
     {
@@ -1112,7 +1112,7 @@ class System
      *
      * @see System::$_swapDevices
      *
-     * @return Array
+     * @return array
      */
     public function getSwapDevices()
     {
@@ -1139,7 +1139,7 @@ class System
      *
      * @see System::$_processes
      *
-     * @return Array
+     * @return array
      */
     public function getProcesses()
     {

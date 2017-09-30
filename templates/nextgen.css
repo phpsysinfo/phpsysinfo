@@ -37,7 +37,7 @@ body {
     color: #000;
 }
 
-div#container {
+div#output {
     margin: -20px -10px 0 -10px;
     padding: 116px 0 0 0;
 }
@@ -98,7 +98,7 @@ table {
     width: 100px;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #ups {
+#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
     float: left;
     width: 451px;
     margin: 10px 0 0 10px;
@@ -113,6 +113,10 @@ table {
 
 #memory, #filesystem {
     width: 915px;
+}
+
+#filesystemTable thead tr th {
+    cursor: pointer;
 }
 
 #footer {
@@ -156,19 +160,23 @@ table {
 
 .treeimg {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: top;
 }
 
 .treespan {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: bold;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
+}
+
+.tree tr td {
+    cursor: auto;
 }

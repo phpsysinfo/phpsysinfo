@@ -54,48 +54,48 @@ function bat_populate(xml) {
         }
 
         if ((CapacityUnit == "%") && (RemainingCapacity != undefined)) {
-            bat_table.fnAddData([genlang(4, false, "BAT"), createBar(round(parseInt(RemainingCapacity, 10),0)), '&nbsp;']);
+            bat_table.fnAddData([genlang(3, false, "BAT"), createBar(round(parseInt(RemainingCapacity, 10),0)), '&nbsp;']);
         } else {
             if (DesignCapacity != undefined) {
-                bat_table.fnAddData([genlang(3, false, "BAT"), DesignCapacity+' '+CapacityUnit, '&nbsp;']);
+                bat_table.fnAddData([genlang(2, false, "BAT"), DesignCapacity+' '+CapacityUnit, '&nbsp;']);
             }
             if (FullCapacity == undefined) {
-                if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, false, "BAT"), RemainingCapacity+' '+CapacityUnit, '&nbsp;']);
+                if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(3, false, "BAT"), RemainingCapacity+' '+CapacityUnit, '&nbsp;']);
             } else {
                 if (DesignCapacity == undefined) {
-                    bat_table.fnAddData([genlang(14, false, "BAT"), FullCapacity+' '+CapacityUnit, '&nbsp;']);
+                    bat_table.fnAddData([genlang(13, false, "BAT"), FullCapacity+' '+CapacityUnit, '&nbsp;']);
                 } else {            
-                    bat_table.fnAddData([genlang(14, false, "BAT"), FullCapacity+' '+CapacityUnit, createBar(parseInt(DesignCapacity, 10) != 0 ? round(parseInt(FullCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0)]);
+                    bat_table.fnAddData([genlang(13, false, "BAT"), FullCapacity+' '+CapacityUnit, createBar(parseInt(DesignCapacity, 10) != 0 ? round(parseInt(FullCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0)]);
                 }
-                if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(4, false, "BAT"), RemainingCapacity+' '+CapacityUnit, createBar(parseInt(FullCapacity, 10) != 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(FullCapacity, 10) * 100, 0) : 0)]);
+                if (RemainingCapacity != undefined) bat_table.fnAddData([genlang(3, false, "BAT"), RemainingCapacity+' '+CapacityUnit, createBar(parseInt(FullCapacity, 10) != 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(FullCapacity, 10) * 100, 0) : 0)]);
             }
         }
         if (ChargingState != undefined) {
-            bat_table.fnAddData([genlang(9, false, "BAT"), ChargingState, '&nbsp;']);
+            bat_table.fnAddData([genlang(8, false, "BAT"), ChargingState, '&nbsp;']);
         }
         if (DesignVoltage != undefined) {
             if (DesignVoltageMax != undefined) {
-                bat_table.fnAddData([genlang(5, false, "BAT"), DesignVoltage+' mV', DesignVoltageMax+' mV']);
+                bat_table.fnAddData([genlang(4, false, "BAT"), DesignVoltage+' mV', DesignVoltageMax+' mV']);
             } else {
-                bat_table.fnAddData([genlang(5, false, "BAT"), DesignVoltage+' mV', '&nbsp;']);
+                bat_table.fnAddData([genlang(4, false, "BAT"), DesignVoltage+' mV', '&nbsp;']);
             }
         } else if (DesignVoltageMax != undefined) {
-            bat_table.fnAddData([genlang(5, false, "BAT"), DesignVoltageMax+' mV', '&nbsp;']);
+            bat_table.fnAddData([genlang(4, false, "BAT"), DesignVoltageMax+' mV', '&nbsp;']);
         }
         if (PresentVoltage != undefined) {
-            bat_table.fnAddData([genlang(6, false, "BAT"), PresentVoltage+' mV', '&nbsp;']);
+            bat_table.fnAddData([genlang(5, false, "BAT"), PresentVoltage+' mV', '&nbsp;']);
         }
         if (BatteryType != undefined) {
-            bat_table.fnAddData([genlang(10, false, "BAT"), BatteryType, '&nbsp;']);
+            bat_table.fnAddData([genlang(9, false, "BAT"), BatteryType, '&nbsp;']);
         }
         if (BatteryTemperature != undefined) {
-            bat_table.fnAddData([genlang(11, false, "BAT"), formatTemp(BatteryTemperature, xml), '&nbsp;']);
+            bat_table.fnAddData([genlang(10, false, "BAT"), formatTemp(BatteryTemperature, xml), '&nbsp;']);
         }
         if (BatteryCondition != undefined) {
-            bat_table.fnAddData([genlang(12, false, "BAT"), BatteryCondition, '&nbsp;']);
+            bat_table.fnAddData([genlang(11, false, "BAT"), BatteryCondition, '&nbsp;']);
         }
         if (CycleCount != undefined) {
-            bat_table.fnAddData([genlang(13, false, "BAT"), CycleCount, '&nbsp;']);
+            bat_table.fnAddData([genlang(12, false, "BAT"), CycleCount, '&nbsp;']);
         }
 
         bat_show = true;
@@ -111,8 +111,8 @@ function bat_buildTable() {
     html += "<table id=\"Plugin_BATTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
+    html += "      <th>" + genlang(6, false, "BAT") + "</th>\n";
     html += "      <th>" + genlang(7, false, "BAT") + "</th>\n";
-    html += "      <th>" + genlang(8, false, "BAT") + "</th>\n";
     html += "      <th>&nbsp;</th>\n";
     html += "    </tr>\n";
     html += "  </thead>\n";

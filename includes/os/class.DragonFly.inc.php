@@ -8,7 +8,7 @@
  * @package   PSI DragonFly OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.DragonFly.inc.php 287 2009-06-26 12:11:59Z bigmichi1 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI DragonFly OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -47,7 +47,7 @@ class DragonFly extends BSDCommon
      */
     private function _uptime()
     {
-        $a = $this->grab_key('kern.boottime');
+        $a = $this->grabkey('kern.boottime');
         preg_match("/sec = ([0-9]+)/", $a, $buf);
         $this->sys->setUptime(time() - $buf[1]);
     }
@@ -55,7 +55,7 @@ class DragonFly extends BSDCommon
     /**
      * get network information
      *
-     * @return array
+     * @return void
      */
     private function _network()
     {
@@ -81,7 +81,7 @@ class DragonFly extends BSDCommon
     /**
      * get the ide information
      *
-     * @return array
+     * @return void
      */
     protected function ide()
     {
@@ -145,9 +145,13 @@ class DragonFly extends BSDCommon
     public function build()
     {
         parent::build();
-        $this->_distroicon();
-        $this->_network();
-        $this->_uptime();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distroicon();
+            $this->_uptime();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
     }
 }
