@@ -45,6 +45,7 @@ class Android extends Linux
                CommonFunctions::rfts('/system//build.prop', $this->_buildprop, 0, 4096, false); //fix some access issues
            }
         }
+
         return $this->_buildprop;
     }
 

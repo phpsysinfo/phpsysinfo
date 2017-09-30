@@ -101,9 +101,9 @@ class SMART extends PSI_Plugin
                             for ($c = 2; $c < count($asdvs); $c += 12) {
                                 //Attribute values 0x00, 0xff are invalid
                                 $id = $asdvs[$c];
-                                if (($id != 0) && ($id != 255)) { 
+                                if (($id != 0) && ($id != 255)) {
                                     switch ($id) {
-                                        case 3: 
+                                        case 3:
                                             //raw16(avg16)
                                             $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
                                             break;

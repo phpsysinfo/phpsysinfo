@@ -53,7 +53,7 @@ class Template
     /**
      * Set a template variable.
      *
-     * @param string $name variable name
+     * @param string                $name  variable name
      * @param string|array|Template $value variable value
      */
     public function set($name, $value)

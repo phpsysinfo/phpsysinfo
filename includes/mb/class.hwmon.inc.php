@@ -29,7 +29,7 @@ class Hwmon extends Sensors
     /**
      * get temperature information
      *
-     * @param string $hwpath
+     * @param  string $hwpath
      * @return void
      */
     private function _temperature($hwpath)
@@ -70,7 +70,7 @@ class Hwmon extends Sensors
     /**
      * get voltage information
      *
-     * @param string $hwpath
+     * @param  string $hwpath
      * @return void
      */
     private function _voltage($hwpath)
@@ -112,7 +112,7 @@ class Hwmon extends Sensors
     /**
      * get fan information
      *
-     * @param string $hwpath
+     * @param  string $hwpath
      * @return void
      */
     private function _fans($hwpath)
@@ -157,7 +157,7 @@ class Hwmon extends Sensors
     /**
      * get power information
      *
-     * @param string $hwpath
+     * @param  string $hwpath
      * @return void
      */
     private function _power($hwpath)
@@ -199,7 +199,7 @@ class Hwmon extends Sensors
     /**
      * get current information
      *
-     * @param string $hwpath
+     * @param  string $hwpath
      * @return void
      */
     private function _current($hwpath)
