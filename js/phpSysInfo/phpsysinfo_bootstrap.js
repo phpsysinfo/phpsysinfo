@@ -458,9 +458,16 @@ function items(data) {
 function renderVitals(data) {
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#block_vitals").remove();
+        var hostname = "", ip = "";
+        if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
+               && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
+               && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+            document.title = "System information: " + hostname + " (" + ip + ")";
+        }
         return;
     }
 
+    var hostname = "", ip = "";
     var directives = {
         Uptime: {
             html: function () {
@@ -558,6 +565,13 @@ function renderVitals(data) {
         $("#tr_Processes").hide();
     }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
+
+    if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
+           && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
+           && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+        document.title = "System information: " + hostname + " (" + ip + ")";
+    }
+
     $("#block_vitals").show();
 }
 
