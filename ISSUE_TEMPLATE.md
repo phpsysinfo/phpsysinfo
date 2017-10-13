@@ -1,6 +1,6 @@
 # Issue template
 
-First make sure you've read README.md file completely, especially the
+First make sure you've read the README.md file completely, especially the
 "INSTALLATION AND CONFIGURATION" section.  If it still doesn't work then
 you can:
 
