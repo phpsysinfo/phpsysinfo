@@ -237,7 +237,7 @@ class DMRaid extends PSI_Plugin
                     $action->addAttribute("Name", $device['action']['name']);
                 }
                 $disks = $dev->addChild("Disks");
-                if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
+                if (isset($device['partitions']) && (sizeof($device['partitions'])>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                     $disktemp = $disks->addChild("Disk");
                     $disktemp->addAttribute("Name", $diskkey);
                     if (($device["status"]=='ok') || ($device["status"]=='OPTIMAL')) {
