@@ -427,7 +427,7 @@ ACCESS="command"
 [sensor_ipmitool]
 ; IPMItool motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmitool sensor' command
+; - ACCESS="command"  //read data from 'ipmitool sensor -v' command
 ; - ACCESS="data"  //read data from file data/ipmitool.txt
 ;
 ACCESS="command"
