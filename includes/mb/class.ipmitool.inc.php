@@ -51,7 +51,7 @@ class IPMItool extends Sensors
             break;
         }
         if (trim($lines) !== "") {
-            if (preg_match("/^Sensor ID\s+/", $lines)) { //new data format ('ipmitool sensors -v')
+            if (preg_match("/^Sensor ID\s+/", $lines)) { //new data format ('ipmitool sensor -v')
                 $lines = preg_replace("/\n?Unable to read sensor/", "\nUnable to read sensor", $lines);
                 $sensors = preg_split("/Sensor ID\s+/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($sensors as $sensor) {
@@ -91,7 +91,7 @@ class IPMItool extends Sensors
                 $lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 if (count($lines)>0) {
                     $buffer = preg_split("/\s*\|\s*/", $lines[0]);
-                    if (count($buffer)>8) { //old data format ('ipmitool sensors')
+                    if (count($buffer)>8) { //old data format ('ipmitool sensor')
                         foreach ($lines as $line) {
                             $buffer = preg_split("/\s*\|\s*/", $line);
                             if (count($buffer)>8) {
