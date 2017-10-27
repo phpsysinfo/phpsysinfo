@@ -208,7 +208,8 @@ class IPMItool extends Sensors
     {
         foreach ($this->_buf as $sensor) {
             if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current'))
-                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
                 $dev->setName($sensor['Sensor']);
