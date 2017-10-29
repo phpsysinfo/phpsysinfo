@@ -656,10 +656,14 @@ class Linux extends OS
                 } elseif (preg_match('/^S:/', $buf)) {
                     list($key, $value) = preg_split('/: /', $buf, 2);
                     list($key, $value2) = preg_split('/=/', $value, 2);
-                    if ((trim($key) == "Manufacturer") && (preg_match("/^linux\s/i", trim($value2)))) {
-                        $value2 = "Linux";
+                    if (trim($key) == "Manufacturer") {
+                        if (preg_match("/^linux\s/i", trim($value2))) {
+                            $value2 = "Linux";
+                        } elseif (trim($value2) == "no manufacturer") {
+                            $value2 = "";
+                        }
                     }
-                    if (trim($key) != "SerialNumber") {
+                    if ((trim($key) != "SerialNumber") && (trim($value2) != "")) {
                         $results[$devnum] .= " ".trim($value2);
                     }
                 }
@@ -686,7 +690,7 @@ class Linux extends OS
                         if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
                             if (preg_match("/^linux\s/i", trim($buf))) {
                                 $usbbuf = "Linux";
-                            } else {
+                            } elseif (trim($buf) != "no manufacturer") {
                                 $usbbuf = trim($buf);
                             }
                         }
