@@ -13,7 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * getting hardware temperature information through snmpwalk
+ * getting hardware information through SpeedFanGet
  *
  * @category  PHP
  * @package   PSI_Sensor
