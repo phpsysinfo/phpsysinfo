@@ -255,13 +255,12 @@ class WINNT extends OS
                 $result = $buffer[0]['Name'];
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
-                    $long = ip2long($ip);
-                    if (($long >= 167772160 && $long <= 184549375) ||  // 10.0.0.0 to 10.255.255.255
-                        ($long >= -1408237568 && $long <= -1407188993) || // 172.16.0.0 to 172.31.255.255
-                        ($long >= -1062731776 && $long <= -1062666241) || // 192.168.0.0 to 192.168.255.255
-                        ($long >= 2130706432 && $long <= 2147483647) || // 127.0.0.0 to 127.255.255.255
-                        ($long >= -1442971392 && $long <= -1442906369) || // 169.254.1.0 to 169.254.254.255
-                        ($long == -1)) { // 255.255.255.255
+                    if ((version_compare("10.0.0.0", $ip, "<=") && version_compare($ip, "10.255.255.255", "<=")) ||
+                        (version_compare("172.16.0.0", $ip, "<=") && version_compare($ip, "172.31.255.255", "<=")) ||
+                        (version_compare("192.168.0.0", $ip, "<=") && version_compare($ip, "192.168.255.255", "<=")) ||
+                        (version_compare("127.0.0.0", $ip, "<=") && version_compare($ip, "127.255.255.255", "<=")) ||
+                        (version_compare("169.254.1.0", $ip, "<=") && version_compare($ip, "169.254.254.255", "<=")) ||
+                        (version_compare("255.255.255.255", $ip, "=="))) {
                         $this->sys->setHostname($result); // internal ip
                     } else {
                         $this->sys->setHostname(gethostbyaddr($ip));
