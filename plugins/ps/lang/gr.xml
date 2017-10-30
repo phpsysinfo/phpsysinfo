@@ -3,7 +3,7 @@
   <!--
     phpSysInfo language file Language: Greek Created by: mojiro
   -->
-<tns:translationPlugin language="english" charset="utf-8"
+<tns:translationPlugin language="greek" charset="utf-8"
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_ps_001" name="ps_title">
@@ -22,6 +22,6 @@
     <exp>Χρήση Μνήμης</exp>
   </expression>
   <expression id="plugin_ps_006" name="ps_cpu">
-    <exp>CPU Usage</exp>
+    <exp>Χρήση Επεξεργαστή</exp>
   </expression>
 </tns:translationPlugin>
