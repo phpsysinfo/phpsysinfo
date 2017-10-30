@@ -838,7 +838,7 @@ function countCpu(xml) {
  */
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
-    $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
+    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
         var name = "", count = 0;
         devicecount++;
         name = $(this).attr("Name");
@@ -858,7 +858,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
 
 function countHWDevice(xml, type) {
     var devicecount = 0;
-    $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
+    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
         devicecount++;
     });
     return devicecount;
