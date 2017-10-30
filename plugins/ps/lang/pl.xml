@@ -9,19 +9,19 @@
   <expression id="plugin_ps_001" name="ps_title">
     <exp>Status Procesów</exp>
   </expression>
-  <expression id="plugin_ps_002" name="ps_date">
-    <exp>Ostatnie odświeżenie</exp>
-  </expression>
-  <expression id="plugin_ps_003" name="ps_command">
+  <expression id="plugin_ps_002" name="ps_command">
     <exp>Polecenie</exp>
   </expression>
-  <expression id="plugin_ps_004" name="ps_pid">
+  <expression id="plugin_ps_003" name="ps_pid">
     <exp>PID</exp>
   </expression>
-  <expression id="plugin_ps_005" name="ps_ppid">
+  <expression id="plugin_ps_004" name="ps_ppid">
     <exp>PID rodzica</exp>
   </expression>
-  <expression id="plugin_ps_006" name="ps_mem">
+  <expression id="plugin_ps_005" name="ps_mem">
     <exp>Wykorzystanie pamięci</exp>
+  </expression>
+  <expression id="plugin_ps_006" name="ps_cpu">
+    <exp>Wykorzystanie procesora</exp>
   </expression>
 </tns:translationPlugin>

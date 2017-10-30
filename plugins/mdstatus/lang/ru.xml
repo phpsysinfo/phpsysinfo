@@ -51,7 +51,4 @@
   <expression id="plugin_mdstatus_015" name="mdstatus_unused">
     <exp>Неиспользуемые диски</exp>
   </expression>
-  <expression id="plugin_mdstatus_016" name="mdstatus_refresh">
-    <exp>Последнее обновление</exp>
-  </expression>
 </tns:translationPlugin>

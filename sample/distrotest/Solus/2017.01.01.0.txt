@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	Solus
+Description:	Solus
+Release:	2017.01.01.0
+Codename:	shannon
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=Solus
+DISTRIB_DESCRIPTION="Solus"
+DISTRIB_RELEASE=2017.01.01.0
+DISTRIB_CODENAME=shannon
+----------/etc/os-release----------
+NAME="Solus"
+VERSION="2017.01.01.0"
+ID="solus"
+VERSION_ID="2017.01.01.0"
+PRETTY_NAME="Solus 2017.01.01.0"
+ANSI_COLOR="1;34"
+HOME_URL="https://www.solus-project.com"
+SUPPORT_URL="https://www.solus-project.com/forums/"
+BUG_REPORT_URL="https://dev.solus-project.com/"
+----------/etc/solus-release----------
+Solus 2017.01.01.0
+----------/etc/image-version----------
+2017.01.01.0

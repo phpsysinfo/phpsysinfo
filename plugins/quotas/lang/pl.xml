@@ -9,34 +9,31 @@
   <expression id="plugin_quotas_001" name="ps_title">
     <exp>Status Quoty</exp>
   </expression>
-  <expression id="plugin_quotas_002" name="quotas_date">
-    <exp>Ostatnie odświeżenie</exp>
-  </expression>
-  <expression id="plugin_quotas_003" name="quotas_user">
+  <expression id="plugin_quotas_002" name="quotas_user">
     <exp>Użytkownik</exp>
   </expression>
-  <expression id="plugin_quotas_004" name="quotas_bused">
+  <expression id="plugin_quotas_003" name="quotas_bused">
     <exp>Bajtów wykorzystanych</exp>
   </expression>
-  <expression id="plugin_quotas_005" name="quotas_bsoft">
+  <expression id="plugin_quotas_004" name="quotas_bsoft">
     <exp>Miękki limit bajtów</exp>
   </expression>
-  <expression id="plugin_quotas_006" name="quotas_bhard">
+  <expression id="plugin_quotas_005" name="quotas_bhard">
     <exp>Twardy limit bajtów</exp>
   </expression>
-  <expression id="plugin_quotas_007" name="quotas_bpuse">
+  <expression id="plugin_quotas_006" name="quotas_bpuse">
     <exp>Procentowo bajtów</exp>
   </expression>
-  <expression id="plugin_quotas_008" name="quotas_fused">
+  <expression id="plugin_quotas_007" name="quotas_fused">
     <exp>Plików wykorzystanych</exp>
   </expression>
-  <expression id="plugin_quotas_009" name="quotas_fsoft">
+  <expression id="plugin_quotas_008" name="quotas_fsoft">
     <exp>Miękki limit plików</exp>
   </expression>
-  <expression id="plugin_quotas_010" name="quotas_fhard">
+  <expression id="plugin_quotas_009" name="quotas_fhard">
     <exp>Twardy limit plików</exp>
   </expression>
-  <expression id="plugin_quotas_011" name="quotas_fpuse">
+  <expression id="plugin_quotas_010" name="quotas_fpuse">
     <exp>Procentowo plików</exp>
   </expression>
 </tns:translationPlugin>

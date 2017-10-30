@@ -1,0 +1,7 @@
+Name    Mtu Network       Address              Ipkts Ierrs Idrop     Ibytes    Opkts Oerrs     Obytes  Coll  Drop
+em0    1500 <Link#1>      08:00:27:62:0b:0f        6     0     0       2480       11     0       1718     0     0 
+em0       - 10.0.2.0/24   10.0.2.15                0     -     -          0        0     -          0     -     - 
+lo0   16384 <Link#2>      lo0                      0     0     0          0        0     0          0     0     0 
+lo0       - ::1/128       ::1                      0     -     -          0        0     -          0     -     - 
+lo0       - fe80::1%lo0/6 fe80::1%lo0              0     -     -          0        0     -          0     -     - 
+lo0       - 127.0.0.0/8   127.0.0.1                0     -     -          0        0     -          0     -     - 

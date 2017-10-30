@@ -4,3 +4,7 @@
 #Plugin_SMARTTable tbody tr td {
     text-align: right;
 }
+
+#Plugin_SMARTTable thead tr th {
+    cursor: pointer;
+}

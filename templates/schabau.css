@@ -88,7 +88,7 @@ table {
     width: 100px;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #ups {
+#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
     float: left;
     width: 451px;
     margin: 10px 0 0 10px;
@@ -104,7 +104,7 @@ table {
     width: 915px;
 }
 
-#filesystemTable thead tr .header {
+#filesystemTable thead tr th {
     cursor: pointer;
 }
 
@@ -144,19 +144,23 @@ table {
 
 .treeimg {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: top;
 }
 
 .treespan {
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: bold;
     display: table-cell;
-    *float: left;
+    *float: left; /* ie6 ie7 */
     vertical-align: middle;
+}
+
+.tree tr td {
+    cursor: auto;
 }

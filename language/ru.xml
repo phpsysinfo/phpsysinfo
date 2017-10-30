@@ -366,4 +366,7 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
   <expression id="120" name="no_devices">
     <exp>Number of devices</exp>
   </expression>
+  <expression id="121" name="other">
+    <exp>Other</exp>
+  </expression>
 </tns:translation>

@@ -8,7 +8,7 @@
  * @package   PSI_Output
  * @author    Damien Roth <iysaak@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Output.inc.php 315 2009-09-02 15:48:31Z bigmichi1 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_Output
  * @author    Damien Roth <iysaak@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -28,14 +28,14 @@ class Template
     /**
      * Vars used in the template
      *
-     * @Array
+     * @var array
      */
     private $_vars;
 
     /**
      * Template file
      *
-     * @String
+     * @var string
      */
     private $_file;
 
@@ -53,8 +53,8 @@ class Template
     /**
      * Set a template variable.
      *
-     * @param string variable name
-     * @param string variable value
+     * @param string                $name  variable name
+     * @param string|array|Template $value variable value
      */
     public function set($name, $value)
     {

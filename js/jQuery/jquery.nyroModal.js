@@ -971,6 +971,7 @@ jQuery(function($) {
 	// Get the current settings to be used in new links
 	function getCurrentSettingsNew() {
 		return callingSettings;
+		/*
 		var currentSettingsNew = $.extend(true, {}, currentSettings);
 		if (resized.width)
 			currentSettingsNew.width = null;
@@ -982,6 +983,7 @@ jQuery(function($) {
 			currentSettingsNew.height = initSettingsSize.height;
 		currentSettingsNew.cssOpt.content.overflow = 'auto';
 		return currentSettingsNew;
+		*/
 	}
 
 	// Wrap the content and update the modal size if needed

@@ -8,7 +8,7 @@
  * @package   PSI AIX OS class
  * @author    Krzysztof Paz (kpaz@gazeta.pl) based on HPUX of Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2011 Krzysztof Paz
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.AIX.inc.php 287 2009-06-26 12:11:59Z Krzysztof Paz, IBM POLSKA
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
 * @package   PSI AIX OS class
 * @author    Krzysztof Paz (kpaz@gazeta.pl) based on Michael Cramer <BigMichi1@users.sourceforge.net>
 * @copyright 2011 Krzysztof Paz
-* @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+* @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
 * @version   Release: 3.0
 * @link      http://phpsysinfo.sourceforge.net
 */
@@ -277,7 +277,7 @@ class AIX extends OS
             $mounts = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if (CommonFunctions::executeProgram('mount', '-v', $s, PSI_DEBUG)) {
                 $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
-                while (list(, $line) = each($lines)) {
+                foreach ($lines as $line) {
                     $a = preg_split('/ /', $line, -1, PREG_SPLIT_NO_EMPTY);
                     $fsdev[$a[0]] = $a[4];
                 }
@@ -311,7 +311,7 @@ class AIX extends OS
 
     /**
      * IBM AIX informations by K.PAZ
-     * @return void
+     * @return array
      */
     private function readaixdata()
     {
@@ -334,19 +334,29 @@ class AIX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The AIX version of phpSysInfo is a work in progress, some things currently don't work");
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_uptime();
-        $this->_users();
-        $this->_loadavg();
-        $this->_cpuinfo();
-        $this->_pci();
-        $this->_ide();
-        $this->_scsi();
-        $this->_usb();
-        $this->_network();
-        $this->_memory();
-        $this->_filesystems();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+            $this->_loadavg();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_cpuinfo();
+            $this->_pci();
+            $this->_ide();
+            $this->_scsi();
+            $this->_usb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

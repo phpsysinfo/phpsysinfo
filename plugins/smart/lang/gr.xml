@@ -10,10 +10,7 @@
   <expression id="plugin_smart_001" name="smart_title">
     <exp>Πληροφορίες S.M.A.R.T</exp>
   </expression>
-  <expression id="plugin_smart_002" name="smart_date">
-    <exp>Ενημέρωση</exp>
-  </expression>
-  <expression id="plugin_smart_003" name="smart_name">
+  <expression id="plugin_smart_002" name="smart_name">
     <exp>Συσκευή</exp>
   </expression>
   <expression id="plugin_smart_101" name="smart_raw_read_error_rate">

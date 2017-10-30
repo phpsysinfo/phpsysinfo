@@ -1,0 +1,4 @@
+----------/etc/slitaz-release----------
+5.0
+----------/etc/slitaz-version----------
+SliTaz GNU/Linux - 5.0-RC4 20161127

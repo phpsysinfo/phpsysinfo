@@ -8,7 +8,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.UPSInfo.inc.php 329 2009-09-07 11:21:44Z bigmichi1 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -30,7 +30,7 @@ class UPSInfo
      *
      * @see UPSDevice
      *
-     * @var Array
+     * @var array
      */
     private $_upsDevices = array();
 
@@ -39,7 +39,7 @@ class UPSInfo
      *
      * @see UPSInfo::$_upsDevices
      *
-     * @return Array
+     * @return array
      */
     public function getUpsDevices()
     {
@@ -53,7 +53,7 @@ class UPSInfo
      *
      * @see UPSInfo::$_upsDevices
      *
-     * @return Void
+     * @return void
      */
     public function setUpsDevices($upsDevices)
     {

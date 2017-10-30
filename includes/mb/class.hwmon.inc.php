@@ -8,7 +8,7 @@
  * @package   PSI_Sensor
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.hwmon.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @author    William Johansson <radar@radhuset.org>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -29,6 +29,7 @@ class Hwmon extends Sensors
     /**
      * get temperature information
      *
+     * @param  string $hwpath
      * @return void
      */
     private function _temperature($hwpath)
@@ -69,6 +70,7 @@ class Hwmon extends Sensors
     /**
      * get voltage information
      *
+     * @param  string $hwpath
      * @return void
      */
     private function _voltage($hwpath)
@@ -110,6 +112,7 @@ class Hwmon extends Sensors
     /**
      * get fan information
      *
+     * @param  string $hwpath
      * @return void
      */
     private function _fans($hwpath)
@@ -154,6 +157,7 @@ class Hwmon extends Sensors
     /**
      * get power information
      *
+     * @param  string $hwpath
      * @return void
      */
     private function _power($hwpath)
@@ -195,6 +199,7 @@ class Hwmon extends Sensors
     /**
      * get current information
      *
+     * @param  string $hwpath
      * @return void
      */
     private function _current($hwpath)

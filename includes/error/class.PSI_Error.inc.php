@@ -8,7 +8,7 @@
  * @package   PSI_Error
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Error.inc.php 569 2012-04-16 06:08:18Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_Error
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -29,7 +29,7 @@ class PSI_Error
      * holds the instance of this class
      *
      * @static
-     * @var object
+     * @var PSI_Error
      */
     private static $_instance;
 
@@ -59,7 +59,7 @@ class PSI_Error
     /**
      * Singleton function
      *
-     * @return Error instance of the class
+     * @return PSI_Error instance of the class
      */
     public static function singleton()
     {
@@ -113,8 +113,8 @@ class PSI_Error
     /**
      * add a config error to the internal list
      *
-     * @param object $strCommand Command, which cause the Error
-     * @param object $strMessage additional Message, to describe the Error
+     * @param string $strCommand Command, which cause the Error
+     * @param string $strMessage additional Message, to describe the Error
      *
      * @return void
      */
@@ -126,8 +126,8 @@ class PSI_Error
     /**
      * add a php error to the internal list
      *
-     * @param object $strCommand Command, which cause the Error
-     * @param object $strMessage additional Message, to describe the Error
+     * @param string $strCommand Command, which cause the Error
+     * @param string $strMessage additional Message, to describe the Error
      *
      * @return void
      */
@@ -240,8 +240,8 @@ class PSI_Error
                 if (isset($val['args'][0])) {
                     $strFunc .= ' ';
                     $strComma = '';
-                    foreach ($val['args'] as $val) {
-                        $strFunc .= $strComma.$this->_printVar($val);
+                    foreach ($val['args'] as $valArgs) {
+                        $strFunc .= $strComma.$this->_printVar($valArgs);
                         $strComma = ', ';
                     }
                     $strFunc .= ' ';

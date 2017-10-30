@@ -9,7 +9,7 @@
   Redefinition of sortfwdind and sortrevind icons.
   Mieczyslaw Nalewaj (namiltd@users.sourceforge.net)
 
-  19th November 20145
+  19th November 2015
   Disabled autostart after loading.
   You have to run sorttable.init() at the beginning of the code,
   or makeSortable for each table.

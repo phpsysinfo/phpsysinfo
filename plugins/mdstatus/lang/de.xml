@@ -51,7 +51,4 @@
   <expression id="plugin_mdstatus_015" name="mdstatus_unused">
     <exp>Unbenutzte Platten</exp>
   </expression>
-  <expression id="plugin_mdstatus_016" name="mdstatus_refresh">
-    <exp>Zuletzt aktualisiert</exp>
-  </expression>
 </tns:translationPlugin>

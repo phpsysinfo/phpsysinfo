@@ -1,0 +1,14 @@
+----------lsb_release -a----------
+Distributor ID:	PureOS
+Description:	PureOS GNU/Linux testing/unstable
+Release:	testing/unstable
+Codename:	n/a
+----------/etc/os-release----------
+PRETTY_NAME="PureOS GNU/Linux"
+NAME="PureOS GNU/Linux"
+ID=pureos
+HOME_URL="https://puri.sm/pureos/"
+SUPPORT_URL="https://puri.sm/faq/"
+BUG_REPORT_URL="https://tracker.puri.sm/"
+----------/etc/debian_version----------
+stretch/sid

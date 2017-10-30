@@ -8,7 +8,7 @@
  * @package   PSI Minix OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Minix.inc.php 687 2012-09-06 20:54:49Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -20,7 +20,7 @@
  * @package   PSI Minix OS class
  * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
  * @copyright 2012 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -46,10 +46,11 @@ class Minix extends OS
      *
      * @return array
      */
+    protected function readdmesg()
     {
         if (count($this->_dmesg) === 0) {
             if (CommonFunctions::rfts('/var/log/messages', $buf)) {
-                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1',$buf);
+                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
                     $parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             }
@@ -61,7 +62,7 @@ class Minix extends OS
     /**
      * get the cpu information
      *
-     * @return array
+     * @return void
      */
     protected function _cpuinfo()
     {
@@ -128,6 +129,7 @@ class Minix extends OS
     {
         if (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
             $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+            $arrResults = array();
             foreach ($arrLines as $strLine) {
                $arrParams = preg_split('/\s+/', trim($strLine), 4);
                if (count($arrParams) == 4)
@@ -334,17 +336,27 @@ class Minix extends OS
     public function build()
     {
         $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
-        $this->_distro();
-        $this->_hostname();
-        $this->_kernel();
-        $this->_uptime();
-        $this->_users();
-        $this->_loadavg();
-        $this->_pci();
-        $this->_cpuinfo();
-        $this->_memory();
-        $this->_filesystems();
-        $this->_network();
-        $this->_processes();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->_distro();
+            $this->_hostname();
+            $this->_kernel();
+            $this->_uptime();
+            $this->_users();
+            $this->_loadavg();
+            $this->_processes();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->_pci();
+            $this->_cpuinfo();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+            $this->_network();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->_memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->_filesystems();
+        }
     }
 }

@@ -4,7 +4,7 @@
 ; @package   PSI
 ; @author    Michael Cramer <BigMichi1@users.sourceforge.net>
 ; @copyright 2009 phpSysInfo
-; @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+; @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
 ; @version   SVN: $Id: phpsysinfo.ini.new 705 2012-11-11 00:33:29Z namiltd $
 ; @link      http://phpsysinfo.sourceforge.net
 
@@ -53,6 +53,13 @@ ALLOWED=false
 ;
 SUDO_COMMANDS=false
 
+; Order of data blocks
+; Example : BLOCKS="vitals,hardware,memory,filesystem,network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
+;           BLOCKS=false //hide all blocks
+;
+BLOCKS=true
+
+
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
 ; - PLUGINS="MDStatus,PS"  //list of plugins
@@ -65,11 +72,11 @@ SUDO_COMMANDS=false
 ; - Quotas         - show a table with all quotas that are active and there current state
 ; - SMART          - show S.M.A.R.T. information from drives that support it
 ; - BAT            - show battery state on a laptop, tablet or phone
-; - IPMIInfo       - show IPMI status
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
 ; - Iptables       - show iptables rules list
+; - PingTest       - show Ping Test info
 ;
 PLUGINS=false
 
@@ -138,9 +145,10 @@ REFRESH=60000
 
 ; Show a graph for current cpuload
 ; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
+; - "compact" : displayed like above but in compact mode
 ; - false : will not be displayed
 ;
-LOAD_BAR=false
+LOAD_BAR=true
 
 
 ; Display the virtual host name and address
@@ -179,6 +187,13 @@ BYTE_FORMAT="auto_binary"
 TEMP_FORMAT="c"
 
 
+; Format in which datetime is displayed
+; - "UTC"    shown as UTC string
+; - "locale" shown as Locale string
+;
+DATETIME_FORMAT="UTC"
+
+
 ; ********************************
 ;       SENSORS PARAMETERS
 ; ********************************
@@ -193,7 +208,7 @@ TEMP_FORMAT="c"
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
 ; - Coretemp       No addon tool neded (FreeBSD/Linux)
-; - IPMI           http://openipmi.sourceforge.net/ (Linux)
+; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
@@ -205,7 +220,7 @@ TEMP_FORMAT="c"
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
-;          If you want to use lmsensors and IPMI: SENSOR_PROGRAM="LMSensors,IPMI"
+;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
 ;
 SENSOR_PROGRAM=false
 
@@ -296,9 +311,22 @@ HIDE_NETWORK_INTERFACE=""
 SHOW_NETWORK_INFOS=true
 
 
+; Hide MAC address in the infos
+;
+HIDE_NETWORK_MACADDR=false
+
+
 ; Show network infos expanded
 ;
 SHOW_NETWORK_INFOS_EXPANDED=false
+
+
+; Show network active speed
+; - true : display network active speed
+; - "bps" : display network active speed in bits per second (b/s, Kb/s, etc...)
+; - false : hide them
+;
+SHOW_NETWORK_ACTIVE_SPEED=false
 
 
 ; ********************************
@@ -396,11 +424,11 @@ ACCESS="command"
 ;
 ACCESS="command"
 
-[sensor_ipmi]
-; IPMI motherboard monitoring program configuration
+[sensor_ipmitool]
+; IPMItool motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmitool sensor' command
-; - ACCESS="data"  //read data from file data/ipmi.txt
+; - ACCESS="command"  //read data from 'ipmitool sensor -v' command
+; - ACCESS="data"  //read data from file data/ipmitool.txt
 ;
 ACCESS="command"
 
@@ -462,18 +490,6 @@ ACCESS="command"
 DEVICE="BAT0"
 
 
-[ipmiinfo]
-; ipmiinfo Plugin configuration
-
-; define how to access the IPMI statistic data
-; - "command" ipmitool command is run everytime the block gets refreshed or build
-;             if access error execute first: chmod 666 /dev/ipmi0
-; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "ipmiinfo.txt"; content is the output from "ipmitool sensor")
-;
-ACCESS="command"
-
-
 [mdstatus]
 ; MDStatus Plugin configuration
 
@@ -519,9 +535,21 @@ HIDE_RAID_DEVICES=""
 ;
 ACCESS="command"
 
+; Memory Usage info
+;
+MEMORY_USAGE=true
+
+; CPU Usage info
+;
+CPU_USAGE=true
+
 ; Show kthreadd child list expanded
 ;
 SHOW_KTHREADD_EXPANDED=true
+
+; Show PID 1 child list expanded
+;
+SHOW_PID1CHILD_EXPANDED=false
 
 
 [psstatus]
@@ -532,7 +560,7 @@ SHOW_KTHREADD_EXPANDED=true
 ;             information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "psstatus.txt"; content is the output from
-;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s $ps`; done</code>
+;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s -x "$ps"`; done</code>
 ;
 ACCESS="command"
 
@@ -573,6 +601,7 @@ ACCESS="command"
 ; - "data" (a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "smart{disk_number}.txt";
 ;          content is the output from "smartctl --all device")
+; - "wmi" information is retrieved everytime through WMI (WinNT only)
 ;
 ACCESS="command"
 
@@ -667,3 +696,28 @@ MAX_ENTRIES = 10
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "iptables.txt"; content is the output from "iptables-save")
 ;
 ACCESS="command"
+
+
+[pingtest]
+; PingTest Plugin configuration
+
+; define how to access the psstatus statistic data
+; - "command" ping command is run everytime the block gets refreshed or build 
+; - "data" a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "pingtest.txt";
+;
+ACCESS="command"
+
+;define the Addresses
+;
+; string contains a list of addresses that are checked
+; Example : ADDRESSES="127.0.0.1,8.8.8.8"
+;
+ADDRESSES=""
+
+; Define ping timeout in seconds
+; - 0 : default ping command timeout
+; - 3 : 3 seconds
+; Default is 2 seconds
+;
+TIMEOUT=2

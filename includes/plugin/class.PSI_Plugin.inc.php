@@ -8,7 +8,7 @@
  * @package   PSI_Plugin
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.PSI_Plugin.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -23,7 +23,7 @@
  * @package   PSI_Plugin
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -61,9 +61,8 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      * build the global Error object, read the configuration and check if all files are available
      * for a minimalistic function of the plugin
      *
-     * @param String $plugin_name name of the plugin
-     * @param String $enc         target encoding
-     *
+     * @param  string $plugin_name name of the plugin
+     * @param  string $enc         target encoding
      * @return void
      */
     public function __construct($plugin_name, $enc)
@@ -120,9 +119,9 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
     /**
      * create the xml template where plugin information are added to
      *
-     * @param String $enc target encoding
+     * @param string $enc target encoding
      *
-     * @return Void
+     * @return void
      */
     private function _createXml($enc)
     {

@@ -1,0 +1,356 @@
+Sensor ID              : BIOS (0x0)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): System Firmwares
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : ACPI State (0x20)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): System ACPI Power State
+ States Asserted       : System ACPI Power State
+                         [S0/G0: working]
+
+Sensor ID              : System Reset (0x21)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Module / Board
+
+Sensor ID              : CPU Fan (0x31)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Fan
+ Sensor Reading        : 2085.941 (+/- inf) RPM
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 771.962
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : 39215.686
+ Negative Hysteresis   : 39215.686
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : Rear Fan (0x34)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Fan
+ Sensor Reading        : 1463.272 (+/- inf) RPM
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 771.962
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : 39215.686
+ Negative Hysteresis   : 39215.686
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : System 12V (0x41)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 11.928 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 10.024
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 13.160
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : 0.280
+ Negative Hysteresis   : 0.280
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : System 5V (0x36)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 5.054 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 4.750
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 5.242
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : System AUX 5V (0x37)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 4.937 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 4.750
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 5.242
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : System 3.3V (0x38)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 3.219 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 3.142
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 3.465
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : System AUX 3.3V (0x39)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 3.311 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 3.142
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 3.465
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : CPU Vcore (0x3a)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 1.284 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 0.843
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 1.607
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : CPU Vterm (0x3c)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 1.196 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 1.147
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 1.264
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : Memory Vcore (0x3d)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 1.784 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 1.705
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 1.911
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : Memory Vterm (0x3e)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 0.882 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 0.853
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 0.941
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : AMB/MCH Vcore (0x3f)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Voltage
+ Sensor Reading        : 1.499 (+/- 0) Volts
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : 1.431
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 1.578
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : lcr- ucr+ 
+ Deassertions Enabled  : lcr- ucr+ 
+
+Sensor ID              : PCI System Err (0x42)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Module / Board
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : Mem Recover Err (0x44)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : MemUnrecover Er (0x45)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Memory
+ Unable to read sensor: Device Not Present
+
+Sensor ID              : RCPU Diode 1 (0x46)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        :  Unable to read sensor: Device Not Present
+
+ Event Status          : Unavailable
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : Ambient (0x47)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        : 26 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 51.000
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr+ 
+
+Sensor ID              : Local VRD0 Temp (0x48)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        : 27 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : na
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : 
+
+Sensor ID              : CPU Dmn 0 Temp (0x86)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        : 54 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 85.000
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr- 
+
+Sensor ID              : Slots Amb (0x4d)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        : 33 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 85.000
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr- 
+
+Sensor ID              : 1.8V Amb (0x4e)
+ Entity ID             : 0.0
+ Sensor Type (Threshold)  : Temperature
+ Sensor Reading        : 46 (+/- 0) degrees C
+ Status                : ok
+ Lower Non-Recoverable : na
+ Lower Critical        : na
+ Lower Non-Critical    : na
+ Upper Non-Critical    : na
+ Upper Critical        : 85.000
+ Upper Non-Recoverable : na
+ Positive Hysteresis   : Unspecified
+ Negative Hysteresis   : Unspecified
+ Assertion Events      : 
+ Assertions Enabled    : ucr+ 
+ Deassertions Enabled  : ucr- 
+
+Sensor ID              : Therm-Trip (0x55)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Processor
+ States Asserted       : Digital State
+                         [State Deasserted]
+
+Sensor ID              : CPU Prochot (0x59)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Temperature
+ States Asserted       : Digital State
+                         [Limit Not Exceeded]
+
+Sensor ID              : LOM Link Status (0x5d)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): LAN
+ States Asserted       : Digital State
+                         [State Asserted]
+
+Sensor ID              : LO100 Present (0x5e)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Add-in Card
+ States Asserted       : Availability State
+                         [Device Absent]
+
+Sensor ID              : Watchdog (0xfe)
+ Entity ID             : 0.0
+ Sensor Type (Discrete): Watchdog2
+ Unable to read sensor: Device Not Present
+

@@ -61,8 +61,8 @@ function psstatus_buildTable() {
     html += "<table id=\"Plugin_PSStatusTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
+    html += "      <th>" + genlang(2, false, "PSStatus") + "</th>\n";
     html += "      <th>" + genlang(3, false, "PSStatus") + "</th>\n";
-    html += "      <th>" + genlang(4, false, "PSStatus") + "</th>\n";
     html += "    </tr>\n";
     html += "  </thead>\n";
     html += "  <tbody>\n";

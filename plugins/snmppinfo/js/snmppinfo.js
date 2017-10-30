@@ -39,9 +39,9 @@ function snmppinfo_buildTable(xml) {
     html += "  <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "    <tr>\n";
-    html += "     <th>" + genlang(3, false, "SNMPPInfo") + "</th>\n";
-    html += "     <th style=\"width:120px;\">" + genlang(4, false, "SNMPPInfo") + "</th>\n";
-    html += "     <th style=\"width:80px;\">" + genlang(5, false, "SNMPPInfo") + "</th>\n";
+    html += "     <th>" + genlang(2, false, "SNMPPInfo") + "</th>\n";
+    html += "     <th style=\"width:120px;\">" + genlang(3, false, "SNMPPInfo") + "</th>\n";
+    html += "     <th style=\"width:80px;\">" + genlang(4, false, "SNMPPInfo") + "</th>\n";
     html += "    </tr>\n";
     html += "   </thead>\n";
     html += "   <tbody class=\"tree\">\n";
@@ -65,10 +65,10 @@ function snmppinfo_buildTable(xml) {
             units = level+" / 100";
         } else if (level==-3) {
             percent = 100;
-            units = genlang(6, false, "SNMPPInfo")
+            units = genlang(5, false, "SNMPPInfo")
         } else {
             percent = 0;
-            units = genlang(7, false, "SNMPPInfo")
+            units = genlang(6, false, "SNMPPInfo")
         }
 
         if (device!=lastdev) {

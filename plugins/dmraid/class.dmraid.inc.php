@@ -8,7 +8,7 @@
  * @package   PSI_Plugin_DMRaid
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.dmraid.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_Plugin_DMRaid
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -204,7 +204,7 @@ class DMRaid extends PSI_Plugin
     /**
      * generates the XML content for the plugin
      *
-     * @return SimpleXMLObject entire XML content for the plugin
+     * @return SimpleXMLElement entire XML content for the plugin
      */
     public function xml()
     {
@@ -237,7 +237,7 @@ class DMRaid extends PSI_Plugin
                     $action->addAttribute("Name", $device['action']['name']);
                 }
                 $disks = $dev->addChild("Disks");
-                if (isset($device['partitions']) && sizeof($device['partitions']>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
+                if (isset($device['partitions']) && (sizeof($device['partitions'])>0)) foreach ($device['partitions'] as $diskkey=>$disk) {
                     $disktemp = $disks->addChild("Disk");
                     $disktemp->addAttribute("Name", $diskkey);
                     if (($device["status"]=='ok') || ($device["status"]=='OPTIMAL')) {

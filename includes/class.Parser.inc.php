@@ -8,7 +8,7 @@
  * @package   PSI
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Parser.inc.php 604 2012-07-10 07:31:34Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -28,7 +28,8 @@ class Parser
     /**
      * parsing the output of lspci command
      *
-     * @return Array
+     * @param  bool  $debug
+     * @return array
      */
     public static function lspci($debug = PSI_DEBUG)
     {
@@ -54,7 +55,8 @@ class Parser
     /**
      * parsing the output of df command
      *
-     * @param string $df_param additional parameter for df command
+     * @param string $df_param   additional parameter for df command
+     * @param bool   $get_inodes
      *
      * @return array
      */
@@ -153,7 +155,7 @@ class Parser
                             foreach ($mount_parm as $mount_param) { //name and mountpoint find
                                 if (($mount_param['name']===trim($df_buf[0])) && ($mount_param['mountpoint']===$df_buf[5])) {
                                     $dev->setFsType($mount_param['fstype']);
-                                    if (PSI_SHOW_MOUNT_OPTION) {
+                                    if (PSI_SHOW_MOUNT_OPTION && (trim($mount_param['options'])!=="")) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
                                             $dev->setOptions($mount_param['options']);
                                         } else {
@@ -181,7 +183,7 @@ class Parser
                             if ($notwas) foreach ($mount_parm as $mount_param) { //mountpoint find
                                 if ($mount_param['mountpoint']===$df_buf[5]) {
                                     $dev->setFsType($mount_param['fstype']);
-                                    if (PSI_SHOW_MOUNT_OPTION) {
+                                    if (PSI_SHOW_MOUNT_OPTION && (trim($mount_param['options'])!=="")) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
                                             $dev->setOptions($mount_param['options']);
                                         } else {

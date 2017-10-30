@@ -31,7 +31,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Ενεργοί χρήστες</exp>
   </expression>
   <expression id="009" name="loadavg">
-    <exp>Φόρτο λειτουργίας</exp>
+    <exp>Φόρτος λειτουργίας</exp>
   </expression>
   <expression id="010" name="hardware">
     <exp>Πληροφορίες Υλικού</exp>
@@ -49,7 +49,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Ταχύτητα Διαύλου</exp>
   </expression>
   <expression id="015" name="cache">
-    <exp>Μέγεθος Cache</exp>
+    <exp>Μέγεθος Λανθάνουσας Μνήμης</exp>
   </expression>
   <expression id="016" name="bogomips">
     <exp>Bogomips Συστήματος</exp>
@@ -97,10 +97,10 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Ενεργές Αποθηκευτικές Μονάδες</exp>
   </expression>
   <expression id="031" name="mount">
-    <exp>Mountpoint</exp>
+    <exp>Σημείο Προσάρτησης</exp>
   </expression>
   <expression id="032" name="partition">
-    <exp>Partition</exp>
+    <exp>Κατάτμηση</exp>
   </expression>
   <expression id="033" name="percent">
     <exp>Χρήση</exp>
@@ -115,7 +115,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Κατειλημμένο</exp>
   </expression>
   <expression id="037" name="size">
-    <exp>Σύνολο</exp>
+    <exp>Μέγεθος</exp>
   </expression>
   <expression id="038" name="totals">
     <exp>Σύνολο</exp>
@@ -205,7 +205,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Cached</exp>
   </expression>
   <expression id="067" name="jumpto">
-    <exp>Jump to</exp>
+    <exp>Μετάβαση στο</exp>
   </expression>
   <expression id="068" name="ups_title">
     <exp>Πληροφορίες UPS</exp>
@@ -298,61 +298,61 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>System Language</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Κωδικοποίηση</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Λεπτομέρειες</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Μέγιστη Ταχύτητα Επεξεργαστή</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Ελάχιστη Ταχύτητα Επεξεργαστή</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Ισχύς</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Ημερομηνία Μπαταρίας</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Ρεύμα</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Μηχανή</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Συχνότητα Γραμμής</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Διεργασίες</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>εκτελούνται</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>σε ύπνωση</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>σταματημένες</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>σε αναμονή</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>άλλο</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>Συσκευές TB</exp>
@@ -361,9 +361,12 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Συσκευές I2C</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Αριθμός Επεξεργαστών</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Αριθμός Συσκευών</exp>
+  </expression>
+  <expression id="121" name="other">
+    <exp>Άλλο</exp>
   </expression>
 </tns:translation>

@@ -8,7 +8,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.MBInfo.inc.php 253 2009-06-17 13:07:50Z bigmichi1 $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_TO
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -30,7 +30,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbTemp = array();
 
@@ -39,7 +39,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbFan = array();
 
@@ -48,7 +48,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbVolt = array();
 
@@ -57,7 +57,7 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbPower = array();
 
@@ -66,16 +66,25 @@ class MBInfo
      *
      * @see SensorDevice
      *
-     * @var Array
+     * @var array
      */
     private $_mbCurrent = array();
+
+    /**
+     * array with SensorDevices for other
+     *
+     * @see SensorDevice
+     *
+     * @var array
+     */
+    private $_mbOther = array();
 
     /**
      * Returns $_mbFan.
      *
      * @see System::$_mbFan
      *
-     * @return Array
+     * @return array
      */
     public function getMbFan()
     {
@@ -89,7 +98,7 @@ class MBInfo
      *
      * @see System::$_mbFan
      *
-     * @return Void
+     * @return void
      */
     public function setMbFan($mbFan)
     {
@@ -101,7 +110,7 @@ class MBInfo
      *
      * @see System::$_mbTemp
      *
-     * @return Array
+     * @return array
      */
     public function getMbTemp()
     {
@@ -111,11 +120,11 @@ class MBInfo
     /**
      * Sets $_mbTemp.
      *
-     * @param Sensor $mbTemp temp device
+     * @param SensorDevice $mbTemp temp device
      *
      * @see System::$_mbTemp
      *
-     * @return Void
+     * @return void
      */
     public function setMbTemp($mbTemp)
     {
@@ -127,7 +136,7 @@ class MBInfo
      *
      * @see System::$_mbVolt
      *
-     * @return Array
+     * @return array
      */
     public function getMbVolt()
     {
@@ -137,11 +146,11 @@ class MBInfo
     /**
      * Sets $_mbVolt.
      *
-     * @param Sensor $mbVolt voltage device
+     * @param SensorDevice $mbVolt voltage device
      *
      * @see System::$_mbVolt
      *
-     * @return Void
+     * @return void
      */
     public function setMbVolt($mbVolt)
     {
@@ -153,7 +162,7 @@ class MBInfo
      *
      * @see System::$_mbPower
      *
-     * @return Array
+     * @return array
      */
     public function getMbPower()
     {
@@ -163,22 +172,23 @@ class MBInfo
     /**
      * Sets $_mbPower.
      *
-     * @param Sensor $mbPower power device
+     * @param SensorDevice $mbPower power device
      *
      * @see System::$_mbPower
      *
-     * @return Void
+     * @return void
      */
     public function setMbPower($mbPower)
     {
         array_push($this->_mbPower, $mbPower);
     }
+
     /**
      * Returns $_mbCurrent.
      *
      * @see System::$_mbCurrent
      *
-     * @return Array
+     * @return array
      */
     public function getMbCurrent()
     {
@@ -188,14 +198,40 @@ class MBInfo
     /**
      * Sets $_mbCurrent.
      *
-     * @param Sensor $mbCurrent current device
+     * @param SensorDevice $mbCurrent current device
      *
      * @see System::$_mbCurrent
      *
-     * @return Void
+     * @return void
      */
     public function setMbCurrent($mbCurrent)
     {
         array_push($this->_mbCurrent, $mbCurrent);
+    }
+
+    /**
+     * Returns $_mbOther.
+     *
+     * @see System::$_mbOther
+     *
+     * @return array
+     */
+    public function getMbOther()
+    {
+        return $this->_mbOther;
+    }
+
+    /**
+     * Sets $_mbOther.
+     *
+     * @param SensorDevice $mbOther other device
+     *
+     * @see System::$_mbOther
+     *
+     * @return void
+     */
+    public function setMbOther($mbOther)
+    {
+        array_push($this->_mbOther, $mbOther);
     }
 }

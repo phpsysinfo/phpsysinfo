@@ -8,7 +8,7 @@
  * @package   PSI BSDCommon OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.BSDCommon.inc.php 621 2012-07-29 18:49:04Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -21,7 +21,7 @@
  * @package   PSI BSDCommon OS class
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -564,17 +564,25 @@ abstract class BSDCommon extends OS
      */
     public function build()
     {
-        $this->distro();
-        $this->memory();
-        $this->ide();
-        $this->pci();
-        $this->cpuinfo();
-        $this->filesystems();
-        $this->kernel();
-        $this->loadavg();
-        $this->hostname();
-        $this->scsi();
-        $this->usb();
-        $this->_users();
+        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+            $this->distro();
+            $this->hostname();
+            $this->kernel();
+            $this->_users();
+            $this->loadavg();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+            $this->cpuinfo();
+            $this->pci();
+            $this->ide();
+            $this->scsi();
+            $this->usb();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+            $this->memory();
+        }
+        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+            $this->filesystems();
+        }
     }
 }

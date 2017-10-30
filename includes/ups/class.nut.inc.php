@@ -9,7 +9,7 @@
  * @author    Artem Volk <artvolk@mail.ru>
  * @author    Anders Häggström <hagge@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.nut.inc.php 661 2012-08-27 11:26:39Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -21,7 +21,7 @@
  * @author    Artem Volk <artvolk@mail.ru>
  * @author    Anders Häggström <hagge@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -71,16 +71,16 @@ class Nut extends UPS
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return array
+     * @return void
      */
     private function _info()
     {
         if (! empty($this->_output)) {
-            foreach ($this->_output as $name=>$value) {
+            foreach ($this->_output as $name => $value) {
                 $temp = preg_split("/\n/", $value, -1, PREG_SPLIT_NO_EMPTY);
                 $ups_data = array();
-                foreach ($temp as $value) {
-                    $line = preg_split('/: /', $value, 2);
+                foreach ($temp as $valueTemp) {
+                    $line = preg_split('/: /', $valueTemp, 2);
                     $ups_data[$line[0]] = isset($line[1]) ? trim($line[1]) : '';
                 }
                 $dev = new UPSDevice();

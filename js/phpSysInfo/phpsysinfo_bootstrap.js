@@ -1,4 +1,3 @@
-//var data_dbg;
 /**
  * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
  * ajax call
@@ -8,8 +7,8 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], plugin_liste = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded;
+var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
  * Fix PNG loading on IE6 or below
@@ -37,8 +36,7 @@ function createCookie(name, value, days) {
             //deprecated
             expires = "; expires=" + date.toGMTString();
         }
-    }
-    else {
+    } else {
         expires = "";
     }
     document.cookie = name + "=" + value + expires + "; path=/";
@@ -83,18 +81,17 @@ function switchStyle(template) {
  * ajax call
  * @private
  * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
- * @param {String} plugname internal plugin name
+ * @param {String} langarrId internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-function getLanguage(plugin, plugname) {
+function getLanguage(plugin, langarrId) {
     var getLangUrl = "";
     if (current_language) {
         getLangUrl = 'language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
-    }
-    else {
+    } else {
         getLangUrl = 'language/language.php';
         if (plugin) {
             getLangUrl += "?plugin=" + plugin;
@@ -105,44 +102,24 @@ function getLanguage(plugin, plugname) {
         type: 'GET',
         dataType: 'xml',
         timeout: 100000,
-        async: false,
         error: function error() {
-            $.jGrowl("Error loading language!");
+            $("#errors").append("<li><b>Error loading language</b> - " + getLangUrl + "</li><br>");
+            $("#errorbutton").css("visibility", "visible");
         },
         success: function buildblocks(xml) {
             var idexp;
-            langxml[plugname] = xml;
-            if (langarr[plugname] === undefined) {
-                langarr.push(plugname);
-                langarr[plugname] = [];
+            langxml[langarrId] = xml;
+            if (langarr[langarrId] === undefined) {
+                langarr.push(langarrId);
+                langarr[langarrId] = [];
             }
-            $("expression", langxml[plugname]).each(function langstore(id) {
+            $("expression", langxml[langarrId]).each(function langstore(id) {
                 idexp = $("expression", xml).get(id);
-                langarr[plugname][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/<wbr>");
+                langarr[langarrId][this.getAttribute('id')] = $("exp", idexp).text().toString().replace(/\//g, "/<wbr>");
             });
+            changeSpanLanguage(plugin);
         }
     });
-}
-
-/**
- * internal function to get a given translation out of the translation file
- * @param {Number} langId id of the translation expression
- * @param {String} [plugin] name of the plugin
- * @return {String} translation string
- */
-function getTranslationString(langId, plugin) {
-    var plugname = current_language + "_";
-    if (plugin === undefined) {
-        plugname += "phpSysInfo";
-    }
-    else {
-        plugname += plugin;
-    }
-    if (langxml[plugname] === undefined) {
-        langxml.push(plugname);
-        getLanguage(plugin, plugname);
-    }
-    return langarr[plugname][langId.toString()];
 }
 
 /**
@@ -153,22 +130,24 @@ function getTranslationString(langId, plugin) {
  * @return {String} string which contains generated span tag for translation string
  */
 function genlang(id, generate, plugin) {
-    var html = "", idString = "", plugname = "";
+    var html = "", idString = "", plugname = "",
+        langarrId = current_language + "_";
+
     if (plugin === undefined) {
         plugname = "";
-    }
-    else {
+        langarrId += "phpSysInfo";
+    } else {
         plugname = plugin.toLowerCase();
+        langarrId += plugname;
     }
+
     if (id < 100) {
         if (id < 10) {
             idString = "00" + id.toString();
-        }
-        else {
+        } else {
             idString = "0" + id.toString();
         }
-    }
-    else {
+    } else {
         idString = id.toString();
     }
     if (plugin) {
@@ -177,35 +156,82 @@ function genlang(id, generate, plugin) {
     if (generate) {
         html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
         langcounter++;
-    }
-    else {
+    } else {
         html += "<span id=\"lang_" + idString + "\">";
     }
-    html += getTranslationString(idString, plugin) + "</span>";
+
+    if ((langxml[langarrId] !== undefined)
+        && (langarr[langarrId] !== undefined)) {
+        html += langarr[langarrId][idString];
+    }
+
+    html += "</span>";
+
     return html;
 }
 
 /**
  * translates all expressions based on the translation xml file<br>
- * translation expressions must be in the format &lt;span id="lang???"&gt;&lt;/span&gt;, where ??? is
+ * translation expressions must be in the format &lt;span id="lang_???"&gt;&lt;/span&gt;, where ??? is
  * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
  * file nothing would be translated, so the initial value which is inside the span tag is displayed
  * @param {String} [plugin] name of the plugin
  */
 function changeLanguage(plugin) {
-    var langId = "", langStr = "";
-    $('span[id*=lang_]').each(function translate(i) {
-        langId = this.getAttribute('id').substring(5);
-        if (langId.indexOf('-') !== -1) {
-            langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-        }
-        langStr = getTranslationString(langId, plugin);
-        if (langStr !== undefined) {
-            if (langStr.length > 0) {
-                this.innerHTML = langStr;
+    var langarrId = current_language + "_";
+
+    if (plugin === undefined) {
+        langarrId += "phpSysInfo";
+    } else {
+        langarrId += plugin;
+    }
+
+    if (langxml[langarrId] !== undefined) {
+        changeSpanLanguage(plugin)
+    } else {
+        langxml.push(langarrId);
+        getLanguage(plugin, langarrId);
+    }
+}
+
+function changeSpanLanguage(plugin) {
+    var langId = "", langStr = "", plugId = "",
+        langarrId = current_language + "_";
+
+    if (plugin === undefined) {
+        langarrId += "phpSysInfo";
+        $('span[id*=lang_]').each(function translate(i) {
+            langId = this.getAttribute('id').substring(5);
+            if (langId.indexOf('-') !== -1) {
+                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
             }
-        }
-    });
+            if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
+                langStr = langarr[langarrId][langId];
+                if (langStr !== undefined) {
+                    if (langStr.length > 0) {
+                        this.innerHTML = langStr;
+                    }
+                }
+            }
+        });
+        $("#select").show(); //show if any language loaded
+        $("#output").show();
+    } else {
+        langarrId += plugin;
+        $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
+            langId = this.getAttribute('id').substring(5);
+            if (langId.indexOf('-') !== -1) {
+                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
+            }
+            langStr = langarr[langarrId][langId];
+            if (langStr !== undefined) {
+                if (langStr.length > 0) {
+                    this.innerHTML = langStr;
+                }
+            }
+        });
+        $('#panel_'+plugin.toLowerCase()).show(); //show plugin if any language loaded
+    }
 }
 
 function reload(initiate) {
@@ -227,16 +253,18 @@ function reload(initiate) {
                 }
                 if (errs > 0) {
                     $("#errorbutton").css("visibility", "visible");
-                    $("#output").show();
                 }
             }
         },
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((initiate === true) && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
+            if ((typeof(initiate) === 'boolean') && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
                && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
-                    setInterval(reload, refrtime);
+                    if ((initiate === false) && (typeof(refrTimer) === 'number')) {
+                        clearInterval(refrTimer);
+                    }
+                    refrTimer = setInterval(reload, refrtime);
             }
             renderErrors(data);
             renderVitals(data);
@@ -249,10 +277,9 @@ function reload(initiate) {
             renderFans(data);
             renderPower(data);
             renderCurrent(data);
+            renderOther(data);
             renderUPS(data);
             changeLanguage();
-            $("#select").show();
-            $("#output").show();
         }
     });
 
@@ -263,7 +290,7 @@ function reload(initiate) {
         }
 
     }
-    if (initiate === true) {
+    if ((typeof(initiate) === 'boolean') && (initiate === true)) {
         for (var i = 0; i < plugins.length; i++) {
             if ($("#reload_"+plugins[i]).length > 0) {
                 $("#reload_"+plugins[i]).click(function() {
@@ -300,7 +327,7 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null, plugtmp = "";
+    var cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -314,11 +341,36 @@ $(document).ready(function () {
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
+    showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
+    switch ($("#showNetworkActiveSpeed").val().toString()) {
+        case "bps":  showNetworkActiveSpeed = 2;
+                      break;
+        case "true": showNetworkActiveSpeed = 1;
+                      break;
+        default:     showNetworkActiveSpeed = 0;
+    }
+
+    blocktmp = $("#blocks").val().toString();
+    if (blocktmp.length >0 ){
+        if (blocktmp === "true") {
+            blocks[0] = "true";
+        } else {
+            blocks = blocktmp.split(',');
+            var j = 0;
+            for (var i = 0; i < blocks.length; i++) {
+                if ($("#block_"+blocks[i]).length > 0) {
+                    $("#output").children().eq(j).before($("#block_"+blocks[i]));
+                    j++;
+                }
+            }
+        }
+    }
 
     plugtmp = $("#plugins").val().toString();
     if (plugtmp.length >0 ){
         plugins = plugtmp.split(',');
     }
+
 
     if ($("#language option").length < 2) {
         current_language = $("#language").val().toString();
@@ -378,7 +430,7 @@ $(document).ready(function () {
     reload(true);
 
     $(".logo").click(function () {
-        reload();
+        reload(false);
     });
 });
 
@@ -404,6 +456,18 @@ function items(data) {
 }
 
 function renderVitals(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
+        $("#block_vitals").remove();
+        var hostname = "", ip = "";
+        if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
+               && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
+               && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+            document.title = "System information: " + hostname + " (" + ip + ")";
+        }
+        return;
+    }
+
+    var hostname = "", ip = "";
     var directives = {
         Uptime: {
             html: function () {
@@ -414,6 +478,7 @@ function renderVitals(data) {
             text: function () {
                 var lastboot;
                 var timestamp = 0;
+                var datetimeFormat;
                 if ((data["Generation"] !== undefined) && (data["Generation"]["@attributes"] !== undefined) && (data["Generation"]["@attributes"]["timestamp"] !== undefined) ) {
                     timestamp = parseInt(data["Generation"]["@attributes"]["timestamp"])*1000; //server time
                     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
@@ -421,11 +486,15 @@ function renderVitals(data) {
                     timestamp = Number(new Date()); //client time
                 }
                 lastboot = new Date(timestamp - (parseInt(this["Uptime"])*1000));
-                if (typeof(lastboot.toUTCString) === "function") {
-                    return lastboot.toUTCString(); //toUTCstring() or toLocaleString()
+                if (((datetimeFormat = data["Options"]["@attributes"]["datetimeFormat"]) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
+                    return lastboot.toLocaleString();
                 } else {
-                //deprecated
-                    return lastboot.toGMTString(); //toGMTString() or toLocaleString()
+                    if (typeof(lastboot.toUTCString) === "function") {
+                        return lastboot.toUTCString();
+                    } else {
+                    //deprecated
+                        return lastboot.toGMTString();
+                    }
                 }
             }
         },
@@ -496,10 +565,21 @@ function renderVitals(data) {
         $("#tr_Processes").hide();
     }
     $('#vitals').render(data["Vitals"]["@attributes"], directives);
+
+    if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
+           && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
+           && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+        document.title = "System information: " + hostname + " (" + ip + ")";
+    }
+
     $("#block_vitals").show();
 }
 
 function renderHardware(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('hardware', blocks) < 0))) {
+        $("#block_hardware").remove();
+        return;
+    }
 
     var directives = {
         Model: {
@@ -591,10 +671,15 @@ function renderHardware(data) {
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
             html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
-            html+="<td></td>";
+            if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
+                html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
+            } else {
+                html+="<td></td>";
+            }
             html+="</tr>";
             for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact)
+                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
                     html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
@@ -641,9 +726,10 @@ function renderHardware(data) {
     try {
         var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
         for (var i = 0; i < datas.length; i++) {
-            $('#hardware-CPU-'+ i).render(datas[i]["@attributes"]);
+            $('#hardware-CPU-'+ i).render(datas[i]["@attributes"], directives);
             for (var proc_param in paramlist) {
-                if (datas[i]["@attributes"][proc_param] !== undefined) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact)
+                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     $('#hardware-CPU-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
             }
@@ -702,6 +788,11 @@ function renderHardware(data) {
 }
 
 function renderMemory(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('memory', blocks) < 0))) {
+        $("#block_memory").remove();
+        return;
+    }
+
     var directives = {
         Total: {
             html: function () {
@@ -724,8 +815,7 @@ function renderMemory(data) {
                     return '<div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"]["Percent"] + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
-                }
-                else {
+                } else {
                     var rest = parseInt(this["@attributes"]["Percent"]);
                     var html = '<div class="progress">';
                     if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
@@ -815,6 +905,11 @@ function renderMemory(data) {
 }
 
 function renderFilesystem(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('filesystem', blocks) < 0))) {
+        $("#block_filesystem").remove();
+        return;
+    }
+
     var directives = {
         Total: {
             html: function () {
@@ -838,7 +933,7 @@ function renderFilesystem(data) {
         },
         Name: {
             html: function () {
-                return this["Name"] + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+                return this["Name"].replace(/;/g, ";<wbr>") + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
             }
         },
         Percent: {
@@ -879,17 +974,43 @@ function renderFilesystem(data) {
     }
 }
 
-
 function renderNetwork(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('network', blocks) < 0))) {
+        $("#block_network").remove();
+        return;
+    }
+
     var directives = {
         RxBytes: {
             html: function () {
-                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]);
+                var htmladd = '';
+                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                    var diff, difftime;
+                    if (((diff = this["RxBytes"] - oldnetwork[this["Name"]]["RxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                        if (showNetworkActiveSpeed == 2) {
+                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                        } else {
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        }
+                    }
+                }
+                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
             }
         },
         TxBytes: {
             html: function () {
-                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]);
+                var htmladd = '';
+                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                    var diff, difftime;
+                    if (((diff = this["TxBytes"] - oldnetwork[this["Name"]]["TxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                        if (showNetworkActiveSpeed == 2) {
+                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                        } else {
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                        }
+                    }
+                }
+                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
             }
         },
         Drops: {
@@ -900,9 +1021,9 @@ function renderNetwork(data) {
     };
 
     var html = "";
+    var preoldnetwork = [];
 
     try {
-        var network_data = [];
         var datas = items(data["Network"]["NetDevice"]);
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
@@ -924,6 +1045,10 @@ function renderNetwork(data) {
         if (i > 0) {
             for (var i = 0; i < datas.length; i++) {
                 $('#network-' + i).render(datas[i]["@attributes"], directives);
+                if (showNetworkActiveSpeed) {
+                    preoldnetwork.pushIfNotExist(datas[i]["@attributes"]["Name"]);
+                    preoldnetwork[datas[i]["@attributes"]["Name"]] = {timestamp:data["Generation"]["@attributes"]["timestamp"], RxBytes:datas[i]["@attributes"]["RxBytes"], TxBytes:datas[i]["@attributes"]["TxBytes"]};
+                }
             }
             $('#network').treegrid({
                 initialState: showNetworkInfosExpanded?'expanded':'collapsed',
@@ -938,25 +1063,38 @@ function renderNetwork(data) {
     catch (err) {
         $("#block_network").hide();
     }
+
+    if (showNetworkActiveSpeed) {
+        while (oldnetwork.length > 0) {
+            delete oldnetwork[oldnetwork.length-1]; //remove last object
+            oldnetwork.pop(); //remove last object reference from array
+        }
+        oldnetwork = preoldnetwork;
+    }
 }
 
 function renderVoltage(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('voltage', blocks) < 0))) {
+        $("#block_voltage").remove();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "V";
+                return round(this["Value"],2) + String.fromCharCode(160) + "V";
             }
         },
         Min: {
             text: function () {
                 if (this["Min"] !== undefined)
-                    return this["Min"] + String.fromCharCode(160) + "V";
+                    return round(this["Min"],2) + String.fromCharCode(160) + "V";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "V";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "V";
             }
         },
         Label: {
@@ -984,6 +1122,11 @@ function renderVoltage(data) {
 }
 
 function renderTemperature(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('temperature', blocks) < 0))) {
+        $("#block_temperature").remove();
+        return;
+    }
+
     var directives = {
         Value: {
             html: function () {
@@ -1022,6 +1165,11 @@ function renderTemperature(data) {
 }
 
 function renderFans(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('fans', blocks) < 0))) {
+        $("#block_fans").remove();
+        return;
+    }
+
     var directives = {
         Value: {
             html: function () {
@@ -1060,16 +1208,21 @@ function renderFans(data) {
 }
 
 function renderPower(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('power', blocks) < 0))) {
+        $("#block_power").remove();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "W";
+                return round(this["Value"],2) + String.fromCharCode(160) + "W";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "W";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "W";
             }
         },
         Label: {
@@ -1098,16 +1251,27 @@ function renderPower(data) {
 }
 
 function renderCurrent(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('current', blocks) < 0))) {
+        $("#block_current").remove();
+        return;
+    }
+
     var directives = {
         Value: {
             text: function () {
-                return this["Value"] + String.fromCharCode(160) + "A";
+                return round(this["Value"],2) + String.fromCharCode(160) + "A";
+            }
+        },
+        Min: {
+            text: function () {
+                if (this["Min"] !== undefined)
+                    return round(this["Min"],2) + String.fromCharCode(160) + "A";
             }
         },
         Max: {
             text: function () {
                 if (this["Max"] !== undefined)
-                    return this["Max"] + String.fromCharCode(160) + "A";
+                    return round(this["Max"],2) + String.fromCharCode(160) + "A";
             }
         },
         Label: {
@@ -1135,7 +1299,43 @@ function renderCurrent(data) {
     }
 }
 
+function renderOther(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('other', blocks) < 0))) {
+        $("#block_other").remove();
+        return;
+    }
+
+    var directives = {
+        Label: {
+            html: function () {
+                if (this["Event"] === undefined)
+                    return this["Label"];
+                else
+                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+            }
+        }
+    };
+
+    try {
+        var other_data = [];
+        var datas = items(data["MBInfo"]["Other"]["Item"]);
+        if (other_data.push_attrs(datas) > 0) {
+            $('#other-data').render(other_data, directives);
+            $("#block_other").show();
+        } else {
+            $("#block_other").hide();
+        }
+    }
+    catch (err) {
+        $("#block_other").hide();
+    }
+}
+
 function renderUPS(data) {
+    if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('ups', blocks) < 0))) {
+        $("#block_ups").remove();
+        return;
+    }
 
     var directives = {
         Name: {
@@ -1206,7 +1406,7 @@ function renderUPS(data) {
 
         if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
             html+="<tr>";
-            html+="<td>(<a href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>Details</a>)</td>";
+            html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99, false)+"</a>)</td>";
             html+="<td></td>";
             html+="</tr>";
         }
@@ -1289,8 +1489,7 @@ function formatTemp(degreeC, tempFormat) {
     degree = parseFloat(degreeC);
     if (isNaN(degreeC)) {
         return "---";
-    }
-    else {
+    } else {
         switch (tempFormat.toLowerCase()) {
         case "f":
             return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true);
@@ -1312,12 +1511,10 @@ function formatTemp(degreeC, tempFormat) {
 function formatHertz(mhertz) {
     if (mhertz && mhertz < 1000) {
         return mhertz.toString() + String.fromCharCode(160) + genlang(92, true);
-    }
-    else {
+    } else {
         if (mhertz && mhertz >= 1000) {
             return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93, true);
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -1387,28 +1584,23 @@ function formatBytes(bytes, byteFormat) {
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
             show += String.fromCharCode(160) + genlang(91, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
                 show += String.fromCharCode(160) + genlang(85, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
                     show += String.fromCharCode(160) + genlang(41, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
                         show += String.fromCharCode(160) + genlang(40, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
                             show += String.fromCharCode(160) + genlang(39, true);
-                        }
-                        else {
+                        } else {
                                 show += bytes;
                                 show += String.fromCharCode(160) + genlang(96, true);
                         }
@@ -1421,31 +1613,59 @@ function formatBytes(bytes, byteFormat) {
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
             show += String.fromCharCode(160) + genlang(90, true);
-        }
-        else {
+        } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
                 show += String.fromCharCode(160) + genlang(86, true);
-            }
-            else {
+            } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
                     show += String.fromCharCode(160) + genlang(87, true);
-                }
-                else {
+                } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
                         show += String.fromCharCode(160) + genlang(88, true);
-                    }
-                    else {
+                    } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
                             show += String.fromCharCode(160) + genlang(89, true);
-                        }
-                        else {
+                        } else {
                             show += bytes;
                             show += String.fromCharCode(160) + genlang(96, true);
                         }
+                    }
+                }
+            }
+        }
+    }
+    return show;
+}
+
+function formatBPS(bps) {
+    var show = "";
+
+    if (bps > Math.pow(1000, 5)) {
+        show += round(bps / Math.pow(1000, 5), 2);
+        show += String.fromCharCode(160) + 'Pb/s';
+    } else {
+        if (bps > Math.pow(1000, 4)) {
+            show += round(bps / Math.pow(1000, 4), 2);
+            show += String.fromCharCode(160) + 'Tb/s';
+        } else {
+            if (bps > Math.pow(1000, 3)) {
+                show += round(bps / Math.pow(1000, 3), 2);
+                show += String.fromCharCode(160) + 'Gb/s';
+            } else {
+                if (bps > Math.pow(1000, 2)) {
+                    show += round(bps / Math.pow(1000, 2), 2);
+                    show += String.fromCharCode(160) + 'Mb/s';
+                } else {
+                    if (bps > Math.pow(1000, 1)) {
+                        show += round(bps / Math.pow(1000, 1), 2);
+                        show += String.fromCharCode(160) + 'Kb/s';
+                    } else {
+                            show += bps;
+                            show += String.fromCharCode(160) + 'b/s';
                     }
                 }
             }

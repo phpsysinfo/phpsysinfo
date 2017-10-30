@@ -8,7 +8,7 @@
  * @package   PSI_XML
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.XML.inc.php 699 2012-09-15 11:57:13Z namiltd $
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -19,7 +19,7 @@
  * @package   PSI_XML
  * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
  * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License
+ * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
@@ -47,7 +47,7 @@ class XML
     /**
      * object for error handling
      *
-     * @var Error
+     * @var PSI_Error
      */
     private $_errors;
 
@@ -213,7 +213,6 @@ class XML
      */
     private function _buildHardware()
     {
-        $dev = new HWDevice();
         $hardware = $this->_xml->addChild('Hardware');
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
@@ -281,9 +280,11 @@ class XML
             if ($oneCpu->getCpuSpeedMin() !== 0) {
                 $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
             }
+/*
             if ($oneCpu->getTemp() !== null) {
                 $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
             }
+*/
             if ($oneCpu->getBusSpeed() !== null) {
                 $tmp->addAttribute('BusSpeed', $oneCpu->getBusSpeed());
             }
@@ -425,14 +426,14 @@ class XML
     private function _buildMbinfo()
     {
         $mbinfo = $this->_xml->addChild('MBInfo');
-        $temp = $fan = $volt = $power = $current = null;
+        $temp = $fan = $volt = $power = $current = $other = null;
 
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                 $mbinfo_data = new $mbinfoclass();
                 $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-                foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     if ($temp == null) {
                         $temp = $mbinfo->addChild('Temperature');
                     }
@@ -447,7 +448,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbFan() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
                     if ($fan == null) {
                         $fan = $mbinfo->addChild('Fans');
                     }
@@ -462,7 +463,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
                     if ($volt == null) {
                         $volt = $mbinfo->addChild('Voltage');
                     }
@@ -480,7 +481,7 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbPower() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
                     if ($power == null) {
                         $power = $mbinfo->addChild('Power');
                     }
@@ -495,16 +496,31 @@ class XML
                     }
                 }
 
-                foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                if (!defined('PSI_ONLY') || PSI_ONLY==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
                     if ($current == null) {
                         $current = $mbinfo->addChild('Current');
                     }
                     $item = $current->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    if ($dev->getMin() !== null) {
+                        $item->addAttribute('Min', $dev->getMin());
+                    }
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
                     }
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                        $item->addAttribute('Event', $dev->getEvent());
+                    }
+                }
+
+                if (!defined('PSI_ONLY') || PSI_ONLY==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
+                    if ($other == null) {
+                        $other = $mbinfo->addChild('Other');
+                    }
+                    $item = $other->addChild('Item');
+                    $item->addAttribute('Label', $dev->getName());
+                    $item->addAttribute('Value', $dev->getValue());
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
@@ -587,9 +603,6 @@ class XML
     private function _buildXml()
     {
         if (!$this->_plugin_request || $this->_complete_request) {
-            if (version_compare("5.2", PHP_VERSION, ">")) {
-                $this->_errors->addError("ERROR", "PHP 5.2 or greater is required, some things may not work correctly");
-            }
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
                     // unstable version check
@@ -620,22 +633,22 @@ class XML
                 }
                 $this->_sys = $this->_sysinfo->getSys();
             }
-            $this->_buildVitals();
-            $this->_buildNetwork();
-            $this->_buildHardware();
-            $this->_buildMemory();
-            $this->_buildFilesystems();
-            $this->_buildMbinfo();
-            $this->_buildUpsinfo();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') $this->_buildVitals();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='network') $this->_buildNetwork();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') $this->_buildHardware();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='memory') $this->_buildMemory();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') $this->_buildFilesystems();
+            if (!defined('PSI_ONLY') || in_array(PSI_ONLY, array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
+            if (!defined('PSI_ONLY') || PSI_ONLY==='ups') $this->_buildUpsinfo();
         }
-        $this->_buildPlugins();
+        if (!defined('PSI_ONLY')) $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
 
     /**
      * get the xml object
      *
-     * @return string
+     * @return SimpleXmlElement
      */
     public function getXml()
     {
@@ -692,6 +705,7 @@ class XML
         $options = $this->_xml->addChild('Options');
         $options->addAttribute('tempFormat', defined('PSI_TEMP_FORMAT') ? strtolower(PSI_TEMP_FORMAT) : 'c');
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
+        $options->addAttribute('datetimeFormat', defined('PSI_DATETIME_FORMAT') ? strtolower(PSI_DATETIME_FORMAT) : 'utc');
         if (defined('PSI_REFRESH')) {
             if (PSI_REFRESH === false) {
                 $options->addAttribute('refresh', 0);
