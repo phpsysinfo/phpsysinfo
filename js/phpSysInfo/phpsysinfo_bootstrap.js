@@ -441,6 +441,25 @@ Array.prototype.push_attrs=function(element) {
     return i;
 };
 
+function inet_aton(a) {
+    var d = a.split('.');
+    if (d.length == 4) {
+        return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+    } else {
+        return NaN;
+    } 
+}
+
+sorttable.sort_ip=function(a,b) {
+    var x = inet_aton(a[0]);
+    var y = inet_aton(b[0]);
+    if (isNaN(x) || isNaN(y)) {
+        x = a[0];
+        y = b[0];
+    }
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+};
+
 function items(data) {
     if (data !== undefined) {
         if ((data.length > 0) &&  (data[0] !== undefined) && (data[0]["@attributes"] !== undefined)) {

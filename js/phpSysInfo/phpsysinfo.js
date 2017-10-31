@@ -1752,6 +1752,41 @@ jQuery.fn.dataTableExt.oSort['span-number-desc'] = function sortNumberDesc(a, b)
     return ((x < y) ? 1 : ((x > y) ? -1 : 0));
 };
 
+jQuery.fn.dataTableExt.oSort['span-ip-asc'] = function sortIpAsc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = inet_aton(aa);
+    y = inet_aton(bb);
+    if (isNaN(x) || isNaN(y)) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['span-ip-desc'] = function sortIpDesc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = inet_aton(aa);
+    y = inet_aton(bb);
+    if (isNaN(x) || isNaN(y)) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+};
+
+function inet_aton(a) {
+    var d = a.split('.');
+    if (d.length == 4) {
+        return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+    } else {
+        return NaN;
+    }
+};
+
 /**
  * generate the block element for a specific plugin that is available
  * @param {String} plugin name of the plugin
