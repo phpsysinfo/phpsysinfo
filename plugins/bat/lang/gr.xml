@@ -31,7 +31,7 @@
     <exp>Κατάσταση φόρτισης</exp>
   </expression>
   <expression id="plugin_bat_009" name="bat_battery_type">
-    <exp>Battery Type</exp>
+    <exp>Τύπος Μπαταρίας</exp>
   </expression>
   <expression id="plugin_bat_010" name="bat_battery_temperature">
     <exp>Τύπος Μπαταρίας</exp>
