@@ -839,7 +839,7 @@ function countCpu(xml) {
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0, capacity = "";
+        var name = "", count = 0, capacity = "", devcoreposition = 0;
         devicecount++;
         name = $(this).attr("Name");
         capacity = $(this).attr("Capacity");
