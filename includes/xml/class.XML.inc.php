@@ -237,7 +237,7 @@ class XML
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
         }
@@ -247,7 +247,7 @@ class XML
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
             $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
         }

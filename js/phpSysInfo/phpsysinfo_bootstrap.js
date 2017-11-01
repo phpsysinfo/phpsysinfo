@@ -713,6 +713,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
+    var devparamlist = {Capacity:43};
     for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
@@ -724,11 +725,20 @@ function renderHardware(data) {
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
-                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\">";
+                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-" + hw_type + "-" + i +" treegrid-parent-" + hw_type + "\">";
                 html+="<th></th>";
                 html+="<td><span class=\"treegrid-span\" data-bind=\"hwName\"></span></td>";
                 html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
                 html+="</tr>";
+                for (var proc_param in devparamlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        html+="<tr id=\"hardware-" + hw_type +"-" + i + "-" + proc_param + "\" class=\"treegrid-parent-" + hw_type +"-" + i +"\">";
+                        html+="<th></th>";
+                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param], true) + "<span></td>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                        html+="</tr>";
+                    }
+                }
             }
         }
         catch (err) {
@@ -771,6 +781,11 @@ function renderHardware(data) {
                     licz += parseInt(datas[i]["@attributes"]["Count"]);
                 } else {
                     licz++;
+                }
+                for (var proc_param in devparamlist) {
+                    if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                    }
                 }
             }
             if (i > 0) {

@@ -581,7 +581,7 @@ class Linux extends OS
             if (preg_match('/^hd/', $file)) {
                 $dev = new HWDevice();
                 $dev->setName(trim($file));
-                if (CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
                     if (trim($buf) == 'disk') {
                         if (CommonFunctions::rfts("/proc/ide/".$file."/capacity", $buf, 1, 4096, false) || CommonFunctions::rfts("/sys/block/".$file."/size", $buf, 1, 4096, false)) {
                             $dev->setCapacity(trim($buf) * 512 / 1024);

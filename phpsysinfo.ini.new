@@ -187,6 +187,13 @@ BYTE_FORMAT="auto_binary"
 TEMP_FORMAT="c"
 
 
+; Show devices infos
+; Example : SHOW_DEVICES_INFOS=true
+;
+SHOW_DEVICES_INFOS=true
+
+
+
 ; Format in which datetime is displayed
 ; - "UTC"    shown as UTC string
 ; - "locale" shown as Locale string
