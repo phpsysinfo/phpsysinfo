@@ -666,6 +666,14 @@ function renderHardware(data) {
         }
     };
 
+    var dev_directives = {
+        Capacity: {
+            html: function () {
+                return formatBytes(this["Capacity"], data["Options"]["@attributes"]["byteFormat"]);
+            }
+        }
+    };
+
     var html="";
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
@@ -784,7 +792,7 @@ function renderHardware(data) {
                 }
                 for (var proc_param in devparamlist) {
                     if ((datas[i]["@attributes"][proc_param] !== undefined)) {
-                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
+                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
                     }
                 }
             }

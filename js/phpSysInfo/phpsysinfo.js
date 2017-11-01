@@ -839,18 +839,18 @@ function countCpu(xml) {
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0, capacity = "", devcoreposition = 0;
+        var name = "", count = 0, capacity = 0, devcoreposition = 0;
         devicecount++;
         name = $(this).attr("Name");
-        capacity = $(this).attr("Capacity");
+        capacity = parseInt($(this).attr("Capacity"), 10);
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
             name = "(" + count + "x) " + name;
         }
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + name + "</span></td></tr>\n";
         devcoreposition = tree.push(rootposition);
-        if (capacity!== undefined) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + capacity + "</td></tr>\n";
+        if (!isNaN(capacity)) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
     });
