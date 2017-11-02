@@ -194,7 +194,6 @@ TEMP_FORMAT="c"
 SHOW_DEVICES_INFOS=true
 
 
-
 ; Format in which datetime is displayed
 ; - "UTC"    shown as UTC string
 ; - "locale" shown as Locale string
