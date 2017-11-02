@@ -7,6 +7,8 @@ phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml
 
+ - [NEW] StableBit plugin
+
 phpSysInfo 3.2.8
 ----------------
  - [UPD] jQuery 3.2.1
