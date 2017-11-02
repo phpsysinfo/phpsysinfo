@@ -47,7 +47,7 @@ class UpdateNotifier extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_UPDATENOTIFIER_ACCESS)) {
         case 'command':
-            if (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true) {
+            if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "--human-readable", $buffer_info);
             } else {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "2>&1", $buffer_info);
@@ -81,7 +81,7 @@ class UpdateNotifier extends PSI_Plugin
             return;
         }
 
-        if (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true) {
+        if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
             /*
              Ubuntu Landscape format:
              - line 1: packages to update
