@@ -85,7 +85,7 @@ function stablebit_buildTable(xml) {
             }
             if ($(this).attr("IsHot") != undefined) {
                 ishot = parseInt($(this).attr("IsHot"), 10);
-                if (!isNaN(ishot) && (status === 1)) {
+                if (!isNaN(ishot) && (ishot === 1)) {
                     html += "    <tr><td><span class=\"treespan\">" + genlang(9, true, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
