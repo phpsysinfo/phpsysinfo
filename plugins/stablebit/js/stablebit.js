@@ -55,7 +55,7 @@ function stablebit_buildTable(xml) {
             ishot = 0, issmartwarning = 0, issmartpastthresholds = 0, issmartpastadvisorythresholds = 0, 
             issmartfailurepredicted = 0, isdamaged = 0;
 
-            html += "    <tr><td><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
+            html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
             index = tree.push(0);
 
             serialnumber = $(this).attr("SerialNumber");
