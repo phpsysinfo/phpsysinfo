@@ -87,7 +87,8 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
     private function _getconfig()
     {
         if ((!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_ACCESS')) &&
-             (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_FILE'))) {
+             (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_FILE')) &&
+             (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_SHOW_SERIAL'))) {
                 $this->global_error->addError("config.ini", "Config for plugin ".$this->_plugin_name." not exist!");
         }
     }

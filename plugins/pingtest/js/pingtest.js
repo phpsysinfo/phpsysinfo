@@ -80,7 +80,7 @@ function pingtest_buildTable() {
         "bAutoWidth": false,
         "bStateSave": true,
         "aoColumns": [{
-            "sType": 'span-string'
+            "sType": 'span-ip'
         }, {
             "sType": 'span-number'
         }]

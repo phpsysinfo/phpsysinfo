@@ -77,6 +77,7 @@ BLOCKS=true
 ; - Uprecords      - show uprecords info
 ; - Iptables       - show iptables rules list
 ; - PingTest       - show Ping Test info
+; - StableBit      - show StableBit Scanner info (WinNT)
 ;
 PLUGINS=false
 
@@ -185,6 +186,12 @@ BYTE_FORMAT="auto_binary"
 ; - "f-c"  both shown first fahrenheit and celsius in braces
 ;
 TEMP_FORMAT="c"
+
+
+; Show devices infos
+; Example : SHOW_DEVICES_INFOS=true
+;
+SHOW_DEVICES_INFOS=true
 
 
 ; Format in which datetime is displayed
@@ -721,3 +728,10 @@ ADDRESSES=""
 ; Default is 2 seconds
 ;
 TIMEOUT=2
+
+[stablebit]
+; StableBit Plugin configuration
+
+; Show or hide disks serial number
+;
+SHOW_SERIAL=false

@@ -441,6 +441,25 @@ Array.prototype.push_attrs=function(element) {
     return i;
 };
 
+function inet_aton(a) {
+    var d = a.split('.');
+    if (d.length == 4) {
+        return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+    } else {
+        return NaN;
+    } 
+}
+
+sorttable.sort_ip=function(a,b) {
+    var x = inet_aton(a[0]);
+    var y = inet_aton(b[0]);
+    if (isNaN(x) || isNaN(y)) {
+        x = a[0];
+        y = b[0];
+    }
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+};
+
 function items(data) {
     if (data !== undefined) {
         if ((data.length > 0) &&  (data[0] !== undefined) && (data[0]["@attributes"] !== undefined)) {
@@ -647,6 +666,14 @@ function renderHardware(data) {
         }
     };
 
+    var dev_directives = {
+        Capacity: {
+            html: function () {
+                return formatBytes(this["Capacity"], data["Options"]["@attributes"]["byteFormat"]);
+            }
+        }
+    };
+
     var html="";
 
     if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
@@ -694,6 +721,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
+    var devparamlist = {Capacity:43};
     for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);
@@ -705,11 +733,20 @@ function renderHardware(data) {
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
-                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-parent-" + hw_type + "\">";
+                html+="<tr id=\"hardware-" + hw_type + "-" + i +"\" class=\"treegrid-" + hw_type + "-" + i +" treegrid-parent-" + hw_type + "\">";
                 html+="<th></th>";
                 html+="<td><span class=\"treegrid-span\" data-bind=\"hwName\"></span></td>";
                 html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
                 html+="</tr>";
+                for (var proc_param in devparamlist) {
+                    if (datas[i]["@attributes"][proc_param] !== undefined) {
+                        html+="<tr id=\"hardware-" + hw_type +"-" + i + "-" + proc_param + "\" class=\"treegrid-parent-" + hw_type +"-" + i +"\">";
+                        html+="<th></th>";
+                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param], true) + "<span></td>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
+                        html+="</tr>";
+                    }
+                }
             }
         }
         catch (err) {
@@ -752,6 +789,11 @@ function renderHardware(data) {
                     licz += parseInt(datas[i]["@attributes"]["Count"]);
                 } else {
                     licz++;
+                }
+                for (var proc_param in devparamlist) {
+                    if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
+                    }
                 }
             }
             if (i > 0) {

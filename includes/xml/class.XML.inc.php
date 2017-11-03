@@ -236,20 +236,20 @@ class XML
             if ($ide === null) $ide = $hardware->addChild('IDE');
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
+            $tmp->addAttribute('Count', $dev->getCount());
         }
         $scsi = null;
         foreach (System::removeDupsAndCount($this->_sys->getScsiDevices()) as $dev) {
             if ($scsi === null) $scsi = $hardware->addChild('SCSI');
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
             }
+            $tmp->addAttribute('Count', $dev->getCount());
         }
         $tb = null;
         foreach (System::removeDupsAndCount($this->_sys->getTbDevices()) as $dev) {

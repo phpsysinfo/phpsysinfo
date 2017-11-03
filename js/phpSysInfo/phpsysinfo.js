@@ -839,15 +839,20 @@ function countCpu(xml) {
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0;
+        var name = "", count = 0, capacity = 0, devcoreposition = 0;
         devicecount++;
         name = $(this).attr("Name");
+        capacity = parseInt($(this).attr("Capacity"), 10);
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
             name = "(" + count + "x) " + name;
         }
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + name + "</span></td></tr>\n";
-        tree.push(rootposition);
+        devcoreposition = tree.push(rootposition);
+        if (!isNaN(capacity)) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity) + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
     });
     if (devicecount === 0) {
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + genlang(42, true) + "</span></td></tr>\n";
@@ -1750,6 +1755,41 @@ jQuery.fn.dataTableExt.oSort['span-number-desc'] = function sortNumberDesc(a, b)
     x = parseInt(a.substring(a.indexOf(">") + 1, a.indexOf("</")), 10);
     y = parseInt(b.substring(b.indexOf(">") + 1, b.indexOf("</")), 10);
     return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['span-ip-asc'] = function sortIpAsc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = inet_aton(aa);
+    y = inet_aton(bb);
+    if (isNaN(x) || isNaN(y)) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['span-ip-desc'] = function sortIpDesc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = inet_aton(aa);
+    y = inet_aton(bb);
+    if (isNaN(x) || isNaN(y)) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+};
+
+function inet_aton(a) {
+    var d = a.split('.');
+    if (d.length == 4) {
+        return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+    } else {
+        return NaN;
+    }
 };
 
 /**

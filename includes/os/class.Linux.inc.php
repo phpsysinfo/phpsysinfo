@@ -581,7 +581,7 @@ class Linux extends OS
             if (preg_match('/^hd/', $file)) {
                 $dev = new HWDevice();
                 $dev->setName(trim($file));
-                if (CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
                     if (trim($buf) == 'disk') {
                         if (CommonFunctions::rfts("/proc/ide/".$file."/capacity", $buf, 1, 4096, false) || CommonFunctions::rfts("/sys/block/".$file."/size", $buf, 1, 4096, false)) {
                             $dev->setCapacity(trim($buf) * 512 / 1024);
@@ -603,22 +603,44 @@ class Linux extends OS
      */
     private function _scsi()
     {
-        $get_type = false;
+        $getline = 0;
         $device = null;
+        $scsiid = null;
         if (CommonFunctions::executeProgram('lsscsi', '-c', $bufr, PSI_DEBUG) || CommonFunctions::rfts('/proc/scsi/scsi', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/Vendor: (.*) Model: (.*) Rev: (.*)/i', $buf, $devices)) {
-                    $get_type = true;
+                if (preg_match('/Host: scsi(\d+) Channel: (\d+) Target: (\d+) Lun: (\d+)/i', $buf, $scsiids)) {
+                    $scsiid = $scsiids;
+                    $getline = 1;
+                    continue;
+                }
+                if ($getline == 1) {
+                    preg_match('/Vendor: (.*) Model: (.*) Rev: (.*)/i', $buf, $devices);
+                    $getline = 2;
                     $device = $devices;
                     continue;
                 }
-                if ($get_type) {
+                if ($getline == 2) {
                     preg_match('/Type:\s+(\S+)/i', $buf, $dev_type);
+
                     $dev = new HWDevice();
                     $dev->setName($device[1].' '.$device[2].' ('.$dev_type[1].')');
+
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                       && ($dev_type[1]==='Direct-Access')) {
+                       $sizelist = glob('/sys/bus/scsi/devices/'.($scsiid[1]+0).':'.($scsiid[2]+0).':'.($scsiid[3]+0).':'.($scsiid[4]+0).'/*/*/size', GLOB_NOSORT);
+                       if (($total = count($sizelist)) > 0) {
+                           $buf = "";
+                           for ($i = 0; $i < $total; $i++) {
+                               if (CommonFunctions::rfts($sizelist[$i], $buf, 1, 4096, false) && (($buf=trim($buf)) != "") && ($buf > 0)) {
+                                   $dev->setCapacity($buf * 512);
+                                   break;
+                               }
+                           }
+                       }
+                    }
                     $this->sys->setScsiDevices($dev);
-                    $get_type = false;
+                    $getline = 0;
                 }
             }
         }
