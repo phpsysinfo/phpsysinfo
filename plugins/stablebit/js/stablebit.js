@@ -64,7 +64,7 @@ function stablebit_buildTable(xml) {
                 tree.push(index);
             }
             firmware = $(this).attr("Firmware");
-            if (serialnumber != undefined) {
+            if (firmware != undefined) {
                 html += "    <tr><td><span class=\"treespan\">" + genlang(5, true, "StableBit") + "</span></td><td>" + firmware +"</td></tr>\n";
                 tree.push(index);
             }
@@ -74,12 +74,12 @@ function stablebit_buildTable(xml) {
                 tree.push(index);
             }        
             powerstate = $(this).attr("PowerState");
-            if (serialnumber != undefined) {
+            if (powerstate != undefined) {
                 html += "    <tr><td><span class=\"treespan\">" + genlang(7, true, "StableBit") + "</span></td><td>" + powerstate +"</td></tr>\n";
                 tree.push(index);
             }
             temperaturec = $(this).attr("TemperatureC");
-            if (serialnumber != undefined) {
+            if (temperaturec != undefined) {
                 html += "    <tr><td><span class=\"treespan\">" + genlang(8, true, "StableBit") + "</span></td><td>" + formatTemp(temperaturec, xml) +"</td></tr>\n";
                 tree.push(index);
             }
