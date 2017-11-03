@@ -34,7 +34,7 @@ var stablebit_show = false;
 function stablebit_buildTable(xml) {
     var html = "", tree = [], closed = [];
 
-    $("#Plugin_StableBit #Plugin_StabeBitTable").remove();
+    $("#Plugin_StableBit #Plugin_StableBitTable").remove();
 
     html += "  <table id=\"Plugin_StableBitTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
