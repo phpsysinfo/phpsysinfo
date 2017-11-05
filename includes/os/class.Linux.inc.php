@@ -651,84 +651,121 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _usb()
+    protected function _usb()
     {
-        $devnum = -1;
-        $results = array();
-        if (CommonFunctions::executeProgram('lsusb', '', $bufr, PSI_DEBUG) && (trim($bufr) !== "")) {
+        function  readValue($idProductPath, $valueName)
+        {
+            $filename = preg_replace("/\/idProduct$/", "/".$valueName, $idProductPath);
+            if (CommonFunctions::fileexists($filename) && CommonFunctions::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
+                return $buf;
+            } else {
+                return null;
+            }
+        }
+
+        $usbarray = array();
+        if (CommonFunctions::executeProgram('lsusb', '2>/dev/null', $bufr, PSI_DEBUG) && (trim($bufr) !== "")) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 7);
-                if (isset($device[6]) && trim($device[6]) != "") {
-                    $dev = new HWDevice();
-                    $dev->setName(trim($device[6]));
-                    $this->sys->setUsbDevices($dev);
-                } elseif (isset($device[5]) && trim($device[5]) != "") {
-                    $dev = new HWDevice();
-                    $dev->setName("unknown");
-                    $this->sys->setUsbDevices($dev);
+                if (((isset($device[6]) && trim($device[6]) != "")) ||
+                    ((isset($device[5]) && trim($device[5]) != ""))) {
+                    $usbid = ($device[1]+0).'-'.(trim($device[3],':')+0).' '.$device[5];
+                    if ((isset($device[6]) && trim($device[6]) != "")) {
+                        $usbarray[$usbid]['name'] = trim($device[6]);
+                    } else {
+                        $usbarray[$usbid]['name'] = 'unknown';
+                    }
                 }
             }
-        } elseif (CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+        }
+
+        $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+        if (($total = count($usbdevices)) > 0) {
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { //is readable
+                    $busnum = readValue($usbdevices[$i], 'busnum');
+                    $devnum = readValue($usbdevices[$i], 'devnum');
+                    $idvendor = readValue($usbdevices[$i], 'idVendor');
+                    if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
+                        $usbid = ($busnum+0).'-'.($devnum+0).' '.$idvendor.':'.$idproduct;
+                        $manufacturer = readValue($usbdevices[$i], 'manufacturer');
+                        if ($manufacturer!==null) {
+                            $usbarray[$usbid]['manufacturer'] = $manufacturer;
+                        }
+                        $product = readValue($usbdevices[$i], 'product');
+                        if ($product!==null) {
+                            $usbarray[$usbid]['product'] = $product;
+                        }
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                            $serial = readValue($usbdevices[$i], 'serial');
+                            if ($serial!==null) {
+                                $usbarray[$usbid]['serial'] = $serial;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+            $devnum = -1;
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
                     $devnum++;
-                    $results[$devnum] = "";
                 } elseif (preg_match('/^S:/', $buf)) {
                     list($key, $value) = preg_split('/: /', $buf, 2);
                     list($key, $value2) = preg_split('/=/', $value, 2);
-                    if (trim($key) == "Manufacturer") {
-                        if (preg_match("/^linux\s/i", trim($value2))) {
-                            $value2 = "Linux";
-                        } elseif (trim($value2) == "no manufacturer") {
-                            $value2 = "";
-                        }
-                    }
-                    if ((trim($key) != "SerialNumber") && (trim($value2) != "")) {
-                        $results[$devnum] .= " ".trim($value2);
-                    }
-                }
-            }
-            foreach ($results as $var) {
-                $dev = new HWDevice();
-                $var = trim($var);
-                if ($var != "") {
-                    $dev->setName($var);
-                } else {
-                    $dev->setName("unknown");
-                }
-                $this->sys->setUsbDevices($dev);
-            }
-        } else {
-            $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
-            if (($total = count($usbdevices)) > 0) {
-                $buf = "";
-                for ($i = 0; $i < $total; $i++) {
-                    if (CommonFunctions::rfts($usbdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) { //is readable
-                        $product = preg_replace("/\/idProduct$/", "/product", $usbdevices[$i]);
-                        $manufacturer = preg_replace("/\/idProduct$/", "/manufacturer", $usbdevices[$i]);
-                        $usbbuf = "";
-                        if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                            if (preg_match("/^linux\s/i", trim($buf))) {
-                                $usbbuf = "Linux";
-                            } elseif (trim($buf) != "no manufacturer") {
-                                $usbbuf = trim($buf);
-                            }
-                        }
-                        if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                            $usbbuf .= " ".trim($buf);
-                        }
-                        $dev = new HWDevice();
-                        if (trim($usbbuf) != "") {
-                            $dev->setName(trim($usbbuf));
-                        } else {
-                            $dev->setName("unknown");
-                        }
-                        $this->sys->setUsbDevices($dev);
+                    switch (trim($key)) {
+                    case 'Manufacturer':
+                        $usbarray[$devnum]['manufacturer'] = trim($value2);
+                        break;
+                    case 'Product':
+                        $usbarray[$devnum]['product'] = trim($value2);
+                        break;
+                    case 'SerialNumber':
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                            $usbarray[$devnum]['serial'] = trim($value2);
+                         }
+                         break;
                     }
                 }
             }
+        }
+
+        foreach ($usbarray as $usbdev) {
+            $dev = new HWDevice();
+
+            if (isset($usbdev['manufacturer']) && (($manufacturer=$usbdev['manufacturer']) !== 'no manufacturer')) {
+                if (preg_match("/^linux\s/i", $manufacturer)) {
+                    $manufacturer = 'Linux Foundation';
+                }
+                $dev->setManufacturer($manufacturer);
+            } else {
+                $manufacturer = '';
+            }
+
+            if (isset($usbdev['product'])) {
+                $dev->setProduct($product = $usbdev['product']);
+            } else {
+                $product = '';
+            }
+
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                $dev->setSerial($usbdev['serial']);
+            }
+
+            if (isset($usbdev['name']) && (($name=$usbdev['name']) !== 'unknown')) {
+                $dev->setName($name);
+            } else {
+                $dev->setName(trim($manufacturer.' '.$product));
+            }
+
+            $this->sys->setUsbDevices($dev);
         }
     }
 

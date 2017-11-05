@@ -839,10 +839,14 @@ function countCpu(xml) {
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0, capacity = 0, devcoreposition = 0;
+        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", devcoreposition = 0;
+
         devicecount++;
         name = $(this).attr("Name");
         capacity = parseInt($(this).attr("Capacity"), 10);
+        manufacturer = $(this).attr("Manufacturer");
+        product = $(this).attr("Product");
+        serial = $(this).attr("Serial");
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
             name = "(" + count + "x) " + name;
@@ -851,6 +855,18 @@ function fillHWDevice(xml, type, tree, rootposition) {
         devcoreposition = tree.push(rootposition);
         if (!isNaN(capacity)) {
             html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity) + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (manufacturer!== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(122, true) + ":</span></td><td>" + manufacturer + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (product !== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(123, true) + ":</span></td><td>" + product + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (serial !== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(124, true) + ":</span></td><td>" + serial + "</td></tr>\n";
             tree.push(devcoreposition);
         }
     });

@@ -225,15 +225,28 @@ class WINNT extends OS
     private function _devicelist($strType)
     {
         if (empty($this->_wmidevices)) {
-            $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
+            } else {
+                $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+            }
         }
         $list = array();
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
-                $list[] = $device['Name'];
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    if ($device['PNPClass']==='USB') {
+                        $device['PNPClass'] = null;
+                    }
+                    if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
+                        $device['Manufacturer'] = null;
+                    }
+                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass']);
+                } else {
+                    $list[] = array('Name'=>$device['Name']);
+                }
             }
         }
-
         return $list;
     }
 
@@ -535,25 +548,29 @@ class WINNT extends OS
     {
         foreach ($this->_devicelist('PCI') as $pciDev) {
             $dev = new HWDevice();
-            $dev->setName($pciDev);
+            $dev->setName($pciDev['Name']);
             $this->sys->setPciDevices($dev);
         }
 
         foreach ($this->_devicelist('IDE') as $ideDev) {
             $dev = new HWDevice();
-            $dev->setName($ideDev);
+            $dev->setName($ideDev['Name']);
             $this->sys->setIdeDevices($dev);
         }
 
         foreach ($this->_devicelist('SCSI') as $scsiDev) {
             $dev = new HWDevice();
-            $dev->setName($scsiDev);
+            $dev->setName($scsiDev['Name']);
             $this->sys->setScsiDevices($dev);
         }
 
         foreach ($this->_devicelist('USB') as $usbDev) {
             $dev = new HWDevice();
-            $dev->setName($usbDev);
+            $dev->setName($usbDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setManufacturer($usbDev['Manufacturer']);
+                $dev->setProduct($usbDev['Product']);
+            }
             $this->sys->setUsbDevices($dev);
         }
     }

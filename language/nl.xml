@@ -369,4 +369,13 @@ phpSysInfo language file Language: Dutch Created by: Jaap Struyk
   <expression id="121" name="other">
     <exp>Other</exp>
   </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Manufacturer</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Product</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Serial number</exp>
+  </expression>
 </tns:translation>

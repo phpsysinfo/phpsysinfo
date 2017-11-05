@@ -235,25 +235,6 @@ class Android extends Linux
         }
     }
 
-    /**
-     * USB devices
-     *
-     * @return void
-     */
-    private function _usb()
-    {
-        if ((file_exists('/dev/bus/usb') || (defined('PSI_UNAMEO') && PSI_UNAMEO === 'Android')) && CommonFunctions::executeProgram('lsusb', '', $bufr, false)) {
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($bufe as $buf) {
-                $device = preg_split("/ /", $buf, 6);
-                if (isset($device[5]) && trim($device[5]) != "") {
-                    $dev = new HWDevice();
-                    $dev->setName(trim($device[5]));
-                    $this->sys->setUsbDevices($dev);
-                }
-            }
-        }
-    }
 
     /**
      * get the information

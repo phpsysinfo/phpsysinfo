@@ -721,7 +721,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    var devparamlist = {Capacity:43};
+    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
     for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
             var datas = items(data["Hardware"][hw_type]["Device"]);

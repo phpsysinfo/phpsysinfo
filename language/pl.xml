@@ -369,4 +369,13 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="121" name="other">
     <exp>Inne</exp>
   </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Producent</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Produkt</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Number seryjny</exp>
+  </expression>
 </tns:translation>

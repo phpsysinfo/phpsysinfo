@@ -229,6 +229,17 @@ class XML
             if ($usb === null) $usb = $hardware->addChild('USB');
             $tmp = $usb->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
+            }
             $tmp->addAttribute('Count', $dev->getCount());
         }
         $ide = null;

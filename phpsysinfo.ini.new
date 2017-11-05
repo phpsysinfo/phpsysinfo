@@ -194,6 +194,12 @@ TEMP_FORMAT="c"
 SHOW_DEVICES_INFOS=true
 
 
+; Show devices serial number
+; Example : SHOW_DEVICES_SERIAL=true
+;
+SHOW_DEVICES_SERIAL=false
+
+
 ; Format in which datetime is displayed
 ; - "UTC"    shown as UTC string
 ; - "locale" shown as Locale string

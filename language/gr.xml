@@ -369,4 +369,13 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="121" name="other">
     <exp>Άλλο</exp>
   </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Manufacturer</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Product</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Serial number</exp>
+  </expression>
 </tns:translation>

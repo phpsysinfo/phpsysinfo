@@ -7,6 +7,8 @@ phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml
 
+ - [NEW] SHOW_DEVICES_INFOS and SHOW_DEVICES_SERIAL options
+
  - [NEW] StableBit plugin
 
 phpSysInfo 3.2.8
