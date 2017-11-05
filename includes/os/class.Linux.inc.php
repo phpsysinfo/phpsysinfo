@@ -756,7 +756,7 @@ class Linux extends OS
 
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                 && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                && isset($usbdev['serial']) {
+                && isset($usbdev['serial'])) {
                 $dev->setSerial($usbdev['serial']);
             }
 
