@@ -235,7 +235,7 @@ class WINNT extends OS
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                    if ($device['PNPClass']==='USB') {
+                    if (!isset($device['PNPClass']) || ($device['PNPClass']==='USB')) {
                         $device['PNPClass'] = null;
                     }
                     if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
