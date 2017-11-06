@@ -370,12 +370,12 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Άλλο</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>Κατασκευαστής</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>Product</exp>
+    <exp>Προϊόν</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>Serial number</exp>
+    <exp>Σειριακός αριθμός</exp>
   </expression>
 </tns:translation>
