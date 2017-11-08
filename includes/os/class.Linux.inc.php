@@ -751,7 +751,7 @@ class Linux extends OS
             }
 
             if (isset($usbdev['product'])) {
-                $product = $usbdev['product');
+                $product = $usbdev['product'];
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                     $dev->setProduct($product);
                 }
