@@ -743,13 +743,18 @@ class Linux extends OS
                 if (preg_match("/^linux\s/i", $manufacturer)) {
                     $manufacturer = 'Linux Foundation';
                 }
-                $dev->setManufacturer($manufacturer);
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    $dev->setManufacturer($manufacturer);
+                }
             } else {
                 $manufacturer = '';
             }
 
             if (isset($usbdev['product'])) {
-                $dev->setProduct($product = $usbdev['product']);
+                $product = $usbdev['product');
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    $dev->setProduct($product);
+                }
             } else {
                 $product = '';
             }
