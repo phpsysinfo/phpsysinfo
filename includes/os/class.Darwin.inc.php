@@ -235,7 +235,9 @@ class Darwin extends BSDCommon
         $lines = preg_split("/\n/", $s, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($lines as $line) {
                     $dev = new HWDevice();
-                    $dev->setName(trim(preg_split("/[\s@]+/", $line, 19)));
+                    if (!preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf))
+                       $ar_buf = preg_split("/[\s@]+/", $line, 19);
+                    $dev->setName(trim($ar_buf[1]));
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                         if (preg_match('/"USB Vendor Name" = "([^"]*)"/', $line, $ar_buf)) {
                             $dev->setManufacturer(trim($ar_buf[1]));
