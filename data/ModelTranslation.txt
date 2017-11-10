@@ -26,6 +26,9 @@ iMac15,1:iMac Core i5/i7:Intel Core I5-4590/I5-4690/I7-4790K
 iMac16,1:iMac Core i5:Intel Core I5-5250U
 iMac16,2:iMac Core i5/i7:Intel Core I5-5575R/I5-5675R/I7-5775R
 iMac17,1:iMac Core i5/i7:Intel Core I5-6500/I5-6600/I7-6700K
+iMac18,1:iMac Core i5:Intel Core I5-7360U
+iMac18,2:iMac Core i5/i7:Intel Core I5-7400/I5-7500/I7-7700
+iMac18,3:iMac Core i5/i7:Intel Core I5-7500/I5-7600/I5-7600K/I7-7700K
 M43ADP1,1:Development Mac Pro:Intel Xeon X5340
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
