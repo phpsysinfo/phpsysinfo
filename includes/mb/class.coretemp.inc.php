@@ -35,6 +35,9 @@ class Coretemp extends Sensors
     {
         if (PSI_OS == 'Linux') {
            $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
+           if (count($hwpaths) > 0) {
+               $hwpaths = array_merge($hwpaths, glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT));
+           }
            if (($totalh = count($hwpaths)) > 0) {
                $buf = "";
                for ($h = 0; $h < $totalh; $h++) {
