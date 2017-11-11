@@ -44,14 +44,20 @@ class Hwmon extends Sensors
                 $crit = preg_replace("/_input$/", "_crit", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
                 $crit_alarm = preg_replace("/_input$/", "_crit_alarm", $sensor[$i]);
+                $sname = preg_replace("/\/[^\/]*_input$/", "/name", $sensor[$i]);
+                if (CommonFunctions::fileexists($sname) && CommonFunctions::rfts($sname, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                   $name = trim($buf)." ";
+                } else {
+                   $name = "";
+                }
                 if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setName(trim($buf));
+                    $dev->setName($name.trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
                     if ($labelname !== "") {
-                        $dev->setName($labelname);
+                        $dev->setName($name.$labelname);
                     } else {
-                        $dev->setName('unknown');
+                        $dev->setName($name.'unknown');
                     }
                 }
                 if (CommonFunctions::fileexists($crit) && CommonFunctions::rfts($crit, $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -85,14 +91,20 @@ class Hwmon extends Sensors
                 $alarm = preg_replace("/_input$/", "_alarm", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
                 $min = preg_replace("/_input$/", "_min", $sensor[$i]);
+                $sname = preg_replace("/\/[^\/]*_input$/", "/name", $sensor[$i]);
+                if (CommonFunctions::fileexists($sname) && CommonFunctions::rfts($sname, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                   $name = trim($buf)." ";
+                } else {
+                   $name = "";
+                }
                 if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setName(trim($buf));
+                    $dev->setName($name.trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
                     if ($labelname !== "") {
-                        $dev->setName($labelname);
+                        $dev->setName($name.$labelname);
                     } else {
-                        $dev->setName('unknown');
+                        $dev->setName($name.'unknown');
                     }
                 }
                 if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -128,14 +140,20 @@ class Hwmon extends Sensors
                 $fullmax = preg_replace("/_input$/", "_full_speed", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
                 $min = preg_replace("/_input$/", "_min", $sensor[$i]);
+                $sname = preg_replace("/\/[^\/]*_input$/", "/name", $sensor[$i]);
+                if (CommonFunctions::fileexists($sname) && CommonFunctions::rfts($sname, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                   $name = trim($buf)." ";
+                } else {
+                   $name = "";
+                }
                 if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setName(trim($buf));
+                    $dev->setName($name.trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
                     if ($labelname !== "") {
-                        $dev->setName($labelname);
+                        $dev->setName($name.$labelname);
                     } else {
-                        $dev->setName('unknown');
+                        $dev->setName($name.'unknown');
                     }
                 }
                 if (CommonFunctions::fileexists($fullmax) && CommonFunctions::rfts($fullmax, $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -172,14 +190,20 @@ class Hwmon extends Sensors
                 $alarm = preg_replace("/_input$/", "_alarm", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
                 $min = preg_replace("/_input$/", "_min", $sensor[$i]);
+                $sname = preg_replace("/\/[^\/]*_input$/", "/name", $sensor[$i]);
+                if (CommonFunctions::fileexists($sname) && CommonFunctions::rfts($sname, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                   $name = trim($buf)." ";
+                } else {
+                   $name = "";
+                }
                 if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setName(trim($buf));
+                    $dev->setName($name.trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
                     if ($labelname !== "") {
-                        $dev->setName($labelname);
+                        $dev->setName($name.$labelname);
                     } else {
-                        $dev->setName('unknown');
+                        $dev->setName($name.'unknown');
                     }
                 }
                 if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -214,14 +238,20 @@ class Hwmon extends Sensors
                 $alarm = preg_replace("/_input$/", "_alarm", $sensor[$i]);
                 $max = preg_replace("/_input$/", "_max", $sensor[$i]);
                 $min = preg_replace("/_input$/", "_min", $sensor[$i]);
+                $sname = preg_replace("/\/[^\/]*_input$/", "/name", $sensor[$i]);
+                if (CommonFunctions::fileexists($sname) && CommonFunctions::rfts($sname, $buf, 1, 4096, false) && (trim($buf) != "")) {
+                   $name = trim($buf)." ";
+                } else {
+                   $name = "";
+                }
                 if (CommonFunctions::fileexists($label) && CommonFunctions::rfts($label, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                    $dev->setName(trim($buf));
+                    $dev->setName($name.trim($buf));
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
                     if ($labelname !== "") {
-                        $dev->setName($labelname);
+                        $dev->setName($name.$labelname);
                     } else {
-                        $dev->setName('unknown');
+                        $dev->setName($name.'unknown');
                     }
                 }
                 if (CommonFunctions::fileexists($max) && CommonFunctions::rfts($max, $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -247,8 +277,11 @@ class Hwmon extends Sensors
      */
     public function build()
     {
-       $hwpaths = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
-       if (($totalh = count($hwpaths)) > 0) {
+        $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
+        if (count($hwpaths) > 0) {
+            $hwpaths = array_merge($hwpaths, glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT));
+        }
+        if (($totalh = count($hwpaths)) > 0) {
             for ($h = 0; $h < $totalh; $h++) {
                 $this->_temperature($hwpaths[$h]);
                 $this->_voltage($hwpaths[$h]);
@@ -256,6 +289,6 @@ class Hwmon extends Sensors
                 $this->_power($hwpaths[$h]);
                 $this->_current($hwpaths[$h]);
             }
-       }
+        }
     }
 }
