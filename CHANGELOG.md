@@ -8,6 +8,7 @@ phpSysInfo 3.2.9
  - [UPD] Greek Translation gr.xml
 
  - [NEW] SHOW_DEVICES_INFOS and SHOW_DEVICES_SERIAL options
+ - [NEW] Thinkpad - Lenovo Thinkpad sensors monitoring for Linux
 
  - [NEW] StableBit plugin
 

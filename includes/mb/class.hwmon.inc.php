@@ -13,7 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
  /**
- * getting hardware temperature information through sysctl
+ * getting hardware sensors information from /sys/class/hwmon/hwmon
  *
  * @category  PHP
  * @package   PSI_Sensor
@@ -32,7 +32,7 @@ class Hwmon extends Sensors
      * @param  string $hwpath
      * @return void
      */
-    private function _temperature($hwpath)
+    protected function _temperature($hwpath)
     {
        $sensor = glob($hwpath."temp*_input", GLOB_NOSORT);
        if (($total = count($sensor)) > 0) {
@@ -127,7 +127,7 @@ class Hwmon extends Sensors
      * @param  string $hwpath
      * @return void
      */
-    private function _fans($hwpath)
+    protected function _fans($hwpath)
     {
        $sensor = glob($hwpath."fan*_input", GLOB_NOSORT);
        if (($total = count($sensor)) > 0) {

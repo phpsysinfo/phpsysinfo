@@ -231,6 +231,7 @@ DATETIME_FORMAT="UTC"
 ; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
+; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
