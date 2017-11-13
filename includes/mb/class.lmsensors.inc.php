@@ -72,7 +72,7 @@ class LMSensors extends Sensors
                 //$applesmc = preg_match("/^applesmc-/", $line);
                 $sname = trim($line);
                 $applesmc =  ($sname === "applesmc-isa-0300");
-                if (preg_match('/^([^-]+)/', $sname, $snamebuf)) {
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
                     $sname = ' ('.$snamebuf[1].')';
                 } else {
                     $sname = '';
@@ -169,7 +169,7 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 $sname = trim($line);
-                if (preg_match('/^([^-]+)/', $sname, $snamebuf)) {
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
                     $sname = ' ('.$snamebuf[1].')';
                 } else {
                     $sname = '';
@@ -220,7 +220,7 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 $sname = trim($line);
-                if (preg_match('/^([^-]+)/', $sname, $snamebuf)) {
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
                     $sname = ' ('.$snamebuf[1].')';
                 } else {
                     $sname = '';
@@ -273,7 +273,7 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 $sname = trim($line);
-                if (preg_match('/^([^-]+)/', $sname, $snamebuf)) {
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
                     $sname = ' ('.$snamebuf[1].')';
                 } else {
                     $sname = '';
@@ -333,7 +333,7 @@ class LMSensors extends Sensors
         foreach ($this->_lines as $line) {
             if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 $sname = trim($line);
-                if (preg_match('/^([^-]+)/', $sname, $snamebuf)) {
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
                     $sname = ' ('.$snamebuf[1].')';
                 } else {
                     $sname = '';
