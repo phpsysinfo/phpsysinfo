@@ -527,10 +527,11 @@ class WINNT extends OS
         $buffer = $this->_get_Win32_ComputerSystem(); 
         if ($buffer) {
             $buf = "";
-            if (isset($buffer[0]['Manufacturer']) && (($buf2=$buffer[0]['Manufacturer']) !== 'To Be Filled By O.E.M.') && (($buf2=$buffer[0]['Manufacturer']) !== 'To be filled by O.E.M.') && ($buf2 !== 'System manufacturer')) {
+            if (isset($buffer[0]['Manufacturer']) && !preg_match(/"^To be filled by O\.E\.M\.$|^System manufacturer$/i", $buf2=$buffer[0]['Manufacturer'])) {
                 $buf .= ' '.$buf2;
             }
-            if (isset($buffer[0]['Model']) && (($buf2=$buffer[0]['Model']) !== 'To Be Filled By O.E.M.') && (($buf2=$buffer[0]['Model']) !== 'To be filled by O.E.M.') && ($buf2 !== 'System Product Name')) {
+            
+            if (isset($buffer[0]['Model']) && !preg_match(/"^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model']))
                 $buf .= ' '.$buf2;
             }
             if (trim($buf) != "") {

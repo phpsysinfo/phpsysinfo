@@ -83,7 +83,7 @@ class Linux extends OS
         }
 
         if ($machine != "") {
-            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To Be Filled By O\.E\.M\.|To be filled by O\.E\.M\.|System manufacturer|System Product Name) ?/", "", $machine)));
+            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified) ?/i", "", $machine)));
         }
 
         if (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
