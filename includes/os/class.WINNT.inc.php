@@ -531,7 +531,7 @@ class WINNT extends OS
                 $buf .= ' '.$buf2;
             }
             
-            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model']))
+            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model'])) {
                 $buf .= ' '.$buf2;
             }
             if (trim($buf) != "") {
