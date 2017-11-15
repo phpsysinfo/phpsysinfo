@@ -1803,8 +1803,8 @@ function full_addr(ip_string) {
     var wrongvalue = false;
     ip_string = ip_string.trim().toLowerCase();
     // ipv4 notation
-    if (ip_string.match(/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
-        ip_string ='::' + ip_string;
+    if (ip_string.match(/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
+        ip_string ='::ffff:' + ip_string;
     }
     // replace ipv4 address if any
     var ipv4 = ip_string.match(/(.*:)([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/);
