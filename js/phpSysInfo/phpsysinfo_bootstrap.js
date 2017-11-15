@@ -441,19 +441,77 @@ Array.prototype.push_attrs=function(element) {
     return i;
 };
 
-function inet_aton(a) {
-    var d = a.split('.');
-    if (d.length == 4) {
-        return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+function full_addr(ip_string) {
+    var wrongvalue = false;
+    ip_string = ip_string.trim().toLowerCase();
+    // ipv4 notation
+    if (ip_string.match(/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
+        ip_string ='::' + ip_string;
+    }
+    // replace ipv4 address if any
+    var ipv4 = ip_string.match(/(.*:)([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/);
+    if (ipv4) {
+        ip_string = ipv4[1];
+        ipv4 = ipv4[2].match(/[0-9]+/g);
+        for (var i = 0;i < 4;i ++) {
+            var byte = parseInt(ipv4[i],10);
+            if (byte<256) {
+                ipv4[i] = ("0" + byte.toString(16)).substr(-2);
+            } else {
+                wrongvalue = true;
+                break;
+            }
+        }
+        if (wrongvalue) {
+            ip_string = '';
+        } else {
+            ip_string += ipv4[0] + ipv4[1] + ':' + ipv4[2] + ipv4[3];
+        }
+    }
+
+    if (ip_string === '') {
+        return '';
+    }
+    // take care of leading and trailing ::
+    ip_string = ip_string.replace(/^:|:$/g, '');
+
+    var ipv6 = ip_string.split(':');
+
+    for (var li = 0; li < ipv6.length; li ++) {
+        var hex = ipv6[li];
+        if (hex !== "") {
+            if (!hex.match(/^[0-9a-f]{1,4}$/)) {
+                wrongvalue = true;
+                break;
+            }
+            // normalize leading zeros
+            ipv6[li] = ("0000" + hex).substr(-4);
+        }
+        else {
+            // normalize grouped zeros ::
+            hex = [];
+            for (var j = ipv6.length; j <= 8; j ++) {
+                hex.push('0000');
+            }
+            ipv6[li] = hex.join(':');
+        }
+    }
+    if (!wrongvalue) {
+        var out = ipv6.join(':');
+        if (out.length == 39) {
+            return out;
+        } else {
+            return '';
+        }
     } else {
-        return NaN;
-    } 
+        return '';
+    }
 }
 
 sorttable.sort_ip=function(a,b) {
-    var x = inet_aton(a[0]);
-    var y = inet_aton(b[0]);
-    if (isNaN(x) || isNaN(y)) {
+    var x = full_addr(a[0]);
+    var y = full_addr(b[0]);
+    if ((x === '') || (y === '')) {
         x = a[0];
         y = b[0];
     }
