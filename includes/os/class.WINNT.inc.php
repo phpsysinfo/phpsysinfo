@@ -241,7 +241,13 @@ class WINNT extends OS
                     if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
                         $device['Manufacturer'] = null;
                     }
-                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass']);
+                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                       && ($strType==='USB') && preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
+                        $device['Serial'] = $buf[1];
+                    } else {
+                        $device['Serial'] = null;
+                    }
+                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass'], 'Serial'=>$device['Serial']);
                 } else {
                     $list[] = array('Name'=>$device['Name']);
                 }
@@ -571,6 +577,9 @@ class WINNT extends OS
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                 $dev->setManufacturer($usbDev['Manufacturer']);
                 $dev->setProduct($usbDev['Product']);
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $dev->setSerial($usbDev['Serial']);
+                }
             }
             $this->sys->setUsbDevices($dev);
         }
