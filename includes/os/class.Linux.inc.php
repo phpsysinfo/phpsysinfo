@@ -700,7 +700,7 @@ class Linux extends OS
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                            && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                             $serial = readValue($usbdevices[$i], 'serial');
-                            if ($serial!==null) {
+                            if (($serial!==null) && !preg_match('/\W/', $serial)) {
                                 $usbarray[$usbid]['serial'] = $serial;
                             }
                         }
@@ -727,7 +727,8 @@ class Linux extends OS
                         break;
                     case 'SerialNumber':
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
-                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                           && !preg_match('/\W/', trim($value2))) {
                             $usbarray[$devnum]['serial'] = trim($value2);
                          }
                          break;
@@ -768,7 +769,11 @@ class Linux extends OS
             if (isset($usbdev['name']) && (($name=$usbdev['name']) !== 'unknown')) {
                 $dev->setName($name);
             } else {
-                $dev->setName(trim($manufacturer.' '.$product));
+                if (($newname = trim($manufacturer.' '.$product)) !== '') {
+                    $dev->setName($newname);
+                } else {
+                    $dev->setName('unknown');
+                }
             }
 
             $this->sys->setUsbDevices($dev);
