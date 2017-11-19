@@ -244,7 +244,7 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>电池电压</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>电池点亮总额</exp>
+    <exp>电池电量总额</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
     <exp>电池剩余时间</exp>
