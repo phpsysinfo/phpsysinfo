@@ -609,7 +609,8 @@ class Linux extends OS
         if (CommonFunctions::executeProgram('lsscsi', '-c', $bufr, PSI_DEBUG) || CommonFunctions::rfts('/proc/scsi/scsi', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/Host: scsi(\d+) Channel: (\d+) Target: (\d+) Lun: (\d+)/i', $buf, $scsiids)) {
+                if (preg_match('/Host: scsi(\d+) Channel: (\d+) Target: (\d+) Lun: (\d+)/i', $buf, $scsiids)
+                   || preg_match('/Host: scsi(\d+) Channel: (\d+) Id: (\d+) Lun: (\d+)/i', $buf, $scsiids)) {
                     $scsiid = $scsiids;
                     $getline = 1;
                     continue;
