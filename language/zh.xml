@@ -244,7 +244,7 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>电池电压</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>电池点亮总额</exp>
+    <exp>电池电量总额</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
     <exp>电池剩余时间</exp>
@@ -304,22 +304,22 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>详细信息</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>CPU最高频率</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>CPU最低频率</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>功率</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>电池生产日期</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>电流</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
@@ -328,31 +328,31 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>Machine</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>电流频率</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>进程</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>正在运行</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>休眠中</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>已停止</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
-    <exp>zombie</exp>
+    <exp>僵尸进程</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>等待中</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>其他</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>TB 设备</exp>
@@ -361,21 +361,21 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>I2C 设备</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>核心数量</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>处理器数量</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>其他</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>生产商</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>Product</exp>
+    <exp>型号</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>Serial number</exp>
+    <exp>产品序号</exp>
   </expression>
 </tns:translation>
