@@ -716,10 +716,11 @@ function renderHardware(data) {
         },
         hwCount: {
             text: function() {
-                if (this["Count"] == "1") {
+                if ((this["Count"] !== undefined) && !isNaN(this["Count"]) && (parseInt(this["Count"])>1)) {
+                    return parseInt(this["Count"]);
+                } else {
                     return "";
                 }
-                return this["Count"];
             }
         }
     };
@@ -843,7 +844,7 @@ function renderHardware(data) {
             var datas = items(data["Hardware"][hw_type]["Device"]);
             for (var i = 0; i < datas.length; i++) {
                 $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
-                if (datas[i]["@attributes"]["Count"] !== undefined) {
+                if ((datas[i]["@attributes"]["Count"] !== undefined) && !isNaN(datas[i]["@attributes"]["Count"]) && (parseInt(datas[i]["@attributes"]["Count"])>1)) {
                     licz += parseInt(datas[i]["@attributes"]["Count"]);
                 } else {
                     licz++;

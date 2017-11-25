@@ -436,6 +436,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                 </li>
@@ -463,6 +476,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                     <xsl:if
@@ -501,6 +527,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                     <xsl:if
@@ -538,6 +577,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                 </li>
@@ -565,6 +617,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                 </li>
@@ -592,6 +657,19 @@
                                                             <xsl:for-each
                                                                 select="Device">
                                                                 <li>
+                                                                    <xsl:if
+                                                                        test="count(@Count )&gt;0">
+                                                                        <xsl:if
+                                                                            test="round(@Count) &gt;1">
+                                                                            <span>
+                                                                                <xsl:text>(</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Count)" />
+                                                                            <span>
+                                                                                <xsl:text>x) </xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </xsl:if>
                                                                     <xsl:value-of
                                                                         select="@Name" />
                                                                 </li>
