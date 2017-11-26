@@ -113,7 +113,7 @@ class BAT extends PSI_Plugin
 
                     $bufferBS = CommonFunctions::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));
                     if (sizeof($bufferBS)>0) {
-                        if (isset($bufferBS[0]['RemainingCapacity']) && ($bufferBS[0]['RemainingCapacity']>0)) {
+                        if (isset($bufferBS[0]['RemainingCapacity']) && ($bufferBS[0]['RemainingCapacity']>0)) { // ? >=
                             $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[0]['RemainingCapacity']*1000)."\n";
                             $capacity = '';
                         }
@@ -133,9 +133,9 @@ class BAT extends PSI_Plugin
                     if (isset($bufferWPB[0]['FullChargeCapacity'])) {
                         $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL='.($bufferWPB[0]['FullChargeCapacity']*1000)."\n";
                         if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[0]['FullChargeCapacity']*10)."\n");
-                        if (isset($bufferWPB[0]['DesignCapacity']) && ($bufferWPB[0]['DesignCapacity']!=0))
+                        if (isset($bufferWPB[0]['DesignCapacity']) && ($bufferWPB[0]['DesignCapacity']>0))
                             $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[0]['DesignCapacity']*1000)."\n";
-                    } elseif (isset($bufferWPB[0]['DesignCapacity'])) {
+                    } elseif (isset($bufferWPB[0]['DesignCapacity']) && ($bufferWPB[0]['DesignCapacity']>0)) {
                         $buffer_info .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[0]['DesignCapacity']*1000)."\n";
                         if ($capacity != '') $buffer_state .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[0]['DesignCapacity']*10)."\n");
                     } else {
