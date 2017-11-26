@@ -45,4 +45,7 @@
   <expression id="plugin_bat_013" name="bat_full_capacity">
     <exp>Volle Kapazität</exp>
   </expression>
+  <expression id="plugin_bat_014" name="bat_battery_manufacturer">
+    <exp>Battery Manufacturer</exp>
+  </expression>
 </tns:translationPlugin>

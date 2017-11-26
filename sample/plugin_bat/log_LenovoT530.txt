@@ -29,3 +29,5 @@ POWER_SUPPLY_SERIAL_NUMBER=18990
 Li-ion
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/status
 Unknown
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/manufacturer
+SANYO

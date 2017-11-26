@@ -73,7 +73,7 @@ function renderPlugin_bat(data) {
     if ((data['Plugins']['Plugin_BAT'] !== undefined) && (data['Plugins']['Plugin_BAT']["Bat"] !== undefined) && (data['Plugins']['Plugin_BAT']["Bat"]["@attributes"] !== undefined)){
         $('#bat').render(data['Plugins']['Plugin_BAT']["Bat"]["@attributes"], directives);
         var attr = data['Plugins']['Plugin_BAT']["Bat"]["@attributes"];
-        for (bat_param in {DesignCapacity:0,FullCapacity:1,RemainingCapacity:2,ChargingState:3,DesignVoltage:4,PresentVoltage:5,BatteryType:6,BatteryTemperature:7,BatteryCondition:8,CycleCount:9}) {
+        for (bat_param in {DesignCapacity:0,FullCapacity:1,RemainingCapacity:2,ChargingState:3,DesignVoltage:4,PresentVoltage:5,BatteryType:6,BatteryTemperature:7,BatteryCondition:8,CycleCount:9,BatteryManufacturer:10}) {
             if (attr[bat_param] !== undefined) {
                 $('#bat_' + bat_param).show();
             }

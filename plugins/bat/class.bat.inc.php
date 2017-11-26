@@ -86,9 +86,15 @@ class BAT extends PSI_Plugin
                             case 8: $techn = 'Li-poly'; break;
                         }
                     }
-                    $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity'));
+                    $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
                     if (isset($bufferWPB[0]['DesignVoltage'])) {
                         $buffer_info .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.($bufferWPB[0]['DesignVoltage']*1000)."\n";
+                    }
+                    if (isset($bufferWPB[0]['Manufacturer'])) {
+                        $manuf = $bufferWPB[0]['Manufacturer'];
+                        if ($manuf != '') {
+                            $buffer_info .= 'POWER_SUPPLY_MANUFACTURER='.$manuf."\n";
+                        }
                     }
                     // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
                     if ((($techn == '') || ($techn == 'Unknown')) && isset($bufferWPB[0]['Chemistry'])) {
@@ -208,6 +214,9 @@ class BAT extends PSI_Plugin
                     if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/health', $buffer1, 1, 4096, false)) {
                         $buffer_state .= 'POWER_SUPPLY_HEALTH='.$buffer1;
                     }
+                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/manufacturer', $buffer1, 1, 4096, false)) {
+                        $buffer_state .= 'POWER_SUPPLY_MANUFACTURER='.$buffer1;
+                    }
                 }
             }
             break;
@@ -260,6 +269,8 @@ class BAT extends PSI_Plugin
                 }
             } elseif (preg_match('/^battery type:\s*(.*)$/', $roworig, $data)) {
                 $bat['battery_type'] = $data[1];
+            } elseif (preg_match('/^OEM info:\s*(.*)$/', $roworig, $data)) {
+                $bat['battery_manufacturer'] = $data[1];
 
             } elseif (preg_match('/^POWER_SUPPLY_CYCLE_COUNT=(.*)$/', $roworig, $data) && ($data[1]>0)) {
                 $bat['cycle_count'] = $data[1];
@@ -348,6 +359,8 @@ class BAT extends PSI_Plugin
                 $bat['charging_state'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_HEALTH=(.*)$/', $roworig, $data)) {
                 $bat['battery_condition'] = $data[1];
+            } elseif (preg_match('/^POWER_SUPPLY_MANUFACTURER=(.*)$/', $roworig, $data)) {
+                $bat['battery_manufacturer'] = $data[1];
 
             /* Darwin */
             } elseif (preg_match('/^"MaxCapacity"\s*=\s*(.*)$/', $roworig, $data)) {
@@ -499,6 +512,8 @@ class BAT extends PSI_Plugin
                 $bat['charging_state'] = $data[1];
             } elseif (preg_match('/^POWER_SUPPLY_HEALTH=(.*)$/', $roworig, $data)) {
                 $bat['battery_condition'] = $data[1];
+            } elseif (preg_match('/^POWER_SUPPLY_MANUFACTURER=(.*)$/', $roworig, $data)) {
+                $bat['battery_manufacturer'] = $data[1];
             }
         }
 
@@ -577,6 +592,9 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['battery_condition'])) {
                 $xmlbat->addAttribute("BatteryCondition", $bat_item['battery_condition']);
+            }
+            if (isset($bat_item['battery_manufacturer'])) {
+                $xmlbat->addAttribute("BatteryManufacturer", $bat_item['battery_manufacturer']);
             }
             if (isset($bat_item['cycle_count'])) {
                 $xmlbat->addAttribute("CycleCount", $bat_item['cycle_count']);
