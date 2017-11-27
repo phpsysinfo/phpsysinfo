@@ -70,7 +70,6 @@ function renderPlugin_stablebit(data) {
 
             $("#stablebit-data").empty().append(html);
 
-
             for (var i = 0; i < disks.length; i++) {
                 try {
                     $('#stablebit-'+ i).render(disks[i]["@attributes"]);
