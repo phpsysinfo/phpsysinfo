@@ -8,20 +8,17 @@ function renderPlugin_bat(data) {
         },
         DesignCapacity: {
             html: function () {
-                var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                return this["DesignCapacity"] + String.fromCharCode(160) + CapacityUnit;
+                return this["DesignCapacity"] + String.fromCharCode(160) + this["CapacityUnit"];
             }
         },
         FullCapacity: {
             html: function () {
-                var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                return this["FullCapacity"] + String.fromCharCode(160) + CapacityUnit;
+                return this["FullCapacity"] + String.fromCharCode(160) + this["CapacityUnit"];
             }
         },
         FullCapacityBar: {
             html: function () {
-                var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                if (( CapacityUnit !== "%" ) && (this["DesignCapacity"] !== undefined)){
+                if (( this["CapacityUnit"] !== "%" ) && (this["DesignCapacity"] !== undefined)){
                     var percent = (this["DesignCapacity"] != 0) ? round(100*this["FullCapacity"]/this["DesignCapacity"],0) : 0;
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
@@ -32,19 +29,17 @@ function renderPlugin_bat(data) {
         },
         RemainingCapacity: {
             html: function () {
-                var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                if ( CapacityUnit === "%" ) {
+                if ( this["CapacityUnit"] === "%" ) {
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + round(this["RemainingCapacity"],0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this["RemainingCapacity"],0) + '%</div>';
                 } else {
-                    return this["RemainingCapacity"] + String.fromCharCode(160) + CapacityUnit;
+                    return this["RemainingCapacity"] + String.fromCharCode(160) + this["CapacityUnit"];
                 }
             }
         },
         RemainingCapacityBar: {
             html: function () {
-                var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
-                if (( CapacityUnit !== "%" ) && (this["FullCapacity"] !== undefined)){
+                if (( this["CapacityUnit"] !== "%" ) && (this["FullCapacity"] !== undefined)){
                     var percent = (this["FullCapacity"] != 0) ? round(100*this["RemainingCapacity"]/this["FullCapacity"],0) : 0;
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
@@ -79,10 +74,21 @@ function renderPlugin_bat(data) {
         var bats = items(data['Plugins']['Plugin_BAT']['Bat']);
         if (bats.length > 0) {
             var html = "";
-            var paramlist = {DesignCapacity:2,FullCapacity:13,RemainingCapacity:3,ChargingState:8,DesignVoltage:4,PresentVoltage:5,BatteryType:9,BatteryTemperature:10,BatteryCondition:11,CycleCount:12,BatteryManufacturer:14};
+            var paramlist = {Model:15,Manufacturer:14,DesignCapacity:2,FullCapacity:13,RemainingCapacity:3,ChargingState:8,DesignVoltage:4,PresentVoltage:5,BatteryType:9,BatteryTemperature:10,BatteryCondition:11,CycleCount:12};
             var paramlis2 = {FullCapacity:'FullCapacityBar',RemainingCapacity:'RemainingCapacityBar',DesignVoltage:'DesignVoltageMax'};
 
             for (var i = 0; i < bats.length; i++) {
+                if (bats[i]["@attributes"]["CapacityUnit"] === undefined) {
+                    bats[i]["@attributes"]["CapacityUnit"] = 'mWh';
+                } else if ((bats[i]["@attributes"]["CapacityUnit"] === '%') && (bats[i]["@attributes"]["RemainingCapacity"] !== undefined)) {
+                   if (bats[i]["@attributes"]["DesignCapacity"] !== undefined) {
+                       delete bats[i]["@attributes"]["DesignCapacity"];
+                   }
+                   if (bats[i]["@attributes"]["FullCapacity"] !== undefined) {
+                       delete bats[i]["@attributes"]["FullCapacity"];
+                   }
+                }
+
                 try {
                     html+="<tr id=\"bat-" + i + "\" class=\"treegrid-bat-" + i + "\" style=\"display:none;\" >";
                     html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
@@ -138,32 +144,4 @@ function renderPlugin_bat(data) {
     } else {
         $('#block_bat').hide();
     }
-
-/*
-
-
-
-    if (data['Plugins']['Plugin_BAT'] !== undefined) {
-        var batitems = items(data['Plugins']['Plugin_BAT']["Bat"]);
-        if (batitems.length > 0) {
-            for (var i = 0; i < batitems.length ; i++) {
-                var attr = batitems[i]['@attributes'];
-                $('#bat').render(attr, directives);
-                for (bat_param in {DesignCapacity:0,FullCapacity:1,RemainingCapacity:2,ChargingState:3,DesignVoltage:4,PresentVoltage:5,BatteryType:6,BatteryTemperature:7,BatteryCondition:8,CycleCount:9,BatteryManufacturer:10}) {
-                    if (attr[bat_param] !== undefined) {
-                      $('#bat_' + bat_param).show();
-                    }
-                }
-                if (attr["CapacityUnit"] === "%") {
-                    $('#bat_DesignCapacity').hide();
-                    $('#bat_FullCapacity').hide();
-                }
-            }
-            $('#block_bat').show();
-        } else {
-            $('#block_bat').hide();
-        }
-    } else {
-        $('#block_bat').hide();
-    }*/
 }

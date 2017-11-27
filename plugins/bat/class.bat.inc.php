@@ -50,7 +50,7 @@ class BAT extends PSI_Plugin
                     $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 }
 
-                $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
                 if (sizeof($bufferWB)>0) {
                     $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
                     $bufferBS = CommonFunctions::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));
@@ -109,11 +109,9 @@ class BAT extends PSI_Plugin
                         if (isset($bufferWPB[$bi]['DesignVoltage'])) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.($bufferWPB[$bi]['DesignVoltage']*1000)."\n";
                         }
+
                         if (isset($bufferWPB[$bi]['Manufacturer'])) {
-                            $manuf = $bufferWPB[$bi]['Manufacturer'];
-                            if ($manuf != '') {
-                                $buffer[$bi]['info'] .= 'POWER_SUPPLY_MANUFACTURER='.$manuf."\n";
-                            }
+                            $buffer[$bi]['info'] .= 'POWER_SUPPLY_MANUFACTURER='.$bufferWPB[$bi]['Manufacturer']."\n";
                         }
                         // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
                         if ((($techn == '') || ($techn == 'Unknown')) && isset($bufferWPB[$bi]['Chemistry'])) {
@@ -144,6 +142,9 @@ class BAT extends PSI_Plugin
 
                         if (isset($bufferWB[$bi]['Caption'])) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_NAME='.$bufferWB[$bi]['Caption']."\n";
+                        }
+                        if (isset($bufferWB[$bi]['Name'])) {
+                                $buffer[$bi]['state'] .= 'POWER_SUPPLY_MODEL_NAME='.$bufferWB[$bi]['Name']."\n";
                         }
                         if (!isset($bufferWPB[$bi]['FullChargeCapacity']) && isset($bufferBFCC[$bi]['FullChargedCapacity'])) {
                             $bufferWPB[$bi]['FullChargeCapacity'] = $bufferBFCC[$bi]['FullChargedCapacity'];
@@ -184,73 +185,103 @@ class BAT extends PSI_Plugin
                     $buffer[0]['info'] .= "POWER_SUPPLY_NAME=acpibat0\n";
                 }
             } else {
-                $buffer[0]['info'] = '';
-                $buffer[0]['state'] = '';
-                $bat_name = PSI_PLUGIN_BAT_DEVICE;
-                $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/info', $buffer[0]['info'], 0, 4096, false);
-                $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/state', $buffer[0]['state'], 0, 4096, false);
-                if (!$rfts_bi && !$rfts_bs) {
-                    $buffer[0]['info'] = '';
-                    $buffer[0]['state'] = '';
-                    if (!CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, false)) {
-                        if (CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer[0]['info'], 0, 4096, false)) {
-                            $bat_name = 'battery';
-                        } else {
-                            CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, PSI_DEBUG); // Once again but with debug
+                $itemcount = 0;
+                if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_BAT_UPOWER') && PSI_PLUGIN_BAT_UPOWER) {
+                    $info = '';
+                    CommonFunctions::executeProgram('upower', '-d', $info, false);
+                    if ($info !== '') {
+                        $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
+                        foreach($infoarray as $infoitem) { //upower detection
+                            if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
+                               && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
+                               && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
+                               $buffer[$itemcount++]['info'] = $infoitem;
+                            }
                         }
                     }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_min_design', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_max_design', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_now', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/energy_full', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_ENERGY_FULL='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/energy_now', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/charge_full', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_CHARGE_FULL='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/charge_now', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_CHARGE_NOW='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/capacity', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_CAPACITY='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/technology', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_TECHNOLOGY='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/status', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_STATUS='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_temp', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_TEMP='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_vol', $buffer1, 1, 4096, false)) {
-                       $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/health', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_HEALTH='.trim($buffer1)."\n";
-                    }
-                    if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/manufacturer', $buffer1, 1, 4096, false)) {
-                        $buffer[0]['state'] .= 'POWER_SUPPLY_MANUFACTURER='.trim($buffer1)."\n";
-                    }
                 }
-                if ($buffer[0]['info'] !== '') {
-                    $buffer[0]['info'] .= 'POWER_SUPPLY_NAME='.$bat_name."\n";
-                } elseif ($buffer[0]['state'] !== '') {
-                    $buffer[0]['state'] .= 'POWER_SUPPLY_NAME='.$bat_name."\n";
+                if ($itemcount == 0) {
+                    $buffer[0]['info'] = '';
+                    $buffer[0]['state'] = '';
+                    $bat_name = PSI_PLUGIN_BAT_DEVICE;
+                    $rfts_bi = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/info', $buffer[0]['info'], 0, 4096, false);
+                    $rfts_bs = CommonFunctions::rfts('/proc/acpi/battery/'.$bat_name.'/state', $buffer[0]['state'], 0, 4096, false);
+                    if (!$rfts_bi && !$rfts_bs) {
+                        $buffer[0]['info'] = '';
+                        $buffer[0]['state'] = '';
+                        if (!CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, false)) {
+                            if (CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer[0]['info'], 0, 4096, false)) {
+                                $bat_name = 'battery';
+                            } else {
+                                CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, PSI_DEBUG); // Once again but with debug
+                            }
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_min_design', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_max_design', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_MAX_DESIGN='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/voltage_now', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/energy_full', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_ENERGY_FULL='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/energy_now', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/charge_full', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_CHARGE_FULL='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/charge_now', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_CHARGE_NOW='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/capacity', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_CAPACITY='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/technology', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_TECHNOLOGY='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/status', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_STATUS='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_temp', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_TEMP='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/batt_vol', $buffer1, 1, 4096, false)) {
+                           $buffer[0]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/health', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_HEALTH='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/manufacturer', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_MANUFACTURER='.trim($buffer1)."\n";
+                        }
+                    }
+                    if ($buffer[0]['info'] !== '') {
+                        $buffer[0]['info'] .= 'POWER_SUPPLY_NAME='.$bat_name."\n";
+                    } elseif ($buffer[0]['state'] !== '') {
+                        $buffer[0]['state'] .= 'POWER_SUPPLY_NAME='.$bat_name."\n";
+                    }
                 }
             }
             break;
         case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/bat_info.txt", $buffer[0]['info']);
+            CommonFunctions::rfts(APP_ROOT."/data/bat_info.txt", $info);
+            $itemcount = 0;
+            $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
+            foreach($infoarray as $infoitem) { //upower detection
+                if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
+                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
+                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
+                    $buffer[$itemcount++]['info'] = $infoitem;
+                }
+            }
+            if ($itemcount == 0) {
+                $buffer[0]['info'] = $info;
+            }
+           
             CommonFunctions::rfts(APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
@@ -279,17 +310,27 @@ class BAT extends PSI_Plugin
             return;
         }
         for ($bi = 0; $bi < sizeof($this->_filecontent); $bi++) {
+            $bat = array();
             if (isset($this->_filecontent[$bi]['info'])) foreach ($this->_filecontent[$bi]['info'] as $roworig) {
                 $roworig = trim($roworig);
-                if (preg_match('/^[dD]esign capacity:\s*(.*) (.*)$/', $roworig, $data)) {
-                    $bat['design_capacity'] = $data[1];
+                if (preg_match('/^[dD]esign capacity:\s*(.*) (.*)$/', $roworig, $data)
+                   || preg_match('/^energy-full-design:\s*(.*) (.*)$/', $roworig, $data)) {
+                    $bat['design_capacity'] = str_replace(',', '.', $data[1])+0;
                     if (!isset($bat['capacity_unit'])) {
                         $bat['capacity_unit'] = trim($data[2]);
                     } elseif ($bat['capacity_unit'] != trim($data[2])) {
                         $bat['capacity_unit'] = "???";
                     }
-                } elseif (preg_match('/^[lL]ast full capacity:\s*(.*) (.*)$/', $roworig, $data)) {
-                    $bat['full_capacity'] = $data[1];
+                } elseif (preg_match('/^[lL]ast full capacity:\s*(.*) (.*)$/', $roworig, $data)
+                   || preg_match('/^energy-full:\s*(.*) (.*)$/', $roworig, $data)) {
+                    $bat['full_capacity'] = str_replace(',', '.', $data[1])+0;
+                    if (!isset($bat['capacity_unit'])) {
+                        $bat['capacity_unit'] = trim($data[2]);
+                    } elseif ($bat['capacity_unit'] != trim($data[2])) {
+                        $bat['capacity_unit'] = "???";
+                    }
+                } elseif (preg_match('/^energy:\s*(.*) (.*)$/', $roworig, $data)) {
+                    $bat['remaining_capacity'] = str_replace(',', '.', $data[1])+0;
                     if (!isset($bat['capacity_unit'])) {
                         $bat['capacity_unit'] = trim($data[2]);
                     } elseif ($bat['capacity_unit'] != trim($data[2])) {
@@ -303,10 +344,24 @@ class BAT extends PSI_Plugin
                     } else {
                         $bat['design_voltage'] = round($data[1]/1000);
                     }
-                } elseif (preg_match('/^battery type:\s*(.*)$/', $roworig, $data)) {
+                } elseif (preg_match('/^battery type:\s*(.*)$/', $roworig, $data)
+                         || preg_match('/^technology:\s*(.*)$/', $roworig, $data)) {
                     $bat['battery_type'] = $data[1];
-                } elseif (preg_match('/^OEM info:\s*(.*)$/', $roworig, $data)) {
-                    $bat['battery_manufacturer'] = $data[1];
+                } elseif (preg_match('/^OEM info:\s*(.*)$/', $roworig, $data)
+                         || preg_match('/^vendor:\s*(.*)$/', $roworig, $data)) {
+                    $bat['manufacturer'] = $data[1];
+                } elseif (preg_match('/^state:\s*(.*)$/', $roworig, $data)) {
+                    $bat['charging_state'] = $data[1];
+                } elseif (preg_match('/^voltage:\s*(.*) V$/', $roworig, $data)) {
+                    $bat['present_voltage'] = str_replace(',', '.', $data[1])*1000;
+                } elseif (preg_match('/^percentage:\s*(.*)%$/', $roworig, $data)) {
+                    $bat['capacity'] = $data[1];
+                } elseif (preg_match('/^Device:\s*\/org\/freedesktop\/UPower\/devices\/([^_]*)_/', $roworig, $data)) {
+                    $bat['name'] = $data[1];
+                } elseif (preg_match('/^native-path:\s*(.*)$/', $roworig, $data) && isset($data[1][0]) && ($data[1][0]!=='/')) {
+                    $bat['name'] = $data[1];
+                } elseif (preg_match('/^model:\s*(.*)$/', $roworig, $data)) {
+                    $bat['model'] = $data[1];
 
                 } elseif (preg_match('/^POWER_SUPPLY_CYCLE_COUNT=(.*)$/', $roworig, $data) && ($data[1]>0)) {
                     $bat['cycle_count'] = $data[1];
@@ -396,9 +451,11 @@ class BAT extends PSI_Plugin
                 } elseif (preg_match('/^POWER_SUPPLY_HEALTH=(.*)$/', $roworig, $data)) {
                     $bat['battery_condition'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MANUFACTURER=(.*)$/', $roworig, $data)) {
-                    $bat['battery_manufacturer'] = $data[1];
+                    $bat['manufacturer'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_NAME=(.*)$/', $roworig, $data)) {
                     $bat['name'] = $data[1];
+                } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
+                    $bat['model'] = $data[1];
 
                 /* Darwin */
                 } elseif (preg_match('/^"MaxCapacity"\s*=\s*(.*)$/', $roworig, $data)) {
@@ -551,13 +608,15 @@ class BAT extends PSI_Plugin
                 } elseif (preg_match('/^POWER_SUPPLY_HEALTH=(.*)$/', $roworig, $data)) {
                     $bat['battery_condition'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MANUFACTURER=(.*)$/', $roworig, $data)) {
-                    $bat['battery_manufacturer'] = $data[1];
+                    $bat['manufacturer'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_NAME=(.*)$/', $roworig, $data)) {
                     $bat['name'] = $data[1];
+                } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
+                    $bat['model'] = $data[1];
                 }
             }
 
-            if (isset($bat)) $this->_result[$bi] = $bat;
+            if (sizeof($bat)>0) $this->_result[$bi] = $bat;
         }
     }
 
@@ -572,6 +631,12 @@ class BAT extends PSI_Plugin
             $xmlbat = $this->xml->addChild("Bat");
             if (isset($bat_item['name'])) {
                 $xmlbat->addAttribute("Name", $bat_item['name']);
+            }
+            if (isset($bat_item['model']) && ($bat_item['model'] !== "1")) {
+                $xmlbat->addAttribute("Model", $bat_item['model']);
+            }
+            if (isset($bat_item['manufacturer'])) {
+                $xmlbat->addAttribute("Manufacturer", $bat_item['manufacturer']);
             }
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&
                 isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
@@ -636,9 +701,6 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['battery_condition'])) {
                 $xmlbat->addAttribute("BatteryCondition", $bat_item['battery_condition']);
-            }
-            if (isset($bat_item['battery_manufacturer'])) {
-                $xmlbat->addAttribute("BatteryManufacturer", $bat_item['battery_manufacturer']);
             }
             if (isset($bat_item['cycle_count'])) {
                 $xmlbat->addAttribute("CycleCount", $bat_item['cycle_count']);

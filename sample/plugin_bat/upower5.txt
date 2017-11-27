@@ -1,0 +1,26 @@
+Device: /org/freedesktop/UPower/devices/keyboard_0003o046DoC52Bx000A
+  native-path:          /sys/devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.2/2-1.2:1.2/0003:046D:C52B.0009/0003:046D:C52B.000A
+  vendor:               Logitech, Inc.
+  model:                K800
+  serial:               FB883B23
+  power supply:         no
+  updated:              Wed 12 Feb 2014 12:11:10 PM CET (5 seconds ago)
+  has history:          yes
+  has statistics:       no
+  keyboard
+    present:             yes
+    rechargeable:        yes
+    state:               discharging
+    percentage:          55%
+  History (charge):
+    1392203470  55.000   discharging
+
+Daemon:
+  daemon-version:  0.9.23
+  can-suspend:     no
+  can-hibernate:   no
+  on-battery:      no
+  on-low-battery:  no
+  lid-is-closed:   no
+  lid-is-present:  no
+  is-docked:       no

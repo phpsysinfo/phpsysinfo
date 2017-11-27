@@ -488,11 +488,13 @@ ACCESS="command"
 ; BAT Plugin configuration
 
 ; define how to access the battery statistic data
-; - "command" read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
-;             on newer kernel or on Android read files from /sys/class/power_supply/
-;              on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
-;              on FreeBSD read data from 'acpiconf -i batt' command
-;              on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
+; - "command" on Linux and Android read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
+;                or on newer kernel from /sys/class/power_supply/
+                 or from 'upower -d' command (if UPOWER is true)
+;             on Android read data from /sys/class/power_supply/ 
+;             on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
+;             on FreeBSD read data from 'acpiconf -i batt' command
+;             on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output
 ;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
@@ -502,6 +504,10 @@ ACCESS="command"
 ; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android and Linux)
 ;
 DEVICE="BAT0"
+
+; on Lunux try executing 'upower -d' command
+; 
+UPOWER=false
 
 
 [mdstatus]

@@ -1,0 +1,21 @@
+Device: /org/freedesktop/UPower/devices/keyboard_hid_e8o06o88o43o52od2_battery
+  native-path:          hid-e8:06:88:53:99:2a-battery
+  model:                Rick Ucker’s Keyboard
+  power supply:         no
+  updated:              Fri 15 Jan 2016 07:24:38 PM EDT (28 seconds ago)
+  has history:          yes
+  has statistics:       yes
+  keyboard
+    present:             yes
+    rechargeable:        yes
+    state:               discharging
+    warning-level:       none
+    percentage:          67%
+    icon-name:          'battery-full-symbolic'
+
+Daemon:
+  daemon-version:  0.9.23
+  on-battery:      no
+  lid-is-closed:   no
+  lid-is-present:  no
+  critical-action: PowerOff

@@ -49,7 +49,7 @@ function bat_buildTable(xml) {
     var index = 0;
 
     $("Plugins Plugin_Bat Bat", xml).each(function bat_getdisks(id) {
-        var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", BatteryManufacturer = "";
+        var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "";
         name = $(this).attr("Name");
         if (name == undefined) {
             name = "Battery"+(batcount++)
@@ -66,15 +66,23 @@ function bat_buildTable(xml) {
         CapacityUnit = $(this).attr("CapacityUnit");
         CycleCount = $(this).attr("CycleCount");
         DesignVoltageMax = $(this).attr("DesignVoltageMax");
-        BatteryManufacturer = $(this).attr("BatteryManufacturer");
+        Manufacturer = $(this).attr("Manufacturer");
+        Model = $(this).attr("Model");
 
         html += "    <tr><td colspan=\"3\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
         index = tree.push(0);
 
+        if (Model != undefined) {
+            html += "    <tr><td><span class=\"treespan\">" + genlang(15, true, "BAT") + "</span></td><td>" + Model +"</td><td></td></tr>\n";
+            tree.push(index);
+        }
+        if (Manufacturer != undefined) {
+            html += "    <tr><td><span class=\"treespan\">" + genlang(14, true, "BAT") + "</span></td><td>" + Manufacturer +"</td><td></td></tr>\n";
+            tree.push(index);
+        }
         if (CapacityUnit == undefined) {
             CapacityUnit = "mWh";
         }
-
         if ((CapacityUnit == "%") && (RemainingCapacity != undefined)) {
             html += "    <tr><td><span class=\"treespan\">" + genlang(3, true, "BAT") + "</span></td><td>" + createBar(round(parseInt(RemainingCapacity, 10),0)) +"</td><td></td></tr>\n";
             tree.push(index);
@@ -136,10 +144,6 @@ function bat_buildTable(xml) {
         }
         if (CycleCount != undefined) {
             html += "    <tr><td><span class=\"treespan\">" + genlang(12, true, "BAT") + "</span></td><td>" + CycleCount +"</td><td></td></tr>\n";
-            tree.push(index);
-        }
-        if (BatteryManufacturer != undefined) {
-            html += "    <tr><td><span class=\"treespan\">" + genlang(14, true, "BAT") + "</span></td><td>" + BatteryManufacturer +"</td><td></td></tr>\n";
             tree.push(index);
         }
 

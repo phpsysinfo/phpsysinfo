@@ -45,7 +45,10 @@
   <expression id="plugin_bat_013" name="bat_full_capacity">
     <exp>Πλήρης χωρητικότητα</exp>
   </expression>
-  <expression id="plugin_bat_014" name="bat_battery_manufacturer">
-    <exp>Κατασκευαστής Μπαταρίας</exp>
+  <expression id="plugin_bat_014" name="bat_manufacturer">
+    <exp>Κατασκευαστής</exp>
+  </expression>
+  <expression id="plugin_bat_015" name="bat_model">
+    <exp>Model</exp>
   </expression>
 </tns:translationPlugin>
