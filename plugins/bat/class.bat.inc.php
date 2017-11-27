@@ -570,6 +570,9 @@ class BAT extends PSI_Plugin
     {
         foreach ($this->_result as $bat_item) {
             $xmlbat = $this->xml->addChild("Bat");
+            if (isset($bat_item['name'])) {
+                $xmlbat->addAttribute("Name", $bat_item['name']);
+            }
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&
                 isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
                 if (isset($bat_item['capacity_unit']) && ($bat_item['capacity_unit'] !== "???")
@@ -639,9 +642,6 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['cycle_count'])) {
                 $xmlbat->addAttribute("CycleCount", $bat_item['cycle_count']);
-            }
-            if (isset($bat_item['name'])) {
-                $xmlbat->addAttribute("Name", $bat_item['name']);
             }
         }
 
