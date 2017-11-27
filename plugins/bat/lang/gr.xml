@@ -21,11 +21,11 @@
   <expression id="plugin_bat_005" name="bat_present_voltage">
     <exp>Τρέχουσα τάση</exp>
   </expression>
-  <expression id="plugin_bat_006" name="bat_item">
-    <exp>Αντικείμενα</exp>
+  <expression id="plugin_bat_006" name="bat_battery">
+    <exp>Μπαταρίας</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_value">
-    <exp>Τιμές</exp>
+    <exp>Τιμή</exp>
   </expression>
   <expression id="plugin_bat_008" name="bat_charging_state">
     <exp>Κατάσταση φόρτισης</exp>

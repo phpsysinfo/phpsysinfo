@@ -1,6 +1,11 @@
 function renderPlugin_bat(data) {
-
+    var batcount = 0;
     var directives = {
+        Name: {
+            text: function () {
+                return (this["Name"] !== undefined) ? this["Name"] : 'Battery'+(batcount++);
+            }
+        },
         DesignCapacity: {
             html: function () {
                 var CapacityUnit = (this["CapacityUnit"] !== undefined) ? this["CapacityUnit"] : 'mWh';
@@ -70,20 +75,95 @@ function renderPlugin_bat(data) {
         }
     };
 
-    if ((data['Plugins']['Plugin_BAT'] !== undefined) && (data['Plugins']['Plugin_BAT']["Bat"] !== undefined) && (data['Plugins']['Plugin_BAT']["Bat"]["@attributes"] !== undefined)){
-        $('#bat').render(data['Plugins']['Plugin_BAT']["Bat"]["@attributes"], directives);
-        var attr = data['Plugins']['Plugin_BAT']["Bat"]["@attributes"];
-        for (bat_param in {DesignCapacity:0,FullCapacity:1,RemainingCapacity:2,ChargingState:3,DesignVoltage:4,PresentVoltage:5,BatteryType:6,BatteryTemperature:7,BatteryCondition:8,CycleCount:9,BatteryManufacturer:10}) {
-            if (attr[bat_param] !== undefined) {
-                $('#bat_' + bat_param).show();
+    if (data['Plugins']['Plugin_BAT'] !== undefined) {
+        var bats = items(data['Plugins']['Plugin_BAT']['Bat']);
+        if (bats.length > 0) {
+            var html = "";
+            var paramlist = {DesignCapacity:2,FullCapacity:13,RemainingCapacity:3,ChargingState:8,DesignVoltage:4,PresentVoltage:5,BatteryType:9,BatteryTemperature:10,BatteryCondition:11,CycleCount:12,BatteryManufacturer:14};
+            var paramlis2 = {FullCapacity:'FullCapacityBar',RemainingCapacity:'RemainingCapacityBar',DesignVoltage:'DesignVoltageMax'};
+
+            for (var i = 0; i < bats.length; i++) {
+                try {
+                    html+="<tr id=\"bat-" + i + "\" class=\"treegrid-bat-" + i + "\" style=\"display:none;\" >";
+                    html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
+                    html+="<td></td>";
+                    html+="<td></td>";
+                    html+="</tr>";
+                    for (var proc_param in paramlist) {
+                        if (bats[i]["@attributes"][proc_param] !== undefined) {
+                            html+="<tr id=\"bat-" + i + "-" + proc_param + "\" class=\"treegrid-parent-bat-" + i + "\">";
+                            html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true, 'bat') + "</span></td>";
+                            html+="<td><span data-bind=\"" + proc_param + "\"></span></td>";
+                            if (paramlis2[proc_param] !== undefined) {
+                                html+="<td class=\"rightCell\"><span data-bind=\"" + paramlis2[proc_param] + "\"></span></td>";
+                            } else {
+                                html+="<td></td>";
+                            }
+                            html+="</tr>";
+                        }
+                    }
+                }
+                catch (err) {
+                   $("#bat-" + i).hide();
+                }
             }
+
+            $("#bat-data").empty().append(html);
+
+            for (var i = 0; i < bats.length; i++) {
+                try {
+                    $('#bat-'+ i).render(bats[i]["@attributes"], directives);
+                    $("#bat-" + i).show();
+                    for (var proc_param in paramlist) {
+                        if (bats[i]["@attributes"][proc_param] !== undefined) {
+                            $('#bat-'+ i+ "-" + proc_param).render(bats[i]["@attributes"], directives);
+                        }
+                    }
+                }
+                catch (err) {
+                   $("#bat-" + i).hide();
+                }
+            }
+
+            $('#bat').treegrid({
+                initialState: 'expanded',
+                expanderExpandedClass: 'normalicon normalicon-down',
+                expanderCollapsedClass: 'normalicon normalicon-right'
+            });
+
+            $('#block_bat').show();
+        } else {
+            $('#block_bat').hide();
         }
-        if (attr["CapacityUnit"] === "%") {
-            $('#bat_DesignCapacity').hide();
-            $('#bat_FullCapacity').hide();
-        }
-        $('#block_bat').show();
     } else {
         $('#block_bat').hide();
     }
+
+/*
+
+
+
+    if (data['Plugins']['Plugin_BAT'] !== undefined) {
+        var batitems = items(data['Plugins']['Plugin_BAT']["Bat"]);
+        if (batitems.length > 0) {
+            for (var i = 0; i < batitems.length ; i++) {
+                var attr = batitems[i]['@attributes'];
+                $('#bat').render(attr, directives);
+                for (bat_param in {DesignCapacity:0,FullCapacity:1,RemainingCapacity:2,ChargingState:3,DesignVoltage:4,PresentVoltage:5,BatteryType:6,BatteryTemperature:7,BatteryCondition:8,CycleCount:9,BatteryManufacturer:10}) {
+                    if (attr[bat_param] !== undefined) {
+                      $('#bat_' + bat_param).show();
+                    }
+                }
+                if (attr["CapacityUnit"] === "%") {
+                    $('#bat_DesignCapacity').hide();
+                    $('#bat_FullCapacity').hide();
+                }
+            }
+            $('#block_bat').show();
+        } else {
+            $('#block_bat').hide();
+        }
+    } else {
+        $('#block_bat').hide();
+    }*/
 }
