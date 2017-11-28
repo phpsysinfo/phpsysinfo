@@ -7,7 +7,8 @@ phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml
 
- - [ADD] BAT plugin - Model and Manufacturer information, UPOWER option
+ - [ADD] BAT plugin - Model, Manufacturer and Serial Number information
+ - [ADD] BAT plugin - SHOW_SERIAL and UPOWER option
 
  - [NEW] SHOW_DEVICES_INFOS and SHOW_DEVICES_SERIAL options
  - [NEW] Thinkpad - Lenovo Thinkpad sensors monitoring for Linux

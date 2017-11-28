@@ -258,6 +258,10 @@ class BAT extends PSI_Plugin
                         if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/manufacturer', $buffer1, 1, 4096, false)) {
                             $buffer[0]['state'] .= 'POWER_SUPPLY_MANUFACTURER='.trim($buffer1)."\n";
                         }
+                        if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
+                           && CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/serial_number', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_SERIAL_NUMBER='.trim($buffer1)."\n";
+                        }
                     }
                     if ($buffer[0]['info'] !== '') {
                         $buffer[0]['info'] .= 'POWER_SUPPLY_NAME='.$bat_name."\n";
@@ -360,8 +364,13 @@ class BAT extends PSI_Plugin
                     $bat['name'] = $data[1];
                 } elseif (preg_match('/^native-path:\s*(.*)$/', $roworig, $data) && isset($data[1][0]) && ($data[1][0]!=='/')) {
                     $bat['name'] = $data[1];
-                } elseif (preg_match('/^model:\s*(.*)$/', $roworig, $data)) {
+                } elseif (preg_match('/^model:\s*(.*)$/', $roworig, $data)
+                         || preg_match('/^[Mm]odel number:\s*(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
+                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL 
+                         && (preg_match('/^serial:\s*(.*)$/', $roworig, $data)
+                          || preg_match('/^[Ss]erial number:\s*(.*)$/', $roworig, $data))) {
+                    $bat['serialnumber'] = $data[1];
 
                 } elseif (preg_match('/^POWER_SUPPLY_CYCLE_COUNT=(.*)$/', $roworig, $data) && ($data[1]>0)) {
                     $bat['cycle_count'] = $data[1];
@@ -456,6 +465,9 @@ class BAT extends PSI_Plugin
                     $bat['name'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
+                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
+                         && preg_match('/^POWER_SUPPLY_SERIAL_NUMBER=(.*)$/', $roworig, $data)) {
+                    $bat['serialnumber'] = $data[1];
 
                 /* Darwin */
                 } elseif (preg_match('/^"MaxCapacity"\s*=\s*(.*)$/', $roworig, $data)) {
@@ -472,6 +484,12 @@ class BAT extends PSI_Plugin
                     $bat['design_capacity'] = $data[1];
                 } elseif (preg_match('/^"CycleCount"\s*=\s*(.*)$/', $roworig, $data) && ($data[1]>0)) {
                     $bat['cycle_count'] = $data[1];
+                } elseif (preg_match('/^"DeviceName"\s*=\s*\"?([^\"]*)\"?$/', $roworig, $data)) {
+                    $bat['model'] = $data[1];
+                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
+                         && preg_match('/^"BatterySerialNumber"\s*=\s*\"?([^\"]*)\"?$/', $roworig, $data)) {
+                    $bat['serialnumber'] = $data[1];
+                
                 /* auxiary */
                 } elseif (preg_match('/^"FullyCharged"\s*=\s*Yes$/', $roworig, $data)) {
                     $bat['charging_state_f'] = true;
@@ -613,6 +631,9 @@ class BAT extends PSI_Plugin
                     $bat['name'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
+                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
+                         && preg_match('/^POWER_SUPPLY_SERIAL_NUMBER=(.*)$/', $roworig, $data)) {
+                    $bat['serialnumber'] = $data[1];
                 }
             }
 
@@ -634,6 +655,13 @@ class BAT extends PSI_Plugin
             }
             if (isset($bat_item['model']) && ($bat_item['model'] !== "1")) {
                 $xmlbat->addAttribute("Model", $bat_item['model']);
+            }
+            if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
+               && isset($bat_item['serialnumber']) 
+               && ($bat_item['serialnumber'] !== "")
+               && ($bat_item['serialnumber'] !== "0")
+               && ($bat_item['serialnumber'] !== "0000")) {
+                $xmlbat->addAttribute("SerialNumber", $bat_item['serialnumber']);
             }
             if (isset($bat_item['manufacturer'])) {
                 $xmlbat->addAttribute("Manufacturer", $bat_item['manufacturer']);

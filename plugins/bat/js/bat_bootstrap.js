@@ -74,7 +74,7 @@ function renderPlugin_bat(data) {
         var bats = items(data['Plugins']['Plugin_BAT']['Bat']);
         if (bats.length > 0) {
             var html = "";
-            var paramlist = {Model:15,Manufacturer:14,DesignCapacity:2,FullCapacity:13,RemainingCapacity:3,ChargingState:8,DesignVoltage:4,PresentVoltage:5,BatteryType:9,BatteryTemperature:10,BatteryCondition:11,CycleCount:12};
+            var paramlist = {Model:15,Manufacturer:14,SerialNumber:16,DesignCapacity:2,FullCapacity:13,RemainingCapacity:3,ChargingState:8,DesignVoltage:4,PresentVoltage:5,BatteryType:9,BatteryTemperature:10,BatteryCondition:11,CycleCount:12};
             var paramlis2 = {FullCapacity:'FullCapacityBar',RemainingCapacity:'RemainingCapacityBar',DesignVoltage:'DesignVoltageMax'};
 
             for (var i = 0; i < bats.length; i++) {

@@ -49,6 +49,9 @@
     <exp>Κατασκευαστής</exp>
   </expression>
   <expression id="plugin_bat_015" name="bat_model">
-    <exp>Model</exp>
+    <exp>Μοντέλο</exp>
+  </expression>
+  <expression id="plugin_bat_016" name="bat_serialnumber">
+    <exp>Σειριακός Αριθμός</exp>
   </expression>
 </tns:translationPlugin>

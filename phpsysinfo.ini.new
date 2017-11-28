@@ -509,6 +509,10 @@ DEVICE="BAT0"
 ; 
 UPOWER=false
 
+; Show battery serial number
+;
+SHOW_SERIAL=false
+
 
 [mdstatus]
 ; MDStatus Plugin configuration

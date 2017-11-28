@@ -49,7 +49,7 @@ function bat_buildTable(xml) {
     var index = 0;
 
     $("Plugins Plugin_Bat Bat", xml).each(function bat_getdisks(id) {
-        var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "";
+        var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
         name = $(this).attr("Name");
         if (name == undefined) {
             name = "Battery"+(batcount++)
@@ -68,6 +68,7 @@ function bat_buildTable(xml) {
         DesignVoltageMax = $(this).attr("DesignVoltageMax");
         Manufacturer = $(this).attr("Manufacturer");
         Model = $(this).attr("Model");
+        SerialNumber = $(this).attr("SerialNumber");
 
         html += "    <tr><td colspan=\"3\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
         index = tree.push(0);
@@ -78,6 +79,10 @@ function bat_buildTable(xml) {
         }
         if (Manufacturer != undefined) {
             html += "    <tr><td><span class=\"treespan\">" + genlang(14, true, "BAT") + "</span></td><td>" + Manufacturer +"</td><td></td></tr>\n";
+            tree.push(index);
+        }
+        if (SerialNumber != undefined) {
+            html += "    <tr><td><span class=\"treespan\">" + genlang(16, true, "BAT") + "</span></td><td>" + SerialNumber +"</td><td></td></tr>\n";
             tree.push(index);
         }
         if (CapacityUnit == undefined) {

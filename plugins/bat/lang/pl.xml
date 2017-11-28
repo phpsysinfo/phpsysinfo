@@ -51,4 +51,7 @@
   <expression id="plugin_bat_015" name="bat_model">
     <exp>Model</exp>
   </expression>
+  <expression id="plugin_bat_016" name="bat_serialnumber">
+    <exp>Numer seryjny</exp>
+  </expression>
 </tns:translationPlugin>
