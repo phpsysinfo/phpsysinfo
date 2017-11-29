@@ -22,7 +22,7 @@
     <exp>Τρέχουσα τάση</exp>
   </expression>
   <expression id="plugin_bat_006" name="bat_battery">
-    <exp>Μπαταρίας</exp>
+    <exp>Μπαταρία</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_value">
     <exp>Τιμή</exp>
@@ -34,7 +34,7 @@
     <exp>Τύπος Μπαταρίας</exp>
   </expression>
   <expression id="plugin_bat_010" name="bat_battery_temperature">
-    <exp>Τύπος Μπαταρίας</exp>
+    <exp>Θερμοκρασία Μπαταρίας</exp>
   </expression>
   <expression id="plugin_bat_011" name="bat_battery_condition">
     <exp>Κατάσταση Μπαταρίας</exp>
