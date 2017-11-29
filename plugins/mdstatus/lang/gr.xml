@@ -13,10 +13,10 @@
     <exp>Υποστηριζόμενοι τύποι RAID</exp>
   </expression>
   <expression id="plugin_mdstatus_003" name="mdstatus_devices">
-    <exp>Αλυσίδες RAID</exp>
+    <exp>Συσκευές RAID</exp>
   </expression>
   <expression id="plugin_mdstatus_004" name="mdstatus_infos">
-    <exp>Πρόσθετες πληροφορίες</exp>
+    <exp>Πρόσθετες Πληροφορίες</exp>
   </expression>
   <expression id="plugin_mdstatus_005" name="mdstatus_status">
     <exp>Κατάσταση</exp>
@@ -43,7 +43,7 @@
     <exp>Δηλωμένοι/Ενεργοί Δίσκοι</exp>
   </expression>
   <expression id="plugin_mdstatus_013" name="mdstatus_curact">
-    <exp>Τρέχουσα ενέργεια</exp>
+    <exp>Τρέχουσα Eνέργεια</exp>
   </expression>
   <expression id="plugin_mdstatus_014" name="mdstatus_finishin">
     <exp>Ολοκληρώνεται σε</exp>
