@@ -10,7 +10,7 @@
     <exp>Κατάσταση RAID</exp>
   </expression>
   <expression id="plugin_dmraid_002" name="dmraid_devices">
-    <exp>RAID-Συσκευές</exp>
+    <exp>Συσκευές RAID</exp>
   </expression>
   <expression id="plugin_dmraid_003" name="dmraid_infos">
     <exp>Επιπρόσθετες Πληροφορίες</exp>
@@ -22,7 +22,7 @@
     <exp>Κατάσταση</exp>
   </expression>
   <expression id="plugin_dmraid_006" name="dmraid_type">
-    <exp>RAID-Τύπος</exp>
+    <exp>Τύπος RAID</exp>
   </expression>
   <expression id="plugin_dmraid_007" name="dmraid_size">
     <exp>Μέγεθος</exp>
