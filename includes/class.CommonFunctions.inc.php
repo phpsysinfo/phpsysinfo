@@ -149,10 +149,11 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
+     * @param integer $timeout timeout value in seconds (default value is 30)
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true)
+    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $timeout = 30)
     {
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArgs));
@@ -233,7 +234,7 @@ class CommonFunctions
             $process = proc_open($strProgram.$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
-            self::_timeoutfgets($pipes, $strBuffer, $strError);
+            $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
             if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
                 $return_value = pclose($pipes[1]);
             } else {
@@ -242,7 +243,12 @@ class CommonFunctions
                 fclose($pipes[2]);
                 // It is important that you close any pipes before calling
                 // proc_close in order to avoid a deadlock
-                $return_value = proc_close($process);
+                if ($te) {
+                    proc_terminate($process); // proc_close tends to hang if the process is timing out
+                    $return_value = 0;
+                } else {
+                    $return_value = proc_close($process);
+                }
             }
         } else {
             if ($booErrorRep) {
@@ -451,14 +457,15 @@ class CommonFunctions
      * @param array   $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out    target string for the output message (reference)
      * @param string  &$err    target string for the error message (reference)
-     * @param integer $timeout timeout value in seconds (default value is 30)
+     * @param integer $timeout timeout value in seconds
      *
-     * @return void
+     * @return boolean timeout expired or not
      */
-    private static function _timeoutfgets($pipes, &$out, &$err, $timeout = 30)
+    private static function _timeoutfgets($pipes, &$out, &$err, $timeout)
     {
         $w = null;
         $e = null;
+        $te = false;
 
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             $pipe2 = false;
@@ -479,6 +486,7 @@ class CommonFunctions
                 break;
             } elseif ($n === 0) {
                 error_log('stream_select: timeout expired !');
+                $te = true;
                 break;
             }
 
@@ -490,6 +498,8 @@ class CommonFunctions
                 }
             }
         }
+
+        return $te;
     }
 
     /**

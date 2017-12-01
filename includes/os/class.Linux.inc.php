@@ -665,7 +665,7 @@ class Linux extends OS
         }
 
         $usbarray = array();
-        if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android')) && ($bufr !== "")) {
+        if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android')) && ($bufr !== ""), 5) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 7);
