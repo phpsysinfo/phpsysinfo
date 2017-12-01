@@ -149,7 +149,7 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
-     * @param integer $timeout timeout value in seconds (default value is 30)
+     * @param integer $timeout        timeout value in seconds (default value is 30)
      *
      * @return boolean command successfull or not
      */
