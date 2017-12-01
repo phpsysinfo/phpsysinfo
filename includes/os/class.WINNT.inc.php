@@ -833,18 +833,16 @@ class WINNT extends OS
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
-                    if (preg_match('/\n\s*([\d\.,\xFF]+).*\n\s*([\d\.,\xFF]+).*\n\s*([\d\.\,\xFF]+).*$/', $out_value, $out_dig)) {
-                        $size = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[1]);
-                        $used = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[2]);
-                        $free = preg_replace('/(\.)|(,)|(\xFF)/', '', $out_dig[3]);
+                    $values = preg_replace('/[^\d\n]/', '', $out_value);                  
+                    if (preg_match('/\n(\d+)\n(\d+)\n(\d+)$/', $values, $out_dig)) {
                         if ($used + $free == $size) {
                             $dev = new DiskDevice();
                             $dev->setMountPoint($letter.":");
                             $dev->setFsType('Unknown');
                             $dev->setName('Unknown');
-                            $dev->setTotal($size);
-                            $dev->setFree($free);
-                            $dev->setUsed($used);
+                            $dev->setTotal($out_dig[1]);
+                            $dev->setUsed($out_dig[2]);
+                            $dev->setFree($out_dig[3]);
                             $this->sys->setDiskDevices($dev);
                         }
                     }
