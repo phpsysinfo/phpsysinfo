@@ -79,7 +79,7 @@ function smart_populate(xml) {
     // Now we add selected datas in the table
     $("Plugins Plugin_SMART disks disk", xml).each(function smart_fill_table() {
         var values = [], display = [], i;
-        name = $(this).attr("name");
+        name = $(this).attr("name").replace(/\)/g, ")<wbr>");
         $(this).find("attribute").each(function smart_fill_data() {
             if (columns[parseInt($(this).attr("id"), 10)] && columns[parseInt($(this).attr("id"), 10)] !== "") {
                 values[parseInt($(this).attr("id"), 10)] = $(this).attr(columns[parseInt($(this).attr("id"), 10)]);
