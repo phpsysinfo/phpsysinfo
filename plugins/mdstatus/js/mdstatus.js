@@ -63,7 +63,7 @@ function mdstatus_buildinfos(xml, id) {
     }
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_MDStatus_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(4, true, "MDStatus") + "</h3>";
-    button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
+    button += "<table id=\"Plugin_MDStatus_InfoTable" + id + "\" style=\"border:none; border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -155,7 +155,7 @@ function mdstatus_populate(xml) {
         var htmldisks = "", htmldisklist = "", topic = "", name = "", buildedaction = "";
         name = $(this).attr("Device_Name");
         htmldisklist += mdstatus_diskicon(this);
-        htmldisks += "<table style=\"width:100%;\"><tbody>";
+        htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td>" + htmldisklist + "</td></tr>";
         buildedaction = mdstatus_buildaction($(this));
         if (buildedaction) {

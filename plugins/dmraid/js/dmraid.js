@@ -53,7 +53,7 @@ function dmraid_buildinfos(xml, id) {
     if (!isNaN(devspares)) html += "<tr><td>" + genlang(11, true, "DMRaid") + "</td><td>" + devspares + "</td></tr>";
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_DMRaid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "DMRaid") + "</h3>";
-    button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
+    button += "<table id=\"Plugin_DMRaid_InfoTable" + id + "\" style=\"border:none; border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -131,7 +131,7 @@ function dmraid_populate(xml) {
         var htmldisks = "", htmldisklist = "", topic = "", name = "", buildedaction = "";
         name = $(this).attr("Device_Name");
         htmldisklist += dmraid_diskicon(this);
-        htmldisks += "<table style=\"width:100%;\"><tbody>";
+        htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td>" + htmldisklist + "</td></tr>";
         buildedaction = dmraid_buildaction($(this));
         if (buildedaction) {
