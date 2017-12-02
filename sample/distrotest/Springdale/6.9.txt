@@ -1,0 +1,10 @@
+----------/etc/PU_IAS-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/puias-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/redhat-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/springdale-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/system-release----------
+Springdale Linux  release 6.9 (Pisa)
