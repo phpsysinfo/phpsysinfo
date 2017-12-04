@@ -163,7 +163,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Τάσεις</exp>
   </expression>
   <expression id="053" name="fans">
-    <exp>Ψύξη</exp>
+    <exp>Ανεμιστήρες</exp>
   </expression>
   <expression id="054" name="s_value">
     <exp>Τιμή</exp>
