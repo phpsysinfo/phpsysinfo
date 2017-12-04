@@ -175,7 +175,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Μέγιστο</exp>
   </expression>
   <expression id="057" name="hysteresis">
-    <exp>Υστέριση</exp>
+    <exp>Υστέρηση</exp>
   </expression>
   <expression id="058" name="s_limit">
     <exp>Όριο</exp>
@@ -238,7 +238,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Τάση γραμμής</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Φόρτο</exp>
+    <exp>Φόρτος</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
     <exp>Τάση μπαταρίας</exp>
@@ -295,7 +295,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Γλώσσα Συστήματος</exp>
   </expression>
   <expression id="098" name="codepage">
     <exp>Κωδικοποίηση</exp>
