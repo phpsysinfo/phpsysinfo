@@ -378,4 +378,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained
   <expression id="124" name="serial">
     <exp>Serial number</exp>
   </expression>
+  <expression id="125" name="memfree">
+    <exp>Prosto</exp>
+  </expression>
 </tns:translation>

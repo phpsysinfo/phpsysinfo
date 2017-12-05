@@ -378,4 +378,7 @@ phpSysInfo language file Language: Portuguese Created by:Rui Rebelo
   <expression id="124" name="serial">
     <exp>Serial number</exp>
   </expression>
+  <expression id="125" name="memfree">
+    <exp>Livre</exp>
+  </expression>
 </tns:translation>

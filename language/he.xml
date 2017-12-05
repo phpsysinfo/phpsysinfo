@@ -378,4 +378,7 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   <expression id="124" name="serial">
     <exp>Serial number</exp>
   </expression>
+  <expression id="125" name="memfree">
+    <exp>פנוי</exp>
+  </expression>
 </tns:translation>

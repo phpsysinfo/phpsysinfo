@@ -378,4 +378,7 @@ phpSysInfo language file Language: Norwegian Created by: Audun Larsen
   <expression id="124" name="serial">
     <exp>Serial number</exp>
   </expression>
+  <expression id="125" name="memfree">
+    <exp>Ledig</exp>
+  </expression>
 </tns:translation>

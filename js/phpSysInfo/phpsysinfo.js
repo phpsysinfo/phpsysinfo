@@ -287,7 +287,7 @@ function filesystemtable() {
     html += "              <th>" + genlang(34, true) + "</th>\n";
     html += "              <th>" + genlang(32, false) + "</th>\n";
     html += "              <th>" + genlang(33, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(35, true) + "</th>\n";
+    html += "              <th class=\"right\">" + genlang(35, false) + "</th>\n";
     html += "              <th class=\"right\">" + genlang(36, true) + "</th>\n";
     html += "              <th class=\"right\">" + genlang(37, true) + "</th>\n";
     html += "            </tr>\n";
@@ -1080,7 +1080,7 @@ function refreshMemory(xml) {
     html += "    <tr>\n";
     html += "     <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
     html += "     <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(35, true) + "</th>\n";
+    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(125, false) + "</th>\n";
     html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
     html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
     html += "    </tr>\n";
