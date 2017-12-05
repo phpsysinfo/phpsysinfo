@@ -112,7 +112,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Ελεύθερο</exp>
   </expression>
   <expression id="036" name="used">
-    <exp>Κατειλημμένο</exp>
+    <exp>Σε χρήση</exp>
   </expression>
   <expression id="037" name="size">
     <exp>Μέγεθος</exp>
