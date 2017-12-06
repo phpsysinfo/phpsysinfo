@@ -379,6 +379,6 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Σειριακός αριθμός</exp>
   </expression>
   <expression id="125" name="memfree">
-    <exp>Ελεύθερο</exp>
+    <exp>Ελεύθερη</exp>
   </expression>
 </tns:translation>
