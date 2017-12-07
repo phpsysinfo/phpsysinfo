@@ -835,14 +835,17 @@ class WINNT extends OS
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
                     $values = preg_replace('/[^\d\n]/', '', $out_value);                  
                     if (preg_match('/\n(\d+)\n(\d+)\n(\d+)$/', $values, $out_dig)) {
+                        $size = $out_dig[1];
+                        $used = $out_dig[2];
+                        $free = $out_dig[3];
                         if ($used + $free == $size) {
                             $dev = new DiskDevice();
                             $dev->setMountPoint($letter.":");
                             $dev->setFsType('Unknown');
                             $dev->setName('Unknown');
-                            $dev->setTotal($out_dig[1]);
-                            $dev->setUsed($out_dig[2]);
-                            $dev->setFree($out_dig[3]);
+                            $dev->setTotal($size);
+                            $dev->setUsed($used);
+                            $dev->setFree($free);
                             $this->sys->setDiskDevices($dev);
                         }
                     }
