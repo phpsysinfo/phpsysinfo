@@ -76,8 +76,8 @@ class HWDevice
      */
     public function equals(HWDevice $dev)
     {
-        if ($dev->getName() === $this->_name 
-           && $dev->getCapacity() === $this->_capacity 
+        if ($dev->getName() === $this->_name
+           && $dev->getCapacity() === $this->_capacity
            && $dev->getManufacturer() === $this->_manufacturer
            && $dev->getProduct() === $this->_product
            && $dev->getSerial() === $this->_serial) {

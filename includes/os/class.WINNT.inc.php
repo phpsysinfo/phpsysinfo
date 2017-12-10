@@ -253,6 +253,7 @@ class WINNT extends OS
                 }
             }
         }
+
         return $list;
     }
 
@@ -530,13 +531,13 @@ class WINNT extends OS
      */
     private function _machine()
     {
-        $buffer = $this->_get_Win32_ComputerSystem(); 
+        $buffer = $this->_get_Win32_ComputerSystem();
         if ($buffer) {
             $buf = "";
             if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=$buffer[0]['Manufacturer'])) {
                 $buf .= ' '.$buf2;
             }
-            
+
             if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model'])) {
                 $buf .= ' '.$buf2;
             }
@@ -833,7 +834,7 @@ class WINNT extends OS
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
-                    $values = preg_replace('/[^\d\n]/', '', $out_value);                  
+                    $values = preg_replace('/[^\d\n]/', '', $out_value);
                     if (preg_match('/\n(\d+)\n(\d+)\n(\d+)$/', $values, $out_dig)) {
                         $size = $out_dig[1];
                         $used = $out_dig[2];

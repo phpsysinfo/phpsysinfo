@@ -191,7 +191,7 @@ class BAT extends PSI_Plugin
                     CommonFunctions::executeProgram('upower', '-d', $info, false);
                     if ($info !== '') {
                         $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
-                        foreach($infoarray as $infoitem) { //upower detection
+                        foreach ($infoarray as $infoitem) { //upower detection
                             if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
                                && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
                                && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
@@ -275,7 +275,7 @@ class BAT extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/bat_info.txt", $info);
             $itemcount = 0;
             $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
-            foreach($infoarray as $infoitem) { //upower detection
+            foreach ($infoarray as $infoitem) { //upower detection
                 if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
                    && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
                    && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
@@ -285,7 +285,6 @@ class BAT extends PSI_Plugin
             if ($itemcount == 0) {
                 $buffer[0]['info'] = $info;
             }
-           
             CommonFunctions::rfts(APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
@@ -367,7 +366,7 @@ class BAT extends PSI_Plugin
                 } elseif (preg_match('/^model:\s*(.*)$/', $roworig, $data)
                          || preg_match('/^[Mm]odel number:\s*(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
-                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL 
+                } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
                          && (preg_match('/^serial:\s*(.*)$/', $roworig, $data)
                           || preg_match('/^[Ss]erial number:\s*(.*)$/', $roworig, $data))) {
                     $bat['serialnumber'] = $data[1];
@@ -489,7 +488,7 @@ class BAT extends PSI_Plugin
                 } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
                          && preg_match('/^"BatterySerialNumber"\s*=\s*\"?([^\"]*)\"?$/', $roworig, $data)) {
                     $bat['serialnumber'] = $data[1];
-                
+
                 /* auxiary */
                 } elseif (preg_match('/^"FullyCharged"\s*=\s*Yes$/', $roworig, $data)) {
                     $bat['charging_state_f'] = true;
@@ -657,7 +656,7 @@ class BAT extends PSI_Plugin
                 $xmlbat->addAttribute("Model", $bat_item['model']);
             }
             if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
-               && isset($bat_item['serialnumber']) 
+               && isset($bat_item['serialnumber'])
                && ($bat_item['serialnumber'] !== "")
                && ($bat_item['serialnumber'] !== "0")
                && ($bat_item['serialnumber'] !== "0000")) {

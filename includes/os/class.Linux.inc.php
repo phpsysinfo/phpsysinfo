@@ -654,7 +654,7 @@ class Linux extends OS
      */
     protected function _usb()
     {
-        function  readValue($idProductPath, $valueName)
+        function readValue($idProductPath, $valueName)
         {
             $filename = preg_replace("/\/idProduct$/", "/".$valueName, $idProductPath);
             if (CommonFunctions::fileexists($filename) && CommonFunctions::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {

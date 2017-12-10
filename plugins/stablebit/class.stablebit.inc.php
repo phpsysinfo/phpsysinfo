@@ -43,7 +43,6 @@ class StableBit extends PSI_Plugin
         $this->_result = array();
     }
 
-
     const stablebit_items = array('Name', 'Firmware', 'Size', 'TemperatureC', 'PowerState', 'IsHot', 'IsSmartWarning', 'IsSmartPastThresholds', 'IsSmartPastAdvisoryThresholds', 'IsSmartFailurePredicted', 'IsDamaged', 'SerialNumber');
 
     /**

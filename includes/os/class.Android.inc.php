@@ -235,7 +235,6 @@ class Android extends Linux
         }
     }
 
-
     /**
      * get the information
      *
