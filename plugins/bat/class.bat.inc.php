@@ -210,7 +210,8 @@ class BAT extends PSI_Plugin
                         $buffer[0]['info'] = '';
                         $buffer[0]['state'] = '';
                         if (!CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, false)) {
-                            if (CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer[0]['info'], 0, 4096, false)) {
+                            if (CommonFunctions::rfts('/sys/class/power_supply/battery/uevent', $buffer[0]['info'], 0, 4096, false)
+                               || (CommonFunctions::rfts('/sys/class/power_supply/battery/present', $pbuffer, 1, 4096, false) && trim($pbuffer[0]==="1"))) {
                                 $bat_name = 'battery';
                             } else {
                                 CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/uevent', $buffer[0]['info'], 0, 4096, PSI_DEBUG); // Once again but with debug
@@ -257,6 +258,12 @@ class BAT extends PSI_Plugin
                         }
                         if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/manufacturer', $buffer1, 1, 4096, false)) {
                             $buffer[0]['state'] .= 'POWER_SUPPLY_MANUFACTURER='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/charge_counter', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_CHARGE_COUNTER='.trim($buffer1)."\n";
+                        }
+                        if (CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/temp', $buffer1, 1, 4096, false)) {
+                            $buffer[0]['state'] .= 'POWER_SUPPLY_TEMP='.trim($buffer1)."\n";
                         }
                         if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
                            && CommonFunctions::rfts('/sys/class/power_supply/'.$bat_name.'/serial_number', $buffer1, 1, 4096, false)) {
@@ -464,6 +471,8 @@ class BAT extends PSI_Plugin
                     $bat['name'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
+                } elseif (preg_match('/^POWER_SUPPLY_CHARGE_COUNTER=(.*)$/', $roworig, $data)) {
+                    $bat['cycle_count'] = $data[1];
                 } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
                          && preg_match('/^POWER_SUPPLY_SERIAL_NUMBER=(.*)$/', $roworig, $data)) {
                     $bat['serialnumber'] = $data[1];
@@ -630,6 +639,8 @@ class BAT extends PSI_Plugin
                     $bat['name'] = $data[1];
                 } elseif (preg_match('/^POWER_SUPPLY_MODEL_NAME=(.*)$/', $roworig, $data)) {
                     $bat['model'] = $data[1];
+                } elseif (preg_match('/^POWER_SUPPLY_CHARGE_COUNTER=(.*)$/', $roworig, $data)) {
+                    $bat['cycle_count'] = $data[1];
                 } elseif (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
                          && preg_match('/^POWER_SUPPLY_SERIAL_NUMBER=(.*)$/', $roworig, $data)) {
                     $bat['serialnumber'] = $data[1];
