@@ -208,8 +208,7 @@ class BAT extends PSI_Plugin
                             $stateitem = '';
                             $rfts_bi = CommonFunctions::rfts($batdevices[$i], $infoitem, 0, 4096, false);
                             $rfts_bs = CommonFunctions::rfts(preg_replace('/\/info$/', '/state', $batdevices[$i]), $stateitem, 0, 4096, false);
-                            if ($rfts_bi && ($infoitem!==''))
-                               || ($rfts_bs && ($stateitem!==''))) {
+                            if (($rfts_bi && ($infoitem!=='')) || ($rfts_bs && ($stateitem!==''))) {
                                 if (preg_match('/^\/proc\/acpi\/battery\/(.+)\/info$/', $batdevices[$i], $batname)) {
                                     if ($infoitem!=='') {
                                         $infoitem .= 'POWER_SUPPLY_NAME='.$batname[1]."\n";
