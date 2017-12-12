@@ -654,16 +654,6 @@ class Linux extends OS
      */
     protected function _usb()
     {
-        function readValue($idProductPath, $valueName)
-        {
-            $filename = preg_replace("/\/idProduct$/", "/".$valueName, $idProductPath);
-            if (CommonFunctions::fileexists($filename) && CommonFunctions::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
-                return $buf;
-            } else {
-                return null;
-            }
-        }
-
         $usbarray = array();
         if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
@@ -685,22 +675,22 @@ class Linux extends OS
         if (($total = count($usbdevices)) > 0) {
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { //is readable
-                    $busnum = readValue($usbdevices[$i], 'busnum');
-                    $devnum = readValue($usbdevices[$i], 'devnum');
-                    $idvendor = readValue($usbdevices[$i], 'idVendor');
+                    $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
+                    $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
+                    $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
                     if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
                         $usbid = ($busnum+0).'-'.($devnum+0).' '.$idvendor.':'.$idproduct;
-                        $manufacturer = readValue($usbdevices[$i], 'manufacturer');
+                        $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
                         if ($manufacturer!==null) {
                             $usbarray[$usbid]['manufacturer'] = $manufacturer;
                         }
-                        $product = readValue($usbdevices[$i], 'product');
+                        $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
                         if ($product!==null) {
                             $usbarray[$usbid]['product'] = $product;
                         }
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                            && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                            $serial = readValue($usbdevices[$i], 'serial');
+                            $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
                             if (($serial!==null) && !preg_match('/\W/', $serial)) {
                                 $usbarray[$usbid]['serial'] = $serial;
                             }

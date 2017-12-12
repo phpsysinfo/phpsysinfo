@@ -1,3 +1,5 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/present
+1
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/battery/uevent
 POWER_SUPPLY_NAME=battery
 POWER_SUPPLY_STATUS=Charging

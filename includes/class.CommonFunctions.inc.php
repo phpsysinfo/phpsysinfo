@@ -274,6 +274,21 @@ class CommonFunctions
     }
 
     /**
+     * read a one-line value from a file with a similar name
+     *
+     * @return value if successfull or null if not
+     */
+    public static function rolv($similarFileName, $match = "//", $replace = "")
+    {
+        $filename = preg_replace($match, $replace, $similarFileName);
+        if (CommonFunctions::fileexists($filename) && CommonFunctions::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
+            return $buf;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * read a file and return the content as a string
      *
      * @param string  $strFileName name of the file which should be read

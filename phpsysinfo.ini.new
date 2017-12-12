@@ -501,10 +501,6 @@ ACCESS="command"
 ;
 ACCESS="command"
 
-; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android and Linux)
-;
-DEVICE="BAT0"
-
 ; on Lunux try executing 'upower -d' command
 ; 
 UPOWER=false
