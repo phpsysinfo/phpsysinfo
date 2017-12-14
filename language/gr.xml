@@ -286,7 +286,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Εικονικοποίηση</exp>
   </expression>
   <expression id="095" name="lastboot">
     <exp>Τελευταία εκκίνηση</exp>
