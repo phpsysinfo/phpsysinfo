@@ -78,7 +78,8 @@ class ThermalZone extends Sensors
             }
         } else {
             $notwas = true;
-            foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
+            $thermalzones = glob('/sys/class/thermal/thermal_zone*/');
+            if (($thermalzones !== false) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
                 if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
@@ -115,7 +116,8 @@ class ThermalZone extends Sensors
                 }
             }
             if ($notwas) {
-                foreach (glob('/proc/acpi/thermal_zone/TH*/temperature') as $thermalzone) {
+                $thermalzones = glob('/proc/acpi/thermal_zone/TH*/temperature');
+                if (($thermalzones !== false) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                     $temp = null;
                     if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
                         $dev = new SensorDevice();

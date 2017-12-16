@@ -109,7 +109,7 @@ class PS extends PSI_Plugin
                         $buffer = "  PID  PPID %MEM %CPU COMMAND\n";
 
                         $processlist = glob('/proc/*/status', GLOB_NOSORT);
-                        if (($total = count($processlist)) > 0) {
+                        if (($processlist !== false) && (($total = count($processlist)) > 0)) {
                             natsort($processlist); //first sort
                             $process = array();
                             foreach ($processlist as $processitem) { //second sort

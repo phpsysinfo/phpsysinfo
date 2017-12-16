@@ -86,7 +86,7 @@ abstract class OS implements PSI_Interface_OS
             $this->sys->setUsers($ar_buf[1]);
         } else {
             $processlist = glob('/proc/*/cmdline', GLOB_NOSORT);
-            if (($total = count($processlist)) > 0) {
+            if (($processlist !== false) && (($total = count($processlist)) > 0)) {
                 $count = 0;
                 $buf = "";
                 for ($i = 0; $i < $total; $i++) {
