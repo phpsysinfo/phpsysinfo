@@ -37,10 +37,10 @@ class Coretemp extends Hwmon
     {
         if (PSI_OS == 'Linux') {
             $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
-            if (($hwpaths !== false) && (count($hwpaths) > 0)) {
+            if (is_array($hwpaths) && (count($hwpaths) > 0)) {
                 $hwpaths = array_merge($hwpaths, glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT));
             }
-            if (($hwpaths !== false) && (($totalh = count($hwpaths)) > 0)) {
+            if (is_array($hwpaths) && (($totalh = count($hwpaths)) > 0)) {
                 for ($h = 0; $h < $totalh; $h++) {
                     $this->_temperature($hwpaths[$h]);
                 }

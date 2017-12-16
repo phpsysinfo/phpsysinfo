@@ -35,7 +35,8 @@ if (is_resource($fp)) {
 }
 
 foreach ($filemaskarray as $filemask) {
-    foreach (glob($filemask) as $filename) {
+    $filenames = glob($filemask);
+    if (is_array($filenames)) foreach ($filenames as $filename) {
         echo "----------".$filename."----------\n";
         echo $contents=file_get_contents($filename);
         if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")) {

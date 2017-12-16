@@ -542,7 +542,7 @@ class Linux extends OS
             }
         } else {
             $pcidevices = glob('/sys/bus/pci/devices/*/uevent', GLOB_NOSORT);
-            if (($pcidevices !== false) && (($total = count($pcidevices)) > 0)) {
+            if (is_array($pcidevices) && (($total = count($pcidevices)) > 0)) {
                 $buf = "";
                 for ($i = 0; $i < $total; $i++) {
                     if (CommonFunctions::rfts($pcidevices[$i], $buf, 0, 4096, false) && (trim($buf) != "")) {
@@ -630,7 +630,7 @@ class Linux extends OS
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && ($dev_type[1]==='Direct-Access')) {
                        $sizelist = glob('/sys/bus/scsi/devices/'.($scsiid[1]+0).':'.($scsiid[2]+0).':'.($scsiid[3]+0).':'.($scsiid[4]+0).'/*/*/size', GLOB_NOSORT);
-                       if (($sizelist !== false) && (($total = count($sizelist)) > 0)) {
+                       if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
                            $buf = "";
                            for ($i = 0; $i < $total; $i++) {
                                if (CommonFunctions::rfts($sizelist[$i], $buf, 1, 4096, false) && (($buf=trim($buf)) != "") && ($buf > 0)) {
@@ -672,7 +672,7 @@ class Linux extends OS
         }
 
         $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
-        if (($usbdevices !== false) && (($total = count($usbdevices)) > 0)) {
+        if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { //is readable
                     $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
@@ -779,7 +779,7 @@ class Linux extends OS
     protected function _i2c()
     {
         $i2cdevices = glob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
-        if (($i2cdevices !== false) && (($total = count($i2cdevices)) > 0)) {
+        if (is_array($i2cdevices) && (($total = count($i2cdevices)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -1444,7 +1444,7 @@ class Linux extends OS
     protected function _processes()
     {
         $process = glob('/proc/*/status', GLOB_NOSORT);
-        if (($process !== false) && (($total = count($process)) > 0)) {
+        if (is_array($process) && (($total = count($process)) > 0)) {
             $processes['*'] = 0;
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
