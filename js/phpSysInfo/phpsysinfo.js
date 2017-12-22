@@ -281,32 +281,32 @@ function filesystemtable() {
     var html = "";
     html += "<h2>" + genlang(30, false) + "</h2>\n";
     html += "        <div style=\"overflow-x:auto;\">\n";
-    html += "        <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
-    html += "          <thead>\n";
-    html += "            <tr>\n";
-    html += "              <th>" + genlang(31, false) + "</th>\n";
-    html += "              <th>" + genlang(34, true) + "</th>\n";
-    html += "              <th>" + genlang(32, false) + "</th>\n";
-    html += "              <th>" + genlang(33, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(35, false) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(36, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(37, true) + "</th>\n";
-    html += "            </tr>\n";
-    html += "          </thead>\n";
-    html += "          <tfoot>\n";
-    html += "            <tr style=\"font-weight : bold\">\n";
-    html += "              <td>&nbsp;</td>\n";
-    html += "              <td>&nbsp;</td>\n";
-    html += "              <td>" + genlang(38, false) + "</td>\n";
-    html += "              <td id=\"s_fs_total\"></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
-    html += "            </tr>\n";
-    html += "          </tfoot>\n";
-    html += "          <tbody>\n";
-    html += "          </tbody>\n";
-    html += "        </table>\n";
+    html += "          <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
+    html += "            <thead>\n";
+    html += "              <tr>\n";
+    html += "                <th>" + genlang(31, false) + "</th>\n";
+    html += "                <th>" + genlang(34, true) + "</th>\n";
+    html += "                <th>" + genlang(32, false) + "</th>\n";
+    html += "                <th>" + genlang(33, true) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(35, false) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(36, true) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(37, true) + "</th>\n";
+    html += "              </tr>\n";
+    html += "            </thead>\n";
+    html += "            <tfoot>\n";
+    html += "              <tr style=\"font-weight : bold\">\n";
+    html += "                <td>&nbsp;</td>\n";
+    html += "                <td>&nbsp;</td>\n";
+    html += "                <td>" + genlang(38, false) + "</td>\n";
+    html += "                <td id=\"s_fs_total\"></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
+    html += "              </tr>\n";
+    html += "            </tfoot>\n";
+    html += "            <tbody>\n";
+    html += "            </tbody>\n";
+    html += "          </table>\n";
     html += "        </div>\n";
 
     $("#filesystem").append(html);
@@ -1027,13 +1027,15 @@ function refreshNetwork(xml) {
             }
         }
     });
-    html += "</tbody>\n";
-    html += "</table>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
+    html0 += "<div style=\"overflow-x:auto;\">\n";
     if (isinfo) {
-       html0 += "<table id=\"NetworkTree\" class=\"tablemain\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\" style=\"border-spacing:0;\">\n";
        html1 += "   <tbody class=\"tree\">\n";
     } else {
-       html0 += "<table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
        html1 += "   <tbody class=\"tbody_network\">\n";
     }
     $("#network").append(html0+html1+html);
@@ -1077,17 +1079,18 @@ function refreshMemory(xml) {
 
     $("#memory").empty();
     html += "<h2>" + genlang(27, false) + "</h2>\n";
-    html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
-    html += "   <thead>\n";
-    html += "    <tr>\n";
-    html += "     <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
-    html += "     <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(125, false) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
-    html += "    </tr>\n";
-    html += "   </thead>\n";
-    html += "   <tbody class=\"tree\">\n";
+    html0 += " <div style=\"overflow-x:auto;\">\n";
+    html += "   <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "    <thead>\n";
+    html += "     <tr>\n";
+    html += "      <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
+    html += "      <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(125, false) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
+    html += "     </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody class=\"tree\">\n";
 
     $("Memory", xml).each(function getMemory(id) {
         var free = 0, total = 0, used = 0, percent = 0, memoryindex = 0;
@@ -1155,8 +1158,9 @@ function refreshMemory(xml) {
         });
     });
 
-    html += "   </tbody>\n";
-    html += "  </table>\n";
+    html += "    </tbody>\n";
+    html += "   </table>\n";
+    html += "  </div>\n";
     $("#memory").append(html);
 
     $("#MemoryTree").jqTreeTable(tree, {
