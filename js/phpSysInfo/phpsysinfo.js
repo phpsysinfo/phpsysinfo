@@ -1079,9 +1079,9 @@ function refreshMemory(xml) {
 
     $("#memory").empty();
     html += "<h2>" + genlang(27, false) + "</h2>\n";
-    html0 += " <div style=\"overflow-x:auto;\">\n";
-    html += "   <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
-    html += "    <thead>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "   <thead>\n";
     html += "     <tr>\n";
     html += "      <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
     html += "      <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
@@ -1159,8 +1159,8 @@ function refreshMemory(xml) {
     });
 
     html += "    </tbody>\n";
-    html += "   </table>\n";
-    html += "  </div>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
     $("#memory").append(html);
 
     $("#MemoryTree").jqTreeTable(tree, {
