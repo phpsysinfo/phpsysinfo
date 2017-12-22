@@ -280,6 +280,7 @@ function changeSpanLanguage(plugin) {
 function filesystemtable() {
     var html = "";
     html += "<h2>" + genlang(30, false) + "</h2>\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
     html += "        <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
     html += "          <thead>\n";
     html += "            <tr>\n";
@@ -306,6 +307,7 @@ function filesystemtable() {
     html += "          <tbody>\n";
     html += "          </tbody>\n";
     html += "        </table>\n";
+    html += "        </div>\n";
 
     $("#filesystem").append(html);
 

@@ -35,6 +35,7 @@ var smart_show = false, smart_table;
 function smart_buildTable(xml) {
     var html = "";
 
+    html += "<div style=\"overflow-x:auto;\">\n";
     html += "<table id=\"Plugin_SMARTTable\" style=\"border-spacing:0;\">\n";
     html += "  <thead>\n";
     html += "    <tr>\n";
@@ -47,6 +48,7 @@ function smart_buildTable(xml) {
     html += "  <tbody>\n";
     html += "  </tbody>\n";
     html += "</table>\n";
+    html += "</div>\n";
 
     $("#Plugin_SMART").append(html);
 
