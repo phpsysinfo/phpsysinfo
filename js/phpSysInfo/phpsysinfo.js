@@ -900,6 +900,7 @@ function refreshHardware(xml) {
     var html = "", tree = [], closed = [], index = 0, machine = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10, false) + "</h2>\n";
+    html += " <div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <tbody class=\"tree\">\n";
 
@@ -929,6 +930,7 @@ function refreshHardware(xml) {
 
     html += "   </tbody>\n";
     html += "  </table>\n";
+    html += " </div>\n";
     $("#hardware").append(html);
 
     $("#HardwareTree").jqTreeTable(tree, {
@@ -1471,8 +1473,9 @@ function refreshUps(xml) {
     var add_apcupsd_cgi_links = ($("[ApcupsdCgiLinks='1']", xml).length > 0);
     var html = "", tree = [], closed = [], index = 0, values = false;
     html += "<h2>" + genlang(68, false) + "</h2>\n";
-    html += "        <table class=\"tablemain\" id=\"UPSTree\">\n";
-    html += "          <tbody class=\"tree\">\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
+    html += "          <table class=\"tablemain\" id=\"UPSTree\">\n";
+    html += "            <tbody class=\"tree\">\n";
 
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
@@ -1559,8 +1562,9 @@ function refreshUps(xml) {
         }
         values=true;
     });
-    html += "          </tbody>\n";
-    html += "        </table>\n";
+    html += "            </tbody>\n";
+    html += "          </table>\n";
+    html += "        </div>\n";
     if (add_apcupsd_cgi_links){
         html += " (<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
     }

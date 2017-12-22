@@ -41,25 +41,25 @@ function uprecords_populate(xml) {
     });
 
     $("Plugins Plugin_uprecords uprecords Item", xml).each(function uprecords_getitem(idp) {
-        html += "    <tr>\n";
-        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("hash") + "</td>\n";
-        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Uptime") + "</td>\n";
-        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("System") + "</td>\n";
+        html += "      <tr>\n";
+        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("hash") + "</td>\n";
+        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Uptime") + "</td>\n";
+        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("System") + "</td>\n";
 /*
         var lastboot = new Date($(this).attr("Bootup"));
         if (typeof(lastboot.toUTCString)==="function") {
-            html += "      <td style=\"font-weight:normal\">" +  lastboot.toUTCString() + "</td>\n";
+            html += "        <td style=\"font-weight:normal\">" +  lastboot.toUTCString() + "</td>\n";
         } else { //deprecated
-            html += "      <td style=\"font-weight:normal\">" +  lastboot.toGMTString() + "</td>\n";
+            html += "        <td style=\"font-weight:normal\">" +  lastboot.toGMTString() + "</td>\n";
         }
 */
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
             var lastboot = new Date($(this).attr("Bootup"));
-            html += "      <td style=\"font-weight:normal\">" +  lastboot.toLocaleString() + "</td>\n";
+            html += "        <td style=\"font-weight:normal\">" +  lastboot.toLocaleString() + "</td>\n";
         } else {
-            html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Bootup") + "</td>\n";
+            html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Bootup") + "</td>\n";
         }
-        html += "    </tr>\n";
+        html += "      </tr>\n";
         uprecords_show = true;
     });
 
@@ -71,18 +71,20 @@ function uprecords_populate(xml) {
 function uprecords_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_uprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th>" + genlang(101, false, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(102, false, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(103, false, "uprecords") + "</th>\n";
-    html += "      <th>" + genlang(104, false, "uprecords") + "</th>\n";
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody id=\"Plugin_uprecordsTable-tbody\">\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_uprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th>" + genlang(101, false, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(102, false, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(103, false, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(104, false, "uprecords") + "</th>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody id=\"Plugin_uprecordsTable-tbody\">\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
     $("#Plugin_uprecords").append(html);
 }
 

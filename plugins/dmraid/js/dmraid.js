@@ -188,8 +188,10 @@ $(document).ready(function dmraid_buildpage() {
     var html = "";
 
     $("#footer").before(buildBlock("DMRaid", 1, true));
-    html += "        <table id=\"Plugin_DMRaidTable\" style=\"border-spacing:0;\">\n";
-    html += "        </table>\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
+    html += "          <table id=\"Plugin_DMRaidTable\" style=\"border-spacing:0;\">\n";
+    html += "          </table>\n";
+    html += "        <div>\n";
     $("#Plugin_DMRaid").append(html);
 
     $("#Plugin_DMRaid").css("width", "915px");

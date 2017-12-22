@@ -217,8 +217,10 @@ $(document).ready(function mdstatus_buildpage() {
     var html = "";
 
     $("#footer").before(buildBlock("MDStatus", 1, true));
-    html += "        <table id=\"Plugin_MDStatusTable\" style=\"border-spacing:0;\">\n";
-    html += "        </table>\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
+    html += "          <table id=\"Plugin_MDStatusTable\" style=\"border-spacing:0;\">\n";
+    html += "          </table>\n";
+    html += "        </div>\n";
     $("#Plugin_MDStatus").append(html);
 
     $("#Plugin_MDStatus").css("width", "915px");

@@ -36,15 +36,16 @@ function snmppinfo_buildTable(xml) {
 
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
 
-    html += "  <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
-    html += "   <thead>\n";
-    html += "    <tr>\n";
-    html += "     <th>" + genlang(2, false, "SNMPPInfo") + "</th>\n";
-    html += "     <th style=\"width:120px;\">" + genlang(3, false, "SNMPPInfo") + "</th>\n";
-    html += "     <th style=\"width:80px;\">" + genlang(4, false, "SNMPPInfo") + "</th>\n";
-    html += "    </tr>\n";
-    html += "   </thead>\n";
-    html += "   <tbody class=\"tree\">\n";
+    html += "  <div style=\"overflow-x:auto;\">\n";
+    html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "     <thead>\n";
+    html += "      <tr>\n";
+    html += "       <th>" + genlang(2, false, "SNMPPInfo") + "</th>\n";
+    html += "       <th style=\"width:120px;\">" + genlang(3, false, "SNMPPInfo") + "</th>\n";
+    html += "       <th style=\"width:80px;\">" + genlang(4, false, "SNMPPInfo") + "</th>\n";
+    html += "      </tr>\n";
+    html += "     </thead>\n";
+    html += "     <tbody class=\"tree\">\n";
 
     var lastdev="", index = 0 ;
     $("Plugins Plugin_SNMPPInfo Printer MarkerSupplies", xml).each(function snmppinfo_getprinters(id) {
@@ -72,18 +73,19 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "    <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
+            html += "      <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
-        html += "    <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
+        html += "      <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;
     });
 
-    html += "   </tbody>\n";
-    html += "  </table>\n";
+    html += "     </tbody>\n";
+    html += "    </table>\n";
+    html += "  </div>\n";
 
     $("#Plugin_SNMPPInfo").append(html);
 

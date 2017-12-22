@@ -58,16 +58,18 @@ function psstatus_populate(xml) {
 function psstatus_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_PSStatusTable\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th>" + genlang(2, false, "PSStatus") + "</th>\n";
-    html += "      <th>" + genlang(3, false, "PSStatus") + "</th>\n";
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody>\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_PSStatusTable\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th>" + genlang(2, false, "PSStatus") + "</th>\n";
+    html += "        <th>" + genlang(3, false, "PSStatus") + "</th>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
 
     $("#Plugin_PSStatus").append(html);
 
