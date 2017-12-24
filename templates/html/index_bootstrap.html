@@ -74,54 +74,56 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_002">System vitals</span></div>
             <div class="panel-body">
-                <table id="vitals" class="table table-hover table-condensed noborderattop">
-                    <tbody>
-                        <tr>
-                            <th><span id="lang_003">Hostname</span></th>
-                            <td><span data-bind="Hostname"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_004">Listening IP</span></th>
-                            <td><span data-bind="IPAddr"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_005">Kernel Version</span></th>
-                            <td><span data-bind="Kernel"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_006">Distro Name</span></th>
-                            <td><span data-bind="Distro"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_007">Uptime</span></th>
-                            <td><span data-bind="Uptime"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_095">Last boot</span></th>
-                            <td><span data-bind="LastBoot"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_008">Current Users</span></th>
-                            <td><span data-bind="Users"></span></td>
-                        </tr>
-                        <tr>
-                            <th><span id="lang_009">Load Averages</span></th>
-                            <td><span data-bind="LoadAvg"></span></td>
-                        </tr>
-                        <tr id="tr_SysLang">
-                            <th><span id="lang_097">System Language</span></th>
-                            <td><span data-bind="SysLang"></span></td>
-                        </tr>
-                        <tr id="tr_CodePage">
-                            <th><span id="lang_098">Code Page</span></th>
-                            <td><span data-bind="CodePage"></span></td>
-                        </tr>
-                        <tr id="tr_Processes">
-                            <th><span id="lang_110">Processes</span></th>
-                            <td><span data-bind="Processes"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="vitals" class="table table-hover table-condensed noborderattop">
+                        <tbody>
+                            <tr>
+                                <th><span id="lang_003">Hostname</span></th>
+                                <td><span data-bind="Hostname"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_004">Listening IP</span></th>
+                                <td><span data-bind="IPAddr"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_005">Kernel Version</span></th>
+                                <td><span data-bind="Kernel"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_006">Distro Name</span></th>
+                                <td><span data-bind="Distro"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_007">Uptime</span></th>
+                                <td><span data-bind="Uptime"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_095">Last boot</span></th>
+                                <td><span data-bind="LastBoot"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_008">Current Users</span></th>
+                                <td><span data-bind="Users"></span></td>
+                            </tr>
+                            <tr>
+                                <th><span id="lang_009">Load Averages</span></th>
+                                <td><span data-bind="LoadAvg"></span></td>
+                            </tr>
+                            <tr id="tr_SysLang">
+                                <th><span id="lang_097">System Language</span></th>
+                                <td><span data-bind="SysLang"></span></td>
+                            </tr>
+                            <tr id="tr_CodePage">
+                                <th><span id="lang_098">Code Page</span></th>
+                                <td><span data-bind="CodePage"></span></td>
+                            </tr>
+                            <tr id="tr_Processes">
+                                <th><span id="lang_110">Processes</span></th>
+                                <td><span data-bind="Processes"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -130,10 +132,12 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
             <div class="panel-body">
-                <table id="hardware" class="table table-hover table-condensed noborderattop">
-                    <tbody id="hardware-data">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="hardware" class="table table-hover table-condensed noborderattop">
+                        <tbody id="hardware-data">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -405,10 +409,12 @@ endforeach;
         <div class="panel panel-primary">
             <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
             <div class="panel-body">
-                <table id="ups" class="table table-hover table-condensed noborderattop">
-                    <tbody id="ups-data">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="ups" class="table table-hover table-condensed noborderattop">
+                        <tbody id="ups-data">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
