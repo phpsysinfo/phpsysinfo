@@ -66,10 +66,10 @@ function snmppinfo_buildTable(xml) {
             units = level+" / 100";
         } else if (level==-3) {
             percent = 100;
-            units = genlang(5, false, "SNMPPInfo")
+            units = genlang(5, false, "SNMPPInfo");
         } else {
             percent = 0;
-            units = genlang(6, false, "SNMPPInfo")
+            units = genlang(6, false, "SNMPPInfo");
         }
 
         if (device!=lastdev) {

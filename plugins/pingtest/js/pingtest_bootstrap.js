@@ -3,13 +3,13 @@ function renderPlugin_pingtest(data) {
     var directives = {
         PingTime: {
             html: function () { 
-                return ((this['PingTime'] === "lost") ? genlang(4, true, 'pingtest') : this['PingTime']+String.fromCharCode(160)+"ms"); 
+                return ((this.PingTime === "lost") ? genlang(4, true, 'pingtest') : this.PingTime + String.fromCharCode(160) + "ms"); 
             }
         }
     };
 
-    if (data['Plugins']['Plugin_PingTest'] !== undefined) {
-        var psitems = items(data['Plugins']['Plugin_PingTest']['Ping']);
+    if (data.Plugins.Plugin_PingTest !== undefined) {
+        var psitems = items(data.Plugins.Plugin_PingTest.Ping);
         if (psitems.length > 0) {
             var pt_memory = [];
             pt_memory.push_attrs(psitems);

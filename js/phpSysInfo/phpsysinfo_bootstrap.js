@@ -160,8 +160,7 @@ function genlang(id, generate, plugin) {
         html += "<span id=\"lang_" + idString + "\">";
     }
 
-    if ((langxml[langarrId] !== undefined)
-        && (langarr[langarrId] !== undefined)) {
+    if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
     }
 
@@ -187,7 +186,7 @@ function changeLanguage(plugin) {
     }
 
     if (langxml[langarrId] !== undefined) {
-        changeSpanLanguage(plugin)
+        changeSpanLanguage(plugin);
     } else {
         langxml.push(langarrId);
         getLanguage(plugin, langarrId);
@@ -195,8 +194,7 @@ function changeLanguage(plugin) {
 }
 
 function changeSpanLanguage(plugin) {
-    var langId = "", langStr = "", plugId = "",
-        langarrId = current_language + "_";
+    var langId = "", langStr = "", langarrId = current_language + "_";
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
@@ -240,12 +238,12 @@ function reload(initiate) {
     $.ajax({
         dataType: "json",
         url: "xml.php?json",
-        error: function(jqXHR, status, thrownError) {;
+        error: function(jqXHR, status, thrownError) {
             if ((status === "parsererror") && (typeof(xmlDoc = $.parseXML(jqXHR.responseText)) === "object")) {
                 var errs = 0;
                 try {
                     $(xmlDoc).find("Error").each(function() {
-                        $("#errors").append("<li><b>"+$(this)[0]["attributes"]["Function"].nodeValue+"</b> - "+$(this)[0]["attributes"]["Message"].nodeValue.replace(/\n/g, "<br>")+"</li><br>");
+                        $("#errors").append("<li><b>"+$(this)[0].attributes.Function.nodeValue+"</b> - "+$(this)[0].attributes.Message.nodeValue.replace(/\n/g, "<br>")+"</li><br>");
                         errs++;
                     });
                 }
@@ -259,8 +257,7 @@ function reload(initiate) {
         success: function (data) {
 //            console.log(data);
 //            data_dbg = data;
-            if ((typeof(initiate) === 'boolean') && (data["Options"] !== undefined) && (data["Options"]["@attributes"] !== undefined)
-               && ((refrtime = data["Options"]["@attributes"]["refresh"]) !== undefined) && (refrtime !== "0")) {
+            if ((typeof(initiate) === 'boolean') && (data.Options !== undefined) && (data.Options["@attributes"] !== undefined) && ((refrtime = data.Options["@attributes"].refresh) !== undefined) && (refrtime !== "0")) {
                     if ((initiate === false) && (typeof(refrTimer) === 'number')) {
                         clearInterval(refrTimer);
                     }
@@ -290,16 +287,21 @@ function reload(initiate) {
         }
 
     }
+
     if ((typeof(initiate) === 'boolean') && (initiate === true)) {
-        for (var i = 0; i < plugins.length; i++) {
-            if ($("#reload_"+plugins[i]).length > 0) {
-                $("#reload_"+plugins[i]).click(function() {
-                    plugin_request(this.id.substring(7)); //cut "reload_" from name
-                    $(this).attr("title", datetime());
-                });
+        for (var j = 0; j < plugins.length; j++) {
+            if ($("#reload_"+plugins[j]).length > 0) {
+                $("#reload_"+plugins[j]).click(clickfunction());
             }
         }
     }
+}
+
+function clickfunction(){
+    return function(){
+        plugin_request(this.id.substring(7)); //cut "reload_" from name
+        $(this).attr("title", datetime());
+    };
 }
 
 /**
@@ -533,22 +535,20 @@ function items(data) {
 }
 
 function renderVitals(data) {
+    var hostname = "", ip = "";
+
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#block_vitals").remove();
-        var hostname = "", ip = "";
-        if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
-               && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
-               && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+        if ((data.Vitals !== undefined) && (data.Vitals["@attributes"] !== undefined) && ((hostname = data.Vitals["@attributes"].Hostname) !== undefined) && ((ip = data.Vitals["@attributes"].IPAddr) !== undefined)) {
             document.title = "System information: " + hostname + " (" + ip + ")";
         }
         return;
     }
 
-    var hostname = "", ip = "";
     var directives = {
         Uptime: {
             html: function () {
-                return formatUptime(this["Uptime"]);
+                return formatUptime(this.Uptime);
             }
         },
         LastBoot: {
@@ -556,14 +556,14 @@ function renderVitals(data) {
                 var lastboot;
                 var timestamp = 0;
                 var datetimeFormat;
-                if ((data["Generation"] !== undefined) && (data["Generation"]["@attributes"] !== undefined) && (data["Generation"]["@attributes"]["timestamp"] !== undefined) ) {
-                    timestamp = parseInt(data["Generation"]["@attributes"]["timestamp"])*1000; //server time
+                if ((data.Generation !== undefined) && (data.Generation["@attributes"] !== undefined) && (data.Generation["@attributes"].timestamp !== undefined) ) {
+                    timestamp = parseInt(data.Generation["@attributes"].timestamp)*1000; //server time
                     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
                 } else {
                     timestamp = Number(new Date()); //client time
                 }
-                lastboot = new Date(timestamp - (parseInt(this["Uptime"])*1000));
-                if (((datetimeFormat = data["Options"]["@attributes"]["datetimeFormat"]) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
+                lastboot = new Date(timestamp - (parseInt(this.Uptime)*1000));
+                if (((datetimeFormat = data.Options["@attributes"].datetimeFormat) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
                     return lastboot.toLocaleString();
                 } else {
                     if (typeof(lastboot.toUTCString) === "function") {
@@ -577,17 +577,17 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this["Distroicon"] + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this["Distro"]; //onload IE6 PNG fix
+                return '<img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this.Distro; //onload IE6 PNG fix
             }
         },
         LoadAvg: {
             html: function () {
-                if (this["CPULoad"] !== undefined) {
-                    return '<table style="width:100%;"><tr><td style="width:50%;">'+this["LoadAvg"] + '</td><td><div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["CPULoad"],0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this["CPULoad"],0) + '%</div></td></tr></table>';
+                if (this.CPULoad !== undefined) {
+                    return '<table style="width:100%;"><tr><td style="width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.CPULoad,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.CPULoad,0) + '%</div></td></tr></table>';
                 } else {
-                    return this["LoadAvg"];
+                    return this.LoadAvg;
                 }
             }
         },
@@ -595,24 +595,24 @@ function renderVitals(data) {
             html: function () {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
-                processes = parseInt(this["Processes"]);
-                if (this["ProcessesRunning"] !== undefined) {
-                    p111 = parseInt(this["ProcessesRunning"]);
+                processes = parseInt(this.Processes);
+                if (this.ProcessesRunning !== undefined) {
+                    p111 = parseInt(this.ProcessesRunning);
                 }
-                if (this["ProcessesSleeping"] !== undefined) {
-                    p112 = parseInt(this["ProcessesSleeping"]);
+                if (this.ProcessesSleeping !== undefined) {
+                    p112 = parseInt(this.ProcessesSleeping);
                 }
-                if (this["ProcessesStopped"] !== undefined) {
-                    p113 = parseInt(this["ProcessesStopped"]);
+                if (this.ProcessesStopped !== undefined) {
+                    p113 = parseInt(this.ProcessesStopped);
                 }
-                if (this["ProcessesZombie"] !== undefined) {
-                    p114 = parseInt(this["ProcessesZombie"]);
+                if (this.ProcessesZombie !== undefined) {
+                    p114 = parseInt(this.ProcessesZombie);
                 }
-                if (this["ProcessesWaiting"] !== undefined) {
-                    p115 = parseInt(this["ProcessesWaiting"]);
+                if (this.ProcessesWaiting !== undefined) {
+                    p115 = parseInt(this.ProcessesWaiting);
                 }
-                if (this["ProcessesOther"] !== undefined) {
-                    p116 = parseInt(this["ProcessesOther"]);
+                if (this.ProcessesOther !== undefined) {
+                    p116 = parseInt(this.ProcessesOther);
                 }
                 if (p111 || p112 || p113 || p114 || p115 || p116) {
                     processes += " (";
@@ -632,20 +632,18 @@ function renderVitals(data) {
         }
     };
 
-    if (data["Vitals"]["@attributes"]["SysLang"] === undefined) {
+    if (data.Vitals["@attributes"].SysLang === undefined) {
         $("#tr_SysLang").hide();
     }
-    if (data["Vitals"]["@attributes"]["CodePage"] === undefined) {
+    if (data.Vitals["@attributes"].CodePage === undefined) {
         $("#tr_CodePage").hide();
     }
-    if (data["Vitals"]["@attributes"]["Processes"] === undefined) {
+    if (data.Vitals["@attributes"].Processes === undefined) {
         $("#tr_Processes").hide();
     }
-    $('#vitals').render(data["Vitals"]["@attributes"], directives);
+    $('#vitals').render(data.Vitals["@attributes"], directives);
 
-    if ((data["Vitals"] !== undefined) && (data["Vitals"]["@attributes"] !== undefined)
-           && ((hostname = data["Vitals"]["@attributes"]["Hostname"]) !== undefined) 
-           && ((ip = data["Vitals"]["@attributes"]["IPAddr"]) !== undefined)) {
+    if ((data.Vitals !== undefined) && (data.Vitals["@attributes"] !== undefined) && ((hostname = data.Vitals["@attributes"].Hostname) !== undefined) && ((ip = data.Vitals["@attributes"].IPAddr) !== undefined)) {
         document.title = "System information: " + hostname + " (" + ip + ")";
     }
 
@@ -653,6 +651,8 @@ function renderVitals(data) {
 }
 
 function renderHardware(data) {
+    var hw_type, datas, proc_param, i;
+
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('hardware', blocks) < 0))) {
         $("#block_hardware").remove();
         return;
@@ -661,49 +661,49 @@ function renderHardware(data) {
     var directives = {
         Model: {
             text: function () {
-                return this["Model"];
+                return this.Model;
             }
         },
         CpuSpeed: {
             html: function () {
-                return formatHertz(this["CpuSpeed"]);
+                return formatHertz(this.CpuSpeed);
             }
         },
         CpuSpeedMax: {
             html: function () {
-                return formatHertz(this["CpuSpeedMax"]);
+                return formatHertz(this.CpuSpeedMax);
             }
         },
         CpuSpeedMin: {
             html: function () {
-                return formatHertz(this["CpuSpeedMin"]);
+                return formatHertz(this.CpuSpeedMin);
             }
         },
         Cache: {
             html: function () {
-                return formatBytes(this["Cache"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Cache, data.Options["@attributes"].byteFormat);
             }
         },
         BusSpeed: {
             html: function () {
-                return formatHertz(this["BusSpeed"]);
+                return formatHertz(this.BusSpeed);
             }
         },
         Cputemp: {
             html: function () {
-                return formatTemp(this["Cputemp"], data["Options"]["@attributes"]["tempFormat"]);
+                return formatTemp(this.Cputemp, data.Options["@attributes"].tempFormat);
             }
         },
         Bogomips: {
             text: function () {
-                return parseInt(this["Bogomips"]);
+                return parseInt(this.Bogomips);
             }
         },
         Load: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["Load"],0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this["Load"],0) + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Load,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.Load,0) + '%</div>';
             }
         }
     };
@@ -711,13 +711,13 @@ function renderHardware(data) {
     var hw_directives = {
         hwName: {
             html: function() {
-                return this["Name"];
+                return this.Name;
             }
         },
         hwCount: {
             text: function() {
-                if ((this["Count"] !== undefined) && !isNaN(this["Count"]) && (parseInt(this["Count"])>1)) {
-                    return parseInt(this["Count"]);
+                if ((this.Count !== undefined) && !isNaN(this.Count) && (parseInt(this.Count)>1)) {
+                    return parseInt(this.Count);
                 } else {
                     return "";
                 }
@@ -728,14 +728,14 @@ function renderHardware(data) {
     var dev_directives = {
         Capacity: {
             html: function () {
-                return formatBytes(this["Capacity"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
             }
         }
     };
 
     var html="";
 
-    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
+    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
         html+="<th style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
@@ -745,9 +745,9 @@ function renderHardware(data) {
 
     var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Load:9};
     try {
-        var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
-        for (var i = 0; i < datas.length; i++) {
-             if (i == 0) {
+        datas = items(data.Hardware.CPU.CpuCore);
+        for (i = 0; i < datas.length; i++) {
+             if (i === 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
                 html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
@@ -757,15 +757,14 @@ function renderHardware(data) {
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
             html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
-            if (showCPULoadCompact && (datas[i]["@attributes"]["Load"] !== undefined)) {
+            if (showCPULoadCompact && (datas[i]["@attributes"].Load !== undefined)) {
                 html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
             } else {
                 html+="<td></td>";
             }
             html+="</tr>";
-            for (var proc_param in paramlist) {
-                if (((proc_param !== 'Load') || !showCPULoadCompact)
-                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
+            for (proc_param in paramlist) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact) && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
                     html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
@@ -781,11 +780,11 @@ function renderHardware(data) {
     }
 
     var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
-    for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
-            var datas = items(data["Hardware"][hw_type]["Device"]);
-            for (var i = 0; i < datas.length; i++) {
-                if (i == 0) {
+            datas = items(data.Hardware[hw_type].Device);
+            for (i = 0; i < datas.length; i++) {
+                if (i === 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
                     html+="<td><span class=\"treegrid-span\">" + genlang('120', true) + ":</span></td>"; //Number of devices
@@ -797,7 +796,7 @@ function renderHardware(data) {
                 html+="<td><span class=\"treegrid-span\" data-bind=\"hwName\"></span></td>";
                 html+="<td class=\"rightCell\"><span data-bind=\"hwCount\"></span></td>";
                 html+="</tr>";
-                for (var proc_param in devparamlist) {
+                for (proc_param in devparamlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"hardware-" + hw_type +"-" + i + "-" + proc_param + "\" class=\"treegrid-parent-" + hw_type +"-" + i +"\">";
                         html+="<th></th>";
@@ -815,17 +814,16 @@ function renderHardware(data) {
     $("#hardware-data").empty().append(html);
 
 
-    if ((data["Hardware"]["@attributes"] !== undefined) && (data["Hardware"]["@attributes"]["Name"] !== undefined)) {
-        $('#hardware-Machine').render(data["Hardware"]["@attributes"]);
+    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
+        $('#hardware-Machine').render(data.Hardware["@attributes"]);
     }
 
     try {
-        var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
-        for (var i = 0; i < datas.length; i++) {
+        datas = items(data.Hardware.CPU.CpuCore);
+        for (i = 0; i < datas.length; i++) {
             $('#hardware-CPU-'+ i).render(datas[i]["@attributes"], directives);
-            for (var proc_param in paramlist) {
-                if (((proc_param !== 'Load') || !showCPULoadCompact)
-                   && (datas[i]["@attributes"][proc_param] !== undefined)) {
+            for (proc_param in paramlist) {
+                if (((proc_param !== 'Load') || !showCPULoadCompact) && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     $('#hardware-CPU-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                 }
             }
@@ -838,18 +836,19 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    for (var hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    var licz;
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
         try {
-            var licz = 0;
-            var datas = items(data["Hardware"][hw_type]["Device"]);
-            for (var i = 0; i < datas.length; i++) {
+            licz = 0;
+            datas = items(data.Hardware[hw_type].Device);
+            for (i = 0; i < datas.length; i++) {
                 $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
-                if ((datas[i]["@attributes"]["Count"] !== undefined) && !isNaN(datas[i]["@attributes"]["Count"]) && (parseInt(datas[i]["@attributes"]["Count"])>1)) {
-                    licz += parseInt(datas[i]["@attributes"]["Count"]);
+                if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count)>1)) {
+                    licz += parseInt(datas[i]["@attributes"].Count);
                 } else {
                     licz++;
                 }
-                for (var proc_param in devparamlist) {
+                for (proc_param in devparamlist) {
                     if ((datas[i]["@attributes"][proc_param] !== undefined)) {
                         $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
                     }
@@ -877,8 +876,8 @@ function renderHardware(data) {
     }
     if (showCPUInfoExpanded && showCPUListExpanded) {
         try {
-            var datas = items(data["Hardware"]["CPU"]["CpuCore"]);
-            for (var i = 0; i < datas.length; i++) {
+            datas = items(data.Hardware.CPU.CpuCore);
+            for (i = 0; i < datas.length; i++) {
                 $('#hardware-CPU-'+i).treegrid('expand');
             }
         }
@@ -897,58 +896,58 @@ function renderMemory(data) {
     var directives = {
         Total: {
             html: function () {
-                return formatBytes(this["@attributes"]["Total"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this["@attributes"].Total, data.Options["@attributes"].byteFormat);
             }
         },
         Free: {
             html: function () {
-                return formatBytes(this["@attributes"]["Free"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this["@attributes"].Free, data.Options["@attributes"].byteFormat);
             }
         },
         Used: {
             html: function () {
-                return formatBytes(this["@attributes"]["Used"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this["@attributes"].Used, data.Options["@attributes"].byteFormat);
             }
         },
         Usage: {
             html: function () {
-                if ((this["Details"] === undefined) || (this["Details"]["@attributes"] === undefined)) {
+                if ((this.Details === undefined) || (this.Details["@attributes"] === undefined)) {
                     return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"]["Percent"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["@attributes"]["Percent"] + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"].Percent + '%;"></div>' +
+                        '</div><div class="percent">' + this["@attributes"].Percent + '%</div>';
                 } else {
-                    var rest = parseInt(this["@attributes"]["Percent"]);
+                    var rest = parseInt(this["@attributes"].Percent);
                     var html = '<div class="progress">';
-                    if ((this["Details"]["@attributes"]["AppPercent"] !== undefined) && (this["Details"]["@attributes"]["AppPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-info" style="width:' + this["Details"]["@attributes"]["AppPercent"] + '%;"></div>';
-                        rest -= parseInt(this["Details"]["@attributes"]["AppPercent"]);
+                    if ((this.Details["@attributes"].AppPercent !== undefined) && (this.Details["@attributes"].AppPercent > 0)) {
+                        html += '<div class="progress-bar progress-bar-info" style="width:' + this.Details["@attributes"].AppPercent + '%;"></div>';
+                        rest -= parseInt(this.Details["@attributes"].AppPercent);
                     }
-                    if ((this["Details"]["@attributes"]["CachedPercent"] !== undefined) && (this["Details"]["@attributes"]["CachedPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-warning" style="width:' + this["Details"]["@attributes"]["CachedPercent"] + '%;"></div>';
-                        rest -= parseInt(this["Details"]["@attributes"]["CachedPercent"]);
+                    if ((this.Details["@attributes"].CachedPercent !== undefined) && (this.Details["@attributes"].CachedPercent > 0)) {
+                        html += '<div class="progress-bar progress-bar-warning" style="width:' + this.Details["@attributes"].CachedPercent + '%;"></div>';
+                        rest -= parseInt(this.Details["@attributes"].CachedPercent);
                     }
-                    if ((this["Details"]["@attributes"]["BuffersPercent"] !== undefined) && (this["Details"]["@attributes"]["BuffersPercent"] > 0)) {
-                        html += '<div class="progress-bar progress-bar-danger" style="width:' + this["Details"]["@attributes"]["BuffersPercent"] + '%;"></div>';
-                        rest -= parseInt(this["Details"]["@attributes"]["BuffersPercent"]);
+                    if ((this.Details["@attributes"].BuffersPercent !== undefined) && (this.Details["@attributes"].BuffersPercent > 0)) {
+                        html += '<div class="progress-bar progress-bar-danger" style="width:' + this.Details["@attributes"].BuffersPercent + '%;"></div>';
+                        rest -= parseInt(this.Details["@attributes"].BuffersPercent);
                     }
                     if (rest > 0) {
                         html += '<div class="progress-bar progress-bar-success" style="width:' + rest + '%;"></div>';
                     }
                     html += '</div>';
-                    html += '<div class="percent">' + 'Total: ' + this["@attributes"]["Percent"] + '% ' + '<i>(';
+                    html += '<div class="percent">' + 'Total: ' + this["@attributes"].Percent + '% ' + '<i>(';
                     var not_first = false;
-                    if (this["Details"]["@attributes"]["AppPercent"] !== undefined) {
-                        html += genlang(64, false) + ': '+ this["Details"]["@attributes"]["AppPercent"] + '%'; //Kernel + apps
+                    if (this.Details["@attributes"].AppPercent !== undefined) {
+                        html += genlang(64, false) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
                         not_first = true;
                     }
-                    if (this["Details"]["@attributes"]["CachedPercent"] !== undefined) {
+                    if (this.Details["@attributes"].CachedPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66, false) + ': ' + this["Details"]["@attributes"]["CachedPercent"] + '%'; //Cache
+                        html += genlang(66, false) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
                         not_first = true;
                     }
-                    if (this["Details"]["@attributes"]["BuffersPercent"] !== undefined) {
+                    if (this.Details["@attributes"].BuffersPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65, false) + ': ' + this["Details"]["@attributes"]["BuffersPercent"] + '%'; //Buffers
+                        html += genlang(65, false) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -965,43 +964,43 @@ function renderMemory(data) {
     var directive_swap = {
         Total: {
             html: function () {
-                return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
             }
         },
         Free: {
             html: function () {
-                return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
             }
         },
         Used: {
             html: function () {
-                return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
             }
         },
         Usage: {
             html: function () {
                 return '<div class="progress">' +
-                    '<div class="progress-bar progress-bar-info" style="width:' + this["Percent"] + '%;"></div>' +
-                    '</div><div class="percent">' + this["Percent"] + '%</div>';
+                    '<div class="progress-bar progress-bar-info" style="width:' + this.Percent + '%;"></div>' +
+                    '</div><div class="percent">' + this.Percent + '%</div>';
             }
         },
         Name: {
             html: function () {
-                return this['Name'] + '<br/>' + ((this["MountPoint"] !== undefined) ? this["MountPoint"] : this["MountPointID"]);
+                return this.Name + '<br/>' + ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
             }
         }
     };
 
     var data_memory = [];
-    if (data["Memory"]["Swap"] !== undefined) {
-        var datas = items(data["Memory"]["Swap"]["Mount"]);
+    if (data.Memory.Swap !== undefined) {
+        var datas = items(data.Memory.Swap.Mount);
         data_memory.push_attrs(datas);
         $('#swap-data').render(data_memory, directive_swap);
         $('#swap-data').show();
     } else {
         $('#swap-data').hide();
     }
-    $('#memory-data').render(data["Memory"], directives);
+    $('#memory-data').render(data.Memory, directives);
     $("#block_memory").show();
 }
 
@@ -1014,50 +1013,50 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             html: function () {
-                return formatBytes(this["Total"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
             }
         },
         Free: {
             html: function () {
-                return formatBytes(this["Free"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
             }
         },
         Used: {
             html: function () {
-                return formatBytes(this["Used"], data["Options"]["@attributes"]["byteFormat"]);
+                return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
             }
         },
         MountPoint: {
             text: function () {
-                return ((this["MountPoint"] !== undefined) ? this["MountPoint"] : this["MountPointID"]);
+                return ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
             }
         },
         Name: {
             html: function () {
-                return this["Name"].replace(/;/g, ";<wbr>") + ((this["MountOptions"] !== undefined) ? '<br><i>(' + this["MountOptions"] + ')</i>' : '');
+                return this.Name.replace(/;/g, ";<wbr>") + ((this.MountOptions !== undefined) ? '<br><i>(' + this.MountOptions + ')</i>' : '');
             }
         },
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    (((data["Options"]["@attributes"]["threshold"] !== undefined) &&
-                        (parseInt(this["Percent"]) >= parseInt(data["Options"]["@attributes"]["threshold"]))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
-                    '" style="width:' + this["Percent"] + '% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this["Percent"] + '% ' + ((this["Inodes"] !== undefined) ? '<i>(' + this["Inodes"] + '%)</i>' : '') + '</div>';
+                    (((data.Options["@attributes"].threshold !== undefined) &&
+                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
+                    '" style="width:' + this.Percent + '% ;"></div>' +
+                    '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
             }
         }
     };
 
     try {
         var fs_data = [];
-        var datas = items(data["FileSystem"]["Mount"]);
+        var datas = items(data.FileSystem.Mount);
         var total = {Total:0,Free:0,Used:0};
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
-            total["Total"] += parseInt(datas[i]["@attributes"]["Total"]);
-            total["Free"] += parseInt(datas[i]["@attributes"]["Free"]);
-            total["Used"] += parseInt(datas[i]["@attributes"]["Used"]);
-            total["Percent"] = (total["Total"] !== 0) ? round((total["Used"] / total["Total"]) * 100, 2) : 0;
+            total.Total += parseInt(datas[i]["@attributes"].Total);
+            total.Free += parseInt(datas[i]["@attributes"].Free);
+            total.Used += parseInt(datas[i]["@attributes"].Used);
+            total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
@@ -1085,38 +1084,38 @@ function renderNetwork(data) {
         RxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
                     var diff, difftime;
-                    if (((diff = this["RxBytes"] - oldnetwork[this["Name"]]["RxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                    if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
                         if (showNetworkActiveSpeed == 2) {
                             htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
                         }
                     }
                 }
-                return formatBytes(this["RxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
+                return formatBytes(this.RxBytes, data.Options["@attributes"].byteFormat) + htmladd;
             }
         },
         TxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this["Name"], oldnetwork) >= 0)) {
+                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
                     var diff, difftime;
-                    if (((diff = this["TxBytes"] - oldnetwork[this["Name"]]["TxBytes"]) > 0) && ((difftime = data["Generation"]["@attributes"]["timestamp"] - oldnetwork[this["Name"]]["timestamp"]) > 0)) {
+                    if (((diff = this.TxBytes - oldnetwork[this.Name].TxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
                         if (showNetworkActiveSpeed == 2) {
                             htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data["Options"]["@attributes"]["byteFormat"])+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
                         }
                     }
                 }
-                return formatBytes(this["TxBytes"], data["Options"]["@attributes"]["byteFormat"]) + htmladd;
+                return formatBytes(this.TxBytes, data.Options["@attributes"].byteFormat) + htmladd;
             }
         },
         Drops: {
             html: function () {
-                return this["Err"] + "/<wbr>" + this["Drops"];
+                return this.Err + "/<wbr>" + this.Drops;
             }
         }
     };
@@ -1125,7 +1124,7 @@ function renderNetwork(data) {
     var preoldnetwork = [];
 
     try {
-        var datas = items(data["Network"]["NetDevice"]);
+        var datas = items(data.Network.NetDevice);
         for (var i = 0; i < datas.length; i++) {
             html+="<tr id=\"network-" + i +"\" class=\"treegrid-network-" + i + "\">";
             html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
@@ -1134,7 +1133,7 @@ function renderNetwork(data) {
             html+="<td class=\"rightCell\"><span data-bind=\"Drops\"></span></td>";
             html+="</tr>";
 
-            var info  = datas[i]["@attributes"]["Info"];
+            var info  = datas[i]["@attributes"].Info;
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
                 for (var j = 0; j < infos.length; j++){
@@ -1144,11 +1143,11 @@ function renderNetwork(data) {
         }
         $("#network-data").empty().append(html);
         if (i > 0) {
-            for (var i = 0; i < datas.length; i++) {
-                $('#network-' + i).render(datas[i]["@attributes"], directives);
+            for (var k = 0; k < datas.length; k++) {
+                $('#network-' + k).render(datas[k]["@attributes"], directives);
                 if (showNetworkActiveSpeed) {
-                    preoldnetwork.pushIfNotExist(datas[i]["@attributes"]["Name"]);
-                    preoldnetwork[datas[i]["@attributes"]["Name"]] = {timestamp:data["Generation"]["@attributes"]["timestamp"], RxBytes:datas[i]["@attributes"]["RxBytes"], TxBytes:datas[i]["@attributes"]["TxBytes"]};
+                    preoldnetwork.pushIfNotExist(datas[k]["@attributes"].Name);
+                    preoldnetwork[datas[k]["@attributes"].Name] = {timestamp:data.Generation["@attributes"].timestamp, RxBytes:datas[k]["@attributes"].RxBytes, TxBytes:datas[k]["@attributes"].TxBytes};
                 }
             }
             $('#network').treegrid({
@@ -1183,33 +1182,33 @@ function renderVoltage(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this["Value"],2) + String.fromCharCode(160) + "V";
+                return round(this.Value,2) + String.fromCharCode(160) + "V";
             }
         },
         Min: {
             text: function () {
-                if (this["Min"] !== undefined)
-                    return round(this["Min"],2) + String.fromCharCode(160) + "V";
+                if (this.Min !== undefined)
+                    return round(this.Min,2) + String.fromCharCode(160) + "V";
             }
         },
         Max: {
             text: function () {
-                if (this["Max"] !== undefined)
-                    return round(this["Max"],2) + String.fromCharCode(160) + "V";
+                if (this.Max !== undefined)
+                    return round(this.Max,2) + String.fromCharCode(160) + "V";
             }
         },
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
     try {
         var voltage_data = [];
-        var datas = items(data["MBInfo"]["Voltage"]["Item"]);
+        var datas = items(data.MBInfo.Voltage.Item);
         if (voltage_data.push_attrs(datas) > 0) {
             $('#voltage-data').render(voltage_data, directives);
             $("#block_voltage").show();
@@ -1231,28 +1230,28 @@ function renderTemperature(data) {
     var directives = {
         Value: {
             html: function () {
-                return formatTemp(this["Value"], data["Options"]["@attributes"]["tempFormat"]);
+                return formatTemp(this.Value, data.Options["@attributes"].tempFormat);
             }
         },
         Max: {
             html: function () {
-                if (this["Max"] !== undefined)
-                    return formatTemp(this["Max"], data["Options"]["@attributes"]["tempFormat"]);
+                if (this.Max !== undefined)
+                    return formatTemp(this.Max, data.Options["@attributes"].tempFormat);
             }
         },
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
 
     try {
         var temperature_data = [];
-        var datas = items(data["MBInfo"]["Temperature"]["Item"]);
+        var datas = items(data.MBInfo.Temperature.Item);
         if (temperature_data.push_attrs(datas) > 0) {
             $('#temperature-data').render(temperature_data, directives);
             $("#block_temperature").show();
@@ -1274,28 +1273,28 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return round(this["Value"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                return round(this.Value,0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Min: {
             html: function () {
-                if (this["Min"] !== undefined)
-                    return round(this["Min"],0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                if (this.Min !== undefined)
+                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63, true); //RPM
             }
         },
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
 
     try {
         var fans_data = [];
-        var datas = items(data["MBInfo"]["Fans"]["Item"]);
+        var datas = items(data.MBInfo.Fans.Item);
         if (fans_data.push_attrs(datas) > 0) {
             $('#fans-data').render(fans_data, directives);
             $("#block_fans").show();
@@ -1317,28 +1316,28 @@ function renderPower(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this["Value"],2) + String.fromCharCode(160) + "W";
+                return round(this.Value,2) + String.fromCharCode(160) + "W";
             }
         },
         Max: {
             text: function () {
-                if (this["Max"] !== undefined)
-                    return round(this["Max"],2) + String.fromCharCode(160) + "W";
+                if (this.Max !== undefined)
+                    return round(this.Max,2) + String.fromCharCode(160) + "W";
             }
         },
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
 
     try {
         var power_data = [];
-        var datas = items(data["MBInfo"]["Power"]["Item"]);
+        var datas = items(data.MBInfo.Power.Item);
         if (power_data.push_attrs(datas) > 0) {
             $('#power-data').render(power_data, directives);
             $("#block_power").show();
@@ -1360,34 +1359,34 @@ function renderCurrent(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this["Value"],2) + String.fromCharCode(160) + "A";
+                return round(this.Value,2) + String.fromCharCode(160) + "A";
             }
         },
         Min: {
             text: function () {
-                if (this["Min"] !== undefined)
-                    return round(this["Min"],2) + String.fromCharCode(160) + "A";
+                if (this.Min !== undefined)
+                    return round(this.Min,2) + String.fromCharCode(160) + "A";
             }
         },
         Max: {
             text: function () {
-                if (this["Max"] !== undefined)
-                    return round(this["Max"],2) + String.fromCharCode(160) + "A";
+                if (this.Max !== undefined)
+                    return round(this.Max,2) + String.fromCharCode(160) + "A";
             }
         },
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
 
     try {
         var current_data = [];
-        var datas = items(data["MBInfo"]["Current"]["Item"]);
+        var datas = items(data.MBInfo.Current.Item);
         if (current_data.push_attrs(datas) > 0) {
             $('#current-data').render(current_data, directives);
             $("#block_current").show();
@@ -1409,17 +1408,17 @@ function renderOther(data) {
     var directives = {
         Label: {
             html: function () {
-                if (this["Event"] === undefined)
-                    return this["Label"];
+                if (this.Event === undefined)
+                    return this.Label;
                 else
-                    return this["Label"] + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this["Event"] + "\"/>";
+                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
 
     try {
         var other_data = [];
-        var datas = items(data["MBInfo"]["Other"]["Item"]);
+        var datas = items(data.MBInfo.Other.Item);
         if (other_data.push_attrs(datas) > 0) {
             $('#other-data').render(other_data, directives);
             $("#block_other").show();
@@ -1438,60 +1437,61 @@ function renderUPS(data) {
         return;
     }
 
+    var i, datas, proc_param;
     var directives = {
         Name: {
             text: function () {
-                return this["Name"] + ((this["Mode"] !== undefined) ? " (" + this["Mode"] + ")" : "");
+                return this.Name + ((this.Mode !== undefined) ? " (" + this.Mode + ")" : "");
             }
         },
         LineVoltage: {
             html: function () {
-                return this["LineVoltage"] + String.fromCharCode(160) + genlang(82, true); //V
+                return this.LineVoltage + String.fromCharCode(160) + genlang(82, true); //V
             }
         },
         LineFrequency: {
             html: function () {
-                return this["LineFrequency"] + String.fromCharCode(160)  + genlang(109, true); //Hz
+                return this.LineFrequency + String.fromCharCode(160)  + genlang(109, true); //Hz
             }
         },
         BatteryVoltage: {
             html: function () {
-                return this["BatteryVoltage"] + String.fromCharCode(160) + genlang(82, true);; //V
+                return this.BatteryVoltage + String.fromCharCode(160) + genlang(82, true); //V
             }
         },
         TimeLeftMinutes: {
             html: function () {
-                return this["TimeLeftMinutes"] + String.fromCharCode(160) + genlang(83, true); //minutes
+                return this.TimeLeftMinutes + String.fromCharCode(160) + genlang(83, true); //minutes
             }
         },
         LoadPercent: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["LoadPercent"],0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this["LoadPercent"],0) + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.LoadPercent,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.LoadPercent,0) + '%</div>';
             }
         },
         BatteryChargePercent: {
             html: function () {
                 return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this["BatteryChargePercent"],0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this["BatteryChargePercent"],0) + '%</div>';
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.BatteryChargePercent,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.BatteryChargePercent,0) + '%</div>';
             }
         }
     };
 
-    if ((data["UPSInfo"] !== undefined) && (items(data["UPSInfo"]["UPS"]).length > 0)) {
+    if ((data.UPSInfo !== undefined) && (items(data.UPSInfo.UPS).length > 0)) {
         var html="";
         var paramlist = {Model:70,StartTime:72,Status:73,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
 
         try {
-            var datas = items(data["UPSInfo"]["UPS"]);
-            for (var i = 0; i < datas.length; i++) {
+            datas = items(data.UPSInfo.UPS);
+            for (i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
                 html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
                 html+="<td></td>";
                 html+="</tr>";
-                for (var proc_param in paramlist) {
+                for (proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
                         html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true) + "</span></td>";
@@ -1505,7 +1505,7 @@ function renderUPS(data) {
         catch (err) {
         }
 
-        if ((data["UPSInfo"]["@attributes"] !== undefined) && (data["UPSInfo"]["@attributes"]["ApcupsdCgiLinks"] === "1")) {
+        if ((data.UPSInfo["@attributes"] !== undefined) && (data.UPSInfo["@attributes"].ApcupsdCgiLinks === "1")) {
             html+="<tr>";
             html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99, false)+"</a>)</td>";
             html+="<td></td>";
@@ -1515,10 +1515,10 @@ function renderUPS(data) {
         $("#ups-data").empty().append(html);
 
         try {
-            var datas = items(data["UPSInfo"]["UPS"]);
-            for (var i = 0; i < datas.length; i++) {
+            datas = items(data.UPSInfo.UPS);
+            for (i = 0; i < datas.length; i++) {
                 $('#ups-'+ i).render(datas[i]["@attributes"], directives);
-                for (var proc_param in paramlist) {
+                for (proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         $('#ups-'+ i +'-'+proc_param).render(datas[i]["@attributes"], directives);
                     }
@@ -1542,9 +1542,9 @@ function renderUPS(data) {
 
 function renderErrors(data) {
     try {
-        var datas = items(data["Errors"]["Error"]);
+        var datas = items(data.Errors.Error);
         for (var i = 0; i < datas.length; i++) {
-            $("#errors").append("<li><b>"+datas[i]["@attributes"]["Function"]+"</b> - "+datas[i]["@attributes"]["Message"].replace(/\n/g, "<br>")+"</li><br>");
+            $("#errors").append("<li><b>"+datas[i]["@attributes"].Function+"</b> - "+datas[i]["@attributes"].Message.replace(/\n/g, "<br>")+"</li><br>");
         }
         if (i > 0) {
             $("#errorbutton").css("visibility", "visible");
@@ -1776,7 +1776,7 @@ function formatBPS(bps) {
 }
 
 Array.prototype.pushIfNotExist = function(val) {
-    if (typeof(val) == 'undefined' || val == '') {
+    if (typeof(val) == 'undefined' || val === '') {
         return;
     }
     val = $.trim(val);

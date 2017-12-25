@@ -52,8 +52,8 @@ function bat_buildTable(xml) {
     $("Plugins Plugin_Bat Bat", xml).each(function bat_getdisks(id) {
         var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
         name = $(this).attr("Name");
-        if (name == undefined) {
-            name = "Battery"+(batcount++)
+        if (name === undefined) {
+            name = "Battery"+(batcount++);
         }
         DesignCapacity = $(this).attr("DesignCapacity");
         FullCapacity = $(this).attr("FullCapacity");
@@ -74,81 +74,81 @@ function bat_buildTable(xml) {
         html += "     <tr><td colspan=\"3\"><span class=\"treespanbold\">" + name + "</span></td></tr>\n";
         index = tree.push(0);
 
-        if (Model != undefined) {
+        if (Model !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(15, true, "BAT") + "</span></td><td>" + Model +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (Manufacturer != undefined) {
+        if (Manufacturer !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(14, true, "BAT") + "</span></td><td>" + Manufacturer +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (SerialNumber != undefined) {
+        if (SerialNumber !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(16, true, "BAT") + "</span></td><td>" + SerialNumber +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (CapacityUnit == undefined) {
+        if (CapacityUnit === undefined) {
             CapacityUnit = "mWh";
         }
-        if ((CapacityUnit == "%") && (RemainingCapacity != undefined)) {
+        if ((CapacityUnit == "%") && (RemainingCapacity !== undefined)) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(3, true, "BAT") + "</span></td><td>" + createBar(round(parseInt(RemainingCapacity, 10),0)) +"</td><td></td></tr>\n";
             tree.push(index);
         } else {
-            if (DesignCapacity != undefined) {
+            if (DesignCapacity !== undefined) {
                 html += "     <tr><td><span class=\"treespan\">" + genlang(2, true, "BAT") + "</span></td><td>" + DesignCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                 tree.push(index);
             }
-            if (FullCapacity == undefined) {
-                if (RemainingCapacity != undefined) {
+            if (FullCapacity === undefined) {
+                if (RemainingCapacity !== undefined) {
                     html += "     <tr><td><span class=\"treespan\">" + genlang(3, true, "BAT") + "</span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                     tree.push(index);
                 }
             } else {
-                if (DesignCapacity == undefined) {
+                if (DesignCapacity === undefined) {
                     html += "     <tr><td><span class=\"treespan\">" + genlang(13, true, "BAT") + "</span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                     tree.push(index);
                 } else {            
-                    html += "     <tr><td><span class=\"treespan\">" + genlang(13, true, "BAT") + "</span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(DesignCapacity, 10) != 0 ? round(parseInt(FullCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
+                    html += "     <tr><td><span class=\"treespan\">" + genlang(13, true, "BAT") + "</span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(DesignCapacity, 10) !== 0 ? round(parseInt(FullCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
                     tree.push(index);
                 }
-                if (RemainingCapacity != undefined) {
-                    html += "     <tr><td><span class=\"treespan\">" + genlang(3, true, "BAT") + "</span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(FullCapacity, 10) != 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(FullCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
+                if (RemainingCapacity !== undefined) {
+                    html += "     <tr><td><span class=\"treespan\">" + genlang(3, true, "BAT") + "</span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(FullCapacity, 10) !== 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(FullCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
                     tree.push(index);
                 }
             }
         }
-        if (ChargingState != undefined) {
+        if (ChargingState !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(8, true, "BAT") + "</span></td><td>" + ChargingState +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (DesignVoltage != undefined) {
-            if (DesignVoltageMax != undefined) {
+        if (DesignVoltage !== undefined) {
+            if (DesignVoltageMax !== undefined) {
                 html += "     <tr><td><span class=\"treespan\">" + genlang(4, true, "BAT") + "</span></td><td>" + DesignVoltage+' mV' +"</td><td>" + DesignVoltageMax+' mV'+ "</td></tr>\n";
                 tree.push(index);
             } else {
                 html += "     <tr><td><span class=\"treespan\">" + genlang(4, true, "BAT") + "</span></td><td>" + DesignVoltage+' mV' +"</td><td></td></tr>\n";
                 tree.push(index);
             }
-        } else if (DesignVoltageMax != undefined) {
+        } else if (DesignVoltageMax !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(4, true, "BAT") + "</span></td><td>" + DesignVoltageMax+' mV' +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (PresentVoltage != undefined) {
+        if (PresentVoltage !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(5, true, "BAT") + "</span></td><td>" + PresentVoltage+' mV' +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (BatteryType != undefined) {
+        if (BatteryType !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(9, true, "BAT") + "</span></td><td>" + BatteryType +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (BatteryTemperature != undefined) {
+        if (BatteryTemperature !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(10, true, "BAT") + "</span></td><td>" + formatTemp(BatteryTemperature, xml) +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (BatteryCondition != undefined) {
+        if (BatteryCondition !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(11, true, "BAT") + "</span></td><td>" + BatteryCondition +"</td><td></td></tr>\n";
             tree.push(index);
         }
-        if (CycleCount != undefined) {
+        if (CycleCount !== undefined) {
             html += "     <tr><td><span class=\"treespan\">" + genlang(12, true, "BAT") + "</span></td><td>" + CycleCount +"</td><td></td></tr>\n";
             tree.push(index);
         }

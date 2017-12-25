@@ -1,8 +1,7 @@
 function renderPlugin_smart(data) {
 
-    if ((data['Plugins']['Plugin_SMART'] !== undefined) && (data['Plugins']['Plugin_SMART']["columns"] !== undefined) && (items(data['Plugins']['Plugin_SMART']["columns"]["column"]).length > 0)
-            && (data['Plugins']['Plugin_SMART']["disks"] !== undefined) && (items(data['Plugins']['Plugin_SMART']["disks"]["disk"]).length > 0)) {
-        var smartitems = items(data['Plugins']['Plugin_SMART']["columns"]["column"]);
+    if ((data.Plugins.Plugin_SMART !== undefined) && (data.Plugins.Plugin_SMART.columns !== undefined) && (items(data.Plugins.Plugin_SMART.columns.column).length > 0) && (data.Plugins.Plugin_SMART.disks !== undefined) && (items(data.Plugins.Plugin_SMART.disks.disk).length > 0)) {
+        var smartitems = items(data.Plugins.Plugin_SMART.columns.column);
         var smartnames = {
             1:"plugin_smart_101",	// "Raw Read Error Rate",		
             2:"plugin_smart_102",	// "Throughput Performance",
@@ -32,12 +31,14 @@ function renderPlugin_smart(data) {
             225:"plugin_smart_325",  };	// "Load Cycle Count"
         
         var html = '';
+        var i,j;
+        var smartid;
 
         html+="<thead>";
         html+="<tr>";
         html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, false, 'smart')+"</th>";	// Name
-        for (var i = 0; i < smartitems.length ; i++) {
-            smartid = smartitems[i]["@attributes"]["id"];
+        for (i = 0; i < smartitems.length ; i++) {
+            smartid = smartitems[i]["@attributes"].id;
             if (smartnames[smartid] !== undefined) {
                 html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid), false, 'smart') + "</th>";
             } else {
@@ -47,22 +48,22 @@ function renderPlugin_smart(data) {
         html+="</tr>";
         html+="</thead>";
 
-        var diskitems = items(data['Plugins']['Plugin_SMART']["disks"]["disk"]);
+        var diskitems = items(data.Plugins.Plugin_SMART.disks.disk);
         html += '<tbody>';
-        for (var i = 0; i < diskitems.length; i++) {
+        for (i = 0; i < diskitems.length; i++) {
             html += '<tr>';
-            html += '<th class="rightCell">'+ diskitems[i]["@attributes"]["name"] + '</th>';
-            attribitems = items(diskitems[i]["attribute"]);
+            html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + '</th>';
+            attribitems = items(diskitems[i].attribute);
             var valarray = [];
-            for (var j = 0;j < attribitems.length; j++) {
-                valarray[attribitems[j]["@attributes"]["id"]] = attribitems[j]["@attributes"]["raw_value"];
+            for (j = 0;j < attribitems.length; j++) {
+                valarray[attribitems[j]["@attributes"].id] = attribitems[j]["@attributes"].raw_value;
             }
-            for (var j = 0; j < smartitems.length; j++) {
-                var smartid = smartitems[j]["@attributes"]["id"];
+            for (j = 0; j < smartitems.length; j++) {
+                smartid = smartitems[j]["@attributes"].id;
                 var itemvalue = valarray[smartid];
                 if ((itemvalue !== undefined) && (itemvalue !== '' )) {
                     if (smartid === "194") {
-                        html += '<td class="rightCell">' + formatTemp(itemvalue, data["Options"]["@attributes"]["tempFormat"]) + '</td>';
+                        html += '<td class="rightCell">' + formatTemp(itemvalue, data.Options["@attributes"].tempFormat) + '</td>';
                     } else {
                         html += '<td class="rightCell">' + itemvalue + '</td>';
                     }

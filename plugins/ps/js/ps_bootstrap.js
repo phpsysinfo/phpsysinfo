@@ -3,35 +3,35 @@ function renderPlugin_ps(data) {
     var directives = {
         MemoryUsage: {
             html: function () {
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["MemoryUsage"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["MemoryUsage"] + '%</div>';
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this.MemoryUsage + '%;"></div>' +
+                        '</div><div class="percent">' + this.MemoryUsage + '%</div>';
             }
         },
         CPUUsage: {
             html: function () {
-                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this["CPUUsage"] + '%;"></div>' +
-                        '</div><div class="percent">' + this["CPUUsage"] + '%</div>';
+                return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this.CPUUsage + '%;"></div>' +
+                        '</div><div class="percent">' + this.CPUUsage + '%</div>';
             }
         },
         Name: {
             html: function () {
-                return this["Name"].replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>").replace(/\./g, ".<wbr>").replace(/-/g, "<wbr>-").replace(/\//g, "<wbr>/"); /* split long name */
+                return this.Name.replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>").replace(/\./g, ".<wbr>").replace(/-/g, "<wbr>-").replace(/\//g, "<wbr>/"); /* split long name */
             }
         }
     };
 
-    if (data['Plugins']['Plugin_PS'] !== undefined) {
-        var psitems = items(data['Plugins']['Plugin_PS']['Process']);
+    if (data.Plugins.Plugin_PS !== undefined) {
+        var psitems = items(data.Plugins.Plugin_PS.Process);
         if (psitems.length > 0) {
 
             var html = "", ps_item = [], expanded = 0, memwas = false, cpuwas = false;
             for (var i = 0; i < psitems.length ; i++) {
                 ps_item = psitems[i]["@attributes"];
 
-                if (ps_item["ParentID"]==="0") {
+                if (ps_item.ParentID === "0") {
                     html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + "\" style=\"display:none;\" >";
                 } else {
-                    html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + " treegrid-parent-ps-" + ps_item["ParentID"] + "\" style=\"display:none;\" >";
+                    html+="<tr id=\"ps-" + (i+1) + "\" class=\"treegrid-ps-" + (i+1) + " treegrid-parent-ps-" + ps_item.ParentID + "\" style=\"display:none;\" >";
                 }
                 html+="<td><span class=\"treegrid-span\" data-bind=\"Name\"></span></td>";
                 html+="<td><span data-bind=\"PID\"></span></td>";
@@ -49,18 +49,18 @@ function renderPlugin_ps(data) {
                 expanderCollapsedClass: 'normalicon normalicon-right'
             });
 
-            for (var i = 0; i < psitems.length ; i++) {
-                ps_item = psitems[i]["@attributes"];
-                $('#ps-'+(i+1)).render(ps_item, directives);
-                if (!memwas && (ps_item["MemoryUsage"] !== undefined)) {
+            for (var j = 0; j < psitems.length ; j++) {
+                ps_item = psitems[j]["@attributes"];
+                $('#ps-'+(j+1)).render(ps_item, directives);
+                if (!memwas && (ps_item.MemoryUsage !== undefined)) {
                     memwas = true;
                 }
-                if (!cpuwas && (ps_item["CPUUsage"] !== undefined)) {
+                if (!cpuwas && (ps_item.CPUUsage !== undefined)) {
                     cpuwas = true;
                 }
-                expanded = ps_item["Expanded"];
+                expanded = ps_item.Expanded;
                 if ((expanded !== undefined) && (expanded === "0")) {
-                    $('#ps-'+(i+1)).treegrid('collapse');
+                    $('#ps-'+(j+1)).treegrid('collapse');
                 }
             }
 

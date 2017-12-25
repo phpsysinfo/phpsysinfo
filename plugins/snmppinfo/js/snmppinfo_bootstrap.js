@@ -3,14 +3,14 @@ function renderPlugin_snmppinfo(data) {
     var directives = {
         Device: {
             text: function () {
-                var Name = (this["Name"] !== undefined) ? (' (' + this["Name"] + ')'): '';
-                return this["Device"] + Name;
+                var Name = (this.Name !== undefined) ? (' (' + this.Name + ')'): '';
+                return this.Device + Name;
             }
         },
         Percent: {
             html: function () {
-                var max = parseInt(this["MaxCapacity"]);
-                var level = parseInt(this["Level"]);
+                var max = parseInt(this.MaxCapacity);
+                var level = parseInt(this.Level);
                 var percent = 0;
 
                 if (max>0 && (level>=0) && (level<=max) ) {
@@ -26,8 +26,8 @@ function renderPlugin_snmppinfo(data) {
         },
         Units: {
             html: function () {
-                var max = parseInt(this["MaxCapacity"]);
-                var level = parseInt(this["Level"]);
+                var max = parseInt(this.MaxCapacity);
+                var level = parseInt(this.Level);
 
                 if (max>0 && (level>=0) && (level<=max) ) {
                     return level+" / "+max;
@@ -42,11 +42,12 @@ function renderPlugin_snmppinfo(data) {
         }
     };
 
-    if (data['Plugins']['Plugin_SNMPPInfo'] !== undefined) {
-        var printers = items(data['Plugins']['Plugin_SNMPPInfo']['Printer']);
+    if (data.Plugins.Plugin_SNMPPInfo !== undefined) {
+        var printers = items(data.Plugins.Plugin_SNMPPInfo.Printer);
         if (printers.length > 0) {
+            var i, j, datas;
             var html = "";
-            for (var i = 0; i < printers.length; i++) {
+            for (i = 0; i < printers.length; i++) {
                 html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
                 html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
                 html+="<td></td>";
@@ -54,8 +55,8 @@ function renderPlugin_snmppinfo(data) {
                 html+="</tr>";
 
                 try {
-                    var datas = items(printers[i]["MarkerSupplies"]);
-                    for (var j = 0; j < datas.length; j++) {
+                    datas = items(printers[i].MarkerSupplies);
+                    for (j = 0; j < datas.length; j++) {
                         html+="<tr id=\"snmppinfo-" + i + "-" + j +"\" class=\"treegrid-parent-snmppinfo-" + i + "\">";
                         html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Description\"></span></td>";
                         html+="<td><span data-bind=\"Percent\"></span></td>";
@@ -70,11 +71,11 @@ function renderPlugin_snmppinfo(data) {
 
             $("#snmppinfo-data").empty().append(html);
 
-            for (var i = 0; i < printers.length; i++) {
+            for (i = 0; i < printers.length; i++) {
                 $('#snmppinfo-'+ i).render(printers[i]["@attributes"], directives);
                 try {
-                    var datas = items(printers[i]["MarkerSupplies"]);
-                    for (var j = 0; j < datas.length; j++) {
+                    datas = items(printers[i].MarkerSupplies);
+                    for (j = 0; j < datas.length; j++) {
                         $('#snmppinfo-'+ i+ "-" + j).render(datas[j]["@attributes"], directives);
                    }
                 }

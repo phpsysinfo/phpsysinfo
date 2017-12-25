@@ -47,7 +47,7 @@ function updatenotifier_populate(xml) {
 
         $("#Plugin_UpdateNotifier tbody").empty().append(html);
 
-        if ((packages == 0) && (security == 0)) {
+        if ((packages <= 0) && (security <= 0)) {
             $("#UpdateNotifierTable-info").html(genlang(5, false, "UpdateNotifier"));
         } else {
             $("#UpdateNotifierTable-info").html(genlang(2, false, "UpdateNotifier"));

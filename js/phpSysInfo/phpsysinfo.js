@@ -200,8 +200,7 @@ function genlang(id, generate, plugin) {
     } else {
         html += "<span id=\"lang_" + idString + "\">";
     }
-    if ((langxml[langarrId] !== undefined)
-        && (langarr[langarrId] !== undefined)) {
+    if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
     }    
 
@@ -227,7 +226,7 @@ function changeLanguage(plugin) {
     }
 
     if (langxml[langarrId] !== undefined) {
-        changeSpanLanguage(plugin)
+        changeSpanLanguage(plugin);
     } else {
         langxml.push(langarrId);
         getLanguage(plugin, langarrId);
@@ -235,8 +234,7 @@ function changeLanguage(plugin) {
 }
 
 function changeSpanLanguage(plugin) {
-    var langId = "", langStr = "", plugId = "",
-        langarrId = current_language + "_";
+    var langId = "", langStr = "", langarrId = current_language + "_";
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
@@ -671,8 +669,8 @@ function refreshVitals(xml) {
         //processes
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
-            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") == undefined)) ||
-                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined))) {
+            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") === undefined)) ||
+                (($(this).attr("CodePage") === undefined) && ($(this).attr("SysLang") !== undefined))) {
                 document.getElementById("s_processes_tr1").style.display='';
             } else {
                 document.getElementById("s_processes_tr2").style.display='';
@@ -795,7 +793,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        if (virt != undefined) {
+        if (virt !== undefined) {
             html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(94, true) + ":</span></td><td>" + virt + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
@@ -907,7 +905,7 @@ function refreshHardware(xml) {
     $("Hardware", xml).each(function getMachine(id) {
         machine = $(this).attr("Name");
     });
-    if ((machine !== undefined) && (machine != "")) {
+    if ((machine !== undefined) && (machine !== "")) {
         html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(107, false) + "</span></td></tr>\n";
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + machine + "</span></td></tr>\n";
         tree.push(tree.push(0));
@@ -982,7 +980,7 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, i = 0, htmlrx = '', htmltx = '';
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '';
         name = $(this).attr("Name");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
@@ -991,14 +989,14 @@ function refreshNetwork(xml) {
 
         if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
             var diff, difftime;
-            if (((diff = rx - oldnetwork[name]["rx"]) > 0) && ((difftime = timestamp - oldnetwork[name]["timestamp"]) > 0)) {
+            if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
                 if (showNetworkActiveSpeed == 2) {
                     htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                 } else {
                     htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
                 }
             }
-            if (((diff = tx - oldnetwork[name]["tx"]) > 0) && (difftime > 0)) {
+            if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
                 if (showNetworkActiveSpeed == 2) {
                     htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                 } else {
@@ -1017,7 +1015,7 @@ function refreshNetwork(xml) {
         }
 
         info = $(this).attr("Info");
-        if ( (info !== undefined) && (info != "") ) {
+        if ( (info !== undefined) && (info !== "") ) {
             var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
@@ -1929,7 +1927,7 @@ function datetime() {
 }
 
 Array.prototype.pushIfNotExist = function(val) {
-    if (typeof(val) == 'undefined' || val == '') {
+    if (typeof(val) == 'undefined' || val === '') {
         return;
     }
     val = $.trim(val);

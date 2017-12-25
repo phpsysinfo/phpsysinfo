@@ -184,7 +184,7 @@ function mdstatus_populate(xml) {
     });
 
     if ($("Plugins Plugin_MDStatus Unused_Devices", xml).length > 0) {
-        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, true, "MDStatus") + "</td><td>" + $(this).attr("Devices") + "</td></tr>");
+        $("#Plugin_MDStatusTable").append("<tr><td>" + genlang(15, true, "MDStatus") + "</td><td><b>" + $("Plugins Plugin_MDStatus Unused_Devices", xml).attr("Devices") + "</b></td></tr>");
         mdstatus_show = true;
     }
 

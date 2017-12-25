@@ -122,8 +122,6 @@ function dmraid_diskicon(xml) {
  * @param {jQuery} xml plugin-XML
  */
 function dmraid_populate(xml) {
-    var htmltypes = "";
-
     $("#Plugin_DMRaidTable").empty();
     $("#Plugin_DMRaidTable").append("<tbody>");
 
