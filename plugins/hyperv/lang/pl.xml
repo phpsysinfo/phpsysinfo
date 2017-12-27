@@ -10,7 +10,7 @@ phpSysInfo language file Language: Polish Created by: Mieczysław Nalewaj
     <exp>Hyper-V Status</exp>
   </expression>
   <expression id="plugin_hyperv_002" name="hyperv_name">
-    <exp>Nazwa</exp>
+    <exp>Nazwa maszyny</exp>
   </expression>
   <expression id="plugin_hyperv_003" name="hyperv_state">
     <exp>Stan</exp>
