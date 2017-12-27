@@ -56,10 +56,14 @@ class HyperV extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
-                    $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('EnhancedSessionModeState', 'EnabledState', 'ElementName'));
+                    if (!defined('PSI_PLUGIN_HYPERV_USE_V2PROVIDER') || (PSI_PLUGIN_HYPERV_USE_V2PROVIDER !== false)) {
+                        $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
+                    } else {
+                        $wmi = $objLocator->ConnectServer('', 'root\virtualization');
+                    }
+                    $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
                     if (is_array($result)) foreach ($result as $machine) {
-                        if ($machine['EnhancedSessionModeState'] !== null) {
+                        if ($machine['InstallDate'] !== null) {
                             $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
                         }
                     }
