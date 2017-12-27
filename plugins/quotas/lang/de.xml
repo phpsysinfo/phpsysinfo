@@ -6,7 +6,7 @@
 <tns:translationPlugin language="german" charset="utf-8"
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
-  <expression id="plugin_quotas_001" name="ps_title">
+  <expression id="plugin_quotas_001" name="quotas_title">
     <exp>Quota Status</exp>
   </expression>
   <expression id="plugin_quotas_002" name="quotas_user">
