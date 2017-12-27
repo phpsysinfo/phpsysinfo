@@ -759,9 +759,3 @@ SHOW_SERIAL=false
 ;          with the filename "hyperv.txt")
 ;
 ACCESS="command"
-
-; Use V2 Hyper-V WMI Provider
-; - true : use root\virtualization\v2
-; - false : use root\virtualization
-;
-USE_V2PROVIDER=true
