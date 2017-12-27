@@ -78,6 +78,7 @@ BLOCKS=true
 ; - Iptables       - show iptables rules list
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
+; - HyperV         - show Hyper-V info (WinNT)
 ;
 PLUGINS=false
 
@@ -723,8 +724,8 @@ ACCESS="command"
 
 ; define how to access the psstatus statistic data
 ; - "command" ping command is run everytime the block gets refreshed or build 
-; - "data" a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "pingtest.txt";
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "pingtest.txt")
 ;
 ACCESS="command"
 
@@ -748,3 +749,13 @@ TIMEOUT=2
 ; Show or hide disks serial number
 ;
 SHOW_SERIAL=false
+
+[hyperv]
+; HyperV Plugin configuration
+
+; define how to access the ps statistic data
+; - "command" information is retrieved through WMI
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "hyperv.txt")
+;
+ACCESS="command"
