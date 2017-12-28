@@ -83,7 +83,7 @@ class uprecords extends PSI_Plugin
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
-                $this->global_error->addConfigError('execute()', '[uprecords] ACCESS');
+                $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");
                 break;
         }
     }
@@ -91,7 +91,7 @@ class uprecords extends PSI_Plugin
     public function xml()
     {
         if (empty($this->_lines))
-        return $this->xml->getSimpleXmlElement();
+            return $this->xml->getSimpleXmlElement();
 
         $arrBuff = $this->getUprecords();
         if (sizeof($arrBuff) > 0) {
