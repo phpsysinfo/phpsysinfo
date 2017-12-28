@@ -71,7 +71,7 @@ class HyperV extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addError("switch(PSI_PLUGIN_HYPERV_ACCESS)", "Bad hyperv configuration in phpsysinfo.ini");
+            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_HYPERV_ACCESS");
             break;
         }
     }

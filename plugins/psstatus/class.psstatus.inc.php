@@ -85,7 +85,7 @@ class PSStatus extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addError("switch(PSI_PLUGIN_PSSTATUS_ACCESS)", "Bad psstatus configuration in phpsysinfo.ini");
+                $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_PSSTATUS_ACCESS");
                 break;
             }
         }
