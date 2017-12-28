@@ -45,10 +45,18 @@ class HyperV extends PSI_Plugin
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     $wmic = $objLocator->ConnectServer('', 'root\CIMv2');
                     $buffer = CommonFunctions::getWMI($wmic, 'Win32_OperatingSystem', array('Version'));
-                    if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                        $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
+                    if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
+                        if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
+                            $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
+                        } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008 
+                            $wmi = $objLocator->ConnectServer('', 'root\virtualization');
+                        } else {
+                           $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                           break;
+                        }
                     } else {
-                        $wmi = $objLocator->ConnectServer('', 'root\virtualization');
+                        $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                        break;
                     }
                     $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
                     if (is_array($result)) foreach ($result as $machine) {
