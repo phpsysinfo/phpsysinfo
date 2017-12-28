@@ -321,7 +321,7 @@ class BAT extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_BAT_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[bat] ACCESS");
             break;
         }
         for ($bi = 0; $bi < sizeof($buffer); $bi++) {

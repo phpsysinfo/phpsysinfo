@@ -46,7 +46,7 @@ class MDStatus extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/mdstat.txt", $buffer);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_MDSTATUS_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[mdstatus] ACCESS");
             break;
         }
         if (trim($buffer) != "") {

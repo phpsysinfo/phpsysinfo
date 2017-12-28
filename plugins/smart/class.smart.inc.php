@@ -64,7 +64,7 @@ class SMART extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_SMART_ACCESS");
+                $this->global_error->addConfigError("__construct()", "[smart] ACCESS");
                 break;
         }
 

@@ -48,7 +48,7 @@ class UpdateNotifier extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_UPDATENOTIFIER_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[updatenotifier] ACCESS");
             break;
         }
 

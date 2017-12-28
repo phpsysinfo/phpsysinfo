@@ -36,7 +36,7 @@ class IPMItool extends Sensors
             CommonFunctions::rfts(APP_ROOT.'/data/ipmitool.txt', $lines);
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_IPMITOOL_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');
             break;
         }
         if (trim($lines) !== "") {

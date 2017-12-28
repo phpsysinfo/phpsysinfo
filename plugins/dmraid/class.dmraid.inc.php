@@ -45,7 +45,7 @@ class DMRaid extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/dmraid.txt", $buffer);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_DMRAID_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[dmraid] ACCESS");
             break;
         }
         if (trim($buffer) != "") {

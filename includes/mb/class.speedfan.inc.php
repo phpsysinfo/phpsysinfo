@@ -51,7 +51,7 @@ class SpeedFan extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_SPEEDFAN_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_speedfan] ACCESS');
             break;
         }
     }

@@ -144,7 +144,7 @@ class PS extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/ps.txt", $buffer);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_PS_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
             break;
         }
         if (PSI_OS != 'WINNT') {

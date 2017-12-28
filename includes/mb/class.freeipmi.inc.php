@@ -38,7 +38,7 @@ class FreeIPMI extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_FREEIPMI_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_freeipmi] ACCESS');
             break;
         }
     }

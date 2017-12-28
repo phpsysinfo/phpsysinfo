@@ -36,7 +36,7 @@ class LMSensors extends Sensors
             CommonFunctions::rfts(APP_ROOT.'/data/lmsensors.txt', $lines);
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_LMSENSORS_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');
             break;
         }
 

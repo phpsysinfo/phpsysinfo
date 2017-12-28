@@ -39,7 +39,7 @@ class K8Temp extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_K8TEMP_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_k8temp] ACCESS');
             break;
         }
     }

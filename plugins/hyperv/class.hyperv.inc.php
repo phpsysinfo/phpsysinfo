@@ -79,7 +79,7 @@ class HyperV extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_HYPERV_ACCESS");
+            $this->global_error->addConfigError("execute()", "[hyperv] ACCESS");
             break;
         }
     }

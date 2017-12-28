@@ -89,7 +89,7 @@ class HDDTemp extends Sensors
             }
             break;
         default:
-            $this->error->addConfigError("temperature()", "PSI_HDD_TEMP");
+            $this->error->addConfigError("temperature()", "[sensor_hddtemp] ACCESS");
             break;
         }
         // Timo van Roermund: parse the info from the hddtemp daemon.

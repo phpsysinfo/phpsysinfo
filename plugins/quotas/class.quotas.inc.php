@@ -45,7 +45,7 @@ class Quotas extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/quotas.txt", $buffer);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_QUOTAS_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[quotas] ACCESS");
             break;
         }
         if (trim($buffer) != "") {
