@@ -1,20 +1,6 @@
 <?php
-
 /**
- * Iptables Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_Iptables
- * @author    erpomata
- * @copyright 2016 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.iptables.inc.php 661 2016-05-03 11:26:39Z erpomata $
- * @link      http://phpsysinfo.sourceforge.net
- */
-/**
- * Iptables plugin, which displays all iptables informations available
+ * Iptables Plugin, which displays all iptables informations available
  *
  * @category  PHP
  * @package   PSI_Plugin_Iptables

@@ -1,19 +1,8 @@
 <?php
 /**
- * ipmitool sensor class
+ * ipmitool sensor class, getting information from ipmitool
  *
  * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Sensor
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.ipmitool.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * getting information from ipmitool
  *
  * @category  PHP
  * @package   PSI_Sensor

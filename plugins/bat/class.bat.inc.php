@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * BAT Plugin, which displays battery state
  *
  * @category  PHP

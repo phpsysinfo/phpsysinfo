@@ -1,19 +1,6 @@
 <?php
 /**
- * MDStatus Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_MDStatus
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.mdstatus.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * mdstatus Plugin, which displays a snapshot of the kernel's RAID/md state
+ * MDStatus Plugin, which displays a snapshot of the kernel's RAID/md state
  * a simple view which shows supported types and RAID-Devices which are determined by
  * parsing the "/proc/mdstat" file, another way is to provide
  * a file with the output of the /proc/mdstat file, so there is no need to run a execute by the

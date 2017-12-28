@@ -1,19 +1,6 @@
 <?php
 /**
- * PS Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_PS
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.ps.inc.php 692 2012-09-08 17:12:08Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * process Plugin, which displays all running processes
+ * PS Plugin, which displays all running processes
  * a simple tree view which is filled with the running processes which are determined by
  * calling the "ps" command line utility, another way is to provide
  * a file with the output of the ps utility, so there is no need to run a execute by the

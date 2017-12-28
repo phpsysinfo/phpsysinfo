@@ -1,19 +1,6 @@
 <?php
 /**
- * HyperV Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_HyperV
- * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
- * @copyright 2017 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.hyperv.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * StableBit Plugin, which displays disks state
+ * HyperV Plugin, which displays Hyper-V machines state
  *
  * @category  PHP
  * @package   PSI_Plugin_HyperV

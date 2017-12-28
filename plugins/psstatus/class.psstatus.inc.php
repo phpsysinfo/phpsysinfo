@@ -1,19 +1,6 @@
 <?php
 /**
- * PSStatus Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_PSStatus
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.psstatus.inc.php 692 2012-09-08 17:12:08Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * process Plugin, which displays the status of configured processes
+ * PSStatus Plugin, which displays the status of configured processes
  * a simple view which shows a process name and the status
  * status determined by calling the "pidof" command line utility, another way is to provide
  * a file with the output of the pidof utility, so there is no need to run a executeable by the

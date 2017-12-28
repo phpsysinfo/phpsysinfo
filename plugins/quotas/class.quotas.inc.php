@@ -1,18 +1,5 @@
 <?php
 /**
- * Quotas Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_Quotas
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.quotas.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
  * Quotas Plugin, which displays all quotas on the machine
  * display all quotas in a sortable table with the current values which are determined by
  * calling the "repquota" command line utility, another way is to provide
