@@ -303,7 +303,7 @@ class WINNT extends OS
         $result = 0;
         date_default_timezone_set('UTC');
         $buffer = $this->_get_Win32_OperatingSystem();
-        if ($buffer) {
+        if ($buffer && ($buffer[0]['LastBootUpTime'] !== null)) {
             $local = $buffer[0]['LocalDateTime'];
             $boot = $buffer[0]['LastBootUpTime'];
 
@@ -313,6 +313,7 @@ class WINNT extends OS
             $lhour = intval(substr($local, 8, 2));
             $lminute = intval(substr($local, 10, 2));
             $lseconds = intval(substr($local, 12, 2));
+            $loffset = intval(substr($boot, 21, 4));
 
             $byear = intval(substr($boot, 0, 4));
             $bmonth = intval(substr($boot, 4, 2));
@@ -322,14 +323,14 @@ class WINNT extends OS
             $bseconds = intval(substr($boot, 12, 2));
             $boffset = intval(substr($boot, 21, 4));
 
-            $localtime = mktime($lhour, $lminute, $lseconds, $lmonth, $lday, $lyear);
-            $boottime = mktime($bhour, $bminute, $bseconds, $bmonth, $bday, $byear);
+            if (version_compare($buffer[0]['Version'], "5.1", "<")) { // fix LastBootUpTime on Windows 2000 and older
+                $boffset += $boffset;
+            }
+
+            $localtime = mktime($lhour, $lminute, $lseconds, $lmonth, $lday, $lyear) - $loffset*60;
+            $boottime = mktime($bhour, $bminute, $bseconds, $bmonth, $bday, $byear) - $boffset*60;
 
             $result = $localtime - $boottime;
-
-            if (version_compare($buffer[0]['Version'], "5.1", "<")) { // fix LastBootUpTime on Windows 2000 and older
-               $result += $boffset*60;
-            }
 
             $this->sys->setUptime($result);
         }
