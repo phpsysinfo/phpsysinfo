@@ -304,21 +304,33 @@ class WINNT extends OS
         date_default_timezone_set('UTC');
         $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
-            $byear = intval(substr($buffer[0]['LastBootUpTime'], 0, 4));
-            $bmonth = intval(substr($buffer[0]['LastBootUpTime'], 4, 2));
-            $bday = intval(substr($buffer[0]['LastBootUpTime'], 6, 2));
-            $bhour = intval(substr($buffer[0]['LastBootUpTime'], 8, 2));
-            $bminute = intval(substr($buffer[0]['LastBootUpTime'], 10, 2));
-            $bseconds = intval(substr($buffer[0]['LastBootUpTime'], 12, 2));
-            $lyear = intval(substr($buffer[0]['LocalDateTime'], 0, 4));
-            $lmonth = intval(substr($buffer[0]['LocalDateTime'], 4, 2));
-            $lday = intval(substr($buffer[0]['LocalDateTime'], 6, 2));
-            $lhour = intval(substr($buffer[0]['LocalDateTime'], 8, 2));
-            $lminute = intval(substr($buffer[0]['LocalDateTime'], 10, 2));
-            $lseconds = intval(substr($buffer[0]['LocalDateTime'], 12, 2));
-            $boottime = mktime($bhour, $bminute, $bseconds, $bmonth, $bday, $byear);
+            $local = $buffer[0]['LocalDateTime'];
+            $boot = $buffer[0]['LastBootUpTime'];
+
+            $lyear = intval(substr($local, 0, 4));
+            $lmonth = intval(substr($local, 4, 2));
+            $lday = intval(substr($local, 6, 2));
+            $lhour = intval(substr($local, 8, 2));
+            $lminute = intval(substr($local, 10, 2));
+            $lseconds = intval(substr($local, 12, 2));
+
+            $byear = intval(substr($boot, 0, 4));
+            $bmonth = intval(substr($boot, 4, 2));
+            $bday = intval(substr($boot, 6, 2));
+            $bhour = intval(substr($boot, 8, 2));
+            $bminute = intval(substr($boot, 10, 2));
+            $bseconds = intval(substr($boot, 12, 2));
+            $boffset = intval(substr($boot, 21, 4));
+
             $localtime = mktime($lhour, $lminute, $lseconds, $lmonth, $lday, $lyear);
+            $boottime = mktime($bhour, $bminute, $bseconds, $bmonth, $bday, $byear);
+
             $result = $localtime - $boottime;
+
+            if (version_compare($buffer[0]['Version'], "5.1", "<")) { // fix LastBootUpTime on Windows 2000 and older
+               $result += $boffset*60;
+            }
+
             $this->sys->setUptime($result);
         }
     }
@@ -354,7 +366,8 @@ class WINNT extends OS
     {
         $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
-            $kernel = $buffer[0]['Version'];
+            $ver = $buffer[0]['Version'];
+            $kernel = $ver;
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
@@ -367,11 +380,11 @@ class WINNT extends OS
             }
             $this->sys->setDistribution($buffer[0]['Caption']);
 
-            if (version_compare($kernel, "5.1", "<"))
+            if (version_compare($ver, "5.1", "<"))
                 $icon = 'Win2000.png';
-            elseif (version_compare($kernel, "5.1", ">=") && version_compare($kernel, "6.0", "<"))
+            elseif (version_compare($ver, "5.1", ">=") && version_compare($ver, "6.0", "<"))
                 $icon = 'WinXP.png';
-            elseif (version_compare($kernel, "6.0", ">=") && version_compare($kernel, "6.2", "<"))
+            elseif (version_compare($ver, "6.0", ">=") && version_compare($ver, "6.2", "<"))
                 $icon = 'WinVista.png';
             else
                 $icon = 'Win8.png';
