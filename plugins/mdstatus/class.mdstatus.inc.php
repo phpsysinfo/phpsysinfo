@@ -201,14 +201,16 @@ class MDStatus extends PSI_Plugin
                 $count++;
             }
         } while ($cnt_filecontent > $count);
-        $lastline = $this->_filecontent[$cnt_filecontent - 2];
+        $lastline = $this->_filecontent[$cnt_filecontent - 1];
+        $this->_result['unused_devs'] = -1;
         if (strpos($lastline, "unused devices") !== false) {
             $parts = preg_split("/:/", $lastline);
             $search = array("<", ">");
             $replace = array("", "");
-            $this->_result['unused_devs'] = trim(str_replace($search, $replace, $parts[1]));
-        } else {
-            $this->_result['unused_devs'] = -1;
+            $unused = trim(str_replace($search, $replace, $parts[1]));
+            if ($unused !== "none") {
+                $this->_result['unused_devs'] = $unused;
+            }
         }
     }
 
