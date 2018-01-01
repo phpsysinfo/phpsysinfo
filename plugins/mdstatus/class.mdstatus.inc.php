@@ -50,7 +50,7 @@ class MDStatus extends PSI_Plugin
             break;
         }
         if (trim($buffer) != "") {
-            $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_filecontent = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         } else {
             $this->_filecontent = array();
         }
@@ -69,7 +69,7 @@ class MDStatus extends PSI_Plugin
             return;
         }
         // get the supported types
-        if (preg_match('/[a-zA-Z]* : (\[([a-z0-9])*\]([ \n]))+/', $this->_filecontent[0], $res)) {
+        if (preg_match('/[a-zA-Z]+ :( \[[a-z0-9]+\])+/', $this->_filecontent[0], $res)) {
             $parts = preg_split("/ : /", $res[0]);
             $parts = preg_split("/ /", $parts[1]);
             $count = 0;

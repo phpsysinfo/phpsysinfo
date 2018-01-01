@@ -65,8 +65,8 @@ BLOCKS=true
 ; - PLUGINS="MDStatus,PS"  //list of plugins
 ; - PLUGINS=false  //no plugins
 ; included plugins:
-; - MDStatus       - show the raid status and whats currently going on
-; - DMRaid         - show the software raid status
+; - MDStatus       - show the Software RAID status and whats currently going on
+; - DMRaid         - show the Fake RAID status
 ; - PS             - show a process tree of all running processes
 ; - PSStatus       - show a graphical representation if a process is running or not
 ; - Quotas         - show a table with all quotas that are active and there current state
