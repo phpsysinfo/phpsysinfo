@@ -30,7 +30,7 @@ class StableBit extends PSI_Plugin
         $this->_result = array();
     }
 
-    const stablebit_items = array('Name', 'Firmware', 'Size', 'TemperatureC', 'PowerState', 'IsHot', 'IsSmartWarning', 'IsSmartPastThresholds', 'IsSmartPastAdvisoryThresholds', 'IsSmartFailurePredicted', 'IsDamaged', 'SerialNumber');
+    private $stablebit_items = array('Name', 'Firmware', 'Size', 'TemperatureC', 'PowerState', 'IsHot', 'IsSmartWarning', 'IsSmartPastThresholds', 'IsSmartPastAdvisoryThresholds', 'IsSmartFailurePredicted', 'IsDamaged', 'SerialNumber');
 
     /**
      * doing all tasks to get the required informations that the plugin needs
