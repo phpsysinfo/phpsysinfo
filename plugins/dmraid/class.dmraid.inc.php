@@ -159,7 +159,7 @@ class DMRaid extends PSI_Plugin
                         if ($group=="") {
                             $group = trim($arrname[1]);
                         }
-                        $this->_result['devices'][$group]['name'] = $arrname[1];
+                        $this->_result['devices'][$group]['name'] = trim($arrname[1]);
                         if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
                             $this->_result['devices'][$group]['size'] = trim($size[1]);
                         }
