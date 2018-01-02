@@ -44,7 +44,7 @@ class StableBit extends PSI_Plugin
             try {
                 $objLocator = new COM('WbemScripting.SWbemLocator');
                 $wmi = $objLocator->ConnectServer('', 'root\StableBit\Scanner');
-                $this->_result = CommonFunctions::getWMI($wmi, 'Disks', self::stablebit_items);
+                $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
             } catch (Exception $e) {
             }
         }
@@ -60,7 +60,7 @@ class StableBit extends PSI_Plugin
         foreach ($this->_result as $disk_items) {
             if (isset($disk_items['Name']) && (trim($disk_items['Name']) !== '')) {
                 $xmlstablebit_disk = $this->xml->addChild("Disk");
-                foreach (self::stablebit_items as $item) {
+                foreach ($this->stablebit_items as $item) {
                     if (isset($disk_items[$item]) && (($itemvalue=$disk_items[$item]) !== '') &&
                     (($item !== 'SerialNumber') || (defined('PSI_PLUGIN_STABLEBIT_SHOW_SERIAL') && (PSI_PLUGIN_STABLEBIT_SHOW_SERIAL === true)))) {
                         $xmlstablebit_disk ->addAttribute($item, $itemvalue);
