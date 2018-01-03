@@ -62,7 +62,7 @@ function dmraid_buildinfos(xml, id) {
  * @param {jQuery} xml part of the plugin-XML
  */
 function dmraid_buildaction(xml) {
-    var html = "", name = "", time = "", tunit = "", percent = 0;
+    var html = "", name = "", percent = 0;
     $("Action", xml).each(function mdstatus_getaction(id) {
         name = $(this).attr("Name");
         if (parseInt(name, 10) !== -1) {
