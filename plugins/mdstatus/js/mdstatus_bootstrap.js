@@ -116,9 +116,9 @@ function renderPlugin_mdstatus(data) {
                         html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(8, true ,'mdstatus')+"</span></td><td>" + devalgo + "</td></tr>";
                     }
                     if (devsuper !== -1) {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, true, 'mdstatus')+"</span></td><td>available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, true, 'mdstatus')+"</span></td><td>"+genlang(10, true, 'mdstatus')+"</td></tr>";
                     } else {
-                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, true, 'mdstatus')+"</span></td><td>not available</td></tr>";
+                        html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, true, 'mdstatus')+"</span></td><td>"+genlang(11, true, 'mdstatus')+"</td></tr>";
                     }
                     if (devactive !== -1 && devregis !== -1) {
                         html += "<tr class=\"treegrid-parent-mdstatus-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(12, true, 'mdstatus')+"</span></td><td>" + devregis + "/<wbr>" + devactive + "</td></tr>";
