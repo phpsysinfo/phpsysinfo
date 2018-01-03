@@ -143,11 +143,15 @@ class DMRaid extends PSI_Plugin
                     foreach ($lines as $line) {
                         if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
                             $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "ok";
+                            $this->_result['devices'][$partition[2]]['status'] = "ok";
+                            $this->_result['devices'][$partition[2]]['level'] = "unknown";
                         } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
                             if ($partition[2]=="broken") {
                                 $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
+                                $this->_result['devices'][$partition[3]]['status'] = "F";
                             } else {
                                 $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'W';
+                                $this->_result['devices'][$partition[3]]['status'] = "W";
                             }
                         }
                     }
