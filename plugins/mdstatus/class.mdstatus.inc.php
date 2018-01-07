@@ -93,11 +93,13 @@ class MDStatus extends PSI_Plugin
                 $details = preg_split('/ /', $parts[1]);
                 if (!strstr($details[0], 'inactive')) {
                     $this->_result['devices'][$dev]['level'] = $details[1];
+                    $i = 2;
                 } else {
                     $this->_result['devices'][$dev]['level'] = "none";
+                    $i = 1;
                 }
                 $this->_result['devices'][$dev]['status'] = $details[0];
-                for ($i = 2, $cnt_details = count($details); $i < $cnt_details; $i++) {
+                for ($cnt_details = count($details); $i < $cnt_details; $i++) {
                     preg_match('/(([a-z0-9])+)(\[([0-9]+)\])(\([SF ]\))?/', trim($details[$i]), $partition);
                     if (count($partition) == 5 || count($partition) == 6) {
                         $this->_result['devices'][$dev]['partitions'][$partition[1]]['raid_index'] = substr(trim($partition[3]), 1, -1);
