@@ -364,8 +364,7 @@ class Raid extends PSI_Plugin
                 $id = 1;
                 if (isset($group['devs']) && ($group['devs']>0) &&
                    (!isset($group['items']) || (count($group['items'])<$group['devs'])) &&
-                   isset($group['subsets']) && ($group['subsets']>0))
-                   for ($i = 0; $i < $group['subsets']; $i++) {
+                   isset($group['subsets']) && ($group['subsets']>0)) for ($i = 0; $i < $group['subsets']; $i++) {
                     if (isset($this->_result['devices'][$gid."-".$i]['items'][0]['parentid'])) {
                         foreach ($this->_result['devices'][$gid."-".$i]['items'] as $fid=>$from) {
                             if ($fid===0) {
@@ -388,6 +387,11 @@ class Raid extends PSI_Plugin
                         $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
                         $id++;
                     }
+                }
+            }
+            foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
+                if (($group['name'] !== $gid) && isset($group['items'][0]['parentid'])) {
+                    $this->_result['devices'][$gid]['items'][0]['name'] = $group['name']." ".$group['items'][0]['name'];
                 }
             }
         }
