@@ -118,36 +118,36 @@ class Raid extends PSI_Plugin
                 $dev = trim($parts[0]);
                 if (count($parts) == 2) {
                     $this->_result['devices'][$dev]['type'] = "mdstat";
-                    $this->_result['devices'][$dev]['partitions'][0]['raid_index'] = -1; //must by first
+                    $this->_result['devices'][$dev]['items'][0]['raid_index'] = -1; //must by first
                     $details = preg_split('/ /', $parts[1]);
                     if (!strstr($details[0], 'inactive')) {
                         $this->_result['devices'][$dev]['level'] = $details[1];
-                        $this->_result['devices'][$dev]['partitions'][0]['name'] = $dev." ".$details[1];
-                        $this->_result['devices'][$dev]['partitions'][0]['status'] = "ok";
+                        $this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
+                        $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
                         $i = 2;
                     } else {
                         $this->_result['devices'][$dev]['level'] = "none";
-                        $this->_result['devices'][$dev]['partitions'][0]['name'] = $dev;
-                        $this->_result['devices'][$dev]['partitions'][0]['status'] = "F";
+                        $this->_result['devices'][$dev]['items'][0]['name'] = $dev;
+                        $this->_result['devices'][$dev]['items'][0]['status'] = "F";
                         $i = 1;
                     }
-                    $this->_result['devices'][$dev]['partitions'][0]['parentid'] = 0;
+                    $this->_result['devices'][$dev]['items'][0]['parentid'] = 0;
                     $this->_result['devices'][$dev]['status'] = $details[0];
 
                     for ($cnt_details = count($details); $i < $cnt_details; $i++) {
                         preg_match('/(([a-z0-9])+)(\[([0-9]+)\])(\([SF ]\))?/', trim($details[$i]), $partition);
                         if (count($partition) == 5 || count($partition) == 6) {
-                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['raid_index'] = 0+substr(trim($partition[3]), 1, -1);
+                            $this->_result['devices'][$dev]['items'][$partition[1]]['raid_index'] = 0+substr(trim($partition[3]), 1, -1);
                             if (isset($partition[5])) {
                                 $search = array("(", ")");
                                 $replace = array("", "");
-                                $this->_result['devices'][$dev]['partitions'][$partition[1]]['status'] = str_replace($search, $replace, trim($partition[5]));
+                                $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = str_replace($search, $replace, trim($partition[5]));
                             } else {
-                                $this->_result['devices'][$dev]['partitions'][$partition[1]]['status'] = "ok";
+                                $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = "ok";
                             }
-                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['name'] = $partition[1];
-                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['parentid'] = 1;
-                            $this->_result['devices'][$dev]['partitions'][$partition[1]]['type'] = "disk";
+                            $this->_result['devices'][$dev]['items'][$partition[1]]['name'] = $partition[1];
+                            $this->_result['devices'][$dev]['items'][$partition[1]]['parentid'] = 1;
+                            $this->_result['devices'][$dev]['items'][$partition[1]]['type'] = "disk";
                         }
                     }
                     $optionline = $raiddata[$count].$raiddata[$count+1];
@@ -168,65 +168,65 @@ class Raid extends PSI_Plugin
                         $this->_result['devices'][$dev]['active'] = $res[2];
                     }
 
-                    if (isset($this->_result['devices'][$dev]['partitions'])) {
-                        asort($this->_result['devices'][$dev]['partitions']);
+                    if (isset($this->_result['devices'][$dev]['items'])) {
+                        asort($this->_result['devices'][$dev]['items']);
                     }
                     if ((!isset($this->_result['devices'][$dev]['registered']) || ($this->_result['devices'][$dev]['registered']<24)) && preg_match('/\[([_U]+)\]/', $optionline, $res) && (($reslen=strlen($res[1])) > 0)) {
                         $notsparecount = 0;
-                        foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                            if (($diskkey!==0) && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S")) {
+                        foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
+                            if (($diskkey!==0) && ($this->_result['devices'][$dev]['items'][$diskkey]['status']!=="S")) {
                                 $notsparecount++;
                             }
                         }
                         if ($notsparecount == $reslen) {
                             $partnr = 0;
-                            foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                                if (($diskkey!==0) && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S")) {
-                                    if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok")) {
-                                        $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
+                                if (($diskkey!==0) && ($this->_result['devices'][$dev]['items'][$diskkey]['status']!=="S")) {
+                                    if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['items'][$diskkey]['status']=="ok")) {
+                                        $this->_result['devices'][$dev]['items'][$diskkey]['status']="W";
                                     }
                                     $partnr++;
                                 }
                             }
                         } elseif ($reslen-$notsparecount == 1) {
                             $partnr = 0;
-                            foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                                if (($diskkey!==0) && ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']!=="S")) {
+                            foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
+                                if (($diskkey!==0) && ($this->_result['devices'][$dev]['items'][$diskkey]['status']!=="S")) {
                                     if ($res[1][$partnr]=='_') {
-                                        $this->_result['devices'][$dev]['partitions']['none']['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']-1;
-                                        $this->_result['devices'][$dev]['partitions']['none']['status']="E";
-                                        $this->_result['devices'][$dev]['partitions']['none']['name']="none";
-                                        $this->_result['devices'][$dev]['partitions']['none']['parentid'] = 1;
-                                        $this->_result['devices'][$dev]['partitions']['none']['type'] = "disk";
+                                        $this->_result['devices'][$dev]['items']['none']['raid_index']=$this->_result['devices'][$dev]['items'][$diskkey]['raid_index']-1;
+                                        $this->_result['devices'][$dev]['items']['none']['status']="E";
+                                        $this->_result['devices'][$dev]['items']['none']['name']="none";
+                                        $this->_result['devices'][$dev]['items']['none']['parentid'] = 1;
+                                        $this->_result['devices'][$dev]['items']['none']['type'] = "disk";
                                     }
                                     $partnr++;
                                 }
                             }
                             if ($res[1][$partnr]=='_') {
-                                $this->_result['devices'][$dev]['partitions']['none']['raid_index']=$this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']+1;
-                                $this->_result['devices'][$dev]['partitions']['none']['status']="E";
-                                $this->_result['devices'][$dev]['partitions']['none']['name']="none";
-                                $this->_result['devices'][$dev]['partitions']['none']['parentid'] = 1;
-                                $this->_result['devices'][$dev]['partitions']['none']['type']="disk";
+                                $this->_result['devices'][$dev]['items']['none']['raid_index']=$this->_result['devices'][$dev]['items'][$diskkey]['raid_index']+1;
+                                $this->_result['devices'][$dev]['items']['none']['status']="E";
+                                $this->_result['devices'][$dev]['items']['none']['name']="none";
+                                $this->_result['devices'][$dev]['items']['none']['parentid'] = 1;
+                                $this->_result['devices'][$dev]['items']['none']['type']="disk";
                             }
-                            asort($this->_result['devices'][$dev]['partitions']);
-                            foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
+                            asort($this->_result['devices'][$dev]['items']);
+                            foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
                                 if ($diskkey=="none") {
-                                    $this->_result['devices'][$dev]['partitions'][$diskkey]['raid_index']="unknown";
+                                    $this->_result['devices'][$dev]['items'][$diskkey]['raid_index']="unknown";
                                 }
                             }
                         } else {
-                            foreach ($this->_result['devices'][$dev]['partitions'] as $diskkey=>$disk) {
-                                if ($this->_result['devices'][$dev]['partitions'][$diskkey]['status']=="ok") {
-                                    $this->_result['devices'][$dev]['partitions'][$diskkey]['status']="W";
+                            foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
+                                if ($this->_result['devices'][$dev]['items'][$diskkey]['status']=="ok") {
+                                    $this->_result['devices'][$dev]['items'][$diskkey]['status']="W";
                                 }
                             }
                             for ($partnr=0; $partnr<$reslen-$notsparecount; $partnr++) {
-                                    $this->_result['devices'][$dev]['partitions']['none'.$partnr]['raid_index']="unknown";
-                                    $this->_result['devices'][$dev]['partitions']['none'.$partnr]['status']="E";
-                                    $this->_result['devices'][$dev]['partitions']['none'.$partnr]['name'] = "none".$partnr;
-                                    $this->_result['devices'][$dev]['partitions']['none'.$partnr]['parentid'] = 1;
-                                    $this->_result['devices'][$dev]['partitions']['none'.$partnr]['type'] = "disk";
+                                    $this->_result['devices'][$dev]['items']['none'.$partnr]['raid_index']="unknown";
+                                    $this->_result['devices'][$dev]['items']['none'.$partnr]['status']="E";
+                                    $this->_result['devices'][$dev]['items']['none'.$partnr]['name'] = "none".$partnr;
+                                    $this->_result['devices'][$dev]['items']['none'.$partnr]['parentid'] = 1;
+                                    $this->_result['devices'][$dev]['items']['none'.$partnr]['type'] = "disk";
                             }
                         }
                     }
@@ -249,14 +249,14 @@ class Raid extends PSI_Plugin
                     $details = preg_split('/ /', $parts[1], -1, PREG_SPLIT_NO_EMPTY);
                     $this->_result['devices']['spare']['type'] = "mdstat";
                     $this->_result['devices']['spare']['status'] = "spare";
-                    $this->_result['devices']['spare']['partitions'][0]['name'] = "spare";
-                    $this->_result['devices']['spare']['partitions'][0]['parentid'] = 0;
-                    $this->_result['devices']['spare']['partitions'][0]['status'] = "S";
+                    $this->_result['devices']['spare']['items'][0]['name'] = "spare";
+                    $this->_result['devices']['spare']['items'][0]['parentid'] = 0;
+                    $this->_result['devices']['spare']['items'][0]['status'] = "S";
                     foreach ($details as $id=>$disk) {
-                        $this->_result['devices']['spare']['partitions'][$id+1]['name'] = $disk;
-                        $this->_result['devices']['spare']['partitions'][$id+1]['parentid'] = 1;
-                        $this->_result['devices']['spare']['partitions'][$id+1]['status'] = "S";
-                        $this->_result['devices']['spare']['partitions'][$id+1]['type'] = "disk";
+                        $this->_result['devices']['spare']['items'][$id+1]['name'] = $disk;
+                        $this->_result['devices']['spare']['items'][$id+1]['parentid'] = 1;
+                        $this->_result['devices']['spare']['items'][$id+1]['status'] = "S";
+                        $this->_result['devices']['spare']['items'][$id+1]['type'] = "disk";
                     }
                 }
             }
@@ -274,34 +274,34 @@ class Raid extends PSI_Plugin
                     $lines = preg_split("/\r?\n/", $block, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($lines as $line) {
                         if (preg_match('/^NOTICE: added\s+\/dev\/(.+)\s+to RAID set\s+\"(.+)\"/', $line, $partition)) {
-                            if (!isset($this->_result['devices'][$partition[2]]['partitions'][0]['parentid'])) {
-                                $this->_result['devices'][$partition[2]]['partitions'][0]['parentid'] = 0;
-                                $this->_result['devices'][$partition[2]]['partitions'][0]['name'] = $partition[2];
+                            if (!isset($this->_result['devices'][$partition[2]]['items'][0]['parentid'])) {
+                                $this->_result['devices'][$partition[2]]['items'][0]['parentid'] = 0;
+                                $this->_result['devices'][$partition[2]]['items'][0]['name'] = $partition[2];
                             }
-                            $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['status'] = "ok";
-                            $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['type'] = "disk";
-                            $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['parentid'] = 1;
-                            $this->_result['devices'][$partition[2]]['partitions'][$partition[1]]['name'] = $partition[1];
+                            $this->_result['devices'][$partition[2]]['items'][$partition[1]]['status'] = "ok";
+                            $this->_result['devices'][$partition[2]]['items'][$partition[1]]['type'] = "disk";
+                            $this->_result['devices'][$partition[2]]['items'][$partition[1]]['parentid'] = 1;
+                            $this->_result['devices'][$partition[2]]['items'][$partition[1]]['name'] = $partition[1];
                             $this->_result['devices'][$partition[2]]['type'] = "dmraid";
                             $this->_result['devices'][$partition[2]]['status'] = "ok";
                             $this->_result['devices'][$partition[2]]['level'] = "unknown";
                         } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
-                            if (!isset($this->_result['devices'][$partition[3]]['partitions'][0]['parentid'])) {
-                                $this->_result['devices'][$partition[3]]['partitions'][0]['parentid'] = 0;
-                                $this->_result['devices'][$partition[3]]['partitions'][0]['name'] = $partition[3];
+                            if (!isset($this->_result['devices'][$partition[3]]['items'][0]['parentid'])) {
+                                $this->_result['devices'][$partition[3]]['items'][0]['parentid'] = 0;
+                                $this->_result['devices'][$partition[3]]['items'][0]['name'] = $partition[3];
                             }
                             $this->_result['devices'][$partition[3]]['type'] = "dmraid";
                             $this->_result['devices'][$partition[3]]['level'] = "unknown";
-                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['type'] = "disk";
-                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['parentid'] = 1;
+                            $this->_result['devices'][$partition[3]]['items'][$partition[1]]['type'] = "disk";
+                            $this->_result['devices'][$partition[3]]['items'][$partition[1]]['parentid'] = 1;
                             if ($partition[2]=="broken") {
-                                $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'F';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'F';
                                 $this->_result['devices'][$partition[3]]['status'] = "F";
                             } else {
-                                $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['status'] = 'W';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'W';
                                 $this->_result['devices'][$partition[3]]['status'] = "W";
                             }
-                            $this->_result['devices'][$partition[3]]['partitions'][$partition[1]]['name'] = $partition[1];
+                            $this->_result['devices'][$partition[3]]['items'][$partition[1]]['name'] = $partition[1];
                         }
                     }
                 } else {
@@ -315,7 +315,7 @@ class Raid extends PSI_Plugin
                         $this->_result['devices'][$group]['type'] = "dmraid";
                         $this->_result['devices'][$group]['name'] = trim($arrname[1]);
 
-                        $this->_result['devices'][$group]['partitions'][0]['name'] = trim($arrname[1]);
+                        $this->_result['devices'][$group]['items'][0]['name'] = trim($arrname[1]);
 
                         if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
                             $this->_result['devices'][$group]['size'] = trim($size[1]);
@@ -325,19 +325,19 @@ class Raid extends PSI_Plugin
                         }
                         if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
                             $this->_result['devices'][$group]['level'] = trim($type[1]);
-                            $this->_result['devices'][$group]['partitions'][0]['name'] .= " ".trim($type[1]);
+                            $this->_result['devices'][$group]['items'][0]['name'] .= " ".trim($type[1]);
                         }
                         if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
                             $this->_result['devices'][$group]['status'] = trim($status[1]);
                             switch (trim($status[1])) {
                                 case "broken":
-                                    $this->_result['devices'][$group]['partitions'][0]['status'] = "F";
+                                    $this->_result['devices'][$group]['items'][0]['status'] = "F";
                                     break;
                                 case "inconsistent":
-                                    $this->_result['devices'][$group]['partitions'][0]['status'] = "W";
+                                    $this->_result['devices'][$group]['items'][0]['status'] = "W";
                                     break;
                                 default:
-                                    $this->_result['devices'][$group]['partitions'][0]['status'] = trim($status[1]);
+                                    $this->_result['devices'][$group]['items'][0]['status'] = trim($status[1]);
                             }
                         }
                         if (preg_match('/^subsets\s*:\s*(.*)/m', $block, $subsets)) {
@@ -350,8 +350,8 @@ class Raid extends PSI_Plugin
                                 $this->_result['devices'][$group]['spares'] = trim($spares[1]);
                         }
 
-                        if (!isset($this->_result['devices'][$group]['partitions'][0]['parentid'])) {
-                            $this->_result['devices'][$group]['partitions'][0]['parentid'] = 0;
+                        if (!isset($this->_result['devices'][$group]['items'][0]['parentid'])) {
+                            $this->_result['devices'][$group]['items'][0]['parentid'] = 0;
                         }
 
                         $group = "";
@@ -361,26 +361,26 @@ class Raid extends PSI_Plugin
             foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
                 $id = 1;
                 if (isset($group['devs']) && ($group['devs']>0) &&
-                   (!isset($group['partitions']) || (count($group['partitions'])<$group['devs'])) &&
+                   (!isset($group['items']) || (count($group['items'])<$group['devs'])) &&
                    isset($group['subsets']) && ($group['subsets']>0))
                    for ($i = 0; $i < $group['subsets']; $i++) {
-                    if (isset($this->_result['devices'][$gid."-".$i]['partitions'][0]['parentid'])) {
-                        foreach ($this->_result['devices'][$gid."-".$i]['partitions'] as $fid=>$from) {
+                    if (isset($this->_result['devices'][$gid."-".$i]['items'][0]['parentid'])) {
+                        foreach ($this->_result['devices'][$gid."-".$i]['items'] as $fid=>$from) {
                             if ($fid===0) {
-                                $this->_result['devices'][$gid]['partitions'][$from['name']]['parentid'] = 1;
+                                $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1;
                             } else {
-                                $this->_result['devices'][$gid]['partitions'][$from['name']]['parentid'] = 1+$id;
+                                $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1+$id;
                             }
-                            $this->_result['devices'][$gid]['partitions'][$from['name']]['status'] = $from['status'];
-                            $this->_result['devices'][$gid]['partitions'][$from['name']]['name'] = $from['name'];
-                            if (isset($from['type'])) $this->_result['devices'][$gid]['partitions'][$from['name']]['type'] = $from['type'];
+                            $this->_result['devices'][$gid]['items'][$from['name']]['status'] = $from['status'];
+                            $this->_result['devices'][$gid]['items'][$from['name']]['name'] = $from['name'];
+                            if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$from['name']]['type'] = $from['type'];
                         }
-                        $id+=count($this->_result['devices'][$gid."-".$i]['partitions']);
+                        $id+=count($this->_result['devices'][$gid."-".$i]['items']);
                         unset($this->_result['devices'][$gid."-".$i]);
                     } else {
-                        $this->_result['devices'][$gid]['partitions'][$gid."-".$i]['parentid'] = 1;
-                        $this->_result['devices'][$gid]['partitions'][$gid."-".$i]['status'] = 'unknown';
-                        $this->_result['devices'][$gid]['partitions'][$gid."-".$i]['name'] = $gid."-".$i;
+                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
+                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = 'unknown';
+                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
                         $id++;
                     }
                 }
@@ -428,32 +428,32 @@ class Raid extends PSI_Plugin
                     } elseif (preg_match('/^\s+Subdisks:\s+(.+)/', $line, $data)) {
                         $disks = preg_split('/\s*,\s*/', trim($data[1]), -1, PREG_SPLIT_NO_EMPTY);
                         $nones = 0;
-                        $this->_result['devices'][$group]['partitions'][0]['parentid'] = 0;
+                        $this->_result['devices'][$group]['items'][0]['parentid'] = 0;
                         foreach ($disks as $disk) {
                             if (preg_match("/^(\S+)\s+\(([^\)]+)\)/", $disk, $partition)) {
-                                $this->_result['devices'][$group]['partitions'][$partition[1]]['parentid'] = 1;
-                                $this->_result['devices'][$group]['partitions'][$partition[1]]['type'] = "disk";
+                                $this->_result['devices'][$group]['items'][$partition[1]]['parentid'] = 1;
+                                $this->_result['devices'][$group]['items'][$partition[1]]['type'] = "disk";
                                 if ($partition[2]=="ACTIVE") {
                                     if (isset($disksinfo[$partition[1]]["status"])) {
                                         if ($disksinfo[$partition[1]]["status"]!=="ACTIVE") {
-                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
                                         } elseif ($disksinfo[$partition[1]]["substatus"]=="ACTIVE") {
-                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'ok';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
                                         } else {
-                                            $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
                                             if (isset($disksinfo[$partition[1]]["percent"])) {
                                                 $this->_result['devices'][$group]['action']['name'] = $disksinfo[$partition[1]]["substatus"];
                                                 $this->_result['devices'][$group]['action']['percent'] = $disksinfo[$partition[1]]["percent"];
                                             }
                                         }
                                     } else {
-                                        $this->_result['devices'][$group]['partitions'][$partition[1]]['status'] = 'ok';
-                                        $this->_result['devices'][$group]['partitions'][$partition[1]]['name'] = $partition[1];
+                                        $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
+                                        $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
                                     }
-                                    $this->_result['devices'][$group]['partitions'][$partition[1]]['name'] = $partition[1];
+                                    $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
                                 } elseif ($partition[2]=="NONE") {
-                                    $this->_result['devices'][$group]['partitions']["none".$nones]['status'] = 'E';
-                                    $this->_result['devices'][$group]['partitions']["none".$nones]['name'] = "none".$nones;
+                                    $this->_result['devices'][$group]['items']["none".$nones]['status'] = 'E';
+                                    $this->_result['devices'][$group]['items']["none".$nones]['name'] = "none".$nones;
                                     $nones++;
                                 }
                             }
@@ -461,7 +461,7 @@ class Raid extends PSI_Plugin
                     }
                 }
             }
-            if (isset($this->_result['devices'][$group]['partitions'][0]['parentid'])) {
+            if (isset($this->_result['devices'][$group]['items'][0]['parentid'])) {
                 $name = "";
                 if (isset($this->_result['devices'][$group]['name'])) {
                     $name = $this->_result['devices'][$group]['name'];
@@ -469,16 +469,16 @@ class Raid extends PSI_Plugin
                 if (isset($this->_result['devices'][$group]['level'])) {
                     $name .= " " .$this->_result['devices'][$group]['level'];
                 }
-                $this->_result['devices'][$group]['partitions'][0]['name'] = trim($name);
+                $this->_result['devices'][$group]['items'][0]['name'] = trim($name);
                 if (isset($this->_result['devices'][$group]['status'])) {
                       if ($this->_result['devices'][$group]['status']==="OPTIMAL") {
-                          $this->_result['devices'][$group]['partitions'][0]['status'] = "ok";
+                          $this->_result['devices'][$group]['items'][0]['status'] = "ok";
                       } else {
-                          $this->_result['devices'][$group]['partitions'][0]['status'] = "W";
-                          $this->_result['devices'][$group]['partitions'][0]['info'] = $this->_result['devices'][$group]['status'];
+                          $this->_result['devices'][$group]['items'][0]['status'] = "W";
+                          $this->_result['devices'][$group]['items'][0]['info'] = $this->_result['devices'][$group]['status'];
                       }
                 } else {
-                    $this->_result['devices'][$group]['partitions'][0]['status'] = "ok";
+                    $this->_result['devices'][$group]['items'][0]['status'] = "ok";
                 }
             }
         }
@@ -508,37 +508,37 @@ class Raid extends PSI_Plugin
                             $offset=strlen($buff[1]);
                             if ($rootoffset === false) { // first line means root
                                 $rootoffset = $offset;
-                                $this->_result['devices'][$group]['partitions'][$id]['name'] = "";//$fullbuff[0];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = "";//$fullbuff[0];
                                 if (count($fullbuff) > 1) {
-                                    $this->_result['devices'][$group]['partitions'][$id]['status'] = $fullbuff[1];
+                                    $this->_result['devices'][$group]['items'][$id]['status'] = $fullbuff[1];
                                 }
-                                $this->_result['devices'][$group]['partitions'][$id]['parentid'] = -2;
+                                $this->_result['devices'][$group]['items'][$id]['parentid'] = -2;
                                 continue;
                             }
                             if ($offset < $rootoffset) { // some errors
                                 continue;
                             }
 
-                            $this->_result['devices'][$group]['partitions'][$id]['name'] = $fullbuff[0];
+                            $this->_result['devices'][$group]['items'][$id]['name'] = $fullbuff[0];
 
                             if (count($fullbuff) > 1) {
-                                $this->_result['devices'][$group]['partitions'][$id]['status'] = $fullbuff[1];
+                                $this->_result['devices'][$group]['items'][$id]['status'] = $fullbuff[1];
                             }
                             if (count($fullbuff) > 5) {
-                                $this->_result['devices'][$group]['partitions'][$id]['info'] = $fullbuff[5];
+                                $this->_result['devices'][$group]['items'][$id]['info'] = $fullbuff[5];
                             }
 
                             $indent = ($offset - $rootoffset)/2;
                             if ($indent > $lastindent) {
                                 $lastparentids[$indent] = $lastid;
                             }
-                            $this->_result['devices'][$group]['partitions'][$id]['parentid'] = $lastparentids[$indent];
+                            $this->_result['devices'][$group]['items'][$id]['parentid'] = $lastparentids[$indent];
 
                             if ($lastparentids[$indent] >= 0) {
-                                if (isset($this->_result['devices'][$group]['partitions'][$lastparentids[$indent]]['childs'])) {
-                                    $this->_result['devices'][$group]['partitions'][$lastparentids[$indent]]['childs']++;
+                                if (isset($this->_result['devices'][$group]['items'][$lastparentids[$indent]]['childs'])) {
+                                    $this->_result['devices'][$group]['items'][$lastparentids[$indent]]['childs']++;
                                 } else {
-                                    $this->_result['devices'][$group]['partitions'][$lastparentids[$indent]]['childs'] = 1;
+                                    $this->_result['devices'][$group]['items'][$lastparentids[$indent]]['childs'] = 1;
                                 }
                             }
 
@@ -546,53 +546,53 @@ class Raid extends PSI_Plugin
                             $lastid = $id;
                         }
                     }
-                    foreach ($this->_result['devices'][$group]['partitions'] as $id=>$data) { // type analize
+                    foreach ($this->_result['devices'][$group]['items'] as $id=>$data) { // type analize
                         if ((!isset($data['childs']) || ($data['childs']<1)) && ($data['parentid']>=0) && !preg_match("/^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $data['name'])) {
-                            $this->_result['devices'][$group]['partitions'][$id]['type'] = "disk";
+                            $this->_result['devices'][$group]['items'][$id]['type'] = "disk";
                         } elseif (isset($data['childs']) && ($data['childs']>1) && !preg_match("/^spares$|^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $data['name'])) {
-                            $this->_result['devices'][$group]['partitions'][$id]['name2'] = "stripe";
+                            $this->_result['devices'][$group]['items'][$id]['name2'] = "stripe";
                        }
                     }
 
-                    foreach ($this->_result['devices'][$group]['partitions'] as $id=>$data) { // size optimize
+                    foreach ($this->_result['devices'][$group]['items'] as $id=>$data) { // size optimize
                         if (($data['parentid']<0) && isset($data['childs']) && ($data['childs']==1)) {
                             if ($data['parentid']==-2) {
-                                unset($this->_result['devices'][$group]['partitions'][$id]);
-                            } elseif (($data['parentid'] == -1) && !isset($this->_result['devices'][$group]['partitions'][$id+1]['type'])) {
-                                $this->_result['devices'][$group]['partitions'][$id+1]['name2'] = $data['name'];
-                                $this->_result['devices'][$group]['partitions'][$id+1]['parentid'] = $data['parentid'];
-                                unset($this->_result['devices'][$group]['partitions'][$id]);
-                                foreach ($this->_result['devices'][$group]['partitions'] as $id2=>$data2) {
+                                unset($this->_result['devices'][$group]['items'][$id]);
+                            } elseif (($data['parentid'] == -1) && !isset($this->_result['devices'][$group]['items'][$id+1]['type'])) {
+                                $this->_result['devices'][$group]['items'][$id+1]['name2'] = $data['name'];
+                                $this->_result['devices'][$group]['items'][$id+1]['parentid'] = $data['parentid'];
+                                unset($this->_result['devices'][$group]['items'][$id]);
+                                foreach ($this->_result['devices'][$group]['items'] as $id2=>$data2) {
                                     if ($data2['parentid']>$id) {
-                                        $this->_result['devices'][$group]['partitions'][$id2]['parentid'] = $data2['parentid'] -1;
+                                        $this->_result['devices'][$group]['items'][$id2]['parentid'] = $data2['parentid'] - 1;
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (isset($this->_result['devices'][$group]['partitions'][0])) {
+                    if (isset($this->_result['devices'][$group]['items'][0])) {
                         $shift = true;
                     } else {
                         $shift = false;
                     }
-                    foreach ($this->_result['devices'][$group]['partitions'] as $id=>$data) {
+                    foreach ($this->_result['devices'][$group]['items'] as $id=>$data) {
                         // reindex
                         if ($shift) {
-                            $this->_result['devices'][$group]['partitions'][$id]['parentid']++;
+                            $this->_result['devices'][$group]['items'][$id]['parentid']++;
                         }
                         if ($data['parentid']<0) {
-                            $this->_result['devices'][$group]['partitions'][$id]['parentid'] = 0;
+                            $this->_result['devices'][$group]['items'][$id]['parentid'] = 0;
                         }
 
                          // name append
                         if (isset($data['name2'])) {
                             if (($data['name2']==="cache") || ($data['name2']==="logs")) {
-                                $this->_result['devices'][$group]['partitions'][$id]['name'] = $data['name2']." ".$data['name'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name2']." ".$data['name'];
                             } else {
-                                $this->_result['devices'][$group]['partitions'][$id]['name'] = $data['name']." ".$data['name2'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name']." ".$data['name2'];
                             }
-                            unset($this->_result['devices'][$group]['partitions'][$id]['name2']);
+                            unset($this->_result['devices'][$group]['items'][$id]['name2']);
                         }
 
                         // status and info normalize
@@ -600,38 +600,38 @@ class Raid extends PSI_Plugin
                                 switch ($data['status']) {
                                     case 'AVAIL':
                                         if (isset($data['info'])) {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status']." ".$data['info'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status']." ".$data['info'];
                                         } else {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status'];
                                         }
-                                        $this->_result['devices'][$group]['partitions'][$id]['status'] = "S";
+                                        $this->_result['devices'][$group]['items'][$id]['status'] = "S";
                                         break;
                                     case 'INUSE':
                                     case 'DEGRADED':
                                         if (isset($data['info'])) {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status']." ".$data['info'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status']." ".$data['info'];
                                         } else {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status'];
                                         }
-                                        $this->_result['devices'][$group]['partitions'][$id]['status'] = "W";
+                                        $this->_result['devices'][$group]['items'][$id]['status'] = "W";
                                         break;
                                     case 'UNAVAIL':
                                     case 'FAULTED':
                                         if (isset($data['info'])) {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status']." ".$data['info'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status']." ".$data['info'];
                                         } else {
-                                            $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status'];
+                                            $this->_result['devices'][$group]['items'][$id]['info'] = $data['status'];
                                         }
-                                        $this->_result['devices'][$group]['partitions'][$id]['status'] = "F";
+                                        $this->_result['devices'][$group]['items'][$id]['status'] = "F";
                                         break;
                                     default:
-                                        $this->_result['devices'][$group]['partitions'][$id]['status'] = "ok";
+                                        $this->_result['devices'][$group]['items'][$id]['status'] = "ok";
                                 }
                         } else {
-                            if ($this->_result['devices'][$group]['partitions'][$id]['name'] == "spares") {
-                                $this->_result['devices'][$group]['partitions'][$id]['status'] = "S";
+                            if ($this->_result['devices'][$group]['items'][$id]['name'] == "spares") {
+                                $this->_result['devices'][$group]['items'][$id]['status'] = "S";
                             } else {
-                                $this->_result['devices'][$group]['partitions'][$id]['status'] = "ok";
+                                $this->_result['devices'][$group]['items'][$id]['status'] = "ok";
                             }
                         }
                     }
@@ -719,7 +719,7 @@ class Raid extends PSI_Plugin
 
                 }
                 $disks = $dev->addChild("RaidItems");
-                if (isset($device['partitions']) && (sizeof($device['partitions'])>0)) foreach ($device['partitions'] as /*$diskkey=>*/$disk) {
+                if (isset($device['items']) && (sizeof($device['items'])>0)) foreach ($device['items'] as /*$diskkey=>*/$disk) {
                         if (isset($disk['name'])) {
                             $disktemp = $disks->addChild("Item");
                             $disktemp->addAttribute("Name", $disk['name']);
@@ -734,7 +734,7 @@ class Raid extends PSI_Plugin
                             if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                        }
                 }
-                /*if (isset($device['devs']) && ($device['devs']>0) && (!isset($device['partitions']) || (count($device['partitions'])<$device['devs'])) &&
+                /*if (isset($device['devs']) && ($device['devs']>0) && (!isset($device['items']) || (count($device['items'])<$device['devs'])) &&
                    isset($device['subsets']) && ($device['subsets']>0)) for ($i = 0; $i < $device['subsets']; $i++) {
                     $disktemp = $disks->addChild("Disk");
                     $disktemp->addAttribute("Name", $i);
