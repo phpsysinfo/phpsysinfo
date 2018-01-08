@@ -41,7 +41,7 @@ function renderPlugin_raid(data) {
         case "S":
             img = "harddrivespare.png";
             alt = "spare";
-            bcolor = "gray"
+            bcolor = "gray";
             break;
         case "W":
             img = "harddrivewarn.png";
@@ -60,7 +60,7 @@ function renderPlugin_raid(data) {
             if (data.Type === "disk") {
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + data.Name + "</small></div>"); //onload IE6 PNG fix
             } else {
-                if (parentid == 0) {
+                if (parentid === 0) {
                     $("#Plugin_Raid_List-" + id).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
                 } else {
                     $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");

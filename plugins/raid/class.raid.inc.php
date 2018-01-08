@@ -335,7 +335,7 @@ class Raid extends PSI_Plugin
                                     break;
                                 case "inconsistent":
                                     $this->_result['devices'][$group]['partitions'][0]['status'] = "W";
-                                    break;                                
+                                    break;
                                 default:
                                     $this->_result['devices'][$group]['partitions'][0]['status'] = trim($status[1]);
                             }
@@ -362,7 +362,7 @@ class Raid extends PSI_Plugin
                 $id = 1;
                 if (isset($group['devs']) && ($group['devs']>0) &&
                    (!isset($group['partitions']) || (count($group['partitions'])<$group['devs'])) &&
-                   isset($group['subsets']) && ($group['subsets']>0)) 
+                   isset($group['subsets']) && ($group['subsets']>0))
                    for ($i = 0; $i < $group['subsets']; $i++) {
                     if (isset($this->_result['devices'][$gid."-".$i]['partitions'][0]['parentid'])) {
                         foreach ($this->_result['devices'][$gid."-".$i]['partitions'] as $fid=>$from) {
@@ -408,7 +408,7 @@ class Raid extends PSI_Plugin
                     }
                 }
             }
-            $lines = preg_split("/\r?\n/", trim($raiddata[0]), -1, PREG_SPLIT_NO_EMPTY); 
+            $lines = preg_split("/\r?\n/", trim($raiddata[0]), -1, PREG_SPLIT_NO_EMPTY);
             $group = "";
             foreach ($lines as $line) {
                 if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
@@ -526,7 +526,7 @@ class Raid extends PSI_Plugin
                             }
                             if (count($fullbuff) > 5) {
                                 $this->_result['devices'][$group]['partitions'][$id]['info'] = $fullbuff[5];
-                            }                            
+                            }
 
                             $indent = ($offset - $rootoffset)/2;
                             if ($indent > $lastindent) {
@@ -596,7 +596,7 @@ class Raid extends PSI_Plugin
                         }
 
                         // status and info normalize
-                        if (isset($data['status'])) {                  
+                        if (isset($data['status'])) {
                                 switch ($data['status']) {
                                     case 'AVAIL':
                                         if (isset($data['info'])) {
@@ -605,7 +605,7 @@ class Raid extends PSI_Plugin
                                             $this->_result['devices'][$group]['partitions'][$id]['info'] = $data['status'];
                                         }
                                         $this->_result['devices'][$group]['partitions'][$id]['status'] = "S";
-                                        break;                                   
+                                        break;
                                     case 'INUSE':
                                     case 'DEGRADED':
                                         if (isset($data['info'])) {
@@ -626,7 +626,7 @@ class Raid extends PSI_Plugin
                                         break;
                                     default:
                                         $this->_result['devices'][$group]['partitions'][$id]['status'] = "ok";
-                                }    
+                                }
                         } else {
                             if ($this->_result['devices'][$group]['partitions'][$id]['name'] == "spares") {
                                 $this->_result['devices'][$group]['partitions'][$id]['status'] = "S";
@@ -702,21 +702,21 @@ class Raid extends PSI_Plugin
                 if (isset($device['subsets'])) $dev->addAttribute("Subsets", $device["subsets"]);
                 if (isset($device['devs'])) $dev->addAttribute("Devs", $device["devs"]);
                 if (isset($device['spares'])) $dev->addAttribute("Spares", $device["spares"]);
-                
+
                 if (isset($device['chunk_size'])) $dev->addAttribute("Chunk_Size", $device["chunk_size"]);
                 if (isset($device['pers_superblock'])) $dev->addAttribute("Persistend_Superblock", $device["pers_superblock"]);
                 if (isset($device['algorithm'])) $dev->addAttribute("Algorithm", $device["algorithm"]);
                 if (isset($device['registered'])) $dev->addAttribute("Disks_Registered", $device["registered"]);
                 if (isset($device['active'])) $dev->addAttribute("Disks_Active", $device["active"]);
-                
+
                 if (isset($device['action'])) {
                     $action = $dev->addChild("Action");
                     $action->addAttribute("Name", $device['action']['name']);
                     if (isset($device['action']['percent'])) $action->addAttribute("Percent", $device['action']['percent']);
-   
+
                     if (isset($device['action']['finish_time'])) $action->addAttribute("Time_To_Finish", $device['action']['finish_time']);
                     if (isset($device['action']['finish_unit'])) $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
-        
+
                 }
                 $disks = $dev->addChild("RaidItems");
                 if (isset($device['partitions']) && (sizeof($device['partitions'])>0)) foreach ($device['partitions'] as /*$diskkey=>*/$disk) {
