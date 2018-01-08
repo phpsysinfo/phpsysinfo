@@ -85,12 +85,6 @@ function renderPlugin_raid(data) {
                 if (raiditems[i].RaidItems !== undefined) {
                     html += "<table style=\"width:100%;\"><tbody>";
                     html += "<tr><td id=\"Plugin_Raid_List-" + i + "\"></td></tr>";
-/*                    var diskitems = items(raiditems[i].RaidItems.Item);
-                    for (var j = 0; j < diskitems.length ; j++) {
-                        html += raid_diskicon(diskitems[j]["@attributes"]);
-                    }
-
-                    html += "</td></tr>"; */
 
                     if (raiditems[i].Action !== undefined) {
                         var buildedaction = raid_buildaction(raiditems[i].Action['@attributes']);
