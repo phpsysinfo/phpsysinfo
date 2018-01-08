@@ -13,7 +13,7 @@
     <exp>RAID-Devices</exp>
   </expression>
   <expression id="plugin_dmraid_003" name="dmraid_infos">
-    <exp>Additional Information </exp>
+    <exp>Additional Information</exp>
   </expression>
   <expression id="plugin_dmraid_004" name="dmraid_name">
     <exp>Name</exp>
