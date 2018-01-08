@@ -58,18 +58,16 @@ function renderPlugin_raid(data) {
 
         if (!isNaN(parentid)) {
             if (data.Type === "disk") {
-                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + data.Name + "</small></div>"); //onload IE6 PNG fix
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + data.Name + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
-                    $("#Plugin_Raid_List-" + id).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
+                    $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
                 } else {
-                    $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
+                    $("#raid_item" + id + "-" + parentid).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
                 } 
             }
         }
     }
-
-
 
     if (data.Plugins.Plugin_Raid !== undefined) {
         var raiditems = items(data.Plugins.Plugin_Raid.Raid);
@@ -84,7 +82,7 @@ function renderPlugin_raid(data) {
 
                 if (raiditems[i].RaidItems !== undefined) {
                     html += "<table style=\"width:100%;\"><tbody>";
-                    html += "<tr><td id=\"Plugin_Raid_List-" + i + "\"></td></tr>";
+                    html += "<tr><td id=\"raid_list-" + i + "\"></td></tr>";
 
                     if (raiditems[i].Action !== undefined) {
                         var buildedaction = raid_buildaction(raiditems[i].Action['@attributes']);
