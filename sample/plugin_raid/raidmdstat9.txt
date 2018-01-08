@@ -1,0 +1,6 @@
+Personalities : [raid6] [raid5] [raid4]
+md0 : active raid6 sda1[0] sdd1[4] sde1[5] sdf1[2] sdb1[1]
+      2929683456 blocks super 1.2 level 6, 1024k chunk, algorithm 2 [5/5] [UUUUU]
+      bitmap: 0/8 pages [0KB], 65536KB chunk, file: /var/md0_intent
+      
+unused devices: <none>

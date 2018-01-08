@@ -1,0 +1,41 @@
+Geom name: Intel-19a4a771
+State: OPTIMAL
+Metadata: Intel
+Providers:
+1. Name: raid/r0
+   Mediasize: 900207083520 (838G)
+   Sectorsize: 512
+   Stripesize: 131072
+   Stripeoffset: 0
+   Mode: r1w1e1
+   Subdisks: ada1 (ACTIVE), ada4 (ACTIVE), ada5 (ACTIVE)
+   Dirty: No
+   State: OPTIMAL
+   Strip: 131072
+   Components: 3
+   Transformation: RAID0
+   RAIDLevel: RAID0
+   Label: speeddisk
+   descr: Intel RAID0 volume
+Consumers:
+1. Name: ada1
+   Mediasize: 320072933376 (298G)
+   Sectorsize: 512
+   Mode: r1w1e1
+   ReadErrors: 0
+   Subdisks: r0(speeddisk):0@0
+   State: ACTIVE (ACTIVE)
+2. Name: ada4
+   Mediasize: 300069052416 (279G)
+   Sectorsize: 512
+   Mode: r1w1e1
+   ReadErrors: 0
+   Subdisks: r0(speeddisk):1@0
+   State: ACTIVE (RESYNC 4%)
+3. Name: ada5
+   Mediasize: 300069052416 (279G)
+   Sectorsize: 512
+   Mode: r1w1e1
+   ReadErrors: 0
+   Subdisks: r0(speeddisk):2@0
+   State: ACTIVE (ACTIVE)

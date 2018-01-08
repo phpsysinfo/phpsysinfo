@@ -1,0 +1,19 @@
+  pool: tank
+ state: ONLINE
+ scrub: none requested
+config:
+
+        NAME         STATE     READ WRITE CKSUM
+        tank         ONLINE       0     0     0
+          raidz1-0   ONLINE       0     0     0
+            c4t5d0   ONLINE       0     0     0
+            c4t6d0   ONLINE       0     0     0
+            c4t7d0   ONLINE       0     0     0
+            c4t8d0   ONLINE       0     0     0
+          raidz1-1   ONLINE       0     0     0
+            c4t9d0   ONLINE       0     0     0
+            c4t10d0  ONLINE       0     0     0
+            c4t11d0  ONLINE       0     0     0
+            c4t12d0  ONLINE       0     0     0
+
+errors: No known data errors

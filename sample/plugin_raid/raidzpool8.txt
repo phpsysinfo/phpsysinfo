@@ -1,0 +1,16 @@
+  pool: tank
+ state: ONLINE
+ scrub: none requested
+config:
+
+        NAME        STATE     READ WRITE CKSUM
+        tank        ONLINE       0     0     0
+          mirror-0  ONLINE       0     0     0
+            c2t0d0  ONLINE       0     0     0
+            c2t1d0  ONLINE       0     0     0
+            c2t3d0  ONLINE       0     0     0
+        cache
+          c2t5d0    ONLINE       0     0     0
+          c2t8d0    ONLINE       0     0     0
+
+errors: No known data errors

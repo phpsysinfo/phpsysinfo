@@ -1,0 +1,63 @@
+NOTICE: skipping removable device /dev/sdd
+NOTICE: skipping removable device /dev/sde
+NOTICE: skipping removable device /dev/sdf
+NOTICE: skipping removable device /dev/sdg
+NOTICE: /dev/sdc: asr     discovering
+NOTICE: /dev/sdc: ddf1    discovering
+NOTICE: /dev/sdc: hpt37x  discovering
+NOTICE: /dev/sdc: hpt45x  discovering
+NOTICE: /dev/sdc: isw     discovering
+NOTICE: /dev/sdc: isw metadata discovered
+NOTICE: /dev/sdc: jmicron discovering
+NOTICE: /dev/sdc: lsi     discovering
+NOTICE: /dev/sdc: nvidia  discovering
+NOTICE: /dev/sdc: pdc     discovering
+NOTICE: /dev/sdc: sil     discovering
+NOTICE: /dev/sdc: via     discovering
+NOTICE: /dev/sdb: asr     discovering
+NOTICE: /dev/sdb: ddf1    discovering
+NOTICE: /dev/sdb: hpt37x  discovering
+NOTICE: /dev/sdb: hpt45x  discovering
+NOTICE: /dev/sdb: isw     discovering
+NOTICE: /dev/sdb: isw metadata discovered
+NOTICE: /dev/sdb: jmicron discovering
+NOTICE: /dev/sdb: lsi     discovering
+NOTICE: /dev/sdb: nvidia  discovering
+NOTICE: /dev/sdb: pdc     discovering
+NOTICE: /dev/sdb: sil     discovering
+NOTICE: /dev/sdb: via     discovering
+NOTICE: /dev/sda: asr     discovering
+NOTICE: /dev/sda: ddf1    discovering
+NOTICE: /dev/sda: hpt37x  discovering
+NOTICE: /dev/sda: hpt45x  discovering
+NOTICE: /dev/sda: isw     discovering
+NOTICE: /dev/sda: jmicron discovering
+NOTICE: /dev/sda: lsi     discovering
+NOTICE: /dev/sda: nvidia  discovering
+NOTICE: /dev/sda: pdc     discovering
+NOTICE: /dev/sda: sil     discovering
+NOTICE: /dev/sda: via     discovering
+NOTICE: added /dev/sdc to RAID set "isw_bfdbhjciee"
+NOTICE: added /dev/sdb to RAID set "isw_bccajebghh"
+ERROR: isw: wrong number of devices in RAID set "isw_bccajebghh_DATA" [1/2] on /dev/sdb
+ERROR: isw: wrong number of devices in RAID set "isw_bfdbhjciee_DATA" [1/2] on /dev/sdc
+*** Group superset isw_bccajebghh
+--> *Inconsistent* Subset
+name   : isw_bccajebghh_DATA
+size   : 1953519872
+stride : 128
+type   : mirror
+status : inconsistent
+subsets: 0
+devs   : 1
+spares : 0
+*** Group superset isw_bfdbhjciee
+--> *Inconsistent* Subset
+name   : isw_bfdbhjciee_DATA
+size   : 1953519872
+stride : 128
+type   : mirror
+status : inconsistent
+subsets: 0
+devs   : 1
+spares : 0

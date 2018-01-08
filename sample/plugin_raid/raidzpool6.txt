@@ -1,0 +1,14 @@
+  pool: pool
+ state: ONLINE
+ scrub: none requested
+config:
+
+        NAME        STATE     READ WRITE CKSUM
+        pool        ONLINE       0     0     0
+          raidz1-0  ONLINE       0     0     0
+            c0t8d0  ONLINE       0     0     0
+            c0t9d0  ONLINE       0     0     0
+        logs
+          c0t10d0   ONLINE       0     0     0
+
+errors: No known data errors

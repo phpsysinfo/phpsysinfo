@@ -1,0 +1,21 @@
+  pool: zones
+ state: DEGRADED
+status: One or more devices is currently being resilvered.  The pool will
+        continue to function, possibly in a degraded state.
+action: Wait for the resilver to complete.
+ scrub: resilver in progress for 0h9m, 72.01% done, 0h3m to go
+config:
+
+        NAME                STATE     READ WRITE CKSUM
+        zones               DEGRADED     0     0     0
+          raidz1            DEGRADED     0     0     0
+            c1t0d0s3        ONLINE       0     0     0
+            c1t1d0s3        ONLINE       0     0     0
+            c1t2d0s2        ONLINE       0     0     0
+            c1t3d0s2        ONLINE       0     0     0
+            replacing       DEGRADED     0     0     0
+              c1t4d0s2/old  FAULTED      0     0     0  too many errors
+              c1t4d0s2      ONLINE       0     0     0
+            c1t5d0s2        ONLINE       0     0     0
+
+errors: No known data errors

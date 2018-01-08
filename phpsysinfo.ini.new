@@ -67,6 +67,7 @@ BLOCKS=true
 ; included plugins:
 ; - MDStatus       - show the Software RAID status and whats currently going on
 ; - DMRaid         - show the Fake RAID status
+; - Raid           - show the Software, Fake and Zpool RAID status
 ; - PS             - show a process tree of all running processes
 ; - PSStatus       - show a graphical representation if a process is running or not
 ; - Quotas         - show a table with all quotas that are active and there current state
@@ -543,6 +544,30 @@ ACCESS="command"
 ; Example : HIDE_RAID_DEVICES=".ddf1_disks"
 ;
 HIDE_RAID_DEVICES=""
+
+
+[raid]
+; Raid Plugin configuration
+
+; define how to access the dmraid statistic data
+; - "command" - mdstat: file "/proc/mdstat" is read (on Linux only)
+;             - dmraid: command "dmraid -s -vv 2>&1" is run (on Linux only)
+;                       On Linux if access error try execute first: chmod 4755 /sbin/dmraid
+;                       This method is not recommended for safety reasons!
+;             - graid:  command "graid list" is run (on FreeBSD only)
+;             - zpool:  command "zpool status" is run
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;         with the filename "raidmdstat.txt" or raiddmraid.txt or raidgraid.txt or raidzpool.txt)
+;
+ACCESS="command"
+
+; define possible apps
+APPS="mdstat,dmraid,graid,zpool"
+
+; Hide RAID devices
+; Example : HIDE_DEVICES="md127"
+;
+HIDE_DEVICES=""
 
 
 [ps]

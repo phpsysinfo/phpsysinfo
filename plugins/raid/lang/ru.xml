@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+    phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
+  -->
+<tns:translationPlugin language="english" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_raid_001" name="raid_title">
+    <exp>RAID Статус</exp>
+  </expression>
+  <expression id="plugin_raid_002" name="raid_devices">
+    <exp>RAID-Устройств</exp>
+  </expression>
+  <expression id="plugin_raid_003" name="raid_infos">
+    <exp>Дополнительная Информация</exp>
+  </expression>
+  <expression id="plugin_raid_004" name="raid_name">
+    <exp>Имя</exp>
+  </expression>
+  <expression id="plugin_raid_005" name="raid_status">
+    <exp>Статус</exp>
+  </expression>
+  <expression id="plugin_raid_006" name="raid_level">
+    <exp>RAID-Уровень</exp>
+  </expression>
+  <expression id="plugin_raid_007" name="raid_size">
+    <exp>Размер</exp>
+  </expression>
+  <expression id="plugin_raid_008" name="raid_stride">
+    <exp>Шаг</exp>
+  </expression>
+  <expression id="plugin_raid_009" name="raid_subsets">
+    <exp>Подмножество</exp>
+  </expression>
+  <expression id="plugin_raid_010" name="raid_devs">
+    <exp>Устройство</exp>
+  </expression>
+  <expression id="plugin_raid_011" name="raid_spares">
+    <exp>Резервировано</exp>
+  </expression>
+  <expression id="plugin_raid_012" name="raid_curact">
+    <exp>Текущее действие</exp>
+  </expression>
+  <expression id="plugin_raid_013" name="raid_finishin">
+    <exp>Окончание в</exp>
+  </expression>
+  <expression id="plugin_raid_014" name="raid_chunk">
+    <exp>Размер блока</exp>
+  </expression>
+  <expression id="plugin_raid_015" name="raid_algo">
+    <exp>Алгоритм</exp>
+  </expression>
+  <expression id="plugin_raid_016" name="raid_superb">
+    <exp>Постоянный суперблок</exp>
+  </expression>
+  <expression id="plugin_raid_017" name="raid_avail">
+    <exp>доступен</exp>
+  </expression>
+  <expression id="plugin_raid_018" name="raids_navail">
+    <exp>не доступен</exp>
+  </expression>
+  <expression id="plugin_raid_019" name="raid_regact">
+    <exp>Зарегистрировано/Активных Дисков</exp>
+  </expression>
+</tns:translationPlugin>

@@ -1,0 +1,21 @@
+  pool: zones
+ state: DEGRADED
+status: One or more devices are faulted in response to persistent errors.
+        Sufficient replicas exist for the pool to continue functioning in a
+        degraded state.
+action: Replace the faulted device, or use 'zpool clear' to mark the device
+        repaired.
+ scrub: resilver completed after 0h4m with 0 errors on Thu Dec  5 14:57:15 2013
+config:
+
+        NAME          STATE     READ WRITE CKSUM
+        zones         DEGRADED     0     0     0
+          raidz1      DEGRADED     0     0     0
+            c1t0d0s3  ONLINE       0     0     0
+            c1t1d0s3  ONLINE       0     0     0
+            c1t2d0s2  ONLINE       0     0     0
+            c1t3d0s2  ONLINE       0     0     0
+            c1t4d0s2  FAULTED      0     0     0  too many errors
+            c1t5d0s2  ONLINE       0     0     0
+
+errors: No known data errors
