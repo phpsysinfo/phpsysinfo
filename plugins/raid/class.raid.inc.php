@@ -369,13 +369,16 @@ class Raid extends PSI_Plugin
                     if (isset($this->_result['devices'][$gid."-".$i]['items'][0]['parentid'])) {
                         foreach ($this->_result['devices'][$gid."-".$i]['items'] as $fid=>$from) {
                             if ($fid===0) {
-                                $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1;
+                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
+                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = $from['status'];
+                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i." ".$from['name'];
+                                if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$gid."-".$i]['type'] = $from['type'];
                             } else {
                                 $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1+$id;
+                                $this->_result['devices'][$gid]['items'][$from['name']]['status'] = $from['status'];
+                                $this->_result['devices'][$gid]['items'][$from['name']]['name'] = $from['name'];
+                                if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$from['name']]['type'] = $from['type'];
                             }
-                            $this->_result['devices'][$gid]['items'][$from['name']]['status'] = $from['status'];
-                            $this->_result['devices'][$gid]['items'][$from['name']]['name'] = $from['name'];
-                            if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$from['name']]['type'] = $from['type'];
                         }
                         $id+=count($this->_result['devices'][$gid."-".$i]['items']);
                         unset($this->_result['devices'][$gid."-".$i]);
@@ -679,7 +682,7 @@ class Raid extends PSI_Plugin
      * @return SimpleXMLElement entire XML content for the plugin
      */
     public function xml()
-    {//var_dump($this->_result);
+    {
         if (empty($this->_result)) {
             return $this->xml->getSimpleXmlElement();
         }
