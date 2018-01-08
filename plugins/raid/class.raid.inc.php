@@ -718,11 +718,10 @@ class Raid extends PSI_Plugin
                     if (isset($device['action']['finish_unit'])) $action->addAttribute("Time_Unit", $device['action']['finish_unit']);
         
                 }
-                $disks = $dev->addChild("Disks");
+                $disks = $dev->addChild("RaidItems");
                 if (isset($device['partitions']) && (sizeof($device['partitions'])>0)) foreach ($device['partitions'] as /*$diskkey=>*/$disk) {
                         if (isset($disk['name'])) {
-                            $disktemp = $disks->addChild("Disk");
-                            //$disktemp->addAttribute("Name", $diskkey);
+                            $disktemp = $disks->addChild("Item");
                             $disktemp->addAttribute("Name", $disk['name']);
                             // if (isset($disk['raid_index'])) $disktemp->addAttribute("Index", $disk['raid_index']);
                             if (isset($disk['parentid'])) $disktemp->addAttribute("ParentID", $disk['parentid']);

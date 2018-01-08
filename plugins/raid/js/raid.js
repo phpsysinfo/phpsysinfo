@@ -104,7 +104,7 @@ function raid_buildaction(xml) {
  * @param {jQuery} xml part of the plugin-XML
  */
 function raid_diskicon(xml, id) {
-    $("Disks Disk", xml).each(function raid_getitems(itemid) {
+    $("RaidItems Item", xml).each(function raid_getitems(itemid) {
         var status = "", name = "", type = "", info = "", parentid = 0;
         
         status = $(this).attr("Status");

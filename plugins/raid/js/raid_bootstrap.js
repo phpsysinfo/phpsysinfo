@@ -82,10 +82,10 @@ function renderPlugin_raid(data) {
                     html += "<tr><th>"+genlang(2, false, 'raid')+"</th><td>";
                 }
 
-                if (raiditems[i].Disks !== undefined) {
+                if (raiditems[i].RaidItems !== undefined) {
                     html += "<table style=\"width:100%;\"><tbody>";
                     html += "<tr><td id=\"Plugin_Raid_List-" + i + "\"></td></tr>";
-/*                    var diskitems = items(raiditems[i].Disks.Disk);
+/*                    var diskitems = items(raiditems[i].RaidItems.Item);
                     for (var j = 0; j < diskitems.length ; j++) {
                         html += raid_diskicon(diskitems[j]["@attributes"]);
                     }
@@ -135,8 +135,8 @@ function renderPlugin_raid(data) {
             $('#raid-data').empty().append(html);
 
             for (var k = 0; k < raiditems.length ; k++) {
-                if (raiditems[k].Disks !== undefined) {
-                    var diskitems = items(raiditems[k].Disks.Disk);
+                if (raiditems[k].RaidItems !== undefined) {
+                    var diskitems = items(raiditems[k].RaidItems.Item);
                     for (var j = 0; j < diskitems.length ; j++) {
                         raid_diskicon(diskitems[j]["@attributes"], k, j);
                     }
