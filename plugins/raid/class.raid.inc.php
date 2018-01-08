@@ -720,30 +720,20 @@ class Raid extends PSI_Plugin
                 }
                 $disks = $dev->addChild("RaidItems");
                 if (isset($device['items']) && (sizeof($device['items'])>0)) foreach ($device['items'] as /*$diskkey=>*/$disk) {
-                        if (isset($disk['name'])) {
-                            $disktemp = $disks->addChild("Item");
-                            $disktemp->addAttribute("Name", $disk['name']);
-                            // if (isset($disk['raid_index'])) $disktemp->addAttribute("Index", $disk['raid_index']);
-                            if (isset($disk['parentid'])) $disktemp->addAttribute("ParentID", $disk['parentid']);
-                            if (isset($disk['type'])) $disktemp->addAttribute("Type", $disk['type']);
-                           // if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active', 'online', 'degraded'))) {
-                                $disktemp->addAttribute("Status", $disk['status']);
-                            //} else {
-                            //    $disktemp->addAttribute("Status", 'W');
-                            //}
-                            if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
-                       }
-                }
-                /*if (isset($device['devs']) && ($device['devs']>0) && (!isset($device['items']) || (count($device['items'])<$device['devs'])) &&
-                   isset($device['subsets']) && ($device['subsets']>0)) for ($i = 0; $i < $device['subsets']; $i++) {
-                    $disktemp = $disks->addChild("Disk");
-                    $disktemp->addAttribute("Name", $i);
-                    if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active'))) {
-                        $disktemp->addAttribute("Status", 'subset');
-                    } else {
-                        $disktemp->addAttribute("Status", 'subsetW');
+                    if (isset($disk['name'])) {
+                        $disktemp = $disks->addChild("Item");
+                        $disktemp->addAttribute("Name", $disk['name']);
+                        // if (isset($disk['raid_index'])) $disktemp->addAttribute("Index", $disk['raid_index']);
+                        if (isset($disk['parentid'])) $disktemp->addAttribute("ParentID", $disk['parentid']);
+                        if (isset($disk['type'])) $disktemp->addAttribute("Type", $disk['type']);
+                        // if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active', 'online', 'degraded'))) {
+                            $disktemp->addAttribute("Status", $disk['status']);
+                        //} else {
+                        //    $disktemp->addAttribute("Status", 'W');
+                        //}
+                        if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                     }
-                }*/
+                }
             }
         }
 
