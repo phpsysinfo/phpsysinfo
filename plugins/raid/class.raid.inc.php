@@ -122,7 +122,8 @@ class Raid extends PSI_Plugin
                     $details = preg_split('/ /', $parts[1]);
                     if (!strstr($details[0], 'inactive')) {
                         $this->_result['devices'][$dev]['level'] = $details[1];
-                        $this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
+                        //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
+                        $this->_result['devices'][$dev]['items'][0]['name'] = $details[1];
                         $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
                         $i = 2;
                     } else {
@@ -325,7 +326,8 @@ class Raid extends PSI_Plugin
                         }
                         if (preg_match('/^type\s*:\s*(.*)/m', $block, $type)) {
                             $this->_result['devices'][$group]['level'] = trim($type[1]);
-                            $this->_result['devices'][$group]['items'][0]['name'] .= " ".trim($type[1]);
+                            //$this->_result['devices'][$group]['items'][0]['name'] .= " ".trim($type[1]);
+                            $this->_result['devices'][$group]['items'][0]['name'] = trim($type[1]);
                         }
                         if (preg_match('/^status\s*:\s*(.*)/m', $block, $status)) {
                             $this->_result['devices'][$group]['status'] = trim($status[1]);
@@ -719,7 +721,7 @@ class Raid extends PSI_Plugin
 
                 }
                 $disks = $dev->addChild("RaidItems");
-                if (isset($device['items']) && (sizeof($device['items'])>0)) foreach ($device['items'] as /*$diskkey=>*/$disk) {
+                if (isset($device['items']) && (sizeof($device['items'])>0)) foreach ($device['items'] as $disk) {
                     if (isset($disk['name'])) {
                         $disktemp = $disks->addChild("Item");
                         $disktemp->addAttribute("Name", $disk['name']);
