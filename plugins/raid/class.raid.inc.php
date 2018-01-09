@@ -409,7 +409,7 @@ class Raid extends PSI_Plugin
     {
        $lines = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
        if (!empty($lines)) {
-           if ($sas === true ) {
+           if ($sas === true) {
                $type = "megactl";
            } else {
                $type = "megasasctl";
@@ -481,7 +481,7 @@ class Raid extends PSI_Plugin
                                $items[$details[2]]['items'][$details[0]]['status'] = "W";
                        }
                    }
-               } elseif ((count($details) == 2) && ($details[0]==='unconfigured:')) { 
+               } elseif ((count($details) == 2) && ($details[0]==='unconfigured:')) {
                    $items['unconfigured']['status'] = 'unconfigured';
                    $items['unconfigured']['type'] = $type;
                    $items['unconfigured']['items'][$details[0]]['parentid'] = 0;
