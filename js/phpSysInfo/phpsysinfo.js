@@ -790,7 +790,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             tree.push(cpucoreposition);
         }
         if (!isNaN(cache)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache, xml) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (virt !== undefined) {
@@ -854,7 +854,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + name + "</span></td></tr>\n";
         devcoreposition = tree.push(rootposition);
         if (!isNaN(capacity)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity, xml) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (manufacturer!== undefined) {
