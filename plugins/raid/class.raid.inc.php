@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $apps_items = array('mdstat','dmraid','graid','zpool');
+    private $apps_items = array('mdstat','dmraid','megactl','megasasctl','graid','zpool');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -60,6 +60,14 @@ class Raid extends PSI_Plugin
             }
             if ((PSI_OS == 'Linux') && in_array('dmraid', $RaidApps)) {
                 CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $this->_filecontent['dmraid'], PSI_DEBUG);
+                $notwas = false;
+            }
+            if ((PSI_OS == 'Linux') && in_array('megactl', $RaidApps)) {
+                CommonFunctions::executeProgram("megactl", "", $this->_filecontent['megactl'], PSI_DEBUG);
+                $notwas = false;
+            }
+            if ((PSI_OS == 'Linux') && in_array('megasasctl', $RaidApps)) {
+                CommonFunctions::executeProgram("megasasctl", "", $this->_filecontent['megasasctl'], PSI_DEBUG);
                 $notwas = false;
             }
             if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidApps)) {
@@ -397,6 +405,91 @@ class Raid extends PSI_Plugin
         }
     }
 
+    private function execute_megactl($buffer, $sas = false)
+    {
+       $lines = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+       if (!empty($lines)) {
+           if ($sas === true ) {
+               $type = "megactl";
+           } else {
+               $type = "megasasctl";
+           }
+           $items = array();
+           unset($lines[0]);
+           foreach ($lines as $line) {
+               $details = preg_split('/ /', $line, -1, PREG_SPLIT_NO_EMPTY);
+               if ((count($details) == 6) && ($details[2] === "RAID")) {
+                   $items[$details[0]]['type'] = $type;
+                   $unit = preg_replace("/^\d+/", "", $details[1]);
+                   $value = preg_replace("/\D+$/", "", $details[1]);
+                   switch ($unit) {
+                       case 'B':
+                           $items[$details[0]]['size'] = $value;
+                           break;
+                       case 'KiB':
+                           $items[$details[0]]['size'] = 1024*$value;
+                           break;
+                       case 'MiB':
+                           $items[$details[0]]['size'] = 1024*1024*$value;
+                           break;
+                       case 'GiB':
+                           $items[$details[0]]['size'] = 1024*1024*1024*$value;
+                           break;
+                       case 'TiB':
+                           $items[$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                           break;
+                       case 'PiB':
+                           $items[$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                           break;
+                   }
+                   $items[$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
+                   $items[$details[0]]['status'] = $details[5];
+                   $items[$details[0]]['items'][$details[0]]['parentid'] = 0;
+                   $items[$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
+                   if ($details[5] !== 'optimal') {
+                       $items[$details[0]]['items'][$details[0]]['info'] = $details[5];
+                   }
+                   switch ($details[5]) {
+                       case 'optimal':
+                           $items[$details[0]]['items'][$details[0]]['status'] = "ok";
+                           break;
+                       case 'OFFLINE':
+                           $items[$details[0]]['items'][$details[0]]['status'] = "F";
+                           break;
+                       default:
+                           $items[$details[0]]['items'][$details[0]]['status'] = "W";
+                   }
+               } elseif (count($details) == 4) {
+                   if (isset($items[$details[2]])) {
+                       $items[$details[2]]['items'][$details[0]]['parentid'] = 1;
+                       $items[$details[2]]['items'][$details[0]]['type'] = 'disk';
+                       $items[$details[2]]['items'][$details[0]]['name'] = $details[0];
+                       if ($details[3] !== 'online') {
+                           $items[$details[2]]['items'][$details[0]]['info'] = $details[3];
+                       }
+                       switch ($details[3]) {
+                           case 'online':
+                               $items[$details[2]]['items'][$details[0]]['status'] = "ok";
+                               break;
+                           case 'hotspare':
+                               $items[$details[2]]['items'][$details[0]]['status'] = "S";
+                               break;
+                           case 'rdy/fail':
+                               $items[$details[2]]['items'][$details[0]]['status'] = "F";
+                               break;
+                           default:
+                               $items[$details[2]]['items'][$details[0]]['status'] = "W";
+                       }
+                   }
+               }
+           }
+           foreach ($items as $itemname=>$item) {
+               $this->_result['devices'][$itemname] = $item;
+           }
+       }
+       //var_dump($lines);
+    }
+
     private function execute_graid($buffer)
     {
         $raiddata = preg_split("/Consumers:\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
@@ -667,6 +760,12 @@ class Raid extends PSI_Plugin
                             break;
                         case 'dmraid':
                             $this->execute_dmraid($buffer);
+                            break;
+                        case 'megactl':
+                            $this->execute_megactl($buffer, false);
+                            break;
+                        case 'megasasctl':
+                            $this->execute_megactl($buffer, true);
                             break;
                         case 'graid':
                             $this->execute_graid($buffer);

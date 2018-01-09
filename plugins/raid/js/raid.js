@@ -51,7 +51,7 @@ function raid_buildinfos(xml, id) {
     if (devname !== undefined) html += "<tr><td>" + genlang(4, true, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(5, true, "Raid") + "</td><td>" + devstatus + "</td></tr>";
     if (devlevel !== undefined) html += "<tr><td>" + genlang(6, true, "Raid") + "</td><td>" + devlevel + "</td></tr>";
-    if (!isNaN(devsize)) html += "<tr><td>" + genlang(7, true, "Raid") + "</td><td>" + devsize + "</td></tr>";
+    if (!isNaN(devsize)) html += "<tr><td>" + genlang(7, true, "Raid") + "</td><td>" + formatBytes(devsize, xml) + "</td></tr>";
     if (!isNaN(devstride)) html += "<tr><td>" + genlang(8, true, "Raid") + "</td><td>" + devstride + "</td></tr>";
     if (!isNaN(devsubsets)) html += "<tr><td>" + genlang(9, true, "Raid") + "</td><td>" + devsubsets + "</td></tr>";
     if (!isNaN(devdevs)) html += "<tr><td>" + genlang(10, true, "Raid") + "</td><td>" + devdevs + "</td></tr>";

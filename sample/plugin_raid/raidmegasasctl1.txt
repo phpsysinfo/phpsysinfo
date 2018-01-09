@@ -1,0 +1,5 @@
+a0       PERC H310 Mini           encl:1 ldrv:1  batt:FAULT, module missing, pack missing, charge failed
+a0d0        1TiB RAID 5   1x3  optimal
+a0e32s0    558GiB  a0d0  online
+a0e32s1    558GiB  a0d0  online
+a0e32s2    558GiB  a0d0  online

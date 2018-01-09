@@ -1,0 +1,4 @@
+a0       PERC 5/i Integrated      encl:1 ldrv:1  batt:good
+a0d0      136GiB RAID 1   1x2  optimal
+a0e8s0     136GiB  a0d0  online
+a0e8s1     136GiB  a0d0  online

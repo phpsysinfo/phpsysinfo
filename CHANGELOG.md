@@ -15,7 +15,7 @@ phpSysInfo 3.2.9
  - [NEW] Thinkpad - Lenovo Thinkpad sensors monitoring for Linux
  - [NEW] StableBit plugin - StableBit Scanner info
  - [NEW] HyperV plugin - Hyper-V info
- - [NEW] Raid plugin - Software, Fake and Zpool RAID status
+ - [NEW] Raid plugin - software, fake, zpool and megaraid RAID status
 
 phpSysInfo 3.2.8
 ----------------
