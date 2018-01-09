@@ -481,13 +481,34 @@ class Raid extends PSI_Plugin
                                $items[$details[2]]['items'][$details[0]]['status'] = "W";
                        }
                    }
+               } elseif ((count($details) == 2) && ($details[0]==='unconfigured:')) { 
+                   $items['unconfigured']['status'] = 'unconfigured';
+                   $items['unconfigured']['type'] = $type;
+                   $items['unconfigured']['items'][$details[0]]['parentid'] = 0;
+                   $items['unconfigured']['items'][$details[0]]['name'] = 'unconfigured';
+                   $items['unconfigured']['items'][$details[0]]['status'] = 'S';
+               } elseif (count($details) == 3) {
+                   if (isset($items['unconfigured'])) {
+                       $items['unconfigured']['items'][$details[0]]['parentid'] = 1;
+                       $items['unconfigured']['items'][$details[0]]['type'] = 'disk';
+                       $items['unconfigured']['items'][$details[0]]['name'] = $details[0];
+                       if ($details[2] !== 'ready') {
+                           $items['unconfigured']['items'][$details[0]]['info'] = $details[2];
+                       }
+                       switch ($details[2]) {
+                           case 'ready':
+                               $items['unconfigured']['items'][$details[0]]['status'] = "S";
+                               break;
+                           default:
+                               $items['unconfigured']['items'][$details[0]]['status'] = "F";
+                       }
+                   }
                }
            }
            foreach ($items as $itemname=>$item) {
                $this->_result['devices'][$itemname] = $item;
            }
        }
-       //var_dump($lines);
     }
 
     private function execute_graid($buffer)
