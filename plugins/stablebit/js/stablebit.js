@@ -71,7 +71,7 @@ function stablebit_buildTable(xml) {
             }
             size = parseInt($(this).attr("Size"), 10);
             if (!isNaN(size)) {
-                html += "      <tr><td><span class=\"treespan\">" + genlang(6, true, "StableBit") + "</span></td><td>" + formatBytes(size) +"</td></tr>\n";
+                html += "      <tr><td><span class=\"treespan\">" + genlang(6, true, "StableBit") + "</span></td><td>" + formatBytes(size, xml) +"</td></tr>\n";
                 tree.push(index);
             }        
             powerstate = $(this).attr("PowerState");
