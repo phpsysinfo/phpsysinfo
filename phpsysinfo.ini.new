@@ -444,6 +444,7 @@ ACCESS="command"
 ; IPMItool motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmitool sensor -v' command
+;                     //if access error execute first: chmod 666 /dev/ipmi0
 ; - ACCESS="data"  //read data from file data/ipmitool.txt
 ;
 ACCESS="command"
@@ -460,6 +461,7 @@ ACCESS="command"
 ; IPMIutil motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmiutil sensor -stw' command
+;                     //if access error execute first: chmod 666 /dev/ipmi0
 ; - ACCESS="data"  //read data from file data/ipmiutil.txt
 ;
 ACCESS="command"
