@@ -591,7 +591,7 @@ CPU_USAGE=true
 
 ; Show kthreadd child list expanded
 ;
-SHOW_KTHREADD_EXPANDED=true
+SHOW_KTHREADD_EXPANDED=false
 
 ; Show PID 1 child list expanded
 ;
