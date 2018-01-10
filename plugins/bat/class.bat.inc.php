@@ -58,16 +58,16 @@ class BAT extends PSI_Plugin
                     $bufferBFCC = CommonFunctions::getWMI($_wmi, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
                     $sobWB = sizeof($bufferWB);
                     if (sizeof($bufferWPB) != $sobWB) {
-                        $bufferWPB = null;
+                        $bufferWPB = array();
                     }
                     if (sizeof($bufferBS) != $sobWB) {
-                        $bufferBS = null;
+                        $bufferBS = array();
                     }
                     if (sizeof($bufferBCC) != $sobWB) {
-                        $bufferBCC = null;
+                        $bufferBCC = array();
                     }
                     if (sizeof($bufferBFCC) != $sobWB) {
-                        $bufferBFCC = null;
+                        $bufferBFCC = array();
                     }
                     for ($bi = 0; $bi < $sobWB; $bi++) {
                         $buffer[$bi]['state'] = '';
