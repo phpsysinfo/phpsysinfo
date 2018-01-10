@@ -368,38 +368,40 @@ class Raid extends PSI_Plugin
                     }
                 }
             }
-            foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
-                $id = 1;
-                if (isset($group['devs']) && ($group['devs']>0) &&
-                   (!isset($group['items']) || (count($group['items'])<$group['devs'])) &&
-                   isset($group['subsets']) && ($group['subsets']>0)) for ($i = 0; $i < $group['subsets']; $i++) {
-                    if (isset($this->_result['devices'][$gid."-".$i]['items'][0]['parentid'])) {
-                        foreach ($this->_result['devices'][$gid."-".$i]['items'] as $fid=>$from) {
-                            if ($fid===0) {
-                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
-                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = $from['status'];
-                                $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i." ".$from['name'];
-                                if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$gid."-".$i]['type'] = $from['type'];
-                            } else {
-                                $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1+$id;
-                                $this->_result['devices'][$gid]['items'][$from['name']]['status'] = $from['status'];
-                                $this->_result['devices'][$gid]['items'][$from['name']]['name'] = $from['name'];
-                                if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$from['name']]['type'] = $from['type'];
+            if (isset($this->_result['devices'])) {
+                foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
+                    $id = 1;
+                    if (isset($group['devs']) && ($group['devs']>0) &&
+                       (!isset($group['items']) || (count($group['items'])<$group['devs'])) &&
+                       isset($group['subsets']) && ($group['subsets']>0)) for ($i = 0; $i < $group['subsets']; $i++) {
+                        if (isset($this->_result['devices'][$gid."-".$i]['items'][0]['parentid'])) {
+                            foreach ($this->_result['devices'][$gid."-".$i]['items'] as $fid=>$from) {
+                                if ($fid===0) {
+                                    $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
+                                    $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = $from['status'];
+                                    $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i." ".$from['name'];
+                                    if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$gid."-".$i]['type'] = $from['type'];
+                                } else {
+                                    $this->_result['devices'][$gid]['items'][$from['name']]['parentid'] = 1+$id;
+                                    $this->_result['devices'][$gid]['items'][$from['name']]['status'] = $from['status'];
+                                    $this->_result['devices'][$gid]['items'][$from['name']]['name'] = $from['name'];
+                                    if (isset($from['type'])) $this->_result['devices'][$gid]['items'][$from['name']]['type'] = $from['type'];
+                                }
                             }
+                            $id+=count($this->_result['devices'][$gid."-".$i]['items']);
+                            unset($this->_result['devices'][$gid."-".$i]);
+                        } else {
+                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
+                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = 'unknown';
+                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
+                            $id++;
                         }
-                        $id+=count($this->_result['devices'][$gid."-".$i]['items']);
-                        unset($this->_result['devices'][$gid."-".$i]);
-                    } else {
-                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
-                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = 'unknown';
-                        $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
-                        $id++;
                     }
                 }
-            }
-            foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
-                if (($group['name'] !== $gid) && isset($group['items'][0]['parentid'])) {
-                    $this->_result['devices'][$gid]['items'][0]['name'] = $group['name']." ".$group['items'][0]['name'];
+                foreach ($this->_result['devices'] as $gid=>$group) if ($group['type'] === "dmraid") {
+                    if (($group['name'] !== $gid) && isset($group['items'][0]['parentid'])) {
+                        $this->_result['devices'][$gid]['items'][0]['name'] = $group['name']." ".$group['items'][0]['name'];
+                    }
                 }
             }
         }
