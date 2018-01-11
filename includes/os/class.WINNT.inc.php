@@ -286,8 +286,8 @@ class WINNT extends OS
                         $this->sys->setHostname(gethostbyaddr($ip));
                     }
                 }
-//            } else { ***not working
-//                if ($hnm = getenv('COMPUTERNAME')) $this->sys->setHostname($hnm);
+            } else {
+                if (isset($_SERVER['COMPUTERNAME']) && (($hnm = $_SERVER['COMPUTERNAME']) !== '')) $this->sys->setHostname($hnm);
             }
         }
     }
