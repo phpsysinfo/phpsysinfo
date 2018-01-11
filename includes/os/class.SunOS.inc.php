@@ -52,7 +52,7 @@ class SunOS extends OS
     private function _hostname()
     {
         if (PSI_USE_VHOST === true) {
-            if (isset($_SERVER['SERVER_NAME']) && (($hnm = $_SERVER['SERVER_NAME']) !== '')) $this->sys->setHostname($hnm);
+            if (($hnm = CommonFunctions::getenv('SERVER_NAME')) !== '') $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {
                 $ip = gethostbyname($result);

@@ -72,12 +72,11 @@ class CommonFunctions
                 $path_parts = pathinfo($strProgram);
             }
             if (PSI_OS == 'WINNT') {
-                if ((isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) ||
-                    (isset($_SERVER['Path']) && (($serverpath = $_SERVER['Path']) !== ''))) {
+                if (($serverpath = CommonFunctions::getenv('Path')) !== '') {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             } else {
-                if (isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) {
+                if (($serverpath = CommonFunctions::getenv('PATH')) !== '') {
                     $arrPath = preg_split('/:/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             }
@@ -106,10 +105,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && 
-            ((isset($_SERVER['WINDIR']) && (($windir = $_SERVER['WINDIR']) !== '')) ||
-             (isset($_SERVER['windir']) && (($windir = $_SERVER['windir']) !== '')))) {
-            $windir = strtolower($windir);
+        if ((PSI_OS == 'WINNT') && (($windir = strtolower(CommonFunctions::getenv('WinDir'))) !== '')) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
                     $exceptPath = $windir."\\sysnative";
@@ -292,6 +288,35 @@ class CommonFunctions
             return $buf;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * read data from $_SERVER
+     *
+     * @param string  $strFileName name of the file which should be read
+     *
+     * @return string
+     */
+    public static function _getenv($element)
+    {
+        if (PSI_OS == 'WINNT') { //case insensitive
+            if (isset($_SERVER)) {
+                foreach ($_SERVER as $index=>$value) {
+                    if (strtolower($index) === strtolower($element)) {
+                        return $value;
+                        break;
+                    }
+                }
+            } else {
+                return '';
+            }
+        } else {
+            if (isset($_SERVER[$element])) {
+                return $_SERVER[$element];
+            } else {
+                return '';
+            }
         }
     }
 
