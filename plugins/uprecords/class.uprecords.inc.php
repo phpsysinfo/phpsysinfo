@@ -62,8 +62,6 @@ class uprecords extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
             case 'command':
                 $lines = "";
-                $oldtz=getenv("TZ");
-                putenv("TZ=GMT");
                 $options = "";
                 if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
                     if (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === false) {
@@ -74,13 +72,12 @@ class uprecords extends PSI_Plugin
                         $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
                     }
                 }
-                if (CommonFunctions::executeProgram('uprecords', '-a -w'.$options, $lines) && !empty($lines))
+                if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                putenv("TZ=".$oldtz);
                 break;
             case 'data':
                 if (CommonFunctions::rfts(APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
-                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                //    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
                 $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");

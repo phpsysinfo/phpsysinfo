@@ -173,9 +173,12 @@ class CommonFunctions
             }
         }
 
-        $strBuffer = '';
-        $strError = '';
-        $pipes = array();
+        if ((PSI_OS !== 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+            $strSet = $strmatch[1].' ';
+            $strProgramname = $strmatch[2];
+        } else {
+            $strSet = '';
+        }
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
@@ -226,15 +229,19 @@ class CommonFunctions
             }
             $strArgs = ' '.$strArgs;
         }
+
+        $strBuffer = '';
+        $strError = '';
+        $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
             if (PSI_OS == 'WINNT') {
-                $process = $pipes[1] = popen($strProgram.$strArgs." 2>nul", "r");
+                $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
-                $process = $pipes[1] = popen($strProgram.$strArgs." 2>/dev/null", "r");
+                $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>/dev/null", "r");
             }
         } else {
-            $process = proc_open($strProgram.$strArgs, $descriptorspec, $pipes);
+            $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
         }
         if (is_resource($process)) {
             $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
