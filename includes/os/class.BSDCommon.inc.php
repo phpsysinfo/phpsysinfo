@@ -200,7 +200,7 @@ abstract class BSDCommon extends OS
     protected function hostname()
     {
         if (PSI_USE_VHOST === true) {
-            if (readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+            if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('hostname', '', $buf, PSI_DEBUG)) {
                 $this->sys->setHostname($buf);

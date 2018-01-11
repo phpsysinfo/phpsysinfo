@@ -265,7 +265,7 @@ class WINNT extends OS
     private function _hostname()
     {
         if (PSI_USE_VHOST === true) {
-            if (readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+            if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
             if (!$buffer && CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName /v ComputerName', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ComputerName\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
@@ -287,7 +287,7 @@ class WINNT extends OS
                     }
                 }
             } else {
-                if (readenv('COMPUTERNAME', $hnm)) $this->sys->setHostname($hnm);
+                if (CommonFunctions::readenv('COMPUTERNAME', $hnm)) $this->sys->setHostname($hnm);
             }
         }
     }

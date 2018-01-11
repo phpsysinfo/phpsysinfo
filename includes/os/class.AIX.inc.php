@@ -36,13 +36,13 @@ class AIX extends OS
     private function _hostname()
     {
         /*   if (PSI_USE_VHOST === true) {
-               if (readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+               if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
            } else {
                if (CommonFunctions::executeProgram('hostname', '', $ret)) {
                    $this->sys->setHostname($ret);
                }
            } */
-        if (readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+        if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
 
     }
 
