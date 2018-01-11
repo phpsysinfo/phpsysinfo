@@ -305,12 +305,10 @@ class CommonFunctions
                 foreach ($_SERVER as $index=>$value) {
                     if (strtolower($index) === strtolower($element)) {
                         return $value;
-                        break;
                     }
                 }
-            } else {
-                return '';
             }
+            return '';
         } else {
             if (isset($_SERVER[$element])) {
                 return $_SERVER[$element];
