@@ -113,8 +113,8 @@ abstract class OS implements PSI_Interface_OS
     {
         if (PSI_USE_VHOST === true) {
            if (((isset($_SERVER['SERVER_ADDR']) && (($result = $_SERVER['SERVER_ADDR']) !== '')) ||
-              (isset($_SERVER['LOCAL_ADDR']) && (($result = $_SERVER['LOCAL_ADDR']) !== '')))) //is server address defined
-               && !strstr($result, '.') && strstr($result, ':')){ //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
+              (isset($_SERVER['LOCAL_ADDR']) && (($result = $_SERVER['LOCAL_ADDR']) !== ''))) //is server address defined
+               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
                 if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
                     $this->sys->setIp($dnsrec[0]['ipv6']); //from DNS (avoid IPv6 NAT translation)
