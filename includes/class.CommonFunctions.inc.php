@@ -298,7 +298,7 @@ class CommonFunctions
      *
      * @return string
      */
-    public static function _getenv($element)
+    public static function getenv($element)
     {
         if (PSI_OS == 'WINNT') { //case insensitive
             if (isset($_SERVER)) {
