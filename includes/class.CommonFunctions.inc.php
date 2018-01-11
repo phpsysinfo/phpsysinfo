@@ -71,10 +71,13 @@ class CommonFunctions
                 $strProgram .= '.exe';
                 $path_parts = pathinfo($strProgram);
             }
-            if (isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) {
-                if (PSI_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
+                if ((isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) ||
+                    (isset($_SERVER['Path']) && (($serverpath = $_SERVER['Path']) !== ''))) {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
-                } else {
+                }
+            } else {
+                if (isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) {
                     $arrPath = preg_split('/:/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             }
@@ -103,7 +106,9 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && isset($_SERVER['WINDIR']) && (($windir = $_SERVER['WINDIR']) !== '')) {
+        if ((PSI_OS == 'WINNT') && 
+            ((isset($_SERVER['WINDIR']) && (($windir = $_SERVER['WINDIR']) !== '')) ||
+             (isset($_SERVER['windir']) && (($windir = $_SERVER['windir']) !== '')))) {
             $windir = strtolower($windir);
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
