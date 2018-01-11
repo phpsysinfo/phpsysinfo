@@ -71,7 +71,6 @@ class CommonFunctions
                 $strProgram .= '.exe';
                 $path_parts = pathinfo($strProgram);
             }
-            if (PSI_OS == 'WINNT') {
             if (isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) {
                 if (PSI_OS == 'WINNT') {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
