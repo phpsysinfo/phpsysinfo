@@ -112,7 +112,7 @@ class Linux extends OS
     protected function _hostname()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setHostname(getenv('SERVER_NAME'));
+            if (isset($_SERVER['SERVER_NAME']) && (($hnm = $_SERVER['SERVER_NAME']) !== '')) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1)) {
                 $result = trim($result);

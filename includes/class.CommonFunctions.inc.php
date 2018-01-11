@@ -72,9 +72,12 @@ class CommonFunctions
                 $path_parts = pathinfo($strProgram);
             }
             if (PSI_OS == 'WINNT') {
-                $arrPath = preg_split('/;/', getenv("Path"), -1, PREG_SPLIT_NO_EMPTY);
-            } else {
-                $arrPath = preg_split('/:/', getenv("PATH"), -1, PREG_SPLIT_NO_EMPTY);
+            if (isset($_SERVER['PATH']) && (($serverpath = $_SERVER['PATH']) !== '')) {
+                if (PSI_OS == 'WINNT') {
+                    $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
+                } else {
+                    $arrPath = preg_split('/:/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
+                }
             }
             if (defined('PSI_UNAMEO') && (PSI_UNAMEO === 'Android') && !empty($arrPath)) {
                 array_push($arrPath, '/system/bin'); // Termux patch
@@ -101,7 +104,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && (($windir = getenv("WinDir")) !== false)) {
+        if ((PSI_OS == 'WINNT') && isset($_SERVER['WINDIR']) && (($windir = $_SERVER['WINDIR']) !== '')) {
             $windir = strtolower($windir);
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
