@@ -112,8 +112,7 @@ abstract class OS implements PSI_Interface_OS
     protected function _ip()
     {
         if (PSI_USE_VHOST === true) {
-           if (((($result = CommonFunctions::getenv('SERVER_ADDR')) !== '') || 
-               (($result = CommonFunctions::getenv('LOCAL_ADDR')) !== '')) //is server address defined
+           if ((readenv('SERVER_ADDR', $result) || readenv('LOCAL_ADDR', $result)) //is server address defined
                && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
                 if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
@@ -125,8 +124,7 @@ abstract class OS implements PSI_Interface_OS
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
         } else {
-            if ((($result = CommonFunctions::getenv('SERVER_ADDR')) !== '') || 
-                (($result = CommonFunctions::getenv('LOCAL_ADDR')) !== '')) {
+            if (readenv('SERVER_ADDR', $result) || readenv('LOCAL_ADDR', $result)) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
             } else {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname()));

@@ -72,11 +72,11 @@ class CommonFunctions
                 $path_parts = pathinfo($strProgram);
             }
             if (PSI_OS == 'WINNT') {
-                if (($serverpath = CommonFunctions::getenv('Path')) !== '') {
+                if (readenv('Path', $serverpath)) {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             } else {
-                if (($serverpath = CommonFunctions::getenv('PATH')) !== '') {
+                if (readenv('PATH', $serverpath)) {
                     $arrPath = preg_split('/:/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             }
@@ -105,7 +105,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && (($windir = strtolower(CommonFunctions::getenv('WinDir'))) !== '')) {
+        if ((PSI_OS == 'WINNT') && readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
                     $exceptPath = $windir."\\sysnative";
@@ -292,30 +292,33 @@ class CommonFunctions
     }
 
     /**
-     * read data from $_SERVER
+     * read data from array $_SERVER
      *
-     * @param string  $strFileName name of the file which should be read
+     * @param string  $strElem        element of array
+     * @param string  &$strBuffer     output of the command
      *
      * @return string
      */
-    public static function getenv($element)
+    public static function readenv($strElem, &$strBuffer)
     {
+        $strBuffer = '';
         if (PSI_OS == 'WINNT') { //case insensitive
             if (isset($_SERVER)) {
                 foreach ($_SERVER as $index=>$value) {
-                    if (strtolower($index) === strtolower($element)) {
-                        return $value;
+                    if (is_string($value) && (trim($value) !== '') && (strtolower($index) === strtolower($strElem))) {
+                        $strBuffer = $value;
+                        return true;
                     }
                 }
             }
-            return '';
         } else {
-            if (isset($_SERVER[$element])) {
-                return $_SERVER[$element];
-            } else {
-                return '';
+            if (isset($_SERVER[$strElem]) && is_string($value = $_SERVER[$strElem]) && (trim($value) !== '')) {
+                $strBuffer = $value;
+                return true;
             }
         }
+
+        return false;
     }
 
     /**
