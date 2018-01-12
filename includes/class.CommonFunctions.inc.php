@@ -301,8 +301,8 @@ class CommonFunctions
     /**
      * read data from array $_SERVER
      *
-     * @param string  $strElem        element of array
-     * @param string  &$strBuffer     output of the command
+     * @param string $strElem    element of array
+     * @param string &$strBuffer output of the command
      *
      * @return string
      */
@@ -314,6 +314,7 @@ class CommonFunctions
                 foreach ($_SERVER as $index=>$value) {
                     if (is_string($value) && (trim($value) !== '') && (strtolower($index) === strtolower($strElem))) {
                         $strBuffer = $value;
+
                         return true;
                     }
                 }
@@ -321,6 +322,7 @@ class CommonFunctions
         } else {
             if (isset($_SERVER[$strElem]) && is_string($value = $_SERVER[$strElem]) && (trim($value) !== '')) {
                 $strBuffer = $value;
+
                 return true;
             }
         }

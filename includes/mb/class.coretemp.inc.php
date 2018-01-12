@@ -1,6 +1,6 @@
 <?php
 /**
- * coretemp sensor class, getting hardware temperature information through sysctl on FreeBSD 
+ * coretemp sensor class, getting hardware temperature information through sysctl on FreeBSD
  * or from /sys/devices/platform/coretemp. on Linux
  *
  * PHP version 5
