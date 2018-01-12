@@ -419,7 +419,7 @@ class Raid extends PSI_Plugin
            $items = array();
            unset($lines[0]);
            foreach ($lines as $line) {
-               $details = preg_split('/ /', $line, -1, PREG_SPLIT_NO_EMPTY);
+               $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
                if ((count($details) == 6) && ($details[2] === "RAID")) {
                    $items[$details[0]]['type'] = $type;
                    $unit = preg_replace("/^\d+/", "", $details[1]);
@@ -483,26 +483,37 @@ class Raid extends PSI_Plugin
                                $items[$details[2]]['items'][$details[0]]['status'] = "W";
                        }
                    }
-               } elseif ((count($details) == 2) && ($details[0]==='unconfigured:')) {
-                   $items['unconfigured']['status'] = 'unconfigured';
-                   $items['unconfigured']['type'] = $type;
-                   $items['unconfigured']['items'][$details[0]]['parentid'] = 0;
-                   $items['unconfigured']['items'][$details[0]]['name'] = 'unconfigured';
-                   $items['unconfigured']['items'][$details[0]]['status'] = 'S';
+               } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
+                   $itemn = rtrim($details[0], ':');
+                   $items[$itemn]['status'] = $itemn;
+                   $items[$itemn]['type'] = $type;
+                   $items[$itemn]['items'][$itemn]['parentid'] = 0;
+                   $items[$itemn]['items'][$itemn]['name'] = $itemn;
+                   $items[$itemn]['items'][$itemn]['status'] = 'S';
                } elseif (count($details) == 3) {
-                   if (isset($items['unconfigured'])) {
-                       $items['unconfigured']['items'][$details[0]]['parentid'] = 1;
-                       $items['unconfigured']['items'][$details[0]]['type'] = 'disk';
-                       $items['unconfigured']['items'][$details[0]]['name'] = $details[0];
-                       if ($details[2] !== 'ready') {
-                           $items['unconfigured']['items'][$details[0]]['info'] = $details[2];
-                       }
+                   $itemn = '';
+                   switch ($details[2]) {
+                       case 'BAD':
+                       case 'ready':
+                           $itemn = 'unconfigured';
+                           break;
+                       case 'hotspare':
+                           $itemn = 'hotspare';
+                   }
+                   if (($itemn !== '') && isset($items[$itemn])) {
+                       $items[$itemn]['items'][$details[0]]['parentid'] = 1;
+                       $items[$itemn]['items'][$details[0]]['type'] = 'disk';
+                       $items[$itemn]['items'][$details[0]]['name'] = $details[0];
+                       $items[$itemn]['items'][$details[0]]['info'] = $details[2];
                        switch ($details[2]) {
                            case 'ready':
-                               $items['unconfigured']['items'][$details[0]]['status'] = "S";
+                               $items[$itemn]['items'][$details[0]]['status'] = "W";
+                               break;
+                           case 'hotspare':
+                               $items[$itemn]['items'][$details[0]]['status'] = "S";
                                break;
                            default:
-                               $items['unconfigured']['items'][$details[0]]['status'] = "F";
+                               $items[$itemn]['items'][$details[0]]['status'] = "F";
                        }
                    }
                }
@@ -754,7 +765,7 @@ class Raid extends PSI_Plugin
                                 }
                         } else {
                             if ($this->_result['devices'][$group]['items'][$id]['name'] == "spares") {
-                                $this->_result['devices'][$group]['items'][$id]['status'] = "S";
+                                $this->_result['devices'][$group]['items'][$id]['status'] ;
                             } else {
                                 $this->_result['devices'][$group]['items'][$id]['status'] = "ok";
                             }

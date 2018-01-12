@@ -1,0 +1,8 @@
+a0 PERC 4e/Di bios:H433 fw:5A2D chan:2 ldrv:1 rbld:30% batt:good
+a0d0 838GiB RAID 5 1x4 optimal
+hot spares  : a0c0t4
+a0c0t0 279GiB a0d0 online
+a0c0t1 279GiB a0d0 online
+a0c0t2 279GiB a0d0 online
+a0c0t3 279GiB a0d0 online
+a0c0t4 279GiB hotspare
