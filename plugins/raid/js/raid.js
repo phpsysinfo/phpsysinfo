@@ -126,6 +126,11 @@ function raid_diskicon(xml, id) {
             alt = "fail";
             bcolor = "red";
             break;
+        case "U":
+            img = "harddriveunc.png";
+            alt = "unconfigured";
+            bcolor = "purple";
+            break;
         case "S":
             img = "harddrivespare.png";
             alt = "spare";

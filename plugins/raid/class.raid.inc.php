@@ -494,7 +494,11 @@ class Raid extends PSI_Plugin
                             $items[$itemn]['type'] = $type;
                             $items[$itemn]['items'][$itemn]['parentid'] = 0;
                             $items[$itemn]['items'][$itemn]['name'] = $itemn0;
-                            $items[$itemn]['items'][$itemn]['status'] = 'S';
+                            if ($details[0]==='unconfigured:') {
+                                $items[$itemn]['items'][$itemn]['status'] = 'U';
+                            } else {
+                                $items[$itemn]['items'][$itemn]['status'] = 'S';
+                            }
                         } elseif (count($details) == 3) {
                             $itemn = '';
                             switch ($details[2]) {
@@ -512,7 +516,7 @@ class Raid extends PSI_Plugin
                                 $items[$itemn]['items'][$details[0]]['info'] = $details[2];
                                 switch ($details[2]) {
                                     case 'ready':
-                                        $items[$itemn]['items'][$details[0]]['status'] = "W";
+                                        $items[$itemn]['items'][$details[0]]['status'] = "U";
                                         break;
                                     case 'hotspare':
                                         $items[$itemn]['items'][$details[0]]['status'] = "S";

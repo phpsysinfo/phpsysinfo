@@ -43,6 +43,11 @@ function renderPlugin_raid(data) {
             alt = "spare";
             bcolor = "gray";
             break;
+       case "U":
+            img = "harddriveunc.png";
+            alt = "unconfigured";
+            bcolor = "purple";
+            break;
         case "W":
             img = "harddrivewarn.png";
             alt = "warning";
