@@ -108,7 +108,7 @@ class Raid extends PSI_Plugin
             if (preg_match('/^[a-zA-Z]+ :( \[[a-z0-9]+\])+/', $raiddata[0], $res)) {
                 $parts = preg_split("/ : /", $res[0]);
                 if (isset($parts[1]) && (trim($parts[1]) !== '')) {
-                    $supported = trim($parts[1]);
+                    $supported = preg_replace('/[\[\]]/', '', trim($parts[1]));
                 }
             }
             // get disks
