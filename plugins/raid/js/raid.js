@@ -33,11 +33,14 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", devname = "", devstatus = "", devlevel = "",devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
+    var html = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
 
     devname = $(xml).attr("Name");
     devstatus = $(xml).attr("Status");
     devlevel = $(xml).attr("Level");
+    devcontroller = $(xml).attr("Controller");
+    devbattery = $(xml).attr("Battery");
+    devsupported = $(xml).attr("Supported");
     devsize = parseInt($(xml).attr("Size"), 10);
     devstride = parseInt($(xml).attr("Stride"), 10);
     devsubsets = parseInt($(xml).attr("Subsets"), 10);
@@ -67,6 +70,9 @@ function raid_buildinfos(xml, id) {
         }
     }
     if (!isNaN(devreg) && !isNaN(devact)) html += "<tr><td>" + genlang(19, true, "Raid") + "</td><td>" + devreg + "/" + devact + "</td></tr>";
+    if (devcontroller !== undefined) html += "<tr><td>" + genlang(20, true, "Raid") + "</td><td>" + devcontroller + "</td></tr>";
+    if (devbattery !== undefined) html += "<tr><td>" + genlang(21, true, "Raid") + "</td><td>" + devbattery + "</td></tr>";
+    if (devsupported !== undefined) html += "<tr><td>" + genlang(22, true, "Raid") + "</td><td>" + devsupported + "</td></tr>";
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "Raid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "Raid") + "</h3>";

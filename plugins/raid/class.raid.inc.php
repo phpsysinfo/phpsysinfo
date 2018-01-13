@@ -103,17 +103,14 @@ class Raid extends PSI_Plugin
     {
         $raiddata = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         if (!empty($raiddata)) {
-/*            // get the supported types
-            if (preg_match('/[a-zA-Z]+ :( \[[a-z0-9]+\])+/', $raiddata[0], $res)) {
+            // get the supported types
+            $supported = '';
+            if (preg_match('/^[a-zA-Z]+ :( \[[a-z0-9]+\])+/', $raiddata[0], $res)) {
                 $parts = preg_split("/ : /", $res[0]);
-                $parts = preg_split("/ /", $parts[1]);
-                $count = 0;
-                foreach ($parts as $types) {
-                    if (trim($types) != "") {
-                        $this->_result['supported_types'][$count++] = substr(trim($types), 1, -1);
-                    }
+                if (isset($parts[1]) && (trim($parts[1]) !== '')) {
+                    $supported = trim($parts[1]);
                 }
-            }*/
+            }
             // get disks
             if (preg_match("/^read_ahead/", $raiddata[1])) {
                 $count = 2;
@@ -126,6 +123,7 @@ class Raid extends PSI_Plugin
                 $dev = trim($parts[0]);
                 if (count($parts) == 2) {
                     $this->_result['devices'][$dev]['type'] = "mdstat";
+                    if ($supported !== '') $this->_result['devices'][$dev]['supported'] = $supported;
                     $this->_result['devices'][$dev]['items'][0]['raid_index'] = -1; //must by first
                     $details = preg_split('/ /', $parts[1]);
                     if (!strstr($details[0], 'inactive')) {
@@ -412,91 +410,107 @@ class Raid extends PSI_Plugin
         $raiddata = preg_split("/(\r?\n)+(?=[a-z]\d+ )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         if (!empty($raiddata)) foreach ($raiddata as $raidgroup) {
             if (preg_match("/^([a-z]\d+) /", $raidgroup, $buff)) {
+                if (preg_match("/^[a-z]\d+ ([^:\r\n]+) [^:\r\n]+:/", $raidgroup, $geom) || preg_match("/^[a-z]\d+ ([^:\r\n]+)/", $raidgroup, $geom)) {
+                    $controller = trim($geom[1]);
+                } else {
+                    $controller = '';
+                }
+                if (preg_match("/^[a-z]\d+ [^:\r\n]+ [^\r\n]* batt:([^:\r\n,]+)/", $raidgroup, $batt)) {
+                    $battery = trim($batt[1]);
+                } else {
+                    $battery = '';
+                }
                 $group = $buff[1];
                 $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($lines)) {
                     if ($sas === true) {
                         $type = "megactl";
+                        $prefix = "";
                     } else {
                         $type = "megasasctl";
+                        $prefix = "/"; //for megactl and megasasctl conflicts
                     }
                     unset($lines[0]);
                     foreach ($lines as $line) {
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
                         if ((count($details) == 6) && ($details[2] === "RAID")) {
-                            $this->_result['devices'][$details[0]]['type'] = $type;
+                            $this->_result['devices'][$prefix.$details[0]]['type'] = $type;
                             $unit = preg_replace("/^\d+/", "", $details[1]);
                             $value = preg_replace("/\D+$/", "", $details[1]);
                             switch ($unit) {
                                 case 'B':
-                                    $this->_result['devices'][$details[0]]['size'] = $value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = $value;
                                     break;
                                 case 'KiB':
-                                    $this->_result['devices'][$details[0]]['size'] = 1024*$value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = 1024*$value;
                                     break;
                                 case 'MiB':
-                                    $this->_result['devices'][$details[0]]['size'] = 1024*1024*$value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = 1024*1024*$value;
                                     break;
                                 case 'GiB':
-                                    $this->_result['devices'][$details[0]]['size'] = 1024*1024*1024*$value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = 1024*1024*1024*$value;
                                     break;
                                 case 'TiB':
-                                    $this->_result['devices'][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = 1024*1024*1024*1024*$value;
                                     break;
                                 case 'PiB':
-                                    $this->_result['devices'][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                    $this->_result['devices'][$prefix.$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
                                     break;
                             }
-                            $this->_result['devices'][$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
-                            $this->_result['devices'][$details[0]]['status'] = $details[5];
-                            $this->_result['devices'][$details[0]]['items'][$details[0]]['parentid'] = 0;
-                            $this->_result['devices'][$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
+                            $this->_result['devices'][$prefix.$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
+                            $this->_result['devices'][$prefix.$details[0]]['status'] = $details[5];
+                            if ($controller !== '') $this->_result['devices'][$prefix.$details[0]]['controller'] = $controller;
+                            if ($battery !== '') $this->_result['devices'][$prefix.$details[0]]['battery'] = $battery;
+                            $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['parentid'] = 0;
+                            $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
                             if ($details[5] !== 'optimal') {
-                                $this->_result['devices'][$details[0]]['items'][$details[0]]['info'] = $details[5];
+                                $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['info'] = $details[5];
                             }
                             switch ($details[5]) {
                                 case 'optimal':
-                                    $this->_result['devices'][$details[0]]['items'][$details[0]]['status'] = "ok";
+                                    $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['status'] = "ok";
                                     break;
                                 case 'OFFLINE':
-                                    $this->_result['devices'][$details[0]]['items'][$details[0]]['status'] = "F";
+                                    $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['status'] = "F";
                                     break;
                                 default:
-                                    $this->_result['devices'][$details[0]]['items'][$details[0]]['status'] = "W";
+                                    $this->_result['devices'][$prefix.$details[0]]['items'][$details[0]]['status'] = "W";
                             }
                         } elseif (count($details) == 4) {
-                            if (isset($this->_result['devices'][$details[2]])) {
-                                $this->_result['devices'][$details[2]]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result['devices'][$details[2]]['items'][$details[0]]['type'] = 'disk';
-                                $this->_result['devices'][$details[2]]['items'][$details[0]]['name'] = $details[0];
+                            if (isset($this->_result['devices'][$prefix.$details[2]])) {
+                                $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['parentid'] = 1;
+                                $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['type'] = 'disk';
+                                $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['name'] = $details[0];
                                 if ($details[3] !== 'online') {
-                                    $this->_result['devices'][$details[2]]['items'][$details[0]]['info'] = $details[3];
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['info'] = $details[3];
                                 }
                                 switch ($details[3]) {
                                     case 'online':
-                                        $this->_result['devices'][$details[2]]['items'][$details[0]]['status'] = "ok";
+                                        $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['status'] = "ok";
                                         break;
                                     case 'hotspare':
-                                        $this->_result['devices'][$details[2]]['items'][$details[0]]['status'] = "S";
+                                        $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['status'] = "S";
                                         break;
                                     case 'rdy/fail':
-                                        $this->_result['devices'][$details[2]]['items'][$details[0]]['status'] = "F";
+                                        $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['status'] = "F";
                                         break;
                                     default:
-                                        $this->_result['devices'][$details[2]]['items'][$details[0]]['status'] = "W";
+                                        $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['status'] = "W";
                                 }
                             }
                         } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
                             $itemn0 = rtrim($details[0], ':');
                             $itemn = $group .'-'.$itemn0;
-                            $this->_result['devices'][$itemn]['status'] = $itemn0;
-                            $this->_result['devices'][$itemn]['type'] = $type;
-                            $this->_result['devices'][$itemn]['items'][$itemn]['parentid'] = 0;
-                            $this->_result['devices'][$itemn]['items'][$itemn]['name'] = $itemn0;
+                            $this->_result['devices'][$prefix.$itemn]['status'] = $itemn0;
+                            $this->_result['devices'][$prefix.$itemn]['type'] = $type;
+                            if ($controller !== '') $this->_result['devices'][$prefix.$itemn]['controller'] = $controller;
+                            if ($battery !== '') $this->_result['devices'][$prefix.$itemn]['battery'] = $battery;
+                            $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['parentid'] = 0;
+                            $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['name'] = $itemn0;
                             if ($details[0]==='unconfigured:') {
-                                $this->_result['devices'][$itemn]['items'][$itemn]['status'] = 'U';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'U';
                             } else {
-                                $this->_result['devices'][$itemn]['items'][$itemn]['status'] = 'S';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'S';
                             }
                         } elseif (count($details) == 3) {
                             $itemn = '';
@@ -508,20 +522,20 @@ class Raid extends PSI_Plugin
                                 case 'hotspare':
                                     $itemn = $group .'-'.'hotspare';
                             }
-                            if (($itemn !== '') && isset($this->_result['devices'][$itemn])) {
-                                $this->_result['devices'][$itemn]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result['devices'][$itemn]['items'][$details[0]]['type'] = 'disk';
-                                $this->_result['devices'][$itemn]['items'][$details[0]]['name'] = $details[0];
-                                $this->_result['devices'][$itemn]['items'][$details[0]]['info'] = $details[2];
+                            if (($itemn !== '') && isset($this->_result['devices'][$prefix.$itemn])) {
+                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['parentid'] = 1;
+                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['type'] = 'disk';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['name'] = $details[0];
+                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['info'] = $details[2];
                                 switch ($details[2]) {
                                     case 'ready':
-                                        $this->_result['devices'][$itemn]['items'][$details[0]]['status'] = "U";
+                                        $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['status'] = "U";
                                         break;
                                     case 'hotspare':
-                                        $this->_result['devices'][$itemn]['items'][$details[0]]['status'] = "S";
+                                        $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['status'] = "S";
                                         break;
                                     default:
-                                        $this->_result['devices'][$itemn]['items'][$details[0]]['status'] = "F";
+                                        $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['status'] = "F";
                                 }
                             }
                         }
@@ -533,6 +547,11 @@ class Raid extends PSI_Plugin
 
     private function execute_graid($buffer)
     {
+        if (preg_match('/^Geom name: +([^\n\r]+)/', $buffer, $geom)) {
+            $controller = trim($geom[1]);
+        } else {
+            $controller = '';
+        }
         $raiddata = preg_split("/Consumers:\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         if (!empty($raiddata)) {
             $disksinfo = array();
@@ -556,8 +575,9 @@ class Raid extends PSI_Plugin
             foreach ($lines as $line) {
                 if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
                     $group = $data[1];
-                } elseif ($group!=="") {
                     $this->_result['devices'][$group]['type'] = "graid";
+                    if ($controller !== '') $this->_result['devices'][$group]['controller'] = $controller;
+                } elseif ($group!=="") {
                     if (preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
                         $this->_result['devices'][$group]['size'] = trim($data[1]);
                     } elseif (preg_match('/^\s+State:\s+(.+)/', $line, $data)) {
@@ -839,9 +859,9 @@ class Raid extends PSI_Plugin
             }
         }
         foreach ($this->_result['devices'] as $key=>$device) {
-            if (!in_array($key, $hideRaids, true)) {
+            if (!in_array(ltrim($key, "/"), $hideRaids, true)) {
                 $dev = $this->xml->addChild("Raid");
-                $dev->addAttribute("Device_Name", $key);
+                $dev->addAttribute("Device_Name", ltrim($key, "/")); //for megactl and megasasctl conflicts
                 $dev->addAttribute("Type", $device["type"]);
                 if (isset($device['level'])) $dev->addAttribute("Level", strtolower($device["level"]));
                 $dev->addAttribute("Status", strtolower($device["status"]));
@@ -857,6 +877,9 @@ class Raid extends PSI_Plugin
                 if (isset($device['algorithm'])) $dev->addAttribute("Algorithm", $device["algorithm"]);
                 if (isset($device['registered'])) $dev->addAttribute("Disks_Registered", $device["registered"]);
                 if (isset($device['active'])) $dev->addAttribute("Disks_Active", $device["active"]);
+                if (isset($device['controller'])) $dev->addAttribute("Controller", $device["controller"]);
+                if (isset($device['battery'])) $dev->addAttribute("Battery", $device["battery"]);
+                if (isset($device['supported'])) $dev->addAttribute("Supported", $device["supported"]);
 
                 if (isset($device['action'])) {
                     $action = $dev->addChild("Action");

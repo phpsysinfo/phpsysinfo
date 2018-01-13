@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
   <!-- $Id: ro.xml 661 2014-05-02 11:26:39Z namiltd $ -->
   <!--
     phpSysInfo language file Language: Romană Created by: Iulian Alexe
@@ -42,7 +42,7 @@
   <expression id="plugin_raid_012" name="raid_curact">
     <exp>Acțiune curentă</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finishin">
+  <expression id="plugin_raid_013" name="raid_finish">
     <exp>finisare în</exp>
   </expression>
   <expression id="plugin_raid_014" name="raid_chunk">
@@ -62,5 +62,14 @@
   </expression>
   <expression id="plugin_raid_019" name="raid_regact">
     <exp>Înregistrate/Discuri Active</exp>
+  </expression>
+  <expression id="plugin_raid_020" name="raid_controller">
+    <exp>Controller</exp>
+  </expression>
+  <expression id="plugin_raid_021" name="raid_battcond">
+    <exp>Condiții Baterie</exp>
+  </expression>
+  <expression id="plugin_raid_022" name="raid_supported">
+    <exp>Discuri defolosite</exp>
   </expression>
 </tns:translationPlugin>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
   <!--
     phpSysInfo language file Language: French Created by: phpsysinfo
   -->
@@ -41,7 +41,7 @@
   <expression id="plugin_raid_012" name="raid_curact">
     <exp>Action courante</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finishin">
+  <expression id="plugin_raid_013" name="raid_finish">
     <exp>Temps restant</exp>
   </expression>
   <expression id="plugin_raid_014" name="raid_chunk">
@@ -61,5 +61,14 @@
   </expression>
   <expression id="plugin_raid_019" name="raid_regact">
     <exp>Disques Enregistrés/Actives</exp>
+  </expression>
+  <expression id="plugin_raid_020" name="raid_controller">
+    <exp>Controller</exp>
+  </expression>
+  <expression id="plugin_raid_021" name="raid_battcond">
+    <exp>Battery Condition</exp>
+  </expression>
+  <expression id="plugin_raid_022" name="raid_supported">
+    <exp>Type de RAID supporté</exp>
   </expression>
 </tns:translationPlugin>

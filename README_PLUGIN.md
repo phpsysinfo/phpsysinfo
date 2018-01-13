@@ -13,13 +13,13 @@ Beginning with phpSysInfo 3.0, phpSysInfo can be extended by Plugins. So here is
 a description that a developer of a plugin must take care of. Plugins can be
 enabled through the `phpsysinfo.ini` in the PLUGINS variable. The name of the
 plugin is essential for the function of the plugin system. Lets say you write a
-plugin with the name 'hdd_stats', then this name is added to the PLUGINS
+plugin with the name 'pingtest', then this name is added to the PLUGINS
 variable in `phpsysinfo.ini`. And this is also then the name which is everywhere in
 the plugin system used, like creating the object, locate the needed files and
 so on.
 
 So if the name is now specified, phpSysInfo needs a special directory structure
-to find the needed files. The directory structure for the example `hdd_stats`
+to find the needed files. The directory structure for the example `pingtest`
 plugin can be seen here:
 
 ```
@@ -27,22 +27,22 @@ plugin can be seen here:
  |
  +---+ plugins (directory in that plugins are installed)
  |   |
- |   +---+ hdd_stats (the real plugin directory, must have the same name like
+ |   +---+ pingtest (the real plugin directory, must have the same name like
  |   |   |            the plugin named in PLUGINS, else it won't be found)
  |   |   |
  |   |   +---+ js (directory in which the needed JavaScript file is located,
  |   |   |   |     to generate the html output out of the xml)
- |   |   |   # hdd_stats.js (the js file must have the same name, like the
+ |   |   |   # pingtest.js (the js file must have the same name, like the
  |   |   |                   plugin in PSI_PLUGINS with the extension js)
  |   |   +---+ css (directory in which the needed style sheet information are
  |   |   |   |      located, can exists, but it's up to the author)
- |   |   |   # hdd_stats.css (the css file must have the same name, like the
+ |   |   |   # pingtest.css (the css file must have the same name, like the
  |   |   |                    plugin in PSI_PLUGINS with the extension css)
  |   |   +---+ lang (directory where translations for the plugin are located)
  |   |   |   |
  |   |   |   # en.xml (at least an english translation file must exist)
  |   |   |
- |   |   # class.hdd_stats.inc.php (this is the core file of the plugin,
+ |   |   # class.pingtest.inc.php (this is the core file of the plugin,
  |   |                              name must consists of 'class' +
  |   |                              name from PSI_PLUGINS + '.inc.php')
 ```
@@ -57,7 +57,7 @@ If the directory structure is build up, then it's time to start programming.
 Files
 -----
 
-An example implementation is the mdstat plugin, which is shipped with phpSysInfo
+An example implementation is the pingtest plugin, which is shipped with phpSysInfo
 
 * en.xml - at least this file must exist to get the translation working, and the
          the first entry in this file is normally the headline of the plugin.
@@ -70,12 +70,12 @@ An example implementation is the mdstat plugin, which is shipped with phpSysInfo
          other plugins don't redefine your translations. At the time of writing
          this, there is no check to verify the id's, so be carfull.
 
-* hdd_stats.css - here can all custom style sheet informations written down. The
+* pingtest.css - here can all custom style sheet informations written down. The
          names of the id's and classes SHOULD also begin, like the translation
          id's, with `'plugin_' + pluginname`. If thats not the case it might be
          possible that another plugin is overwriting your css definitions.
 
-* class.hdd_stats.inc.php - this file MUST include a class with the plugin name
+* class.pingtest.inc.php - this file MUST include a class with the plugin name
          and also this class MUST extend the 'psi_plugin' class. A check that
          such a class exist and also extends 'psi_plugin' will be included in
          the near future. And if the check fails the plugin won't be loaded.
@@ -93,26 +93,26 @@ An example implementation is the mdstat plugin, which is shipped with phpSysInfo
          standalone xml. So there is no need to do some special things, only
          create a xml object for the plugin.
 
-* hdd_stats.js - this file is called when the page is loaded. A block for the
+* pingtest.js - this file is called when the page is loaded. A block for the
         plugin is automatically created. This one is a div container with the
-        id `'plugin_'+ pluginname ("plugin_hdd_stats")`. The entire output must be
+        id `'plugin_'+ pluginname ("plugin_pingtest")`. The entire output must be
         placed in that container.
         There is a helper function for creating the headline: buildBlock() that
         can be called. This function returns a string with the html code of the
         headline, this code can then be appended to the plugin block. The
         generated headline can provide a reload icon for an ajax request. Only
         the click action of that icon must be created. The id of this icon is
-        `'reload_' + pluginname + 'Table' ("reload_hdd_statsTable")`.
+        `'reload_' + pluginname + 'Table' ("reload_pingtestTable")`.
         Everything that then is done to get the html output out of the xml is up
         to the author.
         To get the xml document the ajax request url is `'xml.php?plugin=' +
-        pluginname (xml.php?plugin=hdd_stats)`. This xml includes only the xml
+        pluginname (xml.php?plugin=pingtest)`. This xml includes only the xml
         from the plugin nothing more.
         The last two executed commands should/must be the translation call and
         the unhide of the filled div container.
         The translation function that needs to be called is named
         plugin_traslate() with one argument, that is the pluginname like in
-        `PSI_PLUGINS (plugin_translate("hdd_stats");)`.
+        `PSI_PLUGINS (plugin_translate("pingtest");)`.
         To unhide the filled container call the .show() function of it.
         `$("plugin_" + pluginname).show() ($("plugin_hdd_stat").show())`.
 

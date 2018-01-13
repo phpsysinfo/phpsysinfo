@@ -120,6 +120,9 @@ function renderPlugin_raid(data) {
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Disks_Registered)) && !isNaN(parseInt(raiditems[i]["@attributes"].Disks_Active))) {
                         html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(19, true, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Disks_Registered) + "/<wbr>" + parseInt(raiditems[i]["@attributes"].Disks_Active) + "</td></tr>";
                     }
+                    if (raiditems[i]["@attributes"].Controller !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(20, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Controller + "</td></tr>"; // Controller
+                    if (raiditems[i]["@attributes"].Battery !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(21, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Battery + "</td></tr>"; // Battery Condition
+                    if (raiditems[i]["@attributes"].Supported !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(22, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Supported + "</td></tr>"; // Supported RAID-Types
                     html += "</tbody></table>";
                     html += "</td></tr>";
                     html += "</tbody></table>";

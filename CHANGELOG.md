@@ -17,6 +17,8 @@ phpSysInfo 3.2.9
  - [NEW] HyperV plugin - Hyper-V info
  - [NEW] Raid plugin - software, fake, zpool and megaraid RAID status
 
+ - [DEL] Removed deprecated MDStatus and DMRaid plugins
+
 phpSysInfo 3.2.8
 ----------------
  - [UPD] jQuery 3.2.1

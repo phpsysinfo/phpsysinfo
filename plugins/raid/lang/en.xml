@@ -42,7 +42,7 @@
   <expression id="plugin_raid_012" name="raid_curact">
     <exp>Current Action</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finishin">
+  <expression id="plugin_raid_013" name="raid_finish">
     <exp>Finishing in</exp>
   </expression>
   <expression id="plugin_raid_014" name="raid_chunk">
@@ -62,5 +62,14 @@
   </expression>
   <expression id="plugin_raid_019" name="raid_regact">
     <exp>Registered/Active Disks</exp>
+  </expression>
+  <expression id="plugin_raid_020" name="raid_controller">
+    <exp>Controller</exp>
+  </expression>
+  <expression id="plugin_raid_021" name="raid_battcond">
+    <exp>Battery Condition</exp>
+  </expression>
+  <expression id="plugin_raid_022" name="raid_supported">
+    <exp>Supported RAID-Types</exp>
   </expression>
 </tns:translationPlugin>

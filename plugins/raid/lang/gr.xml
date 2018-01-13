@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
   <!-- $Id: gr.xml 661 2012-08-27 11:26:39Z namiltd $ -->
   <!--
     phpSysInfo language file Language: Greek Created by: ChriZathens
@@ -42,7 +42,7 @@
   <expression id="plugin_raid_012" name="raid_curact">
     <exp>Τρέχουσα Ενέργεια</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finishin">
+  <expression id="plugin_raid_013" name="raid_finish">
     <exp>Ολοκληρώνεται σε</exp>
   </expression>
   <expression id="plugin_raid_014" name="raid_chunk">
@@ -62,5 +62,14 @@
   </expression>
   <expression id="plugin_raid_019" name="raid_regact">
     <exp>Δηλωμένοι/Ενεργοί Δίσκοι</exp>
+  </expression>
+  <expression id="plugin_raid_020" name="raid_controller">
+    <exp>Controller</exp>
+  </expression>
+  <expression id="plugin_raid_021" name="raid_battcond">
+    <exp>Κατάσταση Μπαταρίας</exp>
+  </expression>
+  <expression id="plugin_raid_022" name="raid_supported">
+    <exp>Αχρησιμοποίητοι Δίσκοι</exp>
   </expression>
 </tns:translationPlugin>
