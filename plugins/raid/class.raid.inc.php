@@ -409,119 +409,126 @@ class Raid extends PSI_Plugin
 
     private function execute_megactl($buffer, $sas = false)
     {
-       $lines = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-       if (!empty($lines)) {
-           if ($sas === true) {
-               $type = "megactl";
-           } else {
-               $type = "megasasctl";
-           }
-           $items = array();
-           unset($lines[0]);
-           foreach ($lines as $line) {
-               $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
-               if ((count($details) == 6) && ($details[2] === "RAID")) {
-                   $items[$details[0]]['type'] = $type;
-                   $unit = preg_replace("/^\d+/", "", $details[1]);
-                   $value = preg_replace("/\D+$/", "", $details[1]);
-                   switch ($unit) {
-                       case 'B':
-                           $items[$details[0]]['size'] = $value;
-                           break;
-                       case 'KiB':
-                           $items[$details[0]]['size'] = 1024*$value;
-                           break;
-                       case 'MiB':
-                           $items[$details[0]]['size'] = 1024*1024*$value;
-                           break;
-                       case 'GiB':
-                           $items[$details[0]]['size'] = 1024*1024*1024*$value;
-                           break;
-                       case 'TiB':
-                           $items[$details[0]]['size'] = 1024*1024*1024*1024*$value;
-                           break;
-                       case 'PiB':
-                           $items[$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
-                           break;
-                   }
-                   $items[$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
-                   $items[$details[0]]['status'] = $details[5];
-                   $items[$details[0]]['items'][$details[0]]['parentid'] = 0;
-                   $items[$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
-                   if ($details[5] !== 'optimal') {
-                       $items[$details[0]]['items'][$details[0]]['info'] = $details[5];
-                   }
-                   switch ($details[5]) {
-                       case 'optimal':
-                           $items[$details[0]]['items'][$details[0]]['status'] = "ok";
-                           break;
-                       case 'OFFLINE':
-                           $items[$details[0]]['items'][$details[0]]['status'] = "F";
-                           break;
-                       default:
-                           $items[$details[0]]['items'][$details[0]]['status'] = "W";
-                   }
-               } elseif (count($details) == 4) {
-                   if (isset($items[$details[2]])) {
-                       $items[$details[2]]['items'][$details[0]]['parentid'] = 1;
-                       $items[$details[2]]['items'][$details[0]]['type'] = 'disk';
-                       $items[$details[2]]['items'][$details[0]]['name'] = $details[0];
-                       if ($details[3] !== 'online') {
-                           $items[$details[2]]['items'][$details[0]]['info'] = $details[3];
-                       }
-                       switch ($details[3]) {
-                           case 'online':
-                               $items[$details[2]]['items'][$details[0]]['status'] = "ok";
-                               break;
-                           case 'hotspare':
-                               $items[$details[2]]['items'][$details[0]]['status'] = "S";
-                               break;
-                           case 'rdy/fail':
-                               $items[$details[2]]['items'][$details[0]]['status'] = "F";
-                               break;
-                           default:
-                               $items[$details[2]]['items'][$details[0]]['status'] = "W";
-                       }
-                   }
-               } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
-                   $itemn = rtrim($details[0], ':');
-                   $items[$itemn]['status'] = $itemn;
-                   $items[$itemn]['type'] = $type;
-                   $items[$itemn]['items'][$itemn]['parentid'] = 0;
-                   $items[$itemn]['items'][$itemn]['name'] = $itemn;
-                   $items[$itemn]['items'][$itemn]['status'] = 'S';
-               } elseif (count($details) == 3) {
-                   $itemn = '';
-                   switch ($details[2]) {
-                       case 'BAD':
-                       case 'ready':
-                           $itemn = 'unconfigured';
-                           break;
-                       case 'hotspare':
-                           $itemn = 'hotspare';
-                   }
-                   if (($itemn !== '') && isset($items[$itemn])) {
-                       $items[$itemn]['items'][$details[0]]['parentid'] = 1;
-                       $items[$itemn]['items'][$details[0]]['type'] = 'disk';
-                       $items[$itemn]['items'][$details[0]]['name'] = $details[0];
-                       $items[$itemn]['items'][$details[0]]['info'] = $details[2];
-                       switch ($details[2]) {
-                           case 'ready':
-                               $items[$itemn]['items'][$details[0]]['status'] = "W";
-                               break;
-                           case 'hotspare':
-                               $items[$itemn]['items'][$details[0]]['status'] = "S";
-                               break;
-                           default:
-                               $items[$itemn]['items'][$details[0]]['status'] = "F";
-                       }
-                   }
-               }
-           }
-           foreach ($items as $itemname=>$item) {
-               $this->_result['devices'][$itemname] = $item;
-           }
-       }
+        $raiddata = preg_split("/(\r?\n)+(?=[a-z]\d+ )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+        if (!empty($raiddata)) foreach ($raiddata as $raidgroup) {
+            if (preg_match("/^([a-z]\d+) /", $raidgroup, $buff)) {
+                $group = $buff[1];
+                $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
+                if (!empty($lines)) {
+                    if ($sas === true) {
+                        $type = "megactl";
+                    } else {
+                        $type = "megasasctl";
+                    }
+                    $items = array();
+                    unset($lines[0]);
+                    foreach ($lines as $line) {
+                        $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
+                        if ((count($details) == 6) && ($details[2] === "RAID")) {
+                            $items[$details[0]]['type'] = $type;
+                            $unit = preg_replace("/^\d+/", "", $details[1]);
+                            $value = preg_replace("/\D+$/", "", $details[1]);
+                            switch ($unit) {
+                                case 'B':
+                                    $items[$details[0]]['size'] = $value;
+                                    break;
+                                case 'KiB':
+                                    $items[$details[0]]['size'] = 1024*$value;
+                                    break;
+                                case 'MiB':
+                                    $items[$details[0]]['size'] = 1024*1024*$value;
+                                    break;
+                                case 'GiB':
+                                    $items[$details[0]]['size'] = 1024*1024*1024*$value;
+                                    break;
+                                case 'TiB':
+                                    $items[$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                    break;
+                                case 'PiB':
+                                    $items[$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                    break;
+                            }
+                            $items[$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
+                            $items[$details[0]]['status'] = $details[5];
+                            $items[$details[0]]['items'][$details[0]]['parentid'] = 0;
+                            $items[$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
+                            if ($details[5] !== 'optimal') {
+                                $items[$details[0]]['items'][$details[0]]['info'] = $details[5];
+                            }
+                            switch ($details[5]) {
+                                case 'optimal':
+                                    $items[$details[0]]['items'][$details[0]]['status'] = "ok";
+                                    break;
+                                case 'OFFLINE':
+                                    $items[$details[0]]['items'][$details[0]]['status'] = "F";
+                                    break;
+                                default:
+                                    $items[$details[0]]['items'][$details[0]]['status'] = "W";
+                            }
+                        } elseif (count($details) == 4) {
+                            if (isset($items[$details[2]])) {
+                                $items[$details[2]]['items'][$details[0]]['parentid'] = 1;
+                                $items[$details[2]]['items'][$details[0]]['type'] = 'disk';
+                                $items[$details[2]]['items'][$details[0]]['name'] = $details[0];
+                                if ($details[3] !== 'online') {
+                                    $items[$details[2]]['items'][$details[0]]['info'] = $details[3];
+                                }
+                                switch ($details[3]) {
+                                    case 'online':
+                                        $items[$details[2]]['items'][$details[0]]['status'] = "ok";
+                                        break;
+                                    case 'hotspare':
+                                        $items[$details[2]]['items'][$details[0]]['status'] = "S";
+                                        break;
+                                    case 'rdy/fail':
+                                        $items[$details[2]]['items'][$details[0]]['status'] = "F";
+                                        break;
+                                    default:
+                                        $items[$details[2]]['items'][$details[0]]['status'] = "W";
+                                }
+                            }
+                        } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
+                            $itemn0 = rtrim($details[0], ':');
+                            $itemn = $group .'-'.$itemn0;
+                            $items[$itemn]['status'] = $itemn0;
+                            $items[$itemn]['type'] = $type;
+                            $items[$itemn]['items'][$itemn]['parentid'] = 0;
+                            $items[$itemn]['items'][$itemn]['name'] = $itemn0;
+                            $items[$itemn]['items'][$itemn]['status'] = 'S';
+                        } elseif (count($details) == 3) {
+                            $itemn = '';
+                            switch ($details[2]) {
+                                case 'BAD':
+                                case 'ready':
+                                    $itemn = $group .'-'.'unconfigured';
+                                    break;
+                                case 'hotspare':
+                                    $itemn = $group .'-'.'hotspare';
+                            }
+                            if (($itemn !== '') && isset($items[$itemn])) {
+                                $items[$itemn]['items'][$details[0]]['parentid'] = 1;
+                                $items[$itemn]['items'][$details[0]]['type'] = 'disk';
+                                $items[$itemn]['items'][$details[0]]['name'] = $details[0];
+                                $items[$itemn]['items'][$details[0]]['info'] = $details[2];
+                                switch ($details[2]) {
+                                    case 'ready':
+                                        $items[$itemn]['items'][$details[0]]['status'] = "W";
+                                        break;
+                                    case 'hotspare':
+                                        $items[$itemn]['items'][$details[0]]['status'] = "S";
+                                        break;
+                                    default:
+                                        $items[$itemn]['items'][$details[0]]['status'] = "F";
+                                }
+                            }
+                        }
+                    }
+                    foreach ($items as $itemname=>$item) {
+                        $this->_result['devices'][$itemname] = $item;
+                    }
+                }
+            }
+        }
     }
 
     private function execute_graid($buffer)
