@@ -428,7 +428,14 @@ class CommonFunctions
             }
         }
 
-        return file_exists($strFileName);
+        $exists =  file_exists($strFileName);
+        if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
+            if ((substr($strFileName, 0, 5) === "/dev/") && $exists) {
+                error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\ndevice exists\n", 3, PSI_LOG);
+            }
+        }
+
+        return $exists;
     }
 
     /**
