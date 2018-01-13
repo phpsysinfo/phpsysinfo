@@ -765,7 +765,7 @@ class Raid extends PSI_Plugin
                                 }
                         } else {
                             if ($this->_result['devices'][$group]['items'][$id]['name'] == "spares") {
-                                $this->_result['devices'][$group]['items'][$id]['status'] ;
+                                $this->_result['devices'][$group]['items'][$id]['status'] = "S";
                             } else {
                                 $this->_result['devices'][$group]['items'][$id]['status'] = "ok";
                             }
