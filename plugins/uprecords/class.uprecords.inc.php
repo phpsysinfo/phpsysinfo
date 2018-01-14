@@ -77,7 +77,7 @@ class uprecords extends PSI_Plugin
                 break;
             case 'data':
                 if (CommonFunctions::rfts(APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
-                //    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
                 $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");
