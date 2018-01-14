@@ -657,9 +657,9 @@ class Raid extends PSI_Plugin
                 if (preg_match("/^ +state: (\S+)/m", $raid, $buff)) {
                     $this->_result['devices'][$group]['status'] = $buff[1];
                 }
-                $databegin = preg_split("/\n +NAME +STATE +READ +WRITE +CKSUM[^\n+]\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
+                $databegin = preg_split("/\n +NAME +STATE +READ +WRITE +CKSUM\r?\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($databegin) && (count($databegin)==2)) {
-                    $datas = preg_split("/\n\s*\n/", $databegin[1], -1, PREG_SPLIT_NO_EMPTY);
+                    $datas = preg_split("/\r?\n[ \t]*\r?\n/", $databegin[1], -1, PREG_SPLIT_NO_EMPTY);
                     $datalines = preg_split("/\r?\n/", $datas[0], -1, PREG_SPLIT_NO_EMPTY);
                     $rootoffset = false;
                     $lastparentids = array(0=>-1);
