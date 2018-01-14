@@ -33,8 +33,9 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
+    var html = "", app = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
 
+    app = $(xml).attr("App");
     devname = $(xml).attr("Name");
     devstatus = $(xml).attr("Status");
     devlevel = $(xml).attr("Level");
@@ -51,6 +52,7 @@ function raid_buildinfos(xml, id) {
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
     devact = parseInt($(xml).attr("Disks_Active"), 10);
+    html += "<tr><td>" + genlang(23, true, "Raid") + "</td><td>" + app + "</td></tr>";
     if (devname !== undefined) html += "<tr><td>" + genlang(4, true, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(5, true, "Raid") + "</td><td>" + devstatus + "</td></tr>";
     if (devlevel !== undefined) html += "<tr><td>" + genlang(6, true, "Raid") + "</td><td>" + devlevel + "</td></tr>";
@@ -178,8 +180,7 @@ function raid_populate(xml) {
     $("#Plugin_RaidTable").append("<tbody>");
     var arr = $("Plugins Plugin_Raid Raid", xml);
     arr.each(function raid_getdevice(id) {
-        var htmldisks = "", topic = "", name = "", buildedaction = "";
-        name = $(this).attr("Device_Name") + " (" + $(this).attr("Type") + ")";
+        var htmldisks = "", topic = "", buildedaction = "";
         htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td id=\"Plugin_Raid_List-" + id + "\"></td></tr>";
         buildedaction = raid_buildaction($(this));
@@ -187,18 +188,18 @@ function raid_populate(xml) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
         htmldisks += "<tr><td>" + raid_buildinfos($(this), id);
-        if (id != (arr.length - 1)) { // not last element
+        /*if (id != (arr.length - 1)) { // not last element
             htmldisks += "<br>";
-        }
+        }*/
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
         if (id) {
-            topic = "";
+            topic = "<br>"+$(this).attr("Device_Name");
         }
         else {
-            topic = genlang(2, false, "Raid");
+            topic = "<b>"+genlang(2, false, "Raid")+"</b><br>"+$(this).attr("Device_Name");
         }
-        $("#Plugin_RaidTable").append("<tr><td>" + topic + "</td><td><div class=\"plugin_raid_biun\" style=\"width:100%; text-align:left;\"><b>" + name + "</b></div>" + htmldisks + "</td></tr>");
+        $("#Plugin_RaidTable").append("<tr><td>" + topic + "</td><td>" + htmldisks + "</td></tr>");
         raid_diskicon(this, id);
         
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {

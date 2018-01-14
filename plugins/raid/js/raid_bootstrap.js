@@ -80,9 +80,9 @@ function renderPlugin_raid(data) {
             var html = '';
             for (var i = 0; i < raiditems.length ; i++) {
                 if (i) {
-                    html += "<tr><td></td><td>";
+                    html += "<tr><th><br>"+raiditems[i]["@attributes"].Device_Name+"</th><td>";
                 } else {
-                    html += "<tr><th>"+genlang(2, false, 'raid')+"</th><td>";
+                    html += "<tr><th>"+genlang(2, false, 'raid')+"<br>"+raiditems[i]["@attributes"].Device_Name+"</th><td>";
                 }
 
                 if (raiditems[i].RaidItems !== undefined) {
@@ -98,7 +98,8 @@ function renderPlugin_raid(data) {
 
                     html += "<tr><td>";
                     html += "<table id=\"raid-" + i + "\"class=\"table table-hover table-condensed\"><tbody>";
-                    html += "<tr class=\"treegrid-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + raiditems[i]["@attributes"].Device_Name + " (" + raiditems[i]["@attributes"].Type + ")</span></td><td></td></tr>";
+                    html += "<tr class=\"treegrid-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + genlang(3, true, "raid") + "</span></td><td></td></tr>";
+                    html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].App + "</td></tr>"; // App
                     if (raiditems[i]["@attributes"].Name !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Name + "</td></tr>"; // Name
                     html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Status + "</td></tr>"; 	// Status
                     if (raiditems[i]["@attributes"].Level !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Level + "</td></tr>"; // RAID-Level
@@ -127,9 +128,9 @@ function renderPlugin_raid(data) {
                     html += "</td></tr>";
                     html += "</tbody></table>";
                 }
-                if (i < raiditems.length-1) { // not last element
+                /*if (i < raiditems.length-1) { // not last element
                     html += "<br>";
-                }
+                }*/
                 html +="</td></tr>";
             }
             $('#raid-data').empty().append(html);
