@@ -16,7 +16,6 @@
     <!--[if IE 8]>
         <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
         <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
-        <script type="text/JavaScript" src="./js.php?name=respond"></script>
         <script type="text/JavaScript" src="./js.php?name=es5"></script>
     <![endif]-->
     <!--[if lt IE 8]>
@@ -45,7 +44,7 @@
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:inline; visibility: hidden;"/>
             <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="display:inline; visibility: hidden;"/>
         </div>
-        <div id="select" class="select" style="text-align:right;display:none">
+        <div id="select" class="select" style="text-align:right;display:none;">
             <span id="lang_044" style="display:none;">Template</span>
             <select class="template" id="template" style="display:none;">
 <?php if ($picktemplate) {
@@ -443,7 +442,9 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Errors</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <ul id="errors" class="list-group">
