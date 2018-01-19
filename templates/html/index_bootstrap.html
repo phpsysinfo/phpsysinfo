@@ -10,12 +10,22 @@
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" title="PSI_Template">
-    <!-- HTML5 Shim and Respond.js IE6-8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
-    <script type="text/JavaScript" src="./js.php?name=respond"></script>
+    <!--[if IE 9]>
+        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
     <![endif]-->
+    <!--[if IE 8]>
+        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
+        <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
+        <script type="text/JavaScript" src="./js.php?name=respond"></script>
+        <script type="text/JavaScript" src="./js.php?name=es5"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+        <script type="text/javascript">
+            alert('You are using an unsupported browser. Update Internet Explorer to at least version 8');
+            die();
+        </script>
+    <![endif]-->
+    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" title="PSI_Template">
 </head>
 
 <body>
@@ -28,14 +38,14 @@
 <input type="hidden" id="showCPULoadCompact" value="<?php echo $showCPULoadCompact;?>"/>
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
-<div class="navbar navbar-fixed-top">
+<div class="navbar fixed-top">
     <div class="container">
         <div class="navbar-brand">
             <img class="logo" alt="" src="gfx/logo_32.gif" title="reload" style="display:inline; width:32px;"/> phpSysInfo <sup><a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a></sup>
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="display:inline; visibility: hidden;"/>
             <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="display:inline; visibility: hidden;"/>
         </div>
-        <div id="select" class="select" style="text-align:right;padding-top:20px;display:none;">
+        <div id="select" class="select" style="text-align:right;display:none">
             <span id="lang_044" style="display:none;">Template</span>
             <select class="template" id="template" style="display:none;">
 <?php if ($picktemplate) {
@@ -71,11 +81,11 @@ endforeach;
 <div class="container">
 <div id="output" class="row" style="display:none;">
     <div id="block_vitals" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_002">System vitals</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_002">System vitals</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="vitals" class="table table-hover table-condensed noborderattop">
+                    <table id="vitals" class="table table-hover table-sm noborderattop">
                         <tbody>
                             <tr>
                                 <th><span id="lang_003">Hostname</span></th>
@@ -129,11 +139,11 @@ endforeach;
     </div>
 
     <div id="block_hardware" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_010">Hardware Information</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_010">Hardware Information</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="hardware" class="table table-hover table-condensed noborderattop">
+                    <table id="hardware" class="table table-hover table-sm noborderattop">
                         <tbody id="hardware-data">
                         </tbody>
                     </table>
@@ -143,11 +153,11 @@ endforeach;
     </div>
 
     <div id="block_memory" class="col-lg-12" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_027">Memory Usage</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_027">Memory Usage</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="memory" class="table table-hover table-condensed">
+                    <table id="memory" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_034-u01">Type</span></th>
@@ -182,11 +192,11 @@ endforeach;
     </div>
 
     <div id="block_filesystem" class="col-lg-12" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_030">Mounted Filesystems</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_030">Mounted Filesystems</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="filesystem" class="table table-hover table-condensed sortable">
+                    <table id="filesystem" class="table table-hover table-sm sortable">
                         <thead>
                             <tr>
                                 <th id="filesystem_MountPoint"><span id="lang_031">Mountpoint</span></th>
@@ -227,11 +237,11 @@ endforeach;
     </div>
 
     <div id="block_network" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_021">Network Interface</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_021">Network Interface</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="network" class="table table-hover table-condensed">
+                    <table id="network" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th style="width:60%"><span id="lang_022">Device</span></th>
@@ -248,11 +258,11 @@ endforeach;
     </div>
 
     <div id="block_voltage" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_052">Voltage</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_052">Voltage</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="voltage" class="table table-hover table-condensed">
+                    <table id="voltage" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u09">Label</span></th>
@@ -276,11 +286,11 @@ endforeach;
     </div>
 
     <div id="block_current" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_105">Current</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_105">Current</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="current" class="table table-hover table-condensed">
+                    <table id="current" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u13">Label</span></th>
@@ -304,11 +314,11 @@ endforeach;
     </div>
 
     <div id="block_temperature" class="col-lg-3" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_051">Temperatures</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_051">Temperatures</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="temperature" class="table table-hover table-condensed">
+                    <table id="temperature" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u17">Label</span></th>
@@ -330,11 +340,11 @@ endforeach;
     </div>
 
     <div id="block_fans" class="col-lg-3" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_053">Fans</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_053">Fans</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="fans" class="table table-hover table-condensed">
+                    <table id="fans" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u20">Label</span></th>
@@ -356,11 +366,11 @@ endforeach;
     </div>
 
     <div id="block_power" class="col-lg-3" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_102">Power</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_102">Power</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="power" class="table table-hover table-condensed">
+                    <table id="power" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u23">Label</span></th>
@@ -382,11 +392,11 @@ endforeach;
     </div>
 
     <div id="block_other" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_121">Other</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_121">Other</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="other" class="table table-hover table-condensed">
+                    <table id="other" class="table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th><span id="lang_059-u26">Label</span></th>
@@ -406,11 +416,11 @@ endforeach;
     </div>
 
     <div id="block_ups" class="col-lg-6" style="display:none;">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><span id="lang_068">UPS Information</span></div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header"><span id="lang_068">UPS Information</span></div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table id="ups" class="table table-hover table-condensed noborderattop">
+                    <table id="ups" class="table table-hover table-sm noborderattop">
                         <tbody id="ups-data">
                         </tbody>
                     </table>
@@ -432,8 +442,8 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Errors</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 <ul id="errors" class="list-group">
@@ -459,11 +469,8 @@ if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.h
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
+<script type="text/JavaScript" src="./js.php?name=bootstrap-util"></script>
 <script type="text/JavaScript" src="./js.php?name=bootstrap-modal"></script>
-
-<!--[if lte IE 6]>
-<script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
-<![endif]-->
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
 <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>

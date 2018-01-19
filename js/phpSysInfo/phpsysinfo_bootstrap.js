@@ -11,15 +11,6 @@ var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins 
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
- * Fix PNG loading on IE6 or below
- */
-function PNGload(png) {
-    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
-        png.ifixpng('./gfx/blank.gif');
-    }
-}
-
-/**
  * generate a cookie, if not exist, and add an entry to it<br><br>
  * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
  * @param {String} name name that holds the value
@@ -577,13 +568,13 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this.Distro; //onload IE6 PNG fix
+                return '<img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" />' + " " +this.Distro;
             }
         },
         LoadAvg: {
             html: function () {
                 if (this.CPULoad !== undefined) {
-                    return '<table style="width:100%;"><tr><td style="width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
+                    return '<table class="borderless table-hover" style="width:100%;"><tr><td style="width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + round(this.CPULoad,0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this.CPULoad,0) + '%</div></td></tr></table>';
                 } else {
