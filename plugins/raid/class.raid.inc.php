@@ -127,19 +127,29 @@ class Raid extends PSI_Plugin
                     $this->_result['devices'][$dev]['items'][0]['raid_index'] = -1; //must by first
                     $details = preg_split('/ /', $parts[1]);
                     if (!strstr($details[0], 'inactive')) {
-                        $this->_result['devices'][$dev]['level'] = $details[1];
-                        //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
-                        $this->_result['devices'][$dev]['items'][0]['name'] = $details[1];
-                        $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
-                        $i = 2;
+                        if (isset($details[2]) && strstr($details[1], '(auto-read-only)')) {
+                            $this->_result['devices'][$dev]['level'] = $details[2];
+                            $this->_result['devices'][$dev]['status'] = $details[0]." ".$details[1];
+                            //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[2];
+                            $this->_result['devices'][$dev]['items'][0]['name'] = $details[2];
+                            $this->_result['devices'][$dev]['items'][0]['status'] = "W";
+                            $i = 3;
+                        } else {
+                            $this->_result['devices'][$dev]['level'] = $details[1];
+                            $this->_result['devices'][$dev]['status'] = $details[0];
+                            //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
+                            $this->_result['devices'][$dev]['items'][0]['name'] = $details[1];
+                            $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
+                            $i = 2;
+                        }
                     } else {
                         $this->_result['devices'][$dev]['level'] = "none";
+                        $this->_result['devices'][$dev]['status'] = $details[0];
                         $this->_result['devices'][$dev]['items'][0]['name'] = $dev;
                         $this->_result['devices'][$dev]['items'][0]['status'] = "F";
                         $i = 1;
                     }
                     $this->_result['devices'][$dev]['items'][0]['parentid'] = 0;
-                    $this->_result['devices'][$dev]['status'] = $details[0];
 
                     for ($cnt_details = count($details); $i < $cnt_details; $i++) {
                         preg_match('/(([a-z0-9])+)(\[([0-9]+)\])(\([SF ]\))?/', trim($details[$i]), $partition);
@@ -243,6 +253,8 @@ class Raid extends PSI_Plugin
                             $time = preg_split("/=/", $res[0]);
                             list($this->_result['devices'][$dev]['action']['finish_time'], $this->_result['devices'][$dev]['action']['finish_unit']) = sscanf($time[1], '%f%s');
                         }
+                    } elseif (preg_match(('/^( *)([a-z]+)( *)=( *)([A-Z]+)$/'), $raiddata[$count + 1], $res)) {
+                       $this->_result['devices'][$dev]['status'] .= " ".trim($raiddata[$count + 1]);
                     }
                 } else {
                     $count++;
