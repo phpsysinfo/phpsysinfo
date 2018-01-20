@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.10
+----------------
+ - [UPD] jQuery 3.3.1
+
 phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml
