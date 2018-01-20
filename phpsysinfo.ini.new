@@ -534,8 +534,8 @@ SHOW_SERIAL=false
 ;
 ACCESS="command"
 
-; define possible apps
-APPS="mdstat,dmraid,megactl,megasasctl,graid,zpool"
+; define possible programs
+PROGRAM="mdstat,dmraid,megactl,megasasctl,graid,zpool"
 
 ; Hide RAID devices
 ; Example : HIDE_DEVICES="md127"
