@@ -72,7 +72,7 @@
   <expression id="plugin_raid_022" name="raid_supported">
     <exp>Αχρησιμοποίητοι Δίσκοι</exp>
   </expression>
-  <expression id="plugin_raid_023" name="raid_app">
-    <exp>Εφαρμογή</exp>
+  <expression id="plugin_raid_023" name="raid_program">
+    <exp>Πρόγραμμα</exp>
   </expression>
 </tns:translationPlugin>

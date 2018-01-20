@@ -71,7 +71,7 @@
   <expression id="plugin_raid_022" name="raid_supported">
     <exp>Type de RAID supporté</exp>
   </expression>
-  <expression id="plugin_raid_023" name="raid_app">
-    <exp>Application</exp>
+  <expression id="plugin_raid_023" name="raid_program">
+    <exp>Program</exp>
   </expression>
 </tns:translationPlugin>
