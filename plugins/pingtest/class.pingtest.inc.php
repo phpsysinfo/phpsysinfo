@@ -70,8 +70,8 @@ class PingTest extends PSI_Plugin
                     }
                 }
                 foreach ($addresses as $address) {
-                    CommonFunctions::executeProgram("ping", $params." ".$address, $buffer, PSI_DEBUG);
-                    if ((strlen($buffer) > 0) && preg_match("/ time[=<]([\d\.]+)\s*ms/", $buffer, $tmpout)) {
+                    CommonFunctions::executeProgram("ping".((strpos($address, ':') === false)?'':((PSI_OS !== 'WINNT')?'6':'')), $params." ".$address, $buffer, PSI_DEBUG);
+                    if ((strlen($buffer) > 0) && preg_match("/[=<]([\d\.]+)\s*ms/", $buffer, $tmpout)) {
                         $this->_filecontent[] = array($address, $tmpout[1]);
                     }
                 }
@@ -87,7 +87,7 @@ class PingTest extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addError("switch(PSI_PLUGIN_PINGTEST_ACCESS)", "Bad pingtest configuration in phpsysinfo.ini");
+                $this->global_error->addConfigError("__construct()", "[pingtest] ACCESS");
                 break;
             }
         }

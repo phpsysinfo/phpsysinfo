@@ -21,11 +21,11 @@
   <expression id="plugin_bat_005" name="bat_present_voltage">
     <exp>Napięcie aktualne</exp>
   </expression>
-  <expression id="plugin_bat_006" name="bat_item">
-    <exp>Parametry</exp>
+  <expression id="plugin_bat_006" name="bat_battery">
+    <exp>Bateria</exp>
   </expression>
   <expression id="plugin_bat_007" name="bat_value">
-    <exp>Wartości</exp>
+    <exp>Wartość</exp>
   </expression>
   <expression id="plugin_bat_008" name="bat_charging_state">
     <exp>Stan ładowania</exp>
@@ -44,5 +44,14 @@
   </expression>
   <expression id="plugin_bat_013" name="bat_full_capacity">
     <exp>Pojemność pełna</exp>
+  </expression>
+  <expression id="plugin_bat_014" name="bat_manufacturer">
+    <exp>Producent</exp>
+  </expression>
+  <expression id="plugin_bat_015" name="bat_model">
+    <exp>Model</exp>
+  </expression>
+  <expression id="plugin_bat_016" name="bat_serialnumber">
+    <exp>Numer seryjny</exp>
   </expression>
 </tns:translationPlugin>

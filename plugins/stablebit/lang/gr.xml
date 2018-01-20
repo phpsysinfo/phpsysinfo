@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Greek Created by: ChriZathens
+  -->
+<tns:translationPlugin language="greek" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_stablebit_001" name="stablebit_title">
+    <exp>Πληροφορίες Ανιχνευτή StableBit</exp>
+  </expression>
+  <expression id="plugin_stablebit_002" name="stablebit_disk">
+    <exp>Δίσκος</exp>
+  </expression>
+  <expression id="plugin_stablebit_003" name="stablebit_value">
+    <exp>Τιμή</exp>
+  </expression>
+  <expression id="plugin_stablebit_004" name="stablebit_serialnumber">
+    <exp>Σειριακός Αριθμός</exp>
+  </expression>
+  <expression id="plugin_stablebit_005" name="stablebit_firmware">
+    <exp>Yλικολογισμικό</exp>
+  </expression>
+  <expression id="plugin_stablebit_006" name="stablebit_size">
+    <exp>Μέγεθος</exp>
+  </expression>
+  <expression id="plugin_stablebit_007" name="stablebit_powerstate">
+    <exp>Κατάσταση ενέργειας</exp>
+  </expression>
+  <expression id="plugin_stablebit_008" name="stablebit_temperaturec">
+    <exp>Θερμοκρασία</exp>
+  </expression>
+  <expression id="plugin_stablebit_009" name="stablebit_ishot">
+    <exp>Είναι πολύ ζεστός</exp>
+  </expression>
+  <expression id="plugin_stablebit_010" name="stablebit_issmartwarning">
+    <exp>Έχει Προειδοποίηση SMART</exp>
+  </expression>
+  <expression id="plugin_stablebit_011" name="stablebit_issmartpastthresholds">
+    <exp>Έχει Προηγούμενα Όρια SMART</exp>
+  </expression>
+  <expression id="plugin_stablebit_012" name="stablebit_issmartpastadvisorythresholds">
+    <exp>Έχει Προηγούμενα Ενδεικνυόμενα Κατώτατα Όρια SMART</exp>
+  </expression>
+  <expression id="plugin_stablebit_013" name="stablebit_issmartfailurepredicted">
+    <exp>Έχει προβλεπόμενη αποτυχία SMART</exp>
+  </expression>
+  <expression id="plugin_stablebit_014" name="stablebit_isdamaged">
+    <exp>Έχει Βλάβη</exp>
+  </expression>
+</tns:translationPlugin>

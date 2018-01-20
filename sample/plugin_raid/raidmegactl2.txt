@@ -1,0 +1,9 @@
+a0       MegaRAID SCSI 320-1      chan:1 ldrv:2  batt:FAULT, module missing
+a0d0       68GiB RAID 1   1x2  optimal
+a0d1      137GiB RAID 10  2x2  optimal
+a0c0t0      68GiB  a0d0  online
+a0c0t1      68GiB  a0d0  online
+a0c0t2      68GiB  a0d1  online
+a0c0t3      68GiB  a0d1  online
+a0c0t4      68GiB  a0d1  online
+a0c0t5      68GiB  a0d1  online

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Greek Created by: ChriZathens
+  -->
+<tns:translationPlugin language="greek" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_updatenotifier_001" name="updatenotifier_title">
+    <exp>Ειδοποιήσεις Ενημερώσεων</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_002" name="updatenotifier_th">
+    <exp>Διαθέσιμες Ενημερώσεις</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_003" name="updatenotifier_packages">
+    <exp>πακέτα μπορούν να ενημερωθούν.</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_004" name="updatenotifier_security">
+    <exp>ενημερώσεις είναι ενημερώσεις ασφαλείας.</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_005" name="updatenotifier_no">
+    <exp>Δεν υπάρχουν ενημερώσεις</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_006" name="updatenotifier_no_packages">
+    <exp>Αριθμός πακέτων</exp>
+  </expression>
+  <expression id="plugin_updatenotifier_007" name="updatenotifier_no_security">
+    <exp>Αριθμός πακέτων ασφαλείας</exp>
+  </expression>
+</tns:translationPlugin>

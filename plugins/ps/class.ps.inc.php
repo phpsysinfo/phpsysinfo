@@ -1,19 +1,6 @@
 <?php
 /**
- * PS Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_PS
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.ps.inc.php 692 2012-09-08 17:12:08Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * process Plugin, which displays all running processes
+ * PS Plugin, which displays all running processes
  * a simple tree view which is filled with the running processes which are determined by
  * calling the "ps" command line utility, another way is to provide
  * a file with the output of the ps utility, so there is no need to run a execute by the
@@ -109,7 +96,7 @@ class PS extends PSI_Plugin
                         $buffer = "  PID  PPID %MEM %CPU COMMAND\n";
 
                         $processlist = glob('/proc/*/status', GLOB_NOSORT);
-                        if (($total = count($processlist)) > 0) {
+                        if (is_array($processlist) && (($total = count($processlist)) > 0)) {
                             natsort($processlist); //first sort
                             $process = array();
                             foreach ($processlist as $processitem) { //second sort
@@ -157,7 +144,7 @@ class PS extends PSI_Plugin
             CommonFunctions::rfts(APP_ROOT."/data/ps.txt", $buffer);
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_PS_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
             break;
         }
         if (PSI_OS != 'WINNT') {
@@ -258,7 +245,7 @@ class PS extends PSI_Plugin
                 $xmlnode->addAttribute('Name', $value[4]);
                 if ((PSI_OS !== 'WINNT') &&
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
-                    || (defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') && (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false) && ($value[4] === "[kthreadd]")))) {
+                    || ((!defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false)) && ($value[4] === "[kthreadd]")))) {
                     $xmlnode->addAttribute('Expanded', 0);
                 }
             }

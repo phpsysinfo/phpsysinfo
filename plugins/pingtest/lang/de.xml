@@ -6,16 +6,16 @@ phpSysInfo language file Language: German Created by: Mieczyslaw Nalewaj
 <tns:translationPlugin language="german" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
-  <expression id="plugin_pingtest_001" name="ps_title">
+  <expression id="plugin_pingtest_001" name="pingtest_title">
     <exp>Ping-Test</exp>
   </expression>
-  <expression id="plugin_pingtest_002" name="ps_address">
+  <expression id="plugin_pingtest_002" name="pingtest_address">
     <exp>Adresse</exp>
   </expression>
-  <expression id="plugin_pingtest_003" name="ps_pingtime">
+  <expression id="plugin_pingtest_003" name="pingtest_pingtime">
     <exp>Pingzeit</exp>
   </expression>
-  <expression id="plugin_pingtest_004" name="ps_lost">
+  <expression id="plugin_pingtest_004" name="pingtest_lost">
     <exp>verloren</exp>
   </expression>
 </tns:translationPlugin>

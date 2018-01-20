@@ -53,7 +53,7 @@
 
     <complexType name="HWDevice">
         <attribute name="Name" type="string" use="required"></attribute>
-        <attribute name="Count" use="required">
+        <attribute name="Count" use="optional">
             <simpleType>
                 <restriction base="integer">
                     <minExclusive value="1"></minExclusive>

@@ -1,0 +1,14 @@
+/*
+ $Id: raid.css 661 2012-08-27 11:26:39Z namiltd $
+ */
+.plugin_raid_biun {
+    text-align: center;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    float: left;
+}
+
+img.plugin_raid_biun {
+    margin: auto;
+}

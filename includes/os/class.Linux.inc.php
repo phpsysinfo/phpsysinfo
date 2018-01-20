@@ -83,7 +83,7 @@ class Linux extends OS
         }
 
         if ($machine != "") {
-            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name) ?/", "", $machine)));
+            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified) ?/i", "", $machine)));
         }
 
         if (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
@@ -112,7 +112,7 @@ class Linux extends OS
     protected function _hostname()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setHostname(getenv('SERVER_NAME'));
+            if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1)) {
                 $result = trim($result);
@@ -542,7 +542,7 @@ class Linux extends OS
             }
         } else {
             $pcidevices = glob('/sys/bus/pci/devices/*/uevent', GLOB_NOSORT);
-            if (($total = count($pcidevices)) > 0) {
+            if (is_array($pcidevices) && (($total = count($pcidevices)) > 0)) {
                 $buf = "";
                 for ($i = 0; $i < $total; $i++) {
                     if (CommonFunctions::rfts($pcidevices[$i], $buf, 0, 4096, false) && (trim($buf) != "")) {
@@ -581,7 +581,7 @@ class Linux extends OS
             if (preg_match('/^hd/', $file)) {
                 $dev = new HWDevice();
                 $dev->setName(trim($file));
-                if (CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
                     if (trim($buf) == 'disk') {
                         if (CommonFunctions::rfts("/proc/ide/".$file."/capacity", $buf, 1, 4096, false) || CommonFunctions::rfts("/sys/block/".$file."/size", $buf, 1, 4096, false)) {
                             $dev->setCapacity(trim($buf) * 512 / 1024);
@@ -603,22 +603,45 @@ class Linux extends OS
      */
     private function _scsi()
     {
-        $get_type = false;
+        $getline = 0;
         $device = null;
+        $scsiid = null;
         if (CommonFunctions::executeProgram('lsscsi', '-c', $bufr, PSI_DEBUG) || CommonFunctions::rfts('/proc/scsi/scsi', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
-                if (preg_match('/Vendor: (.*) Model: (.*) Rev: (.*)/i', $buf, $devices)) {
-                    $get_type = true;
+                if (preg_match('/Host: scsi(\d+) Channel: (\d+) Target: (\d+) Lun: (\d+)/i', $buf, $scsiids)
+                   || preg_match('/Host: scsi(\d+) Channel: (\d+) Id: (\d+) Lun: (\d+)/i', $buf, $scsiids)) {
+                    $scsiid = $scsiids;
+                    $getline = 1;
+                    continue;
+                }
+                if ($getline == 1) {
+                    preg_match('/Vendor: (.*) Model: (.*) Rev: (.*)/i', $buf, $devices);
+                    $getline = 2;
                     $device = $devices;
                     continue;
                 }
-                if ($get_type) {
+                if ($getline == 2) {
                     preg_match('/Type:\s+(\S+)/i', $buf, $dev_type);
+
                     $dev = new HWDevice();
                     $dev->setName($device[1].' '.$device[2].' ('.$dev_type[1].')');
+
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                       && ($dev_type[1]==='Direct-Access')) {
+                       $sizelist = glob('/sys/bus/scsi/devices/'.($scsiid[1]+0).':'.($scsiid[2]+0).':'.($scsiid[3]+0).':'.($scsiid[4]+0).'/*/*/size', GLOB_NOSORT);
+                       if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
+                           $buf = "";
+                           for ($i = 0; $i < $total; $i++) {
+                               if (CommonFunctions::rfts($sizelist[$i], $buf, 1, 4096, false) && (($buf=trim($buf)) != "") && ($buf > 0)) {
+                                   $dev->setCapacity($buf * 512);
+                                   break;
+                               }
+                           }
+                       }
+                    }
                     $this->sys->setScsiDevices($dev);
-                    $get_type = false;
+                    $getline = 0;
                 }
             }
         }
@@ -629,80 +652,122 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _usb()
+    protected function _usb()
     {
-        $devnum = -1;
-        $results = array();
-        if (CommonFunctions::executeProgram('lsusb', '', $bufr, PSI_DEBUG) && (trim($bufr) !== "")) {
+        $usbarray = array();
+        if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 $device = preg_split("/ /", $buf, 7);
-                if (isset($device[6]) && trim($device[6]) != "") {
-                    $dev = new HWDevice();
-                    $dev->setName(trim($device[6]));
-                    $this->sys->setUsbDevices($dev);
-                } elseif (isset($device[5]) && trim($device[5]) != "") {
-                    $dev = new HWDevice();
-                    $dev->setName("unknown");
-                    $this->sys->setUsbDevices($dev);
+                if (((isset($device[6]) && trim($device[6]) != "")) ||
+                    ((isset($device[5]) && trim($device[5]) != ""))) {
+                    $usbid = ($device[1]+0).'-'.(trim($device[3],':')+0).' '.$device[5];
+                    if ((isset($device[6]) && trim($device[6]) != "")) {
+                        $usbarray[$usbid]['name'] = trim($device[6]);
+                    } else {
+                        $usbarray[$usbid]['name'] = 'unknown';
+                    }
                 }
             }
-        } elseif (CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+        }
+
+        $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+        if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
+            for ($i = 0; $i < $total; $i++) {
+                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { //is readable
+                    $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
+                    $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
+                    $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
+                    if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
+                        $usbid = ($busnum+0).'-'.($devnum+0).' '.$idvendor.':'.$idproduct;
+                        $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
+                        if ($manufacturer!==null) {
+                            $usbarray[$usbid]['manufacturer'] = $manufacturer;
+                        }
+                        $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
+                        if ($product!==null) {
+                            $usbarray[$usbid]['product'] = $product;
+                        }
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                            $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
+                            if (($serial!==null) && !preg_match('/\W/', $serial)) {
+                                $usbarray[$usbid]['serial'] = $serial;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+            $devnum = -1;
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
                     $devnum++;
-                    $results[$devnum] = "";
                 } elseif (preg_match('/^S:/', $buf)) {
                     list($key, $value) = preg_split('/: /', $buf, 2);
                     list($key, $value2) = preg_split('/=/', $value, 2);
-                    if ((trim($key) == "Manufacturer") && (preg_match("/^linux\s/i", trim($value2)))) {
-                        $value2 = "Linux";
-                    }
-                    if (trim($key) != "SerialNumber") {
-                        $results[$devnum] .= " ".trim($value2);
+                    switch (trim($key)) {
+                    case 'Manufacturer':
+                        $usbarray[$devnum]['manufacturer'] = trim($value2);
+                        break;
+                    case 'Product':
+                        $usbarray[$devnum]['product'] = trim($value2);
+                        break;
+                    case 'SerialNumber':
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                           && !preg_match('/\W/', trim($value2))) {
+                            $usbarray[$devnum]['serial'] = trim($value2);
+                         }
+                         break;
                     }
                 }
             }
-            foreach ($results as $var) {
-                $dev = new HWDevice();
-                $var = trim($var);
-                if ($var != "") {
-                    $dev->setName($var);
+        }
+
+        foreach ($usbarray as $usbdev) {
+            $dev = new HWDevice();
+
+            if (isset($usbdev['manufacturer']) && (($manufacturer=$usbdev['manufacturer']) !== 'no manufacturer')) {
+                if (preg_match("/^linux\s/i", $manufacturer)) {
+                    $manufacturer = 'Linux Foundation';
+                }
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    $dev->setManufacturer($manufacturer);
+                }
+            } else {
+                $manufacturer = '';
+            }
+
+            if (isset($usbdev['product'])) {
+                $product = $usbdev['product'];
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    $dev->setProduct($product);
+                }
+            } else {
+                $product = '';
+            }
+
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                && isset($usbdev['serial'])) {
+                $dev->setSerial($usbdev['serial']);
+            }
+
+            if (isset($usbdev['name']) && (($name=$usbdev['name']) !== 'unknown')) {
+                $dev->setName($name);
+            } else {
+                if (($newname = trim($manufacturer.' '.$product)) !== '') {
+                    $dev->setName($newname);
                 } else {
-                    $dev->setName("unknown");
-                }
-                $this->sys->setUsbDevices($dev);
-            }
-        } else {
-            $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
-            if (($total = count($usbdevices)) > 0) {
-                $buf = "";
-                for ($i = 0; $i < $total; $i++) {
-                    if (CommonFunctions::rfts($usbdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) { //is readable
-                        $product = preg_replace("/\/idProduct$/", "/product", $usbdevices[$i]);
-                        $manufacturer = preg_replace("/\/idProduct$/", "/manufacturer", $usbdevices[$i]);
-                        $usbbuf = "";
-                        if (CommonFunctions::fileexists($manufacturer) && CommonFunctions::rfts($manufacturer, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                            if (preg_match("/^linux\s/i", trim($buf))) {
-                                $usbbuf = "Linux";
-                            } else {
-                                $usbbuf = trim($buf);
-                            }
-                        }
-                        if (CommonFunctions::fileexists($product) && CommonFunctions::rfts($product, $buf, 1, 4096, false) && (trim($buf) != "")) {
-                            $usbbuf .= " ".trim($buf);
-                        }
-                        $dev = new HWDevice();
-                        if (trim($usbbuf) != "") {
-                            $dev->setName(trim($usbbuf));
-                        } else {
-                            $dev->setName("unknown");
-                        }
-                        $this->sys->setUsbDevices($dev);
-                    }
+                    $dev->setName('unknown');
                 }
             }
+
+            $this->sys->setUsbDevices($dev);
         }
     }
 
@@ -714,7 +779,7 @@ class Linux extends OS
     protected function _i2c()
     {
         $i2cdevices = glob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
-        if (($total = count($i2cdevices)) > 0) {
+        if (is_array($i2cdevices) && (($total = count($i2cdevices)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
@@ -748,15 +813,23 @@ class Linux extends OS
                     $dev->setDrops($stats[3] + $stats[11]);
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                         $macaddr = "";
-                        if ((CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && (trim($bufr2)!=""))
+                        if ((CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && ($bufr2!=""))
                            || CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG)) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
 //                                if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                                 if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
+                                   || preg_match('/\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+link\/ether\s+(\S+)\s+brd/i', $buf2, $ar_buf2)) {
-                                    if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                   || preg_match('/^\s+link\/ether\s+(\S+)\s+brd/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+link\/ether\s+(\S+)$/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+link\/ieee802.11\s+(\S+)$/i', $buf2, $ar_buf2)) {
+                                    if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
+                                        $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                        if ($macaddr === '00-00-00-00-00-00') { // empty
+                                            $macaddr = "";
+                                        }
+                                    }
                                 } elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $buf2, $ar_buf2)
                                        || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $buf2, $ar_buf2)
                                        || preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)) {
@@ -796,7 +869,7 @@ class Linux extends OS
                     $this->sys->setNetDevices($dev);
                 }
             }
-        } elseif (CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && (trim($bufr)!="")) {
+        } elseif (CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && ($bufr!="")) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             $macaddr = "";
@@ -817,7 +890,7 @@ class Linux extends OS
                     $macaddr = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, PSI_DEBUG) && (trim($bufr2)!="")
+                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, PSI_DEBUG) && ($bufr2!="")
                        && preg_match("/\n\s+RX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)[^\n]+\n\s+TX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)/m", $bufr2, $ar_buf2)) {
                         $dev->setRxBytes($ar_buf2[1]);
                         $dev->setTxBytes($ar_buf2[4]);
@@ -1371,8 +1444,7 @@ class Linux extends OS
     protected function _processes()
     {
         $process = glob('/proc/*/status', GLOB_NOSORT);
-        if (($total = count($process)) > 0) {
-
+        if (is_array($process) && (($total = count($process)) > 0)) {
             $processes['*'] = 0;
             $buf = "";
             for ($i = 0; $i < $total; $i++) {

@@ -1,0 +1,6 @@
+a0       PERC 3/DC bios:3.35 fw:199A chan:2 ldrv:1 rbld:30% batt:good
+a0d0      273GiB RAID 5   1x4  DEGRADED
+a0c0t0     136GiB  a0d0  online
+a0c0t1     136GiB  a0d0  online
+a0c0t2     136GiB  a0d0  rebuild
+a0c0t3     136GiB  a0d0  online

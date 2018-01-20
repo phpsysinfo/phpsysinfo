@@ -1,3 +1,5 @@
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/present
+1
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/uevent
 POWER_SUPPLY_NAME=BAT0
 POWER_SUPPLY_STATUS=Unknown
@@ -29,3 +31,9 @@ POWER_SUPPLY_SERIAL_NUMBER=18990
 Li-ion
 ---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/status
 Unknown
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/manufacturer
+SANYO
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/model_name
+45N1001
+---Sun, 12 May 2013 18:32:54 +0000 GMT--- Reading: /sys/class/power_supply/BAT0/serial_number
+18990

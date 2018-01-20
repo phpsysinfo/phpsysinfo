@@ -61,7 +61,7 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
             } else {
                 $json = json_encode(simplexml_load_string($output->getXMLString()));
             }
-            echo isset($_GET['jsonp']) ? (!preg_match('/[^A-Za-z0-9_\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
+            echo isset($_GET['jsonp']) ? (!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
         } else {
             $output->run();
         }

@@ -238,6 +238,18 @@ class Darwin extends BSDCommon
                     if (!preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf))
                        $ar_buf = preg_split("/[\s@]+/", $line, 19);
                     $dev->setName(trim($ar_buf[1]));
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                        if (preg_match('/"USB Vendor Name" = "([^"]*)"/', $line, $ar_buf)) {
+                            $dev->setManufacturer(trim($ar_buf[1]));
+                        }
+                        if (preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf)) {
+                            $dev->setProduct(trim($ar_buf[1]));
+                        }
+                        if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                           && preg_match('/"USB Serial Number" = "([^"]*)"/', $line, $ar_buf)) {
+                            $dev->setSerial(trim($ar_buf[1]));
+                        }
+                    }
                     $this->sys->setUsbDevices($dev);
         }
     }
@@ -410,12 +422,12 @@ class Darwin extends BSDCommon
                 if (trim($arrLine[0]) === "System Version") {
                     $distro = trim($arrLine[1]);
 
-                    if (preg_match('/(^Mac OS)|(^OS X)|(^macOS)/', $distro)) {
+                    if (preg_match('/^Mac OS|^OS X|^macOS/', $distro)) {
                         $this->sys->setDistributionIcon('Apple.png');
-                        if (preg_match('/((^Mac OS X Server)|(^Mac OS X)|(^OS X Server)|(^OS X)|(^macOS Server)|(^macOS)) (\d+\.\d+)/', $distro, $ver)
+                        if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) (\d+\.\d+)/', $distro, $ver)
                             && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
-                            && isset($list['OS X'][$ver[6]])) {
-                            $distro.=' '.$list['OS X'][$ver[6]];
+                            && isset($list['OS X'][$ver[2]])) {
+                            $distro.=' '.$list['OS X'][$ver[2]];
                         }
                     }
 

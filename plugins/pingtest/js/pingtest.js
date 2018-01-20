@@ -57,16 +57,18 @@ function pingtest_populate(xml) {
 function pingtest_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_PingTestTable\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th>" + genlang(2, false, "PingTest") + "</th>\n";
-    html += "      <th>" + genlang(3, false, "PingTest") + "</th>\n";
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody>\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_PingTestTable\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th>" + genlang(2, false, "PingTest") + "</th>\n";
+    html += "        <th>" + genlang(3, false, "PingTest") + "</th>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
 
     $("#Plugin_PingTest").append(html);
 
@@ -80,7 +82,7 @@ function pingtest_buildTable() {
         "bAutoWidth": false,
         "bStateSave": true,
         "aoColumns": [{
-            "sType": 'span-string'
+            "sType": 'span-ip'
         }, {
             "sType": 'span-number'
         }]

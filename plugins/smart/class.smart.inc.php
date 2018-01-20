@@ -1,18 +1,5 @@
 <?php
 /**
- * SMART Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_SMART
- * @author    Antoine Bertin <diaoulael@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.smart.inc.php 707 2012-11-28 10:20:49Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
-/**
  * SMART plugin, which displays all SMART informations available
  *
  * @category  PHP
@@ -77,7 +64,7 @@ class SMART extends PSI_Plugin
                 }
                 break;
             default:
-                $this->global_error->addError("switch(PSI_PLUGIN_SMART_ACCESS)", "Bad SMART configuration in phpsysinfo.ini");
+                $this->global_error->addConfigError("__construct()", "[smart] ACCESS");
                 break;
         }
 

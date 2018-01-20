@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: pl.xml 661 2017-09-01 09:01:17Z namiltd $ -->
 <!--
 phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
@@ -6,16 +6,16 @@ phpSysInfo language file Language: Polish Created by: Mieczyslaw Nalewaj
 <tns:translationPlugin language="polish" charset="utf-8"
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
-  <expression id="plugin_pingtest_001" name="ps_title">
+  <expression id="plugin_pingtest_001" name="pingtest_title">
     <exp>Test Pingu</exp>
   </expression>
-  <expression id="plugin_pingtest_002" name="ps_address">
+  <expression id="plugin_pingtest_002" name="pingtest_address">
     <exp>Adres</exp>
   </expression>
-  <expression id="plugin_pingtest_003" name="ps_pingtime">
+  <expression id="plugin_pingtest_003" name="pingtest_pingtime">
     <exp>Czas Pingu</exp>
   </expression>
-  <expression id="plugin_pingtest_004" name="ps_lost">
+  <expression id="plugin_pingtest_004" name="pingtest_lost">
     <exp>zagubiony</exp>
   </expression>
 </tns:translationPlugin>

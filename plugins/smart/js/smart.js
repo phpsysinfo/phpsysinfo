@@ -35,18 +35,20 @@ var smart_show = false, smart_table;
 function smart_buildTable(xml) {
     var html = "";
 
-    html += "<table id=\"Plugin_SMARTTable\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th class=\"right\">" + genlang(2, false, "SMART") + "</th>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_SMARTTable\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th class=\"right\">" + genlang(2, false, "SMART") + "</th>\n";
     $("Plugins Plugin_SMART columns column", xml).each(function smart_table_header() {
-        html += "      <th class=\"right\">" + genlang(100 + parseInt($(this).attr("id"), 10), false, "SMART") + "</th>\n";
+        html += "        <th class=\"right\">" + genlang(100 + parseInt($(this).attr("id"), 10), false, "SMART") + "</th>\n";
     });
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody>\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
 
     $("#Plugin_SMART").append(html);
 
@@ -79,7 +81,7 @@ function smart_populate(xml) {
     // Now we add selected datas in the table
     $("Plugins Plugin_SMART disks disk", xml).each(function smart_fill_table() {
         var values = [], display = [], i;
-        name = $(this).attr("name");
+        name = $(this).attr("name").replace(/\)/g, ")<wbr>");
         $(this).find("attribute").each(function smart_fill_data() {
             if (columns[parseInt($(this).attr("id"), 10)] && columns[parseInt($(this).attr("id"), 10)] !== "") {
                 values[parseInt($(this).attr("id"), 10)] = $(this).attr(columns[parseInt($(this).attr("id"), 10)]);

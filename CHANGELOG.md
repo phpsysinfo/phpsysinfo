@@ -3,6 +3,22 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.9
+----------------
+ - [UPD] Greek Translation gr.xml
+
+ - [ADD] BAT plugin - Model, Manufacturer and Serial Number information
+ - [ADD] BAT plugin - SHOW_SERIAL and UPOWER option
+ - [ADD] Springdale Linux to detected distros
+
+ - [NEW] SHOW_DEVICES_INFOS and SHOW_DEVICES_SERIAL options
+ - [NEW] Thinkpad - Lenovo Thinkpad sensors monitoring for Linux
+ - [NEW] StableBit plugin - StableBit Scanner info
+ - [NEW] HyperV plugin - Hyper-V info
+ - [NEW] Raid plugin - software, fake, zpool and megaraid RAID status
+
+ - [DEL] Removed deprecated MDStatus and DMRaid plugins
+
 phpSysInfo 3.2.8
 ----------------
  - [UPD] jQuery 3.2.1

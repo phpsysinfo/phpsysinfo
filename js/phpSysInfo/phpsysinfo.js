@@ -200,8 +200,7 @@ function genlang(id, generate, plugin) {
     } else {
         html += "<span id=\"lang_" + idString + "\">";
     }
-    if ((langxml[langarrId] !== undefined)
-        && (langarr[langarrId] !== undefined)) {
+    if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
     }    
 
@@ -227,7 +226,7 @@ function changeLanguage(plugin) {
     }
 
     if (langxml[langarrId] !== undefined) {
-        changeSpanLanguage(plugin)
+        changeSpanLanguage(plugin);
     } else {
         langxml.push(langarrId);
         getLanguage(plugin, langarrId);
@@ -235,8 +234,7 @@ function changeLanguage(plugin) {
 }
 
 function changeSpanLanguage(plugin) {
-    var langId = "", langStr = "", plugId = "",
-        langarrId = current_language + "_";
+    var langId = "", langStr = "", langarrId = current_language + "_";
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
@@ -280,32 +278,34 @@ function changeSpanLanguage(plugin) {
 function filesystemtable() {
     var html = "";
     html += "<h2>" + genlang(30, false) + "</h2>\n";
-    html += "        <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
-    html += "          <thead>\n";
-    html += "            <tr>\n";
-    html += "              <th>" + genlang(31, false) + "</th>\n";
-    html += "              <th>" + genlang(34, true) + "</th>\n";
-    html += "              <th>" + genlang(32, false) + "</th>\n";
-    html += "              <th>" + genlang(33, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(35, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(36, true) + "</th>\n";
-    html += "              <th class=\"right\">" + genlang(37, true) + "</th>\n";
-    html += "            </tr>\n";
-    html += "          </thead>\n";
-    html += "          <tfoot>\n";
-    html += "            <tr style=\"font-weight : bold\">\n";
-    html += "              <td>&nbsp;</td>\n";
-    html += "              <td>&nbsp;</td>\n";
-    html += "              <td>" + genlang(38, false) + "</td>\n";
-    html += "              <td id=\"s_fs_total\"></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
-    html += "              <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
-    html += "            </tr>\n";
-    html += "          </tfoot>\n";
-    html += "          <tbody>\n";
-    html += "          </tbody>\n";
-    html += "        </table>\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
+    html += "          <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
+    html += "            <thead>\n";
+    html += "              <tr>\n";
+    html += "                <th>" + genlang(31, false) + "</th>\n";
+    html += "                <th>" + genlang(34, true) + "</th>\n";
+    html += "                <th>" + genlang(32, false) + "</th>\n";
+    html += "                <th>" + genlang(33, true) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(35, false) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(36, true) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(37, true) + "</th>\n";
+    html += "              </tr>\n";
+    html += "            </thead>\n";
+    html += "            <tfoot>\n";
+    html += "              <tr style=\"font-weight : bold\">\n";
+    html += "                <td>&nbsp;</td>\n";
+    html += "                <td>&nbsp;</td>\n";
+    html += "                <td>" + genlang(38, false) + "</td>\n";
+    html += "                <td id=\"s_fs_total\"></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
+    html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
+    html += "              </tr>\n";
+    html += "            </tfoot>\n";
+    html += "            <tbody>\n";
+    html += "            </tbody>\n";
+    html += "          </table>\n";
+    html += "        </div>\n";
 
     $("#filesystem").append(html);
 
@@ -669,8 +669,8 @@ function refreshVitals(xml) {
         //processes
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
-            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") == undefined)) ||
-                (($(this).attr("CodePage") == undefined) && ($(this).attr("SysLang") !== undefined))) {
+            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") === undefined)) ||
+                (($(this).attr("CodePage") === undefined) && ($(this).attr("SysLang") !== undefined))) {
                 document.getElementById("s_processes_tr1").style.display='';
             } else {
                 document.getElementById("s_processes_tr2").style.display='';
@@ -790,10 +790,10 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             tree.push(cpucoreposition);
         }
         if (!isNaN(cache)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache, xml) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        if (virt != undefined) {
+        if (virt !== undefined) {
             html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(94, true) + ":</span></td><td>" + virt + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
@@ -838,16 +838,37 @@ function countCpu(xml) {
  */
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
-    $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
-        var name = "", count = 0;
+    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
+        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", devcoreposition = 0;
+
         devicecount++;
         name = $(this).attr("Name");
+        capacity = parseInt($(this).attr("Capacity"), 10);
+        manufacturer = $(this).attr("Manufacturer");
+        product = $(this).attr("Product");
+        serial = $(this).attr("Serial");
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
             name = "(" + count + "x) " + name;
         }
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + name + "</span></td></tr>\n";
-        tree.push(rootposition);
+        devcoreposition = tree.push(rootposition);
+        if (!isNaN(capacity)) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity, xml) + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (manufacturer!== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(122, true) + ":</span></td><td>" + manufacturer + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (product !== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(123, true) + ":</span></td><td>" + product + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (serial !== undefined) {
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(124, true) + ":</span></td><td>" + serial + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
     });
     if (devicecount === 0) {
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + genlang(42, true) + "</span></td></tr>\n";
@@ -858,7 +879,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
 
 function countHWDevice(xml, type) {
     var devicecount = 0;
-    $("Hardware " + type + " Device", xml).each(function getPciDevice(deviceId) {
+    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
         devicecount++;
     });
     return devicecount;
@@ -877,13 +898,14 @@ function refreshHardware(xml) {
     var html = "", tree = [], closed = [], index = 0, machine = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10, false) + "</h2>\n";
+    html += " <div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <tbody class=\"tree\">\n";
 
     $("Hardware", xml).each(function getMachine(id) {
         machine = $(this).attr("Name");
     });
-    if ((machine !== undefined) && (machine != "")) {
+    if ((machine !== undefined) && (machine !== "")) {
         html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(107, false) + "</span></td></tr>\n";
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + machine + "</span></td></tr>\n";
         tree.push(tree.push(0));
@@ -906,6 +928,7 @@ function refreshHardware(xml) {
 
     html += "   </tbody>\n";
     html += "  </table>\n";
+    html += " </div>\n";
     $("#hardware").append(html);
 
     $("#HardwareTree").jqTreeTable(tree, {
@@ -957,7 +980,7 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, i = 0, htmlrx = '', htmltx = '';
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '';
         name = $(this).attr("Name");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
@@ -966,14 +989,14 @@ function refreshNetwork(xml) {
 
         if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
             var diff, difftime;
-            if (((diff = rx - oldnetwork[name]["rx"]) > 0) && ((difftime = timestamp - oldnetwork[name]["timestamp"]) > 0)) {
+            if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
                 if (showNetworkActiveSpeed == 2) {
                     htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                 } else {
                     htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
                 }
             }
-            if (((diff = tx - oldnetwork[name]["tx"]) > 0) && (difftime > 0)) {
+            if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
                 if (showNetworkActiveSpeed == 2) {
                     htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
                 } else {
@@ -992,7 +1015,7 @@ function refreshNetwork(xml) {
         }
 
         info = $(this).attr("Info");
-        if ( (info !== undefined) && (info != "") ) {
+        if ( (info !== undefined) && (info !== "") ) {
             var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
@@ -1004,13 +1027,15 @@ function refreshNetwork(xml) {
             }
         }
     });
-    html += "</tbody>\n";
-    html += "</table>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
+    html0 += "<div style=\"overflow-x:auto;\">\n";
     if (isinfo) {
-       html0 += "<table id=\"NetworkTree\" class=\"tablemain\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\" style=\"border-spacing:0;\">\n";
        html1 += "   <tbody class=\"tree\">\n";
     } else {
-       html0 += "<table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
        html1 += "   <tbody class=\"tbody_network\">\n";
     }
     $("#network").append(html0+html1+html);
@@ -1054,17 +1079,18 @@ function refreshMemory(xml) {
 
     $("#memory").empty();
     html += "<h2>" + genlang(27, false) + "</h2>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
-    html += "    <tr>\n";
-    html += "     <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
-    html += "     <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(35, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
-    html += "     <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
-    html += "    </tr>\n";
-    html += "   </thead>\n";
-    html += "   <tbody class=\"tree\">\n";
+    html += "     <tr>\n";
+    html += "      <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
+    html += "      <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(125, false) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
+    html += "     </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody class=\"tree\">\n";
 
     $("Memory", xml).each(function getMemory(id) {
         var free = 0, total = 0, used = 0, percent = 0, memoryindex = 0;
@@ -1132,8 +1158,9 @@ function refreshMemory(xml) {
         });
     });
 
-    html += "   </tbody>\n";
+    html += "    </tbody>\n";
     html += "  </table>\n";
+    html += "</div>\n";
     $("#memory").append(html);
 
     $("#MemoryTree").jqTreeTable(tree, {
@@ -1444,8 +1471,9 @@ function refreshUps(xml) {
     var add_apcupsd_cgi_links = ($("[ApcupsdCgiLinks='1']", xml).length > 0);
     var html = "", tree = [], closed = [], index = 0, values = false;
     html += "<h2>" + genlang(68, false) + "</h2>\n";
-    html += "        <table class=\"tablemain\" id=\"UPSTree\">\n";
-    html += "          <tbody class=\"tree\">\n";
+    html += "        <div style=\"overflow-x:auto;\">\n";
+    html += "          <table class=\"tablemain\" id=\"UPSTree\">\n";
+    html += "            <tbody class=\"tree\">\n";
 
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
@@ -1532,8 +1560,9 @@ function refreshUps(xml) {
         }
         values=true;
     });
-    html += "          </tbody>\n";
-    html += "        </table>\n";
+    html += "            </tbody>\n";
+    html += "          </table>\n";
+    html += "        </div>\n";
     if (add_apcupsd_cgi_links){
         html += " (<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
     }
@@ -1752,6 +1781,99 @@ jQuery.fn.dataTableExt.oSort['span-number-desc'] = function sortNumberDesc(a, b)
     return ((x < y) ? 1 : ((x > y) ? -1 : 0));
 };
 
+jQuery.fn.dataTableExt.oSort['span-ip-asc'] = function sortIpAsc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = full_addr(aa);
+    y = full_addr(bb);
+    if ((x === '') || (y === '')) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['span-ip-desc'] = function sortIpDesc(a, b) {
+    var x = 0, y = 0, aa = "", bb = "";
+    aa = a.substring(a.indexOf(">") + 1, a.indexOf("</"));
+    bb = b.substring(b.indexOf(">") + 1, b.indexOf("</"));
+    x = full_addr(aa);
+    y = full_addr(bb);
+    if ((x === '') || (y === '')) {
+        x = aa;
+        y = bb;
+    }
+    return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+};
+
+function full_addr(ip_string) {
+    var wrongvalue = false;
+    ip_string = ip_string.trim().toLowerCase();
+    // ipv4 notation
+    if (ip_string.match(/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
+        ip_string ='::ffff:' + ip_string;
+    }
+    // replace ipv4 address if any
+    var ipv4 = ip_string.match(/(.*:)([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/);
+    if (ipv4) {
+        ip_string = ipv4[1];
+        ipv4 = ipv4[2].match(/[0-9]+/g);
+        for (var i = 0;i < 4;i ++) {
+            var byte = parseInt(ipv4[i],10);
+            if (byte<256) {
+                ipv4[i] = ("0" + byte.toString(16)).substr(-2);
+            } else {
+                wrongvalue = true;
+                break;
+            }
+        }
+        if (wrongvalue) {
+            ip_string = '';
+        } else {
+            ip_string += ipv4[0] + ipv4[1] + ':' + ipv4[2] + ipv4[3];
+        }
+    }
+
+    if (ip_string === '') {
+        return '';
+    }
+    // take care of leading and trailing ::
+    ip_string = ip_string.replace(/^:|:$/g, '');
+
+    var ipv6 = ip_string.split(':');
+
+    for (var li = 0; li < ipv6.length; li ++) {
+        var hex = ipv6[li];
+        if (hex !== "") {
+            if (!hex.match(/^[0-9a-f]{1,4}$/)) {
+                wrongvalue = true;
+                break;
+            }
+            // normalize leading zeros
+            ipv6[li] = ("0000" + hex).substr(-4);
+        }
+        else {
+            // normalize grouped zeros ::
+            hex = [];
+            for (var j = ipv6.length; j <= 8; j ++) {
+                hex.push('0000');
+            }
+            ipv6[li] = hex.join(':');
+        }
+    }
+    if (!wrongvalue) {
+        var out = ipv6.join(':');
+        if (out.length == 39) {
+            return out;
+        } else {
+            return '';
+        }
+    } else {
+        return '';
+    }
+}
+
 /**
  * generate the block element for a specific plugin that is available
  * @param {String} plugin name of the plugin
@@ -1805,7 +1927,7 @@ function datetime() {
 }
 
 Array.prototype.pushIfNotExist = function(val) {
-    if (typeof(val) == 'undefined' || val == '') {
+    if (typeof(val) == 'undefined' || val === '') {
         return;
     }
     val = $.trim(val);

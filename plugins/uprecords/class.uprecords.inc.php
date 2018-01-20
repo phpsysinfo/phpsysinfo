@@ -1,18 +1,4 @@
 <?php
-
-/**
- * Uprecords Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_Uprecords
- * @author    Ambrus Sandor Olah <aolah76@freemail.hu>
- * @copyright 2014 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.uprecords.inc.php 661 2014-01-08 11:26:39Z aolah76 $
- * @link      http://phpsysinfo.sourceforge.net
- */
 /**
  * Uprecords plugin, which displays all uprecords informations available
  *
@@ -76,8 +62,6 @@ class uprecords extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
             case 'command':
                 $lines = "";
-                $oldtz=getenv("TZ");
-                putenv("TZ=GMT");
                 $options = "";
                 if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
                     if (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === false) {
@@ -88,16 +72,15 @@ class uprecords extends PSI_Plugin
                         $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
                     }
                 }
-                if (CommonFunctions::executeProgram('uprecords', '-a -w'.$options, $lines) && !empty($lines))
+                if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                putenv("TZ=".$oldtz);
                 break;
             case 'data':
                 if (CommonFunctions::rfts(APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:
-                $this->global_error->addConfigError('__construct()', 'PSI_PLUGIN_UPRECORDS_ACCESS');
+                $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");
                 break;
         }
     }
@@ -105,7 +88,7 @@ class uprecords extends PSI_Plugin
     public function xml()
     {
         if (empty($this->_lines))
-        return $this->xml->getSimpleXmlElement();
+            return $this->xml->getSimpleXmlElement();
 
         $arrBuff = $this->getUprecords();
         if (sizeof($arrBuff) > 0) {

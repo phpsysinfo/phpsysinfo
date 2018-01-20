@@ -1,0 +1,83 @@
+Device: /org/freedesktop/UPower/devices/line_power_AC
+  native-path:          AC
+  power supply:         yes
+  updated:              pon, 27 lis 2017, 12:38:00 (103 seconds ago)
+  has history:          no
+  has statistics:       no
+  line-power
+    warning-level:       none
+    online:              yes
+    icon-name:          'ac-adapter-symbolic'
+
+Device: /org/freedesktop/UPower/devices/battery_BAT0
+  native-path:          BAT0
+  vendor:               SANYO
+  model:                45N1001
+  serial:               7311
+  power supply:         yes
+  updated:              pon, 27 lis 2017, 12:38:05 (98 seconds ago)
+  has history:          yes
+  has statistics:       yes
+  battery
+    present:             yes
+    rechargeable:        yes
+    state:               fully-charged
+    warning-level:       none
+    energy:              38,26 Wh
+    energy-empty:        0 Wh
+    energy-full:         38,38 Wh
+    energy-full-design:  56,16 Wh
+    energy-rate:         0 W
+    voltage:             12,456 V
+    percentage:          99%
+    capacity:            68,3405%
+    technology:          lithium-ion
+    icon-name:          'battery-full-charged-symbolic'
+  History (charge):
+    1511782682	99,000	fully-charged
+    1511782680	0,000	unknown
+  History (rate):
+    1511782680	0,000	unknown
+
+Device: /org/freedesktop/UPower/devices/mouse_0003o046DoC52Fx0002
+  native-path:          /sys/devices/pci0000:00/0000:00:1a.0/usb1/1-1/1-1.2/1-1.2:1.1/0003:046D:C52F.0002
+  vendor:               Logitech, Inc.
+  model:                M185
+  serial:               09A7C0B2
+  power supply:         no
+  updated:              pon, 27 lis 2017, 12:38:00 (103 seconds ago)
+  has history:          yes
+  has statistics:       no
+  mouse
+    present:             no
+    rechargeable:        yes
+    state:               unknown
+    warning-level:       none
+    percentage:          0%
+    icon-name:          'battery-missing-symbolic'
+  History (charge):
+    1511782680	0,000	unknown
+  History (rate):
+    1511782680	0,000	unknown
+
+Device: /org/freedesktop/UPower/devices/DisplayDevice
+  power supply:         yes
+  updated:              pon, 27 lis 2017, 12:38:00 (103 seconds ago)
+  has history:          no
+  has statistics:       no
+  battery
+    present:             yes
+    state:               fully-charged
+    warning-level:       none
+    energy:              38,26 Wh
+    energy-full:         38,38 Wh
+    energy-rate:         0 W
+    percentage:          99%
+    icon-name:          'battery-full-charged-symbolic'
+
+Daemon:
+  daemon-version:  0.99.6
+  on-battery:      no
+  lid-is-closed:   no
+  lid-is-present:  yes
+  critical-action: PowerOff

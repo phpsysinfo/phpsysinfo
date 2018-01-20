@@ -37,9 +37,9 @@ function iptables_populate(xml) {
     var html = "";
  
     $("Plugins Plugin_iptables iptables Item", xml).each(function iptables_getitem(idp) {
-        html += "    <tr>\n";
-        html += "      <td style=\"font-weight:normal\">" +  $(this).attr("Rule") + "</td>\n";
-        html += "    </tr>\n";
+        html += "      <tr>\n";
+        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Rule") + "</td>\n";
+        html += "      </tr>\n";
         iptables_show = true;
     });
 
@@ -51,15 +51,18 @@ function iptables_populate(xml) {
 function iptables_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_iptablesTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th>" + genlang(101, false, "iptables") + "</th>\n";
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody id=\"Plugin_iptablesTable-tbody\">\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_iptablesTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th>" + genlang(101, false, "iptables") + "</th>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody id=\"Plugin_iptablesTable-tbody\">\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
+
     $("#Plugin_iptables").append(html);
 }
 

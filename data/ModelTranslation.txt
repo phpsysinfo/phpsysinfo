@@ -26,6 +26,9 @@ iMac15,1:iMac Core i5/i7:Intel Core I5-4590/I5-4690/I7-4790K
 iMac16,1:iMac Core i5:Intel Core I5-5250U
 iMac16,2:iMac Core i5/i7:Intel Core I5-5575R/I5-5675R/I7-5775R
 iMac17,1:iMac Core i5/i7:Intel Core I5-6500/I5-6600/I7-6700K
+iMac18,1:iMac Core i5:Intel Core I5-7360U
+iMac18,2:iMac Core i5/i7:Intel Core I5-7400/I5-7500/I7-7700
+iMac18,3:iMac Core i5/i7:Intel Core I5-7500/I5-7600/I5-7600K/I7-7700K
 M43ADP1,1:Development Mac Pro:Intel Xeon X5340
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
@@ -37,6 +40,7 @@ MacBook6,1:MacBook Core 2 Duo:Intel Core 2 Duo P7550
 MacBook7,1:MacBook Core 2 Duo:Intel Core 2 Duo P8600
 MacBook8,1:MacBook Core M:Intel Core M-5Y31/M-5Y51/M-5Y71
 MacBook9,1:MacBook Core m3/m5/m7:Intel Core M3-6Y30/M5-6Y54/M7-6Y75
+MacBook10,1:MacBook Core m3/i5/i7:Intel Core M3-7Y32/i5-7Y54/i7-7Y75
 MacBookAir1,1:MacBook Air Core 2 Duo:Intel Core 2 Duo P7500/P7700
 MacBookAir2,1:MacBook Air Core 2 Duo:Intel Core 2 Duo SL9300/SL9400/SL9600
 MacBookAir3,1:MacBook Air Core 2 Duo:Intel Core 2 Duo SU9400/SU9600
@@ -76,6 +80,12 @@ MacBookPro11,3:MacBook Pro Core i7:Intel Core I7-4850HQ/I7-4870HQ/I7-4960HQ/I7-4
 MacBookPro11,4:MacBook Pro Core i7:Intel Core I7-4770HQ/I7-4870HQ/I7-4980HQ
 MacBookPro11,5:MacBook Pro Core i7:Intel Core I7-4870HQ/I7-4980HQ
 MacBookPro12,1:MacBook Pro Core i5/i7:Intel Core I5-5257U/I5-5287U/I7-5557U
+MacBookPro13,1:MacBook Pro Core i5/i7:Intel Core I5-6360U/I7-6660U
+MacBookPro13,2:MacBook Pro Core i5/i7:Intel Core I5-6267U/I5-6287U/I7-6567U
+MacBookPro13,3:MacBook Pro Core i7:Intel Core I7-6700HQ/I7-6820HQ/I7-6920HQ
+MacBookPro14,1:MacBook Pro Core i5/i7:Intel Core I5-7360U/I7-7660U
+MacBookPro14,2:MacBook Pro Core i5/i7:Intel Core I5-7267U/I5-7287U/I7-7567U
+MacBookPro14,3:MacBook Pro Core i7:Intel Core I7-7700HQ/I7-7820HQ/I7-7920HQ
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800

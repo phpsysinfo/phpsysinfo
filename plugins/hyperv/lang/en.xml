@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+<!--
+phpSysInfo language file Language: English Created by: Mieczysław Nalewaj
+-->
+<tns:translationPlugin language="english" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_hyperv_001" name="hyperv_title">
+    <exp>Hyper-V Status</exp>
+  </expression>
+  <expression id="plugin_hyperv_002" name="hyperv_name">
+    <exp>Machine Name</exp>
+  </expression>
+  <expression id="plugin_hyperv_003" name="hyperv_state">
+    <exp>State</exp>
+  </expression>
+</tns:translationPlugin>

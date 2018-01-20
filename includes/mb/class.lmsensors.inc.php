@@ -1,19 +1,8 @@
 <?php
 /**
- * lmsensor sensor class
+ * lmsensor sensor class, getting information from lmsensor
  *
  * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Sensor
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.lmsensors.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * getting information from lmsensor
  *
  * @category  PHP
  * @package   PSI_Sensor
@@ -47,7 +36,7 @@ class LMSensors extends Sensors
             CommonFunctions::rfts(APP_ROOT.'/data/lmsensors.txt', $lines);
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_LMSENSORS_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');
             break;
         }
 
@@ -66,10 +55,17 @@ class LMSensors extends Sensors
     private function _temperature()
     {
         $applesmc = false;
+        $sname = '';
         foreach ($this->_lines as $line) {
             if ((trim($line) !== "") && (strpos($line, ':') === false)) {
                 //$applesmc = preg_match("/^applesmc-/", $line);
-                $applesmc =  (trim($line) === "applesmc-isa-0300");
+                $sname = trim($line);
+                $applesmc =  ($sname === "applesmc-isa-0300");
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
             }
             $data = array();
             if (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
@@ -136,7 +132,7 @@ class LMSensors extends Sensors
                 }
 
                 $dev = new SensorDevice();
-                $dev->setName($data[1]);
+                $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
                 if (isset($data[6]) && $data[2] <= $data[6]) {
                     $dev->setMax(max($data[4], $data[6]));
@@ -158,7 +154,16 @@ class LMSensors extends Sensors
      */
     private function _fans()
     {
+        $sname = '';
         foreach ($this->_lines as $line) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
+                $sname = trim($line);
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
+            }
             $data = array();
             if (preg_match("/^(.+):(.+) RPM\s*\((.+)=(.+) RPM,(.+)=(.+)\)(.*)\)/", $line, $data)) {
                 ;
@@ -180,7 +185,7 @@ class LMSensors extends Sensors
                     }
                 }
                 $dev = new SensorDevice();
-                $dev->setName(trim($data[1]));
+                $dev->setName($data[1].$sname);
                 $dev->setValue(trim($data[2]));
                 if (isset($data[4])) {
                     $dev->setMin(trim($data[4]));
@@ -200,7 +205,16 @@ class LMSensors extends Sensors
      */
     private function _voltage()
     {
+        $sname = '';
         foreach ($this->_lines as $line) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
+                $sname = trim($line);
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
+            }
             $data = array();
             if (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
                 ;
@@ -221,7 +235,7 @@ class LMSensors extends Sensors
                     }
                 }
                 $dev = new SensorDevice();
-                $dev->setName($data[1]);
+                $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
                 if (isset($data[4])) {
                     $dev->setMin($data[4]);
@@ -244,7 +258,16 @@ class LMSensors extends Sensors
      */
     private function _power()
     {
+        $sname = '';
         foreach ($this->_lines as $line) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
+                $sname = trim($line);
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
+            }
             $data = array();
 /* not tested yet
             if (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)\)/", $line, $data)) {
@@ -269,7 +292,7 @@ class LMSensors extends Sensors
                     }
                 }
                 $dev = new SensorDevice();
-                $dev->setName($data[1]);
+                $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
 
 /* not tested yet
@@ -295,7 +318,16 @@ class LMSensors extends Sensors
      */
     private function _current()
     {
+        $sname = '';
         foreach ($this->_lines as $line) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
+                $sname = trim($line);
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
+            }
             $data = array();
             if (preg_match("/^(.+):(.+) A\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)\)/", $line, $data)) {
                 ;
@@ -315,7 +347,7 @@ class LMSensors extends Sensors
                     }
                 }
                 $dev = new SensorDevice();
-                $dev->setName($data[1]);
+                $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
                 if (isset($data[4])) {
                     $dev->setMin($data[4]);

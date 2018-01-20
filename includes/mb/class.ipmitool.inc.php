@@ -1,19 +1,8 @@
 <?php
 /**
- * ipmitool sensor class
+ * ipmitool sensor class, getting information from ipmitool
  *
  * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Sensor
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.ipmitool.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * getting information from ipmitool
  *
  * @category  PHP
  * @package   PSI_Sensor
@@ -47,42 +36,101 @@ class IPMItool extends Sensors
             CommonFunctions::rfts(APP_ROOT.'/data/ipmitool.txt', $lines);
             break;
         default:
-            $this->error->addConfigError('__construct()', 'PSI_SENSOR_IPMITOOL_ACCESS');
+            $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');
             break;
         }
         if (trim($lines) !== "") {
-            $lines = preg_replace("/\n?Unable to read sensor/", "\nUnable to read sensor", $lines);
-            $sensors = preg_split("/Sensor ID\s+/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($sensors as $sensor) {
-                if (preg_match("/^:\s*(.+)\s\((0x[a-f\d]+)\)\r?\n/", $sensor, $name) && (($name1 = trim($name[1])) !== "")) {
-                    $sensorvalues = preg_split("/\r?\n/", $sensor, -1, PREG_SPLIT_NO_EMPTY);
-                    unset($sensorvalues[0]); //skip first
-                    $sens = array();
-                    $was = false;
-                    foreach ($sensorvalues as $sensorvalue) {
-                        if (preg_match("/^\s+\[(.+)\]$/", $sensorvalue, $buffer) && (($buffer1 = trim($buffer[1])) !== "")) {
-                            if (isset($sens['State'])) {
-                                $sens['State'] .= ', '.$buffer1;
-                            } else {
-                                $sens['State'] = $buffer1;
+            if (preg_match("/^Sensor ID\s+/", $lines)) { //new data format ('ipmitool sensor -v')
+                $lines = preg_replace("/\n?Unable to read sensor/", "\nUnable to read sensor", $lines);
+                $sensors = preg_split("/Sensor ID\s+/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($sensors as $sensor) {
+                    if (preg_match("/^:\s*(.+)\s\((0x[a-f\d]+)\)\r?\n/", $sensor, $name) && (($name1 = trim($name[1])) !== "")) {
+                        $sensorvalues = preg_split("/\r?\n/", $sensor, -1, PREG_SPLIT_NO_EMPTY);
+                        unset($sensorvalues[0]); //skip first
+                        $sens = array();
+                        $was = false;
+                        foreach ($sensorvalues as $sensorvalue) {
+                            if (preg_match("/^\s+\[(.+)\]$/", $sensorvalue, $buffer) && (($buffer1 = trim($buffer[1])) !== "")) {
+                                if (isset($sens['State'])) {
+                                    $sens['State'] .= ', '.$buffer1;
+                                } else {
+                                    $sens['State'] = $buffer1;
+                                }
+                                $was = true;
+                            } elseif (preg_match("/^([^:]+):(.+)$/", $sensorvalue, $buffer)
+                                    && (($buffer1 = trim($buffer[1])) !== "")
+                                    && (($buffer2 = trim($buffer[2])) !== "")) {
+                                $sens[$buffer1] = $buffer2;
+                                $was = true;
                             }
-                            $was = true;
-                        } elseif (preg_match("/^([^:]+):(.+)$/", $sensorvalue, $buffer)
-                                && (($buffer1 = trim($buffer[1])) !== "")
+                        }
+                        if ($was  && !isset($sens['Unable to read sensor'])) {
+                            $sens['Sensor'] = $name1;
+                            if (isset($sens['Sensor Reading'])
+                                && preg_match("/^([\d\.]+)\s+\([^\)]*\)\s+(.+)$/", $sens['Sensor Reading'], $buffer)
                                 && (($buffer2 = trim($buffer[2])) !== "")) {
-                            $sens[$buffer1] = $buffer2;
-                            $was = true;
+                                $sens['Value'] = $buffer[1];
+                                $sens['Unit'] = $buffer2;
+                            }
+                            $this->_buf[intval($name[2], 0)] = $sens;
                         }
                     }
-                    if ($was  && !isset($sens['Unable to read sensor'])) {
-                        $sens['Sensor'] = $name1;
-                        if (isset($sens['Sensor Reading'])
-                            && preg_match("/^([\d\.]+)\s+\([^\)]*\)\s+(.+)$/", $sens['Sensor Reading'], $buffer)
-                            && (($buffer2 = trim($buffer[2])) !== "")) {
-                            $sens['Value'] = $buffer[1];
-                            $sens['Unit'] = $buffer2;
+                }
+            } else {
+                $lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines)>0) {
+                    $buffer = preg_split("/\s*\|\s*/", $lines[0]);
+                    if (count($buffer)>8) { //old data format ('ipmitool sensor')
+                        foreach ($lines as $line) {
+                            $buffer = preg_split("/\s*\|\s*/", $line);
+                            if (count($buffer)>8) {
+                                $sens = array();
+                                $sens['Sensor'] = $buffer[0];
+                                switch ($buffer[2]) {
+                                case 'degrees C':
+                                    $sens['Value'] = $buffer[1];
+                                    $sens['Unit'] = $buffer[2];
+                                    $sens['Upper Critical'] = $buffer[8];
+                                    $sens['Sensor Type (Threshold)'] = 'Temperature';
+                                    break;
+                                case 'Volts':
+                                    $sens['Value'] = $buffer[1];
+                                    $sens['Unit'] = $buffer[2];
+                                    $sens['Lower Critical'] = $buffer[5];
+                                    $sens['Upper Critical'] = $buffer[8];
+                                    $sens['Sensor Type (Threshold)'] = 'Voltage';
+                                    break;
+                                case 'RPM':
+                                    $sens['Value'] = $buffer[1];
+                                    $sens['Unit'] = $buffer[2];
+                                    $sens['Lower Critical'] = $buffer[5];
+                                    $sens['Upper Critical'] = $buffer[8];
+                                    $sens['Sensor Type (Threshold)'] = 'Fan';
+                                    break;
+                                case 'Watts':
+                                    $sens['Value'] = $buffer[1];
+                                    $sens['Unit'] = $buffer[2];
+                                    $sens['Upper Critical'] = $buffer[8];
+                                    $sens['Sensor Type (Threshold)'] = 'Current';
+                                    break;
+                                case 'Amps':
+                                    $sens['Value'] = $buffer[1];
+                                    $sens['Unit'] = $buffer[2];
+                                    $sens['Lower Critical'] = $buffer[5];
+                                    $sens['Upper Critical'] = $buffer[8];
+                                    $sens['Sensor Type (Threshold)'] = 'Current';
+                                    break;
+                                case 'discrete':
+                                    if (($buffer[1]==='0x0') || ($buffer[1]==='0x1')) {
+                                        $sens['State'] = $buffer[1];
+                                        $sens['Sensor Type (Discrete)'] = '';
+                                        $sens['State'] = $buffer[1];
+                                    }
+                                    break;
+                                }
+                                $this->_buf[] = $sens;
+                            }
                         }
-                        $this->_buf[intval($name[2], 0)] = $sens;
                     }
                 }
             }
@@ -208,7 +256,8 @@ class IPMItool extends Sensors
     {
         foreach ($this->_buf as $sensor) {
             if (((isset($sensor['Sensor Type (Threshold)']) && ($sensor['Sensor Type (Threshold)'] == 'Current'))
-                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
+                ||(isset($sensor['Sensor Type (Analog)']) && ($sensor['Sensor Type (Analog)'] == 'Current')))
+               && isset($sensor['Unit']) && ($sensor['Unit'] == 'Amps')
                && isset($sensor['Value'])) {
                 $dev = new SensorDevice();
                 $dev->setName($sensor['Sensor']);
@@ -237,7 +286,11 @@ class IPMItool extends Sensors
         foreach ($this->_buf as $sensor) {
             if (isset($sensor['Sensor Type (Discrete)'])) {
                 $dev = new SensorDevice();
-                $dev->setName($sensor['Sensor'].' ('.$sensor['Sensor Type (Discrete)'].')');
+                if ($sensor['Sensor Type (Discrete)']!=='') {
+                    $dev->setName($sensor['Sensor'].' ('.$sensor['Sensor Type (Discrete)'].')');
+                } else {
+                    $dev->setName($sensor['Sensor']);
+                }
                 if (isset($sensor['State'])) {
                     $dev->setValue($sensor['State']);
                 } else {

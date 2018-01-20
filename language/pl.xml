@@ -118,7 +118,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>Rozmiar</exp>
   </expression>
   <expression id="038" name="totals">
-    <exp>Całkowite</exp>
+    <exp>Łącznie</exp>
   </expression>
   <expression id="039" name="kb">
     <exp>kB</exp>
@@ -368,5 +368,17 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   </expression>
   <expression id="121" name="other">
     <exp>Inne</exp>
+  </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Producent</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Produkt</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Number seryjny</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>Wolne</exp>
   </expression>
 </tns:translation>

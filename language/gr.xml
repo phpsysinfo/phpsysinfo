@@ -112,7 +112,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Ελεύθερο</exp>
   </expression>
   <expression id="036" name="used">
-    <exp>Κατειλημμένο</exp>
+    <exp>Σε χρήση</exp>
   </expression>
   <expression id="037" name="size">
     <exp>Μέγεθος</exp>
@@ -163,7 +163,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Τάσεις</exp>
   </expression>
   <expression id="053" name="fans">
-    <exp>Ψύξη</exp>
+    <exp>Ανεμιστήρες</exp>
   </expression>
   <expression id="054" name="s_value">
     <exp>Τιμή</exp>
@@ -175,7 +175,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Μέγιστο</exp>
   </expression>
   <expression id="057" name="hysteresis">
-    <exp>Υστέριση</exp>
+    <exp>Υστέρηση</exp>
   </expression>
   <expression id="058" name="s_limit">
     <exp>Όριο</exp>
@@ -238,7 +238,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Τάση γραμμής</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Φόρτο</exp>
+    <exp>Φόρτος</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
     <exp>Τάση μπαταρίας</exp>
@@ -286,7 +286,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Εικονικοποίηση</exp>
   </expression>
   <expression id="095" name="lastboot">
     <exp>Τελευταία εκκίνηση</exp>
@@ -295,7 +295,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Γλώσσα Συστήματος</exp>
   </expression>
   <expression id="098" name="codepage">
     <exp>Κωδικοποίηση</exp>
@@ -368,5 +368,17 @@ phpSysInfo language file Language: Greek Created by: mojiro
   </expression>
   <expression id="121" name="other">
     <exp>Άλλο</exp>
+  </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Κατασκευαστής</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Προϊόν</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Σειριακός αριθμός</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>Ελεύθερη</exp>
   </expression>
 </tns:translation>

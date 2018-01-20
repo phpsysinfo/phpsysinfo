@@ -115,10 +115,13 @@ class OpenBSD extends BSDCommon
             if (preg_match('/^(.*) at pciide[0-9]+ (.*): <(.*)>/', $line, $ar_buf)) {
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[0]);
-                // now loop again and find the capacity
-                foreach ($this->readdmesg() as $line2) {
-                    if (preg_match("/^(".$ar_buf[0]."): (.*), (.*), (.*)MB, .*$/", $line2, $ar_buf_n)) {
-                        $dev->setCapacity($ar_buf_n[4] * 2048 * 1.049);
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    // now loop again and find the capacity
+                    foreach ($this->readdmesg() as $line2) {
+                        if (preg_match("/^(".$ar_buf[0]."): (.*), (.*), (.*)MB, .*$/", $line2, $ar_buf_n)) {
+                            $dev->setCapacity($ar_buf_n[4] * 2048 * 1.049);
+                            break;
+                        }
                     }
                 }
                 $this->sys->setIdeDevices($dev);

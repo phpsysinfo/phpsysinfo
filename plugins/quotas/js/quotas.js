@@ -59,23 +59,25 @@ function quotas_populate(xml) {
 function quotas_buildTable() {
     var html = "";
 
-    html += "<table id=\"Plugin_QuotasTable\" style=\"border-spacing:0;\">\n";
-    html += "  <thead>\n";
-    html += "    <tr>\n";
-    html += "      <th>" + genlang(2, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(3, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(4, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(5, false, "Quotas") + "</th>\n";
-    html += "      <th>" + genlang(6, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(7, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(8, false, "Quotas") + "</th>\n";
-    html += "      <th class=\"right\">" + genlang(9, false, "Quotas") + "</th>\n";
-    html += "      <th>" + genlang(10, false, "Quotas") + "</th>\n";
-    html += "    </tr>\n";
-    html += "  </thead>\n";
-    html += "  <tbody>\n";
-    html += "  </tbody>\n";
-    html += "</table>\n";
+    html += "<div style=\"overflow-x:auto;\">\n";
+    html += "  <table id=\"Plugin_QuotasTable\" style=\"border-spacing:0;\">\n";
+    html += "    <thead>\n";
+    html += "      <tr>\n";
+    html += "        <th>" + genlang(2, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(3, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(4, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(5, false, "Quotas") + "</th>\n";
+    html += "        <th>" + genlang(6, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(7, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(8, false, "Quotas") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(9, false, "Quotas") + "</th>\n";
+    html += "        <th>" + genlang(10, false, "Quotas") + "</th>\n";
+    html += "      </tr>\n";
+    html += "    </thead>\n";
+    html += "    <tbody>\n";
+    html += "    </tbody>\n";
+    html += "  </table>\n";
+    html += "</div>\n";
 
     $("#Plugin_Quotas").append(html);
 

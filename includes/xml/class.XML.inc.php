@@ -222,23 +222,40 @@ class XML
             if ($pci === null) $pci = $hardware->addChild('PCI');
             $tmp = $pci->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
         }
         $usb = null;
         foreach (System::removeDupsAndCount($this->_sys->getUsbDevices()) as $dev) {
             if ($usb === null) $usb = $hardware->addChild('USB');
             $tmp = $usb->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
         }
         $ide = null;
         foreach (System::removeDupsAndCount($this->_sys->getIdeDevices()) as $dev) {
             if ($ide === null) $ide = $hardware->addChild('IDE');
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
             }
         }
         $scsi = null;
@@ -246,9 +263,11 @@ class XML
             if ($scsi === null) $scsi = $hardware->addChild('SCSI');
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
-            if ($dev->getCapacity() !== null) {
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
                 $tmp->addAttribute('Capacity', $dev->getCapacity());
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
             }
         }
         $tb = null;
@@ -256,14 +275,18 @@ class XML
             if ($tb === null) $tb = $hardware->addChild('TB');
             $tmp = $tb->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
         }
         $i2c = null;
         foreach (System::removeDupsAndCount($this->_sys->getI2cDevices()) as $dev) {
             if ($i2c === null) $i2c = $hardware->addChild('I2C');
             $tmp = $i2c->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            $tmp->addAttribute('Count', $dev->getCount());
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
         }
 
         $cpu = null;

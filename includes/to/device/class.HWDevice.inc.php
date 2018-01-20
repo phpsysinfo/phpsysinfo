@@ -40,6 +40,27 @@ class HWDevice
     private $_capacity = null;
 
     /**
+     * manufacturer of the device, if not available it will be null
+     *
+     * @var Integer
+     */
+    private $_manufacturer = null;
+
+    /**
+     * product of the device, if not available it will be null
+     *
+     * @var Integer
+     */
+    private $_product = null;
+
+    /**
+     * serial number of the device, if not available it will be null
+     *
+     * @var Integer
+     */
+    private $_serial = null;
+
+    /**
      * count of the device
      *
      * @var Integer
@@ -55,37 +76,15 @@ class HWDevice
      */
     public function equals(HWDevice $dev)
     {
-        if ($dev->getName() === $this->_name && $dev->getCapacity() === $this->_capacity) {
+        if ($dev->getName() === $this->_name
+           && $dev->getCapacity() === $this->_capacity
+           && $dev->getManufacturer() === $this->_manufacturer
+           && $dev->getProduct() === $this->_product
+           && $dev->getSerial() === $this->_serial) {
             return true;
         } else {
             return false;
         }
-    }
-
-    /**
-     * Returns $_capacity.
-     *
-     * @see HWDevice::$_capacity
-     *
-     * @return Integer
-     */
-    public function getCapacity()
-    {
-        return $this->_capacity;
-    }
-
-    /**
-     * Sets $_capacity.
-     *
-     * @param Integer $capacity device capacity
-     *
-     * @see HWDevice::$_capacity
-     *
-     * @return Void
-     */
-    public function setCapacity($capacity)
-    {
-        $this->_capacity = $capacity;
     }
 
     /**
@@ -112,6 +111,110 @@ class HWDevice
     public function setName($name)
     {
         $this->_name = $name;
+    }
+
+    /**
+     * Returns $_manufacturer.
+     *
+     * @see HWDevice::$_manufacturer
+     *
+     * @return String
+     */
+    public function getManufacturer()
+    {
+        return $this->_manufacturer;
+    }
+
+    /**
+     * Sets $_manufacturer.
+     *
+     * @param String $manufacturer manufacturer name
+     *
+     * @see HWDevice::$_manufacturer
+     *
+     * @return Void
+     */
+    public function setManufacturer($manufacturer)
+    {
+        $this->_manufacturer = $manufacturer;
+    }
+
+    /**
+     * Returns $_product.
+     *
+     * @see HWDevice::$_product
+     *
+     * @return String
+     */
+    public function getProduct()
+    {
+        return $this->_product;
+    }
+
+    /**
+     * Sets $_product.
+     *
+     * @param String $product product name
+     *
+     * @see HWDevice::$_product
+     *
+     * @return Void
+     */
+    public function setProduct($product)
+    {
+        $this->_product = $product;
+    }
+
+    /**
+     * Returns $_serial.
+     *
+     * @see HWDevice::$_serial
+     *
+     * @return String
+     */
+    public function getSerial()
+    {
+        return $this->_serial;
+    }
+
+    /**
+     * Sets $_serial.
+     *
+     * @param String $serial serial number
+     *
+     * @see HWDevice::$_serial
+     *
+     * @return Void
+     */
+    public function setSerial($serial)
+    {
+        $this->_serial = $serial;
+    }
+
+    /**
+     * Returns $_capacity.
+     *
+     * @see HWDevice::$_capacity
+     *
+     * @return Integer
+     */
+    public function getCapacity()
+    {
+        return $this->_capacity;
+    }
+
+    /**
+     * Sets $_capacity.
+     *
+     * @param Integer $capacity device capacity
+     *
+     * @see HWDevice::$_capacity
+     *
+     * @return Void
+     */
+    public function setCapacity($capacity)
+    {
+        $this->_capacity = $capacity;
     }
 
     /**

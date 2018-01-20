@@ -369,4 +369,16 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
   <expression id="121" name="other">
     <exp>Інше</exp>
   </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Manufacturer</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Product</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Serial number</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>Вільно</exp>
+  </expression>
 </tns:translation>

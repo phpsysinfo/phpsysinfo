@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: cz.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Czech Created by: Tomáš Růžička
+  -->
+<tns:translationPlugin language="czech" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_raid_001" name="raid_title">
+    <exp>Stav RAIDu</exp>
+  </expression>
+  <expression id="plugin_raid_002" name="raid_devices">
+    <exp>RAID-zařízení</exp>
+  </expression>
+  <expression id="plugin_raid_003" name="raid_infos">
+    <exp>Dodatečné informace </exp>
+  </expression>
+  <expression id="plugin_raid_004" name="raid_name">
+    <exp>Name</exp>
+  </expression>
+  <expression id="plugin_raid_005" name="raid_status">
+    <exp>Stav</exp>
+  </expression>
+  <expression id="plugin_raid_006" name="raid_level">
+    <exp>Úroveň RAIDu</exp>
+  </expression>
+  <expression id="plugin_raid_007" name="raid_size">
+    <exp>Size</exp>
+  </expression>
+  <expression id="plugin_raid_008" name="raid_stride">
+    <exp>Stride</exp>
+  </expression>
+  <expression id="plugin_raid_009" name="raid_subsets">
+    <exp>Subsets</exp>
+  </expression>
+  <expression id="plugin_raid_010" name="raid_devs">
+    <exp>Devices</exp>
+  </expression>
+  <expression id="plugin_raid_011" name="raid_spares">
+    <exp>Spares</exp>
+  </expression>
+  <expression id="plugin_raid_012" name="raid_curact">
+    <exp>Current Action</exp>
+  </expression>
+  <expression id="plugin_raid_013" name="raid_finish">
+    <exp>Čas dokončení</exp>
+  </expression>
+  <expression id="plugin_raid_014" name="raid_chunk">
+    <exp>Velikost proužku</exp>
+  </expression>
+  <expression id="plugin_raid_015" name="raid_algo">
+    <exp>Algoritmus</exp>
+  </expression>
+  <expression id="plugin_raid_016" name="raid_superb">
+    <exp>Persistentní Superblock</exp>
+  </expression>
+  <expression id="plugin_raid_017" name="raid_avail">
+    <exp>dostupný</exp>
+  </expression>
+  <expression id="plugin_raid_018" name="raids_navail">
+    <exp>nedostupný</exp>
+  </expression>
+  <expression id="plugin_raid_019" name="raid_regact">
+    <exp>Registrovné/aktivní disky</exp>
+  </expression>
+  <expression id="plugin_raid_020" name="raid_controller">
+    <exp>Controller</exp>
+  </expression>
+  <expression id="plugin_raid_021" name="raid_battcond">
+    <exp>Battery Condition</exp>
+  </expression>
+  <expression id="plugin_raid_022" name="raid_supported">
+    <exp>Poodporované typy RAID</exp>
+  </expression>
+  <expression id="plugin_raid_023" name="raid_app">
+    <exp>Application</exp>
+  </expression>
+</tns:translationPlugin>

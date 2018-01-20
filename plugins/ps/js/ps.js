@@ -36,17 +36,18 @@ function ps_buildTable(xml) {
 
     $("#Plugin_PS #Plugin_PSTable").remove();
 
-    html += "  <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
-    html += "   <thead>\n";
-    html += "    <tr>\n";
-    html += "     <th>" + genlang(2, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:40px;\">" + genlang(3, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:40px;\">" + genlang(4, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:120px;\">" + genlang(5, false, "PS") + "</th>\n";
-    html += "     <th style=\"width:120px;\">" + genlang(6, false, "PS") + "</th>\n";
-    html += "    </tr>\n";
-    html += "   </thead>\n";
-    html += "   <tbody class=\"tree\">\n";
+    html += "  <div style=\"overflow-x:auto;\">\n";
+    html += "    <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "      <thead>\n";
+    html += "        <tr>\n";
+    html += "          <th>" + genlang(2, false, "PS") + "</th>\n";
+    html += "          <th style=\"width:40px;\">" + genlang(3, false, "PS") + "</th>\n";
+    html += "          <th style=\"width:40px;\">" + genlang(4, false, "PS") + "</th>\n";
+    html += "          <th style=\"width:120px;\">" + genlang(5, false, "PS") + "</th>\n";
+    html += "          <th style=\"width:120px;\">" + genlang(6, false, "PS") + "</th>\n";
+    html += "        </tr>\n";
+    html += "      </thead>\n";
+    html += "      <tbody class=\"tree\">\n";
 
     $("Plugins Plugin_PS Process", xml).each(function ps_getprocess(id) {
         var close = 0, pid = 0, ppid = 0, name = "", percent = 0, parentId = 0, expanded = 0, cpu = 0;
@@ -58,7 +59,7 @@ function ps_buildTable(xml) {
         cpu = parseInt($(this).attr("CPUUsage"), 10);
         expanded = parseInt($(this).attr("Expanded"), 10);
 
-        html += "    <tr><td><span class=\"treespan\">" + name + "</span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td><td>" + createBar(cpu) + "</td></tr>\n";
+        html += "        <tr><td><span class=\"treespan\">" + name + "</span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td><td>" + createBar(cpu) + "</td></tr>\n";
         close = tree.push(parentId);
         if (!isNaN(expanded) && (expanded === 0)) {
             closed.push(close);
@@ -72,8 +73,9 @@ function ps_buildTable(xml) {
         ps_show = true;
     });
 
-    html += "   </tbody>\n";
-    html += "  </table>\n";
+    html += "      </tbody>\n";
+    html += "    </table>\n";
+    html += "  </div>\n";
 
     $("#Plugin_PS").append(html);
 

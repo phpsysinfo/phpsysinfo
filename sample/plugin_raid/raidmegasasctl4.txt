@@ -1,0 +1,8 @@
+a0       PERC 6/i Integrated      encl:1 ldrv:1  batt:good
+a0d0      1861GiB RAID 6   1x6  optimal
+a0e32s0     465GiB  a0d0  online
+a0e32s1     465GiB  a0d0  online
+a0e32s2     465GiB  a0d0  online
+a0e32s3     465GiB  a0d0  online
+a0e32s4     465GiB  a0d0  online
+a0e32s5     465GiB  a0d0  online

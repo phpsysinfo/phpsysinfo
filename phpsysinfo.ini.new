@@ -65,8 +65,7 @@ BLOCKS=true
 ; - PLUGINS="MDStatus,PS"  //list of plugins
 ; - PLUGINS=false  //no plugins
 ; included plugins:
-; - MDStatus       - show the raid status and whats currently going on
-; - DMRaid         - show the software raid status
+; - Raid           - show the software, fake, zpool or megaraid RAID status
 ; - PS             - show a process tree of all running processes
 ; - PSStatus       - show a graphical representation if a process is running or not
 ; - Quotas         - show a table with all quotas that are active and there current state
@@ -77,6 +76,8 @@ BLOCKS=true
 ; - Uprecords      - show uprecords info
 ; - Iptables       - show iptables rules list
 ; - PingTest       - show Ping Test info
+; - StableBit      - show StableBit Scanner info (WinNT)
+; - HyperV         - show Hyper-V info (WinNT)
 ;
 PLUGINS=false
 
@@ -187,6 +188,18 @@ BYTE_FORMAT="auto_binary"
 TEMP_FORMAT="c"
 
 
+; Show devices infos
+; Example : SHOW_DEVICES_INFOS=true
+;
+SHOW_DEVICES_INFOS=true
+
+
+; Show devices serial number
+; Example : SHOW_DEVICES_SERIAL=true
+;
+SHOW_DEVICES_SERIAL=false
+
+
 ; Format in which datetime is displayed
 ; - "UTC"    shown as UTC string
 ; - "locale" shown as Locale string
@@ -218,6 +231,7 @@ DATETIME_FORMAT="UTC"
 ; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
+; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
@@ -427,7 +441,8 @@ ACCESS="command"
 [sensor_ipmitool]
 ; IPMItool motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmitool sensor' command
+; - ACCESS="command"  //read data from 'ipmitool sensor -v' command
+;                     //if access error execute first: chmod 666 /dev/ipmi0
 ; - ACCESS="data"  //read data from file data/ipmitool.txt
 ;
 ACCESS="command"
@@ -444,6 +459,7 @@ ACCESS="command"
 ; IPMIutil motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmiutil sensor -stw' command
+;                     //if access error execute first: chmod 666 /dev/ipmi0
 ; - ACCESS="data"  //read data from file data/ipmiutil.txt
 ;
 ACCESS="command"
@@ -474,54 +490,57 @@ ACCESS="command"
 ; BAT Plugin configuration
 
 ; define how to access the battery statistic data
-; - "command" read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
-;             on newer kernel or on Android read files from /sys/class/power_supply/
-;              on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
-;              on FreeBSD read data from 'acpiconf -i batt' command
-;              on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
+; - "command" on Linux and Android read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
+;                or on newer kernel from /sys/class/power_supply/
+;                or from 'upower -d' command (if UPOWER is true)
+;             on Android read data from /sys/class/power_supply/ 
+;             on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
+;             on FreeBSD read data from 'acpiconf -i batt' command
+;             on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output
 ;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
 ;
 ACCESS="command"
 
-; define the battery device (no matter for WinNT, FreeBSD, Darwin and some Android and Linux)
+; on Lunux try executing 'upower -d' command
+; 
+UPOWER=false
+
+; Show battery serial number
 ;
-DEVICE="BAT0"
+SHOW_SERIAL=false
 
 
-[mdstatus]
-; MDStatus Plugin configuration
+[raid]
+; Raid Plugin configuration
 
-; define how to access the mdstat statistic data
-; - "file" /proc/mdstat is read
+; define how to access the raid statistic data
+; - "command" - mdstat:     file "/proc/mdstat" is read (on Linux only)
+;             - dmraid:     command "dmraid -s -vv 2>&1" is run (on Linux only)
+;                           If access error try execute first: chmod 4755 /sbin/dmraid
+;                           This method is not recommended for safety reasons!
+;             - megactl:    command "megactl" (on Linux only)
+;                           downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;                           If permission error try execute first: chmod 4755 /usr/sbin/megactl
+;             - megasasctl: command "megasasctl" (on Linux only)
+;                           downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;                           If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
+;             - graid:      command "graid list" is run (on FreeBSD only)
+;             - zpool:      command "zpool status" is run
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;         with the filename "mdstat.txt"; content is the output from "cat /proc/mdstat")
-;
-ACCESS="file"
-
-; Hide RAID devices
-; Example : HIDE_RAID_DEVICES="md127"
-;
-HIDE_RAID_DEVICES=""
-
-
-[dmraid]
-; DMRaid Plugin configuration
-
-; define how to access the dmraid statistic data
-; - "command" dmraid or graid command is run everytime the block gets refreshed or build
-;             On Linux if access error try execute first: chmod 4755 /sbin/dmraid
-;             This method is not recommended for safety reasons!
-; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;         with the filename "dmraid.txt"; content is generated by command "dmraid -s -vv >dmraid.txt 2>&1" or "graid list >dmraid.txt" on FreeBSD)
+;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt"
+;         or "raidmegasasctl" or "raidgraid.txt" or "raidzpool".txt)
 ;
 ACCESS="command"
 
+; define possible apps
+APPS="mdstat,dmraid,megactl,megasasctl,graid,zpool"
+
 ; Hide RAID devices
-; Example : HIDE_RAID_DEVICES=".ddf1_disks"
+; Example : HIDE_DEVICES="md127"
 ;
-HIDE_RAID_DEVICES=""
+HIDE_DEVICES=""
 
 
 [ps]
@@ -545,7 +564,7 @@ CPU_USAGE=true
 
 ; Show kthreadd child list expanded
 ;
-SHOW_KTHREADD_EXPANDED=true
+SHOW_KTHREADD_EXPANDED=false
 
 ; Show PID 1 child list expanded
 ;
@@ -703,8 +722,8 @@ ACCESS="command"
 
 ; define how to access the psstatus statistic data
 ; - "command" ping command is run everytime the block gets refreshed or build 
-; - "data" a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "pingtest.txt";
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "pingtest.txt")
 ;
 ACCESS="command"
 
@@ -721,3 +740,20 @@ ADDRESSES=""
 ; Default is 2 seconds
 ;
 TIMEOUT=2
+
+[stablebit]
+; StableBit Plugin configuration
+
+; Show or hide disks serial number
+;
+SHOW_SERIAL=false
+
+[hyperv]
+; HyperV Plugin configuration
+
+; define how to access the ps statistic data
+; - "command" information is retrieved through WMI
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "hyperv.txt")
+;
+ACCESS="command"

@@ -200,7 +200,7 @@ abstract class BSDCommon extends OS
     protected function hostname()
     {
         if (PSI_USE_VHOST === true) {
-            $this->sys->setHostname(getenv('SERVER_NAME'));
+            if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('hostname', '', $buf, PSI_DEBUG)) {
                 $this->sys->setHostname($buf);
@@ -327,7 +327,9 @@ abstract class BSDCommon extends OS
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
-                        $finddev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                            $finddev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                        }
                         $notwas = false;
                         break;
                     }
@@ -335,7 +337,9 @@ abstract class BSDCommon extends OS
                 if ($notwas) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1]);
-                    $dev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                        $dev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                    }
                     $this->sys->setScsiDevices($dev);
                 }
             }
@@ -431,7 +435,9 @@ abstract class BSDCommon extends OS
             if (preg_match('/^(ad[0-9]+): (.*)MB <(.*)> (.*) (.*)/', $line, $ar_buf)) {
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[1].": ".$ar_buf[3]);
-                $dev->setCapacity($ar_buf[2] * 1024);
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    $dev->setCapacity($ar_buf[2] * 1024);
+                }
                 $this->sys->setIdeDevices($dev);
             } elseif (preg_match('/^(acd[0-9]+): (.*) <(.*)> (.*)/', $line, $ar_buf)) {
                 $dev = new HWDevice();
@@ -446,7 +452,9 @@ abstract class BSDCommon extends OS
                 $notwas = true;
                 foreach ($this->sys->getIdeDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
-                        $finddev->setCapacity($ar_buf[2] * 1024);
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                            $finddev->setCapacity($ar_buf[2] * 1024);
+                        }
                         $notwas = false;
                         break;
                     }
@@ -454,7 +462,9 @@ abstract class BSDCommon extends OS
                 if ($notwas) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1]);
-                    $dev->setCapacity($ar_buf[2] * 1024);
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                        $dev->setCapacity($ar_buf[2] * 1024);
+                    }
                     $this->sys->setIdeDevices($dev);
                 }
             }

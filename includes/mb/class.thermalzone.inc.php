@@ -1,24 +1,13 @@
 <?php
 /**
- * Thermal Zone sensor class
+ * Thermal Zone sensor class, getting information from Thermal Zone WMI class
  *
  * PHP version 5
  *
  * @category  PHP
  * @package   PSI_Sensor
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.ohm.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
- /**
- * getting information from Thermal Zone WMI class
- *
- * @category  PHP
- * @package   PSI_Sensor
- * @author    Michael Cramer <BigMichi1@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
+ * @author    Mieczyslaw Nalewaj <namiltd@users.sourceforge.net>
+ * @copyright 2014 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
@@ -78,7 +67,8 @@ class ThermalZone extends Sensors
             }
         } else {
             $notwas = true;
-            foreach (glob('/sys/class/thermal/thermal_zone*/') as $thermalzone) {
+            $thermalzones = glob('/sys/class/thermal/thermal_zone*/');
+            if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
                 if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
@@ -115,7 +105,8 @@ class ThermalZone extends Sensors
                 }
             }
             if ($notwas) {
-                foreach (glob('/proc/acpi/thermal_zone/TH*/temperature') as $thermalzone) {
+                $thermalzones = glob('/proc/acpi/thermal_zone/TH*/temperature');
+                if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                     $temp = null;
                     if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
                         $dev = new SensorDevice();

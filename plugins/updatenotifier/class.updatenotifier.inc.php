@@ -1,18 +1,5 @@
 <?php
 /**
- * UpdateNotifier Plugin
- *
- * PHP version 5
- *
- * @category  PHP
- * @package   PSI_Plugin_UpdateNotifier
- * @author    Damien ROTH <iysaak@users.sourceforge.net>
- * @copyright 2009 phpSysInfo
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @version   SVN: $Id: class.updatenotifier.inc.php 661 2012-08-27 11:26:39Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
- */
-/**
  * UpdateNotifier Plugin, which displays update notification from Ubuntu Landscape system
  *
  * @category  PHP
@@ -47,7 +34,7 @@ class UpdateNotifier extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_UPDATENOTIFIER_ACCESS)) {
         case 'command':
-            if (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true) {
+            if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "--human-readable", $buffer_info);
             } else {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "2>&1", $buffer_info);
@@ -61,7 +48,7 @@ class UpdateNotifier extends PSI_Plugin
             }
             break;
         default:
-            $this->global_error->addConfigError("__construct()", "PSI_PLUGIN_UPDATENOTIFIER_ACCESS");
+            $this->global_error->addConfigError("__construct()", "[updatenotifier] ACCESS");
             break;
         }
 
@@ -81,7 +68,7 @@ class UpdateNotifier extends PSI_Plugin
             return;
         }
 
-        if (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true) {
+        if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
             /*
              Ubuntu Landscape format:
              - line 1: packages to update

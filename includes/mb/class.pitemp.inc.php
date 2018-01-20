@@ -7,9 +7,10 @@
  * @category  PHP
  * @package   PSI_Sensor
  * @author    Marc Hillesheim <hawkeyexp@gmail.com>
+ * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
- * @copyright 2012 Marc Hillesheim
- * @link      http://pi.no-ip.biz
+ * @version   Release: 3.0
+ * @link      http://phpsysinfo.sourceforge.net
  */
 class PiTemp extends Sensors
 {

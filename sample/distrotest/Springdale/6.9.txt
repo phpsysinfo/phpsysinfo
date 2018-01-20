@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Distributor ID:	Springdale
+Description:	Springdale Linux  release 6.9 (Pisa)
+Release:	6.9
+Codename:	Pisa
+----------/etc/PU_IAS-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/puias-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/redhat-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/springdale-release----------
+Springdale Linux  release 6.9 (Pisa)
+----------/etc/system-release----------
+Springdale Linux  release 6.9 (Pisa)

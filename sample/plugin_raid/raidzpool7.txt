@@ -1,0 +1,16 @@
+  pool: newpool
+ state: ONLINE
+ scrub: none requested
+config:
+
+        NAME        STATE     READ WRITE CKSUM
+        newpool     ONLINE       0     0     0
+          mirror-0  ONLINE       0     0     0
+            c0t4d0  ONLINE       0     0     0
+            c0t5d0  ONLINE       0     0     0
+        logs
+          mirror-1  ONLINE       0     0     0
+            c0t6d0  ONLINE       0     0     0
+            c0t7d0  ONLINE       0     0     0
+
+errors: No known data errors

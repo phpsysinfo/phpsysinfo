@@ -155,7 +155,7 @@ class Parser
                             foreach ($mount_parm as $mount_param) { //name and mountpoint find
                                 if (($mount_param['name']===trim($df_buf[0])) && ($mount_param['mountpoint']===$df_buf[5])) {
                                     $dev->setFsType($mount_param['fstype']);
-                                    if (PSI_SHOW_MOUNT_OPTION) {
+                                    if (PSI_SHOW_MOUNT_OPTION && (trim($mount_param['options'])!=="")) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
                                             $dev->setOptions($mount_param['options']);
                                         } else {
@@ -183,7 +183,7 @@ class Parser
                             if ($notwas) foreach ($mount_parm as $mount_param) { //mountpoint find
                                 if ($mount_param['mountpoint']===$df_buf[5]) {
                                     $dev->setFsType($mount_param['fstype']);
-                                    if (PSI_SHOW_MOUNT_OPTION) {
+                                    if (PSI_SHOW_MOUNT_OPTION && (trim($mount_param['options'])!=="")) {
                                         if (PSI_SHOW_MOUNT_CREDENTIALS) {
                                             $dev->setOptions($mount_param['options']);
                                         } else {

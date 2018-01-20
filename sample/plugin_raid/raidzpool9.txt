@@ -1,0 +1,32 @@
+  pool: data
+ state: ONLINE
+status: One or more devices is currently being resilvered.  The pool will
+        continue to function, possibly in a degraded state.
+action: Wait for the resilver to complete.
+  scan: resilver in progress since Sat Mar 11 10:01:16 2017
+    6.16G scanned out of 28.9T at 263M/s, 32h3m to go
+    2.02G resilvered, 0.02% done
+config:
+
+        NAME                       STATE     READ WRITE CKSUM
+        data                       ONLINE       0     0     0
+          raidz1-0                 ONLINE       0     0     0
+            sdd                    ONLINE       0     0     0
+            replacing-1            UNAVAIL      0     0     0
+              5824186382562856058  UNAVAIL      0     0     0  was /dev/sdb1/old
+              sdb1                 ONLINE       0     0     0  (resilvering)
+            sde                    ONLINE       0     0     0
+          raidz1-1                 ONLINE       0     0     0
+            sdj                    ONLINE       0     0     0
+            sdk                    ONLINE       0     0     0
+            sdl                    ONLINE       0     0     0
+          raidz1-2                 ONLINE       0     0     0
+            sdg                    ONLINE       0     0     0
+            16211591403717513484   UNAVAIL      0     0     0  was /dev/sdb1
+            sdf                    ONLINE       0     0     0
+          raidz1-3                 ONLINE       0     0     0
+            sdc                    ONLINE       0     0     0
+            sdh                    ONLINE       0     0     0
+            sdi                    ONLINE       0     0     0
+
+errors: No known data errors

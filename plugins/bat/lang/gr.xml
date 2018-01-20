@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: en.xml 661 2012-08-27 11:26:39Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Greek Created by: ChriZathens
+  -->
+<tns:translationPlugin language="greek" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_bat_001" name="bat_title">
+    <exp>Κατάσταση Μπαταρίας</exp>
+  </expression>
+  <expression id="plugin_bat_002" name="bat_design_capacity">
+    <exp>Εργοστασιακή χωρητικότητα</exp>
+  </expression>
+  <expression id="plugin_bat_003" name="bat_remaining_capacity">
+    <exp>Εναπομείνουσα χωρητικότητα</exp>
+  </expression>
+  <expression id="plugin_bat_004" name="bat_design_voltage">
+    <exp>Εργοστασιακή τάση</exp>
+  </expression>
+  <expression id="plugin_bat_005" name="bat_present_voltage">
+    <exp>Τρέχουσα τάση</exp>
+  </expression>
+  <expression id="plugin_bat_006" name="bat_battery">
+    <exp>Μπαταρία</exp>
+  </expression>
+  <expression id="plugin_bat_007" name="bat_value">
+    <exp>Τιμή</exp>
+  </expression>
+  <expression id="plugin_bat_008" name="bat_charging_state">
+    <exp>Κατάσταση φόρτισης</exp>
+  </expression>
+  <expression id="plugin_bat_009" name="bat_battery_type">
+    <exp>Τύπος Μπαταρίας</exp>
+  </expression>
+  <expression id="plugin_bat_010" name="bat_battery_temperature">
+    <exp>Θερμοκρασία Μπαταρίας</exp>
+  </expression>
+  <expression id="plugin_bat_011" name="bat_battery_condition">
+    <exp>Κατάσταση Μπαταρίας</exp>
+  </expression>
+  <expression id="plugin_bat_012" name="bat_cycle_count">
+    <exp>Κύκλοι φόρτισης</exp>
+  </expression>
+  <expression id="plugin_bat_013" name="bat_full_capacity">
+    <exp>Πλήρης χωρητικότητα</exp>
+  </expression>
+  <expression id="plugin_bat_014" name="bat_manufacturer">
+    <exp>Κατασκευαστής</exp>
+  </expression>
+  <expression id="plugin_bat_015" name="bat_model">
+    <exp>Μοντέλο</exp>
+  </expression>
+  <expression id="plugin_bat_016" name="bat_serialnumber">
+    <exp>Σειριακός Αριθμός</exp>
+  </expression>
+</tns:translationPlugin>
