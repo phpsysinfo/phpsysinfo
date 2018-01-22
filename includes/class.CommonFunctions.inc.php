@@ -108,7 +108,11 @@ class CommonFunctions
         if ((PSI_OS == 'WINNT') && CommonFunctions::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == $windir."\\system32") && is_dir($windir."\\SysWOW64")) {
-                    $exceptPath = $windir."\\sysnative";
+                    if (is_dir($windir."\\sysnative")) {
+                        $exceptPath = $windir."\\sysnative"; //32-bit PHP on 64-bit Windows
+                    } else {
+                        $exceptPath = $windir."\\SysWOW64"; //64-bit PHP on 64-bit Windows
+                    }
                     array_push($arrPath, $exceptPath);
                     break;
                 }
