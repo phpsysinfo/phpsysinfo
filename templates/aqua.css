@@ -32,7 +32,7 @@ body {
     overflow: auto;
     margin: 0 auto;
     padding: 20px 20px 0 20px;
-    font: 62.5% arial, tahoma, helvetica, sans-serif;
+    font: 75% arial, tahoma, helvetica, sans-serif;
     color: #000;
 }
 
@@ -49,7 +49,7 @@ h1 {
     padding: 10px 10px;
     border-top: 1px solid #2971a7;
     border-bottom: 1px solid #2971a7;
-    font-size: 2em;
+    font-size: 1.67em;
     font-weight: normal;
     color: #fff;
     background: #2971a7;
@@ -58,7 +58,7 @@ h1 {
 h2 {
     padding: 5px 10px;
     font-family: "trebuchet ms";
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
     letter-spacing: 0.0em;
     text-transform: uppercase;
@@ -79,7 +79,7 @@ h3 {
 
 table {
     width: 100%;
-    font-size: 1.2em;
+    font-size: 1em;
     background-color: #fff;
 }
 
@@ -90,6 +90,7 @@ table tfoot td {
 #select {
     text-align: right;
     padding: 10px;
+    font-size: 0.8em;
 }
 
 #select select {
