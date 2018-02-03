@@ -7,6 +7,8 @@ phpSysInfo 3.2.10
 ----------------
  - [UPD] jQuery 3.3.1
 
+ - [ADD] NuTyX to detected distros
+
 phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml
