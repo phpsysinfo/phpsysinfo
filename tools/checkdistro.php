@@ -104,6 +104,11 @@ class CommonFunctions
         return false;
     }
 
+    public static function readenv($strElem, &$strBuffer)
+    {
+        return false;
+    }
+
     public static function gdc()
     {
         return array();
