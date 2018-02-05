@@ -216,3 +216,7 @@ a:hover {
     border-radius: 10px;
     padding: 3px 7px;
 }
+
+.modal-header, .list-group {
+    display: inline;
+}
