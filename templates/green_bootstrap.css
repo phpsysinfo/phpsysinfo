@@ -133,9 +133,9 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .card-header {
-  background-color: #33b770!important;
-  border-color: #33b770!important;
-  color: #fff!important;
+    background-color: #33b770!important;
+    border-color: #33b770!important;
+    color: #fff!important;
 }
 
 .progress {
@@ -218,5 +218,14 @@ a:hover {
 }
 
 .modal-header, .list-group {
-    display: inline;
+    display: block;
+}
+
+.ie8 .modal-dialog {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.ie8 .modal-content {
+    border: none;
 }
