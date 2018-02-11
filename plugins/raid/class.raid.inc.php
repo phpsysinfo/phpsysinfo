@@ -669,7 +669,7 @@ class Raid extends PSI_Plugin
                 if (preg_match("/^ +state: (\S+)/m", $raid, $buff)) {
                     $this->_result['devices'][$group]['status'] = $buff[1];
                 }
-                $databegin = preg_split("/\n +NAME +STATE +READ +WRITE +CKSUM\r?\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
+                $databegin = preg_split("/\n[ \t]+NAME +STATE +READ +WRITE +CKSUM\r?\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($databegin) && (count($databegin)==2)) {
                     $datas = preg_split("/\r?\n[ \t]*\r?\n/", $databegin[1], -1, PREG_SPLIT_NO_EMPTY);
                     $datalines = preg_split("/\r?\n/", $datas[0], -1, PREG_SPLIT_NO_EMPTY);
@@ -678,8 +678,8 @@ class Raid extends PSI_Plugin
                     $lastindent = 0;
                     $lastid = 0;
                     foreach ($datalines as $id=>$data) {
-                        if (preg_match("/^( +)\S/", $data, $buff)) {
-                            $fullbuff = preg_split("/ +/", $data, 6, PREG_SPLIT_NO_EMPTY);
+                        if (preg_match("/^([ \t]+)\S/", $data, $buff)) {;
+                            $fullbuff = preg_split("/[ \t]+/", $data, 6, PREG_SPLIT_NO_EMPTY);
                             $offset=strlen($buff[1]);
                             if ($rootoffset === false) { // first line means root
                                 $rootoffset = $offset;
@@ -763,9 +763,9 @@ class Raid extends PSI_Plugin
                          // name append
                         if (isset($data['name2'])) {
                             if (($data['name2']==="cache") || ($data['name2']==="logs")) {
-                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name2']." ".$data['name'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = trim($data['name2']." ".$data['name']);
                             } else {
-                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name']." ".$data['name2'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = trim($data['name']." ".$data['name2']);
                             }
                             unset($this->_result['devices'][$group]['items'][$id]['name2']);
                         }
