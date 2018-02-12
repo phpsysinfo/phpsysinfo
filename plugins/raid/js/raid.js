@@ -33,9 +33,9 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", app = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
 
-    app = $(xml).attr("App");
+    prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
     devstatus = $(xml).attr("Status");
     devlevel = $(xml).attr("Level");
@@ -52,7 +52,7 @@ function raid_buildinfos(xml, id) {
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
     devact = parseInt($(xml).attr("Disks_Active"), 10);
-    html += "<tr><td>" + genlang(23, true, "Raid") + "</td><td>" + app + "</td></tr>";
+    html += "<tr><td>" + genlang(23, true, "Raid") + "</td><td>" + prog + "</td></tr>";
     if (devname !== undefined) html += "<tr><td>" + genlang(4, true, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(5, true, "Raid") + "</td><td>" + devstatus + "</td></tr>";
     if (devlevel !== undefined) html += "<tr><td>" + genlang(6, true, "Raid") + "</td><td>" + devlevel + "</td></tr>";

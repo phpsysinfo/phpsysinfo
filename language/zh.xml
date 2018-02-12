@@ -304,19 +304,19 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>详细信息</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>最大CPU 速度</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>最小CPU 速度</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>电源</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>电池日期</exp>
   </expression>
   <expression id="105" name="current">
     <exp>Current</exp>
@@ -334,22 +334,22 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>进程数</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>运行中</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>休眠中</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>已停止</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>等待中</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
     <exp>other</exp>
@@ -370,7 +370,7 @@ phpSysInfo language file Language: Simplified Chinese Created by: AlloVince allo
     <exp>Other</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>生产厂家</exp>
   </expression>
   <expression id="123" name="product">
     <exp>Product</exp>

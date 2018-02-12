@@ -3,6 +3,14 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.10
+----------------
+ - [UPD] jQuery 3.3.1
+
+ - [ADD] NuTyX to detected distros
+
+ - [FIX] Raid plugin - fixed zpool analize
+
 phpSysInfo 3.2.9
 ----------------
  - [UPD] Greek Translation gr.xml

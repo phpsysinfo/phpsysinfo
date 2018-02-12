@@ -99,7 +99,7 @@ function renderPlugin_raid(data) {
                     html += "<tr><td>";
                     html += "<table id=\"raid-" + i + "\"class=\"table table-hover table-condensed\"><tbody>";
                     html += "<tr class=\"treegrid-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + genlang(3, true, "raid") + "</span></td><td></td></tr>";
-                    html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].App + "</td></tr>"; // App
+                    html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Program + "</td></tr>"; // Program
                     if (raiditems[i]["@attributes"].Name !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Name + "</td></tr>"; // Name
                     html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Status + "</td></tr>"; 	// Status
                     if (raiditems[i]["@attributes"].Level !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Level + "</td></tr>"; // RAID-Level

@@ -1,0 +1,12 @@
+----------lsb_release -a----------
+LSB Version:	1.4-1
+Distributor ID:	NuTyX
+Description:	NuTyX GNU/Linux
+Release:	10.0
+Codename:	Houaphan
+----------/etc/lsb-release----------
+DISTRIB_ID="NuTyX"
+DISTRIB_DESCRIPTION="NuTyX GNU/Linux"
+DISTRIB_CODENAME="Houaphan"
+DISTRIB_RELEASE="10.0"
+LSB_VERSION="1.4-1"

@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $apps_items = array('mdstat','dmraid','megactl','megasasctl','graid','zpool');
+    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','graid','zpool');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -35,62 +35,62 @@ class Raid extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
 
-        $RaidApps = array();
-        if (defined('PSI_PLUGIN_RAID_APPS') && is_string(PSI_PLUGIN_RAID_APPS)) {
-            if (is_string(PSI_PLUGIN_RAID_APPS)) {
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_APPS)) {
-                    $RaidApps = eval(strtolower(PSI_PLUGIN_RAID_APPS));
+        $RaidProgs = array();
+        if (defined('PSI_PLUGIN_RAID_PROGRAM') && is_string(PSI_PLUGIN_RAID_PROGRAM)) {
+            if (is_string(PSI_PLUGIN_RAID_PROGRAM)) {
+                if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_PROGRAM)) {
+                    $RaidProgs = eval(strtolower(PSI_PLUGIN_RAID_PROGRAM));
                 } else {
-                    $RaidApps = array(strtolower(PSI_PLUGIN_RAID_APPS));
+                    $RaidProgs = array(strtolower(PSI_PLUGIN_RAID_PROGRAM));
                 }
             } else {
-                $this->global_error->addConfigError("__construct()", "[raid] APPS");
+                $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
                 exit;
             }
         } else {
-            $RaidApps = $this->apps_items;
+            $RaidProgs = $this->prog_items;
         }
 
         $notwas = true;
         switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidApps)) {
+            if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
                 CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
                 $notwas = false;
             }
-            if ((PSI_OS == 'Linux') && in_array('dmraid', $RaidApps)) {
+            if ((PSI_OS == 'Linux') && in_array('dmraid', $RaidProgs)) {
                 CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $this->_filecontent['dmraid'], PSI_DEBUG);
                 $notwas = false;
             }
-            if ((PSI_OS == 'Linux') && in_array('megactl', $RaidApps)) {
+            if ((PSI_OS == 'Linux') && in_array('megactl', $RaidProgs)) {
                 CommonFunctions::executeProgram("megactl", "", $this->_filecontent['megactl'], PSI_DEBUG);
                 $notwas = false;
             }
-            if ((PSI_OS == 'Linux') && in_array('megasasctl', $RaidApps)) {
+            if ((PSI_OS == 'Linux') && in_array('megasasctl', $RaidProgs)) {
                 CommonFunctions::executeProgram("megasasctl", "", $this->_filecontent['megasasctl'], PSI_DEBUG);
                 $notwas = false;
             }
-            if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidApps)) {
+            if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidProgs)) {
                 CommonFunctions::executeProgram("graid", "list", $this->_filecontent['graid'], PSI_DEBUG);
                 $notwas = false;
             }
-            if (in_array('zpool', $RaidApps)) {
+            if (in_array('zpool', $RaidProgs)) {
                 CommonFunctions::executeProgram("zpool", "status", $this->_filecontent['zpool'], PSI_DEBUG);
                 $notwas = false;
             }
             if ($notwas) {
-                $this->global_error->addConfigError("__construct()", "[raid] APPS");
+                $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
             }
             break;
         case 'data':
-            foreach ($this->apps_items as $item) {
-                if (in_array($item, $RaidApps)) {
+            foreach ($this->prog_items as $item) {
+                if (in_array($item, $RaidProgs)) {
                     CommonFunctions::rfts(APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
                     $notwas = false;
                 }
             }
             if ($notwas) {
-                $this->global_error->addConfigError("__construct()", "[raid] APPS");
+                $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
             }
             break;
         default:
@@ -122,24 +122,34 @@ class Raid extends PSI_Plugin
                 $parts = preg_split("/ : /", $raiddata[$count]);
                 $dev = trim($parts[0]);
                 if (count($parts) == 2) {
-                    $this->_result['devices'][$dev]['app'] = "mdstat";
+                    $this->_result['devices'][$dev]['prog'] = "mdstat";
                     if ($supported !== '') $this->_result['devices'][$dev]['supported'] = $supported;
                     $this->_result['devices'][$dev]['items'][0]['raid_index'] = -1; //must by first
                     $details = preg_split('/ /', $parts[1]);
                     if (!strstr($details[0], 'inactive')) {
-                        $this->_result['devices'][$dev]['level'] = $details[1];
-                        //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
-                        $this->_result['devices'][$dev]['items'][0]['name'] = $details[1];
-                        $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
-                        $i = 2;
+                        if (isset($details[2]) && strstr($details[1], '(auto-read-only)')) {
+                            $this->_result['devices'][$dev]['level'] = $details[2];
+                            $this->_result['devices'][$dev]['status'] = $details[0]." ".$details[1];
+                            //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[2];
+                            $this->_result['devices'][$dev]['items'][0]['name'] = $details[2];
+                            $this->_result['devices'][$dev]['items'][0]['status'] = "W";
+                            $i = 3;
+                        } else {
+                            $this->_result['devices'][$dev]['level'] = $details[1];
+                            $this->_result['devices'][$dev]['status'] = $details[0];
+                            //$this->_result['devices'][$dev]['items'][0]['name'] = $dev." ".$details[1];
+                            $this->_result['devices'][$dev]['items'][0]['name'] = $details[1];
+                            $this->_result['devices'][$dev]['items'][0]['status'] = "ok";
+                            $i = 2;
+                        }
                     } else {
                         $this->_result['devices'][$dev]['level'] = "none";
+                        $this->_result['devices'][$dev]['status'] = $details[0];
                         $this->_result['devices'][$dev]['items'][0]['name'] = $dev;
                         $this->_result['devices'][$dev]['items'][0]['status'] = "F";
                         $i = 1;
                     }
                     $this->_result['devices'][$dev]['items'][0]['parentid'] = 0;
-                    $this->_result['devices'][$dev]['status'] = $details[0];
 
                     for ($cnt_details = count($details); $i < $cnt_details; $i++) {
                         preg_match('/(([a-z0-9])+)(\[([0-9]+)\])(\([SF ]\))?/', trim($details[$i]), $partition);
@@ -243,6 +253,8 @@ class Raid extends PSI_Plugin
                             $time = preg_split("/=/", $res[0]);
                             list($this->_result['devices'][$dev]['action']['finish_time'], $this->_result['devices'][$dev]['action']['finish_unit']) = sscanf($time[1], '%f%s');
                         }
+                    } elseif (preg_match(('/^( *)([a-z]+)( *)=( *)([A-Z]+)$/'), $raiddata[$count + 1], $res)) {
+                       $this->_result['devices'][$dev]['status'] .= " ".trim($raiddata[$count + 1]);
                     }
                 } else {
                     $count++;
@@ -254,7 +266,7 @@ class Raid extends PSI_Plugin
                 $unused = trim($parts[1]);
                 if ($unused !== "<none>") {
                     $details = preg_split('/ /', $parts[1], -1, PREG_SPLIT_NO_EMPTY);
-                    $this->_result['devices']['spare']['app'] = "mdstat";
+                    $this->_result['devices']['spare']['prog'] = "mdstat";
                     $this->_result['devices']['spare']['status'] = "spare";
                     $this->_result['devices']['spare']['items'][0]['name'] = "spare";
                     $this->_result['devices']['spare']['items'][0]['parentid'] = 0;
@@ -289,7 +301,7 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$partition[2]]['items'][$partition[1]]['type'] = "disk";
                             $this->_result['devices'][$partition[2]]['items'][$partition[1]]['parentid'] = 1;
                             $this->_result['devices'][$partition[2]]['items'][$partition[1]]['name'] = $partition[1];
-                            $this->_result['devices'][$partition[2]]['app'] = "dmraid";
+                            $this->_result['devices'][$partition[2]]['prog'] = "dmraid";
                             $this->_result['devices'][$partition[2]]['status'] = "ok";
                             $this->_result['devices'][$partition[2]]['level'] = "unknown";
                         } elseif (preg_match('/^ERROR: .* device\s+\/dev\/(.+)\s+(.+)\s+in RAID set\s+\"(.+)\"/', $line, $partition)) {
@@ -297,7 +309,7 @@ class Raid extends PSI_Plugin
                                 $this->_result['devices'][$partition[3]]['items'][0]['parentid'] = 0;
                                 $this->_result['devices'][$partition[3]]['items'][0]['name'] = $partition[3];
                             }
-                            $this->_result['devices'][$partition[3]]['app'] = "dmraid";
+                            $this->_result['devices'][$partition[3]]['prog'] = "dmraid";
                             $this->_result['devices'][$partition[3]]['level'] = "unknown";
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['type'] = "disk";
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['parentid'] = 1;
@@ -319,7 +331,7 @@ class Raid extends PSI_Plugin
                         if ($group=="") {
                             $group = trim($arrname[1]);
                         }
-                        $this->_result['devices'][$group]['app'] = "dmraid";
+                        $this->_result['devices'][$group]['prog'] = "dmraid";
                         $this->_result['devices'][$group]['name'] = trim($arrname[1]);
 
                         $this->_result['devices'][$group]['items'][0]['name'] = trim($arrname[1]);
@@ -367,7 +379,7 @@ class Raid extends PSI_Plugin
                 }
             }
             if (isset($this->_result['devices'])) {
-                foreach ($this->_result['devices'] as $gid=>$group) if ($group['app'] === "dmraid") {
+                foreach ($this->_result['devices'] as $gid=>$group) if ($group['prog'] === "dmraid") {
                     $id = 1;
                     if (isset($group['devs']) && ($group['devs']>0) &&
                        (!isset($group['items']) || (count($group['items'])<$group['devs'])) &&
@@ -396,7 +408,7 @@ class Raid extends PSI_Plugin
                         }
                     }
                 }
-                foreach ($this->_result['devices'] as $gid=>$group) if ($group['app'] === "dmraid") {
+                foreach ($this->_result['devices'] as $gid=>$group) if ($group['prog'] === "dmraid") {
                     if (($group['name'] !== $gid) && isset($group['items'][0]['parentid'])) {
                         $this->_result['devices'][$gid]['items'][0]['name'] = $group['name']." ".$group['items'][0]['name'];
                     }
@@ -424,17 +436,17 @@ class Raid extends PSI_Plugin
                 $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($lines)) {
                     if ($sas === true) {
-                        $app = "megactl";
+                        $prog = "megactl";
                         $prefix = "";
                     } else {
-                        $app = "megasasctl";
+                        $prog = "megasasctl";
                         $prefix = "/"; //for megactl and megasasctl conflicts
                     }
                     unset($lines[0]);
                     foreach ($lines as $line) {
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
                         if ((count($details) == 6) && ($details[2] === "RAID")) {
-                            $this->_result['devices'][$prefix.$details[0]]['app'] = $app;
+                            $this->_result['devices'][$prefix.$details[0]]['prog'] = $prog;
                             $unit = preg_replace("/^\d+/", "", $details[1]);
                             $value = preg_replace("/\D+$/", "", $details[1]);
                             switch ($unit) {
@@ -502,7 +514,7 @@ class Raid extends PSI_Plugin
                             $itemn0 = rtrim($details[0], ':');
                             $itemn = $group .'-'.$itemn0;
                             $this->_result['devices'][$prefix.$itemn]['status'] = $itemn0;
-                            $this->_result['devices'][$prefix.$itemn]['app'] = $app;
+                            $this->_result['devices'][$prefix.$itemn]['prog'] = $prog;
                             if ($controller !== '') $this->_result['devices'][$prefix.$itemn]['controller'] = $controller;
                             if ($battery !== '') $this->_result['devices'][$prefix.$itemn]['battery'] = $battery;
                             $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['parentid'] = 0;
@@ -575,7 +587,7 @@ class Raid extends PSI_Plugin
             foreach ($lines as $line) {
                 if (preg_match("/^\d+\.\s+Name:\s+(.+)/", $line, $data)) {
                     $group = $data[1];
-                    $this->_result['devices'][$group]['app'] = "graid";
+                    $this->_result['devices'][$group]['prog'] = "graid";
                     if ($controller !== '') $this->_result['devices'][$group]['controller'] = $controller;
                 } elseif ($group!=="") {
                     if (preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
@@ -653,11 +665,11 @@ class Raid extends PSI_Plugin
         if (!empty($raiddata)) foreach ($raiddata as $raid) {
             if (preg_match("/^pool: (\S+)/", $raid, $buff)) {
                 $group = $buff[1];
-                $this->_result['devices'][$group]['app'] = "zpool";
+                $this->_result['devices'][$group]['prog'] = "zpool";
                 if (preg_match("/^ +state: (\S+)/m", $raid, $buff)) {
                     $this->_result['devices'][$group]['status'] = $buff[1];
                 }
-                $databegin = preg_split("/\n +NAME +STATE +READ +WRITE +CKSUM\r?\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
+                $databegin = preg_split("/\n[ \t]+NAME +STATE +READ +WRITE +CKSUM\r?\n/", $raid, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($databegin) && (count($databegin)==2)) {
                     $datas = preg_split("/\r?\n[ \t]*\r?\n/", $databegin[1], -1, PREG_SPLIT_NO_EMPTY);
                     $datalines = preg_split("/\r?\n/", $datas[0], -1, PREG_SPLIT_NO_EMPTY);
@@ -666,8 +678,8 @@ class Raid extends PSI_Plugin
                     $lastindent = 0;
                     $lastid = 0;
                     foreach ($datalines as $id=>$data) {
-                        if (preg_match("/^( +)\S/", $data, $buff)) {
-                            $fullbuff = preg_split("/ +/", $data, 6, PREG_SPLIT_NO_EMPTY);
+                        if (preg_match("/^([ \t]+)\S/", $data, $buff)) {;
+                            $fullbuff = preg_split("/[ \t]+/", $data, 6, PREG_SPLIT_NO_EMPTY);
                             $offset=strlen($buff[1]);
                             if ($rootoffset === false) { // first line means root
                                 $rootoffset = $offset;
@@ -751,9 +763,9 @@ class Raid extends PSI_Plugin
                          // name append
                         if (isset($data['name2'])) {
                             if (($data['name2']==="cache") || ($data['name2']==="logs")) {
-                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name2']." ".$data['name'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = trim($data['name2']." ".$data['name']);
                             } else {
-                                $this->_result['devices'][$group]['items'][$id]['name'] = $data['name']." ".$data['name2'];
+                                $this->_result['devices'][$group]['items'][$id]['name'] = trim($data['name']." ".$data['name2']);
                             }
                             unset($this->_result['devices'][$group]['items'][$id]['name2']);
                         }
@@ -813,7 +825,7 @@ class Raid extends PSI_Plugin
     public function execute()
     {
         if (count($this->_filecontent)>0) {
-            foreach ($this->apps_items as $item) {
+            foreach ($this->prog_items as $item) {
                 if (isset($this->_filecontent[$item]) && !is_null($buffer = $this->_filecontent[$item]) && (($buffer = trim($buffer)) != "")) {
                     switch ($item) {
                         case 'mdstat':
@@ -862,7 +874,7 @@ class Raid extends PSI_Plugin
             if (!in_array(ltrim($key, "/"), $hideRaids, true)) {
                 $dev = $this->xml->addChild("Raid");
                 $dev->addAttribute("Device_Name", ltrim($key, "/")); //for megactl and megasasctl conflicts
-                $dev->addAttribute("App", $device["app"]);
+                $dev->addAttribute("Program", $device["prog"]);
                 if (isset($device['level'])) $dev->addAttribute("Level", strtolower($device["level"]));
                 $dev->addAttribute("Status", strtolower($device["status"]));
                 if (isset($device['name'])) $dev->addAttribute("Name", $device["name"]);
