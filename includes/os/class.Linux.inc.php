@@ -460,16 +460,22 @@ class Linux extends OS
                     if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
-                           && ($_revi !== null)) { // Raspbery detection
+                           && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(APP_ROOT."/data/raspberry.ini", true);
                             if ($raslist && !preg_match('/[^0-9a-f]/', $_revi)) {
                                 if (($revidec = hexdec($_revi)) & 0x800000) {
                                     if ($this->sys->getMachine() === '') {
+                                        $manufacturer = ($revidec >> 16) & 15;
+                                        if (isset($raslist['manufacturer'][$manufacturer])) {
+                                            $manuf = ' '.$raslist['manufacturer'][$manufacturer];
+                                        } else {
+                                            $manuf = '';
+                                        }
                                         $model = ($revidec >> 4) & 255;
                                         if (isset($raslist['model'][$model])) {
-                                            $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).')');
+                                            $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).$manuf.')');
                                         } else {
-                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).')');
+                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).$manuf.')');
                                         }
                                     }
                                 } else {
