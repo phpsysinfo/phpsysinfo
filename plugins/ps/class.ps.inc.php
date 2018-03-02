@@ -88,7 +88,7 @@ class PS extends PSI_Plugin
                         $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
                         $totalmem = 0;
                         foreach ($bufe as $buf) {
-                            if (preg_match('/^MemTotal:\s+(.*)\s*kB/i', $buf, $ar_buf)) {
+                            if (preg_match('/^MemTotal:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                                 $totalmem = $ar_buf[1];
                                 break;
                             }
