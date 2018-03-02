@@ -73,10 +73,13 @@ class ThermalZone extends Sensors
                 $temp = null;
                 if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
                     if ($temp >= 1000) {
-                        $temp = $temp / 1000;
+                        $div = 1000;
                     } elseif ($temp >= 200) {
-                        $temp = $temp / 10;
+                        $div = 10;
+                    } else {
+                       $div = 1;
                     }
+                    $temp = $temp / $div;
 
                     if ($temp > -40) {
                         $dev = new SensorDevice();
@@ -91,11 +94,7 @@ class ThermalZone extends Sensors
 
                         $temp_max = null;
                         if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 1, 4096, false) && !is_null($temp_max) && (($temp_max = trim($temp_max)) != "") && ($temp_max > -40)) {
-                            if ($temp_max >= 1000) {
-                                $temp_max = $temp_max / 1000;
-                            } elseif ($temp_max >= 200) {
-                                $temp_max = $temp_max / 10;
-                            }
+                            $temp_max = $temp_max / $div;
                             $dev->setMax($temp_max);
                         }
 
