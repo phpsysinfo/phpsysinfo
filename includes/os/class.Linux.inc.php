@@ -114,13 +114,16 @@ class Linux extends OS
         if (PSI_USE_VHOST === true) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
-            if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1)) {
+            if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_OS != 'Android')) {
                 $result = trim($result);
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
                     $this->sys->setHostname(gethostbyaddr($ip));
                 }
+            } elseif (CommonFunctions::executeProgram('hostname', '', $ret)) {
+                $this->sys->setHostname($ret);
             }
+
         }
     }
 
@@ -175,9 +178,28 @@ class Linux extends OS
      */
     protected function _uptime()
     {
-        CommonFunctions::rfts('/proc/uptime', $buf, 1);
-        $ar_buf = preg_split('/ /', $buf);
-        $this->sys->setUptime(trim($ar_buf[0]));
+        if (CommonFunctions::rfts('/proc/uptime', $buf, 1, 4096, PSI_OS != 'Android')) {
+            $ar_buf = preg_split('/ /', $buf);
+            $this->sys->setUptime(trim($ar_buf[0]));
+        } elseif (CommonFunctions::executeProgram('uptime', '', $buf)) {
+            if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
+                $min = $ar_buf[3];
+                $hours = $ar_buf[2];
+                $days = $ar_buf[1];
+                $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
+            } elseif (preg_match("/up (\d+) day[s]?,[ ]+(\d+) min,/", $buf, $ar_buf)) {
+                $min = $ar_buf[2];
+                $days = $ar_buf[1];
+                $this->sys->setUptime($days * 86400 + $min * 60);
+            } elseif (preg_match("/up[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
+                $min = $ar_buf[2];
+                $hours = $ar_buf[1];
+                $this->sys->setUptime($hours * 3600 + $min * 60);
+            } elseif (preg_match("/up[ ]+(\d+) min,/", $buf, $ar_buf)) {
+                $min = $ar_buf[1];
+                $this->sys->setUptime($min * 60);
+            }
+        }
     }
 
     /**
@@ -188,11 +210,13 @@ class Linux extends OS
      */
     protected function _loadavg()
     {
-        if (CommonFunctions::rfts('/proc/loadavg', $buf)) {
+        if (CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) {
             $result = preg_split("/\s/", $buf, 4);
             // don't need the extra values, only first three
             unset($result[3]);
             $this->sys->setLoad(implode(' ', $result));
+        } elseif (CommonFunctions::executeProgram('uptime', '', $buf) && preg_match("/load average: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+            $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
         }
         if (PSI_LOAD_BAR) {
             $this->sys->setLoadPercent($this->_parseProcStat('cpu'));
@@ -229,30 +253,30 @@ class Linux extends OS
                         $cpu_tmp[$cpu]['total'] = $ab + $ac + $ad + $ae; // cpu.total
                     }
                 }
-            }
 
-            // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-            sleep(1);
+                // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
+                sleep(1);
 
-            if (CommonFunctions::rfts('/proc/stat', $buf)) {
-                if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
-                    foreach ($matches as $line) {
-                        $cpu = $line[1];
-                        if (isset($cpu_tmp[$cpu])) {
-                            $buf2 = $line[2];
+                if (CommonFunctions::rfts('/proc/stat', $buf)) {
+                    if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
+                        foreach ($matches as $line) {
+                            $cpu = $line[1];
+                            if (isset($cpu_tmp[$cpu])) {
+                                $buf2 = $line[2];
 
-                            $ab = 0;
-                            $ac = 0;
-                            $ad = 0;
-                            $ae = 0;
-                            sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
-                            $load2 = $ab + $ac + $ad; // cpu.user + cpu.sys
-                            $total2 = $ab + $ac + $ad + $ae; // cpu.total
-                            $total = $cpu_tmp[$cpu]['total'];
-                            $load = $cpu_tmp[$cpu]['load'];
-                            $this->_cpu_loads[$cpu] = 0;
-                            if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
-                                $this->_cpu_loads[$cpu] = (100 * ($load2 - $load)) / ($total2 - $total);
+                                $ab = 0;
+                                $ac = 0;
+                                $ad = 0;
+                                $ae = 0;
+                                sscanf($buf2, "%Ld %Ld %Ld %Ld", $ab, $ac, $ad, $ae);
+                                $load2 = $ab + $ac + $ad; // cpu.user + cpu.sys
+                                $total2 = $ab + $ac + $ad + $ae; // cpu.total
+                                $total = $cpu_tmp[$cpu]['total'];
+                                $load = $cpu_tmp[$cpu]['load'];
+                                $this->_cpu_loads[$cpu] = 0;
+                                if ($total > 0 && $total2 > 0 && $load > 0 && $load2 > 0 && $total2 != $total && $load2 != $load) {
+                                    $this->_cpu_loads[$cpu] = (100 * ($load2 - $load)) / ($total2 - $total);
+                                }
                             }
                         }
                     }

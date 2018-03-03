@@ -64,14 +64,23 @@ class Android extends Linux
      */
     private function _kernel()
     {
-        if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-            if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
-                $result = $ar_buf[1];
+        if (CommonFunctions::executeProgram('uname', '-r', $strBuf, false)) {
+            $result = $strBuf;
+            if (CommonFunctions::executeProgram('uname', '-v', $strBuf, PSI_DEBUG)) {
                 if (preg_match('/SMP/', $strBuf)) {
                     $result .= ' (SMP)';
                 }
-                $this->sys->setKernel($result);
             }
+            if (CommonFunctions::executeProgram('uname', '-m', $strBuf, PSI_DEBUG)) {
+                $result .= ' '.$strBuf;
+            }
+            $this->sys->setKernel($result);
+        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) && preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+            $result = $ar_buf[1];
+            if (preg_match('/SMP/', $strBuf)) {
+                $result .= ' (SMP)';
+            }
+            $this->sys->setKernel($result);
         }
     }
 

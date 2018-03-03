@@ -65,7 +65,7 @@ class AIX extends OS
     private function _uptime()
     {
         if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) days,\s*(\d+):(\d+),/", $buf, $ar_buf) || preg_match("/up (\d+) day,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
