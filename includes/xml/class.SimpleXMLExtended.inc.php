@@ -176,7 +176,7 @@ class SimpleXMLExtended
      */
     private function _toUTF8($str)
     {
-        $str = trim(preg_replace('/[\x00-\x1F]/', ' ', $str)); //remove nonprintable characters
+        $str = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', ' ', $str)); //remove nonprintable characters
         if ($this->_encoding != null) {
             if (strcasecmp($this->_encoding, "UTF-8") == 0) {
                 return $str;
