@@ -108,7 +108,7 @@ class SimpleXMLExtended
         if ($value == null) {
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8), $this->_encoding);
         } else {
-            $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8"));
+            $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8");
 
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8, $valueUtf8), $this->_encoding);
         }
@@ -144,7 +144,7 @@ class SimpleXMLExtended
     public function addAttribute($name, $value)
     {
         $nameUtf8 = $this->_toUTF8($name);
-        $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8"));
+        $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8");
         if (($valueUtf8 === "") && (version_compare("5.2.2", PHP_VERSION, ">"))) {
             $this->_SimpleXmlElement->addAttribute($nameUtf8, "\0"); // Fixing bug #41175 (addAttribute() fails to add an attribute with an empty value)
         } else {
