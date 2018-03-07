@@ -1,6 +1,6 @@
 /*
  * File:        jquery.dataTables.js
- * Version:     1.8.2+jquery1.9fix+parseJSONfix+bindfix
+ * Version:     1.8.2+jquery1.9fix+parseJSONfix2+bindfix
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
  * Created:     28/3/2008
@@ -6259,8 +6259,7 @@
 				 */
 				try
 				{
-					oData = (typeof JSON.parse == 'function') ? 
-						JSON.parse( sData.replace(/'/g, '"') ) : eval( '('+sData+')' );
+					oData = jQuery.parseJSON( sData.replace(/'/g, '"') );
 				}
 				catch( e )
 				{
@@ -6355,8 +6354,7 @@
 			
 			if ( fnCallback !== null )
 			{
-				oData = (typeof JSON.parse == 'function') ? 
-					JSON.parse( sValue ) : eval( '('+sValue+')' );
+				oData = jQuery.parseJSON( sValue );
 				sFullCookie = fnCallback( sNameFile, oData, date.toGMTString(),
 					aParts.join('/')+"/" );
 			}
