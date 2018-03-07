@@ -6259,7 +6259,8 @@
 				 */
 				try
 				{
-					oData = jQuery.parseJSON( sData.replace(/'/g, '"') );
+					oData = (typeof JSON.parse == 'function') ? 
+						JSON.parse( sData.replace(/'/g, '"') ) : $.parseJSON( sData.replace(/'/g, '"') );
 				}
 				catch( e )
 				{
@@ -6354,7 +6355,8 @@
 			
 			if ( fnCallback !== null )
 			{
-				oData = jQuery.parseJSON( sValue );
+				oData = (typeof JSON.parse == 'function') ? 
+					JSON.parse( sValue ) : $.parseJSON( sValue );
 				sFullCookie = fnCallback( sNameFile, oData, date.toGMTString(),
 					aParts.join('/')+"/" );
 			}
