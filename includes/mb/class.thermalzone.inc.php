@@ -95,11 +95,14 @@ class ThermalZone extends Sensors
                         $temp_max = null;
                         if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 1, 4096, false) && !is_null($temp_max) && (($temp_max = trim($temp_max)) != "") && ($temp_max > -40)) {
                             $temp_max = $temp_max / $div;
-                            $dev->setMax($temp_max);
+                            if (($temp_max != 0) || ($temp != 0)) { // if non-zero values
+                                $dev->setMax($temp_max);
+                                $this->mbinfo->setMbTemp($dev);
+                            }
+                        } else {
+                            $this->mbinfo->setMbTemp($dev);
                         }
-
                         $notwas = false;
-                        $this->mbinfo->setMbTemp($dev);
                     }
                 }
             }
