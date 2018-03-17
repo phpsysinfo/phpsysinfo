@@ -222,6 +222,14 @@ class XML
             if ($pci === null) $pci = $hardware->addChild('PCI');
             $tmp = $pci->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+            }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
             }

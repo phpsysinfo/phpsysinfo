@@ -235,7 +235,7 @@ class WINNT extends OS
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                    if (!isset($device['PNPClass']) || ($device['PNPClass']==='USB')) {
+                    if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
                     if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
@@ -571,6 +571,10 @@ class WINNT extends OS
         foreach ($this->_devicelist('PCI') as $pciDev) {
             $dev = new HWDevice();
             $dev->setName($pciDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setManufacturer($pciDev['Manufacturer']);
+                $dev->setProduct($pciDev['Product']);
+            }
             $this->sys->setPciDevices($dev);
         }
 
