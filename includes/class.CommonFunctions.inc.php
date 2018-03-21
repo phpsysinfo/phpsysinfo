@@ -611,7 +611,7 @@ class CommonFunctions
             } catch (Exception $e) {
                 if (PSI_DEBUG) {
                     $error = PSI_Error::singleton();
-                    $error->addError($e->getCode(), $e->getMessage());
+                    $error->addError($e->getCode(),preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                 }
             }
         }
