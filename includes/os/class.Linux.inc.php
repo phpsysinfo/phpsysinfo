@@ -351,6 +351,7 @@ class Linux extends OS
 
             //second stage
             $procname = null;
+            $cpucount = 0;
             foreach ($processors as $processor) if (preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $proc = null;
                 $arch = null;
@@ -530,6 +531,15 @@ class Linux extends OS
                     if ($dev->getModel() === "") {
                         $dev->setModel("unknown");
                     }
+                    $cpucount++;
+                    $this->sys->setCpus($dev);
+                }
+            }
+            $cpudevices = glob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
+            if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
+                for (; $cpustopped > 0; $cpustopped--) {
+                    $dev = new CpuDevice();
+                    $dev->setModel("stopped");
                     $this->sys->setCpus($dev);
                 }
             }
