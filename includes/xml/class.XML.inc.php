@@ -303,7 +303,7 @@ class XML
             $tmp = $cpu->addChild('CpuCore');
             $tmp->addAttribute('Model', $oneCpu->getModel());
             if ($oneCpu->getCpuSpeed() !== 0) {
-                $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
+                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
             }
             if ($oneCpu->getCpuSpeedMax() !== 0) {
                 $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());

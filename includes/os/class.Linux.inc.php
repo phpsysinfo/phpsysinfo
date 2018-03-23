@@ -352,6 +352,7 @@ class Linux extends OS
             //second stage
             $procname = null;
             $cpucount = 0;
+            $speedset = false; 
             foreach ($processors as $processor) if (preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $proc = null;
                 $arch = null;
@@ -384,13 +385,16 @@ class Linux extends OS
                         case 'clock':
                             if ($arrBuff1 > 0) { //openSUSE fix
                                 $dev->setCpuSpeed($arrBuff1);
+                                $speedset = true;
                             }
                             break;
                         case 'cycle frequency [hz]':
                             $dev->setCpuSpeed($arrBuff1 / 1000000);
+                            $speedset = true;
                             break;
                         case 'cpu0clktck':
                             $dev->setCpuSpeed(hexdec($arrBuff1) / 1000000); // Linux sparc64
+                            $speedset = true;
                             break;
                         case 'l3 cache':
                         case 'cache size':
@@ -450,11 +454,17 @@ class Linux extends OS
                 // XScale detection code
                 if (($arch === "5TE") && ($dev->getBogomips() != null)) {
                     $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
+                    $speedset = true;
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS
                 }
 
-                if (($dev->getBusSpeed() == 0) && ($_buss !== null)) $dev->setBusSpeed($_buss);
-                if (($dev->getCpuSpeed() == 0) && ($_cpus !== null)) $dev->setCpuSpeed($_cpus);
+                if (($dev->getBusSpeed() == 0) && ($_buss !== null)) {
+                    $dev->setBusSpeed($_buss);
+                }
+                if (($dev->getCpuSpeed() == 0) && ($_cpus !== null)) {
+                    $dev->setCpuSpeed($_cpus);
+                    $speedset = true;
+                }
 
                 if ($proc != null) {
                     if (!is_numeric($proc)) {
@@ -463,8 +473,10 @@ class Linux extends OS
                     // variable speed processors specific code follows
                     if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_cur_freq', $buf, 1, 4096, false)) {
                         $dev->setCpuSpeed(trim($buf) / 1000);
+                        $speedset = true;
                     } elseif (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/scaling_cur_freq', $buf, 1, 4096, false)) {
                         $dev->setCpuSpeed(trim($buf) / 1000);
+                        $speedset = true;
                     }
                     if (CommonFunctions::rfts('/sys/devices/system/cpu/cpu'.$proc.'/cpufreq/cpuinfo_max_freq', $buf, 1, 4096, false)) {
                         $dev->setCpuSpeedMax(trim($buf) / 1000);
@@ -540,7 +552,9 @@ class Linux extends OS
                 for (; $cpustopped > 0; $cpustopped--) {
                     $dev = new CpuDevice();
                     $dev->setModel("stopped");
-                    $dev->setCpuSpeed(0);
+                    if ($speedset) {
+                        $dev->setCpuSpeed(-1);
+                    }
                     $this->sys->setCpus($dev);
                 }
             }
