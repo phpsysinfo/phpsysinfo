@@ -1,0 +1,74 @@
+cpu             : UltraSparc T1 (Niagara)                      
+fpu             : UltraSparc T1 integrated FPU                 
+prom            : OBP 4.29.0.a 2008/09/15 11:59                
+type            : sun4v                                        
+ncpus probed    : 32                                           
+ncpus active    : 32                                           
+D$ parity tl1   : 0                                            
+I$ parity tl1   : 0                                            
+Cpu0ClkTck      : 000000003b9aca00                             
+Cpu1ClkTck      : 000000003b9aca00                             
+Cpu2ClkTck      : 000000003b9aca00                             
+Cpu3ClkTck      : 000000003b9aca00                             
+Cpu4ClkTck      : 000000003b9aca00                             
+Cpu5ClkTck      : 000000003b9aca00                             
+Cpu6ClkTck      : 000000003b9aca00                             
+Cpu7ClkTck      : 000000003b9aca00                             
+Cpu8ClkTck      : 000000003b9aca00                             
+Cpu9ClkTck      : 000000003b9aca00                             
+Cpu10ClkTck     : 000000003b9aca00                             
+Cpu11ClkTck     : 000000003b9aca00                             
+Cpu12ClkTck     : 000000003b9aca00                             
+Cpu13ClkTck     : 000000003b9aca00                             
+Cpu14ClkTck     : 000000003b9aca00                             
+Cpu15ClkTck     : 000000003b9aca00                             
+Cpu16ClkTck     : 000000003b9aca00                             
+Cpu17ClkTck     : 000000003b9aca00                             
+Cpu18ClkTck     : 000000003b9aca00                             
+Cpu19ClkTck     : 000000003b9aca00                             
+Cpu20ClkTck     : 000000003b9aca00                             
+Cpu21ClkTck     : 000000003b9aca00                             
+Cpu22ClkTck     : 000000003b9aca00                             
+Cpu23ClkTck     : 000000003b9aca00                             
+Cpu24ClkTck     : 000000003b9aca00                             
+Cpu25ClkTck     : 000000003b9aca00                             
+Cpu26ClkTck     : 000000003b9aca00                             
+Cpu27ClkTck     : 000000003b9aca00                             
+Cpu28ClkTck     : 000000003b9aca00                             
+Cpu29ClkTck     : 000000003b9aca00
+Cpu30ClkTck     : 000000003b9aca00
+Cpu31ClkTck     : 000000003b9aca00
+MMU Type        : Hypervisor (sun4v)
+State:
+CPU0:           online
+CPU1:           online
+CPU2:           online
+CPU3:           online
+CPU4:           online
+CPU5:           online
+CPU6:           online
+CPU7:           online
+CPU8:           online
+CPU9:           online
+CPU10:          online
+CPU11:          online
+CPU12:          online
+CPU13:          online
+CPU14:          online
+CPU15:          online
+CPU16:          online
+CPU17:          online
+CPU18:          online
+CPU19:          online
+CPU20:          online
+CPU21:          online
+CPU22:          online
+CPU23:          online
+CPU24:          online
+CPU25:          online
+CPU26:          online
+CPU27:          online
+CPU28:          online
+CPU29:          online
+CPU30:          online
+CPU31:          online

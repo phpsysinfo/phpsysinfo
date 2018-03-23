@@ -1,0 +1,15 @@
+cpu             : TI UltraSparc II  (BlackBird)
+fpu             : UltraSparc II integrated FPU
+promlib         : Version 3 Revision 17
+prom            : 3.17.0
+type            : sun4u
+ncpus probed    : 2
+ncpus active    : 2
+Cpu0Bogo        : 897.84
+Cpu0ClkTck      : 000000001ad2bd21
+Cpu2Bogo        : 897.84
+Cpu2ClkTck      : 000000001ad2bd21
+MMU Type        : Spitfire
+State:
+CPU0:           online
+CPU2:           online

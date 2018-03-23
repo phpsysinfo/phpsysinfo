@@ -303,6 +303,13 @@ class Linux extends OS
             $cpulist = null;
             $raslist = null;
 
+            // sparc
+            if (preg_match('/\nCpu(\d+)Bogo\s*:/i', $bufr)) {
+                $bufr = preg_replace('/\nCpu(\d+)ClkTck\s*:/i', "\nCpu0ClkTck", preg_replace('/\nCpu(\d+)Bogo\s*:/i', "\n\nprocessor: $1\nCpu0Bogo:", $bufr));
+            } else {
+                $bufr = preg_replace('/\nCpu(\d+)ClkTck/i', "\n\nprocessor: $1\nCpu0ClkTck", $bufr);
+            }
+
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -313,6 +320,7 @@ class Linux extends OS
             $_revi = null;
             $_cpus = null;
             $_buss = null;
+            $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
@@ -344,13 +352,15 @@ class Linux extends OS
                                 $_buss = round($bufr2[1]/1000000);
                             }
                             break;
+                        case 'cpu':
+                            $procname = $arrBuff1;
+                            break;
                         }
                     }
                 }
             }
 
             //second stage
-            $procname = null;
             $cpucount = 0;
             $speedset = false; 
             foreach ($processors as $processor) if (preg_match('/^\s*processor\s*:/mi', $processor)) {
