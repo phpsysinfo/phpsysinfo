@@ -401,10 +401,10 @@ function formatUptime(sec) {
  * @return {String} html string with no breaking spaces and translation statements
  */
 function formatHertz(mhertz) {
-    if (mhertz && mhertz < 1000) {
+    if ((mhertz >= 0) && (mhertz < 1000)) {
         return mhertz.toString() + "&nbsp;" + genlang(92, true);
     } else {
-        if (mhertz && mhertz >= 1000) {
+        if (mhertz >= 1000) {
             return round(mhertz / 1000, 2) + "&nbsp;" + genlang(93, true);
         } else {
             return "";
