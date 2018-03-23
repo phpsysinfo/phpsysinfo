@@ -305,9 +305,9 @@ class Linux extends OS
 
             // sparc
             if (preg_match('/\nCpu(\d+)Bogo\s*:/i', $bufr)) {
-                $bufr = preg_replace('/\nCpu(\d+)ClkTck\s*:/i', "\nCpu0ClkTck", preg_replace('/\nCpu(\d+)Bogo\s*:/i', "\n\nprocessor: $1\nCpu0Bogo:", $bufr));
+                $bufr = preg_replace('/\nCpu(\d+)ClkTck\s*:/i', "\nCpu0ClkTck:", preg_replace('/\nCpu(\d+)Bogo\s*:/i', "\n\nprocessor: $1\nCpu0Bogo:", $bufr));
             } else {
-                $bufr = preg_replace('/\nCpu(\d+)ClkTck/i', "\n\nprocessor: $1\nCpu0ClkTck", $bufr);
+                $bufr = preg_replace('/\nCpu(\d+)ClkTck\s*:/i', "\n\nprocessor: $1\nCpu0ClkTck:", $bufr);
             }
 
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
