@@ -540,6 +540,7 @@ class Linux extends OS
                 for (; $cpustopped > 0; $cpustopped--) {
                     $dev = new CpuDevice();
                     $dev->setModel("stopped");
+                    $dev->setCpuSpeed(0);
                     $this->sys->setCpus($dev);
                 }
             }
