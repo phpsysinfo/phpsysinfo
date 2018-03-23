@@ -1,0 +1,24 @@
+cpu		: TI UltraSparc III+ (Cheetah+)
+fpu		: UltraSparc III+ integrated FPU
+pmu		: ultra3+
+prom		: OBP 4.6.3 2002/05/28 09:09
+type		: sun4u
+ncpus probed	: 6
+ncpus active	: 6
+D$ parity tl1	: 0
+I$ parity tl1	: 0
+cpucaps		: flush,stbar,swap,muldiv,v9,ultra3,mul32,div32,v8plus,vis,vis2
+Cpu0ClkTck	: 0000000035a4e900
+Cpu1ClkTck	: 0000000035a4e900
+Cpu2ClkTck	: 0000000035a4e900
+Cpu3ClkTck	: 0000000035a4e900
+Cpu4ClkTck	: 0000000035a4e900
+Cpu6ClkTck	: 0000000035a4e900
+MMU Type	: Cheetah+
+State:
+CPU0:		online
+CPU1:		online
+CPU2:		online
+CPU3:		online
+CPU4:		online
+CPU6:		online
