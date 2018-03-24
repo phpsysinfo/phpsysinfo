@@ -23,8 +23,8 @@ PHP 5.1.3 or later with SimpleXML, PCRE, XML and DOM extension.
 CURRENT TESTED PLATFORMS
 ------------------------
 
-- Linux 2.6.x
-- FreeBSD 7.x
+- Linux 2.6+
+- FreeBSD 7+
 - OpenBSD 2.8+
 - NetBSD
 - DragonFly
