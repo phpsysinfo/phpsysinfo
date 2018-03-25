@@ -7,7 +7,7 @@ phpSysInfo 3.2.10
 ----------------
  - [UPD] jQuery 3.3.1
 
- - [ADD] NuTyX to detected distros
+ - [ADD] NuTyX and Kali to detected distros
 
  - [FIX] Raid plugin - fixed zpool analize
 
