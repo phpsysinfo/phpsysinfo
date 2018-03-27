@@ -1,3 +1,8 @@
+----------lsb_release -a----------
+Distributor ID: Kali
+Description:    Kali GNU/Linux Rolling
+Release:        kali-rolling
+Codename:       kali-rolling
 ----------/etc/lsb-release----------
 DISTRIB_ID=Kali
 DISTRIB_RELEASE=kali-rolling
