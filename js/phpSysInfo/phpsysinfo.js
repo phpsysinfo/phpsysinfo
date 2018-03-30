@@ -1662,7 +1662,7 @@ function settimer(xml) {
 }
 
 $(document).ready(function buildpage() {
-    var i = 0, cookie_template = null, cookie_language = null, blocktmp = "";
+    var i = 0, old_template = null, cookie_template = null, cookie_language = null, blocktmp = "";
 
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
@@ -1734,7 +1734,11 @@ $(document).ready(function buildpage() {
     } else {
         cookie_template = readCookie("psi_template");
         if (cookie_template !== null) {
+            old_template = $("#template").val();
             $("#template").val(cookie_template);
+            if ($("#template").val() === null) {
+                $("#template").val(old_template);
+            }           
         }
         switchStyle($("#template").val().toString());
         $('#template').show();

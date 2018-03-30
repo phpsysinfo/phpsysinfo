@@ -329,7 +329,7 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
+    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -417,7 +417,11 @@ $(document).ready(function () {
     } else {
         cookie_template = readCookie("psi_bootstrap_template");
         if (cookie_template !== null) {
+            old_template = $("#template").val();
             $("#template").val(cookie_template);
+            if ($("#template").val() === null) {
+                $("#template").val(old_template);
+            }
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
