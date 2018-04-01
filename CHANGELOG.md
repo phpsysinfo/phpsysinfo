@@ -3,16 +3,23 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.2.11
+----------------
+
+ - [ADD] Kali to detected distros
+
 phpSysInfo 3.2.10
 ----------------
+
  - [UPD] jQuery 3.3.1
 
- - [ADD] NuTyX and Kali to detected distros
+ - [ADD] NuTyX to detected distros
 
  - [FIX] Raid plugin - fixed zpool analize
 
 phpSysInfo 3.2.9
 ----------------
+
  - [UPD] Greek Translation gr.xml
 
  - [ADD] BAT plugin - Model, Manufacturer and Serial Number information
@@ -29,6 +36,7 @@ phpSysInfo 3.2.9
 
 phpSysInfo 3.2.8
 ----------------
+
  - [UPD] jQuery 3.2.1
  - [UPD] French Translation fr.xml
  - [UPD] CPU usage on WinNT
@@ -55,6 +63,7 @@ phpSysInfo 3.2.8
 
 phpSysInfo 3.2.7
 ----------------
+
  - [UPD] jQuery 3.1.1
  - [UPD] Network interfaces info for WinNT
  - [UPD] Turkish Translation tr.xml
@@ -69,6 +78,7 @@ phpSysInfo 3.2.7
 
 phpSysInfo 3.2.6
 ----------------
+
  - [UPD] jQuery 3.1.0 and jQuery 1.12.4
  - [UPD] bootstrap 3.3.7
  - [UPD] Swedish Translation sv.xml
@@ -85,6 +95,7 @@ phpSysInfo 3.2.6
 
 phpSysInfo 3.2.5
 ----------------
+
  - [UPD] jQuery 2.2.0 and jQuery 1.12.0
 
  - [ADD] Show network interfaces infos for NetBSD and OpenBSD
@@ -104,6 +115,7 @@ phpSysInfo 3.2.5
 
 phpSysInfo 3.2.4
 ----------------
+
  - [ADD] Solus to detected distros
  - [ADD] Uprecords plugin - MAX_ENTRIES option - maximum number of entries to show
 
@@ -116,6 +128,7 @@ phpSysInfo 3.2.4
 
 phpSysInfo 3.2.3
 ----------------
+
  - [UPD] jQuery 2.1.4 and jQuery 1.11.3
  - [UPD] bootstrap 3.3.5
 
@@ -125,6 +138,7 @@ phpSysInfo 3.2.3
 
 phpSysInfo 3.2.2
 ----------------
+
  - [UPD] bootstrap 3.3.4
 
  - [NEW] Thunderbolt (TB) devices list on Darwin
@@ -138,6 +152,7 @@ phpSysInfo 3.2.2
 
 phpSysInfo 3.2.1
 ----------------
+
  - [UPD] bootstrap 3.3.2
 
  - [NEW] REFRESH parameter also for frontend "bootstrap"
@@ -148,6 +163,7 @@ phpSysInfo 3.2.1
 
 phpSysInfo 3.2.0
 ----------------
+
  - [UPD] jQuery 2.1.3 and jQuery 1.11.2
 
  - [NEW] Frontend "bootstrap" with Bootstrap3 and Transparency (JSON)
