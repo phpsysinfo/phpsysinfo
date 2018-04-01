@@ -333,6 +333,12 @@ class WINNT extends OS
             $result = $localtime - $boottime;
 
             $this->sys->setUptime($result);
+        } elseif (($this->sys->getDistribution()=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
+            $sec = $ar_buf[4];
+            $min = $ar_buf[3];
+            $hours = $ar_buf[2];
+            $days = $ar_buf[1];
+            $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60 + $sec);
         }
     }
 
