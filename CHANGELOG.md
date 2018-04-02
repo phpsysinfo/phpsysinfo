@@ -6,7 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.2.11
 ----------------
 
- - [ADD] Kali to detected distros
+ - [ADD] Kali and Redcore to detected distros
 
 phpSysInfo 3.2.10
 ----------------

@@ -1,0 +1,10 @@
+----------/etc/gentoo-release----------
+Redcore Linux Hardened 1803 - Jupiter
+----------/etc/os-release----------
+NAME=Redcore
+ID=redcore
+PRETTY_NAME="Redcore/Linux"
+ANSI_COLOR="1;32"
+HOME_URL="https://www.redcorelinux.org/"
+SUPPORT_URL="https://wiki.redcorelinux.org/"
+BUG_REPORT_URL="https://bugs.redcorelinux.org/"
