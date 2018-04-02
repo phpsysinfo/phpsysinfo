@@ -1,0 +1,35 @@
+----------lsb_release -a----------
+Distributor ID:	MX
+Description:	MX 17 Horizon
+Release:	17
+Codename:	Horizon
+----------/etc/initrd-release----------
+NAME="MX"
+VERSION="17.1 (Horizon)"
+ID="mx"
+VERSION_ID="17.1"
+PRETTY_NAME="MX 17.1 (Horizon)"
+ANSI_COLOR="0;34"
+HOME_URL="https://mxlinux.org"
+BUG_REPORT_URL="https://mxlinux.org"
+----------/etc/lsb-release----------
+PRETTY_NAME="MX 17 Horizon"
+DISTRIB_ID=MX
+DISTRIB_RELEASE=17
+DISTRIB_CODENAME=Horizon
+DISTRIB_DESCRIPTION="MX 17 Horizon"
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux 9 (stretch)"
+NAME="Debian GNU/Linux"
+VERSION_ID="9"
+VERSION="9 (stretch)"
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+----------/etc/antix-version----------
+MX-17.1_x64 Horizon March 14, 2018
+----------/etc/mx-version----------
+MX-17.1_x64 Horizon March 14, 2018
+----------/etc/debian_version----------
+9.4
