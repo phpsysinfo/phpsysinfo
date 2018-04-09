@@ -78,7 +78,6 @@ class SMART extends PSI_Plugin
                         $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                     } catch (Exception $e) {
                     }
-                    //var_dump($asd_wmi);
                     foreach ($asd_wmi as $_nr=>$asd) {
                         $_name = "/dev/sd".chr(97+$_nr);
                         if (array_search($_name, $disks) !== false) {
@@ -211,52 +210,79 @@ class SMART extends PSI_Plugin
                     $i++;
                 }
             } else {
-                //SCSI devices
+                //SCSI and MVMe devices
                 if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
-                    preg_match('/read\: (.*)\n/', $result, $lines);
-                    if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/', $lines[0]);
+                    if (preg_match('/\nread\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
-                            $vals=preg_split('/[,\.]/', $values[7]);
                             $this->_result[$disk][0]['id'] = 1;
                             $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
-                            $this->_result[$disk][0]['raw_value'] = $vals[0];
+                            $this->_result[$disk][0]['raw_value'] = trim($values[7]);
+                        }
+                    } elseif (preg_match('/\Media and Data Integrity Errors\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($values) && ($values[5]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[5]));
+                            $this->_result[$disk][0]['id'] = 1;
+                            $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
+                            $this->_result[$disk][0]['raw_value'] = $vals;
                         }
                     }
                 }
                 if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
-                    preg_match('/Elements in grown defect list\: (.*)\n/', $result, $lines);
-                    if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/', $lines[0]);
+                    if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
                         if (!empty($values) && ($values[5]!=null)) {
-                            $vals=preg_split('/[,\.]/', $values[5]);
                             $this->_result[$disk][1]['id'] = 5;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
-                            $this->_result[$disk][1]['raw_value'] = $vals[0];
+                            $this->_result[$disk][1]['raw_value'] = trim($values[5]);
                         }
                     }
                 }
                 if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
-                    preg_match('/ number of hours powered up = (.*)\n/', $result, $lines);
-                    if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/', $lines[0]);
+                    if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
                         if (!empty($values) && ($values[7]!=null)) {
-                            $vals=preg_split('/[,\.]/', $values[7]);
+                            $vals=preg_split('/[,\.]/', trim($values[7]));
                             $this->_result[$disk][2]['id'] = 9;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals[0];
                         }
+                    } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[3]));
+                            $this->_result[$disk][2]['id'] = 9;
+                            $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
+                            $this->_result[$disk][2]['raw_value'] =  $vals;
+                        }
                     }
                 }
                 if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
-                    preg_match('/Current Drive Temperature\: (.*)\n/', $result, $lines);
-                    if (!empty($lines) && !empty($lines[0])) {
-                        $values=preg_split('/\s+/', $lines[0]);
+                    if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $vals=preg_split('/[,\.]/', $values[3]);
                             $this->_result[$disk][3]['id'] = 194;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
-                            $this->_result[$disk][3]['raw_value'] = $vals[0];
+                            $this->_result[$disk][3]['raw_value'] = trim($values[3]);
+                        }
+                    } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($values) && ($values[1]!=null)) {
+                            $this->_result[$disk][3]['id'] = 194;
+                            $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
+                            $this->_result[$disk][3]['raw_value'] = trim($values[1]);
+                        }
+                    }
+                }
+                if (!empty($this->_ids[12]) && ($this->_ids[12]=="raw_value")) {
+                    if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($values) && ($values[2]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[2]));
+                            $this->_result[$disk][4]['id'] = 12;
+                            $this->_result[$disk][4]['attribute_name'] = "Power_Cycle_Count";
+                            $this->_result[$disk][4]['raw_value'] = $vals;
                         }
                     }
                 }
