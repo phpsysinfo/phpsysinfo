@@ -286,6 +286,17 @@ class SMART extends PSI_Plugin
                         }
                     }
                 }
+                if (!empty($this->_ids[192]) && ($this->_ids[192]=="raw_value")) {
+                    if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $lines)) {
+                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($values) && ($values[2]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[2]));
+                            $this->_result[$disk][5]['id'] = 192;
+                            $this->_result[$disk][5]['attribute_name'] = "Unsafe_Shutdown_Count";
+                            $this->_result[$disk][5]['raw_value'] = $vals;
+                        }
+                    }
+                }
             }
         }
         //Usage test
