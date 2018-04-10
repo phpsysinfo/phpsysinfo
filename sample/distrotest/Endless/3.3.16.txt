@@ -1,0 +1,21 @@
+----------lsb_release -a----------
+Distributor ID:	Endless
+Description:	Endless 3.3.16
+Release:	3.3.16
+Codename:	endless
+----------/etc/lsb-release----------
+DISTRIB_ID=Endless
+DISTRIB_RELEASE=3.3.16
+DISTRIB_CODENAME=endless
+DISTRIB_DESCRIPTION="Endless 3.3.16"
+----------/etc/os-release----------
+NAME="Endless"
+VERSION="3.3.16"
+ID="endless"
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="Endless 3.3.16"
+VERSION_ID="3.3.16"
+HOME_URL="http://www.endlessm.com/"
+BUILD_ID="180405-120905"
+----------/etc/debian_version----------
+9.0
