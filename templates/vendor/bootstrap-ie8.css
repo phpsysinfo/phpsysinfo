@@ -417,6 +417,9 @@ h6,.h6{font-size:16px}
 .tooltip{font-size:14px;filter:alpha(opacity=0)}
 .tooltip.show{filter:alpha(opacity=90)}
 
+.text-black-50{color:black!important;filter:alpha(opacity=50)!important;}
+.text-white-50{color:white!important;filter:alpha(opacity=50)!important;}
+
 /** columns **/
 .col-1,.col-sm-1,.col-md-1,.col-lg-1{width:8.333333%}
 .col-2,.col-sm-2,.col-md-2,.col-lg-2{width:16.666667%}
