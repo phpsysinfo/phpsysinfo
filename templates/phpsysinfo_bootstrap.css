@@ -179,6 +179,10 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     height: 16px;    
 }
 
+.container {
+    padding:0;
+}
+
 .row {
     width:auto;
 }
