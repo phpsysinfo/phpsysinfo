@@ -17,6 +17,32 @@ if (!window.Node){
       };
 }
 
+(function() {
+  if (!Object.keys) {
+    Object.keys = function(obj) {
+      var keys = [];
+
+      for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+          keys.push(i);
+        }
+      }
+
+      return keys;
+    };
+  }
+}());
+
+(function() {
+  if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function(fn, scope) {
+        for(var i = 0, len = this.length; i < len; ++i) {
+            fn.call(scope, this[i], i, this);
+        }
+    }
+  }
+}());
+
 // ES 15.2.3.6 Object.defineProperty ( O, P, Attributes )
 // Partial support for most common case - getters, setters, and values
 (function() {
