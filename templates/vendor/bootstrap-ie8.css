@@ -100,6 +100,7 @@ h6,.h6{font-size:16px}
 .dropdown-divider{margin:8px 0}
 .dropdown-header{font-size:14px;padding:8px 24px}
 .dropdown-item{padding:3px 24px}
+.dropdown-item-text{padding: 4px 24px}
 .dropdown-menu{font-size:16px;min-width:160px;padding:8px 0;margin:2px 0 0;border:1px solid #ddd}
 .dropdown-toggle:after{margin-right:4px;margin-left:4px}
 .dropup .caret,.navbar-fixed-bottom .dropdown .caret{border-bottom:4px solid}
