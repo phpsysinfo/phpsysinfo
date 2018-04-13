@@ -4,14 +4,14 @@ versions, links and simple description of used jquery files
 bootstrap-modal.js
 ---------
 VERSION  : 3.3.7
-URL      : http://getbootstrap.com/
+URL      : https://getbootstrap.com/
 DESC     : Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web
 USED     : used for the entire bootstrap userinterface
 
 transparency.js
 ---------
 VERSION  : 0.10.0
-URL      : http://leonidas.github.io/transparency/
+URL      : https://leonidas.github.io/transparency/
 DESC     : Transparency is a minimal template engine for jQuery. It maps JSON objects to DOM elements with zero configuration. Just call .render()
 USED     : used for the entire bootstrap userinterface
 
@@ -32,7 +32,7 @@ USED     : used for the entire bootstrap userinterface
 sorttable.js
 ---------
 VERSION  : 2+2014.12.25.12_fix-noinit
-URL      : http://www.kryogenix.org/code/browser/sorttable/
+URL      : https://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
 USED     : used for the entire bootstrap userinterface
 
