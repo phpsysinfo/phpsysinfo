@@ -247,7 +247,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Φόρτιση μπαταρίας</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
-    <exp>Χρόνος μπαταριών</exp>
+    <exp>Διάρκεια μπαταρίας</exp>
   </expression>
   <expression id="082" name="ups_voltage_mark">
     <exp>V</exp>
