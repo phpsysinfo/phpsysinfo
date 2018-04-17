@@ -19,15 +19,7 @@ wbr {
 }
 
 .card {
-    border: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.ie8 .card {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#f0f0f0'); progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=225, Color='#f0f0f0')";
+    border-color: #f8f8f8;
 }
 
 .navbar {
