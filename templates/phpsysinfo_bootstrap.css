@@ -230,10 +230,6 @@ a:hover {
     margin: 20px auto;
 }
 
-.ie8 .modal-content {
-    border: none;
-}
-
 .ie8 button.close {
     -ms-filter: "font-size:24px"
 }
