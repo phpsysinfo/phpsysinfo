@@ -134,10 +134,14 @@ h6,.h6{font-size:16px}
 .jumbotron{padding:64px 32px;margin-bottom:32px}
 .lead{font-size:20px}
 .list-group-item{padding:12px 20px;border:1px solid #ddd}
+
 .modal-backdrop.fade{filter:alpha(opacity=0)}
 .modal-backdrop.show{filter:alpha(opacity=50)}
 .modal-content{border:1px solid #ddd}
-.modal-footer{text-align:right}
+.modal-body{padding:16px}
+.modal-footer{padding:16px;text-align:right}
+.modal-header{padding:16px}
+.modal-header .close {padding:16px;margin:-16px -16px -16px auto}
 
 /* margin */
 .m-1 {
@@ -623,7 +627,9 @@ h6,.h6{font-size:16px}
 .navbar-expand-lg .navbar-nav .dropdown-menu-right{right:0;left:auto}
 .navbar-expand-lg .navbar-nav .nav-link{padding-right:8px;padding-left:8px}
 .navbar-expand-lg .navbar-toggler{display:none}
+.modal-dialog{max-width:500px;margin:28px auto}
 .modal-lg{max-width:800px}
+.modal-sm{max-width:300px}
 .d-lg-none{display:none!important}
 .d-lg-inline{display:inline!important}
 .d-lg-inline-block{display:inline-block!important}
