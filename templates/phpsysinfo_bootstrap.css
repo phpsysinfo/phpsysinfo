@@ -218,5 +218,5 @@ a:hover {
 }
 
 .ie8 button.close {
-    -ms-filter: "font-size:24px"
+    filter: none;
 }
