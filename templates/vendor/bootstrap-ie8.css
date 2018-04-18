@@ -29,7 +29,7 @@ h6,.h6{font-size:16px}
 
 .alert{margin-bottom:16px;padding:12px}
 .alert-dismissible{padding-right:40px}
-.alert-dismissible .close{top:-2px;right:-20px}
+.alert-dismissible .close{top:-2px}
 .blockquote{padding:8px 16px;margin-bottom:16px;font-size:20px}
 .blockquote-footer:before{content: "\2014 \00A0";}
 
