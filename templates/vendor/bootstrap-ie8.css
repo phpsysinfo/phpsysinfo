@@ -78,7 +78,7 @@ h6,.h6{font-size:16px}
 .clearfix:after{content:"";display:table;clear:both}
 .close{cursor:pointer;font-size:24px;filter:alpha(opacity=50)}
 .close:focus,.close:hover{filter:alpha(opacity=75)}
-.close:disabled{cursor:auto}
+.close.disabled{cursor:auto}
 .col-form-label{padding-top:8px;padding-bottom:8px;margin-bottom:0}
 .col-form-label-lg{padding-top:12px;padding-bottom:12px;font-size:20px}
 .col-form-label-sm{padding-top:4px;padding-bottom:4px;font-size:14px}
