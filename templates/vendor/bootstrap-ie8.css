@@ -43,6 +43,7 @@ h6,.h6{font-size:16px}
 .dropdown-toggle:after {content: "▼";}
 
 /** Buttons **/
+.btn{cursor:pointer}
 .btn{padding:8px 16px;font-size:16px}
 .btn-sm{font-size:14px;padding: 4px 8px}
 .btn-lg{font-size:20px;padding: 8px 16px}
@@ -50,7 +51,7 @@ h6,.h6{font-size:16px}
 .btn + .dropdown-toggle-split{padding-right:9px;padding-left:9px}
 .btn-sm + .dropdown-toggle-split,.btn-group-sm > .btn + .dropdown-toggle-split{padding-right:6px;padding-left:6px}
 .btn-lg + .dropdown-toggle-split,.btn-group-lg > .btn + .dropdown-toggle-split{padding-right:12px;padding-left:12px}
-.btn.disabled,.btn[disabled],.btn:disabled,fieldset[disabled] .btn{filter:alpha(opacity=65)}
+.btn.disabled,.btn[disabled], fieldset[disabled] .btn{cursor:auto;filter:alpha(opacity=65)}
 .bs-component > .disabled{filter:alpha(opacity=65)}
 .btn-toolbar{margin-left:-8px}
 .btn-group-vertical > .btn{display:block}
@@ -75,8 +76,9 @@ h6,.h6{font-size:16px}
 .carousel-indicators li{background-color:#fff}
 .checkbox input[type=checkbox],.checkbox-inline input[type=checkbox],.radio input[type=radio],.radio-inline input[type=radio]{margin-top:4px}
 .clearfix:after{content:"";display:table;clear:both}
-.close{font-size:24px;filter:alpha(opacity=50)}
+.close{cursor:pointer;font-size:24px;filter:alpha(opacity=50)}
 .close:focus,.close:hover{filter:alpha(opacity=75)}
+.close:disabled{cursor:auto}
 .col-form-label{padding-top:8px;padding-bottom:8px;margin-bottom:0}
 .col-form-label-lg{padding-top:12px;padding-bottom:12px;font-size:20px}
 .col-form-label-sm{padding-top:4px;padding-bottom:4px;font-size:14px}
