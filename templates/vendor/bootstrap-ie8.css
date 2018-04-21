@@ -43,19 +43,18 @@ h6,.h6{font-size:16px}
 .dropdown-toggle:after {content: "▼";}
 
 /** Buttons **/
-.btn{cursor:pointer}
-.btn{padding:8px 16px;font-size:16px}
-.btn-sm{font-size:14px;padding: 4px 8px}
-.btn-lg{font-size:20px;padding: 8px 16px}
+.btn{cursor:pointer;padding:6px 12px;font-size:16px}
+.btn-sm,.btn-group-sm > .btn{font-size:14px;padding:4px 8px}
+.btn-lg,.btn-group-lg > .btn{font-size:20px;padding:8px 16px}
 .dropdown-toggle-split{padding-right:9px;padding-left:9px}
 .btn + .dropdown-toggle-split{padding-right:9px;padding-left:9px}
 .btn-sm + .dropdown-toggle-split,.btn-group-sm > .btn + .dropdown-toggle-split{padding-right:6px;padding-left:6px}
 .btn-lg + .dropdown-toggle-split,.btn-group-lg > .btn + .dropdown-toggle-split{padding-right:12px;padding-left:12px}
-.btn.disabled,.btn[disabled], fieldset[disabled] .btn{cursor:auto;filter:alpha(opacity=65)}
+.btn.disabled,.btn[disabled],fieldset[disabled] .btn{cursor:auto;filter:alpha(opacity=65)}
 .bs-component > .disabled{filter:alpha(opacity=65)}
 .btn-toolbar{margin-left:-8px}
 .btn-group-vertical > .btn{display:block}
-.btn-group-vertical  .btn{width:initial}
+.btn-group-vertical .btn{width:initial}
 .btn-primary.disabled{color:#fff;background-color:#007bff;border-color:#007bff}
 .btn-secondary.disabled{color:#fff;background-color:#6c757d;border-color:#6c757d}
 .btn-success.disabled{color:#fff;background-color:#28a745;border-color:#28a745}
@@ -73,6 +72,7 @@ h6,.h6{font-size:16px}
 .btn-outline-light.disabled{color:#f8f9fa;background-color:transparent}
 .btn-outline-dark.disabled{color:#343a40;background-color:transparent}
 .btn-link.disabled{color:#6c757d;pointer-events:none}
+.btn-block + .btn-block{margin-top:8px}
 
 /* cards */
 .card{margin-bottom:12px;border:1px solid #ddd}
@@ -119,7 +119,7 @@ h6,.h6{font-size:16px}
 .dropdown-divider{margin:8px 0}
 .dropdown-header{font-size:14px;padding:8px 24px}
 .dropdown-item{padding:3px 24px}
-.dropdown-item-text{padding: 4px 24px}
+.dropdown-item-text{padding:4px 24px}
 .dropdown-menu{font-size:16px;min-width:160px;padding:8px 0;margin:2px 0 0;border:1px solid #ddd}
 .dropdown-toggle:after{margin-right:4px;margin-left:4px}
 .dropup .caret,.navbar-fixed-bottom .dropdown .caret{border-bottom:4px solid}
@@ -287,7 +287,7 @@ h6,.h6{font-size:16px}
 
 /* padding */
 .p-1 {
-  padding: 4px !important;
+  padding:4px !important;
 }
 
 .pt-1,
@@ -311,7 +311,7 @@ h6,.h6{font-size:16px}
 }
 
 .p-2 {
-  padding: 8px !important;
+  padding:8px !important;
 }
 
 .pt-2,
@@ -335,7 +335,7 @@ h6,.h6{font-size:16px}
 }
 
 .p-3 {
-  padding: 16px !important;
+  padding:16px !important;
 }
 
 .pt-3,
@@ -359,7 +359,7 @@ h6,.h6{font-size:16px}
 }
 
 .p-4 {
-  padding: 24px !important;
+  padding:24px !important;
 }
 
 .pt-4,
@@ -383,7 +383,7 @@ h6,.h6{font-size:16px}
 }
 
 .p-5 {
-  padding: 48px !important;
+  padding:48px !important;
 }
 
 .pt-5,
@@ -425,7 +425,7 @@ h6,.h6{font-size:16px}
 .pagination-sm .page-link{padding:4.4px 12px;font-size:14px}
 
 .popover{font-size:14px;border:1px solid #ddd}
-.popover-body{padding: 8px 12px}
+.popover-body{padding:8px 12px}
 .popover-header{font-size:16px}
 
 .progress{height:16px;margin-bottom:16px}
