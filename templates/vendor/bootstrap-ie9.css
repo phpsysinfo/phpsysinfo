@@ -45,3 +45,5 @@
 .carousel-indicators,.carousel-control-prev,.carousel-control-next{display:none}
 
 .btn-link.disabled,.btn-link:disabled{text-decoration:none}
+
+.modal-header .close{margin:-48px -16px -16px auto}
