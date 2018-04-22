@@ -43,3 +43,5 @@
 
 /** Carousel - Hide indicators and controls as the carousel doesn't work **/
 .carousel-indicators,.carousel-control-prev,.carousel-control-next{display:none}
+
+.btn-link.disabled,.btn-link:disabled{text-decoration:none}

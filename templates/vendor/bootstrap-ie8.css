@@ -71,7 +71,7 @@ h6,.h6{font-size:16px}
 .btn-outline-danger.disabled{color:#dc3545;background-color:transparent}
 .btn-outline-light.disabled{color:#f8f9fa;background-color:transparent}
 .btn-outline-dark.disabled{color:#343a40;background-color:transparent}
-.btn-link.disabled{color:#6c757d;pointer-events:none}
+.btn-link.disabled{color:#6c757d;text-decoration:none}
 .btn-block + .btn-block{margin-top:8px}
 
 /* cards */
