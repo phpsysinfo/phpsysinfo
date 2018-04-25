@@ -1,4 +1,4 @@
-﻿/* Bootstrap 4 for IE8 */
+/* Bootstrap 4 for IE8 */
 /** https://github.com/coliff/bootstrap-ie8 */
 
 *{box-sizing:border-box}
@@ -513,6 +513,8 @@ h6,.h6{font-size:16px}
 .card-columns .card{display:inline-block;width:100%}
 .col-sm{max-width:100%}
 .col-sm-auto{width:auto;max-width:none}
+.d-flex,.d-sm-flex,.d-md-flex,.d-lg-flex,.d-xl-flex,.d-print-flex{display:block!important}
+.d-inline-flex,.d-sm-inline-flex,.d-md-inline-flex,.d-lg-inline-flex,.d-xl-inline-flex,.d-print-inline-flex{display:inline-block!important}
 
 /** All media-queries (min-width:768px) **/
 .d-md-none{display:none!important}
@@ -747,3 +749,11 @@ h6,.h6{font-size:16px}
 .text-lg-left{text-align:left!important}
 .text-lg-right{text-align:right!important}
 .text-lg-center{text-align:center!important}
+
+.navbar-expand-sm .navbar-collapse,.navbar-expand-md .navbar-collapse,
+.navbar-expand-lg .navbar-collapse, .navbar-expand-xl .navbar-collapse,
+.navbar-expand .navbar-collapse{display:block!important}
+
+.navbar > .container,
+.navbar > .container-fluid,
+.nav,.navbar{display:block}

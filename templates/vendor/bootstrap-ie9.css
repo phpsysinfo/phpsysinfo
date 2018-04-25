@@ -19,8 +19,8 @@
 
 .collapse{display:inline-block}
 
-.d-flex{display:block}
-.d-inline-flex{display:inline-block}
+.d-flex,.d-sm-flex,.d-md-flex,.d-lg-flex,.d-xl-flex,.d-print-flex{display:block!important}
+.d-inline-flex,.d-sm-inline-flex,.d-md-inline-flex,.d-lg-inline-flex,.d-xl-inline-flex,.d-print-inline-flex{display:inline-block!important}
 
 .flex-row .div{display:inline-block}
 
@@ -57,3 +57,11 @@
 .btn-group-vertical .btn + .btn-group,
 .btn-group-vertical .btn-group + .btn,
 .btn-group-vertical .btn-group + .btn-group{margin-left: -5px}
+
+.navbar-expand-sm .navbar-collapse,.navbar-expand-md .navbar-collapse,
+.navbar-expand-lg .navbar-collapse, .navbar-expand-xl .navbar-collapse,
+.navbar-expand .navbar-collapse{display:block!important}
+
+.navbar > .container,
+.navbar > .container-fluid,
+.nav,.navbar{display:block}
