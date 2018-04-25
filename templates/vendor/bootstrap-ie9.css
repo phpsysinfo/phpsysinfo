@@ -47,3 +47,13 @@
 .btn-link.disabled,.btn-link:disabled{text-decoration:none}
 
 .modal-header .close{margin:-48px -16px -16px auto}
+
+.btn-group,.btn-group-vertical{display:inline;vertical-align:baseline}
+.btn-group .btn + .btn,
+.btn-group .btn + .btn-group,
+.btn-group .btn-group + .btn,
+.btn-group .btn-group + .btn-group,
+.btn-group-vertical .btn + .btn,
+.btn-group-vertical .btn + .btn-group,
+.btn-group-vertical .btn-group + .btn,
+.btn-group-vertical .btn-group + .btn-group{margin-left: -5px}
