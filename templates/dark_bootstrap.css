@@ -209,7 +209,3 @@ a:hover {
     border-radius: 10px;
     padding: 3px 7px;
 }
-
-.ie8 button.close {
-    filter: none;
-}

@@ -169,7 +169,7 @@ h6,.h6{font-size:16px}
 .modal-body{padding:16px}
 .modal-footer{padding:16px;text-align:right}
 .modal-header{padding:16px}
-.modal-header .close{padding:16px;margin:-48px -16px -16px auto}
+.modal-header .close{padding:16px;margin:-48px -16px -16px auto;filter:none}
 
 /* margin */
 .m-1 {
