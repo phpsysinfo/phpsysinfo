@@ -209,10 +209,6 @@ a:hover {
     padding: 3px 7px;
 }
 
-.modal-header, .list-group {
-    display: block;
-}
-
 .ie8 button.close {
     filter: none;
 }
