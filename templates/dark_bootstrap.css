@@ -158,6 +158,10 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     background-color: #2e3338;
 }
 
+.list-group {
+    display: block;
+}
+
 .list-group-item {
     background-color: #2e3338;
 }
