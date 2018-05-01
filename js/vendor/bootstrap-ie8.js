@@ -36,6 +36,19 @@ if (!window.Node){
     }
 }());
 
+(function() {
+    if (!Object.create) {
+        Object.create = function(proto, props) {
+            if (typeof props !== "undefined") {
+                throw "The multiple-argument version of Object.create is not provided by this browser and cannot be shimmed.";
+            }
+            function ctor() { }
+            ctor.prototype = proto;
+
+            return new ctor();
+        };
+    }
+}());
 
 (function() {
     if (!Array.prototype.forEach) {
@@ -69,6 +82,53 @@ if (!window.Node){
             }
 
             return o;
+        };
+    }
+}());
+
+(function() {
+    if (!Function.prototype.bind) {
+        Function.prototype.bind = function (oThis) {
+            if (typeof this !== "function") {
+                // closest thing possible to the ECMAScript 5 internal IsCallable function
+                throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+            }
+
+        var aArgs = Array.prototype.slice.call(arguments, 1),
+            fToBind = this,
+            fNOP = function () {},
+            fBound = function () {
+                return fToBind.apply(this instanceof fNOP && oThis
+                         ? this
+                         : oThis,
+                         aArgs.concat(Array.prototype.slice.call(arguments)));
+            };
+
+            fNOP.prototype = this.prototype;
+            fBound.prototype = new fNOP();
+
+            return fBound;
+        };
+    }
+}());
+
+(function() {
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function(elt /*, from*/) {
+            var len = this.length >>> 0;
+
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+            if (from < 0) {
+                from += len;
+            }
+            for (; from < len; from++) {
+                if (from in this && this[from] === elt) {
+                    return from;
+                }
+            }
+
+            return -1;
         };
     }
 }());

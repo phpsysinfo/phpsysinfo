@@ -175,10 +175,6 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     padding:0;
 }
 
-.row {
-    width:auto;
-}
-
 .table thead th {
     border-top: none;
 }
