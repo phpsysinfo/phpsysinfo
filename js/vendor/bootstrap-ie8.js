@@ -134,6 +134,8 @@ if (!window.Node){
 }());
 
 /**
+ * Modified code based on remPolyfill.js (c) Nicolas Bouvrette https://github.com/nbouvrette/remPolyfill
+ *
  * Customizations:
  *
  * 1) Added new method `addCallBackWhenReady` to perform callbacks once the polyfill has been applied (especially useful for
