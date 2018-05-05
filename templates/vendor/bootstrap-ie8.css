@@ -80,6 +80,8 @@ body{font-size:16px}
 .list-group-item{border:1px solid #ddd}
 .custom-control-input{position:relative}
 .breadcrumb-item{display:inline-block}
+.text-black-50{filter:alpha(opacity=50)}
+.text-white-50{filter:alpha(opacity=50)}
 
 .col-1{width:8.333333%}
 .col-2{width:16.666667%}
