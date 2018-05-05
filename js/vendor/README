@@ -50,9 +50,9 @@ URL      : https://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
 USED     : used for the entire bootstrap userinterface
 
-respond.js
+bootstrap-ie8.js
 ---------
-VERSION  : 1.4.2+accesserrorfix
-URL      : https://github.com/scottjehl/Respond/
-DESC     : A fast & lightweight polyfill for min/max-width CSS3 Media Queries (for IE 6-8, and more) 
+VERSION  : 4.1.1-20180505
+URL      : https://coliff.github.io/bootstrap-ie8/
+DESC     : Bootstrap 4 compatibility module for IE8 
 USED     : used for the entire bootstrap userinterface
