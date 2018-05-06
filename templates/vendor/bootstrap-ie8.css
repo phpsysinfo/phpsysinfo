@@ -76,7 +76,6 @@ body{font-size:16px}
 .btn{cursor:pointer}
 .btn-link.disabled{color:#6c757d}
 .btn.disabled,.btn[disabled],fieldset[disabled] .btn{cursor:auto}
-.table-active>th,.table-active>td{background-color:#DADADA}
 .modal-content{border:1px solid #ddd}
 .list-group-item{border:1px solid #ddd}
 .custom-control-input{position:relative}

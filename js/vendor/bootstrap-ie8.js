@@ -213,6 +213,10 @@ window.remPolyfill = {
             ).replace(
                 /:disabled/g, '.disabled'
             ).replace(
+                /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d])+\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
+                    var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
+                    return 'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#'+ARGBhex+', endColorstr=#'+ARGBhex+')';}
+            ).replace(
                 /rgba\s*\(\s*([\d]+\s*,\s*[\d]+\s*,\s*[\d]+\s*),\s*[\d\.]+\s*\)/g, function (fullMatch, groupMatch) {
                     return 'rgb(' + groupMatch +')';}
             ).replace(
@@ -336,6 +340,10 @@ for (var linkElementId in linkElements) {
                         /::/g, ':'
                     ).replace(
                         /:disabled/g, '.disabled'
+                    ).replace(
+                        /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d])+\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
+                            var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
+                            return 'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#'+ARGBhex+', endColorstr=#'+ARGBhex+')';}
                     ).replace(
                         /rgba\s*\(\s*([\d]+\s*,\s*[\d]+\s*,\s*[\d]+\s*),\s*[\d\.]+\s*\)/g, function (fullMatch, groupMatch) {
                             return 'rgb(' + groupMatch +')';}
