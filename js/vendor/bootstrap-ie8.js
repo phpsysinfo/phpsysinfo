@@ -209,6 +209,9 @@ window.remPolyfill = {
                 /([\d]+\.[\d]+|\.[\d]+|[\d]+)rem/g, function (fullMatch, groupMatch) {
                     return Math.round(parseFloat(groupMatch * remPolyfill.getBodyFontSize())) + 'px';}
             ).replace(
+                /calc\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2) {
+                    return (parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))+'px';}
+            ).replace(
                 /::/g, ':'
             ).replace(
                 /:disabled/g, '.disabled'
@@ -336,6 +339,9 @@ for (var linkElementId in linkElements) {
                     callback(req.responseText.replace(
                         /([\d]+\.[\d]+|\.[\d]+|[\d]+)rem/g, function (fullMatch, groupMatch) {
                             return Math.round(parseFloat(groupMatch * remPolyfill.getBodyFontSize())) + 'px';}
+                    ).replace(
+                        /calc\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2) {
+                            return (parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))+'px';}
                     ).replace(
                         /::/g, ':'
                     ).replace(
