@@ -56,7 +56,7 @@ if (!window.Node){
             for(var i = 0, len = this.length; i < len; ++i) {
                 fn.call(scope, this[i], i, this);
             }
-        }
+        };
     }
 }());
 
@@ -98,10 +98,7 @@ if (!window.Node){
             fToBind = this,
             fNOP = function () {},
             fBound = function () {
-                return fToBind.apply(this instanceof fNOP && oThis
-                         ? this
-                         : oThis,
-                         aArgs.concat(Array.prototype.slice.call(arguments)));
+                return fToBind.apply(this instanceof fNOP && oThis ? this: oThis, aArgs.concat(Array.prototype.slice.call(arguments)));
             };
 
             fNOP.prototype = this.prototype;
