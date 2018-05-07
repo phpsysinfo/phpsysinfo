@@ -199,13 +199,12 @@ window.remPolyfill = {
      *
      * @private
      *
-     * @param {HTMLLinkElement} linkElement - The link element from which to get the CSS text.
      * @param {string} cssText              - The CSS text of the link element.
      */
-    replaceRemWithPx: function (linkElement, cssText) {
+    replaceCSS: function (cssText) {
         if (cssText) {
             // Replace all properties containing REM units with their pixel equivalents.
-            linkElement.styleSheet.cssText = cssText.replace(
+            return cssText.replace(
                 /([\d]+\.[\d]+|\.[\d]+|[\d]+)rem/g, function (fullMatch, groupMatch) {
                     return Math.round(parseFloat(groupMatch * remPolyfill.getBodyFontSize())) + 'px';}
             ).replace(
@@ -264,8 +263,8 @@ window.remPolyfill = {
 
         request.open('GET', linkElement.href, true);
         request.onreadystatechange = function() {
-            if ( request.readyState === 4 ){
-                remPolyfill.replaceRemWithPx(linkElement, request.responseText);
+            if ( request.readyState === 4 ) {
+                linkElement.styleSheet.cssText = remPolyfill.replaceCSS(request.responseText);
             }
         };
 
@@ -339,30 +338,7 @@ for (var linkElementId in linkElements) {
                     if (req.readyState !== 4 || req.status !== 200 && req.status !== 304) {
                         return;
                     }
-                    callback(req.responseText.replace(
-                        /([\d]+\.[\d]+|\.[\d]+|[\d]+)rem/g, function (fullMatch, groupMatch) {
-                            return Math.round(parseFloat(groupMatch * remPolyfill.getBodyFontSize())) + 'px';}
-                    ).replace(
-                        /calc\s*\(\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)\s*\*\s*(-?[\d]+)\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2, MatchArg3) {
-                            return ((parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))*parseInt(MatchArg3))+'px';}
-                    ).replace(
-                        /calc\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2) {
-                            return (parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))+'px';}
-                    ).replace(
-                        /::/g, ':'
-                    ).replace(
-                        /:disabled/g, '.disabled'
-                    ).replace(
-                        /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d])+\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
-                            var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
-                            return 'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#'+ARGBhex+', endColorstr=#'+ARGBhex+')';}
-                    ).replace(
-                        /rgba\s*\(\s*([\d]+\s*,\s*[\d]+\s*,\s*[\d]+\s*),\s*[\d\.]+\s*\)/g, function (fullMatch, groupMatch) {
-                            return 'rgb(' + groupMatch +')';}
-                    ).replace(
-                        /opacity\s*:\s*([\d]+\.[\d]+|\.[\d]+|[\d]+)/g, function (fullMatch, groupMatch) {
-                            return 'filter:alpha(opacity=' + Math.round(parseFloat(groupMatch * 100)) + ')';}
-                    ));
+                    callback( remPolyfill.replaceCSS(req.responseText) );
                 };
                 if (req.readyState === 4) {
                     return;
