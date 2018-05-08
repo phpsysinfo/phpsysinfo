@@ -17,51 +17,6 @@
  */
 window.remPolyfill = {
 
-    /** @property Number|null - The body's font size.
-     *  @private */
-    bodyFontSize: null,
-
-    /**
-     * Get the body font size.
-     *
-     * @returns {Number} - The body font size in pixel (number only).
-     */
-    getBodyFontSize: function() {
-        if (!this.bodyFontSize) {
-            var hasNoBodyElement = false;
-
-            if (!document.body) {
-                hasNoBodyElement = true;
-                var bodyElement = document.createElement('body');
-                document.documentElement.appendChild(bodyElement);
-            }
-
-            this.bodyFontSize = parseFloat(this.getStyle(document.body, 'fontSize'));
-
-            if (hasNoBodyElement) {
-                document.documentElement.removeChild(bodyElement);
-                bodyElement = null;
-            }
-        }
-        return this.bodyFontSize;
-    },
-
-    /**
-     * Get the style of an element for a given property.
-     *
-     * @private
-     *
-     * @param {HTMLElement} element - The HTML element.
-     * @param {string} property     - The property of the style to get.
-     */
-    getStyle: function(element, property) {
-        if (typeof window.getComputedStyle !== 'undefined') {
-            return window.getComputedStyle(element, null).getPropertyValue(property);
-        } else {
-            return element.currentStyle[property];
-        }
-    },
-
     /**
      * Implement this script on a given element.
      *
