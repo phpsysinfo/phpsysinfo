@@ -228,3 +228,14 @@ aside,
 .navbar-dark .navbar-nav .nav-link:hover {
   color: #fff;
 }
+.row,
+.container-fluid,
+.container,
+section,
+footer,
+aside {
+  clear: both;
+}
+.breadcrumb-item {
+  display: inline-block;
+}

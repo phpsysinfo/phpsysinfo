@@ -228,9 +228,6 @@ aside,
 .navbar-dark .navbar-nav .nav-link:hover {
   color: #fff;
 }
-body {
-  font-size:16px;
-}
 .row,
 .container-fluid,
 .container,
@@ -238,6 +235,12 @@ section,
 footer,
 aside {
   clear: both;
+}
+.breadcrumb-item {
+  display: inline-block;
+}
+body {
+  font-size:16px;
 }
 .btn {
   cursor: pointer;
@@ -258,9 +261,6 @@ fieldset[disabled] .btn {
 }
 .custom-control-input {
   position: relative;
-}
-.breadcrumb-item {
-  display: inline-block;
 }
 .text-black-50 {
   filter:alpha(opacity=50);

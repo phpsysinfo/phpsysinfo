@@ -52,7 +52,14 @@ USED     : used for the entire bootstrap userinterface
 
 bootstrap-ie8.js
 ---------
-VERSION  : 4.1.1-20180505
+VERSION  : 4.1.1-20180508
 URL      : https://coliff.github.io/bootstrap-ie8/
 DESC     : Bootstrap 4 compatibility module for IE8 
+USED     : used for the entire bootstrap userinterface
+
+bootstrap-ie9.js
+---------
+VERSION  : 4.1.1-20180508
+URL      : https://coliff.github.io/bootstrap-ie8/
+DESC     : Bootstrap 4 compatibility module for IE9 
 USED     : used for the entire bootstrap userinterface
