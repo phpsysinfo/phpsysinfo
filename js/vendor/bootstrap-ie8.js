@@ -218,9 +218,9 @@ window.remPolyfill = {
             ).replace(
                 /:disabled/g, '._disabled'
             ).replace(
-                /:invalid/g, '._is-invalid'
+                /:invalid/g, '._invalid'
             ).replace(
-                /:valid/g, '._is-valid'
+                /:valid/g, '._valid'
             ).replace(
                 /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d])+\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
                     var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
