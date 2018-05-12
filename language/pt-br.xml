@@ -381,4 +381,7 @@ phpSysInfo language file Language: Brazilian Portuguese Created by: Giancarlo Gi
   <expression id="125" name="memfree">
     <exp>Livre</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Periféricos NVMe</exp>
+  </expression>
 </tns:translation>

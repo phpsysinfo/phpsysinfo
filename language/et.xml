@@ -381,4 +381,7 @@ phpSysInfo language file Language: Estoanian Created by: Harg
   <expression id="125" name="memfree">
     <exp>Vaba</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Seadmed</exp>
+  </expression>
 </tns:translation>

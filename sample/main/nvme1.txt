@@ -1,0 +1,3 @@
+Node             SN                   Model                                    Namespace Usage                      Format           FW Rev  
+---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+/dev/nvme0n1     ABCDEFGHIJKLMNOP     INTEL SSDPEKKW256G7                      1         256.06  GB / 256.06  GB    512   B +  0 B    PSF121C

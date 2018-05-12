@@ -381,4 +381,7 @@ phpSysInfo language file Language: Chinese Traditional Created by: capriskye::an
   <expression id="125" name="memfree">
     <exp>可用</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe 設備</exp>
+  </expression>
 </tns:translation>

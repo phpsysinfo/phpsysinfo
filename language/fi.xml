@@ -381,4 +381,7 @@ phpSysInfo language file Language: Finnish Created by: nakeman
   <expression id="125" name="memfree">
     <exp>Vapaana</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe laitteet</exp>
+  </expression>
 </tns:translation>

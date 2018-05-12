@@ -381,4 +381,7 @@ phpSysInfo language file Language: Thai Created by: Audun Larsen
   <expression id="125" name="memfree">
     <exp>คงเหลือ</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>อุปกรณ์NVMe</exp>
+  </expression>
 </tns:translation>

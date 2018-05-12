@@ -381,4 +381,7 @@ phpSysInfo language file Language: Bulgarian Created by: Grigor Josifov
   <expression id="125" name="memfree">
     <exp>Свободни</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe устройства</exp>
+  </expression>
 </tns:translation>

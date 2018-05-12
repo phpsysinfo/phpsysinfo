@@ -381,4 +381,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
   <expression id="125" name="memfree">
     <exp>남은 공간</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe 장치</exp>
+  </expression>
 </tns:translation>

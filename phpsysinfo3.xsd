@@ -93,6 +93,12 @@
         </sequence>
     </complexType>
 
+    <complexType name="NVMe">
+        <sequence>
+            <element name="NVMe" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+
     <complexType name="TB">
         <sequence>
             <element name="TB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>

@@ -916,7 +916,7 @@ function refreshHardware(xml) {
         html += fillCpu(xml, tree, tree.push(0), closed);
     }
 
-    var typelist = {PCI:17,IDE:18,SCSI:19,USB:20,TB:117,I2C:118};
+    var typelist = {PCI:17,IDE:18,SCSI:19,NVMe:126,USB:20,TB:117,I2C:118};
     for (var dev_type in typelist) {
         if (countHWDevice(xml, dev_type)) {
             html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(typelist[dev_type], false) + "</span></td></tr>\n";

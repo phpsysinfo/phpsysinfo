@@ -381,4 +381,7 @@ phpSysInfo language file Language: Slovene Created by: Dejan Strancar Maintained
   <expression id="125" name="memfree">
     <exp>Prosto</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe naprave</exp>
+  </expression>
 </tns:translation>

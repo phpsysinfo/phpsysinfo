@@ -381,4 +381,7 @@ phpSysInfo language file Language: galician Created by: X.M.C. Guede
   <expression id="125" name="memfree">
     <exp>Libre</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Dispositivos NVMe</exp>
+  </expression>
 </tns:translation>

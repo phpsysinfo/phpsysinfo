@@ -381,4 +381,7 @@ phpSysInfo language file Language: Dutch Created by: Jaap Struyk
   <expression id="125" name="memfree">
     <exp>Vrij</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Apparaten</exp>
+  </expression>
 </tns:translation>
