@@ -28,9 +28,9 @@ window.remPolyfill = {
         if (cssText) {
             // Replace all properties containing REM units with their pixel equivalents.
             return cssText.replace(
-                /:invalid/g, '.is-invalid'
+                /:invalid/g, '._is-invalid'
             ).replace(
-                /:valid/g, '.is-valid'
+                /:valid/g, '._is-valid'
             );
         }
     },
