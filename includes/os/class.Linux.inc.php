@@ -857,6 +857,85 @@ class Linux extends OS
     }
 
     /**
+     * NVMe devices
+     *
+     * @return void
+     */
+    protected function _nvme()
+    {
+        if (CommonFunctions::executeProgram('nvme', 'list', $bufr, PSI_DEBUG) && ($bufr!="")) {
+            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $count = 0;
+            $nlocate = array();
+            $nsize = array();
+            foreach ($bufe as $buf) {
+                if ($count == 1) {
+                    $locid = 0;
+                    $nlocate[0] = 0;
+                    $total = strlen($buf);
+                    $begin = true;
+                    for ($i = 0; $i < $total; $i++) {
+                        if ($begin) {
+                            if ($buf[$i] !== '-') {
+                                $nsize[$locid] = $i - $nlocate[$locid];
+                                $locid++;
+                                $begin = false;
+                            }
+                        } else {
+                            if ($buf[$i] === '-') {
+                                $nlocate[$locid] = $i;
+                                $begin = true;
+                            }
+                        }
+                    }
+                    if ($begin) {
+                        $nsize[$locid] = $i - $nlocate[$locid];
+                    }
+                } elseif ($count > 1) {
+                    if (isset($nlocate[2]) && isset($nsize[2])) {
+                        $dev = new HWDevice();
+                        $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                            if (isset($nlocate[4]) && isset($nsize[4])) {
+                                $cfull = trim(substr($buf, $nlocate[4], $nsize[4]));
+                                if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', $cfull, $tmpbuf)) {
+                                    switch ($tmpbuf[2]) {
+                                        case 'B':
+                                            $dev->setCapacity($tmpbuf[1]);
+                                            break;
+                                        case 'KB':
+                                            $dev->setCapacity(1000*$tmpbuf[1]);
+                                            break;
+                                        case 'MB':
+                                            $dev->setCapacity(1000*1000*$tmpbuf[1]);
+                                            break;
+                                        case 'GB':
+                                            $dev->setCapacity(1000*1000*1000*$tmpbuf[1]);
+                                            break;
+                                        case 'TB':
+                                            $dev->setCapacity(1000*1000*1000*1000*$tmpbuf[1]);
+                                            break;
+                                        case 'PB':
+                                            $dev->setCapacity(1000*1000*1000*1000*1000*$tmpbuf[1]);
+                                            break;
+                                    }
+                                }
+                            }
+                            if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                if (isset($nlocate[1]) && isset($nsize[1])) {
+                                    $dev->setSerial(trim(substr($buf, $nlocate[1], $nsize[1])));
+                                }
+                            }                           
+                        }
+                        $this->sys->setNvmeDevices($dev);
+                    }
+                }
+                $count++;
+            }
+        }
+    }
+
+    /**
      * Network devices
      * includes also rx/tx bytes
      *
@@ -1555,6 +1634,7 @@ class Linux extends OS
             $this->_pci();
             $this->_ide();
             $this->_scsi();
+            $this->_nvme();
             $this->_usb();
             $this->_i2c();
         }

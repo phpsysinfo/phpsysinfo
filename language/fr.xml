@@ -381,4 +381,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
   <expression id="125" name="memfree">
     <exp>Libre</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Périphériques NVMe</exp>
+  </expression>
 </tns:translation>

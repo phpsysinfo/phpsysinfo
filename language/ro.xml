@@ -381,4 +381,7 @@ phpSysInfo language file Language: Romană Created by: Sorin Gheorghe Update by:
   <expression id="125" name="memfree">
     <exp>Liber</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Dispozitive NVMe</exp>
+  </expression>
 </tns:translation>

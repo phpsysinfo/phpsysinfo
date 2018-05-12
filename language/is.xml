@@ -381,4 +381,7 @@ phpSysInfo language file Language: Icelandic Created by: Saevar Holm and Kristja
   <expression id="125" name="memfree">
     <exp>Laust</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe jaðartæki</exp>
+  </expression>
 </tns:translation>

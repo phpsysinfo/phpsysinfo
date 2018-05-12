@@ -775,7 +775,7 @@ function renderHardware(data) {
     }
 
     var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
         try {
             datas = items(data.Hardware[hw_type].Device);
             for (i = 0; i < datas.length; i++) {
@@ -832,7 +832,7 @@ function renderHardware(data) {
     }
 
     var licz;
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
         try {
             licz = 0;
             datas = items(data.Hardware[hw_type].Device);

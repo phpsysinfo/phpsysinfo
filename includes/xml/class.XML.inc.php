@@ -278,6 +278,21 @@ class XML
                 $tmp->addAttribute('Count', $dev->getCount());
             }
         }
+        $nvme = null;
+        foreach (System::removeDupsAndCount($this->_sys->getNvmeDevices()) as $dev) {
+            if ($nvme === null) $nvme = $hardware->addChild('NVMe');
+            $tmp = $nvme->addChild('Device');
+            $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
+                $tmp->addAttribute('Capacity', $dev->getCapacity());
+            }
+            if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                $tmp->addAttribute('Serial', $dev->getSerial());
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
+        }
         $tb = null;
         foreach (System::removeDupsAndCount($this->_sys->getTbDevices()) as $dev) {
             if ($tb === null) $tb = $hardware->addChild('TB');

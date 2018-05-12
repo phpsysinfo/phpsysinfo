@@ -9,6 +9,8 @@ phpSysInfo 3.2.11
  - [ADD] Endless, Kali, Redcore and MX Linux to detected distros
  - [ADD] SMART plugin - - support for NVMe disks
 
+ - [NEW] NVMe devices list on Linux
+
 phpSysInfo 3.2.10
 ----------------
 

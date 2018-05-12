@@ -381,4 +381,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   <expression id="125" name="memfree">
     <exp>Frei</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Geräte</exp>
+  </expression>
 </tns:translation>

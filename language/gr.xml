@@ -381,4 +381,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="125" name="memfree">
     <exp>Ελεύθερη</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Συσκευές NVMe</exp>
+  </expression>
 </tns:translation>

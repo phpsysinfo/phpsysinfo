@@ -381,4 +381,7 @@ phpSysInfo language file Language: Ukrainian Created by: Artem Volk
   <expression id="125" name="memfree">
     <exp>Вільно</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe пристрої</exp>
+  </expression>
 </tns:translation>

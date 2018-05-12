@@ -381,4 +381,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="125" name="memfree">
     <exp>Ledig</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe enheder</exp>
+  </expression>
 </tns:translation>

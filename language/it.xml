@@ -381,4 +381,7 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
   <expression id="125" name="memfree">
     <exp>Libero</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Unità NVMe</exp>
+  </expression>
 </tns:translation>

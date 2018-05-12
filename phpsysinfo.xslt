@@ -562,6 +562,57 @@
                                                 </tbody>
                                             </table>
                                         </xsl:for-each>
+                                        <xsl:for-each select="NVMe">
+                                            <h3>
+                                                <span>
+                                                    <xsl:text>NVMe Devices</xsl:text>
+                                                </span>
+                                            </h3>
+                                            <table style="border-spacing:0;"
+                                                id="nvmeTable"
+                                                width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td
+                                                            style="display:block;">
+                                                            <ul
+                                                                style="margin-left:10px;">
+                                                                <xsl:for-each
+                                                                    select="Device">
+                                                                    <li>
+                                                                        <xsl:if
+                                                                            test="count(@Count )&gt;0">
+                                                                            <xsl:if
+                                                                                test="round(@Count) &gt;1">
+                                                                                <span>
+                                                                                    <xsl:text>(</xsl:text>
+                                                                                </span>
+                                                                                <xsl:value-of select="round(@Count)" />
+                                                                                <span>
+                                                                                    <xsl:text>x) </xsl:text>
+                                                                                </span>
+                                                                            </xsl:if>
+                                                                        </xsl:if>
+                                                                        <xsl:value-of
+                                                                            select="@Name" />
+                                                                        <xsl:if
+                                                                            test="count(@Capacity )&gt;0">
+                                                                            <span>
+                                                                                <xsl:text> (</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Capacity div 1024)" />
+                                                                            <span>
+                                                                                <xsl:text> KiB)</xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+                                                                    </li>
+                                                                </xsl:for-each>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </xsl:for-each>
                                         <xsl:for-each select="USB">
                                             <h3 class="odd">
                                                 <span>

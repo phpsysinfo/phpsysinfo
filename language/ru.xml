@@ -381,4 +381,7 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
   <expression id="125" name="memfree">
     <exp>Свободно</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe устройства</exp>
+  </expression>
 </tns:translation>
