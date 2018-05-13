@@ -897,8 +897,7 @@ class Linux extends OS
                         $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             if (isset($nlocate[4]) && isset($nsize[4])) {
-                                $cfull = trim(substr($buf, $nlocate[4], $nsize[4]));
-                                if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', $cfull, $tmpbuf)) {
+                                if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
                                     switch ($tmpbuf[2]) {
                                         case 'B':
                                             $dev->setCapacity($tmpbuf[1]);
