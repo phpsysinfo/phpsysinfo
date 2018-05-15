@@ -605,7 +605,7 @@ function createBar(size, barclass) {
     if (barclass === undefined) {
         barclass = "bar";
     }
-    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + size + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + Math.min(size, 100) + "px;\">&nbsp;</div>&nbsp;" + size + "%";
 }
 
 /**
