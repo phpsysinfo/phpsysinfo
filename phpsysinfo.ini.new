@@ -765,6 +765,6 @@ ACCESS="command"
 ; define how to access the docker statistic data
 ; - "command" docker command is run everytime the block gets refreshed or build
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "docker.txt"; content is the output from "docker stats --no-stream")
+;          with the filename "docker.txt"; content is the output from "docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}'")
 ;
 ACCESS="data"

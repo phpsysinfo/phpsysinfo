@@ -39,9 +39,8 @@ function docker_populate(xml) {
     docker_table.fnClearTable();
 
     $("Plugins Plugin_Docker Docker Item", xml).each(function docker_getitem(id) {
-        var name = "", contid = "",  cpuu= 0, memu = 0, used = 0, limit = 0, netio = "", blockio = "", pids = 0;
+        var name = "", cpuu= 0, memu = 0, used = 0, limit = 0, netio = "", blockio = "", pids = 0;
         name = $(this).attr("Name");
-        contid = $(this).attr("ContainerID");
         cpuu = parseInt($(this).attr("CPUUsage"), 10);
         memu = parseInt($(this).attr("MemoryUsage"), 10);
         used = parseInt($(this).attr("MemoryUsed"), 10);
@@ -50,7 +49,7 @@ function docker_populate(xml) {
         blockio = $(this).attr("BlockIO");
         pids = parseInt($(this).attr("PIDs"), 10);
 
-        docker_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, "<span style=\"display:none;\">" + contid + "</span>" + contid, "<span style=\"display:none;\">" + cpuu + "</span>" + createBar(cpuu), "<span style=\"display:none;\">" + memu + "</span>" + createBar(memu), "<span style=\"display:none;\">" + used + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + limit + "</span>" + limit, "<span style=\"display:none;\">" + netio + "</span>" + netio, "<span style=\"display:none;\">" + blockio + "</span>" + blockio, "<span style=\"display:none;\">" + pids + "</span>" + pids]);
+        docker_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, "<span style=\"display:none;\">" + cpuu + "</span>" + createBar(cpuu), "<span style=\"display:none;\">" + memu + "</span>" + createBar(memu), "<span style=\"display:none;\">" + used + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + limit + "</span>" + limit, "<span style=\"display:none;\">" + netio + "</span>" + netio, "<span style=\"display:none;\">" + blockio + "</span>" + blockio, "<span style=\"display:none;\">" + pids + "</span>" + pids]);
         docker_show = true;
     });
 }
@@ -65,12 +64,11 @@ function docker_buildTable() {
     html += "        <th>" + genlang(101, false, "docker") + "</th>\n";
     html += "        <th>" + genlang(102, false, "docker") + "</th>\n";
     html += "        <th>" + genlang(103, false, "docker") + "</th>\n";
-    html += "        <th>" + genlang(104, false, "docker") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(104, false, "docker") + "</th>\n";
     html += "        <th class=\"right\">" + genlang(105, false, "docker") + "</th>\n";
     html += "        <th class=\"right\">" + genlang(106, false, "docker") + "</th>\n";
     html += "        <th class=\"right\">" + genlang(107, false, "docker") + "</th>\n";
     html += "        <th class=\"right\">" + genlang(108, false, "docker") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(109, false, "docker") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody id=\"Plugin_DockerTable-tbody\">\n";
@@ -89,8 +87,6 @@ function docker_buildTable() {
         "bAutoWidth": false,
         "bStateSave": true,
         "aoColumns": [{
-            "sType": 'span-string'
-        }, {
             "sType": 'span-string'
         }, {
             "sType": 'span-number'

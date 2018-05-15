@@ -36,10 +36,9 @@ class Docker extends PSI_Plugin
         foreach ($this->_lines as $line) {
             if (($i > 1)) {
                 $buffer = preg_split("/\s\s+/", $line);
-                $result[$i]['ContainerID'] = $buffer[0];
-                $result[$i]['Name'] = $buffer[1];
-                $result[$i]['CPUUsage'] = str_replace(',', '.',trim($buffer[2],'%'));
-                preg_match('/([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)\s+\/\s+([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)/', str_replace(',', '.',trim($buffer[3])), $tmpbuf);
+                $result[$i]['Name'] = $buffer[0];
+                $result[$i]['CPUUsage'] = str_replace(',', '.',trim($buffer[1],'%'));
+                preg_match('/([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)\s+\/\s+([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)/', str_replace(',', '.',trim($buffer[2])), $tmpbuf);
                 switch ($tmpbuf[2]) {
                     case 'B':
                         $result[$i]['MemoryUsed'] = $tmpbuf[1];
@@ -80,10 +79,10 @@ class Docker extends PSI_Plugin
                         $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*1025*$tmpbuf[3];
                         break;
                 }
-                $result[$i]['MemoryUsage'] = str_replace(',', '.',trim($buffer[4],'%'));
-                $result[$i]['NetIO'] = trim($buffer[5]);
-                $result[$i]['BlockIO'] = trim($buffer[6]);
-                $result[$i]['PIDs'] = trim($buffer[7]);
+                $result[$i]['MemoryUsage'] = str_replace(',', '.',trim($buffer[3],'%'));
+                $result[$i]['NetIO'] = trim($buffer[4]);
+                $result[$i]['BlockIO'] = trim($buffer[5]);
+                $result[$i]['PIDs'] = trim($buffer[6]);
             }
             $i++;
         }
@@ -97,7 +96,7 @@ class Docker extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
             case 'command':
                 $lines = "";
-                if (CommonFunctions::executeProgram('docker', 'stats --no-stream', $lines) && !empty($lines))
+                if (CommonFunctions::executeProgram('docker', 'stats --no-stream --format \'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}\'', $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
@@ -120,7 +119,6 @@ class Docker extends PSI_Plugin
             $docker = $this->xml->addChild("Docker");
             foreach ($arrBuff as $arrValue) {
                 $item = $docker->addChild('Item');
-                $item->addAttribute('ContainerID', $arrValue['ContainerID']);
                 $item->addAttribute('Name', $arrValue['Name']);
                 $item->addAttribute('CPUUsage', $arrValue['CPUUsage']);
                 $item->addAttribute('MemoryUsage', $arrValue['MemoryUsage']);
