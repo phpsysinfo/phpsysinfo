@@ -78,6 +78,7 @@ BLOCKS=true
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
+; - Docker         - show docker stats
 ;
 PLUGINS=false
 
