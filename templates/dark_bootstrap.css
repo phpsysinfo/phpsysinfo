@@ -118,6 +118,10 @@ table.sortable thead th:hover {
     background: #3e444c;
 }
 
+.sorttable_nosort {
+    cursor: auto!important;
+}
+
 .table-hover > tbody > tr:hover {
     background-color: #49515a;
 }
