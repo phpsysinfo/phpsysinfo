@@ -24,21 +24,6 @@ function renderPlugin_docker(data) {
             html: function () {
                 return formatBytes(this.MemoryLimit, data.Options["@attributes"].byteFormat);
             }
-        },
-        hash: {
-            html: function () {
-                return this.hash;
-            }
-        },
-        Bootup: {
-            html: function () {
-                if (((datetimeFormat = data.Options["@attributes"].datetimeFormat) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
-                    var bootup = new Date(this.Bootup);
-                    return bootup.toLocaleString();
-                } else {
-                    return this.Bootup;
-                }
-            }            
         }
     };
 

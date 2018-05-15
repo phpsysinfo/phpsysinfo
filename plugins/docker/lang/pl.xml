@@ -12,28 +12,25 @@
   <expression id="plugin_docker_101" name="docker_name">
     <exp>Nazwa</exp>
   </expression>
-  <expression id="plugin_docker_102" name="docker_containerid">
-    <exp>ID kontenera</exp>
-  </expression>
-  <expression id="plugin_docker_103" name="docker_cpuusage">
+  <expression id="plugin_docker_102" name="docker_cpuusage">
     <exp>Procent procesora</exp>
   </expression>
-  <expression id="plugin_docker_104" name="docker_memusage">
+  <expression id="plugin_docker_103" name="docker_memusage">
     <exp>Procent pamięci</exp>
   </expression>
-  <expression id="plugin_docker_105" name="docker_memused">
+  <expression id="plugin_docker_104" name="docker_memused">
     <exp>Pamięć</exp>
   </expression>
-  <expression id="plugin_docker_106" name="docker_memlimit">
+  <expression id="plugin_docker_105" name="docker_memlimit">
     <exp>Limit pamięci</exp>
   </expression>
-  <expression id="plugin_docker_107" name="docker_netio">
+  <expression id="plugin_docker_106" name="docker_netio">
     <exp>I/O sieci</exp>
   </expression>
-  <expression id="plugin_docker_108" name="docker_blockio">
+  <expression id="plugin_docker_107" name="docker_blockio">
     <exp>I/O bloków</exp>
   </expression>
-  <expression id="plugin_docker_109" name="docker_pids">
+  <expression id="plugin_docker_108" name="docker_pids">
     <exp>PIDów</exp>
   </expression>
 </tns:translationPlugin>
