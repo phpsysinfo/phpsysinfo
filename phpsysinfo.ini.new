@@ -78,6 +78,7 @@ BLOCKS=true
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
+; - Docker         - show docker stats
 ;
 PLUGINS=false
 
@@ -757,3 +758,13 @@ SHOW_SERIAL=false
 ;          with the filename "hyperv.txt")
 ;
 ACCESS="command"
+
+[docker]
+; Docker Plugin configuration
+
+; define how to access the docker statistic data
+; - "command" docker command is run everytime the block gets refreshed or build
+; - "data" (a file must be available in the data directory of the phpsysinfo installation
+;          with the filename "docker.txt"; content is the output from "docker stats --no-stream")
+;
+ACCESS="data"

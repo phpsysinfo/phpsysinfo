@@ -10,6 +10,7 @@ phpSysInfo 3.2.11
  - [ADD] SMART plugin - - support for NVMe disks
 
  - [NEW] NVMe devices list on Linux
+ - [NEW] Docker plugin - docker stats
 
 phpSysInfo 3.2.10
 ----------------
