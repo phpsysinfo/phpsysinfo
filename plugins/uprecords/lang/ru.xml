@@ -3,7 +3,7 @@
   <!--
     phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
   -->
-<tns:translationPlugin language="english" charset="utf-8"
+<tns:translationPlugin language="russian" charset="utf-8"
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_uprecords_001" name="uprecords_title">
