@@ -37,23 +37,6 @@ function docker_populate(xml) {
     var html = "";
 
     docker_table.fnClearTable();
-/*
-    $("Plugins Plugin_Docker Docker Item", xml).each(function docker_getitem(idp) {
-        html += "      <tr>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Name") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("ContainerID") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("CPUUsage") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("MemoryUsage") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("MemoryUsed") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("MemoryLimit") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("NetIO") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("BlockIO") + "</td>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("PIDs") + "</td>\n";
-        html += "      </tr>\n";
-        docker_show = true;
-    });
-
-*/
 
     $("Plugins Plugin_Docker Docker Item", xml).each(function docker_getitem(id) {
         var name = "", contid = "",  cpuu= 0, memu = 0, used = 0, limit = 0, netio = "", blockio = "", pids = 0;
@@ -70,12 +53,6 @@ function docker_populate(xml) {
         docker_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, "<span style=\"display:none;\">" + contid + "</span>" + contid, "<span style=\"display:none;\">" + cpuu + "</span>" + createBar(cpuu), "<span style=\"display:none;\">" + memu + "</span>" + createBar(memu), "<span style=\"display:none;\">" + used + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + limit + "</span>" + limit, "<span style=\"display:none;\">" + netio + "</span>" + netio, "<span style=\"display:none;\">" + blockio + "</span>" + blockio, "<span style=\"display:none;\">" + pids + "</span>" + pids]);
         docker_show = true;
     });
-
-
-
-//    $("#Plugin_DockerTable-tbody").empty().append(html);
-//    $('#Plugin_DockerTable tr:nth-child(even)').addClass('even');
-
 }
 
 function docker_buildTable() {
