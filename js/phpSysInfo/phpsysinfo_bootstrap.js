@@ -1734,7 +1734,7 @@ function formatBytes(bytes, byteFormat) {
             }
         }
     }
-    return show;
+    return "<span style='display:none'>"+round(bytes,0)+".</span>"+show; //span for sorting
 }
 
 function formatBPS(bps) {
