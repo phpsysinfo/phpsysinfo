@@ -40,7 +40,7 @@ function uprecords_populate(xml) {
         datetimeFormat = $(this).attr("datetimeFormat");
     });
 
-    $("Plugins Plugin_uprecords uprecords Item", xml).each(function uprecords_getitem(idp) {
+    $("Plugins Plugin_Uprecords Uprecords Item", xml).each(function uprecords_getitem(idp) {
         html += "      <tr>\n";
         html += "        <td style=\"font-weight:normal\">" +  $(this).attr("hash") + "</td>\n";
         html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Uptime") + "</td>\n";
@@ -63,8 +63,8 @@ function uprecords_populate(xml) {
         uprecords_show = true;
     });
 
-    $("#Plugin_uprecordsTable-tbody").empty().append(html);
-    $('#Plugin_uprecordsTable tr:nth-child(even)').addClass('even');
+    $("#Plugin_UprecordsTable-tbody").empty().append(html);
+    $('#Plugin_UprecordsTable tr:nth-child(even)').addClass('even');
 
 }
 
@@ -72,7 +72,7 @@ function uprecords_buildTable() {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_uprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+    html += "  <table id=\"Plugin_UprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
     html += "        <th>" + genlang(101, false, "uprecords") + "</th>\n";
@@ -81,11 +81,11 @@ function uprecords_buildTable() {
     html += "        <th>" + genlang(104, false, "uprecords") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
-    html += "    <tbody id=\"Plugin_uprecordsTable-tbody\">\n";
+    html += "    <tbody id=\"Plugin_UprecordsTable-tbody\">\n";
     html += "    </tbody>\n";
     html += "  </table>\n";
     html += "</div>\n";
-    $("#Plugin_uprecords").append(html);
+    $("#Plugin_Uprecords").append(html);
 }
 
 /**
@@ -105,15 +105,15 @@ function uprecords_request() {
             uprecords_populate(xml);
             if (uprecords_show) {
                 plugin_translate("uprecords");
-                $("#Plugin_uprecords").show();
+                $("#Plugin_Uprecords").show();
             }
         }
     });
 }
 
 $(document).ready(function uprecords_buildpage() {
-    $("#footer").before(buildBlock("uprecords", 1, true));
-    $("#Plugin_uprecords").css("width", "915px");
+    $("#footer").before(buildBlock("Uprecords", 1, true));
+    $("#Plugin_Uprecords").css("width", "915px");
 
     uprecords_buildTable();
 
