@@ -49,7 +49,7 @@ function docker_populate(xml) {
         blockio = $(this).attr("BlockIO");
         pids = parseInt($(this).attr("PIDs"), 10);
 
-        docker_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, "<span style=\"display:none;\">" + cpuu + "</span>" + createBar(cpuu), "<span style=\"display:none;\">" + memu + "</span>" + createBar(memu), "<span style=\"display:none;\">" + used + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + limit + "</span>" + limit, "<span style=\"display:none;\">" + netio + "</span>" + netio, "<span style=\"display:none;\">" + blockio + "</span>" + blockio, "<span style=\"display:none;\">" + pids + "</span>" + pids]);
+        docker_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, "<span style=\"display:none;\">" + cpuu + "</span>" + createBar(cpuu), "<span style=\"display:none;\">" + memu + "</span>" + createBar(memu), "<span style=\"display:none;\">" + used + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + limit + "</span>" + formatBytes(limit, xml), "<span style=\"display:none;\">" + netio + "</span>" + netio, "<span style=\"display:none;\">" + blockio + "</span>" + blockio, "<span style=\"display:none;\">" + pids + "</span>" + pids]);
         docker_show = true;
     });
 }
