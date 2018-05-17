@@ -239,11 +239,18 @@ DATETIME_FORMAT="UTC"
 ;
 SENSOR_PROGRAM=false
 
+
 ; Show events of sensors
 ; - true : show events
 ; - false : do not show events
 ;
 SENSOR_EVENTS=true
+
+
+; Sort sensors list
+;
+SORT_SENSORS_LIST=false
+
 
 ; Some sensors programs contain an additional configuration in the relevant sections [sensor_...]
 
@@ -329,6 +336,11 @@ SHOW_NETWORK_INFOS=true
 ; Hide MAC address in the infos
 ;
 HIDE_NETWORK_MACADDR=false
+
+
+; Sort network interfaces list
+;
+SORT_NETWORK_INTERFACES_LIST=false
 
 
 ; Show network infos expanded
