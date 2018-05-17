@@ -89,7 +89,7 @@ class MBInfo
     public function getMbFan()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbFan);
+            asort($this->_mbFan, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbFan;
     }
@@ -118,7 +118,7 @@ class MBInfo
     public function getMbTemp()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbTemp);
+            asort($this->_mbTemp, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbTemp;
     }
@@ -147,7 +147,7 @@ class MBInfo
     public function getMbVolt()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbVolt);
+            asort($this->_mbVolt, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbVolt;
     }
@@ -176,7 +176,7 @@ class MBInfo
     public function getMbPower()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbPower);
+            asort($this->_mbPower, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbPower;
     }
@@ -205,7 +205,7 @@ class MBInfo
     public function getMbCurrent()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbCurrent);
+            asort($this->_mbCurrent, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbCurrent;
     }
@@ -234,7 +234,7 @@ class MBInfo
     public function getMbOther()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            asort($this->_mbOther);
+            asort($this->_mbOther, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
         }
         return $this->_mbOther;
     }
