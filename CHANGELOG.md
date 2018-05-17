@@ -11,6 +11,7 @@ phpSysInfo 3.2.11
 
  - [NEW] NVMe devices list on Linux
  - [NEW] Docker plugin - docker stats
+ - [NEW] SORT_NETWORK_INTERFACES_LIST and SORT_SENSORS_LIST options
 
 phpSysInfo 3.2.10
 ----------------

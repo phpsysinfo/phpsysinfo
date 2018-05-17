@@ -753,6 +753,9 @@ class System
      */
     public function getNetDevices()
     {
+        if (defined('PSI_SORT_NETWORK_INTERFACES_LIST') && PSI_SORT_NETWORK_INTERFACES_LIST) {
+            asort($this->_netDevices);
+        }
         return $this->_netDevices;
     }
 

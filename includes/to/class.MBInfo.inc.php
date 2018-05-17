@@ -88,6 +88,9 @@ class MBInfo
      */
     public function getMbFan()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbFan);
+        }
         return $this->_mbFan;
     }
 
@@ -114,6 +117,9 @@ class MBInfo
      */
     public function getMbTemp()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbTemp);
+        }
         return $this->_mbTemp;
     }
 
@@ -140,6 +146,9 @@ class MBInfo
      */
     public function getMbVolt()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbVolt);
+        }
         return $this->_mbVolt;
     }
 
@@ -166,6 +175,9 @@ class MBInfo
      */
     public function getMbPower()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbPower);
+        }
         return $this->_mbPower;
     }
 
@@ -192,6 +204,9 @@ class MBInfo
      */
     public function getMbCurrent()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbCurrent);
+        }
         return $this->_mbCurrent;
     }
 
@@ -218,6 +233,9 @@ class MBInfo
      */
     public function getMbOther()
     {
+        if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
+            asort($this->_mbOther);
+        }
         return $this->_mbOther;
     }
 
