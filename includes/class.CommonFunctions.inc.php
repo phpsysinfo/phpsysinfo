@@ -636,4 +636,14 @@ class CommonFunctions
             return array();
         }
     }
+
+    /**
+     * name natural compare function
+     *
+     * @return comprasion result
+     */
+    public static function name_natural_compare($a, $b)
+    {
+        return strnatcmp($a->getName(), $b->getName());
+    }
 }

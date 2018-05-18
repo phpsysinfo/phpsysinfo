@@ -754,8 +754,9 @@ class System
     public function getNetDevices()
     {
         if (defined('PSI_SORT_NETWORK_INTERFACES_LIST') && PSI_SORT_NETWORK_INTERFACES_LIST) {
-            asort($this->_netDevices, defined('SORT_NATURAL')?SORT_NATURAL:SORT_REGULAR);
+            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
         }
+
         return $this->_netDevices;
     }
 
