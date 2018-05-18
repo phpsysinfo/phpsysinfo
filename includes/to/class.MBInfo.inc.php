@@ -89,7 +89,7 @@ class MBInfo
     public function getMbFan()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbFan, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbFan;
@@ -119,7 +119,7 @@ class MBInfo
     public function getMbTemp()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbTemp, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbTemp;
@@ -149,7 +149,7 @@ class MBInfo
     public function getMbVolt()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbVolt, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbVolt;
@@ -179,7 +179,7 @@ class MBInfo
     public function getMbPower()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbPower, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbPower;
@@ -209,7 +209,7 @@ class MBInfo
     public function getMbCurrent()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbCurrent, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbCurrent;
@@ -239,7 +239,7 @@ class MBInfo
     public function getMbOther()
     {
         if (defined('PSI_SORT_SENSORS_LIST') && PSI_SORT_SENSORS_LIST) {
-            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+            usort($this->_mbOther, array('CommonFunctions', 'name_natural_compare'));
         }
 
         return $this->_mbOther;
