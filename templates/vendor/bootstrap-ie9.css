@@ -239,3 +239,6 @@ aside {
 .breadcrumb-item {
   display: inline-block;
 }
+.img-fluid[src$=".svg"] {
+  width: 100%;
+}
