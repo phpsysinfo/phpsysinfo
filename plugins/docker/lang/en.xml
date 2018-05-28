@@ -10,7 +10,7 @@
     <exp>Docker</exp>
   </expression>
   <expression id="plugin_docker_101" name="docker_name">
-    <exp>Name</exp>
+    <exp>Container Name</exp>
   </expression>
   <expression id="plugin_docker_102" name="docker_cpuusage">
     <exp>CPU Usage</exp>
