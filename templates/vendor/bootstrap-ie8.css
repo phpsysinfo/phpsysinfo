@@ -1,0 +1,464 @@
+/* Bootstrap 4 for IE8 - v4.1.1            */
+/* https://github.com/coliff/bootstrap-ie8 */
+
+.card-group .card,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12,
+.col-sm-1,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-xl-1,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12,
+.navbar-brand {
+  float: left;
+}
+.row,
+.container-fluid,
+.container,
+section,
+footer,
+main,
+aside,
+.navbar-nav,
+.navbar-collapse {
+  display: block;
+}
+.modal.fade .modal-dialog {
+  -ms-transform: translate(0, -25%);
+}
+.modal.show .modal-dialog {
+  -ms-transform: translate(0, 0);
+}
+.custom-select {
+  background-image: none;
+  padding-right: .75rem;
+}
+.table-responsive {
+  min-height: 0%;
+} /* see https://github.com/twbs/bootstrap/issues/14837 */
+.progress {
+  display: block;
+}
+.progress-bar {
+  float: left;
+  font-size: 12px;
+  line-height: 20px;
+  width: 0;
+  text-align: center;
+  height: 100%;
+}
+.d-flex,
+.d-sm-flex,
+.d-md-flex,
+.d-lg-flex,
+.d-xl-flex,
+.d-print-flex {
+  display: block !important;
+}
+.d-inline-flex,
+.d-sm-inline-flex,
+.d-md-inline-flex,
+.d-lg-inline-flex,
+.d-xl-inline-flex,
+.d-print-inline-flex {
+  display: inline-block !important;
+}
+.flex-row .div {
+  display: inline-block;
+}
+.flex-row-reverse {
+  text-align: right;
+}
+.flex-row-reverse .div {
+  display: inline-block;
+  float: right;
+}
+.justify-content-start div {
+  display: inline-block;
+}
+.justify-content-end {
+  text-align: right;
+}
+.justify-content-end div {
+  display: inline-block;
+  margin-right: 0;
+  float: right;
+}
+.justify-content-center {
+  text-align: center;
+}
+.justify-content-center div {
+  display: inline-block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.justify-content-between {
+  text-justify: distribute-all-lines;
+}
+.justify-content-between div {
+  display: inline-block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: justify;
+}
+ /* see https://stackoverflow.com/questions/6865194/fluid-width-with-equally-spaced-divs */
+.justify-content-around {
+  text-align: justify;
+  text-justify: distribute-all-lines;
+}
+.justify-content-around div {
+  display: inline-block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: justify;
+}
+[class^="justify-content-"] div {
+  display: inline-block;
+}
+/** Carousel - Hide indicators and controls as the carousel doesn't work **/
+.carousel-indicators,
+.carousel-control-prev,
+.carousel-control-next {
+  display: none;
+}
+.btn-link.disabled,
+.btn-link:disabled {
+  text-decoration: none;
+}
+.modal-header .close {
+  margin: -48px -16px -16px auto;
+}
+.btn-group,
+.btn-group-vertical {
+  display: inline;
+  vertical-align: baseline;
+}
+.btn-group .btn + .btn,
+.btn-group .btn + .btn-group,
+.btn-group .btn-group + .btn,
+.btn-group .btn-group + .btn-group,
+.btn-group-vertical .btn + .btn,
+.btn-group-vertical .btn + .btn-group,
+.btn-group-vertical .btn-group + .btn,
+.btn-group-vertical .btn-group + .btn-group {
+  margin-left: -5px;
+}
+.navbar-expand-sm .navbar-collapse,
+.navbar-expand-md .navbar-collapse,
+.navbar-expand-lg .navbar-collapse,
+.navbar-expand-xl .navbar-collapse,
+.navbar-expand .navbar-collapse {
+  display: block !important;
+}
+.navbar > .container,
+.navbar > .container-fluid,
+.nav,
+.navbar {
+  display: block;
+}
+.nav-link {
+  padding: 0.5rem 1rem;
+  float:none;
+}
+.navbar-expand-sm .nav-link,
+.navbar-expand-md .nav-link,
+.navbar-expand-lg .nav-link,
+.navbar-expand-xl .nav-link,
+.navbar-expand .nav-link {
+  float: left;
+}
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #fff;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #fff;
+}
+.row,
+.container-fluid,
+.container,
+section,
+footer,
+aside {
+  clear: both;
+}
+.breadcrumb-item {
+  display: inline-block;
+}
+body {
+  font-size:16px;
+}
+.btn {
+  cursor: pointer;
+}
+.btn-link.disabled {
+  color: #6c757d;
+}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  cursor: auto;
+}
+.modal-content {
+  border:1px solid #ddd;
+}
+.list-group-item {
+  border: 1px solid #ddd;
+}
+.custom-control-input {
+  position: relative;
+}
+.text-black-50 {
+  filter:alpha(opacity=50);
+}
+.text-white-50{
+  filter:alpha(opacity=50);
+}
+.collapse {
+  display:none;
+}
+.collapse.show {
+  display:block;
+}
+.col-1 {
+  width: 8.333333%;
+}
+.col-2 {
+  width: 16.666667%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.333333%;
+}
+.col-5 {
+  width: 41.666667%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.333333%;
+}
+.col-8 {
+  width: 66.666667%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.333333%;
+}
+.col-11 {
+  width: 91.666667%;
+}
+.col-12 {
+  width: 100%;
+}
+@media (min-width: 576px) {
+  .col-sm-1 {
+    width: 8.333333%;
+  }
+  .col-sm-2 {
+    width: 16.666667%;
+  }
+  .col-sm-3 {
+    width:25%;
+  }
+  .col-sm-4 {
+    width: 33.333333%;
+  }
+  .col-sm-5 {
+    width: 41.666667%;
+  }
+  .col-sm-6 {
+    width: 50%;
+  }
+  .col-sm-7 {
+    width: 58.333333%;
+  }
+  .col-sm-8 {
+    width: 66.666667%;
+  }
+  .col-sm-9 {
+    width: 75%;
+  }
+  .col-sm-10 {
+    width: 83.333333%;
+  }
+  .col-sm-11 {
+    width: 91.666667%;
+  }
+  .col-sm-12 {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .col-md-1 {
+    width: 8.333333%;
+  }
+  .col-md-2 {
+    width: 16.666667%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
+  .col-md-4 {
+    width: 33.333333%;
+  }
+  .col-md-5 {
+    width: 41.666667%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+  .col-md-7 {
+    width: 58.333333%;
+  }
+  .col-md-8 {
+    width: 66.666667%;
+  }
+  .col-md-9 {
+    width: 75%;
+  }
+  .col-md-10 {
+    width: 83.333333%;
+  }
+  .col-md-11 {
+    width: 91.666667%;
+  }
+  .col-md-12 {
+    width: 100%;
+  }
+}
+@media (min-width: 992px) {
+  .col-lg-1 {
+    width: 8.333333%;
+  }
+  .col-lg-2 {
+    width: 16.666667%;
+  }
+  .col-lg-3 {
+    width: 25%;
+  }
+  .col-lg-4 {
+    width: 33.333333%;
+  }
+  .col-lg-5 {
+    width: 41.666667%;
+  }
+  .col-lg-6 {
+    width: 50%;
+  }
+  .col-lg-7 {
+    width: 58.333333%;
+  }
+  .col-lg-8 {
+    width: 66.666667%;
+  }
+  .col-lg-9 {
+    width:75%;
+  }
+  .col-lg-10 {
+    width: 83.333333%;
+  }
+  .col-lg-11 {
+    width: 91.666667%;
+  }
+  .col-lg-12 {
+    width: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  .col-xl-1 {
+    width: 8.333333%;
+  }
+  .col-xl-2 {
+    width: 16.666667%;
+  }
+  .col-xl-3 {
+    width: 25%;
+  }
+  .col-xl-4 {
+    width: 33.333333%;
+  }
+  .col-xl-5 {
+    width: 41.666667%;
+  }
+  .col-xl-6 {
+    width: 50%;
+  }
+  .col-xl-7 {
+    width: 58.333333%;
+  }
+  .col-xl-8 {
+    width: 66.666667%;
+  }
+  .col-xl-9 {
+    width: 75%;
+  }
+  .col-xl-10 {
+    width: 83.333333%;
+  }
+  .col-xl-11 {
+    width: 91.666667%;
+  }
+  .col-xl-12 {
+    width: 100%;
+  }
+}

@@ -63,7 +63,7 @@ function renderPlugin_raid(data) {
 
         if (!isNaN(parentid)) {
             if (data.Type === "disk") {
-                $("#raid_item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + data.Name + "</small></div>"); //onload IE6 PNG fix
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
             } else {
                 if (parentid === 0) {
                     $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
@@ -97,7 +97,7 @@ function renderPlugin_raid(data) {
                     }
 
                     html += "<tr><td>";
-                    html += "<table id=\"raid-" + i + "\"class=\"table table-hover table-condensed\"><tbody>";
+                    html += "<table id=\"raid-" + i + "\"class=\"table table-hover table-sm\"><tbody>";
                     html += "<tr class=\"treegrid-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + genlang(3, true, "raid") + "</span></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Program + "</td></tr>"; // Program
                     if (raiditems[i]["@attributes"].Name !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, true, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Name + "</td></tr>"; // Name
