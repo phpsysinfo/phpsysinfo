@@ -3,8 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
-phpSysInfo 3.2.11
+phpSysInfo 3.3.0
 ----------------
+
+ - [UPD] Frontend Bootstrap3 to Bootstrap4 with IE8 and IE9 compatibility modules
 
  - [ADD] Endless, Kali, Redcore and MX Linux to detected distros
  - [ADD] SMART plugin - - support for NVMe disks
