@@ -251,9 +251,9 @@ function changeSpanLanguage(plugin) {
                     }
                 }
             }
-            $("#loader").hide();
-            $("#output").fadeIn("slow"); //show if any language loaded
         });
+        $("#loader").hide();
+        $("#output").fadeIn("slow"); //show if any language loaded
     } else {
         langarrId += plugin;
         $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
