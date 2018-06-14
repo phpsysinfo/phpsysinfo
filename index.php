@@ -45,6 +45,11 @@ if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
     die();
 }
 
+$useragent = $_SERVER['HTTP_USER_AGENT'];
+if (preg_match("/Safari\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]<=534)) {
+    define('PSI_JQUERY_FIX', 'safari');
+}
+
 // redirect to page with and without javascript
 $display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
