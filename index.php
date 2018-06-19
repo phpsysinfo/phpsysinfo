@@ -47,7 +47,10 @@ if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
 
 $useragent = $_SERVER['HTTP_USER_AGENT'];
 if (preg_match("/Safari\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]<=534)) {
-    define('PSI_JQUERY_FIX', 'safari');
+    define('PSI_JQUERY_FIX', true);
+    define('PSI_CSS_FIX', 'safari5');
+} elseif (preg_match("/Firefox\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]==28)) {
+    define('PSI_CSS_FIX', 'firefox28');
 }
 
 // redirect to page with and without javascript
