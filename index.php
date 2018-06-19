@@ -1,4 +1,5 @@
 <?php
+header('Cache-Control: no-store, no-cache, must-revalidate');
 /**
  * start page for webaccess
  * redirect the user to the supported page type by the users webbrowser (js available or not)
