@@ -50,9 +50,18 @@ $useragent = $_SERVER['HTTP_USER_AGENT'];
 if (preg_match("/Safari\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]<=534)) {
     define('PSI_JQUERY_FIX', true);
     define('PSI_CSS_FIX', 'safari5');
-} elseif (preg_match("/Firefox\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]<=28)) {
-    define('PSI_CSS_FIX', 'firefox28');
+} elseif (preg_match("/Firefox\/(\d+)\.[\d\.]+$/", $useragent, $version)) {
+    if ($version[1]<=15) {
+       define('PSI_CSS_FIX', 'firefox15');
+    } elseif ($version[1]<=20) {
+       define('PSI_CSS_FIX', 'firefox20');
+    } elseif ($version[1]<=27) {
+       define('PSI_CSS_FIX', 'firefox27');
+    } elseif ($version[1]==28) {
+       define('PSI_CSS_FIX', 'firefox28');
+    }
 }
+
 
 // redirect to page with and without javascript
 $display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
