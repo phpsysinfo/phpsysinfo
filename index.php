@@ -62,7 +62,6 @@ if (preg_match("/Safari\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1
     }
 }
 
-
 // redirect to page with and without javascript
 $display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
