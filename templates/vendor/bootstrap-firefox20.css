@@ -69,5 +69,5 @@
   height: 100%;
 }
 *, :after, :before {
-    -moz-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }

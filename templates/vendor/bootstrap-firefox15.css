@@ -69,8 +69,8 @@
   height: 100%;
 }
 .card-header:first-child {
-    border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
 }
 *, :after, :before {
-    -moz-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
