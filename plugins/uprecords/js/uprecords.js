@@ -75,10 +75,10 @@ function uprecords_buildTable() {
     html += "  <table id=\"Plugin_uprecordsTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th>" + genlang(101, false, "uprecords") + "</th>\n";
-    html += "        <th>" + genlang(102, false, "uprecords") + "</th>\n";
-    html += "        <th>" + genlang(103, false, "uprecords") + "</th>\n";
-    html += "        <th>" + genlang(104, false, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(101, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(102, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(103, "uprecords") + "</th>\n";
+    html += "        <th>" + genlang(104, "uprecords") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody id=\"Plugin_uprecordsTable-tbody\">\n";

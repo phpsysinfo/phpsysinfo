@@ -7,7 +7,7 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
+var langxml = [], langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
@@ -114,13 +114,12 @@ function getLanguage(plugin, langarrId) {
 }
 
 /**
- * generate a span tag with an unique identifier to be html valid
+ * generate a span tag
  * @param {Number} id translation id in the xml file
- * @param {Boolean} generate generate lang_id in span tag or use given value
  * @param {String} [plugin] name of the plugin for which the tag should be generated
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, generate, plugin) {
+function genlang(id, plugin) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -144,12 +143,8 @@ function genlang(id, generate, plugin) {
     if (plugin) {
         idString = "plugin_" + plugname + "_" + idString;
     }
-    if (generate) {
-        html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter++;
-    } else {
-        html += "<span id=\"lang_" + idString + "\">";
-    }
+
+    html += "<span class=\"lang_" + idString + "\">";
 
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
@@ -162,7 +157,7 @@ function genlang(id, generate, plugin) {
 
 /**
  * translates all expressions based on the translation xml file<br>
- * translation expressions must be in the format &lt;span id="lang_???"&gt;&lt;/span&gt;, where ??? is
+ * translation expressions must be in the format &lt;span class="lang_???"&gt;&lt;/span&gt;, where ??? is
  * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
  * file nothing would be translated, so the initial value which is inside the span tag is displayed
  * @param {String} [plugin] name of the plugin
@@ -189,11 +184,8 @@ function changeSpanLanguage(plugin) {
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
-        $('span[id*=lang_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_]').each(function translate(i) {
+            langId = this.className.substring(5);
             if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
                 langStr = langarr[langarrId][langId];
                 if (langStr !== undefined) {
@@ -207,11 +199,8 @@ function changeSpanLanguage(plugin) {
         $("#output").show();
     } else {
         langarrId += plugin;
-        $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
+            langId = this.className.substring(5);
             langStr = langarr[langarrId][langId];
             if (langStr !== undefined) {
                 if (langStr.length > 0) {
@@ -392,7 +381,7 @@ $(document).ready(function () {
         }
 */
         $('#language').show();
-        $('span[id=lang_045]').show(); 
+        $('span[class=lang_045]').show(); 
         $("#language").change(function changeLang() {
             current_language = $("#language").val().toString();
             createCookie('psi_language', current_language, 365);
@@ -616,7 +605,7 @@ function renderVitals(data) {
                             if (not_first) {
                                 processes += ", ";
                             }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type, false);
+                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
                             not_first = true;
                         }
                     }
@@ -732,7 +721,7 @@ function renderHardware(data) {
 
     if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
+        html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
         html+="<td><span data-bind=\"Name\"></span></td>";
         html+="<td></td>";
         html+="</tr>";
@@ -745,7 +734,7 @@ function renderHardware(data) {
              if (i === 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
+                html+="<td><span class=\"treegrid-span\">" + genlang(119) + ":</span></td>"; //Number of processors
                 html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
                 html+="</tr>";
             }
@@ -762,7 +751,7 @@ function renderHardware(data) {
                 if (((proc_param !== 'Load') || !showCPULoadCompact) && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
+                    html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param]) + "<span></td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>";
                 }
@@ -782,7 +771,7 @@ function renderHardware(data) {
                 if (i === 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120', true) + ":</span></td>"; //Number of devices
+                    html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -795,7 +784,7 @@ function renderHardware(data) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"hardware-" + hw_type +"-" + i + "-" + proc_param + "\" class=\"treegrid-parent-" + hw_type +"-" + i +"\">";
                         html+="<th></th>";
-                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param], true) + "<span></td>";
+                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param]) + "<span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -932,17 +921,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"].Percent + '% ' + '<i>(';
                     var not_first = false;
                     if (this.Details["@attributes"].AppPercent !== undefined) {
-                        html += genlang(64, false) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
+                        html += genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this.Details["@attributes"].CachedPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66, false) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
+                        html += genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
                         not_first = true;
                     }
                     if (this.Details["@attributes"].BuffersPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65, false) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
+                        html += genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -951,7 +940,7 @@ function renderMemory(data) {
         },
         Type: {
             html: function () {
-                return genlang(28, false); //Physical Memory
+                return genlang(28); //Physical Memory
             }
         }
     };
@@ -1268,13 +1257,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return round(this.Value,0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
             }
         },
         Min: {
             html: function () {
                 if (this.Min !== undefined)
-                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
             }
         },
         Label: {
@@ -1441,22 +1430,22 @@ function renderUPS(data) {
         },
         LineVoltage: {
             html: function () {
-                return this.LineVoltage + String.fromCharCode(160) + genlang(82, true); //V
+                return this.LineVoltage + String.fromCharCode(160) + genlang(82); //V
             }
         },
         LineFrequency: {
             html: function () {
-                return this.LineFrequency + String.fromCharCode(160)  + genlang(109, true); //Hz
+                return this.LineFrequency + String.fromCharCode(160)  + genlang(109); //Hz
             }
         },
         BatteryVoltage: {
             html: function () {
-                return this.BatteryVoltage + String.fromCharCode(160) + genlang(82, true); //V
+                return this.BatteryVoltage + String.fromCharCode(160) + genlang(82); //V
             }
         },
         TimeLeftMinutes: {
             html: function () {
-                return this.TimeLeftMinutes + String.fromCharCode(160) + genlang(83, true); //minutes
+                return this.TimeLeftMinutes + String.fromCharCode(160) + genlang(83); //minutes
             }
         },
         LoadPercent: {
@@ -1489,7 +1478,7 @@ function renderUPS(data) {
                 for (proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                        html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true) + "</span></td>";
+                        html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param]) + "</span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -1502,7 +1491,7 @@ function renderUPS(data) {
 
         if ((data.UPSInfo["@attributes"] !== undefined) && (data.UPSInfo["@attributes"].ApcupsdCgiLinks === "1")) {
             html+="<tr>";
-            html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99, false)+"</a>)</td>";
+            html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99)+"</a>)</td>";
             html+="<td></td>";
             html+="</tr>";
         }
@@ -1563,12 +1552,12 @@ function formatUptime(sec) {
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
     if (intDays) {
-        txt += intDays.toString() + String.fromCharCode(160) + genlang(48, false) + String.fromCharCode(160); //days
+        txt += intDays.toString() + String.fromCharCode(160) + genlang(48) + String.fromCharCode(160); //days
     }
     if (intHours) {
-        txt += intHours.toString() + String.fromCharCode(160) + genlang(49, false) + String.fromCharCode(160); //hours
+        txt += intHours.toString() + String.fromCharCode(160) + genlang(49) + String.fromCharCode(160); //hours
     }
-    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50, false); //Minutes
+    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50); //Minutes
 }
 
 /**
@@ -1588,13 +1577,13 @@ function formatTemp(degreeC, tempFormat) {
     } else {
         switch (tempFormat.toLowerCase()) {
         case "f":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true);
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61);
         case "c":
-            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true);
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60);
         case "c-f":
-            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + ")</i>";
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61) + ")</i>";
         case "f-c":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + "<br><i>(" + round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + ")</i>";
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61) + "<br><i>(" + round(degree, 1) + String.fromCharCode(160) + genlang(60) + ")</i>";
         }
     }
 }
@@ -1606,10 +1595,10 @@ function formatTemp(degreeC, tempFormat) {
  */
 function formatHertz(mhertz) {
     if ((mhertz >= 0) && (mhertz < 1000)) {
-        return mhertz.toString() + String.fromCharCode(160) + genlang(92, true);
+        return mhertz.toString() + String.fromCharCode(160) + genlang(92);
     } else {
         if (mhertz >= 1000) {
-            return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93, true);
+            return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93);
         } else {
             return "";
         }
@@ -1634,71 +1623,71 @@ function formatBytes(bytes, byteFormat) {
     switch (byteFormat.toLowerCase()) {
     case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
-        show += String.fromCharCode(160) + genlang(90, true);
+        show += String.fromCharCode(160) + genlang(90);
         break;
     case "tib":
         show += round(bytes / Math.pow(1024, 4), 2);
-        show += String.fromCharCode(160) + genlang(86, true);
+        show += String.fromCharCode(160) + genlang(86);
         break;
     case "gib":
         show += round(bytes / Math.pow(1024, 3), 2);
-        show += String.fromCharCode(160) + genlang(87, true);
+        show += String.fromCharCode(160) + genlang(87);
         break;
     case "mib":
         show += round(bytes / Math.pow(1024, 2), 2);
-        show += String.fromCharCode(160) + genlang(88, true);
+        show += String.fromCharCode(160) + genlang(88);
         break;
     case "kib":
         show += round(bytes / Math.pow(1024, 1), 2);
-        show += String.fromCharCode(160) + genlang(89, true);
+        show += String.fromCharCode(160) + genlang(89);
         break;
     case "pb":
         show += round(bytes / Math.pow(1000, 5), 2);
-        show += String.fromCharCode(160) + genlang(91, true);
+        show += String.fromCharCode(160) + genlang(91);
         break;
     case "tb":
         show += round(bytes / Math.pow(1000, 4), 2);
-        show += String.fromCharCode(160) + genlang(85, true);
+        show += String.fromCharCode(160) + genlang(85);
         break;
     case "gb":
         show += round(bytes / Math.pow(1000, 3), 2);
-        show += String.fromCharCode(160) + genlang(41, true);
+        show += String.fromCharCode(160) + genlang(41);
         break;
     case "mb":
         show += round(bytes / Math.pow(1000, 2), 2);
-        show += String.fromCharCode(160) + genlang(40, true);
+        show += String.fromCharCode(160) + genlang(40);
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += String.fromCharCode(160) + genlang(39, true);
+        show += String.fromCharCode(160) + genlang(39);
         break;
     case "b":
         show += bytes;
-        show += String.fromCharCode(160) + genlang(96, true);
+        show += String.fromCharCode(160) + genlang(96);
         break;
     case "auto_decimal":
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
-            show += String.fromCharCode(160) + genlang(91, true);
+            show += String.fromCharCode(160) + genlang(91);
         } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
-                show += String.fromCharCode(160) + genlang(85, true);
+                show += String.fromCharCode(160) + genlang(85);
             } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
-                    show += String.fromCharCode(160) + genlang(41, true);
+                    show += String.fromCharCode(160) + genlang(41);
                 } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
-                        show += String.fromCharCode(160) + genlang(40, true);
+                        show += String.fromCharCode(160) + genlang(40);
                     } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += String.fromCharCode(160) + genlang(39, true);
+                            show += String.fromCharCode(160) + genlang(39);
                         } else {
                                 show += bytes;
-                                show += String.fromCharCode(160) + genlang(96, true);
+                                show += String.fromCharCode(160) + genlang(96);
                         }
                     }
                 }
@@ -1708,26 +1697,26 @@ function formatBytes(bytes, byteFormat) {
     default:
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
-            show += String.fromCharCode(160) + genlang(90, true);
+            show += String.fromCharCode(160) + genlang(90);
         } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
-                show += String.fromCharCode(160) + genlang(86, true);
+                show += String.fromCharCode(160) + genlang(86);
             } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
-                    show += String.fromCharCode(160) + genlang(87, true);
+                    show += String.fromCharCode(160) + genlang(87);
                 } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
-                        show += String.fromCharCode(160) + genlang(88, true);
+                        show += String.fromCharCode(160) + genlang(88);
                     } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
-                            show += String.fromCharCode(160) + genlang(89, true);
+                            show += String.fromCharCode(160) + genlang(89);
                         } else {
                             show += bytes;
-                            show += String.fromCharCode(160) + genlang(96, true);
+                            show += String.fromCharCode(160) + genlang(96);
                         }
                     }
                 }

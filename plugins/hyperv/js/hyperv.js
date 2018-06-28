@@ -62,8 +62,8 @@ function hyperv_buildTable() {
     html += "  <table id=\"Plugin_HyperVTable\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th>" + genlang(2, false, "HyperV") + "</th>\n";
-    html += "        <th>" + genlang(3, false, "HyperV") + "</th>\n";
+    html += "        <th>" + genlang(2, "HyperV") + "</th>\n";
+    html += "        <th>" + genlang(3, "HyperV") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody>\n";

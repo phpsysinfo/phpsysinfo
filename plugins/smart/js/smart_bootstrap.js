@@ -36,11 +36,11 @@ function renderPlugin_smart(data) {
 
         html+="<thead>";
         html+="<tr>";
-        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, false, 'smart')+"</th>";	// Name
+        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, 'smart')+"</th>";	// Name
         for (i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"].id;
             if (smartnames[smartid] !== undefined) {
-                html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid), false, 'smart') + "</th>";
+                html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid), 'smart') + "</th>";
             } else {
                 html+="<th class=\"sorttable_numeric rightCell\">"+ smartid + "</th>";
             }

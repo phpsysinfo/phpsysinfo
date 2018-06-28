@@ -58,7 +58,7 @@ function renderPlugin_stablebit(data) {
                     for (proc_param in paramlist) {
                         if (disks[i]["@attributes"][proc_param] !== undefined) {
                             html+="<tr id=\"stablebit-" + i + "-" + proc_param + "\" class=\"treegrid-parent-stablebit-" + i + "\">";
-                            html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true, 'stablebit') + "</span></td>";
+                            html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], 'stablebit') + "</span></td>";
                             html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                             html+="</tr>";
                         }

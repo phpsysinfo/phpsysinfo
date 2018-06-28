@@ -74,13 +74,13 @@
           <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="errors" alt="errors" />
         </a>
         <span id="title">
-          <span id="lang_001">System information</span>
+          <span class="lang_001">System information</span>
           :&nbsp;<span id="s_hostname_title"></span>
           (<span id="s_ip_title"></span>)
         </span>
       </h1>
       <div id="select">
-        <span id="lang_044" style="display:none;">Template</span>
+        <span class="lang_044" style="display:none;">Template</span>
         <select id="template" name="template" style="display:none;">
 <?php
 if ($picktemplate) {
@@ -96,7 +96,7 @@ if ($picktemplate) {
 }
 ?>
         </select>
-        <span id="lang_045" style="display:none;">Language</span>
+        <span class="lang_045" style="display:none;">Language</span>
         <select id="language" name="language" style="display:none;">
 <?php
 if ($picklanguage) {
@@ -114,59 +114,59 @@ if ($picklanguage) {
         </select>
       </div>
       <div id="vitals">
-        <h2><span id="lang_002">System vitals</span></h2>
+        <h2><span class="lang_002">System vitals</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="vitalsTable" style="border-spacing:0;">
             <tr>
-              <td style="width:160px;"><span id="lang_003">Hostname</span></td>
+              <td style="width:160px;"><span class="lang_003">Hostname</span></td>
               <td><span id="s_hostname"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_004">Listening IP</span></td>
+              <td style="width:160px;"><span class="lang_004">Listening IP</span></td>
               <td><span id="s_ip"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_005">Kernel Version</span></td>
+              <td style="width:160px;"><span class="lang_005">Kernel Version</span></td>
               <td><span id="s_kernel"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_006">Distro Name</span></td>
+              <td style="width:160px;"><span class="lang_006">Distro Name</span></td>
               <td><span id="s_distro"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_007">Uptime</span></td>
+              <td style="width:160px;"><span class="lang_007">Uptime</span></td>
               <td><span id="s_uptime"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_095">Last boot</span></td>
+              <td style="width:160px;"><span class="lang_095">Last boot</span></td>
               <td><span id="s_lastboot"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_008">Current Users</span></td>
+              <td style="width:160px;"><span class="lang_008">Current Users</span></td>
               <td><span id="s_users"></span></td>
             </tr>
             <tr>
-              <td style="width:160px;"><span id="lang_009">Load Averages</span></td>
+              <td style="width:160px;"><span class="lang_009">Load Averages</span></td>
               <td><span id="s_loadavg"></span></td>
             </tr>
             <tr style="display:none;" id="s_syslang_tr">
-              <td style="width:160px;"><span id="lang_097">System Language</span></td>
+              <td style="width:160px;"><span class="lang_097">System Language</span></td>
               <td><span id="s_syslang"></span></td>
             </tr>
             <tr style="display:none;" id="s_codepage_tr1">
-              <td style="width:160px;"><span id="lang_098-u01">Code Page</span></td>
+              <td style="width:160px;"><span class="lang_098">Code Page</span></td>
               <td><span id="s_codepage_1"></span></td>
             </tr>
             <tr style="display:none;" id="s_codepage_tr2">
-              <td style="width:160px;"><span id="lang_098-u02">Code Page</span></td>
+              <td style="width:160px;"><span class="lang_098">Code Page</span></td>
               <td><span id="s_codepage_2"></span></td>
             </tr>
             <tr style="display:none;" id="s_processes_tr1">
-              <td style="width:160px;"><span id="lang_110-u03">Processes</span></td>
+              <td style="width:160px;"><span class="lang_110">Processes</span></td>
               <td><span id="s_processes_1"></span></td>
             </tr>
             <tr style="display:none;" id="s_processes_tr2">
-              <td style="width:160px;"><span id="lang_110-u04">Processes</span></td>
+              <td style="width:160px;"><span class="lang_110">Processes</span></td>
               <td><span id="s_processes_2"></span></td>
             </tr>
           </table>
@@ -181,15 +181,15 @@ if ($picklanguage) {
       <div id="network">
       </div>
       <div id="voltage" style="display:none;">
-        <h2><span id="lang_052-u05">Voltage</span></h2>
+        <h2><span class="lang_052">Voltage</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="voltageTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u06">Label</span></th>
-                <th class="right"><span id="lang_054-u07">Value</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_055-u08">Min</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_056-u09">Max</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right"><span class="lang_054">Value</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_055">Min</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_056">Max</span></th>
               </tr>
             </thead>
             <tbody>
@@ -198,15 +198,15 @@ if ($picklanguage) {
         </div>
       </div>
       <div id="current" style="display:none;">
-        <h2><span id="lang_105">Current</span></h2>
+        <h2><span class="lang_105">Current</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="currentTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u10">Label</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_054-u11">Value</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_055-u12">Min</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_056-u13">Max</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_054">Value</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_055">Min</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_056">Max</span></th>
               </tr>
             </thead>
             <tbody>
@@ -215,14 +215,14 @@ if ($picklanguage) {
         </div>
       </div>
       <div id="temperature" style="display:none;">
-        <h2><span id="lang_051">Temperature</span></h2>
+        <h2><span class="lang_051">Temperature</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="temperatureTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u14">Label</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_054-u15">Value</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_058-u16">Limit</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_054">Value</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_058">Limit</span></th>
               </tr>
             </thead>
             <tbody>
@@ -231,14 +231,14 @@ if ($picklanguage) {
         </div>
       </div>
       <div id="fans" style="display:none;">
-        <h2><span id="lang_053">Fans</span></h2>
+        <h2><span class="lang_053">Fans</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="fansTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u17">Label</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_054-u18">Value</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_055-u19">Min</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_054">Value</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_055">Min</span></th>
               </tr>
             </thead>
             <tbody>
@@ -247,14 +247,14 @@ if ($picklanguage) {
         </div>
       </div>
       <div id="power" style="display:none;">
-        <h2><span id="lang_102">Power</span></h2>
+        <h2><span class="lang_102">Power</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="powerTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u20">Label</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_054-u21">Value</span></th>
-                <th class="right" style="width: 80px;"><span id="lang_058-u22">Limit</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_054">Value</span></th>
+                <th class="right" style="width: 80px;"><span class="lang_058">Limit</span></th>
               </tr>
             </thead>
             <tbody>
@@ -263,13 +263,13 @@ if ($picklanguage) {
         </div>
       </div>
       <div id="other" style="display:none;">
-        <h2><span id="lang_121">Other</span></h2>
+        <h2><span class="lang_121">Other</span></h2>
         <div style="overflow-x:auto;">
           <table class="stripeMe" id="otherTable" style="border-spacing:0;">
             <thead>
               <tr>
-                <th><span id="lang_059-u23">Label</span></th>
-                <th class="right" style="width: 160px;"><span id="lang_054-u24">Value</span></th>
+                <th><span class="lang_059">Label</span></th>
+                <th class="right" style="width: 160px;"><span class="lang_054">Value</span></th>
               </tr>
             </thead>
             <tbody>
@@ -280,7 +280,7 @@ if ($picklanguage) {
       <div id="ups" style="display:none;">
       </div>
       <div id="footer">
-        <span id="lang_047">Generated by</span>&nbsp;<a href="http://phpsysinfo.sourceforge.net/" target="psihref">phpSysInfo&nbsp;-&nbsp;<span id="version"></span></a>
+        <span class="lang_047">Generated by</span>&nbsp;<a href="http://phpsysinfo.sourceforge.net/" target="psihref">phpSysInfo&nbsp;-&nbsp;<span id="version"></span></a>
       </div>
     </div>
   </body>

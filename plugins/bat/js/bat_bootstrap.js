@@ -99,7 +99,7 @@ function renderPlugin_bat(data) {
                     for (proc_param in paramlist) {
                         if (bats[i]["@attributes"][proc_param] !== undefined) {
                             html+="<tr id=\"bat-" + i + "-" + proc_param + "\" class=\"treegrid-parent-bat-" + i + "\">";
-                            html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true, 'bat') + "</span></td>";
+                            html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], 'bat') + "</span></td>";
                             html+="<td><span data-bind=\"" + proc_param + "\"></span></td>";
                             if (paramlis2[proc_param] !== undefined) {
                                 html+="<td class=\"rightCell\"><span data-bind=\"" + paramlis2[proc_param] + "\"></span></td>";
