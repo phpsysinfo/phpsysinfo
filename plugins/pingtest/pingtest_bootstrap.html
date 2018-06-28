@@ -4,20 +4,22 @@
             <div id="reload_pingtest" class="reload" title="reload"></div>
         </div>
         <div class="card-body">
-            <table id="pingtest" class="table table-hover table-sm table-responsive sortable">
-                <thead>
-                    <tr>
-                        <th class="sorttable_ip" id="pingtest_Address"><span id="lang_plugin_pingtest_002">Address</span></th>
-                        <th class="rightCell"><span id="lang_plugin_pingtest_003">Ping Time</span></th>
-                    </tr>
-                </thead>
-                <tbody id="pingtest-data">
-                    <tr>
-                        <th><span data-bind="Address"></span></th>
-                        <td class="rightCell"><span data-bind="PingTime"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="pingtest" class="table table-hover table-sm sortable">
+                    <thead>
+                        <tr>
+                            <th class="sorttable_ip" id="pingtest_Address"><span id="lang_plugin_pingtest_002">Address</span></th>
+                            <th class="rightCell"><span id="lang_plugin_pingtest_003">Ping Time</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="pingtest-data">
+                        <tr>
+                            <th><span data-bind="Address"></span></th>
+                            <td class="rightCell"><span data-bind="PingTime"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

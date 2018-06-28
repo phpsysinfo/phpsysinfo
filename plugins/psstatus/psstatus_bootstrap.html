@@ -4,20 +4,22 @@
             <div id="reload_psstatus" class="reload" title="reload"></div>
         </div>
         <div class="card-body">
-            <table id="psstatus" class="table table-hover table-sm table-responsive sortable">
-                <thead>
-                    <tr>
-                        <th id="psstatus_Name"><span id="lang_plugin_psstatus_002">Name</span></th>
-                        <th class="rightCell"><span id="lang_plugin_psstatus_003">Status</span></th>
-                    </tr>
-                </thead>
-                <tbody id="psstatus-data">
-                    <tr>
-                        <th><span data-bind="Name"></span></th>
-                        <td class="rightCell"><span class="badge" data-bind="Status"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="psstatus" class="table table-hover table-sm sortable">
+                    <thead>
+                        <tr>
+                            <th id="psstatus_Name"><span id="lang_plugin_psstatus_002">Name</span></th>
+                            <th class="rightCell"><span id="lang_plugin_psstatus_003">Status</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="psstatus-data">
+                        <tr>
+                            <th><span data-bind="Name"></span></th>
+                            <td class="rightCell"><span class="badge" data-bind="Status"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
