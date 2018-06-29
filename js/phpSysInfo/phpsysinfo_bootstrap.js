@@ -567,7 +567,7 @@ function renderVitals(data) {
         LoadAvg: {
             html: function () {
                 if (this.CPULoad !== undefined) {
-                    return '<table class="borderless table-hover" style="width:100%;"><tr><td class="nopadding" style="width:50%;">'+this.LoadAvg + '&nbsp;</td><td class="nopadding"><div class="progress">' +
+                    return '<table class="borderless table-hover" style="width:100%;"><tr><td class="nopadding" style="width:50%;">'+this.LoadAvg.replace(/ /g, "&nbsp;<wbr>") + '&nbsp;</td><td class="nopadding"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + round(this.CPULoad,0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this.CPULoad,0) + '%</div></td></tr></table>';
                 } else {
