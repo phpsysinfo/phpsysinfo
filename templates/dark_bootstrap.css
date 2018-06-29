@@ -219,11 +219,11 @@ a:hover {
     float: right;
 }
 
-.leftcell {
+.nopadding {
     padding: 0!important;
 }
 
-.rightcell {
+.paddingleft {
     padding-top: 0!important;
     padding-bottom: 0!important;
     padding-right: 0!important;
