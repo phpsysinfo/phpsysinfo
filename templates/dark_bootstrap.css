@@ -218,3 +218,13 @@ a:hover {
     padding: 3px 7px;
     float: right;
 }
+
+.leftcell {
+    padding: 0!important;
+}
+
+.rightcell {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    padding-right: 0!important;
+}

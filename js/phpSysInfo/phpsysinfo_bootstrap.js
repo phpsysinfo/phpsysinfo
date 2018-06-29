@@ -561,13 +561,13 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" />' + " " +this.Distro;
+                return '<table class="borderless table-hover" style="width:100%;"><tr><td class="leftcell" style="width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td class="rightcell" style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         LoadAvg: {
             html: function () {
                 if (this.CPULoad !== undefined) {
-                    return '<table class="borderless table-hover" style="width:100%;"><tr><td style="width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
+                    return '<table class="borderless table-hover" style="width:100%;"><tr><td class="leftcell" style="width:50%;">'+this.LoadAvg + '</td><td class="rightcell"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + round(this.CPULoad,0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this.CPULoad,0) + '%</div></td></tr></table>';
                 } else {
