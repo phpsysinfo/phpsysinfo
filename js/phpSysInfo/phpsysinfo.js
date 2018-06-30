@@ -1731,7 +1731,7 @@ $(document).ready(function buildpage() {
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
-        $('span[id=lang_044]').show();
+        $('span[class=lang_044]').show();
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_template', $("#template").val().toString(), 365);

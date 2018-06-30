@@ -405,7 +405,7 @@ $(document).ready(function () {
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
-        $('span[id=lang_044]').show();
+        $('span[class=lang_044]').show();
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
