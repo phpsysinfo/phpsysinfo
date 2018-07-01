@@ -7,7 +7,7 @@ function renderPlugin_raid(data) {
             if ((name !== undefined) && (parseInt(name) !== -1)) {
                 percent = Math.round(parseFloat(data.Percent));
                 html += "<div>" + genlang(12,'raid') + ":" + String.fromCharCode(160) + name + "<br/>";
-                html += '<table class="table-nopadding" style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
+                html += '<table class="table table-nopadding" style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div></td><td></td></tr></tbody></table>';
                 if ((data.Time_To_Finish !== undefined) && (data.Time_Unit !== undefined)) {
@@ -63,7 +63,7 @@ function renderPlugin_raid(data) {
 
         if (!isNaN(parentid)) {
             if (data.Type === "disk") {
-                $("#raid_item" + id + "-" + parentid).append("<div style=\"text-align:center;float:left;margin-bottom:5px;margin-right:10px;margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"text-align:center; float:left; margin-bottom:5px; margin-right:10px; margin-left:10px;\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
             } else {
                 if (parentid === 0) {
                     $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + data.Name + "<br></div>");
@@ -86,7 +86,7 @@ function renderPlugin_raid(data) {
                 }
 
                 if (raiditems[i].RaidItems !== undefined) {
-                    html += "<table class=\"table-nopadding\" style=\"width:100%;\"><tbody>";
+                    html += "<table class=\"table table-nopadding\" style=\"width:100%;\"><tbody>";
                     html += "<tr><td id=\"raid_list-" + i + "\"></td></tr>";
 
                     if (raiditems[i].Action !== undefined) {
