@@ -1186,7 +1186,7 @@ function renderVoltage(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1228,7 +1228,7 @@ function renderTemperature(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1271,7 +1271,7 @@ function renderFans(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1314,7 +1314,7 @@ function renderPower(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1363,7 +1363,7 @@ function renderCurrent(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1395,7 +1395,7 @@ function renderOther(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
