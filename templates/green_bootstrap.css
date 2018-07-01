@@ -218,6 +218,7 @@ a:hover {
     float: right;
 }
 
-.nopadding {
-    padding: 0!important;
+.table-nopadding th,
+.table-nopadding td {
+  padding: 0;
 }

@@ -7,7 +7,7 @@ function renderPlugin_raid(data) {
             if ((name !== undefined) && (parseInt(name) !== -1)) {
                 percent = Math.round(parseFloat(data.Percent));
                 html += "<div>" + genlang(12,'raid') + ":" + String.fromCharCode(160) + name + "<br/>";
-                html += '<table style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
+                html += '<table class="table-nopadding" style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div></td><td></td></tr></tbody></table>';
                 if ((data.Time_To_Finish !== undefined) && (data.Time_Unit !== undefined)) {
@@ -86,7 +86,7 @@ function renderPlugin_raid(data) {
                 }
 
                 if (raiditems[i].RaidItems !== undefined) {
-                    html += "<table style=\"width:100%;\"><tbody>";
+                    html += "<table class=\"table-nopadding\" style=\"width:100%;\"><tbody>";
                     html += "<tr><td id=\"raid_list-" + i + "\"></td></tr>";
 
                     if (raiditems[i].Action !== undefined) {
