@@ -110,6 +110,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 .logo {
     cursor: pointer;
     display: inline;
+    width: 32px;
 }
 
 .errorbutton {
