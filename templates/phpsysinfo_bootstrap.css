@@ -108,6 +108,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .logo {
     cursor: pointer;
+    display: inline;
 }
 
 .errorbutton {
@@ -116,6 +117,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .select {
     color: #333;
+    float: right;
 }
 
 .template {
