@@ -109,7 +109,6 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .logo {
     cursor: pointer;
-    display: inline;
     width: 32px;
 }
 
@@ -177,7 +176,6 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     background-image: url("../gfx/reload.gif");
     float: right;
     cursor: pointer;
-    border: 0px;
     width: 16px;
     height: 16px;    
 }
