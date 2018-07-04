@@ -9,7 +9,7 @@ function renderPlugin_raid(data) {
                 html += "<div>" + genlang(12,'raid') + ":" + String.fromCharCode(160) + name + "<br/>";
                 html += '<table class="table table-nopadding" style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
-                        '</div><div class="percent">' + percent + '%</div></td><td></td></tr></tbody></table>';
+                        '</div><div class="percent">' + percent + '%</div></td><td>&nbsp;</td></tr></tbody></table>';
                 if ((data.Time_To_Finish !== undefined) && (data.Time_Unit !== undefined)) {
                     html += genlang(13,'raid') + ":" + String.fromCharCode(160) + data.Time_To_Finish + String.fromCharCode(160) + data.Time_Unit;
                 }
