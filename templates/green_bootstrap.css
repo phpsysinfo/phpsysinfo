@@ -174,7 +174,6 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .reload {
     background-image: url("../gfx/reload.gif");
-    vertical-align: middle;
     float: right;
     cursor: pointer;
     border: 0px;
