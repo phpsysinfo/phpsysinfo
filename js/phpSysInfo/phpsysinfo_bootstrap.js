@@ -196,6 +196,7 @@ function changeSpanLanguage(plugin) {
             }
         });
         $("#select").show(); //show if any language loaded
+        centerSelect();
         $("#output").show();
     } else {
         langarrId += plugin;
@@ -317,6 +318,7 @@ $(document).ready(function () {
     $(document).ajaxStop(function () {
         $("#loader").css("visibility", "hidden");
     });
+    $(window).resize(centerSelect);
 
     sorttable.init();
 
@@ -419,6 +421,17 @@ $(document).ready(function () {
         reload(false);
     });
 });
+
+function centerSelect() {
+    var postop = $('.select').position().top;
+    if (postop > 0) {
+        if (postop < 10) { //no flex and one line
+            $('.select').css('marginTop', 11);
+        } else { //flex or two lines
+            $('.select').css('marginTop', 0);
+        }
+    }
+}
 
 Array.prototype.push_attrs=function(element) {
     for (var i = 0; i < element.length ; i++) {
