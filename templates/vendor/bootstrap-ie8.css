@@ -179,6 +179,12 @@ aside,
 .btn-link:disabled {
   text-decoration: none;
 }
+.close {
+  cursor:pointer;
+}
+.close.disabled {
+  cursor: auto;
+}
 .modal-header .close {
   margin: -48px -16px -16px auto;
 }
