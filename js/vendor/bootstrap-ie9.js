@@ -1,5 +1,5 @@
-/* Bootstrap 4 for IE9 - v4.1.2.0           */
-/* https://github.com/namiltd/bootstrap-ie8 */
+/* Bootstrap 4 for IE9 - v4.1.2.0          */
+/* https://github.com/namiltd/bootstrap-ie */
 
 /**
  * Modified code based on remPolyfill.js (c) Nicolas Bouvrette https://github.com/nbouvrette/remPolyfill
