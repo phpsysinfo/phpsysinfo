@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.200          */
+/* Bootstrap 4 for IE8 - v4.1.300          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 // create the nodeType constants if the Node object is not defined
@@ -276,10 +276,10 @@ window.remPolyfill = {
                 /([\d]+\.[\d]+|\.[\d]+|[\d]+)rem/g, function (fullMatch, groupMatch) {
                     return Math.round(parseFloat(groupMatch * remPolyfill.getBodyFontSize())) + 'px';}
             ).replace(
-                /calc\s*\(\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)\s*\*\s*(-?[\d]+)\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2, MatchArg3) {
+                /calc\s*\(\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d]+)\s*px\s*\)\s*\*\s*(-?[\d]+)\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2, MatchArg3) {
                     return ((parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))*parseInt(MatchArg3))+'px';}
             ).replace(
-                /calc\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d])+\s*px\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2) {
+                /calc\s*\(\s*([\d]+)\s*px\s*([\+-])\s*([\d]+)\s*px\s*\)/g, function (fullMatch, MatchArg1, MatchSign, MatchArg2) {
                     return (parseInt(MatchArg1)+(MatchSign=='-'?-1:1)*parseInt(MatchArg2))+'px';}
             ).replace(
                 /::/g, ':'
@@ -290,7 +290,7 @@ window.remPolyfill = {
             ).replace(
                 /:valid/g, '._valid'
             ).replace(
-                /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d])+\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
+                /background-color\s*:\s*rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
                     var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
                     return 'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#'+ARGBhex+', endColorstr=#'+ARGBhex+')';}
             ).replace(

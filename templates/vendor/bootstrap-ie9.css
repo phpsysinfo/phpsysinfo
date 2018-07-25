@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE9 - v4.1.200          */
+/* Bootstrap 4 for IE9 - v4.1.300          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 .card-group .card,
@@ -62,6 +62,7 @@
 .col-xl-10,
 .col-xl-11,
 .col-xl-12,
+.page-link,
 .navbar-brand {
   float: left;
 }
@@ -220,13 +221,6 @@ aside,
 .navbar-expand-xl .nav-link,
 .navbar-expand .nav-link {
   float: left;
-}
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-nav .nav-link:focus {
-  color: #fff;
-}
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: #fff;
 }
 .row,
 .container-fluid,
