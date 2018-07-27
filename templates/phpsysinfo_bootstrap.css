@@ -81,7 +81,7 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background-color: #f0f0f0;
+    background-color: #ececec;
 }
 
 .sorttable_nosort {
@@ -89,11 +89,11 @@ table.sortable thead th:hover {
 }
 
 .table-hover > tbody > tr:hover {
-    background-color: #f0f0f0;
+    background-color: #ececec;
 }
 
 .table-hover > tfoot > tr:hover {
-    background-color: #f0f0f0;
+    background-color: #ececec;
 }
 
 table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
