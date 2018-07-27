@@ -81,7 +81,7 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .sorttable_nosort {

@@ -82,7 +82,7 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background: #49515a;
+    background-color: #49515a;
 }
 
 .sorttable_nosort {
