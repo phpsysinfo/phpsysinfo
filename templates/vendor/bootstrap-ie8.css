@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.301          */
+/* Bootstrap 4 for IE8 - v4.1.302          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 .card-group .card,
@@ -281,12 +281,6 @@ fieldset[disabled] .btn {
 }
 .custom-control-input {
   position: relative;
-}
-.text-black-50 {
-  filter:alpha(opacity=50);
-}
-.text-white-50{
-  filter:alpha(opacity=50);
 }
 .collapse {
   display:none;

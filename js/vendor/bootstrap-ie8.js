@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.301          */
+/* Bootstrap 4 for IE8 - v4.1.302          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 // create the nodeType constants if the Node object is not defined
@@ -294,8 +294,14 @@ window.remPolyfill = {
                     var ARGBhex = (4294967296+16777216*Math.round(parseFloat(MatchA)*255)+65536*parseInt(MatchR)+256*parseInt(MatchG)+parseInt(MatchB)).toString(16).substr(1);
                     return 'filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#'+ARGBhex+', endColorstr=#'+ARGBhex+')';}
             ).replace(
-                /rgba\s*\(\s*([\d]+\s*,\s*[\d]+\s*,\s*[\d]+\s*),\s*[\d\.]+\s*\)/g, function (fullMatch, groupMatch) {
-                    return 'rgb(' + groupMatch +')';}
+                /rgba\s*\(\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d]+)\s*,\s*([\d\.]+)\s*\)/g, function (fullMatch, MatchR, MatchG, MatchB, MatchA) {
+                    var MR = parseInt(MatchR), MG = parseInt(MatchG), MB = parseInt(MatchB), MA = parseFloat(MatchA);
+                    if ((MR==255)&&(MG==255)&&(MB==255)) { //dark background
+                        return 'rgb(' + Math.round(MA * 255) + ', ' + Math.round(MA * 255) + ', ' + Math.round(MA * 255) +')';
+                    } else { //else
+                        return 'rgb(' + Math.round((1-MA) * 255 + MA * MR) + ', ' + Math.round((1-MA) * 255 + MA * MG) + ', ' + Math.round((1-MA) * 255 + MA * MB) +')';
+                    }
+                 }
             ).replace(
                 /opacity\s*:\s*([\d]+\.[\d]+|\.[\d]+|[\d]+)/g, function (fullMatch, groupMatch) {
                     return 'filter:alpha(opacity=' + Math.round(parseFloat(groupMatch * 100)) + ')';}
