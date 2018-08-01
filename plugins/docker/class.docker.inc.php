@@ -34,7 +34,7 @@ class Docker extends PSI_Plugin
         $i = 0;
 
         foreach ($this->_lines as $line) {
-            if (($i > 1)) {
+            if ($i > 0) {
                 $buffer = preg_split("/\s\s+/", $line);
                 $result[$i]['Name'] = $buffer[0];
                 $result[$i]['CPUUsage'] = str_replace(',', '.',trim($buffer[1],'%'));
