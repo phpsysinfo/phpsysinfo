@@ -39,6 +39,25 @@ function renderPlugin_snmppinfo(data) {
                     return genlang(6, 'snmppinfo'); // unknown
                 }
             }
+        },
+        SUnits: {
+            html: function () {
+                var supply = parseInt(this.SupplyUnit);
+                if (isNaN(supply)) {
+                    return "";
+                } else {
+                    switch (supply) {
+                        case 7:
+                            return "<br>" + genlang(9, "snmppinfo");
+                        case 13:
+                            return "<br>" + genlang(8, "snmppinfo");
+                        case 15:
+                            return "<br>" + genlang(7, "snmppinfo");
+                        case 19:
+                            return "<br>" + genlang(3, "snmppinfo");
+                    }
+                }
+            }
         }
     };
 
@@ -60,7 +79,7 @@ function renderPlugin_snmppinfo(data) {
                         html+="<tr id=\"snmppinfo-" + i + "-" + j +"\" class=\"treegrid-parent-snmppinfo-" + i + "\">";
                         html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Description\"></span></td>";
                         html+="<td><span data-bind=\"Percent\"></span></td>";
-                        html+="<td class=\"rightCell\"><span data-bind=\"Units\"></span></td>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"Units\"></span><span data-bind=\"SUnits\"></span></td>";
                         html+="</tr>";
                    }
                 }

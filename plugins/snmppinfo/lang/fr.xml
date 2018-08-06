@@ -23,4 +23,13 @@
   <expression id="plugin_snmppinfo_006" name="snmppinfo_unknown">
     <exp>inconnu</exp>
   </expression>
+  <expression id="plugin_snmppinfo_007" name="snmppinfo_tenthsml">
+    <exp>Dixièmes de ml</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_008" name="snmppinfo_tenthsgrams">
+    <exp>Dixièmes de gramme</exp>
+  </expression>
+  <expression id="plugin_snmppinfo_009" name="snmppinfo_impressions">
+    <exp>Impressions</exp>
+  </expression>
 </tns:translationPlugin>
