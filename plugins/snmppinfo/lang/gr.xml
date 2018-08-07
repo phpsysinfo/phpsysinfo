@@ -28,7 +28,7 @@
     <exp>Δεκάδες ml</exp>
   </expression>
   <expression id="plugin_snmppinfo_008" name="snmppinfo_tenthsgrams">
-    <exp>Δεκάδες grams</exp>
+    <exp>Δεκάδες γραμμάρια</exp>
   </expression>
   <expression id="plugin_snmppinfo_009" name="snmppinfo_impressions">
     <exp>Εκτυπώσεις</exp>
