@@ -310,8 +310,8 @@ class Linux extends OS
                 $bufr = preg_replace('/\nCpu(\d+)ClkTck\s*:/i', "\n\nprocessor: $1\nCpu0ClkTck:", $bufr);
             }
 
-            if (preg_match('/\nprocessor\s:\s\d+\r?\nprocessor\s:\s\d+/', $bufr)) {
-                $bufr = preg_replace('/^(processor\s:\s\d+)\r?$/m', "$1\n", $bufr);
+            if (preg_match('/\nprocessor\s*:\s*\d+\r?\nprocessor\s*:\s*\d+/', $bufr)) {
+                $bufr = preg_replace('/^(processor\s*:\s*\d+)\r?$/m', "$1\n", $bufr);
             }
 
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
