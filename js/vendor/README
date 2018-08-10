@@ -45,14 +45,14 @@ USED     : used for the entire bootstrap userinterface
 
 bootstrap-ie8.js
 ---------
-VERSION  : 4.1.302
+VERSION  : 4.1.303
 URL      : https://namiltd.github.io/bootstrap-ie/
 DESC     : Bootstrap 4 compatibility module for IE8 
 USED     : used for the entire bootstrap userinterface on IE8
 
 bootstrap-ie9.js
 ---------
-VERSION  : 4.1.302
+VERSION  : 4.1.303
 URL      : https://namiltd.github.io/bootstrap-ie/
 DESC     : Bootstrap 4 compatibility module for IE9 
 USED     : used for the entire bootstrap userinterface on IE9
