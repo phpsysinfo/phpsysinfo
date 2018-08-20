@@ -30,7 +30,7 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
      */
     public function __construct()
     {
-        parent::__construct(false, null);
+        parent::__construct();
     }
 
     /**

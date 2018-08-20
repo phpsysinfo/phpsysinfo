@@ -362,7 +362,7 @@ class HPUX extends OS
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -370,20 +370,20 @@ class HPUX extends OS
             $this->_users();
             $this->_loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->_cpuinfo();
             $this->_pci();
             $this->_ide();
             $this->_scsi();
             $this->_usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->only || $this->only==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->only || $this->only==='filesystem') {
             $this->_filesystems();
         }
     }

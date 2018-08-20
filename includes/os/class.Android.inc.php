@@ -50,14 +50,6 @@ class Android extends Linux
     }
 
     /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Kernel Version
      *
      * @return void
@@ -253,7 +245,7 @@ class Android extends Linux
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -262,20 +254,20 @@ class Android extends Linux
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_pci();
             $this->_usb();
             $this->_i2c();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->only || $this->only==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->only || $this->only==='filesystem') {
             $this->_filesystems();
         }
     }

@@ -30,9 +30,9 @@ class Darwin extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    /* public function __construct()
+    /* public function __construct($only = false)
     {
-        parent::__construct();
+        parent::__construct($only);
         $this->error->addWarning("The Darwin version of phpSysInfo is a work in progress, some things currently don't work!");
         $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
@@ -479,14 +479,14 @@ class Darwin extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_uptime();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->_tb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
     }

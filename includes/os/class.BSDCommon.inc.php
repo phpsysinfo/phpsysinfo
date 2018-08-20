@@ -77,14 +77,6 @@ abstract class BSDCommon extends OS
     private $_PCIRegExp2 = "//";
 
     /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * setter for cpuregexp1
      *
      * @param string $value value to set
@@ -574,24 +566,24 @@ abstract class BSDCommon extends OS
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->distro();
             $this->hostname();
             $this->kernel();
             $this->_users();
             $this->loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->cpuinfo();
             $this->pci();
             $this->ide();
             $this->scsi();
             $this->usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->only || $this->only==='memory') {
             $this->memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->only || $this->only==='filesystem') {
             $this->filesystems();
         }
     }

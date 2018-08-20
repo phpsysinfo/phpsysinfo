@@ -20,14 +20,6 @@ header('Cache-Control: no-store, no-cache, must-revalidate');
  */
 define('APP_ROOT', dirname(__FILE__));
 
-/**
- * internal xml or external
- * external is needed when running in static mode
- *
- * @var boolean
- */
-define('PSI_INTERNAL_XML', false);
-
 if (version_compare("5.1.3", PHP_VERSION, ">")) {
     die("PHP 5.1.3 or greater is required!!!");
 }
@@ -74,7 +66,7 @@ case "dynamic":
     $webpage->run();
     break;
 case "xml":
-    $webpage = new WebpageXML(true);
+    $webpage = new WebpageXML("complete");
     $webpage->run();
     break;
 case "bootstrap":

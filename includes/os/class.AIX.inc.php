@@ -334,7 +334,7 @@ class AIX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The AIX version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -342,20 +342,20 @@ class AIX extends OS
             $this->_users();
             $this->_loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->_cpuinfo();
             $this->_pci();
             $this->_ide();
             $this->_scsi();
             $this->_usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->only || $this->only==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->only || $this->only==='filesystem') {
             $this->_filesystems();
         }
     }

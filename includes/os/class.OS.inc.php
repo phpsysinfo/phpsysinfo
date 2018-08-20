@@ -33,6 +33,13 @@ abstract class OS implements PSI_Interface_OS
     protected $error;
 
     /**
+     * only one block name
+     *
+     * @var string
+     */
+    protected $only = false;
+
+    /**
      * @var System
      */
     protected $sys;
@@ -40,10 +47,11 @@ abstract class OS implements PSI_Interface_OS
     /**
      * build the global Error object
      */
-    public function __construct()
+    public function __construct($only = false)
     {
         $this->error = PSI_Error::singleton();
         $this->sys = new System();
+        $this->only = $only;
     }
 
     /**
@@ -57,6 +65,7 @@ abstract class OS implements PSI_Interface_OS
     {
         return PSI_SYSTEM_CODEPAGE;
     }
+
     /**
      * get os specific language
      *
@@ -67,6 +76,18 @@ abstract class OS implements PSI_Interface_OS
     public function getLanguage()
     {
         return PSI_SYSTEM_LANG;
+    }
+
+    /**
+     * get only
+     *
+     * @see PSI_Interface_OS::getOnly()
+     *
+     * @return string
+     */
+    public function getOnly()
+    {
+        return $this->only;
     }
 
     /**
@@ -142,7 +163,7 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_ip();
         }
 

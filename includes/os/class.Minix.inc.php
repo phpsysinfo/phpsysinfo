@@ -34,14 +34,6 @@ class Minix extends OS
     private $_dmesg = array();
 
     /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * read /var/log/messages, but only if we haven't already
      *
      * @return array
@@ -336,7 +328,7 @@ class Minix extends OS
     public function build()
     {
         $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -345,17 +337,17 @@ class Minix extends OS
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->only || $this->only==='hardware') {
             $this->_pci();
             $this->_cpuinfo();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->only || $this->only==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->only || $this->only==='filesystem') {
             $this->_filesystems();
         }
     }

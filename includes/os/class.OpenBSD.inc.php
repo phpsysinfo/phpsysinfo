@@ -29,9 +29,9 @@ class OpenBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct()
+    public function __construct($only = false)
     {
-        parent::__construct();
+        parent::__construct($only);
 //        $this->setCPURegExp1("/^cpu(.*) (.*) MHz/");
         $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
@@ -217,12 +217,12 @@ class OpenBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->only || $this->only==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->only || $this->only==='network') {
             $this->_network();
         }
     }
