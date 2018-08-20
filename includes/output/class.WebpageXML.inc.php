@@ -51,7 +51,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
      *
      * @var string
      */
-    private $_onlyName = null;
+    private $_blockName = null;
 
     /**
      * generate the output
@@ -66,7 +66,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
             }
 
-            if (!defined('PSI_MBINFO') && (!$this->_onlyName || in_array($this->_onlyName, array('voltage','current','temperature','fans','power','other')))) {
+            if (!defined('PSI_MBINFO') && (!$this->_blockName || in_array($this->_blockName, array('voltage','current','temperature','fans','power','other')))) {
                 // check if there is a valid sensor configuration in phpsysinfo.ini
                 $foundsp = array();
                 if (defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM)) {
@@ -92,7 +92,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 define('PSI_MBINFO', serialize($foundsp));
             }
 
-            if (!defined('PSI_UPSINFO') && (!$this->_onlyName || ($this->_onlyName==='ups'))) {
+            if (!defined('PSI_UPSINFO') && (!$this->_blockName || ($this->_blockName==='ups'))) {
                 // check if there is a valid ups configuration in phpsysinfo.ini
                 $foundup = array();
                 if (defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM)) {
@@ -123,7 +123,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             }
 
             // Create the XML
-            $this->_xml = new XML($this->_completeXML, '', $this->_onlyName);
+            $this->_xml = new XML($this->_completeXML, '', $this->_blockName);
         } else {
             // Create the XML
             $this->_xml = new XML(false, $this->_pluginName);
@@ -173,7 +173,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             } else {
                 $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
                 if (in_array($plugin, $validblocks)) {
-                    $this->_onlyName = $plugin;
+                    $this->_blockName = $plugin;
                 } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
                     $this->_pluginName = $plugin;
                 }
