@@ -170,6 +170,16 @@ class WebpageXML extends Output implements PSI_Interface_Output
     }
 
     /**
+     * get array
+     *
+     * @return array
+     */
+    public function getArray()
+    {
+        return json_decode($this->getJsonString());
+    }
+
+    /**
      * set parameters for the XML generation process
      *
      * @param string  $plugin      name of the plugin, block or 'complete' for all plugins
