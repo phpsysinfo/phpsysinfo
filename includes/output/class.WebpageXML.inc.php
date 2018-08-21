@@ -156,6 +156,20 @@ class WebpageXML extends Output implements PSI_Interface_Output
     }
 
     /**
+     * get json string
+     *
+     * @return string
+     */
+    public function getJsonString()
+    {
+        if (defined('PSI_JSON_ISSUE') && (PSI_JSON_ISSUE)) {
+            return json_encode(simplexml_load_string(str_replace(">", ">\n", $this->getXMLString()))); // solving json_encode issue
+        } else {
+            return json_encode(simplexml_load_string($this->getXMLString()));
+        }
+    }
+
+    /**
      * set parameters for the XML generation process
      *
      * @param string  $plugin      name of the plugin, block or 'complete' for all plugins

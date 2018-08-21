@@ -39,11 +39,7 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
     // if $output is correct generate output in proper type
     if (isset($output) && is_object($output)) {
         if (isset($_GET['json']) || isset($_GET['jsonp'])) {
-            if (defined('PSI_JSON_ISSUE') && (PSI_JSON_ISSUE)) {
-                $json = json_encode(simplexml_load_string(str_replace(">", ">\n", $output->getXMLString()))); // solving json_encode issue
-            } else {
-                $json = json_encode(simplexml_load_string($output->getXMLString()));
-            }
+            $json = $output->getJsonString();
             echo isset($_GET['jsonp']) ? (!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
         } else {
             $output->run();
