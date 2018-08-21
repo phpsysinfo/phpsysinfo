@@ -245,7 +245,7 @@ class Android extends Linux
      */
     public function build()
     {
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -254,20 +254,20 @@ class Android extends Linux
             $this->_loadavg();
             $this->_processes();
         }
-        if (!$this->only || $this->only==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_pci();
             $this->_usb();
             $this->_i2c();
         }
-        if (!$this->only || $this->only==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!$this->only || $this->only==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!$this->only || $this->only==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

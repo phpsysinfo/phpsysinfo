@@ -90,7 +90,7 @@ class XML
      *
      * @return void
      */
-    public function __construct($complete = false, $pluginname = "", $only = false)
+    public function __construct($complete = false, $pluginname = "", $blockname = false)
     {
         $this->_errors = PSI_Error::singleton();
         if ($pluginname == "") {
@@ -106,7 +106,7 @@ class XML
             $this->_complete_request = false;
         }
         $os = PSI_OS;
-        $this->_sysinfo = new $os($only);
+        $this->_sysinfo = new $os($blockname);
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
@@ -479,7 +479,7 @@ class XML
                 $mbinfo_data = new $mbinfoclass();
                 $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     if ($temp == null) {
                         $temp = $mbinfo->addChild('Temperature');
                     }
@@ -494,7 +494,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
                     if ($fan == null) {
                         $fan = $mbinfo->addChild('Fans');
                     }
@@ -509,7 +509,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
                     if ($volt == null) {
                         $volt = $mbinfo->addChild('Voltage');
                     }
@@ -527,7 +527,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
                     if ($power == null) {
                         $power = $mbinfo->addChild('Power');
                     }
@@ -542,7 +542,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
                     if ($current == null) {
                         $current = $mbinfo->addChild('Current');
                     }
@@ -560,7 +560,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
                     if ($other == null) {
                         $other = $mbinfo->addChild('Other');
                     }
@@ -679,15 +679,15 @@ class XML
                 }
                 $this->_sys = $this->_sysinfo->getSys();
             }
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='vitals') $this->_buildVitals();
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='network') $this->_buildNetwork();
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='hardware') $this->_buildHardware();
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='memory') $this->_buildMemory();
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='filesystem') $this->_buildFilesystems();
-            if (!$this->_sysinfo->getOnly() || in_array($this->_sysinfo->getOnly(), array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
-            if (!$this->_sysinfo->getOnly() || $this->_sysinfo->getOnly()==='ups') $this->_buildUpsinfo();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='vitals') $this->_buildVitals();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='network') $this->_buildNetwork();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='hardware') $this->_buildHardware();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='memory') $this->_buildMemory();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='filesystem') $this->_buildFilesystems();
+            if (!$this->_sysinfo->getBlockName() || in_array($this->_sysinfo->getBlockName(), array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='ups') $this->_buildUpsinfo();
         }
-        if (!$this->_sysinfo->getOnly()) $this->_buildPlugins();
+        if (!$this->_sysinfo->getBlockName()) $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
 

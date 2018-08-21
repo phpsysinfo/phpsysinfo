@@ -29,9 +29,9 @@ class NetBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct($only = false)
+    public function __construct($blockname = false)
     {
-        parent::__construct($only);
+        parent::__construct($blockname);
         $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/user = (.*), nice = (.*), sys = (.*), intr = (.*), idle = (.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
@@ -181,12 +181,12 @@ class NetBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!$this->only || $this->only==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
     }

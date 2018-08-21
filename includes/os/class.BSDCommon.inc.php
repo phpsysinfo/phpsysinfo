@@ -566,24 +566,24 @@ abstract class BSDCommon extends OS
      */
     public function build()
     {
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->distro();
             $this->hostname();
             $this->kernel();
             $this->_users();
             $this->loadavg();
         }
-        if (!$this->only || $this->only==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->cpuinfo();
             $this->pci();
             $this->ide();
             $this->scsi();
             $this->usb();
         }
-        if (!$this->only || $this->only==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->memory();
         }
-        if (!$this->only || $this->only==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->filesystems();
         }
     }

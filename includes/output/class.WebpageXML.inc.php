@@ -47,7 +47,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
     private $_pluginName = null;
 
     /**
-     * name of the only
+     * name of the block
      *
      * @var string
      */

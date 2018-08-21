@@ -210,23 +210,23 @@ class QNX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The QNX version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
             $this->_uptime();
             $this->_users();
         }
-        if (!$this->only || $this->only==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_cpuinfo();
         }
-        if (!$this->only || $this->only==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!$this->only || $this->only==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!$this->only || $this->only==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

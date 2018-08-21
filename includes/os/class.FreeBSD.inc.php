@@ -29,9 +29,9 @@ class FreeBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct($only = false)
+    public function __construct($blockname = false)
     {
-        parent::__construct($only);
+        parent::__construct($blockname);
         $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
         $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
@@ -192,15 +192,15 @@ class FreeBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!$this->only || $this->only==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!$this->only || $this->only==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memoryadditional();
         }
     }

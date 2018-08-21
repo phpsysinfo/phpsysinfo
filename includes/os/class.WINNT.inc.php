@@ -157,9 +157,9 @@ class WINNT extends OS
     /**
      * build the global Error object and create the WMI connection
      */
-    public function __construct($only = false)
+    public function __construct($blockname = false)
     {
-        parent::__construct($only);
+        parent::__construct($blockname);
         try {
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
@@ -930,25 +930,25 @@ class WINNT extends OS
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_hostname();
             $this->_users();
             $this->_uptime();
             $this->_loadavg();
             $this->_processes();
         }
-        if (!$this->only || $this->only==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!$this->only || $this->only==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_hardware();
         }
-        if (!$this->only || $this->only==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
-        if (!$this->only || $this->only==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
     }

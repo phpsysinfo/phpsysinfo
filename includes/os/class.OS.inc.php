@@ -33,11 +33,11 @@ abstract class OS implements PSI_Interface_OS
     protected $error;
 
     /**
-     * only one block name
+     * block name
      *
      * @var string
      */
-    protected $only = false;
+    protected $blockname = false;
 
     /**
      * @var System
@@ -47,11 +47,11 @@ abstract class OS implements PSI_Interface_OS
     /**
      * build the global Error object
      */
-    public function __construct($only = false)
+    public function __construct($blockname = false)
     {
         $this->error = PSI_Error::singleton();
         $this->sys = new System();
-        $this->only = $only;
+        $this->blockname = $blockname;
     }
 
     /**
@@ -79,15 +79,15 @@ abstract class OS implements PSI_Interface_OS
     }
 
     /**
-     * get only
+     * get block name
      *
-     * @see PSI_Interface_OS::getOnly()
+     * @see PSI_Interface_OS::getBlockName()
      *
      * @return string
      */
-    public function getOnly()
+    public function getBlockName()
     {
-        return $this->only;
+        return $this->blockname;
     }
 
     /**
@@ -163,7 +163,7 @@ abstract class OS implements PSI_Interface_OS
     final public function getSys()
     {
         $this->build();
-        if (!$this->only || $this->only==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_ip();
         }
 
