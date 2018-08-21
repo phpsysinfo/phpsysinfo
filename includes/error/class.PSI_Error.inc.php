@@ -229,7 +229,7 @@ class PSI_Error
             if ($val == $arrTrace[count($arrTrace) - 1]) {
                 break;
             }
-            $strBacktrace .= str_replace(APP_ROOT, ".", $val['file']).' on line '.$val['line'];
+            $strBacktrace .= str_replace(PSI_APP_ROOT, ".", $val['file']).' on line '.$val['line'];
             if ($strFunc) {
                 $strBacktrace .= ' in function '.$strFunc;
             }

@@ -80,7 +80,7 @@ class Template
         // Start output buffering
         ob_start();
 
-        include(APP_ROOT.$file);
+        include(PSI_APP_ROOT.$file);
 
         // Get the contents of the buffer
         $contents = ob_get_contents();

@@ -42,7 +42,7 @@ class Quotas extends PSI_Plugin
             CommonFunctions::executeProgram("repquota", "-au", $buffer, PSI_DEBUG);
             break;
         case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/quotas.txt", $buffer);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/quotas.txt", $buffer);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[quotas] ACCESS");

@@ -62,7 +62,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
     {
         if ($this->_pluginName === null) {
             // Figure out which OS we are running on, and detect support
-            if (!file_exists(APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
+            if (!file_exists(PSI_APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
                 $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
             }
 
@@ -76,7 +76,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                         $sensorprograms = array(strtolower(PSI_SENSOR_PROGRAM));
                     }
                     foreach ($sensorprograms as $sensorprogram) {
-                        if (!file_exists(APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
+                        if (!file_exists(PSI_APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
                             $this->error->addError("file_exists(class.".htmlspecialchars($sensorprogram).".inc.php)", "specified sensor program is not supported");
                         } else {
                             $foundsp[] = $sensorprogram;
@@ -102,7 +102,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                         $upsprograms = array(strtolower(PSI_UPS_PROGRAM));
                     }
                     foreach ($upsprograms as $upsprogram) {
-                        if (!file_exists(APP_ROOT.'/includes/ups/class.'.$upsprogram.'.inc.php')) {
+                        if (!file_exists(PSI_APP_ROOT.'/includes/ups/class.'.$upsprogram.'.inc.php')) {
                             $this->error->addError("file_exists(class.".htmlspecialchars($upsprogram).".inc.php)", "specified UPS program is not supported");
                         } else {
                             $foundup[] = $upsprogram;

@@ -183,7 +183,7 @@ class Android extends Linux
             $this->sys->setDistribution('Android');
         } else {
             if (preg_match('/^(\d+\.\d+)/', $buf, $ver)
-                && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
+                && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))
                 && isset($list['Android'][$ver[1]])) {
                     $buf.=' '.$list['Android'][$ver[1]];
             }

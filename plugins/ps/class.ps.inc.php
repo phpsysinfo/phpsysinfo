@@ -141,7 +141,7 @@ class PS extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/ps.txt", $buffer);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");

@@ -202,7 +202,7 @@ class WINNT extends OS
             }
             if (isset($buffer[0]['OSLanguage'])) {
                 $lang = "";
-                if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                     if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
                         $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
                     }

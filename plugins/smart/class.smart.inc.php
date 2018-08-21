@@ -143,7 +143,7 @@ class SMART extends PSI_Plugin
                 $dn=0;
                 foreach ($disks as $disk) {
                     $buffer="";
-                    if (CommonFunctions::rfts(APP_ROOT."/data/smart{$dn}.txt", $buffer) && !empty($buffer)) {
+                    if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.txt", $buffer) && !empty($buffer)) {
                         $this->_filecontent[$disk] = $buffer;
                     }
                     $dn++;

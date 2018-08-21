@@ -7,7 +7,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     /**
      * phpSysInfo configuration
      */
-    define('PSI_CONFIG_FILE', APP_ROOT.'/phpsysinfo.ini');
+    define('PSI_CONFIG_FILE', PSI_APP_ROOT.'/phpsysinfo.ini');
 
     define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
 
@@ -73,10 +73,10 @@ if (!defined('PSI_CONFIG_FILE')) {
     error_reporting(E_ERROR);
 
     /* get git revision */
-    if (file_exists(APP_ROOT.'/.git/HEAD')) {
-        $contents = @file_get_contents(APP_ROOT.'/.git/HEAD');
+    if (file_exists(PSI_APP_ROOT.'/.git/HEAD')) {
+        $contents = @file_get_contents(PSI_APP_ROOT.'/.git/HEAD');
         if ($contents && preg_match("/^ref:\s+(.*)\/([^\/\s]*)/m", $contents, $matches)) {
-            $contents = @file_get_contents(APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
+            $contents = @file_get_contents(PSI_APP_ROOT.'/.git/'.$matches[1]."/".$matches[2]);
             if ($contents && preg_match("/^([^\s]*)/m", $contents, $revision)) {
                 define('PSI_VERSION_STRING', PSI_VERSION ."-".$matches[2]."-".substr($revision[1], 0, 7));
             } else {
@@ -85,8 +85,8 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
     /* get svn revision */
-    if (!defined('PSI_VERSION_STRING') && file_exists(APP_ROOT.'/.svn/entries')) {
-        $contents = @file_get_contents(APP_ROOT.'/.svn/entries');
+    if (!defined('PSI_VERSION_STRING') && file_exists(PSI_APP_ROOT.'/.svn/entries')) {
+        $contents = @file_get_contents(PSI_APP_ROOT.'/.svn/entries');
         if ($contents && preg_match("/dir\n(.+)/", $contents, $matches)) {
             define('PSI_VERSION_STRING', PSI_VERSION."-r".$matches[1]);
         } else {
@@ -182,7 +182,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     foreach ($lines2 as $line) {
                         if (preg_match('/^LC_MESSAGES="?([^\."@]*)/', $line, $matches2)) {
                             $lang = "";
-                            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                            if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                                 if (isset($langdata['Linux']['_'.$matches2[1]])) {
                                     $lang = $langdata['Linux']['_'.$matches2[1]];
                                 }
@@ -208,7 +208,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
                         if (!defined('PSI_SYSTEM_LANG')) { //if not overloaded in phpsysinfo.ini
                             $lang = "";
-                            if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                            if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                                 if (isset($langdata['Linux']['_'.$matches2[1]])) {
                                     $lang = $langdata['Linux']['_'.$matches2[1]];
                                 }
@@ -226,7 +226,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
                 && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
                 $lang = "";
-                if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
+                if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                     if (isset($langdata['Linux']['_'.$lines[0]])) {
                         $lang = $langdata['Linux']['_'.$lines[0]];
                     }

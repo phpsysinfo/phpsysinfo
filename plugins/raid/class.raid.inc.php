@@ -85,7 +85,7 @@ class Raid extends PSI_Plugin
         case 'data':
             foreach ($this->prog_items as $item) {
                 if (in_array($item, $RaidProgs)) {
-                    CommonFunctions::rfts(APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
+                    CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
                     $notwas = false;
                 }
             }

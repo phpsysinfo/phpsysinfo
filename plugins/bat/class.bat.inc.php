@@ -306,7 +306,7 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/bat_info.txt", $info);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
             $itemcount = 0;
             $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
             foreach ($infoarray as $infoitem) { //upower detection
@@ -319,7 +319,7 @@ class BAT extends PSI_Plugin
             if ($itemcount == 0) {
                 $buffer[0]['info'] = $info;
             }
-            CommonFunctions::rfts(APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[bat] ACCESS");

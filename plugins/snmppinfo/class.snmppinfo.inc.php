@@ -155,7 +155,7 @@ class SNMPPInfo extends PSI_Plugin
                     $pn=0;
                     foreach ($printers as $printer) {
                         $buffer="";
-                        if (CommonFunctions::rfts(APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer) && !empty($buffer)) {
+                        if (CommonFunctions::rfts(PSI_APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer) && !empty($buffer)) {
                             $this->_filecontent[$printer] = $buffer;
                         }
                         $pn++;

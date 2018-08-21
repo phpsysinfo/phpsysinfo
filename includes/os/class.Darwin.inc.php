@@ -121,7 +121,7 @@ class Darwin extends BSDCommon
             $buf=$this->grabkey('hw.model');
             if (!is_null($buf) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
-                if (CommonFunctions::rfts(APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
+                if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
                     $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($buffer as $line) {
                         $ar_buf = preg_split("/:/", $line, 3);
@@ -425,7 +425,7 @@ class Darwin extends BSDCommon
                     if (preg_match('/^Mac OS|^OS X|^macOS/', $distro)) {
                         $this->sys->setDistributionIcon('Apple.png');
                         if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) (\d+\.\d+)/', $distro, $ver)
-                            && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
+                            && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))
                             && isset($list['OS X'][$ver[2]])) {
                             $distro.=' '.$list['OS X'][$ver[2]];
                         }

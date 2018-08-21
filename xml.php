@@ -19,9 +19,9 @@ header('Access-Control-Allow-Origin: *');
  *
  * @var string
  */
-define('APP_ROOT', dirname(__FILE__));
+define('PSI_APP_ROOT', dirname(__FILE__));
 
-require_once APP_ROOT.'/includes/autoloader.inc.php';
+require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 
 if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")) {
     echo '<Error Message="The json extension to php required!" Function="ERROR"/>';

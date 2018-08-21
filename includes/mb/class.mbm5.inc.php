@@ -35,7 +35,7 @@ class MBM5 extends Sensors
     {
         parent::__construct();
         $delim = "/;/";
-        CommonFunctions::rfts(APP_ROOT."/data/MBM5.csv", $buffer);
+        CommonFunctions::rfts(PSI_APP_ROOT."/data/MBM5.csv", $buffer);
         if (strpos($buffer, ";") === false) {
             $delim = "/,/";
         }
