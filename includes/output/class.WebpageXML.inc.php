@@ -200,6 +200,8 @@ class WebpageXML extends Output implements PSI_Interface_Output
                     $this->_blockName = $plugin;
                 } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
                     $this->_pluginName = $plugin;
+                } else {
+                    $this->_blockName = ' '; //disable all blocks
                 }
             }
         }
