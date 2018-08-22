@@ -237,7 +237,7 @@ class BAT extends PSI_Plugin
                                 $stateitem = '';
                                 CommonFunctions::rfts(preg_replace('/\/present$/', '/uevent', $batdevices[$i]), $infoitem, 0, 4096, false);
 
-                                if ((($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_min_design'))!==null) 
+                                if ((($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_min_design'))!==null)
                                    || (($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_max'))!==null)) {
                                     $stateitem .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.$buffer1."\n";
                                 }
