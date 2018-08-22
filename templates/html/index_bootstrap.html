@@ -433,8 +433,8 @@ endforeach;
     </div>
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) :
-if (file_exists(APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
-<?php include APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
+if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html')) : ?>
+<?php include PSI_APP_ROOT. '/plugins/' . $plugin . '/' . $plugin . '_bootstrap.html'; ?>
 
 <?php endif; endforeach; ?>
 
