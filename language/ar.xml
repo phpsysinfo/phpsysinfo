@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: en.xml 699 2012-09-15 11:57:13Z namiltd $ -->
+<!--
+phpSysInfo language file Language: Arabic Created by: yshalsager
+-->
+<tns:translation language="arabic" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>معلومات النظام</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>حيوية النظام</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>اسم المضيف اﻷساسي</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>المراقب IP</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>إصدار النواة</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>اسم التوزيعة</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>مدة التشغيل</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>المستخدمين الحاليين</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>متوسط التحميل</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>معلومات الهاردوير</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>المعالجات</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>الموديل</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>سرعة المعالج</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>BUSال سرعة</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>حجم ذاكرة التخزين المؤقت</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>Bogomips النظام</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>أجهزة PCI</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>أجهزة IDE</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>أجهزة SCSI</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>أجهزة USB</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>استخدام الشبكة</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>الجهاز</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>المستلمة</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>المرسلة</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>الخاطئة</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>اتصالات الشبكة</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>استخدام الذاكرة</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>الذاكرة الحقيقة</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>الذاكرة المبادلة</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>أنظمة الملفات المحملة</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>نقطة التحميل</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>القسم</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>الاستخدام</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>النوع</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>المتاح</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>المستخدم</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>الحجم</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>الكلي</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>كيلو بايت</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>ميجا بايت</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>جيجا بايت</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>لا شيء</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>السعة</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>القالب</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>اللغة</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>تقديم</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>تم اﻹنشاء بواسطة</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>أيام</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>ساعات</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>دقائق</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>درجة الحرارة</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>الجهد الكهربى</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>المراوح</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>القيمة</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>اﻷقل</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>اﻷقصي</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>التخلف</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>الحد</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>الاسم</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>سليزيوس</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>فهرنهايت</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>فولت</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>النواة + البرمجيات</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>المُخزن</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>المخبأة</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>القفز إلى</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>معلومات الـ UPS</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>الاسم</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>الموديل</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>الوضع</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>بدء</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>الحالة</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>اﻹنقطاعات</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>سبب آخر انقطاع</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>الطابع الزمني ﻵخر انقطاع</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>جهد الخط</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>نسبة التحميل</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>جهد البطارية</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>شحن البطارية</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>الوقت المتبقي على البطاريات</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>فولت</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>دقائق</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>درجة الحرارة</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>تيرا بايت</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>تيبي بايت</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>جيبي بايت</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>ميبي بايت</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>كيبي بايت</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>بيبي بايت</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>بيتا بايت</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>ميجا هرتز</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>جيجا هرتز</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>الظاهرية</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>آخر إقلاع</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>بايت</exp>
+  </expression>
+  <expression id="097" name="syslang">
+    <exp>لغة النظام</exp>
+  </expression>
+  <expression id="098" name="codepage">
+    <exp>ترميز الصفحة</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>التفاصيل</exp>
+  </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>سرعة المعالج القصوي</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>سرعة المعالج الدنيا</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>الطاقة</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>وات</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>تاريخ البطارية</exp>
+  </expression>
+  <expression id="105" name="current">
+    <exp>القراءة الحالية</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>أمبير</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>الجهاز</exp>
+  </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>تردد الخط</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>هرتز</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>العمليات</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>جارية</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>نائمة</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>متوقفة</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>زومبي</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>منتظرة</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>أخري</exp>
+  </expression>
+  <expression id="117" name="tb">
+    <exp>أجهزة TB</exp>
+  </expression>
+  <expression id="118" name="i2c">
+    <exp>أجهزة I2C</exp>
+  </expression>
+  <expression id="119" name="no_processors">
+    <exp>عدد المعالجات</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>عدد اﻷجهزة</exp>
+  </expression>
+  <expression id="121" name="other">
+    <exp>أخري</exp>
+  </expression>
+  <expression id="122" name="manufacturer">
+    <exp>المُصنع</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>المنتج</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>الرقم التسلسلي</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>المتاحة</exp>
+  </expression>
+  <expression id="126" name="nvme">
+    <exp>أجهزة NVMe</exp>
+  </expression>
+</tns:translation>
