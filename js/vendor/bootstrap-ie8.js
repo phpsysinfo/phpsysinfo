@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.303          */
+/* Bootstrap 4 for IE8 - v4.1.304          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 // create the nodeType constants if the Node object is not defined
@@ -174,15 +174,15 @@ if (!window.Node){
         domTokenList.add=function(){
             var args=[].slice.call(arguments);
             for (var i=0,l=args.length;i<l;i++){
-                if (domTokenList.indexOf(args[i])===-1) domTokenList.push(args[i])
-            };
+                if (domTokenList.indexOf(args[i])===-1) domTokenList.push(args[i]);
+            }
             setClass();
         };
         domTokenList.remove=function(){
             var args=[].slice.call(arguments);
             for (var i=0,l=args.length;i<l;i++){
                 if (domTokenList.indexOf(args[i])!==-1) domTokenList.splice(domTokenList.indexOf(args[i]),1);
-            };
+            }
             setClass();
         };
         domTokenList.item=function(i){
@@ -198,7 +198,7 @@ if (!window.Node){
         domTokenList.value = (element.getAttribute('class')||'');
         return domTokenList;
     }
-  })
+  });
 })();
 
 /**
@@ -228,19 +228,14 @@ window.remPolyfill = {
      */
     getBodyFontSize: function() {
         if (!this.bodyFontSize) {
-            var hasNoBodyElement = false;
-
             if (!document.body) {
-                hasNoBodyElement = true;
                 var bodyElement = document.createElement('body');
                 document.documentElement.appendChild(bodyElement);
-            }
-
-            this.bodyFontSize = parseFloat(this.getStyle(document.body, 'fontSize'));
-
-            if (hasNoBodyElement) {
+                this.bodyFontSize = parseFloat(this.getStyle(document.body, 'fontSize'));
                 document.documentElement.removeChild(bodyElement);
                 bodyElement = null;
+            } else {
+                this.bodyFontSize = parseFloat(this.getStyle(document.body, 'fontSize'));
             }
         }
         return this.bodyFontSize;

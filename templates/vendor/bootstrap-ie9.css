@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE9 - v4.1.303          */
+/* Bootstrap 4 for IE9 - v4.1.304          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 .card-group .card,
@@ -232,6 +232,9 @@ aside {
 }
 .breadcrumb-item {
   display: inline-block;
+}
+.modal-footer {
+  text-align: right;
 }
 .img-fluid[src$=".svg"] {
   width: 100%;

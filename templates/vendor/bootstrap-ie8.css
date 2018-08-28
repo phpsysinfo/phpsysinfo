@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.303          */
+/* Bootstrap 4 for IE8 - v4.1.304          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 .card-group .card,
@@ -275,6 +275,9 @@ fieldset[disabled] .btn {
 }
 .modal-content {
   border:1px solid #ddd;
+}
+.modal-footer {
+  text-align: right;
 }
 .list-group-item {
   border: 1px solid #ddd;
