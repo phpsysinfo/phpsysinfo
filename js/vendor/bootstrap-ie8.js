@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE8 - v4.1.3-x          */
+/* Bootstrap 4 for IE8 - v4.1.305          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 // create the nodeType constants if the Node object is not defined

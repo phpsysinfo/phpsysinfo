@@ -1,4 +1,4 @@
-/* Bootstrap 4 for IE9 - v4.1.3-x          */
+/* Bootstrap 4 for IE9 - v4.1.305          */
 /* https://github.com/namiltd/bootstrap-ie */
 
 /**
