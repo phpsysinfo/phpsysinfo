@@ -1009,7 +1009,7 @@ function refreshNetwork(xml) {
             var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
-                html +="<tr><td><span class=\"treespan\">" + infos[i] + "</span></td><td></td><td></td><td></td></tr>";
+                html +="<tr><td colspan=\"4\"><span class=\"treespan\">" + infos[i] + "</span></td></tr>";
                 tree.push(networkindex);
             }
             if (!showNetworkInfosExpanded) {

@@ -1133,7 +1133,7 @@ function renderNetwork(data) {
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
                 for (var j = 0; j < infos.length; j++){
-                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td><span class=\"treegrid-span\">" + infos[j] + "</span></td><td></td><td></td><td></td></tr>";
+                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td colspan=\"4\"><span class=\"treegrid-span\">" + infos[j] + "</span></td></tr>";
                 }
             }
         }
