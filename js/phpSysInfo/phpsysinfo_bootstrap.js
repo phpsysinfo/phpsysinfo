@@ -752,11 +752,11 @@ function renderHardware(data) {
             }
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
-            html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
             if (showCPULoadCompact && (datas[i]["@attributes"].Load !== undefined)) {
+                html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
                 html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
             } else {
-                html+="<td></td>";
+                html+="<td colspan=\"2\"><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
             }
             html+="</tr>";
             for (proc_param in paramlist) {
