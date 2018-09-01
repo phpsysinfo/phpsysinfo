@@ -68,9 +68,7 @@ function renderPlugin_snmppinfo(data) {
             var html = "";
             for (i = 0; i < printers.length; i++) {
                 html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
-                html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
-                html+="<td></td>";
-                html+="<td></td>";
+                html+="<td colspan=\"3\"><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
                 html+="</tr>";
 
                 try {

@@ -735,8 +735,7 @@ function renderHardware(data) {
     if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
         html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
-        html+="<td><span data-bind=\"Name\"></span></td>";
-        html+="<td></td>";
+        html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
         html+="</tr>";
     }
 
@@ -1485,13 +1484,12 @@ function renderUPS(data) {
             datas = items(data.UPSInfo.UPS);
             for (i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-                html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
-                html+="<td></td>";
+                html+="<td colspan=\"2\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
                 html+="</tr>";
                 for (proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                        html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param]) + "</span></td>";
+                        html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param]) + "</span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -1504,8 +1502,7 @@ function renderUPS(data) {
 
         if ((data.UPSInfo["@attributes"] !== undefined) && (data.UPSInfo["@attributes"].ApcupsdCgiLinks === "1")) {
             html+="<tr>";
-            html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99)+"</a>)</td>";
-            html+="<td></td>";
+            html+="<td colspan=\"2\">(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99)+"</a>)</td>";
             html+="</tr>";
         }
 

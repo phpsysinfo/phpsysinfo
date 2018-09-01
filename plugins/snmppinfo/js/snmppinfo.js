@@ -74,7 +74,7 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "      <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
+            html += "      <tr><td colspan=\"3\"><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }

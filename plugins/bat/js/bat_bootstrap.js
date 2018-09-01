@@ -92,9 +92,7 @@ function renderPlugin_bat(data) {
 
                 try {
                     html+="<tr id=\"bat-" + i + "\" class=\"treegrid-bat-" + i + "\" style=\"display:none;\" >";
-                    html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
-                    html+="<td></td>";
-                    html+="<td></td>";
+                    html+="<td colspan=\"3\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
                     html+="</tr>";
                     for (proc_param in paramlist) {
                         if (bats[i]["@attributes"][proc_param] !== undefined) {
