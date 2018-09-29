@@ -114,7 +114,7 @@ function raid_buildaction(xml) {
 function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
         var status = "", name = "", type = "", info = "", parentid = 0;
-        
+
         status = $(this).attr("Status");
         name = $(this).attr("Name");
         type = $(this).attr("Type");
@@ -153,7 +153,7 @@ function raid_diskicon(xml, id) {
 //            alert("--" + diskstatus + "--");
             img = "error.png";
             alt = "error";
-            
+
             break;
         }
 
@@ -194,9 +194,9 @@ function raid_populate(xml) {
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
 
-        $("#Plugin_RaidTable").append("<tr><td><br>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
+        $("#Plugin_RaidTable").append("<tr><td>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
         raid_diskicon(this, id);
-        
+
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
             $("#Plugin_Raid_InfoTable" + id).slideDown("slow");
             $("#sPlugin_Raid_Info" + id).hide();
