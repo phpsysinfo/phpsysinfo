@@ -9,70 +9,67 @@
   <expression id="plugin_raid_001" name="raid_title">
     <exp>Stav RAIDu</exp>
   </expression>
-  <expression id="plugin_raid_002" name="raid_devices">
-    <exp>RAID-zařízení</exp>
-  </expression>
-  <expression id="plugin_raid_003" name="raid_infos">
+  <expression id="plugin_raid_002" name="raid_infos">
     <exp>Dodatečné informace </exp>
   </expression>
-  <expression id="plugin_raid_004" name="raid_name">
+  <expression id="plugin_raid_003" name="raid_name">
     <exp>Name</exp>
   </expression>
-  <expression id="plugin_raid_005" name="raid_status">
+  <expression id="plugin_raid_004" name="raid_status">
     <exp>Stav</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_level">
+  <expression id="plugin_raid_005" name="raid_level">
     <exp>Úroveň RAIDu</exp>
   </expression>
-  <expression id="plugin_raid_007" name="raid_size">
+  <expression id="plugin_raid_006" name="raid_size">
     <exp>Size</exp>
   </expression>
-  <expression id="plugin_raid_008" name="raid_stride">
+  <expression id="plugin_raid_007" name="raid_stride">
     <exp>Stride</exp>
   </expression>
-  <expression id="plugin_raid_009" name="raid_subsets">
+  <expression id="plugin_raid_008" name="raid_subsets">
     <exp>Subsets</exp>
   </expression>
-  <expression id="plugin_raid_010" name="raid_devs">
+  <expression id="plugin_raid_009" name="raid_devs">
     <exp>Devices</exp>
   </expression>
-  <expression id="plugin_raid_011" name="raid_spares">
+  <expression id="plugin_raid_010" name="raid_spares">
     <exp>Spares</exp>
   </expression>
-  <expression id="plugin_raid_012" name="raid_curact">
+  <expression id="plugin_raid_011" name="raid_curact">
     <exp>Current Action</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finish">
+  <expression id="plugin_raid_012" name="raid_finish">
     <exp>Čas dokončení</exp>
   </expression>
-  <expression id="plugin_raid_014" name="raid_chunk">
+  <expression id="plugin_raid_013" name="raid_chunk">
     <exp>Velikost proužku</exp>
   </expression>
-  <expression id="plugin_raid_015" name="raid_algo">
+  <expression id="plugin_raid_014" name="raid_algo">
     <exp>Algoritmus</exp>
   </expression>
-  <expression id="plugin_raid_016" name="raid_superb">
+  <expression id="plugin_raid_015" name="raid_superb">
     <exp>Persistentní Superblock</exp>
   </expression>
-  <expression id="plugin_raid_017" name="raid_avail">
+  <expression id="plugin_raid_016" name="raid_avail">
     <exp>dostupný</exp>
   </expression>
-  <expression id="plugin_raid_018" name="raids_navail">
+  <expression id="plugin_raid_017" name="raids_navail">
     <exp>nedostupný</exp>
   </expression>
-  <expression id="plugin_raid_019" name="raid_regact">
+  <expression id="plugin_raid_018" name="raid_regact">
     <exp>Registrovné/aktivní disky</exp>
   </expression>
-  <expression id="plugin_raid_020" name="raid_controller">
+  <expression id="plugin_raid_019" name="raid_controller">
     <exp>Controller</exp>
   </expression>
-  <expression id="plugin_raid_021" name="raid_battcond">
+  <expression id="plugin_raid_020" name="raid_battcond">
     <exp>Battery Condition</exp>
   </expression>
-  <expression id="plugin_raid_022" name="raid_supported">
+  <expression id="plugin_raid_021" name="raid_supported">
     <exp>Poodporované typy RAID</exp>
   </expression>
-  <expression id="plugin_raid_023" name="raid_program">
+  <expression id="plugin_raid_022" name="raid_program">
     <exp>Program</exp>
   </expression>
 </tns:translationPlugin>
