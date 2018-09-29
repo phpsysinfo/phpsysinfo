@@ -194,7 +194,7 @@ function raid_populate(xml) {
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
 
-        $("#Plugin_RaidTable").append("<tr><td>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
+        $("#Plugin_RaidTable").append("<tr><td><br>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
         raid_diskicon(this, id);
 
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
