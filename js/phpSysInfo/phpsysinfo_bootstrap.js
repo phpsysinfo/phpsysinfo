@@ -1009,17 +1009,29 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             html: function () {
-                return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
+                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         Free: {
             html: function () {
-                return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
+                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         Used: {
             html: function () {
-                return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore == 2)) {
+                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         MountPoint: {
@@ -1049,9 +1061,16 @@ function renderFilesystem(data) {
         var total = {Total:0,Free:0,Used:0};
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
-            total.Total += parseInt(datas[i]["@attributes"].Total);
-            total.Free += parseInt(datas[i]["@attributes"].Free);
-            total.Used += parseInt(datas[i]["@attributes"].Used);
+            if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
+                if (datas[i]["@attributes"].Ignore == 1) {
+                    total.Total += parseInt(datas[i]["@attributes"].Used);
+                    total.Used += parseInt(datas[i]["@attributes"].Used);
+                }
+            } else {
+                total.Total += parseInt(datas[i]["@attributes"].Total);
+                total.Free += parseInt(datas[i]["@attributes"].Free);
+                total.Used += parseInt(datas[i]["@attributes"].Used);
+            }
             total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
@@ -1621,9 +1640,10 @@ function formatHertz(mhertz) {
  * automatically so that every value can be read in a user friendly way
  * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
  * @param {jQuery} xml phpSysInfo-XML
+ * @param {parenths} if true then add parentheses
  * @return {String} string of the converted bytes with the translated unit expression
  */
-function formatBytes(bytes, byteFormat) {
+function formatBytes(bytes, byteFormat, parenths=false) {
     var show = "";
 
     if (byteFormat === undefined) {
@@ -1733,7 +1753,10 @@ function formatBytes(bytes, byteFormat) {
             }
         }
     }
-    return "<span style='display:none'>"+round(bytes,0)+".</span>"+show; //span for sorting
+    if (parenths) {
+        show = "<i>(" + show + ")</i>";
+    }
+    return "<span style='display:none'>" + round(bytes,0) + ".</span>" + show; //span for sorting
 }
 
 function formatBPS(bps) {

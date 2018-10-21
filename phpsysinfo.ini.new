@@ -294,6 +294,18 @@ SHOW_INODES=true
 HIDE_MOUNTS=""
 
 
+; Ignore free space size of mounts
+; Example : IGNORE_FREE="/zfs/space,/zfs/data"
+;
+IGNORE_FREE=""
+
+
+; Ignore usage of mounts
+; Example : IGNORE_USAGE="/root,/mnt/c"
+;
+IGNORE_USAGE=""
+
+
 ; Hide filesystem types
 ; Example : HIDE_FS_TYPES="tmpfs,devtmpfs,usbfs,bstfolder"
 ;

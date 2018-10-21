@@ -408,6 +408,7 @@ class XML
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
         $mount->addAttribute('Percent', $dev->getPercentUsed());
+        if ($dev->getIgnore() > 0) $mount->addAttribute('Ignore', $dev->getIgnore());
         if (PSI_SHOW_MOUNT_OPTION === true) {
             if ($dev->getOptions() !== null) {
                 $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
@@ -428,7 +429,7 @@ class XML
      */
     private function _buildFilesystems()
     {
-        $hideMounts = $hideFstypes = $hideDisks = array();
+        $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreUsage =array();
         $i = 1;
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
@@ -455,10 +456,29 @@ class XML
                 return;
             }
         }
+        if (defined('PSI_IGNORE_FREE') && is_string(PSI_IGNORE_FREE)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_FREE)) {
+                $ignoreFree = eval(PSI_IGNORE_FREE);
+            } else {
+                $ignoreFree = array(PSI_IGNORE_FREE);
+            }
+        }
+        if (defined('PSI_IGNORE_USAGE') && is_string(PSI_IGNORE_USAGE)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_USAGE)) {
+                $ignoreUsage = eval(PSI_IGNORE_USAGE);
+            } else {
+                $ignoreUsage = array(PSI_IGNORE_USAGE);
+            }
+        }
         $fs = $this->_xml->addChild('FileSystem');
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) && !in_array($disk->getFsType(), $hideFstypes, true) && !in_array($disk->getName(), $hideDisks, true)) {
                 $mount = $fs->addChild('Mount');
+                if (in_array($disk->getMountPoint(), $ignoreUsage, true)) {
+                    $disk->setIgnore(2);
+                } elseif (in_array($disk->getMountPoint(), $ignoreFree, true)) {
+                    $disk->setIgnore(1);
+                }
                 $this->_fillDevice($mount, $disk, $i++);
             }
         }
