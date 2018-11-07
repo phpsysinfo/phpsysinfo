@@ -53,6 +53,7 @@ MacBookAir6,1:MacBook Air Core i5/i7:Intel Core I5-4250U/I5-4260U/I7-4650U
 MacBookAir6,2:MacBook Air Core i5/i7:Intel Core I5-4250U/I5-4260U/I7-4650U
 MacBookAir7,1:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
 MacBookAir7,2:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
+MacBookAir8,1:MacBook Air Core i5:Intel Core I5-8210Y
 MacBookPro1,1:MacBook Pro Core Duo:Intel Core Duo L2400/T2400/T2500/T2600
 MacBookPro1,2:MacBook Pro Core Duo:Intel Core Duo T2600
 MacBookPro2,1:MacBook Pro Core 2 Duo:Intel Core 2 Duo T7600
@@ -92,10 +93,11 @@ Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800
 Macmini4,1:Mac mini Core 2 Duo:Intel Core 2 Duo P8600/P8800
 Macmini5,1:Mac mini Core i5:Intel Core I5-2415M
 Macmini5,2:Mac mini Core i5/i7:Intel Core I5-2520M/I7-2620M
-Macmini5,3:Mac mini Core i7:Intel  Core I7-2635QM
+Macmini5,3:Mac mini Core i7:Intel Core I7-2635QM
 Macmini6,1:Mac mini Core i5:Intel Core I5-3210M
 Macmini6,2:Mac mini Core i7:Intel Core I7-3615QM/I7-3720QM
 Macmini7,1:Mac mini Core i5/i7:Intel Core I5-4260U/I5-4278U/I5-4308U/I7-4578U
+Macmini8,1:Mac mini Core i3/i5/i7:Intel Core I3-8100/I5-8500B/I7-8700B
 MacPro1,1:Mac Pro Quad Core:Intel Xeon 5130/5150/5160
 MacPro2,1:Mac Pro Eight Core:Intel Xeon X5365
 MacPro3,1:Mac Pro Quad/Eight Core:Intel Xeon E5462/E5472/X5482
