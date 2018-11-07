@@ -129,14 +129,18 @@ class BAT extends PSI_Plugin
                         if ($techn != '') $buffer[$bi]['info'] .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
 
                         if (sizeof($bufferBS)>0) {
-                            if (isset($bufferBS[$bi]['RemainingCapacity']) && ($bufferBS[$bi]['RemainingCapacity']>0)) { // ? >=
-                                $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[$bi]['RemainingCapacity']*1000)."\n";
-                                $capacity = '';
-                            }
+                            $hasvolt = false;
                             if (isset($bufferBS[$bi]['Voltage']) && ($bufferBS[$bi]['Voltage']>0)) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.($bufferBS[$bi]['Voltage']*1000)."\n";
-                            } elseif (isset($bufferWB[$bi]['DesignVoltage'])) {
+                                $hasvolt = true;
+                            } elseif (isset($bufferWB[$bi]['DesignVoltage']) && ($bufferWB[$bi]['DesignVoltage']>0)) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.($bufferWB[$bi]['DesignVoltage']*1000)."\n";
+                                $hasvolt = true;
+                            }
+                            if (isset($bufferBS[$bi]['RemainingCapacity']) && 
+                               (($bufferBS[$bi]['RemainingCapacity']>0) || ($hasvolt && ($bufferBS[$bi]['RemainingCapacity']==0)))) {
+                                $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[$bi]['RemainingCapacity']*1000)."\n";
+                                $capacity = '';
                             }
                         }
 
