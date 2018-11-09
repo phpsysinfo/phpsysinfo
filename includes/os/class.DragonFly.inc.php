@@ -90,7 +90,7 @@ class DragonFly extends BSDCommon
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[1]);
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && !preg_match("/^acd[0-9]+(.*)/", $ar_buf[1])) {
-                    $dev->setCapacity($ar_buf[2] * 1024);
+                    $dev->setCapacity($ar_buf[2] * 1024 * 1024);
                 }
                 $this->sys->setIdeDevices($dev);
             }

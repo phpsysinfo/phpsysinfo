@@ -112,17 +112,32 @@ class NetBSD extends BSDCommon
     protected function ide()
     {
         foreach ($this->readdmesg() as $line) {
-            if (preg_match('/^(.*) at (pciide|wdc|atabus|atapibus)[0-9]+ (.*): <(.*)>/', $line, $ar_buf)) {
+            if (preg_match('/^(.*) at (pciide|wdc|atabus|atapibus)[0-9]+ (.*): <(.*)>/', $line, $ar_buf)
+               || preg_match('/^(.*) at (pciide|wdc|atabus|atapibus)[0-9]+ /', $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[1]);
+                if (isset($ar_buf[4])) {
+                    $dev->setName($ar_buf[4]);
+                } else {
+                    $dev->setName($ar_buf[1]);
+                    // now loop again and find the name
+                    foreach ($this->readdmesg() as $line2) {
+                        if (preg_match("/^(".$ar_buf[1]."): <(.*)>$/", $line2, $ar_buf_n)) {
+                            $dev->setName($ar_buf_n[2]);
+                            break;
+                        }
+                    }
+                }
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                     // now loop again and find the capacity
                     foreach ($this->readdmesg() as $line2) {
                         if (preg_match("/^(".$ar_buf[1]."): (.*), (.*), (.*)MB, .*$/", $line2, $ar_buf_n)) {
-                            $dev->setCapacity($ar_buf_n[4] * 2048 * 1.049);
+                            $dev->setCapacity($ar_buf_n[4] * 1024 * 1024);
                             break;
                         } elseif (preg_match("/^(".$ar_buf[1]."): (.*) MB, (.*), (.*), .*$/", $line2, $ar_buf_n)) {
-                            $dev->setCapacity($ar_buf_n[2] * 2048);
+                            $dev->setCapacity($ar_buf_n[2] * 1024 * 1024);
+                            break;
+                        } elseif (preg_match("/^(".$ar_buf[1]."): (.*) GB, (.*), (.*), .*$/", $line2, $ar_buf_n)) {
+                            $dev->setCapacity($ar_buf_n[2] * 1024 * 1024 * 1024);
                             break;
                         }
                     }
