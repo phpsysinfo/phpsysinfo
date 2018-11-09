@@ -35,7 +35,7 @@ class NetBSD extends BSDCommon
         $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/user = (.*), nice = (.*), sys = (.*), intr = (.*), idle = (.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
-        $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setSCSIRegExp2("/^(sd[0-9]+): (.*)([MG])B,/");
         $this->setPCIRegExp1("/(.*) at pci[0-9]+ dev [0-9]* function [0-9]*: (.*)$/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
     }

@@ -320,7 +320,11 @@ abstract class BSDCommon extends OS
                 foreach ($this->sys->getScsiDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                            $finddev->setCapacity($ar_buf[2] * 1024 * 1024);
+                            if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
+                                $finddev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
+                            } else {
+                                $finddev->setCapacity($ar_buf[2] * 1024 * 1024);
+                            }
                         }
                         $notwas = false;
                         break;
@@ -330,7 +334,11 @@ abstract class BSDCommon extends OS
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1]);
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        $dev->setCapacity($ar_buf[2] * 1024 * 1024);
+                        if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
+                                $dev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
+                            } else {
+                                $dev->setCapacity($ar_buf[2] * 1024 * 1024);
+                            }
                     }
                     $this->sys->setScsiDevices($dev);
                 }
