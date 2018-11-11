@@ -259,8 +259,13 @@ class XML
             if ($ide === null) $ide = $hardware->addChild('IDE');
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
-                $tmp->addAttribute('Capacity', $dev->getCapacity());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
             }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
@@ -271,8 +276,13 @@ class XML
             if ($scsi === null) $scsi = $hardware->addChild('SCSI');
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
-                $tmp->addAttribute('Capacity', $dev->getCapacity());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
             }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
@@ -283,11 +293,13 @@ class XML
             if ($nvme === null) $nvme = $hardware->addChild('NVMe');
             $tmp = $nvme->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
-                $tmp->addAttribute('Capacity', $dev->getCapacity());
-            }
-            if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
-                $tmp->addAttribute('Serial', $dev->getSerial());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
             }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());

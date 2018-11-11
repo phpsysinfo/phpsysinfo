@@ -36,6 +36,7 @@ class FreeBSD extends BSDCommon
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
         $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setSCSIRegExp3("/^(da[0-9]+|cd[0-9]+): Serial Number (.*)/");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]+$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [.0-9]+ irq/");
     }
