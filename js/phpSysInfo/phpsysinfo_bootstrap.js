@@ -1643,7 +1643,7 @@ function formatHertz(mhertz) {
  * @param {parenths} if true then add parentheses
  * @return {String} string of the converted bytes with the translated unit expression
  */
-function formatBytes(bytes, byteFormat, parenths=false) {
+function formatBytes(bytes, byteFormat, parenths) {
     var show = "";
 
     if (byteFormat === undefined) {
@@ -1753,7 +1753,7 @@ function formatBytes(bytes, byteFormat, parenths=false) {
             }
         }
     }
-    if (parenths) {
+    if (parenths === true) {
         show = "<i>(" + show + ")</i>";
     }
     return "<span style='display:none'>" + round(bytes,0) + ".</span>" + show; //span for sorting
