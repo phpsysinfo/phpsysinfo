@@ -77,6 +77,13 @@ class WINNT extends OS
     private $_wmidevices;
 
     /**
+     * holds all disks, which are in the system
+     *
+     * @var array
+     */
+    private $_wmidisks;
+
+    /**
      * store language encoding of the system to convert some output to utf-8
      *
      * @var string
@@ -227,8 +234,14 @@ class WINNT extends OS
         if (empty($this->_wmidevices)) {
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size', 'SerialNumber'));
+                } else {
+                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size'));
+                }
             } else {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+                $this->_wmidisks = array();
             }
         }
         $list = array();
@@ -241,13 +254,31 @@ class WINNT extends OS
                     if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
                         $device['Manufacturer'] = null;
                     }
-                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                       && ($strType==='USB') && preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
-                        $device['Serial'] = $buf[1];
-                    } else {
-                        $device['Serial'] = null;
+                    $device['Capacity'] = null;
+                    if (($strType==='IDE')||($strType==='SCSI')) {
+                        foreach ($this->_wmidisks as $disk) {
+                            if (($disk['PNPDeviceID'] === $device['PNPDeviceID']) && isset($disk['Size'])) {
+                                $device['Capacity'] = $disk['Size'];
+                                break;
+                            }
+                        }
                     }
-                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass'], 'Serial'=>$device['Serial']);
+                    $device['Serial'] = null;
+                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                        if ($strType==='USB') {
+                            if (preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
+                                $device['Serial'] = $buf[1];
+                            }
+                        } elseif (($strType==='IDE')||($strType==='SCSI')) {
+                            foreach ($this->_wmidisks as $disk) {
+                                if (($disk['PNPDeviceID'] === $device['PNPDeviceID']) && isset($disk['SerialNumber'])) {
+                                    $device['Serial'] = $disk['SerialNumber'];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass'], 'Capacity'=>$device['Capacity'], 'Serial'=>$device['Serial']);
                 } else {
                     $list[] = array('Name'=>$device['Name']);
                 }
@@ -587,12 +618,24 @@ class WINNT extends OS
         foreach ($this->_devicelist('IDE') as $ideDev) {
             $dev = new HWDevice();
             $dev->setName($ideDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setCapacity($ideDev['Capacity']);
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $dev->setSerial($ideDev['Serial']);
+                }
+            }
             $this->sys->setIdeDevices($dev);
         }
 
         foreach ($this->_devicelist('SCSI') as $scsiDev) {
             $dev = new HWDevice();
             $dev->setName($scsiDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setCapacity($scsiDev['Capacity']);
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $dev->setSerial($scsiDev['Serial']);
+                }
+            }
             $this->sys->setScsiDevices($dev);
         }
 
