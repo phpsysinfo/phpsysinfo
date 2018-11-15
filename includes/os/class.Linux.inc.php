@@ -106,7 +106,7 @@ class Linux extends OS
         if (PSI_USE_VHOST === true) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
-            if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_OS != 'Android')) {
+            if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {
                 $result = trim($result);
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
