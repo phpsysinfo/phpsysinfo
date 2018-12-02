@@ -37,7 +37,7 @@ class uprecords extends PSI_Plugin
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
                 if (strpos($line, '->') !== false) {
-                    $buffer[0] = '-> '.$buffer[0];
+                    $buffer[0] = $buffer[0].' *';
                 }
 
                 if (count($buffer) > 4) {
