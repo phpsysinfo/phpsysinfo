@@ -251,6 +251,10 @@ SENSOR_EVENTS=true
 ;
 SORT_SENSORS_LIST=false
 
+; Hide sensor sections
+; Example : HIDE_SENSOR_SECTIONS="temperature,voltage"
+;
+HIDE_SENSOR_SECTIONS=""
 
 ; Some sensors programs contain an additional configuration in the relevant sections [sensor_...]
 
