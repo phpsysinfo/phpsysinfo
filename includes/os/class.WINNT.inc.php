@@ -104,7 +104,7 @@ class WINNT extends OS
      */
     private function _get_Win32_OperatingSystem()
     {
-        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
         return $this->_Win32_OperatingSystem;
     }
 
@@ -190,7 +190,7 @@ class WINNT extends OS
                 $buffer[0]['CodeSet'] = $buffer2[1];
             }
             if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language /v Default', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*Default\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
-                $buffer[0]['OSLanguage'] = hexdec($buffer2[1]);
+                $buffer[0]['Locale'] = $buffer2[1];
             }
         }
         if ($buffer && isset($buffer[0])) {
@@ -207,17 +207,17 @@ class WINNT extends OS
                 }
                 $this->_codepage = 'windows-'.$codeset.$codename;
             }
-            if (isset($buffer[0]['OSLanguage'])) {
+            if (isset($buffer[0]['Locale']) && (($locale = hexdec($buffer[0]['Locale']))>0)) {
                 $lang = "";
                 if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
-                    if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
-                        $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
+                    if (isset($langdata['WINNT'][$locale])) {
+                        $lang = $langdata['WINNT'][$locale];
                     }
                 }
                 if ($lang == "") {
                     $lang = 'Unknown';
                 }
-                $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
+                $this->_syslang = $lang.' ('.$locale.')';
             }
         }
     }
