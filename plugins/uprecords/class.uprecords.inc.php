@@ -72,7 +72,7 @@ class uprecords extends PSI_Plugin
                         $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
                     }
                 }
-                if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
+                if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w -s'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
