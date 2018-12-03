@@ -730,6 +730,10 @@ ACCESS="command"
 ;
 MAX_ENTRIES = 10
 
+; define the short mode (do not print extra statistics)
+; default is false
+;
+SHORT_MODE = false
 
 [iptables]
 ; Iptables Plugin configuration

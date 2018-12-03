@@ -36,6 +36,12 @@ class uprecords extends PSI_Plugin
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
+                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') &&
+                   (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true) &&
+                   !is_numeric($buffer[0])) {
+                    break;
+                }
+
                 if (strpos($line, '->') !== false) {
                     $buffer[0] = '-> '.$buffer[0];
                 }
@@ -71,6 +77,9 @@ class uprecords extends PSI_Plugin
                     } elseif ((PSI_PLUGIN_UPRECORDS_MAX_ENTRIES > 1) && (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES != 10)) {
                         $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
                     }
+                }
+                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {
+                    $options .= " -s";
                 }
                 if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
