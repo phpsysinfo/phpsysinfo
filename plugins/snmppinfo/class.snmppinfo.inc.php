@@ -1,6 +1,6 @@
 <?php
 /**
- * SNMPPInfo Plugin, which displays battery state
+ * SNMPPInfo Plugin, which displays printers info via SNMP
  *
  * @category  PHP
  * @package   PSI_Plugin_SNMPPInfo
