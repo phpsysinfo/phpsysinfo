@@ -120,6 +120,11 @@ function renderPlugin_raid(data) {
                     if (raiditems[i]["@attributes"].Controller !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(19, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Controller + "</td></tr>"; // Controller
                     if (raiditems[i]["@attributes"].Battery !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(20, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Battery + "</td></tr>"; // Battery Condition
                     if (raiditems[i]["@attributes"].Supported !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(21, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Supported + "</td></tr>"; // Supported RAID-Types
+                    if (raiditems[i]["@attributes"].ReadPolicy !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].ReadPolicy + "</td></tr>"; // Read Policy
+                    if (raiditems[i]["@attributes"].WritePolicy !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(24, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].WritePolicy + "</td></tr>"; // Write Policy
+                    if (raiditems[i]["@attributes"].Cache_Size !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(25, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Cache_Size), data.Options["@attributes"].byteFormat) + "</td></tr>"; // Cache_Size
+                    if (raiditems[i]["@attributes"].Bad_Blocks !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(26, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Bad_Blocks) + "</td></tr>"; // Bad_Blocks
+
                     html += "</tbody></table>";
                     html += "</td></tr>";
                     html += "</tbody></table>";

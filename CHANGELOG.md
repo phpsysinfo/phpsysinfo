@@ -11,7 +11,8 @@ phpSysInfo 3.3.0
  - [ADD] Endless, Kali, Redcore and MX Linux to detected distros
  - [ADD] SMART plugin - support for NVMe disks
  - [ADD] Uprecords plugin - SHORT_MODE option
-
+ - [ADD] Raid plugin - IDRAC RAID status
+ 
  - [NEW] NVMe devices list on Linux
  - [NEW] Docker plugin - docker stats
  - [NEW] SORT_NETWORK_INTERFACES_LIST and SORT_SENSORS_LIST options

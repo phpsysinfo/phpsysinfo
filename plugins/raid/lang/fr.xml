@@ -71,4 +71,16 @@
   <expression id="plugin_raid_022" name="raid_program">
     <exp>Program</exp>
   </expression>
+  <expression id="plugin_raid_023" name="raid_readpolicy">
+    <exp>Read Policy</exp>
+  </expression>
+  <expression id="plugin_raid_024" name="raid_writepolicy">
+    <exp>Write Policy</exp>
+  </expression>
+  <expression id="plugin_raid_025" name="raid_cachesize">
+    <exp>Cache Size</exp>
+  </expression>
+  <expression id="plugin_raid_026" name="raid_badblocks">
+    <exp>Bad Blocks</exp>
+  </expression>
 </tns:translationPlugin>

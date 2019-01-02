@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -52,6 +52,10 @@ function raid_buildinfos(xml, id) {
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
     devact = parseInt($(xml).attr("Disks_Active"), 10);
+    devcache = parseInt($(xml).attr("Cache_Size"), 10);
+    devbad = parseInt($(xml).attr("Bad_Blocks"), 10);
+    devread = $(xml).attr("ReadPolicy");
+    devwrite = $(xml).attr("WritePolicy");
     html += "<tr><td>" + genlang(22, "Raid") + "</td><td>" + prog + "</td></tr>";
     if (devname !== undefined) html += "<tr><td>" + genlang(3, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(4, "Raid") + "</td><td>" + devstatus + "</td></tr>";
@@ -75,6 +79,10 @@ function raid_buildinfos(xml, id) {
     if (devcontroller !== undefined) html += "<tr><td>" + genlang(19, "Raid") + "</td><td>" + devcontroller + "</td></tr>";
     if (devbattery !== undefined) html += "<tr><td>" + genlang(20, "Raid") + "</td><td>" + devbattery + "</td></tr>";
     if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
+    if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
+    if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
+    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml) + "</td></tr>";
+    if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";

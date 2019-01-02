@@ -553,20 +553,26 @@ SHOW_SERIAL=false
 ;                           If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
 ;             - graid:      command "graid list" is run (on FreeBSD only)
 ;             - zpool:      command "zpool status" is run
+;             - idrac:      command "snmpwalk -Ona -c public -v 1 -r 1 {device} .1.3.6.1.4.1.674.10892.5.5.1.20" is run
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt"
-;         or "raidmegasasctl" or "raidgraid.txt" or "raidzpool".txt)
+;         or "raidmegasasctl" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
 ;
 ACCESS="command"
 
 ; define possible programs
-PROGRAM="mdstat,dmraid,megactl,megasasctl,graid,zpool"
+PROGRAM="mdstat,dmraid,megactl,megasasctl,graid,zpool,idrac"
 
 ; Hide RAID devices
 ; Example : HIDE_DEVICES="md127"
 ;
 HIDE_DEVICES=""
 
+;
+; string contains a list of IDRAC devices that are checked
+; Example : IDRAC_DEVICES="192.168.0.120"
+;
+IDRAC_DEVICES=""
 
 [ps]
 ; PS Plugin configuration
