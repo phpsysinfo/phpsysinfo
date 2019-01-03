@@ -1016,9 +1016,9 @@ class Raid extends PSI_Plugin
                         if (isset($tablec['controller'])) {
                             $this->_result['devices'][$devname]['controller'] = $tablec['controller'];
                         }
-                        //if (isset($tablec['battery'])) {
-                        //    $this->_result['devices'][$devname]['battery'] = $tablec['battery'];
-                        //}                       
+                        if (isset($tablec['battery'])) {
+                            $this->_result['devices'][$devname]['battery'] = $tablec['battery'];
+                        }                       
                         if (isset($tablec['status'])) {
                             $this->_result['devices'][$devname]['status'] = $tablec['status'];
                         }
