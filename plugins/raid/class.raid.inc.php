@@ -347,10 +347,10 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['type'] = "disk";
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['parentid'] = 1;
                             if ($partition[2]=="broken") {
-                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'F';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = "F";
                                 $this->_result['devices'][$partition[3]]['status'] = "F";
                             } else {
-                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'W';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = "W";
                                 $this->_result['devices'][$partition[3]]['status'] = "W";
                             }
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['name'] = $partition[1];
@@ -435,7 +435,7 @@ class Raid extends PSI_Plugin
                             unset($this->_result['devices'][$gid."-".$i]);
                         } else {
                             $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
-                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = 'unknown';
+                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = "unknown";
                             $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
                             $id++;
                         }
@@ -553,9 +553,9 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['parentid'] = 0;
                             $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['name'] = $itemn0;
                             if ($details[0]==='unconfigured:') {
-                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'U';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = "U";
                             } else {
-                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'S';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = "S";
                             }
                         } elseif (count($details) == 3) {
                             $itemn = '';
@@ -644,18 +644,18 @@ class Raid extends PSI_Plugin
                                 if ($partition[2]=="ACTIVE") {
                                     if (isset($disksinfo[$partition[1]]["status"])) {
                                         if ($disksinfo[$partition[1]]["status"]!=="ACTIVE") {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "W";
                                         } elseif ($disksinfo[$partition[1]]["substatus"]=="ACTIVE") {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "ok";
                                         } else {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "W";
                                             if (isset($disksinfo[$partition[1]]["percent"])) {
                                                 $this->_result['devices'][$group]['action']['name'] = $disksinfo[$partition[1]]["substatus"];
                                                 $this->_result['devices'][$group]['action']['percent'] = $disksinfo[$partition[1]]["percent"];
                                             }
                                         }
                                     } else {
-                                        $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
+                                        $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "ok";
                                         $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
                                     }
                                     $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
@@ -1139,22 +1139,22 @@ class Raid extends PSI_Plugin
                             switch ($raid_virtual['virtualDiskState']) {
                                 case 1:
                                     $this->_result['devices'][$devname]['status'] = "unknown";
-                                    $this->_result['devices'][$devname]['items'][0]['status']='W';
+                                    $this->_result['devices'][$devname]['items'][0]['status']="W";
                                     $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
                                     break;
                                 case 2:
                                     $this->_result['devices'][$devname]['status'] = "online";
-                                    $this->_result['devices'][$devname]['items'][0]['status']='ok';
+                                    $this->_result['devices'][$devname]['items'][0]['status']="ok";
                                     $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
                                     break;
                                 case 3:
                                     $this->_result['devices'][$devname]['status'] = "failed";
-                                    $this->_result['devices'][$devname]['items'][0]['status']='F';
+                                    $this->_result['devices'][$devname]['items'][0]['status']="F";
                                     $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
                                     break;
                                 case 4:
                                     $this->_result['devices'][$devname]['status'] = "degraded";
-                                    $this->_result['devices'][$devname]['items'][0]['status']='W';
+                                    $this->_result['devices'][$devname]['items'][0]['status']="W";
                                     $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
                                     break;
                             }
@@ -1363,7 +1363,7 @@ class Raid extends PSI_Plugin
                         // if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active', 'online', 'degraded'))) {
                             $disktemp->addAttribute("Status", $disk['status']);
                         //} else {
-                        //    $disktemp->addAttribute("Status", 'W');
+                        //    $disktemp->addAttribute("Status", "W");
                         //}
                         if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                     }
