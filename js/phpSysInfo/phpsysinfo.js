@@ -1216,8 +1216,8 @@ function refreshFilesystems(xml) {
         }
 
         if (!isNaN(ignore) && (ignore > 0)) {
-            if (ignore == 2) {
-                if (!isNaN(threshold) && (percent >= threshold)) {
+            if (ignore >= 2) {
+                if ((ignore == 2) && !isNaN(threshold) && (percent >= threshold)) {
                     filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 } else {
                     filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);

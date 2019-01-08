@@ -441,7 +441,7 @@ class XML
      */
     private function _buildFilesystems()
     {
-        $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreUsage =array();
+        $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreUsage = $ignoreThreshold = array();
         $i = 1;
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
@@ -482,11 +482,20 @@ class XML
                 $ignoreUsage = array(PSI_IGNORE_USAGE);
             }
         }
+        if (defined('PSI_IGNORE_THRESHOLD_FS_TYPES') && is_string(PSI_IGNORE_THRESHOLD_FS_TYPES)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_THRESHOLD_FS_TYPES)) {
+                $ignoreThreshold = eval(PSI_IGNORE_THRESHOLD_FS_TYPES);
+            } else {
+                $ignoreThreshold = array(PSI_IGNORE_THRESHOLD_FS_TYPES);
+            }
+        }
         $fs = $this->_xml->addChild('FileSystem');
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) && !in_array($disk->getFsType(), $hideFstypes, true) && !in_array($disk->getName(), $hideDisks, true)) {
                 $mount = $fs->addChild('Mount');
-                if (in_array($disk->getMountPoint(), $ignoreUsage, true)) {
+                if (in_array($disk->getFsType(), $ignoreThreshold, true)) {
+                    $disk->setIgnore(3);
+                } elseif (in_array($disk->getMountPoint(), $ignoreUsage, true)) {
                     $disk->setIgnore(2);
                 } elseif (in_array($disk->getMountPoint(), $ignoreFree, true)) {
                     $disk->setIgnore(1);

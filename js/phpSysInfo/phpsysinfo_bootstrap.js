@@ -1027,7 +1027,7 @@ function renderFilesystem(data) {
         },
         Used: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore == 2)) {
+                if ((this.Ignore !== undefined) && (this.Ignore >= 2)) {
                     return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
                 } else {
                     return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
@@ -1047,8 +1047,8 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    (((data.Options["@attributes"].threshold !== undefined) &&
-                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
+                    ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                     '" style="width:' + this.Percent + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
             }

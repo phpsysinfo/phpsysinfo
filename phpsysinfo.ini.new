@@ -294,16 +294,30 @@ SHOW_INODES=true
 HIDE_MOUNTS=""
 
 
-; Ignore free space size of mounts
-; Example : IGNORE_FREE="/zfs/space,/zfs/data"
+; Filesystem usage warning threshold in percent
+; - 0 : disabled
+; - 90 : 90%
+; Default is 90%
 ;
-IGNORE_FREE=""
+FS_USAGE_THRESHOLD=90
+
+
+; Ignore usage and usage threshold for filesystem types
+; Example : IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, lxfs"
+;
+IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, lxfs"
 
 
 ; Ignore usage of mounts
 ; Example : IGNORE_USAGE="/root,/mnt/c"
 ;
 IGNORE_USAGE=""
+
+
+; Ignore free space size of mounts
+; Example : IGNORE_FREE="/zfs/space,/zfs/data"
+;
+IGNORE_FREE=""
 
 
 ; Hide filesystem types
@@ -317,14 +331,6 @@ HIDE_FS_TYPES=""
 ;           HIDE_DISKS=true  //hide all partitions
 ;
 HIDE_DISKS=""
-
-
-; Filesystem usage warning threshold in percent
-; - 0 : disabled
-; - 90 : 90%
-; Default is 90%
-;
-FS_USAGE_THRESHOLD=90
 
 
 ; ********************************
