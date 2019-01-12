@@ -54,6 +54,7 @@ class Raid extends PSI_Plugin
         $notwas = true;
         switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
+        case 'php-snmp':
             if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
                 CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
                 $notwas = false;
@@ -85,10 +86,36 @@ class Raid extends PSI_Plugin
                     } else {
                         $devices = array(PSI_PLUGIN_RAID_IDRAC_DEVICES);
                     }
-                    foreach ($devices as $device) {
-                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
-                        if (strlen($buffer) > 0) {
-                            $this->_filecontent['idrac'][$device] = $buffer;
+                    if (strtolower(PSI_PLUGIN_RAID_ACCESS)=="command") {
+                        foreach ($devices as $device) {
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
+                            if (strlen($buffer) > 0) {
+                                $this->_filecontent['idrac'][$device] = $buffer;
+                            }
+                        }
+                    } else {
+                        snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
+                        snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
+                        foreach ($devices as $device) {
+                            if (! PSI_DEBUG) {
+                                restore_error_handler(); /* default error handler */
+                                $old_err_rep = error_reporting();
+                                error_reporting(E_ERROR); /* fatal errors only */
+                            }
+                            $bufferarr=snmprealwalk($device, "public", ".1.3.6.1.4.1.674.10892.5.5.1.20", 1000000, 1);
+                            if (! PSI_DEBUG) {
+                                error_reporting($old_err_rep); /* restore error level */
+                                set_error_handler('errorHandlerPsi'); /* restore error handler */
+                            }
+                            if (! empty($bufferarr)) {
+                                $buffer="";
+                                foreach ($bufferarr as $id=>$string) {
+                                    $buffer .= $id." = ".$string."\n";
+                                }
+                                if (strlen($buffer) > 0) {
+                                    $this->_filecontent['idrac'][$device] = $buffer;
+                                }
+                            }
                         }
                     }
                 }
