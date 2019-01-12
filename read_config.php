@@ -246,7 +246,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         } elseif (PSI_EXEC_TIMEOUT === true) {
             define('PSI_EXEC_TIMEOUT_INT', 1);
         } else {
-            define('PSI_EXEC_TIMEOUT_INT', PSI_EXEC_TIMEOUT);
+            define('PSI_EXEC_TIMEOUT_INT', max(intval(PSI_EXEC_TIMEOUT), 0));
         }
     } else {
         define('PSI_EXEC_TIMEOUT_INT', 30);
@@ -259,7 +259,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         } elseif (PSI_SNMP_TIMEOUT === true) {
             define('PSI_SNMP_TIMEOUT_INT', 1);
         } else {
-            define('PSI_SNMP_TIMEOUT_INT', PSI_SNMP_TIMEOUT);
+            define('PSI_SNMP_TIMEOUT_INT', max(intval(PSI_SNMP_TIMEOUT), 0));
         }
     } else {
         define('PSI_SNMP_TIMEOUT_INT', 3);
@@ -272,7 +272,7 @@ if (!defined('PSI_CONFIG_FILE')) {
         } elseif (PSI_SNMP_RETRY === true) {
             define('PSI_SNMP_RETRY_INT', 1);
         } else {
-            define('PSI_SNMP_RETRY_INT', PSI_SNMP_RETRY);
+            define('PSI_SNMP_RETRY_INT', max(intval(PSI_SNMP_RETRY), 0));
         }
     } else {
         define('PSI_SNMP_RETRY_INT', 0);
