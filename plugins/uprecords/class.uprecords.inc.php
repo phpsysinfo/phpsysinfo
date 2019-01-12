@@ -70,12 +70,8 @@ class uprecords extends PSI_Plugin
                 $lines = "";
                 $options = "";
                 if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
-                    if (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === false) {
-                        $options=" -m 0";
-                    } elseif (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === true) {
-                        $options=" -m 1";
-                    } elseif ((PSI_PLUGIN_UPRECORDS_MAX_ENTRIES > 1) && (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES != 10)) {
-                        $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
+                    if (($ment = max(intval(PSI_PLUGIN_UPRECORDS_MAX_ENTRIES), 0)) != 10) {
+                        $options=" -m ".$ment;
                     }
                 }
                 if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {

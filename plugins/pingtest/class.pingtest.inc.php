@@ -46,11 +46,8 @@ class PingTest extends PSI_Plugin
                 if (PSI_OS == 'WINNT') {
                     $params = "-n 1";
                     if (defined('PSI_PLUGIN_PINGTEST_TIMEOUT')) {
-                        if (PSI_PLUGIN_PINGTEST_TIMEOUT === false) {
-                        } elseif (PSI_PLUGIN_PINGTEST_TIMEOUT === true) {
-                            $params .= " -w 1000";
-                        } else {
-                            $params .= " -w ".(1000*PSI_PLUGIN_PINGTEST_TIMEOUT);
+                        if (($tout = max(intval(PSI_PLUGIN_PINGTEST_TIMEOUT), 0)) > 0) {
+                            $params .= " -w ".(1000*$tout);
                         }
                     } else {
                         $params .= " -w 2000";
@@ -59,11 +56,8 @@ class PingTest extends PSI_Plugin
                 } else {
                     $params = "-c 1";
                     if (defined('PSI_PLUGIN_PINGTEST_TIMEOUT')) {
-                        if (PSI_PLUGIN_PINGTEST_TIMEOUT === false) {
-                        } elseif (PSI_PLUGIN_PINGTEST_TIMEOUT === true) {
-                            $params .= " -W 1";
-                        } else {
-                            $params .= " -W ".PSI_PLUGIN_PINGTEST_TIMEOUT;
+                        if (($tout = max(intval(PSI_PLUGIN_PINGTEST_TIMEOUT), 0)) > 0) {
+                            $params .= " -W ".$tout;
                         }
                     } else {
                         $params .= " -W 2";
