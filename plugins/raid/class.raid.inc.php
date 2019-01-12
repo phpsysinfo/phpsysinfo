@@ -88,7 +88,7 @@ class Raid extends PSI_Plugin
                     }
                     if (strtolower(PSI_PLUGIN_RAID_ACCESS)=="command") {
                         foreach ($devices as $device) {
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
                                 $this->_filecontent['idrac'][$device] = $buffer;
                             }
@@ -102,7 +102,7 @@ class Raid extends PSI_Plugin
                                 $old_err_rep = error_reporting();
                                 error_reporting(E_ERROR); /* fatal errors only */
                             }
-                            $bufferarr=snmprealwalk($device, "public", ".1.3.6.1.4.1.674.10892.5.5.1.20", 1000000, 1);
+                            $bufferarr=snmprealwalk($device, "public", ".1.3.6.1.4.1.674.10892.5.5.1.20", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
                             if (! PSI_DEBUG) {
                                 error_reporting($old_err_rep); /* restore error level */
                                 set_error_handler('errorHandlerPsi'); /* restore error handler */

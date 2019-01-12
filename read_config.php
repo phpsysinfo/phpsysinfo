@@ -239,6 +239,45 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    /* executeProgram() timeout value in seconds */
+    if (defined('PSI_EXEC_TIMEOUT')) {
+        if (PSI_EXEC_TIMEOUT === false) {
+            define('PSI_EXEC_TIMEOUT_INT', 0);
+        } elseif (PSI_EXEC_TIMEOUT === true) {
+            define('PSI_EXEC_TIMEOUT_INT', 1);
+        } else {
+            define('PSI_EXEC_TIMEOUT_INT', PSI_EXEC_TIMEOUT);
+        }
+    } else {
+        define('PSI_EXEC_TIMEOUT_INT', 30);
+    }
+
+    /* snmprealwalk() and executeProgram("snmpwalk") number of seconds until the first timeout */
+    if (defined('PSI_SNMP_TIMEOUT')) {
+        if (PSI_SNMP_TIMEOUT === false) {
+            define('PSI_SNMP_TIMEOUT_INT', 0);
+        } elseif (PSI_SNMP_TIMEOUT === true) {
+            define('PSI_SNMP_TIMEOUT_INT', 1);
+        } else {
+            define('PSI_SNMP_TIMEOUT_INT', PSI_SNMP_TIMEOUT);
+        }
+    } else {
+        define('PSI_SNMP_TIMEOUT_INT', 3);
+    }
+
+    /* snmprealwalk() and executeProgram("snmpwalk") number of times to retry if timeouts occur */
+    if (defined('PSI_SNMP_RETRY')) {
+        if (PSI_SNMP_RETRY === false) {
+            define('PSI_SNMP_RETRY_INT', 0);
+        } elseif (PSI_SNMP_RETRY === true) {
+            define('PSI_SNMP_RETRY_INT', 1);
+        } else {
+            define('PSI_SNMP_RETRY_INT', PSI_SNMP_RETRY);
+        }
+    } else {
+        define('PSI_SNMP_RETRY_INT', 0);
+    }
+
     if (!defined('PSI_OS')) {
         define('PSI_OS', PHP_OS);
     }

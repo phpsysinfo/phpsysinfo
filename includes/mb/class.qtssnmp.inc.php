@@ -21,7 +21,7 @@ class QTSsnmp extends Sensors
      */
     private function _temperature()
     {
-        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 127.0.0.1 .1.3.6.1.4.1.24681.1.2.5.0", $buffer, PSI_DEBUG)
+        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." 127.0.0.1 .1.3.6.1.4.1.24681.1.2.5.0", $buffer, PSI_DEBUG)
            && preg_match('/^[\.\d]+ = STRING:\s\"?(\d+)\sC/', $buffer, $data)) {
             $dev = new SensorDevice();
             $dev->setName("CPU");
@@ -29,7 +29,7 @@ class QTSsnmp extends Sensors
             $this->mbinfo->setMbTemp($dev);
         }
 
-        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 127.0.0.1 .1.3.6.1.4.1.24681.1.2.6.0", $buffer, PSI_DEBUG)
+        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." 127.0.0.1 .1.3.6.1.4.1.24681.1.2.6.0", $buffer, PSI_DEBUG)
            && preg_match('/^[\.\d]+ = STRING:\s\"?(\d+)\sC/', $buffer, $data)) {
             $dev = new SensorDevice();
             $dev->setName("System");
@@ -37,7 +37,7 @@ class QTSsnmp extends Sensors
             $this->mbinfo->setMbTemp($dev);
         }
 
-        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 127.0.0.1 .1.3.6.1.4.1.24681.1.2.11.1.3", $buffer, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." 127.0.0.1 .1.3.6.1.4.1.24681.1.2.11.1.3", $buffer, PSI_DEBUG)) {
             $lines = preg_split('/\r?\n/', $buffer);
             foreach ($lines as $line) if (preg_match('/^[\.\d]+\.(\d+) = STRING:\s\"?(\d+)\sC/', $line, $data)) {
                 $dev = new SensorDevice();
@@ -55,7 +55,7 @@ class QTSsnmp extends Sensors
      */
     private function _fans()
     {
-        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 127.0.0.1 .1.3.6.1.4.1.24681.1.2.15.1.3", $buffer, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." 127.0.0.1 .1.3.6.1.4.1.24681.1.2.15.1.3", $buffer, PSI_DEBUG)) {
             $lines = preg_split('/\r?\n/', $buffer);
             foreach ($lines as $line) if (preg_match('/^[\.\d]+\.(\d+) = STRING:\s\"?(\d+)\sRPM/', $line, $data)) {
                 $dev = new SensorDevice();
