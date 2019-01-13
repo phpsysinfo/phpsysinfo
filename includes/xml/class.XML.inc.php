@@ -799,7 +799,7 @@ class XML
             $options->addAttribute('refresh', 60000);
         }
         if (defined('PSI_FS_USAGE_THRESHOLD')) {
-            if ((($fsut = intval(PSI_FS_USAGE_THRESHOLD)) >= 1) && ($fsut <= 99)){
+            if ((($fsut = intval(PSI_FS_USAGE_THRESHOLD)) >= 1) && ($fsut <= 99)) {
                 $options->addAttribute('threshold', $fsut);
             }
         } else {
