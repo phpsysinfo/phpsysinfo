@@ -920,7 +920,7 @@ class Linux extends OS
                                 if (isset($nlocate[1]) && isset($nsize[1])) {
                                     $dev->setSerial(trim(substr($buf, $nlocate[1], $nsize[1])));
                                 }
-                            }                       
+                            }
                         }
                         $this->sys->setNvmeDevices($dev);
                     }

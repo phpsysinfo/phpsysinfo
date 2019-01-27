@@ -965,7 +965,7 @@ class Raid extends PSI_Plugin
                     $snmptablev[$data[1]]['virtualDiskFQDD']=trim($data[2], "\"");
                 }
             }
-            
+
             foreach ($snmptablec as $raid_controller) {
                 $tablec = array(); //controller result table
                 if (isset($raid_controller['controllerRollUpStatus'])) {
@@ -1062,7 +1062,7 @@ class Raid extends PSI_Plugin
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['name']=$raid_physical['physicalDiskName'];
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['parentid'] = 1;
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = 'disk';
-                        
+
                         if (isset($raid_physical['physicalDiskState'])) {
                             switch ($raid_physical['physicalDiskState']) {
                                 case 1:
@@ -1074,7 +1074,7 @@ class Raid extends PSI_Plugin
                                     $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "ready";
                                     break;
                                 case 3:
-                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "ok";                                
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "ok";
                                     $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "online";
                                     break;
                                 case 4:

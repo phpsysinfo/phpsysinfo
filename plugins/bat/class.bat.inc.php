@@ -137,7 +137,7 @@ class BAT extends PSI_Plugin
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.($bufferWB[$bi]['DesignVoltage']*1000)."\n";
                                 $hasvolt = true;
                             }
-                            if (isset($bufferBS[$bi]['RemainingCapacity']) && 
+                            if (isset($bufferBS[$bi]['RemainingCapacity']) &&
                                (($bufferBS[$bi]['RemainingCapacity']>0) || ($hasvolt && ($bufferBS[$bi]['RemainingCapacity']==0)))) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[$bi]['RemainingCapacity']*1000)."\n";
                                 $capacity = '';
