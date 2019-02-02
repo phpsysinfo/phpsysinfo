@@ -65,7 +65,7 @@ class AIX extends OS
     private function _uptime()
     {
         if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) days,\s*(\d+):(\d+),/", $buf, $ar_buf) || preg_match("/up (\d+) day,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
@@ -334,7 +334,7 @@ class AIX extends OS
     public function build()
     {
         $this->error->addError("WARN", "The AIX version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -342,20 +342,20 @@ class AIX extends OS
             $this->_users();
             $this->_loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_cpuinfo();
             $this->_pci();
             $this->_ide();
             $this->_scsi();
             $this->_usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

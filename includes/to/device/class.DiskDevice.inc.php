@@ -82,6 +82,13 @@ class DiskDevice
     private $_percentInodesUsed = null;
 
     /**
+     * ignore mode
+     *
+     * @var Ignore
+     */
+    private $_ignore = 0;
+
+    /**
      * Returns PercentUsed calculated when function is called from internal values
      *
      * @see DiskDevice::$_total
@@ -304,5 +311,29 @@ class DiskDevice
     public function setUsed($used)
     {
         $this->_used = $used;
+    }
+
+    /**
+     * Returns $_ignore.
+     *
+     * @see DiskDevice::$_ignore
+     *
+     * @return Integer
+     */
+    public function getIgnore()
+    {
+        return $this->_ignore;
+    }
+
+    /**
+     * Sets $_ignore.
+     *
+     * @see DiskDevice::$_ignore
+     *
+     * @return Void
+     */
+    public function setIgnore($ignore)
+    {
+        $this->_ignore = $ignore;
     }
 }

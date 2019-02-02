@@ -85,7 +85,7 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
     <exp>Aktive Netzwerkverbindungen</exp>
   </expression>
   <expression id="027" name="memusage">
-    <exp>Arbeiteitsspeicher-Auslastung</exp>
+    <exp>Arbeitsspeicher-Auslastung</exp>
   </expression>
   <expression id="028" name="phymem">
     <exp>Physikalischer Speicher</exp>
@@ -380,5 +380,8 @@ phpSysInfo language file Language: German Created by: Michael Cramer Modified by
   </expression>
   <expression id="125" name="memfree">
     <exp>Frei</exp>
+  </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Geräte</exp>
   </expression>
 </tns:translation>

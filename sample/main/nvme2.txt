@@ -1,0 +1,3 @@
+Node             SN                   Model                                    Version  Namespace Usage                      Format           FW Rev
+---------------- -------------------- ---------------------------------------- -------- --------- -------------------------- ---------------- --------
+/dev/nvme0n1     deadbeef             QEMU NVMe Ctrl                           1.1      1           1.07  GB /   1.07  GB      4 KiB +  0 B   1.0

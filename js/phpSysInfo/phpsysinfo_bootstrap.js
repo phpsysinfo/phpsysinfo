@@ -7,17 +7,8 @@
  * @param {String} plugname internal plugin name
  * @return {jQuery} translation jQuery-Object
  */
-var langxml = [], langcounter = 1, langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
+var langxml = [], langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
-
-/**
- * Fix PNG loading on IE6 or below
- */
-function PNGload(png) {
-    if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
-        png.ifixpng('./gfx/blank.gif');
-    }
-}
 
 /**
  * generate a cookie, if not exist, and add an entry to it<br><br>
@@ -123,13 +114,12 @@ function getLanguage(plugin, langarrId) {
 }
 
 /**
- * generate a span tag with an unique identifier to be html valid
+ * generate a span tag
  * @param {Number} id translation id in the xml file
- * @param {Boolean} generate generate lang_id in span tag or use given value
  * @param {String} [plugin] name of the plugin for which the tag should be generated
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, generate, plugin) {
+function genlang(id, plugin) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -153,12 +143,8 @@ function genlang(id, generate, plugin) {
     if (plugin) {
         idString = "plugin_" + plugname + "_" + idString;
     }
-    if (generate) {
-        html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter++;
-    } else {
-        html += "<span id=\"lang_" + idString + "\">";
-    }
+
+    html += "<span class=\"lang_" + idString + "\">";
 
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
@@ -171,7 +157,7 @@ function genlang(id, generate, plugin) {
 
 /**
  * translates all expressions based on the translation xml file<br>
- * translation expressions must be in the format &lt;span id="lang_???"&gt;&lt;/span&gt;, where ??? is
+ * translation expressions must be in the format &lt;span class="lang_???"&gt;&lt;/span&gt;, where ??? is
  * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
  * file nothing would be translated, so the initial value which is inside the span tag is displayed
  * @param {String} [plugin] name of the plugin
@@ -198,11 +184,8 @@ function changeSpanLanguage(plugin) {
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
-        $('span[id*=lang_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_]').each(function translate(i) {
+            langId = this.className.substring(5);
             if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
                 langStr = langarr[langarrId][langId];
                 if (langStr !== undefined) {
@@ -213,14 +196,12 @@ function changeSpanLanguage(plugin) {
             }
         });
         $("#select").show(); //show if any language loaded
+        centerSelect();
         $("#output").show();
     } else {
         langarrId += plugin;
-        $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
+            langId = this.className.substring(5);
             langStr = langarr[langarrId][langId];
             if (langStr !== undefined) {
                 if (langStr.length > 0) {
@@ -329,7 +310,7 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
+    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
 
     $(document).ajaxStart(function () {
         $("#loader").css("visibility", "visible");
@@ -337,6 +318,7 @@ $(document).ready(function () {
     $(document).ajaxStop(function () {
         $("#loader").css("visibility", "hidden");
     });
+    $(window).resize(centerSelect);
 
     sorttable.init();
 
@@ -401,7 +383,7 @@ $(document).ready(function () {
         }
 */
         $('#language').show();
-        $('span[id=lang_045]').show(); 
+        $('span[class=lang_045]').show(); 
         $("#language").change(function changeLang() {
             current_language = $("#language").val().toString();
             createCookie('psi_language', current_language, 365);
@@ -417,11 +399,15 @@ $(document).ready(function () {
     } else {
         cookie_template = readCookie("psi_bootstrap_template");
         if (cookie_template !== null) {
+            old_template = $("#template").val();
             $("#template").val(cookie_template);
+            if ($("#template").val() === null) {
+                $("#template").val(old_template);
+            }
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
-        $('span[id=lang_044]').show();
+        $('span[class=lang_044]').show();
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
@@ -435,6 +421,17 @@ $(document).ready(function () {
         reload(false);
     });
 });
+
+function centerSelect() {
+    var postop = $('.select').position().top;
+    if (postop > 0) {
+        if (postop < 10) { //no flex and one line
+            $('.select').css('marginTop', 11);
+        } else { //flex or two lines
+            $('.select').css('marginTop', 0);
+        }
+    }
+}
 
 Array.prototype.push_attrs=function(element) {
     for (var i = 0; i < element.length ; i++) {
@@ -577,13 +574,13 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" onload="PNGload($(this));" />' + " " +this.Distro; //onload IE6 PNG fix
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         LoadAvg: {
             html: function () {
                 if (this.CPULoad !== undefined) {
-                    return '<table style="width:100%;"><tr><td style="width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
+                    return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:50%;">'+this.LoadAvg + '</td><td><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + round(this.CPULoad,0) + '%;"></div>' +
                         '</div><div class="percent">' + round(this.CPULoad,0) + '%</div></td></tr></table>';
                 } else {
@@ -621,7 +618,7 @@ function renderVitals(data) {
                             if (not_first) {
                                 processes += ", ";
                             }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type, false);
+                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
                             not_first = true;
                         }
                     }
@@ -737,9 +734,8 @@ function renderHardware(data) {
 
     if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
         html+="<tr id=\"hardware-Machine\">";
-        html+="<th style=\"width:8%;\">"+genlang(107, false)+"</th>"; //Machine
-        html+="<td><span data-bind=\"Name\"></span></td>";
-        html+="<td></td>";
+        html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
+        html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
         html+="</tr>";
     }
 
@@ -750,24 +746,24 @@ function renderHardware(data) {
              if (i === 0) {
                 html+="<tr id=\"hardware-CPU\" class=\"treegrid-CPU\">";
                 html+="<th>CPU</th>";
-                html+="<td><span class=\"treegrid-span\">" + genlang(119, false) + ":</span></td>"; //Number of processors
+                html+="<td><span class=\"treegrid-span\">" + genlang(119) + ":</span></td>"; //Number of processors
                 html+="<td class=\"rightCell\"><span id=\"CPUCount\"></span></td>";
                 html+="</tr>";
             }
             html+="<tr id=\"hardware-CPU-" + i +"\" class=\"treegrid-CPU-" + i +" treegrid-parent-CPU\">";
             html+="<th></th>";
-            html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
             if (showCPULoadCompact && (datas[i]["@attributes"].Load !== undefined)) {
+                html+="<td><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
                 html+="<td style=\"width:15%;\" class=\"rightCell\"><span data-bind=\"Load\"></span></td>";
             } else {
-                html+="<td></td>";
+                html+="<td colspan=\"2\"><span class=\"treegrid-span\" data-bind=\"Model\"></span></td>";
             }
             html+="</tr>";
             for (proc_param in paramlist) {
                 if (((proc_param !== 'Load') || !showCPULoadCompact) && (datas[i]["@attributes"][proc_param] !== undefined)) {
                     html+="<tr id=\"hardware-CPU-" + i + "-" + proc_param + "\" class=\"treegrid-parent-CPU-" + i +"\">";
                     html+="<th></th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param], true) + "<span></td>";
+                    html+="<td><span class=\"treegrid-span\">" + genlang(paramlist[proc_param]) + "<span></td>";
                     html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                     html+="</tr>";
                 }
@@ -780,14 +776,14 @@ function renderHardware(data) {
     }
 
     var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
         try {
             datas = items(data.Hardware[hw_type].Device);
             for (i = 0; i < datas.length; i++) {
                 if (i === 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120', true) + ":</span></td>"; //Number of devices
+                    html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -800,7 +796,7 @@ function renderHardware(data) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"hardware-" + hw_type +"-" + i + "-" + proc_param + "\" class=\"treegrid-parent-" + hw_type +"-" + i +"\">";
                         html+="<th></th>";
-                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param], true) + "<span></td>";
+                        html+="<td><span class=\"treegrid-span\">" + genlang(devparamlist[proc_param]) + "<span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -837,7 +833,7 @@ function renderHardware(data) {
     }
 
     var licz;
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,USB:3,TB:4,I2C:5}) {
+    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
         try {
             licz = 0;
             datas = items(data.Hardware[hw_type].Device);
@@ -937,17 +933,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"].Percent + '% ' + '<i>(';
                     var not_first = false;
                     if (this.Details["@attributes"].AppPercent !== undefined) {
-                        html += genlang(64, false) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
+                        html += genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this.Details["@attributes"].CachedPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66, false) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
+                        html += genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
                         not_first = true;
                     }
                     if (this.Details["@attributes"].BuffersPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65, false) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
+                        html += genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -956,7 +952,7 @@ function renderMemory(data) {
         },
         Type: {
             html: function () {
-                return genlang(28, false); //Physical Memory
+                return genlang(28); //Physical Memory
             }
         }
     };
@@ -1013,17 +1009,29 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             html: function () {
-                return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
+                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         Free: {
             html: function () {
-                return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
+                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         Used: {
             html: function () {
-                return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
+                if ((this.Ignore !== undefined) && (this.Ignore >= 2)) {
+                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
+                } else {
+                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
+                }
             }
         },
         MountPoint: {
@@ -1039,8 +1047,8 @@ function renderFilesystem(data) {
         Percent: {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
-                    (((data.Options["@attributes"].threshold !== undefined) &&
-                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info') +
+                    ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                     '" style="width:' + this.Percent + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
             }
@@ -1053,9 +1061,16 @@ function renderFilesystem(data) {
         var total = {Total:0,Free:0,Used:0};
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
-            total.Total += parseInt(datas[i]["@attributes"].Total);
-            total.Free += parseInt(datas[i]["@attributes"].Free);
-            total.Used += parseInt(datas[i]["@attributes"].Used);
+            if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
+                if (datas[i]["@attributes"].Ignore == 1) {
+                    total.Total += parseInt(datas[i]["@attributes"].Used);
+                    total.Used += parseInt(datas[i]["@attributes"].Used);
+                }
+            } else {
+                total.Total += parseInt(datas[i]["@attributes"].Total);
+                total.Free += parseInt(datas[i]["@attributes"].Free);
+                total.Used += parseInt(datas[i]["@attributes"].Used);
+            }
             total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
@@ -1137,7 +1152,7 @@ function renderNetwork(data) {
             if ( (info !== undefined) && (info !== "") ) {
                 var infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
                 for (var j = 0; j < infos.length; j++){
-                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td><span class=\"treegrid-span\">" + infos[j] + "</span></td><td></td><td></td><td></td></tr>";
+                    html +="<tr class=\"treegrid-parent-network-" + i + "\"><td colspan=\"4\"><span class=\"treegrid-span\">" + infos[j] + "</span></td></tr>";
                 }
             }
         }
@@ -1202,7 +1217,7 @@ function renderVoltage(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1244,7 +1259,7 @@ function renderTemperature(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1273,13 +1288,13 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return round(this.Value,0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
             }
         },
         Min: {
             html: function () {
                 if (this.Min !== undefined)
-                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63, true); //RPM
+                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
             }
         },
         Label: {
@@ -1287,7 +1302,7 @@ function renderFans(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1330,7 +1345,7 @@ function renderPower(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1379,7 +1394,7 @@ function renderCurrent(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1411,7 +1426,7 @@ function renderOther(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align: middle; width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1446,22 +1461,22 @@ function renderUPS(data) {
         },
         LineVoltage: {
             html: function () {
-                return this.LineVoltage + String.fromCharCode(160) + genlang(82, true); //V
+                return this.LineVoltage + String.fromCharCode(160) + genlang(82); //V
             }
         },
         LineFrequency: {
             html: function () {
-                return this.LineFrequency + String.fromCharCode(160)  + genlang(109, true); //Hz
+                return this.LineFrequency + String.fromCharCode(160)  + genlang(109); //Hz
             }
         },
         BatteryVoltage: {
             html: function () {
-                return this.BatteryVoltage + String.fromCharCode(160) + genlang(82, true); //V
+                return this.BatteryVoltage + String.fromCharCode(160) + genlang(82); //V
             }
         },
         TimeLeftMinutes: {
             html: function () {
-                return this.TimeLeftMinutes + String.fromCharCode(160) + genlang(83, true); //minutes
+                return this.TimeLeftMinutes + String.fromCharCode(160) + genlang(83); //minutes
             }
         },
         LoadPercent: {
@@ -1488,13 +1503,12 @@ function renderUPS(data) {
             datas = items(data.UPSInfo.UPS);
             for (i = 0; i < datas.length; i++) {
                 html+="<tr id=\"ups-" + i +"\" class=\"treegrid-UPS-" + i+ "\">";
-                html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
-                html+="<td></td>";
+                html+="<td colspan=\"2\"><span class=\"treegrid-spanbold\" data-bind=\"Name\"></span></td>";
                 html+="</tr>";
                 for (proc_param in paramlist) {
                     if (datas[i]["@attributes"][proc_param] !== undefined) {
                         html+="<tr id=\"ups-" + i + "-" + proc_param + "\" class=\"treegrid-parent-UPS-" + i +"\">";
-                        html+="<td><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param], true) + "</span></td>";
+                        html+="<td style=\"width:60%;\"><span class=\"treegrid-spanbold\">" + genlang(paramlist[proc_param]) + "</span></td>";
                         html+="<td class=\"rightCell\"><span data-bind=\"" + proc_param + "\"></span></td>";
                         html+="</tr>";
                     }
@@ -1507,8 +1521,7 @@ function renderUPS(data) {
 
         if ((data.UPSInfo["@attributes"] !== undefined) && (data.UPSInfo["@attributes"].ApcupsdCgiLinks === "1")) {
             html+="<tr>";
-            html+="<td>(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99, false)+"</a>)</td>";
-            html+="<td></td>";
+            html+="<td colspan=\"2\">(<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>"+genlang(99)+"</a>)</td>";
             html+="</tr>";
         }
 
@@ -1568,12 +1581,12 @@ function formatUptime(sec) {
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
     if (intDays) {
-        txt += intDays.toString() + String.fromCharCode(160) + genlang(48, false) + String.fromCharCode(160); //days
+        txt += intDays.toString() + String.fromCharCode(160) + genlang(48) + String.fromCharCode(160); //days
     }
     if (intHours) {
-        txt += intHours.toString() + String.fromCharCode(160) + genlang(49, false) + String.fromCharCode(160); //hours
+        txt += intHours.toString() + String.fromCharCode(160) + genlang(49) + String.fromCharCode(160); //hours
     }
-    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50, false); //Minutes
+    return txt + intMin.toString() + String.fromCharCode(160) + genlang(50); //Minutes
 }
 
 /**
@@ -1593,13 +1606,13 @@ function formatTemp(degreeC, tempFormat) {
     } else {
         switch (tempFormat.toLowerCase()) {
         case "f":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true);
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61);
         case "c":
-            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true);
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60);
         case "c-f":
-            return round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + ")</i>";
+            return round(degree, 1) + String.fromCharCode(160) + genlang(60) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61) + ")</i>";
         case "f-c":
-            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61, true) + "<br><i>(" + round(degree, 1) + String.fromCharCode(160) + genlang(60, true) + ")</i>";
+            return round((((9 * degree) / 5) + 32), 1) + String.fromCharCode(160) + genlang(61) + "<br><i>(" + round(degree, 1) + String.fromCharCode(160) + genlang(60) + ")</i>";
         }
     }
 }
@@ -1610,11 +1623,11 @@ function formatTemp(degreeC, tempFormat) {
  * @return {String} html string with no breaking spaces and translation statements
  */
 function formatHertz(mhertz) {
-    if (mhertz && mhertz < 1000) {
-        return mhertz.toString() + String.fromCharCode(160) + genlang(92, true);
+    if ((mhertz >= 0) && (mhertz < 1000)) {
+        return mhertz.toString() + String.fromCharCode(160) + genlang(92);
     } else {
-        if (mhertz && mhertz >= 1000) {
-            return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93, true);
+        if (mhertz >= 1000) {
+            return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93);
         } else {
             return "";
         }
@@ -1627,9 +1640,10 @@ function formatHertz(mhertz) {
  * automatically so that every value can be read in a user friendly way
  * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
  * @param {jQuery} xml phpSysInfo-XML
+ * @param {parenths} if true then add parentheses
  * @return {String} string of the converted bytes with the translated unit expression
  */
-function formatBytes(bytes, byteFormat) {
+function formatBytes(bytes, byteFormat, parenths) {
     var show = "";
 
     if (byteFormat === undefined) {
@@ -1639,71 +1653,71 @@ function formatBytes(bytes, byteFormat) {
     switch (byteFormat.toLowerCase()) {
     case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
-        show += String.fromCharCode(160) + genlang(90, true);
+        show += String.fromCharCode(160) + genlang(90);
         break;
     case "tib":
         show += round(bytes / Math.pow(1024, 4), 2);
-        show += String.fromCharCode(160) + genlang(86, true);
+        show += String.fromCharCode(160) + genlang(86);
         break;
     case "gib":
         show += round(bytes / Math.pow(1024, 3), 2);
-        show += String.fromCharCode(160) + genlang(87, true);
+        show += String.fromCharCode(160) + genlang(87);
         break;
     case "mib":
         show += round(bytes / Math.pow(1024, 2), 2);
-        show += String.fromCharCode(160) + genlang(88, true);
+        show += String.fromCharCode(160) + genlang(88);
         break;
     case "kib":
         show += round(bytes / Math.pow(1024, 1), 2);
-        show += String.fromCharCode(160) + genlang(89, true);
+        show += String.fromCharCode(160) + genlang(89);
         break;
     case "pb":
         show += round(bytes / Math.pow(1000, 5), 2);
-        show += String.fromCharCode(160) + genlang(91, true);
+        show += String.fromCharCode(160) + genlang(91);
         break;
     case "tb":
         show += round(bytes / Math.pow(1000, 4), 2);
-        show += String.fromCharCode(160) + genlang(85, true);
+        show += String.fromCharCode(160) + genlang(85);
         break;
     case "gb":
         show += round(bytes / Math.pow(1000, 3), 2);
-        show += String.fromCharCode(160) + genlang(41, true);
+        show += String.fromCharCode(160) + genlang(41);
         break;
     case "mb":
         show += round(bytes / Math.pow(1000, 2), 2);
-        show += String.fromCharCode(160) + genlang(40, true);
+        show += String.fromCharCode(160) + genlang(40);
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += String.fromCharCode(160) + genlang(39, true);
+        show += String.fromCharCode(160) + genlang(39);
         break;
     case "b":
         show += bytes;
-        show += String.fromCharCode(160) + genlang(96, true);
+        show += String.fromCharCode(160) + genlang(96);
         break;
     case "auto_decimal":
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
-            show += String.fromCharCode(160) + genlang(91, true);
+            show += String.fromCharCode(160) + genlang(91);
         } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
-                show += String.fromCharCode(160) + genlang(85, true);
+                show += String.fromCharCode(160) + genlang(85);
             } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
-                    show += String.fromCharCode(160) + genlang(41, true);
+                    show += String.fromCharCode(160) + genlang(41);
                 } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
-                        show += String.fromCharCode(160) + genlang(40, true);
+                        show += String.fromCharCode(160) + genlang(40);
                     } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += String.fromCharCode(160) + genlang(39, true);
+                            show += String.fromCharCode(160) + genlang(39);
                         } else {
                                 show += bytes;
-                                show += String.fromCharCode(160) + genlang(96, true);
+                                show += String.fromCharCode(160) + genlang(96);
                         }
                     }
                 }
@@ -1713,33 +1727,36 @@ function formatBytes(bytes, byteFormat) {
     default:
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
-            show += String.fromCharCode(160) + genlang(90, true);
+            show += String.fromCharCode(160) + genlang(90);
         } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
-                show += String.fromCharCode(160) + genlang(86, true);
+                show += String.fromCharCode(160) + genlang(86);
             } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
-                    show += String.fromCharCode(160) + genlang(87, true);
+                    show += String.fromCharCode(160) + genlang(87);
                 } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
-                        show += String.fromCharCode(160) + genlang(88, true);
+                        show += String.fromCharCode(160) + genlang(88);
                     } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
-                            show += String.fromCharCode(160) + genlang(89, true);
+                            show += String.fromCharCode(160) + genlang(89);
                         } else {
                             show += bytes;
-                            show += String.fromCharCode(160) + genlang(96, true);
+                            show += String.fromCharCode(160) + genlang(96);
                         }
                     }
                 }
             }
         }
     }
-    return show;
+    if (parenths === true) {
+        show = "<i>(" + show + ")</i>";
+    }
+    return "<span style='display:none'>" + round(bytes,0) + ".</span>" + show; //span for sorting
 }
 
 function formatBPS(bps) {

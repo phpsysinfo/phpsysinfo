@@ -1,4 +1,5 @@
 body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     padding-top: 80px;
     color: #c8c8c8;
@@ -17,16 +18,9 @@ wbr {
     text-align: center;
 }
 
-.panel-primary {
+.card {
     background-color: #2e3338;
     border: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.ie8 .panel-primary {
 }
 
 .navbar {
@@ -40,27 +34,23 @@ wbr {
 
 .treegrid-span {
     display: table-cell;
-    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-spanbold {
     font-weight: bold;
     display: table-cell;
-    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-indent {
     width: 16px;
     height: 16px;
     display: table-cell;
-    *float: left; /* ie6 ie7 */
 }
 
 .treegrid-expander {
     width: 0px;
     height: 16px;
     display: table-cell;
-    *float: left; /* ie6 ie7 */
     cursor: pointer;
 }
 
@@ -70,7 +60,6 @@ wbr {
     position: relative;
     top: 1px;
     display: table-cell;
-    *float: left; /* ie6 ie7 */
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -84,28 +73,6 @@ wbr {
 .normalicon-down:before {
     content: "\25bc";
 }
-/* IE6 fix */
-* html .normalicon-right {
-    background: url('../gfx/right_gray.gif') no-repeat;
-    height: 14px;
-}
-* html .normalicon-down {
-    background: url('../gfx/down_gray.gif') no-repeat;
-    height: 14px;
-}
-/* IE7 fix */
-*+html .normalicon-right {
-    background: url('../gfx/right_gray.gif') no-repeat;
-    height: 14px;
-}
-*+html .normalicon-down {
-    background: url('../gfx/down_gray.gif') no-repeat;
-    height: 14px;
-}
-
-.table-responsive {
-    border: 0;
-}
 
 table.sortable thead th {
     cursor: pointer;
@@ -115,7 +82,11 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background: #3e444c;
+    background-color: #49515a;
+}
+
+.sorttable_nosort {
+    cursor: auto!important;
 }
 
 .table-hover > tbody > tr:hover {
@@ -132,11 +103,13 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .table {
     background-color: #2e3338!important;
-    margin :0;
+    margin: 0;
+    border: 0;
 }
 
 .logo {
     cursor: pointer;
+    width: 32px;
 }
 
 .errorbutton {
@@ -145,6 +118,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 
 .select {
     color: #c8c8c8;
+    float: right;
 }
 
 .template {
@@ -157,14 +131,17 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     color: #333;
 }
 
-.panel-heading {
-  background-color: #3e444c!important;
-  border-color: #3e444c!important;
+.card-header {
+   background-color: #3e444c!important;
+   border-color: #3e444c!important;
+   color: #fff!important;
 }
 
 .progress {
     margin-bottom: 0;
     background-color: #1c1e22;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
 .progress-bar-success {
@@ -187,18 +164,28 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     background-color: #2e3338;
 }
 
+.list-group {
+    display: block;
+}
+
 .list-group-item {
     background-color: #2e3338;
 }
 
 .reload {
     background-image: url("../gfx/reload.gif");
-    vertical-align: middle;
     float: right;
     cursor: pointer;
-    border: 0px;
     width: 16px;
     height: 16px;    
+}
+
+.container {
+    padding:0;
+}
+
+.table thead th {
+    border-top: none;
 }
 
 a, a:visited {
@@ -217,4 +204,22 @@ a:hover {
 .psihref:hover {
     text-decoration: underline;
     color: #fff;
+}
+
+.col-lg-6, .col-lg-12 {
+    padding-bottom: 20px;
+}
+
+.badge {
+    background-color: #777;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 3px 7px;
+    float: right;
+}
+
+.table-nopadding > tbody > tr > td,
+.table-nopadding > tbody > tr > th {
+  padding: 0;
 }

@@ -1,4 +1,5 @@
 <?php
+header('Cache-Control: no-store, no-cache, must-revalidate');
 /**
  * start page for webaccess
  * redirect the user to the supported page type by the users webbrowser (js available or not)
@@ -17,15 +18,7 @@
  * define the application root path on the webserver
  * @var string
  */
-define('APP_ROOT', dirname(__FILE__));
-
-/**
- * internal xml or external
- * external is needed when running in static mode
- *
- * @var boolean
- */
-define('PSI_INTERNAL_XML', false);
+define('PSI_APP_ROOT', dirname(__FILE__));
 
 if (version_compare("5.1.3", PHP_VERSION, ">")) {
     die("PHP 5.1.3 or greater is required!!!");
@@ -34,15 +27,31 @@ if (!extension_loaded("pcre")) {
     die("phpSysInfo requires the pcre extension to php in order to work properly.");
 }
 
-require_once APP_ROOT.'/includes/autoloader.inc.php';
+require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 
 // Load configuration
-require_once APP_ROOT.'/read_config.php';
+require_once PSI_APP_ROOT.'/read_config.php';
 
 if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
     $tpl = new Template("/templates/html/error_config.html");
     echo $tpl->fetch();
     die();
+}
+
+$useragent = $_SERVER['HTTP_USER_AGENT'];
+if (preg_match("/Safari\/(\d+)\.[\d\.]+$/", $useragent, $version) && ($version[1]<=534)) {
+    define('PSI_JQUERY_FIX', true);
+    define('PSI_CSS_FIX', 'safari5');
+} elseif (preg_match("/Firefox\/(\d+)\.[\d\.]+$/", $useragent, $version)) {
+    if ($version[1]<=15) {
+       define('PSI_CSS_FIX', 'firefox15');
+    } elseif ($version[1]<=20) {
+       define('PSI_CSS_FIX', 'firefox20');
+    } elseif ($version[1]<=27) {
+       define('PSI_CSS_FIX', 'firefox27');
+    } elseif ($version[1]==28) {
+       define('PSI_CSS_FIX', 'firefox28');
+    }
 }
 
 // redirect to page with and without javascript
@@ -57,7 +66,7 @@ case "dynamic":
     $webpage->run();
     break;
 case "xml":
-    $webpage = new WebpageXML(true);
+    $webpage = new WebpageXML("complete");
     $webpage->run();
     break;
 case "bootstrap":

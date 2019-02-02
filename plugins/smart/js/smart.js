@@ -39,9 +39,9 @@ function smart_buildTable(xml) {
     html += "  <table id=\"Plugin_SMARTTable\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th class=\"right\">" + genlang(2, false, "SMART") + "</th>\n";
+    html += "        <th class=\"right\">" + genlang(2, "SMART") + "</th>\n";
     $("Plugins Plugin_SMART columns column", xml).each(function smart_table_header() {
-        html += "        <th class=\"right\">" + genlang(100 + parseInt($(this).attr("id"), 10), false, "SMART") + "</th>\n";
+        html += "        <th class=\"right\">" + genlang(100 + parseInt($(this).attr("id"), 10), "SMART") + "</th>\n";
     });
     html += "      </tr>\n";
     html += "    </thead>\n";

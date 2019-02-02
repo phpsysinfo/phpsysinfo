@@ -381,4 +381,7 @@ phpSysInfo language file Language: Hebrew translated by: Eliezer Croitoru
   <expression id="125" name="memfree">
     <exp>פנוי</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>התקני NVMe</exp>
+  </expression>
 </tns:translation>

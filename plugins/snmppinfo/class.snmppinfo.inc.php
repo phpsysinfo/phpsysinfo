@@ -1,6 +1,6 @@
 <?php
 /**
- * SNMPPInfo Plugin, which displays battery state
+ * SNMPPInfo Plugin, which displays printers info via SNMP
  *
  * @category  PHP
  * @package   PSI_Plugin_SNMPPInfo
@@ -41,20 +41,20 @@ class SNMPPInfo extends PSI_Plugin
                         $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     }
                     foreach ($printers as $printer) {
-                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
+                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$printer." .1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
                         if (strlen($buffer) > 0) {
                             $this->_filecontent[$printer] = $buffer;
 
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.4.1.367.3.2.1.2.24.1.1", $buffer1, false);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$printer." .1.3.6.1.4.1.367.3.2.1.2.24.1.1", $buffer1, false);
                             if (strlen($buffer1) > 0) {
                                $this->_filecontent[$printer] .= "\n".$buffer1;
                             }
 
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$printer." .1.3.6.1.2.1.43.11.1.1", $buffer2, PSI_DEBUG);
                             if (strlen($buffer2) > 0) {
                                $this->_filecontent[$printer] .= "\n".$buffer2;
                             }
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -r 1 ".$printer." .1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$printer." .1.3.6.1.2.1.43.18.1.1", $buffer3, PSI_DEBUG);
                             if (strlen($buffer3) > 0) {
                                $this->_filecontent[$printer] .= "\n".$buffer3;
                             }
@@ -81,7 +81,7 @@ class SNMPPInfo extends PSI_Plugin
                             $old_err_rep = error_reporting();
                             error_reporting(E_ERROR); /* fatal errors only */
                         }
-                        $bufferarr=snmprealwalk($printer, "public", ".1.3.6.1.2.1.1.5", 1000000, 1);
+                        $bufferarr=snmprealwalk($printer, "public", ".1.3.6.1.2.1.1.5", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
                         if (! PSI_DEBUG) {
                             error_reporting($old_err_rep); /* restore error level */
                             set_error_handler('errorHandlerPsi'); /* restore error handler */
@@ -96,7 +96,7 @@ class SNMPPInfo extends PSI_Plugin
                             $old_err_rep = error_reporting();
                             error_reporting(E_ERROR); /* fatal errors only */
 
-                            $bufferarr1=snmprealwalk($printer, "public", ".1.3.6.1.4.1.367.3.2.1.2.24.1.1", 1000000, 1);
+                            $bufferarr1=snmprealwalk($printer, "public", ".1.3.6.1.4.1.367.3.2.1.2.24.1.1", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
 
                             error_reporting($old_err_rep); /* restore error level */
                             set_error_handler('errorHandlerPsi'); /* restore error handler */
@@ -111,7 +111,7 @@ class SNMPPInfo extends PSI_Plugin
                                 $old_err_rep = error_reporting();
                                 error_reporting(E_ERROR); /* fatal errors only */
                             }
-                            $bufferarr2=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.11.1.1", 1000000, 1);
+                            $bufferarr2=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.11.1.1", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
                             if (! PSI_DEBUG) {
                                 error_reporting($old_err_rep); /* restore error level */
                                 set_error_handler('errorHandlerPsi'); /* restore error handler */
@@ -127,7 +127,7 @@ class SNMPPInfo extends PSI_Plugin
                                 $old_err_rep = error_reporting();
                                 error_reporting(E_ERROR); /* fatal errors only */
                             }
-                            $bufferarr3=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.18.1.1", 1000000, 1);
+                            $bufferarr3=snmprealwalk($printer, "public", ".1.3.6.1.2.1.43.18.1.1", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
                             if (! PSI_DEBUG) {
                                 error_reporting($old_err_rep); /* restore error level */
                                 set_error_handler('errorHandlerPsi'); /* restore error handler */
@@ -155,7 +155,7 @@ class SNMPPInfo extends PSI_Plugin
                     $pn=0;
                     foreach ($printers as $printer) {
                         $buffer="";
-                        if (CommonFunctions::rfts(APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer) && !empty($buffer)) {
+                        if (CommonFunctions::rfts(PSI_APP_ROOT."/data/snmppinfo{$pn}.txt", $buffer) && !empty($buffer)) {
                             $this->_filecontent[$printer] = $buffer;
                         }
                         $pn++;

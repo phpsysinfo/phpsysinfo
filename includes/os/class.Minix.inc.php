@@ -34,14 +34,6 @@ class Minix extends OS
     private $_dmesg = array();
 
     /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * read /var/log/messages, but only if we haven't already
      *
      * @return array
@@ -198,7 +190,7 @@ class Minix extends OS
     private function _uptime()
     {
         if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) days,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
@@ -336,7 +328,7 @@ class Minix extends OS
     public function build()
     {
         $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -345,17 +337,17 @@ class Minix extends OS
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_pci();
             $this->_cpuinfo();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

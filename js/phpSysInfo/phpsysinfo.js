@@ -25,7 +25,7 @@
 
 "use strict";
 
-var langxml = [], langcounter = 1, filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
+var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [];
 
 /**
@@ -165,13 +165,12 @@ function getLanguage(plugin, langarrId) {
 }
 
 /**
- * generate a span tag with an unique identifier to be html valid
+ * generate a span tag
  * @param {Number} id translation id in the xml file
- * @param {Boolean} generate generate lang_id in span tag or use given value
  * @param {String} [plugin] name of the plugin for which the tag should be generated
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, generate, plugin) {
+function genlang(id, plugin) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -194,12 +193,9 @@ function genlang(id, generate, plugin) {
     if (plugin) {
         idString = "plugin_" + plugname + "_" + idString;
     }
-    if (generate) {
-        html += "<span id=\"lang_" + idString + "-" + langcounter.toString() + "\">";
-        langcounter++;
-    } else {
-        html += "<span id=\"lang_" + idString + "\">";
-    }
+
+    html += "<span class=\"lang_" + idString + "\">";
+
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
     }    
@@ -211,7 +207,7 @@ function genlang(id, generate, plugin) {
 
 /**
  * translates all expressions based on the translation xml file<br>
- * translation expressions must be in the format &lt;span id="lang_???"&gt;&lt;/span&gt;, where ??? is
+ * translation expressions must be in the format &lt;span class="lang_???"&gt;&lt;/span&gt;, where ??? is
  * the number of the translated expression in the xml file<br><br>if a translated expression is not found in the xml
  * file nothing would be translated, so the initial value which is inside the span tag is displayed
  * @param {String} [plugin] name of the plugin
@@ -238,11 +234,8 @@ function changeSpanLanguage(plugin) {
 
     if (plugin === undefined) {
         langarrId += "phpSysInfo";
-        $('span[id*=lang_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_]').each(function translate(i) {
+            langId = this.className.substring(5);
             if (langId.indexOf('plugin_') !== 0) { //does not begin with plugin_
                 langStr = langarr[langarrId][langId];
                 if (langStr !== undefined) {
@@ -251,16 +244,13 @@ function changeSpanLanguage(plugin) {
                     }
                 }
             }
-            $("#loader").hide();
-            $("#output").fadeIn("slow"); //show if any language loaded
         });
+        $("#loader").hide();
+        $("#output").fadeIn("slow"); //show if any language loaded
     } else {
         langarrId += plugin;
-        $('span[id*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
-            langId = this.getAttribute('id').substring(5);
-            if (langId.indexOf('-') !== -1) {
-                langId = langId.substring(0, langId.indexOf('-')); //remove the unique identifier
-            }
+        $('span[class*=lang_plugin_'+plugin.toLowerCase()+'_]').each(function translate(i) {
+            langId = this.className.substring(5);
             langStr = langarr[langarrId][langId];
             if (langStr !== undefined) {
                 if (langStr.length > 0) {
@@ -277,25 +267,25 @@ function changeSpanLanguage(plugin) {
  */
 function filesystemtable() {
     var html = "";
-    html += "<h2>" + genlang(30, false) + "</h2>\n";
+    html += "<h2>" + genlang(30) + "</h2>\n";
     html += "        <div style=\"overflow-x:auto;\">\n";
     html += "          <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
     html += "            <thead>\n";
     html += "              <tr>\n";
-    html += "                <th>" + genlang(31, false) + "</th>\n";
-    html += "                <th>" + genlang(34, true) + "</th>\n";
-    html += "                <th>" + genlang(32, false) + "</th>\n";
-    html += "                <th>" + genlang(33, true) + "</th>\n";
-    html += "                <th class=\"right\">" + genlang(35, false) + "</th>\n";
-    html += "                <th class=\"right\">" + genlang(36, true) + "</th>\n";
-    html += "                <th class=\"right\">" + genlang(37, true) + "</th>\n";
+    html += "                <th>" + genlang(31) + "</th>\n";
+    html += "                <th>" + genlang(34) + "</th>\n";
+    html += "                <th>" + genlang(32) + "</th>\n";
+    html += "                <th>" + genlang(33) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(35) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(36) + "</th>\n";
+    html += "                <th class=\"right\">" + genlang(37) + "</th>\n";
     html += "              </tr>\n";
     html += "            </thead>\n";
     html += "            <tfoot>\n";
     html += "              <tr style=\"font-weight : bold\">\n";
     html += "                <td>&nbsp;</td>\n";
     html += "                <td>&nbsp;</td>\n";
-    html += "                <td>" + genlang(38, false) + "</td>\n";
+    html += "                <td>" + genlang(38) + "</td>\n";
     html += "                <td id=\"s_fs_total\"></td>\n";
     html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
     html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
@@ -387,12 +377,12 @@ function formatUptime(sec) {
     intHours = Math.floor(intHours - (intDays * 24));
     intMin = Math.floor(intMin - (intDays * 60 * 24) - (intHours * 60));
     if (intDays) {
-        txt += intDays.toString() + "&nbsp;" + genlang(48, false) + "&nbsp;";
+        txt += intDays.toString() + "&nbsp;" + genlang(48) + "&nbsp;";
     }
     if (intHours) {
-        txt += intHours.toString() + "&nbsp;" + genlang(49, false) + "&nbsp;";
+        txt += intHours.toString() + "&nbsp;" + genlang(49) + "&nbsp;";
     }
-    return txt + intMin.toString() + "&nbsp;" + genlang(50, false);
+    return txt + intMin.toString() + "&nbsp;" + genlang(50);
 }
 
 /**
@@ -401,11 +391,11 @@ function formatUptime(sec) {
  * @return {String} html string with no breaking spaces and translation statements
  */
 function formatHertz(mhertz) {
-    if (mhertz && mhertz < 1000) {
-        return mhertz.toString() + "&nbsp;" + genlang(92, true);
+    if ((mhertz >= 0) && (mhertz < 1000)) {
+        return mhertz.toString() + "&nbsp;" + genlang(92);
     } else {
-        if (mhertz && mhertz >= 1000) {
-            return round(mhertz / 1000, 2) + "&nbsp;" + genlang(93, true);
+        if (mhertz >= 1000) {
+            return round(mhertz / 1000, 2) + "&nbsp;" + genlang(93);
         } else {
             return "";
         }
@@ -430,71 +420,71 @@ function formatBytes(bytes, xml) {
     switch (byteFormat.toLowerCase()) {
     case "pib":
         show += round(bytes / Math.pow(1024, 5), 2);
-        show += "&nbsp;" + genlang(90, true);
+        show += "&nbsp;" + genlang(90);
         break;
     case "tib":
         show += round(bytes / Math.pow(1024, 4), 2);
-        show += "&nbsp;" + genlang(86, true);
+        show += "&nbsp;" + genlang(86);
         break;
     case "gib":
         show += round(bytes / Math.pow(1024, 3), 2);
-        show += "&nbsp;" + genlang(87, true);
+        show += "&nbsp;" + genlang(87);
         break;
     case "mib":
         show += round(bytes / Math.pow(1024, 2), 2);
-        show += "&nbsp;" + genlang(88, true);
+        show += "&nbsp;" + genlang(88);
         break;
     case "kib":
         show += round(bytes / Math.pow(1024, 1), 2);
-        show += "&nbsp;" + genlang(89, true);
+        show += "&nbsp;" + genlang(89);
         break;
     case "pb":
         show += round(bytes / Math.pow(1000, 5), 2);
-        show += "&nbsp;" + genlang(91, true);
+        show += "&nbsp;" + genlang(91);
         break;
     case "tb":
         show += round(bytes / Math.pow(1000, 4), 2);
-        show += "&nbsp;" + genlang(85, true);
+        show += "&nbsp;" + genlang(85);
         break;
     case "gb":
         show += round(bytes / Math.pow(1000, 3), 2);
-        show += "&nbsp;" + genlang(41, true);
+        show += "&nbsp;" + genlang(41);
         break;
     case "mb":
         show += round(bytes / Math.pow(1000, 2), 2);
-        show += "&nbsp;" + genlang(40, true);
+        show += "&nbsp;" + genlang(40);
         break;
     case "kb":
         show += round(bytes / Math.pow(1000, 1), 2);
-        show += "&nbsp;" + genlang(39, true);
+        show += "&nbsp;" + genlang(39);
         break;
     case "b":
         show += bytes;
-        show += "&nbsp;" + genlang(96, true);
+        show += "&nbsp;" + genlang(96);
         break;
     case "auto_decimal":
         if (bytes > Math.pow(1000, 5)) {
             show += round(bytes / Math.pow(1000, 5), 2);
-            show += "&nbsp;" + genlang(91, true);
+            show += "&nbsp;" + genlang(91);
         } else {
             if (bytes > Math.pow(1000, 4)) {
                 show += round(bytes / Math.pow(1000, 4), 2);
-                show += "&nbsp;" + genlang(85, true);
+                show += "&nbsp;" + genlang(85);
             } else {
                 if (bytes > Math.pow(1000, 3)) {
                     show += round(bytes / Math.pow(1000, 3), 2);
-                    show += "&nbsp;" + genlang(41, true);
+                    show += "&nbsp;" + genlang(41);
                 } else {
                     if (bytes > Math.pow(1000, 2)) {
                         show += round(bytes / Math.pow(1000, 2), 2);
-                        show += "&nbsp;" + genlang(40, true);
+                        show += "&nbsp;" + genlang(40);
                     } else {
                         if (bytes > Math.pow(1000, 1)) {
                             show += round(bytes / Math.pow(1000, 1), 2);
-                            show += "&nbsp;" + genlang(39, true);
+                            show += "&nbsp;" + genlang(39);
                         } else {
                                 show += bytes;
-                                show += "&nbsp;" + genlang(96, true);
+                                show += "&nbsp;" + genlang(96);
                         }
                     }
                 }
@@ -504,26 +494,26 @@ function formatBytes(bytes, xml) {
     default:
         if (bytes > Math.pow(1024, 5)) {
             show += round(bytes / Math.pow(1024, 5), 2);
-            show += "&nbsp;" + genlang(90, true);
+            show += "&nbsp;" + genlang(90);
         } else {
             if (bytes > Math.pow(1024, 4)) {
                 show += round(bytes / Math.pow(1024, 4), 2);
-                show += "&nbsp;" + genlang(86, true);
+                show += "&nbsp;" + genlang(86);
             } else {
                 if (bytes > Math.pow(1024, 3)) {
                     show += round(bytes / Math.pow(1024, 3), 2);
-                    show += "&nbsp;" + genlang(87, true);
+                    show += "&nbsp;" + genlang(87);
                 } else {
                     if (bytes > Math.pow(1024, 2)) {
                         show += round(bytes / Math.pow(1024, 2), 2);
-                        show += "&nbsp;" + genlang(88, true);
+                        show += "&nbsp;" + genlang(88);
                     } else {
                         if (bytes > Math.pow(1024, 1)) {
                             show += round(bytes / Math.pow(1024, 1), 2);
-                            show += "&nbsp;" + genlang(89, true);
+                            show += "&nbsp;" + genlang(89);
                         } else {
                             show += bytes;
-                            show += "&nbsp;" + genlang(96, true);
+                            show += "&nbsp;" + genlang(96);
                         }
                     }
                 }
@@ -585,13 +575,13 @@ function formatTemp(degreeC, xml) {
     } else {
         switch (tempFormat) {
         case "f":
-            return round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61, true);
+            return round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61);
         case "c":
-            return round(degree, 1) + "&nbsp;" + genlang(60, true);
+            return round(degree, 1) + "&nbsp;" + genlang(60);
         case "c-f":
-            return round(degree, 1) + "&nbsp;" + genlang(60, true) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61, true) + ")</i>";
+            return round(degree, 1) + "&nbsp;" + genlang(60) + "<br><i>(" + round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61) + ")</i>";
         case "f-c":
-            return round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61, true) + "<br><i>(" + round(degree, 1) + "&nbsp;" + genlang(60, true) + ")</i>";
+            return round((((9 * degree) / 5) + 32), 1) + "&nbsp;" + genlang(61) + "<br><i>(" + round(degree, 1) + "&nbsp;" + genlang(60) + ")</i>";
         }
     }
 }
@@ -605,7 +595,7 @@ function createBar(size, barclass) {
     if (barclass === undefined) {
         barclass = "bar";
     }
-    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + size + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + Math.max(Math.min(Math.round(size), 100), 0) + "px;\">&nbsp;</div>&nbsp;" + size + "%";
 }
 
 /**
@@ -730,8 +720,8 @@ function refreshVitals(xml) {
                         $("#s_processes_1").append(", ");
                         $("#s_processes_2").append(", ");
                     }
-                    $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
-                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type], true));
+                    $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
+                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
                     not_first = true;
                 }
             }
@@ -778,44 +768,44 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             collapsed.push(cpucoreposition);
         }
         if (!isNaN(speed)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(13, true) + ":</span></td><td>" + formatHertz(speed) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(13) + ":</span></td><td>" + formatHertz(speed) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(speedmax)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(100, true) + ":</span></td><td>" + formatHertz(speedmax) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(100) + ":</span></td><td>" + formatHertz(speedmax) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(speedmin)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(101, true) + ":</span></td><td>" + formatHertz(speedmin) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(101) + ":</span></td><td>" + formatHertz(speedmin) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(cache)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15, true) + ":</span></td><td>" + formatBytes(cache, xml) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(15) + ":</span></td><td>" + formatBytes(cache, xml) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (virt !== undefined) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(94, true) + ":</span></td><td>" + virt + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(94) + ":</span></td><td>" + virt + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bus)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(14, true) + ":</span></td><td>" + formatHertz(bus) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(14) + ":</span></td><td>" + formatHertz(bus) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(16, true) + ":</span></td><td>" + bogo.toString() + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(16) + ":</span></td><td>" + bogo.toString() + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(temp)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(51, true) + ":</span></td><td>" + formatTemp(temp, xml) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(51) + ":</span></td><td>" + formatTemp(temp, xml) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(load) && !showCPULoadCompact) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(9, true) + ":</span></td><td>" + createBar(load) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(9) + ":</span></td><td>" + createBar(load) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
     });
     if (cpucount === 0) {
-        html += "<tr><td colspan=\"2\">" + genlang(42, true) + "</td></tr>\n";
+        html += "<tr><td colspan=\"2\">" + genlang(42) + "</td></tr>\n";
         tree.push(rootposition);
     }
     return html;
@@ -854,24 +844,24 @@ function fillHWDevice(xml, type, tree, rootposition) {
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + name + "</span></td></tr>\n";
         devcoreposition = tree.push(rootposition);
         if (!isNaN(capacity)) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43, true) + ":</span></td><td>" + formatBytes(capacity, xml) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(43) + ":</span></td><td>" + formatBytes(capacity, xml) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (manufacturer!== undefined) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(122, true) + ":</span></td><td>" + manufacturer + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(122) + ":</span></td><td>" + manufacturer + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (product !== undefined) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(123, true) + ":</span></td><td>" + product + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(123) + ":</span></td><td>" + product + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {
-            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(124, true) + ":</span></td><td>" + serial + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><span class=\"treespan\">" + genlang(124) + ":</span></td><td>" + serial + "</td></tr>\n";
             tree.push(devcoreposition);
         }
     });
     if (devicecount === 0) {
-        html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + genlang(42, true) + "</span></td></tr>\n";
+        html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + genlang(42) + "</span></td></tr>\n";
         tree.push(rootposition);
     }
     return html;
@@ -897,7 +887,7 @@ function refreshHardware(xml) {
 
     var html = "", tree = [], closed = [], index = 0, machine = "";
     $("#hardware").empty();
-    html += "<h2>" + genlang(10, false) + "</h2>\n";
+    html += "<h2>" + genlang(10) + "</h2>\n";
     html += " <div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <tbody class=\"tree\">\n";
@@ -906,20 +896,20 @@ function refreshHardware(xml) {
         machine = $(this).attr("Name");
     });
     if ((machine !== undefined) && (machine !== "")) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(107, false) + "</span></td></tr>\n";
+        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(107) + "</span></td></tr>\n";
         html += "<tr><td colspan=\"2\"><span class=\"treespan\">" + machine + "</span></td></tr>\n";
         tree.push(tree.push(0));
     }
 
     if (countCpu(xml)) {
-        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(11, false) + "</span></td></tr>\n";
+        html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(11) + "</span></td></tr>\n";
         html += fillCpu(xml, tree, tree.push(0), closed);
     }
 
-    var typelist = {PCI:17,IDE:18,SCSI:19,USB:20,TB:117,I2C:118};
+    var typelist = {PCI:17,IDE:18,SCSI:19,NVMe:126,USB:20,TB:117,I2C:118};
     for (var dev_type in typelist) {
         if (countHWDevice(xml, dev_type)) {
-            html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(typelist[dev_type], false) + "</span></td></tr>\n";
+            html += "    <tr><td colspan=\"2\"><span class=\"treespanbold\">" + genlang(typelist[dev_type]) + "</span></td></tr>\n";
             index = tree.push(0);
             closed.push(index);
             html += fillHWDevice(xml, dev_type, tree, index);
@@ -962,14 +952,14 @@ function refreshNetwork(xml) {
 
     $("#network").empty();
 
-    html0 += "<h2>" + genlang(21, false) + "</h2>\n";
+    html0 += "<h2>" + genlang(21) + "</h2>\n";
 
     html1 += "   <thead>\n";
     html1 += "    <tr>\n";
-    html1 += "     <th>" + genlang(22, true) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(23, true) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(24, true) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(25, true) + "</th>\n";
+    html1 += "     <th>" + genlang(22) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(23) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(24) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(25) + "</th>\n";
     html1 += "    </tr>\n";
     html1 += "   </thead>\n";
 
@@ -1019,7 +1009,7 @@ function refreshNetwork(xml) {
             var i = 0, infos = info.replace(/:/g, "<wbr>:").split(";"); /* split long addresses */
             isinfo = true;
             for(i = 0; i < infos.length; i++){
-                html +="<tr><td><span class=\"treespan\">" + infos[i] + "</span></td><td></td><td></td><td></td></tr>";
+                html +="<tr><td colspan=\"4\"><span class=\"treespan\">" + infos[i] + "</span></td></tr>";
                 tree.push(networkindex);
             }
             if (!showNetworkInfosExpanded) {
@@ -1078,16 +1068,16 @@ function refreshMemory(xml) {
     var html = "", tree = [], closed = [];
 
     $("#memory").empty();
-    html += "<h2>" + genlang(27, false) + "</h2>\n";
+    html += "<h2>" + genlang(27) + "</h2>\n";
     html += "<div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";
     html += "     <tr>\n";
-    html += "      <th style=\"width:200px;\">" + genlang(34, true) + "</th>\n";
-    html += "      <th style=\"width:285px;\">" + genlang(33, true) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(125, false) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(36, true) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(37, true) + "</th>\n";
+    html += "      <th style=\"width:200px;\">" + genlang(34) + "</th>\n";
+    html += "      <th style=\"width:285px;\">" + genlang(33) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(125) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(36) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(37) + "</th>\n";
     html += "     </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody class=\"tree\">\n";
@@ -1098,7 +1088,7 @@ function refreshMemory(xml) {
         used = parseInt($(this).attr("Used"), 10);
         total = parseInt($(this).attr("Total"), 10);
         percent = parseInt($(this).attr("Percent"), 10);
-        html += "<tr><td style=\"width:200px;\"><span class=\"treespan\">" + genlang(28, false) + "</span></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
+        html += "<tr><td style=\"width:200px;\"><span class=\"treespan\">" + genlang(28) + "</span></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
         memoryindex = tree.push(0);
 
         $("Memory Details", xml).each(function getMemorydetails(id) {
@@ -1110,15 +1100,15 @@ function refreshMemory(xml) {
             cached = parseInt($(this).attr("Cached"), 10);
             cachedp = parseInt($(this).attr("CachedPercent"), 10);
             if (!isNaN(app)) {
-                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(64, false) + "</span></td><td style=\"width:285px;\">" + createBar(appp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px\">" + formatBytes(app, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(64) + "</span></td><td style=\"width:285px;\">" + createBar(appp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px\">" + formatBytes(app, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(cached)) {
-                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(66, false) + "</span></td><td style=\"width:285px;\">" + createBar(cachedp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(cached, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(66) + "</span></td><td style=\"width:285px;\">" + createBar(cachedp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(cached, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(buff)) {
-                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(65, false) + "</span></td><td style=\"width:285px\">" + createBar(buffp) + "</td><td class=\"rigth\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(buff, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td style=\"width:184px;\"><span class=\"treespan\">" + genlang(65) + "</span></td><td style=\"width:285px\">" + createBar(buffp) + "</td><td class=\"rigth\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(buff, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(app) || !isNaN(buff) || !isNaN(cached)) {
@@ -1134,7 +1124,7 @@ function refreshMemory(xml) {
         used = parseInt($(this).attr("Used"), 10);
         total = parseInt($(this).attr("Total"), 10);
         percent = parseInt($(this).attr("Percent"), 10);
-        html += "<tr><td style=\"width:200px;\"><span class=\"treespan\">" + genlang(29, false) + "</span></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
+        html += "<tr><td style=\"width:200px;\"><span class=\"treespan\">" + genlang(29) + "</span></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
         swapindex = tree.push(0);
 
         $("Memory Swap Mount", xml).each(function getDevices(id) {
@@ -1202,7 +1192,7 @@ function refreshFilesystems(xml) {
     });
 
     $("FileSystem Mount", xml).each(function getMount(mid) {
-        var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "";
+        var mpoint = "", mpid = 0, type = "", name = "", free = 0, used = 0, size = 0, percent = 0, options = "", inodes = 0, inodes_text = "", options_text = "", ignore = 0;
         mpid = parseInt($(this).attr("MountPointID"), 10);
         type = $(this).attr("FSType");
         name = $(this).attr("Name").replace(/;/g, ";<wbr>"); /* split long name */
@@ -1213,6 +1203,7 @@ function refreshFilesystems(xml) {
         options = $(this).attr("MountOptions");
         inodes = parseInt($(this).attr("Inodes"), 10);
         mpoint = $(this).attr("MountPoint");
+        ignore = parseInt($(this).attr("Ignore"), 10);
 
         if (mpoint === undefined) {
             mpoint = mpid;
@@ -1224,14 +1215,37 @@ function refreshFilesystems(xml) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
 
-        if (!isNaN(threshold) && (percent >= threshold)) {
-            filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+        if (!isNaN(ignore) && (ignore > 0)) {
+            if (ignore >= 2) {
+                if ((ignore == 2) && !isNaN(threshold) && (percent >= threshold)) {
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                } else {
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                }
+            } else  {
+                if (!isNaN(threshold) && (percent >= threshold)) {
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) +  ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                } else {
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                }
+            }
         } else {
-            filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+            if (!isNaN(threshold) && (percent >= threshold)) {
+                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+            } else {
+                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+            }
         }
-        total_used += used;
-        total_free += free;
-        total_size += size;
+        if (!isNaN(ignore) && (ignore > 0)) {
+            if (ignore == 1) {
+                total_used += used;
+                total_size += used;
+            }
+        } else {
+            total_used += used;
+            total_free += free;
+            total_size += size;
+        }
         total_usage = round((total_used / total_size) * 100, 2);
     });
 
@@ -1300,14 +1314,14 @@ function refreshVoltage(xml) {
         value = parseFloat($(this).attr("Value"));
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
-            _max = round(max, 2) + "&nbsp;" + genlang(62, true);
+            _max = round(max, 2) + "&nbsp;" + genlang(62);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
-            _min = round(min, 2) + "&nbsp;" + genlang(62, true);
+            _min = round(min, 2) + "&nbsp;" + genlang(62);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1337,11 +1351,11 @@ function refreshFans(xml) {
         value = parseFloat($(this).attr("Value"));
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
-            _min = round(min,0) + "&nbsp;" + genlang(63, true);
+            _min = round(min,0) + "&nbsp;" + genlang(63);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63, true) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1371,11 +1385,11 @@ function refreshPower(xml) {
         value = $(this).attr("Value");
         limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
-            _limit = round(limit, 2) + "&nbsp;" + genlang(103, true);
+            _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103, true) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1406,15 +1420,15 @@ function refreshCurrent(xml) {
 
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
-            _max = round(max, 2) + "&nbsp;" + genlang(106, true);
+            _max = round(max, 2) + "&nbsp;" + genlang(106);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
-            _min = round(min, 2) + "&nbsp;" + genlang(106, true);
+            _min = round(min, 2) + "&nbsp;" + genlang(106);
 
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106, true) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1470,7 +1484,7 @@ function refreshUps(xml) {
 
     var add_apcupsd_cgi_links = ($("[ApcupsdCgiLinks='1']", xml).length > 0);
     var html = "", tree = [], closed = [], index = 0, values = false;
-    html += "<h2>" + genlang(68, false) + "</h2>\n";
+    html += "<h2>" + genlang(68) + "</h2>\n";
     html += "        <div style=\"overflow-x:auto;\">\n";
     html += "          <table class=\"tablemain\" id=\"UPSTree\">\n";
     html += "            <tbody class=\"tree\">\n";
@@ -1503,59 +1517,59 @@ function refreshUps(xml) {
         }
         index = tree.push(0);
         if (model !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70, true) + "</span></td><td>" + model + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(70) + "</span></td><td>" + model + "</td></tr>\n";
             tree.push(index);
         }
         if (start_time !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72, true) + "</span></td><td>" + start_time + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(72) + "</span></td><td>" + start_time + "</td></tr>\n";
             tree.push(index);
         }
         if (upsstatus !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73, true) + "</span></td><td>" + upsstatus + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(73) + "</span></td><td>" + upsstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84, true) + "</span></td><td>" + temperature + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(84) + "</span></td><td>" + temperature + "</td></tr>\n";
             tree.push(index);
         }
         if (outages_count !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74, true) + "</span></td><td>" + outages_count + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(74) + "</span></td><td>" + outages_count + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75, true) + "</span></td><td>" + last_outage + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(75) + "</span></td><td>" + last_outage + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage_finish !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76, true) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(76) + "</span></td><td>" + last_outage_finish + "</td></tr>\n";
             tree.push(index);
         }
         if (line_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77, true) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(77) + "</span></td><td>" + line_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
             tree.push(index);
         }
         if (line_frequency !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108, true) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(108) + "</span></td><td>" + line_frequency + "&nbsp;" + genlang(109) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(load_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78, true) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(78) + "</span></td><td>" + createBar(load_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_date !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104, true) + "</span></td><td>" + battery_date + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(104) + "</span></td><td>" + battery_date + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79, true) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(79) + "</span></td><td>" + battery_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(battery_charge_percent)) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80, true) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(80) + "</span></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (time_left_minutes !== undefined) {
-            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81, true) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83, true) + "</td></tr>\n";
+            html += "<tr><td style=\"width:160px\"><span class=\"treespan\">" + genlang(81) + "</span></td><td>" + time_left_minutes + "&nbsp;" + genlang(83) + "</td></tr>\n";
             tree.push(index);
         }
         values=true;
@@ -1564,7 +1578,7 @@ function refreshUps(xml) {
     html += "          </table>\n";
     html += "        </div>\n";
     if (add_apcupsd_cgi_links){
-        html += " (<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99, false) + "</a>)\n";
+        html += " (<a title='details' href='/cgi-bin/apcupsd/multimon.cgi' target='apcupsdcgi'>" + genlang(99) + "</a>)\n";
     }
 
     $("#ups").append(html);
@@ -1641,7 +1655,6 @@ function reload(initiate) {
             }
 
             $('.stripeMe tr:nth-child(even)').addClass('even');
-            langcounter = 1;
         }
     });
 }
@@ -1662,7 +1675,7 @@ function settimer(xml) {
 }
 
 $(document).ready(function buildpage() {
-    var i = 0, cookie_template = null, cookie_language = null, blocktmp = "";
+    var i = 0, old_template = null, cookie_template = null, cookie_language = null, blocktmp = "";
 
     showCPUListExpanded = $("#showCPUListExpanded").val().toString()==="true";
     showCPUInfoExpanded = $("#showCPUInfoExpanded").val().toString()==="true";
@@ -1717,7 +1730,7 @@ $(document).ready(function buildpage() {
         }
 */
         $('#language').show();
-        $('span[id=lang_045]').show();
+        $('span[class=lang_045]').show();
         $("#language").change(function changeLang() {
             var i = 0;
             current_language = $("#language").val().toString();
@@ -1734,11 +1747,15 @@ $(document).ready(function buildpage() {
     } else {
         cookie_template = readCookie("psi_template");
         if (cookie_template !== null) {
+            old_template = $("#template").val();
             $("#template").val(cookie_template);
+            if ($("#template").val() === null) {
+                $("#template").val(old_template);
+            }           
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
-        $('span[id=lang_044]').show();
+        $('span[class=lang_044]').show();
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_template', $("#template").val().toString(), 365);
@@ -1888,7 +1905,7 @@ function buildBlock(plugin, translationid, reload) {
     }
     block += "<div id=\"panel_" + plugin + "\" style=\"display:none;\">\n";
     block += "<div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
-    block += "<h2>" + reloadpic + genlang(translationid, false, plugin) + "</h2>\n";
+    block += "<h2>" + reloadpic + genlang(translationid, plugin) + "</h2>\n";
     block += "</div>\n";
     block += "</div>\n";
     return block;

@@ -224,45 +224,47 @@ class Parser
         } else {
             if (isset($mount_parm)) {
                 foreach ($mount_parm as $mount_param) {
-                    $total = disk_total_space($mount_param['mountpoint']);
-                    if (($mount_param['fstype'] != 'none') && ($total > 0)) {
-                        $dev = new DiskDevice();
-                        $dev->setName($mount_param['name']);
-                        $dev->setFsType($mount_param['fstype']);
+                    if (is_dir($mount_param['mountpoint'])) {
+                        $total = disk_total_space($mount_param['mountpoint']);
+                        if (($mount_param['fstype'] != 'none') && ($total > 0)) {
+                            $dev = new DiskDevice();
+                            $dev->setName($mount_param['name']);
+                            $dev->setFsType($mount_param['fstype']);
 
-                        if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($mount_param['mountpoint']);
+                            if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($mount_param['mountpoint']);
 
-                        $dev->setTotal($total);
-                        $free = disk_free_space($mount_param['mountpoint']);
-                        if ($free > 0) {
-                            $dev->setFree($free);
-                        } else {
-                            $free = 0;
-                        }
-                        if ($total > $free) $dev->setUsed($total - $free);
-
-                        if (PSI_SHOW_MOUNT_OPTION) {
-                            if (PSI_SHOW_MOUNT_CREDENTIALS) {
-                                $dev->setOptions($mount_param['options']);
+                            $dev->setTotal($total);
+                            $free = disk_free_space($mount_param['mountpoint']);
+                            if ($free > 0) {
+                                $dev->setFree($free);
                             } else {
-                                $mpo=$mount_param['options'];
-
-                                $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
-                                $mpo=preg_replace('/,guest,/i', ',', $mpo);
-
-                                $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
-                                $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
-
-                                $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
-                                $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
-
-                                $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
-                                $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
-
-                                $dev->setOptions($mpo);
+                                $free = 0;
                             }
+                            if ($total > $free) $dev->setUsed($total - $free);
+
+                            if (PSI_SHOW_MOUNT_OPTION) {
+                                if (PSI_SHOW_MOUNT_CREDENTIALS) {
+                                    $dev->setOptions($mount_param['options']);
+                                } else {
+                                    $mpo=$mount_param['options'];
+
+                                    $mpo=preg_replace('/(^guest,)|(^guest$)|(,guest$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,guest,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^user=[^,]*,)|(^user=[^,]*$)|(,user=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,user=[^,]*,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^username=[^,]*,)|(^username=[^,]*$)|(,username=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,username=[^,]*,/i', ',', $mpo);
+
+                                    $mpo=preg_replace('/(^password=[^,]*,)|(^password=[^,]*$)|(,password=[^,]*$)/i', '', $mpo);
+                                    $mpo=preg_replace('/,password=[^,]*,/i', ',', $mpo);
+
+                                    $dev->setOptions($mpo);
+                                }
+                            }
+                            $arrResult[] = $dev;
                         }
-                        $arrResult[] = $dev;
                     }
                 }
             }

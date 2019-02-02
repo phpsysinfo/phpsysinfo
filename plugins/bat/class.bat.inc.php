@@ -129,14 +129,18 @@ class BAT extends PSI_Plugin
                         if ($techn != '') $buffer[$bi]['info'] .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
 
                         if (sizeof($bufferBS)>0) {
-                            if (isset($bufferBS[$bi]['RemainingCapacity']) && ($bufferBS[$bi]['RemainingCapacity']>0)) { // ? >=
-                                $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[$bi]['RemainingCapacity']*1000)."\n";
-                                $capacity = '';
-                            }
+                            $hasvolt = false;
                             if (isset($bufferBS[$bi]['Voltage']) && ($bufferBS[$bi]['Voltage']>0)) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.($bufferBS[$bi]['Voltage']*1000)."\n";
-                            } elseif (isset($bufferWB[$bi]['DesignVoltage'])) {
+                                $hasvolt = true;
+                            } elseif (isset($bufferWB[$bi]['DesignVoltage']) && ($bufferWB[$bi]['DesignVoltage']>0)) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_VOLTAGE_NOW='.($bufferWB[$bi]['DesignVoltage']*1000)."\n";
+                                $hasvolt = true;
+                            }
+                            if (isset($bufferBS[$bi]['RemainingCapacity']) &&
+                               (($bufferBS[$bi]['RemainingCapacity']>0) || ($hasvolt && ($bufferBS[$bi]['RemainingCapacity']==0)))) {
+                                $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.($bufferBS[$bi]['RemainingCapacity']*1000)."\n";
+                                $capacity = '';
                             }
                         }
 
@@ -237,7 +241,8 @@ class BAT extends PSI_Plugin
                                 $stateitem = '';
                                 CommonFunctions::rfts(preg_replace('/\/present$/', '/uevent', $batdevices[$i]), $infoitem, 0, 4096, false);
 
-                                if (($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_min_design'))!==null) {
+                                if ((($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_min_design'))!==null)
+                                   || (($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_max'))!==null)) {
                                     $stateitem .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.$buffer1."\n";
                                 }
                                 if (($buffer1 = CommonFunctions::rolv($batdevices[$i], '/\/present$/', '/voltage_max_design'))!==null) {
@@ -305,7 +310,7 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(APP_ROOT."/data/bat_info.txt", $info);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
             $itemcount = 0;
             $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
             foreach ($infoarray as $infoitem) { //upower detection
@@ -318,7 +323,7 @@ class BAT extends PSI_Plugin
             if ($itemcount == 0) {
                 $buffer[0]['info'] = $info;
             }
-            CommonFunctions::rfts(APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[bat] ACCESS");
@@ -729,12 +734,12 @@ class BAT extends PSI_Plugin
                     $xmlbat->addAttribute("CapacityUnit", $bat_item['capacity_unit']);
                 }
             }
-            if (isset($bat_item['design_voltage'])) {
+            if (isset($bat_item['design_voltage']) && ($bat_item['design_voltage']>0)) {
                 $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage']);
-                if (isset($bat_item['design_voltage_max']) && ($bat_item['design_voltage_max'] != $bat_item['design_voltage'])) {
+                if (isset($bat_item['design_voltage_max']) && ($bat_item['design_voltage_max']>0) && ($bat_item['design_voltage_max'] != $bat_item['design_voltage'])) {
                     $xmlbat->addAttribute("DesignVoltageMax", $bat_item['design_voltage_max']);
                 }
-            } elseif (isset($bat_item['design_voltage_max'])) {
+            } elseif (isset($bat_item['design_voltage_max']) && ($bat_item['design_voltage_max']>0)) {
                 $xmlbat->addAttribute("DesignVoltage", $bat_item['design_voltage_max']);
             }
             if (isset($bat_item['present_voltage'])) {

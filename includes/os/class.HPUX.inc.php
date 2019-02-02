@@ -181,7 +181,7 @@ class HPUX extends OS
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && CommonFunctions::rfts("/proc/ide/".$file."/media", $buf, 1)) {
                     if (trim($buf) == 'disk') {
                         if (CommonFunctions::rfts("/proc/ide/".$file."/capacity", $buf, 1, 4096, false)) {
-                            $dev->setCapacity(trim($buf) * 512 / 1024);
+                            $dev->setCapacity(trim($buf) * 512);
                         }
                     }
                 }
@@ -362,7 +362,7 @@ class HPUX extends OS
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -370,20 +370,20 @@ class HPUX extends OS
             $this->_users();
             $this->_loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_cpuinfo();
             $this->_pci();
             $this->_ide();
             $this->_scsi();
             $this->_usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

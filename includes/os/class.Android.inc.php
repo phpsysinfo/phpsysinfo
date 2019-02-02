@@ -50,28 +50,29 @@ class Android extends Linux
     }
 
     /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Kernel Version
      *
      * @return void
      */
     private function _kernel()
     {
-        if (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-            if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
-                $result = $ar_buf[1];
+        if (CommonFunctions::executeProgram('uname', '-r', $strBuf, false)) {
+            $result = $strBuf;
+            if (CommonFunctions::executeProgram('uname', '-v', $strBuf, PSI_DEBUG)) {
                 if (preg_match('/SMP/', $strBuf)) {
                     $result .= ' (SMP)';
                 }
-                $this->sys->setKernel($result);
             }
+            if (CommonFunctions::executeProgram('uname', '-m', $strBuf, PSI_DEBUG)) {
+                $result .= ' '.$strBuf;
+            }
+            $this->sys->setKernel($result);
+        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) && preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+            $result = $ar_buf[1];
+            if (preg_match('/SMP/', $strBuf)) {
+                $result .= ' (SMP)';
+            }
+            $this->sys->setKernel($result);
         }
     }
 
@@ -182,7 +183,7 @@ class Android extends Linux
             $this->sys->setDistribution('Android');
         } else {
             if (preg_match('/^(\d+\.\d+)/', $buf, $ver)
-                && ($list = @parse_ini_file(APP_ROOT."/data/osnames.ini", true))
+                && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))
                 && isset($list['Android'][$ver[1]])) {
                     $buf.=' '.$list['Android'][$ver[1]];
             }
@@ -244,7 +245,7 @@ class Android extends Linux
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
             $this->_kernel();
@@ -253,20 +254,20 @@ class Android extends Linux
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_pci();
             $this->_usb();
             $this->_i2c();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
     }

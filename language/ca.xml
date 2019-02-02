@@ -381,4 +381,7 @@ phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerry
   <expression id="125" name="memfree">
     <exp>Lliure</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Dispositius NVMe</exp>
+  </expression>
 </tns:translation>

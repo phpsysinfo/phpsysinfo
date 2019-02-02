@@ -5,7 +5,7 @@ phpSysInfo
 * Copyright (c), 1999-2009, Michael Cramer ([sf.net/users/bigmichi1](https://sf.net/users/bigmichi1))
 * Copyright (c), 2007-2008, Audun Larsen ([sf.net/users/xqus](https://sf.net/users/xqus))
 * Copyright (c), 2007-2015, Erkan Valentin ([github.com/rk4an](https://github.com/rk4an), [sf.net/users/jacky672](https://sf.net/users/jacky672))
-* Copyright (c), 2009-2018, Mieczyslaw Nalewaj ([github.com/namiltd](https://github.com/namiltd), [sf.net/users/namiltd](https://sf.net/users/namiltd))
+* Copyright (c), 2009-2019, Mieczyslaw Nalewaj ([github.com/namiltd](https://github.com/namiltd), [sf.net/users/namiltd](https://sf.net/users/namiltd))
 * Copyright (c), 2010-2012, Damien Roth ([sf.net/users/iysaak](https://sf.net/users/iysaak))
 
 
@@ -23,14 +23,14 @@ PHP 5.1.3 or later with SimpleXML, PCRE, XML and DOM extension.
 CURRENT TESTED PLATFORMS
 ------------------------
 
-- Linux 2.6.x
-- FreeBSD 7.x
+- Linux 2.6+
+- FreeBSD 7+
 - OpenBSD 2.8+
 - NetBSD
 - DragonFly
 - HP-UX
-- Darwin/OSX
-- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 2016
+- Darwin / Mac OS / OS X
+- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 2016 / 2019
 - Android
 
 #### Platforms currently in progress:

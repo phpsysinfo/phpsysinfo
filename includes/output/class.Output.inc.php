@@ -49,7 +49,7 @@ abstract class Output
      */
     private function _checkConfig()
     {
-        include_once APP_ROOT.'/read_config.php';
+        include_once PSI_APP_ROOT.'/read_config.php';
 
         if ($this->error->errorsExist()) {
             $this->error->errorsAsXML();

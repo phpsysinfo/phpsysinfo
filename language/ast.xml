@@ -381,4 +381,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
   <expression id="125" name="memfree">
     <exp>Llibre</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>Dispositivios NVMe</exp>
+  </expression>
 </tns:translation>

@@ -30,8 +30,8 @@ function psi_autoload($class_name)
     $dirs = array('/plugins/'.strtolower($class_name).'/', '/includes/mb/', '/includes/ups/');
 
     foreach ($dirs as $dir) {
-        if (file_exists(APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php')) {
-            include_once APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php';
+        if (file_exists(PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php')) {
+            include_once PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php';
 
             return;
         }
@@ -41,8 +41,8 @@ function psi_autoload($class_name)
     $dirs = array('/includes/', '/includes/interface/', '/includes/to/', '/includes/to/device/', '/includes/os/', '/includes/plugin/', '/includes/xml/', '/includes/web/', '/includes/error/', '/includes/js/', '/includes/output/');
 
     foreach ($dirs as $dir) {
-        if (file_exists(APP_ROOT.$dir.'class.'.$class_name.'.inc.php')) {
-            include_once APP_ROOT.$dir.'class.'.$class_name.'.inc.php';
+        if (file_exists(PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php')) {
+            include_once PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php';
 
             return;
         }

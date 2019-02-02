@@ -13,7 +13,21 @@
     </noscript>
     <script type="text/JavaScript" language="JavaScript">
       <!--
-      var sTargetURL = "index.php?disp=dynamic";
+      var sTargetURL = "index.php?disp=static";
+      //-->
+    </script>
+    <script type="text/JavaScript" language="JavaScript1.1">
+      <!--
+      sTargetURL = "index.php?disp=bootstrap";
+      //-->
+    </script>
+    <!--[if lt IE 8]>
+        <script type="text/JavaScript" language="JavaScript">
+            sTargetURL = "index.php?disp=dynamic";
+        </script>
+    <![endif]-->
+    <script type="text/JavaScript" language="JavaScript">
+      <!--
       function doRedirect() {
         setTimeout( "window.location.href = sTargetURL", 2*1000 );
       }

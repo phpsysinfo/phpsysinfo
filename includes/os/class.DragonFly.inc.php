@@ -29,9 +29,9 @@ class DragonFly extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct()
+    public function __construct($blockname = false)
     {
-        parent::__construct();
+        parent::__construct($blockname);
         $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
@@ -90,7 +90,7 @@ class DragonFly extends BSDCommon
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[1]);
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && !preg_match("/^acd[0-9]+(.*)/", $ar_buf[1])) {
-                    $dev->setCapacity($ar_buf[2] * 1024);
+                    $dev->setCapacity($ar_buf[2] * 1024 * 1024);
                 }
                 $this->sys->setIdeDevices($dev);
             }
@@ -145,12 +145,12 @@ class DragonFly extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
     }

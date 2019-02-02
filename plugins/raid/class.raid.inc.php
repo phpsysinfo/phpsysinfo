@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','graid','zpool');
+    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','graid','zpool','idrac');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -54,6 +54,7 @@ class Raid extends PSI_Plugin
         $notwas = true;
         switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
+        case 'php-snmp':
             if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
                 CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
                 $notwas = false;
@@ -78,6 +79,49 @@ class Raid extends PSI_Plugin
                 CommonFunctions::executeProgram("zpool", "status", $this->_filecontent['zpool'], PSI_DEBUG);
                 $notwas = false;
             }
+            if (in_array('idrac', $RaidProgs)) {
+                if (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
+                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
+                        $devices = eval(PSI_PLUGIN_RAID_IDRAC_DEVICES);
+                    } else {
+                        $devices = array(PSI_PLUGIN_RAID_IDRAC_DEVICES);
+                    }
+                    if (strtolower(PSI_PLUGIN_RAID_ACCESS)=="command") {
+                        foreach ($devices as $device) {
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
+                            if (strlen($buffer) > 0) {
+                                $this->_filecontent['idrac'][$device] = $buffer;
+                            }
+                        }
+                    } else {
+                        snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
+                        snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
+                        foreach ($devices as $device) {
+                            if (! PSI_DEBUG) {
+                                restore_error_handler(); /* default error handler */
+                                $old_err_rep = error_reporting();
+                                error_reporting(E_ERROR); /* fatal errors only */
+                            }
+                            $bufferarr=snmprealwalk($device, "public", ".1.3.6.1.4.1.674.10892.5.5.1.20", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
+                            if (! PSI_DEBUG) {
+                                error_reporting($old_err_rep); /* restore error level */
+                                set_error_handler('errorHandlerPsi'); /* restore error handler */
+                            }
+                            if (! empty($bufferarr)) {
+                                $buffer="";
+                                foreach ($bufferarr as $id=>$string) {
+                                    $buffer .= $id." = ".$string."\n";
+                                }
+                                if (strlen($buffer) > 0) {
+                                    $this->_filecontent['idrac'][$device] = $buffer;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                $notwas = false;
+            }
             if ($notwas) {
                 $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
             }
@@ -85,7 +129,23 @@ class Raid extends PSI_Plugin
         case 'data':
             foreach ($this->prog_items as $item) {
                 if (in_array($item, $RaidProgs)) {
-                    CommonFunctions::rfts(APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
+                    if ($item !== 'idrac') {
+                        CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
+                    } elseif (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
+                        if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
+                            $devices = eval(PSI_PLUGIN_RAID_IDRAC_DEVICES);
+                        } else {
+                            $devices = array(PSI_PLUGIN_RAID_IDRAC_DEVICES);
+                        }
+                        $pn=0;
+                        foreach ($devices as $device) {
+                            $buffer="";
+                            if (CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.$pn.".txt", $buffer) && !empty($buffer)) {
+                                $this->_filecontent['idrac'][$device] = $buffer;
+                            }
+                            $pn++;
+                        }
+                    }
                     $notwas = false;
                 }
             }
@@ -314,10 +374,10 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['type'] = "disk";
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['parentid'] = 1;
                             if ($partition[2]=="broken") {
-                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'F';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = "F";
                                 $this->_result['devices'][$partition[3]]['status'] = "F";
                             } else {
-                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = 'W';
+                                $this->_result['devices'][$partition[3]]['items'][$partition[1]]['status'] = "W";
                                 $this->_result['devices'][$partition[3]]['status'] = "W";
                             }
                             $this->_result['devices'][$partition[3]]['items'][$partition[1]]['name'] = $partition[1];
@@ -402,7 +462,7 @@ class Raid extends PSI_Plugin
                             unset($this->_result['devices'][$gid."-".$i]);
                         } else {
                             $this->_result['devices'][$gid]['items'][$gid."-".$i]['parentid'] = 1;
-                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = 'unknown';
+                            $this->_result['devices'][$gid]['items'][$gid."-".$i]['status'] = "unknown";
                             $this->_result['devices'][$gid]['items'][$gid."-".$i]['name'] = $gid."-".$i;
                             $id++;
                         }
@@ -520,9 +580,9 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['parentid'] = 0;
                             $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['name'] = $itemn0;
                             if ($details[0]==='unconfigured:') {
-                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'U';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = "U";
                             } else {
-                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = 'S';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$itemn]['status'] = "S";
                             }
                         } elseif (count($details) == 3) {
                             $itemn = '';
@@ -611,18 +671,18 @@ class Raid extends PSI_Plugin
                                 if ($partition[2]=="ACTIVE") {
                                     if (isset($disksinfo[$partition[1]]["status"])) {
                                         if ($disksinfo[$partition[1]]["status"]!=="ACTIVE") {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "W";
                                         } elseif ($disksinfo[$partition[1]]["substatus"]=="ACTIVE") {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "ok";
                                         } else {
-                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'W';
+                                            $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "W";
                                             if (isset($disksinfo[$partition[1]]["percent"])) {
                                                 $this->_result['devices'][$group]['action']['name'] = $disksinfo[$partition[1]]["substatus"];
                                                 $this->_result['devices'][$group]['action']['percent'] = $disksinfo[$partition[1]]["percent"];
                                             }
                                         }
                                     } else {
-                                        $this->_result['devices'][$group]['items'][$partition[1]]['status'] = 'ok';
+                                        $this->_result['devices'][$group]['items'][$partition[1]]['status'] = "ok";
                                         $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
                                     }
                                     $this->_result['devices'][$group]['items'][$partition[1]]['name'] = $partition[1];
@@ -815,6 +875,411 @@ class Raid extends PSI_Plugin
         }
     }
 
+    private function execute_idrac($buffer, $device)
+    {
+        $snmptablec = array(); //controller table
+        $snmptableb = array(); //battery table
+        $snmptablev = array(); //virtual disks table
+        $snmptablep = array(); //physical disks table
+
+        $buffer = preg_replace('/End of MIB\r?\n/', '', $buffer);
+        $buffer = preg_replace('/\s\r?\n([^\.])/', ' $1', $buffer);
+        $raiddata = preg_split("/\r?\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+        if (!empty($raiddata)) {
+            foreach ($raiddata as $line) {
+                if (preg_match('/^(.+) = Hex-STRING:\s(.+)/', $line, $linetmp)) {
+                    $hexchars = explode(" ", trim($linetmp[2]));
+                    $newstring = "";
+                    foreach ($hexchars as $hexchar) {
+                        $hexint = hexdec($hexchar);
+                        if (($hexint<32) || ($hexint>126)) {
+                            $newstring .= ".";
+                        } else {
+                            $newstring .= chr($hexint);
+                        }
+                    }
+                    if ($newstring!=="") {
+                        $line = $linetmp[1]." = STRING: ".$newstring;
+                    }
+                }
+                if (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.2\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablec[$data[1]]['controllerName']=trim($data[2], "\"");
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.8\.(.*) = STRING:\s(.*)/', $line, $data)) {
+//                    $snmptablec[$data[1]]['controllerFWVersion']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.9\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablec[$data[1]]['controllerCacheSizeInMB']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.37\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablec[$data[1]]['controllerRollUpStatus']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.78\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablec[$data[1]]['controllerFQDD']=trim($data[2], "\"");
+
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.15\.1\.4\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptableb[$data[1]]['batteryState']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.15\.1\.6\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptableb[$data[1]]['batteryComponentStatus']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.15\.1\.20\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptableb[$data[1]]['batteryFQDD']=trim($data[2], "\"");
+
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.2\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskName']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.4\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskState']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablep[$data[1]]['physicalDiskCapacityInMB']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.22\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablep[$data[1]]['physicalDiskSpareState']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.24\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablep[$data[1]]['physicalDiskComponentStatus']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.50\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablep[$data[1]]['physicalDiskOperationalState']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.51\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablep[$data[1]]['physicalDiskProgress']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.54\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskFQDD']=trim($data[2], "\"");
+
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.2\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskName']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.4\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskState']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.6\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskSizeInMB']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.10\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskWritePolicy']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskReadPolicy']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.13\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskLayout']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.14\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablev[$data[1]]['virtualDiskStripeSize']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.20\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablev[$data[1]]['virtualDiskComponentStatus']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.23\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskBadBlocksDetected']=$data[2];
+//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.26\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+//                    $snmptablev[$data[1]]['virtualDiskDiskCachePolicy']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.30\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskOperationalState']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.31\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskProgress']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.140\.1\.1\.35\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablev[$data[1]]['virtualDiskFQDD']=trim($data[2], "\"");
+                }
+            }
+
+            foreach ($snmptablec as $raid_controller) {
+                $tablec = array(); //controller result table
+                if (isset($raid_controller['controllerRollUpStatus'])) {
+                    switch ($raid_controller['controllerRollUpStatus']) {
+                        case 1:
+                            $tablec['status'] = "W";
+                            $tablec['info'] = "Other";
+                            break;
+                        case 2:
+                            $tablec['status'] = "W";
+                            $tablec['info'] = "Unknown";
+                            break;
+                        case 3:
+                            $tablec['status'] ="ok";
+                            break;
+                        case 4:
+                            $tablec['status'] ="W";
+                            $tablec['info'] ="Non-critical";
+                            break;
+                        case 5:
+                            $tablec['status'] = "F";
+                            $tablec['info'] = "Critical";
+                            break;
+                        case 6:
+                            $tablec['status'] = "F";
+                            $tablec['info'] = "Non-recoverable";
+                            break;
+                    }
+                }
+                if (isset($raid_controller['controllerName'])) {
+                    $tablec['controller'] = $raid_controller['controllerName'];
+                }
+                if (isset($raid_controller['controllerCacheSizeInMB'])) {
+                    $tablec['cache_size'] = $raid_controller['controllerCacheSizeInMB'] * 1024 * 1024;
+                }
+                foreach ($snmptableb as $raid_battery) {
+                    if (isset($raid_battery['batteryFQDD'])
+                       && isset($raid_controller['controllerFQDD'])
+                       && preg_match("/:".$raid_controller['controllerFQDD']."$/", $raid_battery['batteryFQDD'])) {
+                        if (isset($raid_battery['batteryState'])) {
+                            switch ($raid_battery['batteryState']) {
+                                case 1:
+                                    $tablec['battery'] = "unknown";
+                                    break;
+                                case 2:
+                                    $tablec['battery'] = "ready";
+                                    break;
+                                case 3:
+                                    $tablec['battery'] = "failed";
+                                    break;
+                                case 4:
+                                    $tablec['battery'] = "degraded";
+                                    break;
+                                case 5:
+                                    $tablec['battery'] = "missing";
+                                    break;
+                                case 6:
+                                    $tablec['battery'] = "charging";
+                                    break;
+                                case 7:
+                                    $tablec['battery'] = "bellowThreshold";
+                                    break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                foreach ($snmptablep as $raid_physical) {
+                    if (isset($raid_physical['physicalDiskFQDD'])
+                       && isset($raid_controller['controllerFQDD'])
+                       && preg_match("/:".$raid_controller['controllerFQDD']."$/", $raid_physical['physicalDiskFQDD'])) {
+                        $devname = $device.'-'.preg_replace('/[a-zA-Z\.]/', '', $raid_controller['controllerFQDD']);
+                        $this->_result['devices'][$devname]['prog'] = 'idrac';
+                        $this->_result['devices'][$devname]['name']=$raid_controller['controllerFQDD'];
+                        if (isset($tablec['controller'])) {
+                            $this->_result['devices'][$devname]['controller'] = $tablec['controller'];
+                        }
+                        if (isset($tablec['battery'])) {
+                            $this->_result['devices'][$devname]['battery'] = $tablec['battery'];
+                        }
+                        if (isset($tablec['info'])) {
+                            $this->_result['devices'][$devname]['status'] = $tablec['info'];
+                        } elseif (isset($tablec['status'])) {
+                            $this->_result['devices'][$devname]['status'] = $tablec['status'];
+                        }
+                        $this->_result['devices'][$devname]['items'][0]['name']=$raid_controller['controllerFQDD'];
+                        $this->_result['devices'][$devname]['items'][0]['parentid'] = 0;
+                        if (isset($tablec['status'])) {
+                            $this->_result['devices'][$devname]['items'][0]['status'] = $tablec['status'];
+                            if (isset($tablec['info'])) {
+                                $this->_result['devices'][$devname]['items'][0]['info'] = $tablec['info'];
+                            }
+                        }
+                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['name']=$raid_physical['physicalDiskName'];
+                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['parentid'] = 1;
+                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = 'disk';
+
+                        if (isset($raid_physical['physicalDiskState'])) {
+                            switch ($raid_physical['physicalDiskState']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "unknown";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "ready";
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "ok";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "online";
+                                    break;
+                                case 4:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "foreign";
+                                    break;
+                                case 5:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "F";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "offline";
+                                    break;
+                                case 6:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "F";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "blocked";
+                                    break;
+                                case 7:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "F";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "failed";
+                                    break;
+                                case 8:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "S";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "non-raid";
+                                    break;
+                                case 9:
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "F";
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "removed";
+                                    break;
+                            }
+                        }
+                    }
+                }
+                foreach ($snmptablev as $raid_virtual) {
+                    if (isset($raid_virtual['virtualDiskFQDD'])
+                       && isset($raid_controller['controllerFQDD'])
+                       && preg_match("/:".$raid_controller['controllerFQDD']."$/", $raid_virtual['virtualDiskFQDD'])) {
+                        $devname = $device.'-'.preg_replace('/[a-zA-Z\.]/', '', $raid_virtual['virtualDiskFQDD']);
+                        $this->_result['devices'][$devname]['prog'] = 'idrac';
+                        $this->_result['devices'][$devname]['name']=$raid_virtual['virtualDiskFQDD'];
+                        $this->_result['devices'][$devname]['items'][0]['name']=$raid_virtual['virtualDiskFQDD'];
+                        $this->_result['devices'][$devname]['items'][0]['parentid'] = 0;
+                        if (isset($tablec['controller'])) {
+                            $this->_result['devices'][$devname]['controller'] = $tablec['controller'];
+                        }
+                        if (isset($tablec['battery'])) {
+                            $this->_result['devices'][$devname]['battery'] = $tablec['battery'];
+                        }
+                        if (isset($tablec['cache_size'])) {
+                            $this->_result['devices'][$devname]['cache_size'] = $tablec['cache_size'];
+                        }
+                        if (isset($raid_virtual['virtualDiskLayout'])) {
+                            switch ($raid_virtual['virtualDiskLayout']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['level'] = "other";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['level'] = "raid0";
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['level'] = "raid1";
+                                    break;
+                                case 4:
+                                    $this->_result['devices'][$devname]['level'] = "raid5";
+                                    break;
+                                case 5:
+                                    $this->_result['devices'][$devname]['level'] = "raid6";
+                                    break;
+                                case 6:
+                                    $this->_result['devices'][$devname]['level'] = "raid10";
+                                    break;
+                                case 7:
+                                    $this->_result['devices'][$devname]['level'] = "raid50";
+                                    break;
+                                case 8:
+                                    $this->_result['devices'][$devname]['level'] = "raid60";
+                                    break;
+                                case 9:
+                                    $this->_result['devices'][$devname]['level'] = "concatraid1";
+                                    break;
+                                case 10:
+                                    $this->_result['devices'][$devname]['level'] = "concatraid5";
+                                    break;
+                                default:
+                                    $this->_result['devices'][$devname]['level'] = "unknown";
+                            }
+                            if (isset($this->_result['devices'][$devname]['level'])) {
+                                $this->_result['devices'][$devname]['items'][0]['name'] = $this->_result['devices'][$devname]['level'];
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskState'])) {
+                            switch ($raid_virtual['virtualDiskState']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['status'] = "unknown";
+                                    $this->_result['devices'][$devname]['items'][0]['status']="W";
+                                    $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['status'] = "online";
+                                    $this->_result['devices'][$devname]['items'][0]['status']="ok";
+                                    $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['status'] = "failed";
+                                    $this->_result['devices'][$devname]['items'][0]['status']="F";
+                                    $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
+                                    break;
+                                case 4:
+                                    $this->_result['devices'][$devname]['status'] = "degraded";
+                                    $this->_result['devices'][$devname]['items'][0]['status']="W";
+                                    $this->_result['devices'][$devname]['items'][0]['info'] = $this->_result['devices'][$devname]['status'];
+                                    break;
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskOperationalState'])) {
+                            switch ($raid_virtual['virtualDiskOperationalState']) {
+                                case 1:
+                                    //$this->_result['devices'][$devname]['action']['name'] = "notApplicable";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['action']['name'] = "reconstructing";
+                                    if (isset($raid_virtual['virtualDiskProgress'])) {
+                                        $this->_result['devices'][$devname]['action']['percent'] = $raid_virtual['virtualDiskProgress'];
+                                    } else {
+                                        $this->_result['devices'][$devname]['action']['percent'] = 0;
+                                    }
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['action']['name'] = "resyncing";
+                                    if (isset($raid_virtual['virtualDiskProgress'])) {
+                                        $this->_result['devices'][$devname]['action']['percent'] = $raid_virtual['virtualDiskProgress'];
+                                    } else {
+                                        $this->_result['devices'][$devname]['action']['percent'] = 0;
+                                    }
+                                    break;
+                                case 4:
+                                    $this->_result['devices'][$devname]['action']['name'] = "initializing";
+                                    if (isset($raid_virtual['virtualDiskProgress'])) {
+                                        $this->_result['devices'][$devname]['action']['percent'] = $raid_virtual['virtualDiskProgress'];
+                                    } else {
+                                        $this->_result['devices'][$devname]['action']['percent'] = 0;
+                                    }
+                                    break;
+                                case 5:
+                                    $this->_result['devices'][$devname]['action']['name'] = "backgroundInit";
+                                    if (isset($raid_virtual['virtualDiskProgress'])) {
+                                        $this->_result['devices'][$devname]['action']['percent'] = $raid_virtual['virtualDiskProgress'];
+                                    } else {
+                                        $this->_result['devices'][$devname]['action']['percent'] = 0;
+                                    }
+                                    break;
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskSizeInMB'])) {
+                            $this->_result['devices'][$devname]['size'] = $raid_virtual['virtualDiskSizeInMB'] * 1024 * 1024;
+                        }
+
+                        if (isset($raid_virtual['virtualDiskReadPolicy'])) {
+                            switch ($raid_virtual['virtualDiskReadPolicy']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['readpolicy'] = "noReadAhead";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['readpolicy'] = "readAhead";
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['readpolicy'] = "adaptiveReadAhead";
+                                    break;
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskWritePolicy'])) {
+                            switch ($raid_virtual['virtualDiskWritePolicy']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['writepolicy'] = "writeThrough";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['writepolicy'] = "writeBack";
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['writepolicy'] = "writeBackForce";
+                                    break;
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskState'])) {
+                            switch ($raid_virtual['virtualDiskState']) {
+                                case 1:
+                                    $this->_result['devices'][$devname]['status'] = "unknown";
+                                    break;
+                                case 2:
+                                    $this->_result['devices'][$devname]['status'] = "online";
+                                    break;
+                                case 3:
+                                    $this->_result['devices'][$devname]['status'] = "failed";
+                                    break;
+                                case 4:
+                                    $this->_result['devices'][$devname]['status'] = "degraded";
+                                    break;
+                            }
+                        }
+                        if (isset($raid_virtual['virtualDiskBadBlocksDetected'])) {
+                            $this->_result['devices'][$devname]['bad_blocks'] = $raid_virtual['virtualDiskBadBlocksDetected'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array<br>the array is build like a tree,
@@ -825,27 +1290,35 @@ class Raid extends PSI_Plugin
     public function execute()
     {
         if (count($this->_filecontent)>0) {
-            foreach ($this->prog_items as $item) {
-                if (isset($this->_filecontent[$item]) && !is_null($buffer = $this->_filecontent[$item]) && (($buffer = trim($buffer)) != "")) {
-                    switch ($item) {
-                        case 'mdstat':
-                            $this->execute_mdstat($buffer);
-                            break;
-                        case 'dmraid':
-                            $this->execute_dmraid($buffer);
-                            break;
-                        case 'megactl':
-                            $this->execute_megactl($buffer, false);
-                            break;
-                        case 'megasasctl':
-                            $this->execute_megactl($buffer, true);
-                            break;
-                        case 'graid':
-                            $this->execute_graid($buffer);
-                            break;
-                        case 'zpool':
-                            $this->execute_zpool($buffer);
-                            break;
+            foreach ($this->prog_items as $item) if (isset($this->_filecontent[$item])) {
+                if ($item !== 'idrac') {
+                    if (!is_null($buffer = $this->_filecontent[$item]) && (($buffer = trim($buffer)) != "")) {
+                        switch ($item) {
+                            case 'mdstat':
+                                $this->execute_mdstat($buffer);
+                                break;
+                            case 'dmraid':
+                                $this->execute_dmraid($buffer);
+                                break;
+                            case 'megactl':
+                                $this->execute_megactl($buffer, false);
+                                break;
+                            case 'megasasctl':
+                                $this->execute_megactl($buffer, true);
+                                break;
+                            case 'graid':
+                                $this->execute_graid($buffer);
+                                break;
+                            case 'zpool':
+                                $this->execute_zpool($buffer);
+                                break;
+                        }
+                    }
+                } else {
+                    if (is_array($this->_filecontent[$item])) {
+                        foreach ($this->_filecontent[$item] as $device=>$buffer) if (($buffer = trim($buffer)) != "") {
+                            $this->execute_idrac($buffer, /*'idrac-'.*/$device);
+                        }
                     }
                 }
             }
@@ -892,6 +1365,10 @@ class Raid extends PSI_Plugin
                 if (isset($device['controller'])) $dev->addAttribute("Controller", $device["controller"]);
                 if (isset($device['battery'])) $dev->addAttribute("Battery", $device["battery"]);
                 if (isset($device['supported'])) $dev->addAttribute("Supported", $device["supported"]);
+                if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
+                if (isset($device['writepolicy'])) $dev->addAttribute("WritePolicy", $device["writepolicy"]);
+                if (isset($device['cache_size'])) $dev->addAttribute("Cache_Size", $device["cache_size"]);
+                if (isset($device['bad_blocks'])) $dev->addAttribute("Bad_Blocks", $device["bad_blocks"]);
 
                 if (isset($device['action'])) {
                     $action = $dev->addChild("Action");
@@ -913,7 +1390,7 @@ class Raid extends PSI_Plugin
                         // if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active', 'online', 'degraded'))) {
                             $disktemp->addAttribute("Status", $disk['status']);
                         //} else {
-                        //    $disktemp->addAttribute("Status", 'W');
+                        //    $disktemp->addAttribute("Status", "W");
                         //}
                         if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                     }

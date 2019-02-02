@@ -168,6 +168,15 @@ class System
     private $_i2cDevices = array();
 
     /**
+     * array with NVMe devices
+     *
+     * @see HWDevice
+     *
+     * @var array
+     */
+    private $_nvmeDevices = array();
+
+    /**
      * array with disk devices
      *
      * @see DiskDevice
@@ -744,6 +753,10 @@ class System
      */
     public function getNetDevices()
     {
+        if (defined('PSI_SORT_NETWORK_INTERFACES_LIST') && PSI_SORT_NETWORK_INTERFACES_LIST) {
+            usort($this->_netDevices, array('CommonFunctions', 'name_natural_compare'));
+        }
+
         return $this->_netDevices;
     }
 
@@ -922,6 +935,33 @@ class System
     public function setI2cDevices($i2cDevices)
     {
         array_push($this->_i2cDevices, $i2cDevices);
+    }
+
+    /**
+     * Returns $_nvmeDevices.
+     *
+     * @see System::$_nvmeDevices
+     *
+     * @return array
+     */
+    public function getNvmeDevices()
+    {
+        return $this->_nvmeDevices;
+    }
+
+    /**
+     * Sets $_nvmeDevices.
+     *
+     * @param HWDevice $nvmeDevices NVMe device
+     *
+     * @see System::$_nvmeDevices
+     * @see HWDevice
+     *
+     * @return Void
+     */
+    public function setNvmeDevices($nvmeDevices)
+    {
+        array_push($this->_nvmeDevices, $nvmeDevices);
     }
 
     /**

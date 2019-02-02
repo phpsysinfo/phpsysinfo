@@ -1,77 +1,86 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
   <!--
     phpSysInfo language file Language: Russian Created by: Denis Sevostyanov (den007)
   -->
-<tns:translationPlugin language="english" charset="utf-8"
+<tns:translationPlugin language="russian" charset="utf-8"
   xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_raid_001" name="raid_title">
     <exp>RAID Статус</exp>
   </expression>
-  <expression id="plugin_raid_002" name="raid_devices">
-    <exp>RAID-Устройств</exp>
-  </expression>
-  <expression id="plugin_raid_003" name="raid_infos">
+  <expression id="plugin_raid_002" name="raid_infos">
     <exp>Дополнительная Информация</exp>
   </expression>
-  <expression id="plugin_raid_004" name="raid_name">
+  <expression id="plugin_raid_003" name="raid_name">
     <exp>Имя</exp>
   </expression>
-  <expression id="plugin_raid_005" name="raid_status">
+  <expression id="plugin_raid_004" name="raid_status">
     <exp>Статус</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_level">
+  <expression id="plugin_raid_005" name="raid_level">
     <exp>RAID-Уровень</exp>
   </expression>
-  <expression id="plugin_raid_007" name="raid_size">
+  <expression id="plugin_raid_006" name="raid_size">
     <exp>Размер</exp>
   </expression>
-  <expression id="plugin_raid_008" name="raid_stride">
+  <expression id="plugin_raid_007" name="raid_stride">
     <exp>Шаг</exp>
   </expression>
-  <expression id="plugin_raid_009" name="raid_subsets">
+  <expression id="plugin_raid_008" name="raid_subsets">
     <exp>Подмножество</exp>
   </expression>
-  <expression id="plugin_raid_010" name="raid_devs">
+  <expression id="plugin_raid_009" name="raid_devs">
     <exp>Устройство</exp>
   </expression>
-  <expression id="plugin_raid_011" name="raid_spares">
+  <expression id="plugin_raid_010" name="raid_spares">
     <exp>Резервировано</exp>
   </expression>
-  <expression id="plugin_raid_012" name="raid_curact">
+  <expression id="plugin_raid_011" name="raid_curact">
     <exp>Текущее действие</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finish">
+  <expression id="plugin_raid_012" name="raid_finish">
     <exp>Окончание в</exp>
   </expression>
-  <expression id="plugin_raid_014" name="raid_chunk">
+  <expression id="plugin_raid_013" name="raid_chunk">
     <exp>Размер блока</exp>
   </expression>
-  <expression id="plugin_raid_015" name="raid_algo">
+  <expression id="plugin_raid_014" name="raid_algo">
     <exp>Алгоритм</exp>
   </expression>
-  <expression id="plugin_raid_016" name="raid_superb">
+  <expression id="plugin_raid_015" name="raid_superb">
     <exp>Постоянный суперблок</exp>
   </expression>
-  <expression id="plugin_raid_017" name="raid_avail">
+  <expression id="plugin_raid_016" name="raid_avail">
     <exp>доступен</exp>
   </expression>
-  <expression id="plugin_raid_018" name="raids_navail">
+  <expression id="plugin_raid_017" name="raids_navail">
     <exp>не доступен</exp>
   </expression>
-  <expression id="plugin_raid_019" name="raid_regact">
+  <expression id="plugin_raid_018" name="raid_regact">
     <exp>Зарегистрировано/Активных Дисков</exp>
   </expression>
-  <expression id="plugin_raid_020" name="raid_controller">
+  <expression id="plugin_raid_019" name="raid_controller">
     <exp>Controller</exp>
   </expression>
-  <expression id="plugin_raid_021" name="raid_battcond">
+  <expression id="plugin_raid_020" name="raid_battcond">
     <exp>Состояние аккумулятора</exp>
   </expression>
-  <expression id="plugin_raid_022" name="raid_supported">
+  <expression id="plugin_raid_021" name="raid_supported">
     <exp>Неиспользуемые диски</exp>
   </expression>
-  <expression id="plugin_raid_023" name="raid_program">
+  <expression id="plugin_raid_022" name="raid_program">
     <exp>Program</exp>
+  </expression>
+  <expression id="plugin_raid_023" name="raid_readpolicy">
+    <exp>Read Policy</exp>
+  </expression>
+  <expression id="plugin_raid_024" name="raid_writepolicy">
+    <exp>Write Policy</exp>
+  </expression>
+  <expression id="plugin_raid_025" name="raid_cachesize">
+    <exp>Cache Size</exp>
+  </expression>
+  <expression id="plugin_raid_026" name="raid_badblocks">
+    <exp>Bad Blocks</exp>
   </expression>
 </tns:translationPlugin>

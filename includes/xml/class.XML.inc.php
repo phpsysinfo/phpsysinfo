@@ -90,7 +90,7 @@ class XML
      *
      * @return void
      */
-    public function __construct($complete = false, $pluginname = "")
+    public function __construct($complete = false, $pluginname = "", $blockname = false)
     {
         $this->_errors = PSI_Error::singleton();
         if ($pluginname == "") {
@@ -106,7 +106,7 @@ class XML
             $this->_complete_request = false;
         }
         $os = PSI_OS;
-        $this->_sysinfo = new $os();
+        $this->_sysinfo = new $os($blockname);
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
@@ -222,6 +222,14 @@ class XML
             if ($pci === null) $pci = $hardware->addChild('PCI');
             $tmp = $pci->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+            }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
             }
@@ -251,8 +259,13 @@ class XML
             if ($ide === null) $ide = $hardware->addChild('IDE');
             $tmp = $ide->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
-                $tmp->addAttribute('Capacity', $dev->getCapacity());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
             }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
@@ -263,8 +276,30 @@ class XML
             if ($scsi === null) $scsi = $hardware->addChild('SCSI');
             $tmp = $scsi->addChild('Device');
             $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($dev->getCapacity() !== null)) {
-                $tmp->addAttribute('Capacity', $dev->getCapacity());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
+        }
+        $nvme = null;
+        foreach (System::removeDupsAndCount($this->_sys->getNvmeDevices()) as $dev) {
+            if ($nvme === null) $nvme = $hardware->addChild('NVMe');
+            $tmp = $nvme->addChild('Device');
+            $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
             }
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
@@ -295,7 +330,7 @@ class XML
             $tmp = $cpu->addChild('CpuCore');
             $tmp->addAttribute('Model', $oneCpu->getModel());
             if ($oneCpu->getCpuSpeed() !== 0) {
-                $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
+                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
             }
             if ($oneCpu->getCpuSpeedMax() !== 0) {
                 $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
@@ -385,6 +420,7 @@ class XML
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
         $mount->addAttribute('Percent', $dev->getPercentUsed());
+        if ($dev->getIgnore() > 0) $mount->addAttribute('Ignore', $dev->getIgnore());
         if (PSI_SHOW_MOUNT_OPTION === true) {
             if ($dev->getOptions() !== null) {
                 $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
@@ -405,7 +441,7 @@ class XML
      */
     private function _buildFilesystems()
     {
-        $hideMounts = $hideFstypes = $hideDisks = array();
+        $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreUsage = $ignoreThreshold = array();
         $i = 1;
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
@@ -432,10 +468,38 @@ class XML
                 return;
             }
         }
+        if (defined('PSI_IGNORE_FREE') && is_string(PSI_IGNORE_FREE)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_FREE)) {
+                $ignoreFree = eval(PSI_IGNORE_FREE);
+            } else {
+                $ignoreFree = array(PSI_IGNORE_FREE);
+            }
+        }
+        if (defined('PSI_IGNORE_USAGE') && is_string(PSI_IGNORE_USAGE)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_USAGE)) {
+                $ignoreUsage = eval(PSI_IGNORE_USAGE);
+            } else {
+                $ignoreUsage = array(PSI_IGNORE_USAGE);
+            }
+        }
+        if (defined('PSI_IGNORE_THRESHOLD_FS_TYPES') && is_string(PSI_IGNORE_THRESHOLD_FS_TYPES)) {
+            if (preg_match(ARRAY_EXP, PSI_IGNORE_THRESHOLD_FS_TYPES)) {
+                $ignoreThreshold = eval(PSI_IGNORE_THRESHOLD_FS_TYPES);
+            } else {
+                $ignoreThreshold = array(PSI_IGNORE_THRESHOLD_FS_TYPES);
+            }
+        }
         $fs = $this->_xml->addChild('FileSystem');
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) && !in_array($disk->getFsType(), $hideFstypes, true) && !in_array($disk->getName(), $hideDisks, true)) {
                 $mount = $fs->addChild('Mount');
+                if (in_array($disk->getFsType(), $ignoreThreshold, true)) {
+                    $disk->setIgnore(3);
+                } elseif (in_array($disk->getMountPoint(), $ignoreUsage, true)) {
+                    $disk->setIgnore(2);
+                } elseif (in_array($disk->getMountPoint(), $ignoreFree, true)) {
+                    $disk->setIgnore(1);
+                }
                 $this->_fillDevice($mount, $disk, $i++);
             }
         }
@@ -456,7 +520,7 @@ class XML
                 $mbinfo_data = new $mbinfoclass();
                 $mbinfo_detail = $mbinfo_data->getMBInfo();
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     if ($temp == null) {
                         $temp = $mbinfo->addChild('Temperature');
                     }
@@ -471,7 +535,7 @@ class XML
                     }
                 }
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
                     if ($fan == null) {
                         $fan = $mbinfo->addChild('Fans');
                     }
@@ -486,7 +550,7 @@ class XML
                     }
                 }
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
                     if ($volt == null) {
                         $volt = $mbinfo->addChild('Voltage');
                     }
@@ -504,7 +568,7 @@ class XML
                     }
                 }
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
                     if ($power == null) {
                         $power = $mbinfo->addChild('Power');
                     }
@@ -519,7 +583,7 @@ class XML
                     }
                 }
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
                     if ($current == null) {
                         $current = $mbinfo->addChild('Current');
                     }
@@ -537,7 +601,7 @@ class XML
                     }
                 }
 
-                if (!defined('PSI_ONLY') || PSI_ONLY==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
                     if ($other == null) {
                         $other = $mbinfo->addChild('Other');
                     }
@@ -656,15 +720,15 @@ class XML
                 }
                 $this->_sys = $this->_sysinfo->getSys();
             }
-            if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') $this->_buildVitals();
-            if (!defined('PSI_ONLY') || PSI_ONLY==='network') $this->_buildNetwork();
-            if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') $this->_buildHardware();
-            if (!defined('PSI_ONLY') || PSI_ONLY==='memory') $this->_buildMemory();
-            if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') $this->_buildFilesystems();
-            if (!defined('PSI_ONLY') || in_array(PSI_ONLY, array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
-            if (!defined('PSI_ONLY') || PSI_ONLY==='ups') $this->_buildUpsinfo();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='vitals') $this->_buildVitals();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='network') $this->_buildNetwork();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='hardware') $this->_buildHardware();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='memory') $this->_buildMemory();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='filesystem') $this->_buildFilesystems();
+            if (!$this->_sysinfo->getBlockName() || in_array($this->_sysinfo->getBlockName(), array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
+            if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='ups') $this->_buildUpsinfo();
         }
-        if (!defined('PSI_ONLY')) $this->_buildPlugins();
+        if (!$this->_sysinfo->getBlockName()) $this->_buildPlugins();
         $this->_xml->combinexml($this->_errors->errorsAddToXML($this->_sysinfo->getEncoding()));
     }
 
@@ -730,21 +794,13 @@ class XML
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
         $options->addAttribute('datetimeFormat', defined('PSI_DATETIME_FORMAT') ? strtolower(PSI_DATETIME_FORMAT) : 'utc');
         if (defined('PSI_REFRESH')) {
-            if (PSI_REFRESH === false) {
-                $options->addAttribute('refresh', 0);
-            } elseif (PSI_REFRESH === true) {
-                $options->addAttribute('refresh', 1);
-            } else {
-                $options->addAttribute('refresh', PSI_REFRESH);
-            }
+            $options->addAttribute('refresh',  max(intval(PSI_REFRESH), 0));
         } else {
             $options->addAttribute('refresh', 60000);
         }
         if (defined('PSI_FS_USAGE_THRESHOLD')) {
-            if (PSI_FS_USAGE_THRESHOLD === true) {
-                $options->addAttribute('threshold', 1);
-            } elseif ((PSI_FS_USAGE_THRESHOLD !== false) && (PSI_FS_USAGE_THRESHOLD >= 1) && (PSI_FS_USAGE_THRESHOLD <= 99)) {
-                $options->addAttribute('threshold', PSI_FS_USAGE_THRESHOLD);
+            if ((($fsut = intval(PSI_FS_USAGE_THRESHOLD)) >= 1) && ($fsut <= 99)) {
+                $options->addAttribute('threshold', $fsut);
             }
         } else {
             $options->addAttribute('threshold', 90);

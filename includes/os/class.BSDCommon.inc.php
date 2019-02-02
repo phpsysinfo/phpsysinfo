@@ -63,6 +63,13 @@ abstract class BSDCommon extends OS
     private $_SCSIRegExp2 = "//";
 
     /**
+     * regexp3 for scsi information out of the syslog
+     *
+     * @var string
+     */
+    private $_SCSIRegExp3 = "//";
+
+    /**
      * regexp1 for pci information out of the syslog
      *
      * @var string
@@ -75,14 +82,6 @@ abstract class BSDCommon extends OS
      * @var string
      */
     private $_PCIRegExp2 = "//";
-
-    /**
-     * call parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * setter for cpuregexp1
@@ -130,6 +129,18 @@ abstract class BSDCommon extends OS
     protected function setSCSIRegExp2($value)
     {
         $this->_SCSIRegExp2 = $value;
+    }
+
+    /**
+     * setter for scsiregexp3
+     *
+     * @param string $value value to set
+     *
+     * @return void
+     */
+    protected function setSCSIRegExp3($value)
+    {
+        $this->_SCSIRegExp3 = $value;
     }
 
     /**
@@ -320,7 +331,7 @@ abstract class BSDCommon extends OS
         foreach ($this->readdmesg() as $line) {
             if (preg_match($this->_SCSIRegExp1, $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[1].": ".$ar_buf[2]);
+                $dev->setName($ar_buf[1].": ".trim($ar_buf[2]));
                 $this->sys->setScsiDevices($dev);
             } elseif (preg_match($this->_SCSIRegExp2, $line, $ar_buf)) {
                 /* duplication security */
@@ -328,7 +339,11 @@ abstract class BSDCommon extends OS
                 foreach ($this->sys->getScsiDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                            $finddev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                            if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
+                                $finddev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
+                            } else {
+                                $finddev->setCapacity($ar_buf[2] * 1024 * 1024);
+                            }
                         }
                         $notwas = false;
                         break;
@@ -338,7 +353,33 @@ abstract class BSDCommon extends OS
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1]);
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        $dev->setCapacity($ar_buf[2] * 2048 * 1.049);
+                        if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
+                                $dev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
+                            } else {
+                                $dev->setCapacity($ar_buf[2] * 1024 * 1024);
+                            }
+                    }
+                    $this->sys->setScsiDevices($dev);
+                }
+            } elseif (preg_match($this->_SCSIRegExp3, $line, $ar_buf)) {
+                /* duplication security */
+                $notwas = true;
+                foreach ($this->sys->getScsiDevices() as $finddev) {
+                    if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                            $finddev->setSerial(trim($ar_buf[2]));
+                        }
+                        $notwas = false;
+                        break;
+                    }
+                }
+                if ($notwas) {
+                    $dev = new HWDevice();
+                    $dev->setName($ar_buf[1]);
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                       && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                        $dev->setSerial(trim($ar_buf[2]));
                     }
                     $this->sys->setScsiDevices($dev);
                 }
@@ -434,18 +475,18 @@ abstract class BSDCommon extends OS
         foreach ($this->readdmesg() as $line) {
             if (preg_match('/^(ad[0-9]+): (.*)MB <(.*)> (.*) (.*)/', $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[1].": ".$ar_buf[3]);
+                $dev->setName($ar_buf[1].": ".trim($ar_buf[3]));
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                    $dev->setCapacity($ar_buf[2] * 1024);
+                    $dev->setCapacity($ar_buf[2] * 1024 * 1024);
                 }
                 $this->sys->setIdeDevices($dev);
             } elseif (preg_match('/^(acd[0-9]+): (.*) <(.*)> (.*)/', $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[1].": ".$ar_buf[3]);
+                $dev->setName($ar_buf[1].": ".trim($ar_buf[3]));
                 $this->sys->setIdeDevices($dev);
             } elseif (preg_match('/^(ada[0-9]+): <(.*)> (.*)/', $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[1].": ".$ar_buf[2]);
+                $dev->setName($ar_buf[1].": ".trim($ar_buf[2]));
                 $this->sys->setIdeDevices($dev);
             } elseif (preg_match('/^(ada[0-9]+): (.*)MB \((.*)\)/', $line, $ar_buf)) {
                 /* duplication security */
@@ -453,7 +494,7 @@ abstract class BSDCommon extends OS
                 foreach ($this->sys->getIdeDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                            $finddev->setCapacity($ar_buf[2] * 1024);
+                            $finddev->setCapacity($ar_buf[2] * 1024 * 1024);
                         }
                         $notwas = false;
                         break;
@@ -463,7 +504,29 @@ abstract class BSDCommon extends OS
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1]);
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        $dev->setCapacity($ar_buf[2] * 1024);
+                        $dev->setCapacity($ar_buf[2] * 1024 * 1024);
+                    }
+                    $this->sys->setIdeDevices($dev);
+                }
+            } elseif (preg_match('/^(ada[0-9]+): Serial Number (.*)/', $line, $ar_buf)) {
+                /* duplication security */
+                $notwas = true;
+                foreach ($this->sys->getIdeDevices() as $finddev) {
+                    if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                            $finddev->setSerial(trim($ar_buf[2]));
+                        }
+                        $notwas = false;
+                        break;
+                    }
+                }
+                if ($notwas) {
+                    $dev = new HWDevice();
+                    $dev->setName($ar_buf[1]);
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                       && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                        $finddev->setSerial(trim($ar_buf[2]));
                     }
                     $this->sys->setIdeDevices($dev);
                 }
@@ -574,24 +637,24 @@ abstract class BSDCommon extends OS
      */
     public function build()
     {
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->distro();
             $this->hostname();
             $this->kernel();
             $this->_users();
             $this->loadavg();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->cpuinfo();
             $this->pci();
             $this->ide();
             $this->scsi();
             $this->usb();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->memory();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->filesystems();
         }
     }

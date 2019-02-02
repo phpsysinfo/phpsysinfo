@@ -36,6 +36,12 @@ class uprecords extends PSI_Plugin
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
+                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') &&
+                   (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true) &&
+                   !is_numeric($buffer[0])) {
+                    break;
+                }
+
                 if (strpos($line, '->') !== false) {
                     $buffer[0] = '-> '.$buffer[0];
                 }
@@ -64,19 +70,18 @@ class uprecords extends PSI_Plugin
                 $lines = "";
                 $options = "";
                 if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
-                    if (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === false) {
-                        $options=" -m 0";
-                    } elseif (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES === true) {
-                        $options=" -m 1";
-                    } elseif ((PSI_PLUGIN_UPRECORDS_MAX_ENTRIES > 1) && (PSI_PLUGIN_UPRECORDS_MAX_ENTRIES != 10)) {
-                        $options=" -m ".PSI_PLUGIN_UPRECORDS_MAX_ENTRIES;
+                    if (($ment = max(intval(PSI_PLUGIN_UPRECORDS_MAX_ENTRIES), 0)) != 10) {
+                        $options=" -m ".$ment;
                     }
+                }
+                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {
+                    $options .= " -s";
                 }
                 if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
-                if (CommonFunctions::rfts(APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
+                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/uprecords.txt", $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:

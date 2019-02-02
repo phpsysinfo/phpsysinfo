@@ -4,11 +4,11 @@ echo "<meta charset=\"UTF-8\">";
 echo "<title> </title>";
 echo "<body>";
 
-define('APP_ROOT', dirname(__FILE__).'/..');
-require_once APP_ROOT.'/includes/interface/class.PSI_Interface_OS.inc.php';
-require_once APP_ROOT.'/includes/os/class.OS.inc.php';
-require_once APP_ROOT.'/includes/to/class.System.inc.php';
-require_once APP_ROOT.'/includes/os/class.Linux.inc.php';
+define('PSI_APP_ROOT', dirname(__FILE__).'/..');
+require_once PSI_APP_ROOT.'/includes/interface/class.PSI_Interface_OS.inc.php';
+require_once PSI_APP_ROOT.'/includes/os/class.OS.inc.php';
+require_once PSI_APP_ROOT.'/includes/to/class.System.inc.php';
+require_once PSI_APP_ROOT.'/includes/os/class.Linux.inc.php';
 define('PSI_USE_VHOST', false);
 define('PSI_DEBUG', false);
 define('PSI_LOAD_BAR', false);
@@ -124,7 +124,7 @@ class _Linux extends Linux
 }
 
 $system = new _Linux();
-if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
+if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
     echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\"";
     echo "<tr>";
     echo "<td>Distrotest sample</td>";
@@ -137,10 +137,10 @@ if ($handle = opendir(APP_ROOT.'/sample/distrotest')) {
     echo "</tr>";
     while (false !== ($entry = readdir($handle))) {
         if (($entry!=".")&&($entry!="..")) {
-            if ($shandle = opendir(APP_ROOT."/sample/distrotest/$entry")) {
+            if ($shandle = opendir(PSI_APP_ROOT."/sample/distrotest/$entry")) {
                 while (false !== ($sentry = readdir($shandle))) {
                     if (($sentry!=".")&&($sentry!="..")) {
-                        $log_file=APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
+                        $log_file=PSI_APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
 

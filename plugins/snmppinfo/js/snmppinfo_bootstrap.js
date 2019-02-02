@@ -34,9 +34,28 @@ function renderPlugin_snmppinfo(data) {
                 } else if (max==-2 && (level>=0) && (level<=100) ) {
                     return level+" / 100";
                 } else if (level==-3) {
-                    return genlang(5, false, 'snmppinfo'); // enough
+                    return genlang(5, 'snmppinfo'); // enough
                 } else {
-                    return genlang(6, false, 'snmppinfo'); // unknown
+                    return genlang(6, 'snmppinfo'); // unknown
+                }
+            }
+        },
+        SUnits: {
+            html: function () {
+                var supply = parseInt(this.SupplyUnit);
+                if (isNaN(supply)) {
+                    return "";
+                } else {
+                    switch (supply) {
+                        case 7:
+                            return "<br>" + genlang(9, "snmppinfo");
+                        case 13:
+                            return "<br>" + genlang(8, "snmppinfo");
+                        case 15:
+                            return "<br>" + genlang(7, "snmppinfo");
+                        case 19:
+                            return "<br>" + genlang(3, "snmppinfo");
+                    }
                 }
             }
         }
@@ -49,9 +68,7 @@ function renderPlugin_snmppinfo(data) {
             var html = "";
             for (i = 0; i < printers.length; i++) {
                 html+="<tr id=\"snmppinfo-" + i + "\" class=\"treegrid-snmppinfo-" + i + "\" style=\"display:none;\" >";
-                html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
-                html+="<td></td>";
-                html+="<td></td>";
+                html+="<td colspan=\"3\"><span class=\"treegrid-spanbold\" data-bind=\"Device\"></span></td>";
                 html+="</tr>";
 
                 try {
@@ -60,7 +77,7 @@ function renderPlugin_snmppinfo(data) {
                         html+="<tr id=\"snmppinfo-" + i + "-" + j +"\" class=\"treegrid-parent-snmppinfo-" + i + "\">";
                         html+="<td><span class=\"treegrid-spanbold\" data-bind=\"Description\"></span></td>";
                         html+="<td><span data-bind=\"Percent\"></span></td>";
-                        html+="<td class=\"rightCell\"><span data-bind=\"Units\"></span></td>";
+                        html+="<td class=\"rightCell\"><span data-bind=\"Units\"></span><span data-bind=\"SUnits\"></span></td>";
                         html+="</tr>";
                    }
                 }

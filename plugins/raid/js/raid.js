@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -52,32 +52,40 @@ function raid_buildinfos(xml, id) {
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
     devact = parseInt($(xml).attr("Disks_Active"), 10);
-    html += "<tr><td>" + genlang(23, true, "Raid") + "</td><td>" + prog + "</td></tr>";
-    if (devname !== undefined) html += "<tr><td>" + genlang(4, true, "Raid") + "</td><td>" + devname + "</td></tr>";
-    html += "<tr><td>" + genlang(5, true, "Raid") + "</td><td>" + devstatus + "</td></tr>";
-    if (devlevel !== undefined) html += "<tr><td>" + genlang(6, true, "Raid") + "</td><td>" + devlevel + "</td></tr>";
-    if (!isNaN(devsize)) html += "<tr><td>" + genlang(7, true, "Raid") + "</td><td>" + formatBytes(devsize, xml) + "</td></tr>";
-    if (!isNaN(devstride)) html += "<tr><td>" + genlang(8, true, "Raid") + "</td><td>" + devstride + "</td></tr>";
-    if (!isNaN(devsubsets)) html += "<tr><td>" + genlang(9, true, "Raid") + "</td><td>" + devsubsets + "</td></tr>";
-    if (!isNaN(devdevs)) html += "<tr><td>" + genlang(10, true, "Raid") + "</td><td>" + devdevs + "</td></tr>";
-    if (!isNaN(devspares)) html += "<tr><td>" + genlang(11, true, "Raid") + "</td><td>" + devspares + "</td></tr>";
+    devcache = parseInt($(xml).attr("Cache_Size"), 10);
+    devbad = parseInt($(xml).attr("Bad_Blocks"), 10);
+    devread = $(xml).attr("ReadPolicy");
+    devwrite = $(xml).attr("WritePolicy");
+    html += "<tr><td>" + genlang(22, "Raid") + "</td><td>" + prog + "</td></tr>";
+    if (devname !== undefined) html += "<tr><td>" + genlang(3, "Raid") + "</td><td>" + devname + "</td></tr>";
+    html += "<tr><td>" + genlang(4, "Raid") + "</td><td>" + devstatus + "</td></tr>";
+    if (devlevel !== undefined) html += "<tr><td>" + genlang(5, "Raid") + "</td><td>" + devlevel + "</td></tr>";
+    if (!isNaN(devsize)) html += "<tr><td>" + genlang(6, "Raid") + "</td><td>" + formatBytes(devsize, xml) + "</td></tr>";
+    if (!isNaN(devstride)) html += "<tr><td>" + genlang(7, "Raid") + "</td><td>" + devstride + "</td></tr>";
+    if (!isNaN(devsubsets)) html += "<tr><td>" + genlang(8, "Raid") + "</td><td>" + devsubsets + "</td></tr>";
+    if (!isNaN(devdevs)) html += "<tr><td>" + genlang(9, "Raid") + "</td><td>" + devdevs + "</td></tr>";
+    if (!isNaN(devspares)) html += "<tr><td>" + genlang(10, "Raid") + "</td><td>" + devspares + "</td></tr>";
 
-    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(14, true, "Raid") + "</td><td>" + devchunk + "K</td></tr>";
-    if (devalgor !== undefined) html += "<tr><td>" + genlang(15, true, "Raid") + "</td><td>" + devalgor + "</td></tr>";
+    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + devchunk + "K</td></tr>";
+    if (devalgor !== undefined) html += "<tr><td>" + genlang(14, "Raid") + "</td><td>" + devalgor + "</td></tr>";
     if (!isNaN(devpersist)) {
         if (devpersist == 1) {
-            html += "<tr><td>" + genlang(16, true, "Raid") + "</td><td>" + genlang(17, true, "Raid") + "</td></tr>";
+            html += "<tr><td>" + genlang(15, "Raid") + "</td><td>" + genlang(16, "Raid") + "</td></tr>";
         } else {
-            html += "<tr><td>" + genlang(16, true, "Raid") + "</td><td>" + genlang(18, true, "Raid") + "</td></tr>";
+            html += "<tr><td>" + genlang(15, "Raid") + "</td><td>" + genlang(17, "Raid") + "</td></tr>";
         }
     }
-    if (!isNaN(devreg) && !isNaN(devact)) html += "<tr><td>" + genlang(19, true, "Raid") + "</td><td>" + devreg + "/" + devact + "</td></tr>";
-    if (devcontroller !== undefined) html += "<tr><td>" + genlang(20, true, "Raid") + "</td><td>" + devcontroller + "</td></tr>";
-    if (devbattery !== undefined) html += "<tr><td>" + genlang(21, true, "Raid") + "</td><td>" + devbattery + "</td></tr>";
-    if (devsupported !== undefined) html += "<tr><td>" + genlang(22, true, "Raid") + "</td><td>" + devsupported + "</td></tr>";
+    if (!isNaN(devreg) && !isNaN(devact)) html += "<tr><td>" + genlang(18, "Raid") + "</td><td>" + devreg + "/" + devact + "</td></tr>";
+    if (devcontroller !== undefined) html += "<tr><td>" + genlang(19, "Raid") + "</td><td>" + devcontroller + "</td></tr>";
+    if (devbattery !== undefined) html += "<tr><td>" + genlang(20, "Raid") + "</td><td>" + devbattery + "</td></tr>";
+    if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
+    if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
+    if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
+    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml) + "</td></tr>";
+    if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
-    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "Raid") + "</h3>";
-    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(3, true, "Raid") + "</h3>";
+    button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
+    button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
@@ -95,11 +103,11 @@ function raid_buildaction(xml) {
             tunit = $(this).attr("Time_Unit");
             percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
-            html += genlang(12, true, "Raid") + ":&nbsp;" + name + "<br/>";
+            html += genlang(11, "Raid") + ":&nbsp;" + name + "<br/>";
             html += createBar(percent);
             if ((time !== undefined) && (tunit !== undefined)) {
                 html += "<br/>";
-                html += genlang(13, true, "Raid") + ":&nbsp;" + time + "&nbsp;" + tunit;
+                html += genlang(12, "Raid") + ":&nbsp;" + time + "&nbsp;" + tunit;
             }
             html += "</div>";
         }
@@ -114,7 +122,7 @@ function raid_buildaction(xml) {
 function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
         var status = "", name = "", type = "", info = "", parentid = 0;
-        
+
         status = $(this).attr("Status");
         name = $(this).attr("Name");
         type = $(this).attr("Type");
@@ -153,7 +161,7 @@ function raid_diskicon(xml, id) {
 //            alert("--" + diskstatus + "--");
             img = "error.png";
             alt = "error";
-            
+
             break;
         }
 
@@ -180,7 +188,7 @@ function raid_populate(xml) {
     $("#Plugin_RaidTable").append("<tbody>");
     var arr = $("Plugins Plugin_Raid Raid", xml);
     arr.each(function raid_getdevice(id) {
-        var htmldisks = "", topic = "", buildedaction = "";
+        var htmldisks = "", buildedaction = "";
         htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td id=\"Plugin_Raid_List-" + id + "\"></td></tr>";
         buildedaction = raid_buildaction($(this));
@@ -193,15 +201,10 @@ function raid_populate(xml) {
         }*/
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
-        if (id) {
-            topic = "<br>"+$(this).attr("Device_Name");
-        }
-        else {
-            topic = "<b>"+genlang(2, false, "Raid")+"</b><br>"+$(this).attr("Device_Name");
-        }
-        $("#Plugin_RaidTable").append("<tr><td>" + topic + "</td><td>" + htmldisks + "</td></tr>");
+
+        $("#Plugin_RaidTable").append("<tr><td><br>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
         raid_diskicon(this, id);
-        
+
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
             $("#Plugin_Raid_InfoTable" + id).slideDown("slow");
             $("#sPlugin_Raid_Info" + id).hide();

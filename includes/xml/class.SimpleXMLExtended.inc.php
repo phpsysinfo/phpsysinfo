@@ -108,7 +108,7 @@ class SimpleXMLExtended
         if ($value == null) {
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8), $this->_encoding);
         } else {
-            $valueUtf8 = htmlspecialchars($this->_toUTF8($value));
+            $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8");
 
             return new SimpleXMLExtended($this->_SimpleXmlElement->addChild($nameUtf8, $valueUtf8), $this->_encoding);
         }
@@ -144,7 +144,7 @@ class SimpleXMLExtended
     public function addAttribute($name, $value)
     {
         $nameUtf8 = $this->_toUTF8($name);
-        $valueUtf8 = htmlspecialchars($this->_toUTF8($value));
+        $valueUtf8 = htmlspecialchars($this->_toUTF8($value), ENT_COMPAT, "UTF-8");
         if (($valueUtf8 === "") && (version_compare("5.2.2", PHP_VERSION, ">"))) {
             $this->_SimpleXmlElement->addAttribute($nameUtf8, "\0"); // Fixing bug #41175 (addAttribute() fails to add an attribute with an empty value)
         } else {
@@ -176,11 +176,11 @@ class SimpleXMLExtended
      */
     private function _toUTF8($str)
     {
+        $str = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', ' ', $str)); //remove nonprintable characters
         if ($this->_encoding != null) {
             if (strcasecmp($this->_encoding, "UTF-8") == 0) {
-                return trim($str);
+                return $str;
             } elseif (strcasecmp($this->_encoding, "CP437") == 0) {
-                $str = trim($str);
                 $strr = "";
                 if (($strl = strlen($str)) > 0) for ($i = 0; $i < $strl; $i++) {
                     $strc = substr($str, $i, 1);
@@ -197,21 +197,21 @@ class SimpleXMLExtended
                 }
                 $enclist = mb_list_encodings();
                 if (in_array($encoding, $enclist)) {
-                    return mb_convert_encoding(trim($str), 'UTF-8', $encoding);
+                    return mb_convert_encoding($str, 'UTF-8', $encoding);
                 } elseif (function_exists("iconv")) {
-                    if (($iconvout=iconv($encoding, 'UTF-8', trim($str)))!==false) {
+                    if (($iconvout=iconv($encoding, 'UTF-8', $str))!==false) {
                         return $iconvout;
                     } else {
-                        return mb_convert_encoding(trim($str), 'UTF-8');
+                        return mb_convert_encoding($str, 'UTF-8');
                     }
-                } elseif (function_exists("libiconv") && (($iconvout=libiconv($encoding, 'UTF-8', trim($str)))!==false)) {
+                } elseif (function_exists("libiconv") && (($iconvout=libiconv($encoding, 'UTF-8', $str))!==false)) {
                     return $iconvout;
                 } else {
-                    return mb_convert_encoding(trim($str), 'UTF-8');
+                    return mb_convert_encoding($str, 'UTF-8');
                 }
            }
         } else {
-            return mb_convert_encoding(trim($str), 'UTF-8');
+            return mb_convert_encoding($str, 'UTF-8');
         }
     }
 

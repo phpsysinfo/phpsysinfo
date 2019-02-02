@@ -29,13 +29,13 @@ class OpenBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct()
+    public function __construct($blockname = false)
     {
-        parent::__construct();
+        parent::__construct($blockname);
 //        $this->setCPURegExp1("/^cpu(.*) (.*) MHz/");
         $this->setCPURegExp2("/(.*),(.*),(.*),(.*),(.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
-        $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setSCSIRegExp2("/^(sd[0-9]+): (.*)MB,/");
         $this->setPCIRegExp1("/(.*) at pci[0-9]+ .* \"(.*)\"/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
     }
@@ -114,12 +114,12 @@ class OpenBSD extends BSDCommon
         foreach ($this->readdmesg() as $line) {
             if (preg_match('/^(.*) at pciide[0-9]+ (.*): <(.*)>/', $line, $ar_buf)) {
                 $dev = new HWDevice();
-                $dev->setName($ar_buf[0]);
+                $dev->setName($ar_buf[3]);
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                     // now loop again and find the capacity
                     foreach ($this->readdmesg() as $line2) {
-                        if (preg_match("/^(".$ar_buf[0]."): (.*), (.*), (.*)MB, .*$/", $line2, $ar_buf_n)) {
-                            $dev->setCapacity($ar_buf_n[4] * 2048 * 1.049);
+                        if (preg_match("/^(".$ar_buf[1]."): (.*), (.*), (.*)MB, .*$/", $line2, $ar_buf_n)) {
+                            $dev->setCapacity($ar_buf_n[4] * 1024 * 1024);
                             break;
                         }
                     }
@@ -217,12 +217,12 @@ class OpenBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
     }

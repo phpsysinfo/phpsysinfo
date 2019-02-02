@@ -40,16 +40,16 @@ function snmppinfo_buildTable(xml) {
     html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
-    html += "       <th>" + genlang(2, false, "SNMPPInfo") + "</th>\n";
-    html += "       <th style=\"width:120px;\">" + genlang(3, false, "SNMPPInfo") + "</th>\n";
-    html += "       <th style=\"width:80px;\">" + genlang(4, false, "SNMPPInfo") + "</th>\n";
+    html += "       <th>" + genlang(2, "SNMPPInfo") + "</th>\n";
+    html += "       <th style=\"width:120px;\">" + genlang(3, "SNMPPInfo") + "</th>\n";
+    html += "       <th class=\"right\" style=\"width:100px;\">" + genlang(4, "SNMPPInfo") + "</th>\n";
     html += "      </tr>\n";
     html += "     </thead>\n";
     html += "     <tbody class=\"tree\">\n";
 
     var lastdev="", index = 0 ;
     $("Plugins Plugin_SNMPPInfo Printer MarkerSupplies", xml).each(function snmppinfo_getprinters(id) {
-        var close = 0, name = "", device = "", desc = "", unit = 0, max = 0, level = 0, percent = 0, units = "";
+        var close = 0, name = "", device = "", desc = "", unit = 0, max = 0, level = 0, percent = 0, units = "", supply = 0, sunits = "";
         name = $(this).parent().attr("Name");
         device = $(this).parent().attr("Device");
         desc = $(this).attr("Description");
@@ -57,6 +57,7 @@ function snmppinfo_buildTable(xml) {
         unit = parseInt($(this).attr("SupplyUnit"), 10);
         max = parseInt($(this).attr("MaxCapacity"), 10);
         level = parseInt($(this).attr("Level"), 10);
+        supply = parseInt($(this).attr("SupplyUnit"), 10);
 
         if (max>0 && (level>=0) && (level<=max) ) {
             percent = Math.round(100*level/max);
@@ -66,18 +67,35 @@ function snmppinfo_buildTable(xml) {
             units = level+" / 100";
         } else if (level==-3) {
             percent = 100;
-            units = genlang(5, false, "SNMPPInfo");
+            units = genlang(5, "SNMPPInfo");
         } else {
             percent = 0;
-            units = genlang(6, false, "SNMPPInfo");
+            units = genlang(6, "SNMPPInfo");
         }
 
         if (device!=lastdev) {
-            html += "      <tr><td><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
+            html += "      <tr><td colspan=\"3\"><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
-        html += "      <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td>" + units +"</td></tr>\n";
+        
+        if (!isNaN(supply)) {
+            switch (supply) {
+                case 7:
+                    sunits = "<br>" + genlang(9, "SNMPPInfo");
+                    break;
+                case 13:
+                    sunits = "<br>" + genlang(8, "SNMPPInfo");
+                    break;
+                case 15:
+                    sunits = "<br>" + genlang(7, "SNMPPInfo");
+                    break;
+                case 19:
+                    sunits = "<br>" + genlang(3, "SNMPPInfo");
+                    break;
+            }
+        }
+        html += "      <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;

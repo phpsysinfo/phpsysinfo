@@ -44,7 +44,7 @@ function pingtest_populate(xml) {
             state = "<span style=\"display:none;\">" + pingtime.toString() + "</span>" + pingtime.toString() + "&nbsp;ms";
         }
         else {
-            state = "<span style=\"display:none;\">1000000</span>" + genlang(4, false, "PingTest");
+            state = "<span style=\"display:none;\">1000000</span>" + genlang(4, "PingTest");
         }
         pingtest_table.fnAddData(["<span style=\"display:none;\">" + address + "</span>" + address, state]);
         pingtest_show = true;
@@ -61,8 +61,8 @@ function pingtest_buildTable() {
     html += "  <table id=\"Plugin_PingTestTable\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th>" + genlang(2, false, "PingTest") + "</th>\n";
-    html += "        <th>" + genlang(3, false, "PingTest") + "</th>\n";
+    html += "        <th>" + genlang(2, "PingTest") + "</th>\n";
+    html += "        <th>" + genlang(3, "PingTest") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody>\n";

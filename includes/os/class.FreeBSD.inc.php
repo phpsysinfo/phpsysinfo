@@ -29,13 +29,14 @@ class FreeBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct()
+    public function __construct($blockname = false)
     {
-        parent::__construct();
+        parent::__construct($blockname);
         $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");
         $this->setSCSIRegExp1("/^(.*): <(.*)> .*SCSI.*device/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
+        $this->setSCSIRegExp3("/^(da[0-9]+|cd[0-9]+): Serial Number (.*)/");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) pci[0-9]+$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [.0-9]+ irq/");
     }
@@ -192,15 +193,15 @@ class FreeBSD extends BSDCommon
     public function build()
     {
         parent::build();
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
             $this->_uptime();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memoryadditional();
         }
     }

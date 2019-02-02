@@ -55,7 +55,7 @@ function iptables_buildTable() {
     html += "  <table id=\"Plugin_iptablesTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th>" + genlang(101, false, "iptables") + "</th>\n";
+    html += "        <th>" + genlang(101, "iptables") + "</th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody id=\"Plugin_iptablesTable-tbody\">\n";

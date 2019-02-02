@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: gr.xml 661 2014-01-08 11:26:39Z aolah76 $ -->
+  <!--
+    phpSysInfo language file Language: Greek Created by: ChriZathens
+  -->
+<tns:translationPlugin language="greek" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_docker_001" name="docker_title">
+    <exp>Docker</exp>
+  </expression>
+  <expression id="plugin_docker_101" name="docker_name">
+    <exp>Όνομα Κοντέινερ</exp>
+  </expression>
+  <expression id="plugin_docker_102" name="docker_cpuusage">
+    <exp>Χρήση Επεξεργαστή</exp>
+  </expression>
+  <expression id="plugin_docker_103" name="docker_memusage">
+    <exp>Χρήση Μνήμης</exp>
+  </expression>
+  <expression id="plugin_docker_104" name="docker_memused">
+    <exp>Μνήμη σε Χρήση</exp>
+  </expression>
+  <expression id="plugin_docker_105" name="docker_memlimit">
+    <exp>Όριο Μνήμης</exp>
+  </expression>
+  <expression id="plugin_docker_106" name="docker_netio">
+    <exp>I/O Δικτύου</exp>
+  </expression>
+  <expression id="plugin_docker_107" name="docker_blockio">
+    <exp>I/O Μπλοκ</exp>
+  </expression>
+  <expression id="plugin_docker_108" name="docker_pids">
+    <exp>PIDs</exp>
+  </expression>
+</tns:translationPlugin>

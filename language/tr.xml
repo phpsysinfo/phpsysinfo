@@ -381,4 +381,7 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın Updated
   <expression id="125" name="memfree">
     <exp>Boş</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Aygıtlar</exp>
+  </expression>
 </tns:translation>

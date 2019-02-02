@@ -381,4 +381,7 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
   <expression id="125" name="memfree">
     <exp>空き</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMeデバイス</exp>
+  </expression>
 </tns:translation>

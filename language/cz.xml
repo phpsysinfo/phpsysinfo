@@ -381,4 +381,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
   <expression id="125" name="memfree">
     <exp>Volné</exp>
   </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe zařízení</exp>
+  </expression>
 </tns:translation>

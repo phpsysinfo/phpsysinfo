@@ -3,7 +3,7 @@ function renderPlugin_pingtest(data) {
     var directives = {
         PingTime: {
             html: function () { 
-                return ((this.PingTime === "lost") ? genlang(4, true, 'pingtest') : this.PingTime + String.fromCharCode(160) + "ms"); 
+                return ((this.PingTime === "lost") ? genlang(4, 'pingtest') : this.PingTime + String.fromCharCode(160) + "ms"); 
             }
         }
     };

@@ -77,6 +77,13 @@ class WINNT extends OS
     private $_wmidevices;
 
     /**
+     * holds all disks, which are in the system
+     *
+     * @var array
+     */
+    private $_wmidisks;
+
+    /**
      * store language encoding of the system to convert some output to utf-8
      *
      * @var string
@@ -97,7 +104,7 @@ class WINNT extends OS
      */
     private function _get_Win32_OperatingSystem()
     {
-        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'OSLanguage', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'OSArchitecture', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
         return $this->_Win32_OperatingSystem;
     }
 
@@ -157,9 +164,9 @@ class WINNT extends OS
     /**
      * build the global Error object and create the WMI connection
      */
-    public function __construct()
+    public function __construct($blockname = false)
     {
-        parent::__construct();
+        parent::__construct($blockname);
         try {
             // initialize the wmi object
             $objLocator = new COM('WbemScripting.SWbemLocator');
@@ -183,7 +190,7 @@ class WINNT extends OS
                 $buffer[0]['CodeSet'] = $buffer2[1];
             }
             if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language /v Default', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*Default\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
-                $buffer[0]['OSLanguage'] = hexdec($buffer2[1]);
+                $buffer[0]['Locale'] = $buffer2[1];
             }
         }
         if ($buffer && isset($buffer[0])) {
@@ -200,17 +207,17 @@ class WINNT extends OS
                 }
                 $this->_codepage = 'windows-'.$codeset.$codename;
             }
-            if (isset($buffer[0]['OSLanguage'])) {
+            if (isset($buffer[0]['Locale']) && (($locale = hexdec($buffer[0]['Locale']))>0)) {
                 $lang = "";
-                if (is_readable(APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(APP_ROOT.'/data/languages.ini', true))) {
-                    if (isset($langdata['WINNT'][$buffer[0]['OSLanguage']])) {
-                        $lang = $langdata['WINNT'][$buffer[0]['OSLanguage']];
+                if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
+                    if (isset($langdata['WINNT'][$locale])) {
+                        $lang = $langdata['WINNT'][$locale];
                     }
                 }
                 if ($lang == "") {
                     $lang = 'Unknown';
                 }
-                $this->_syslang = $lang.' ('.$buffer[0]['OSLanguage'].')';
+                $this->_syslang = $lang.' ('.$locale.')';
             }
         }
     }
@@ -227,27 +234,51 @@ class WINNT extends OS
         if (empty($this->_wmidevices)) {
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size', 'SerialNumber'));
+                } else {
+                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size'));
+                }
             } else {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+                $this->_wmidisks = array();
             }
         }
         $list = array();
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                    if (!isset($device['PNPClass']) || ($device['PNPClass']==='USB')) {
+                    if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
                     if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
                         $device['Manufacturer'] = null;
                     }
-                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                       && ($strType==='USB') && preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
-                        $device['Serial'] = $buf[1];
-                    } else {
-                        $device['Serial'] = null;
+                    $device['Capacity'] = null;
+                    if (($strType==='IDE')||($strType==='SCSI')) {
+                        foreach ($this->_wmidisks as $disk) {
+                            if (($disk['PNPDeviceID'] === $device['PNPDeviceID']) && isset($disk['Size'])) {
+                                $device['Capacity'] = $disk['Size'];
+                                break;
+                            }
+                        }
                     }
-                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass'], 'Serial'=>$device['Serial']);
+                    $device['Serial'] = null;
+                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                        if ($strType==='USB') {
+                            if (preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
+                                $device['Serial'] = $buf[1];
+                            }
+                        } elseif (($strType==='IDE')||($strType==='SCSI')) {
+                            foreach ($this->_wmidisks as $disk) {
+                                if (($disk['PNPDeviceID'] === $device['PNPDeviceID']) && isset($disk['SerialNumber'])) {
+                                    $device['Serial'] = $disk['SerialNumber'];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    $list[] = array('Name'=>$device['Name'], 'Manufacturer'=>$device['Manufacturer'], 'Product'=>$device['PNPClass'], 'Capacity'=>$device['Capacity'], 'Serial'=>$device['Serial']);
                 } else {
                     $list[] = array('Name'=>$device['Name']);
                 }
@@ -333,6 +364,12 @@ class WINNT extends OS
             $result = $localtime - $boottime;
 
             $this->sys->setUptime($result);
+        } elseif (($this->sys->getDistribution()=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
+            $sec = $ar_buf[4];
+            $min = $ar_buf[3];
+            $hours = $ar_buf[2];
+            $days = $ar_buf[1];
+            $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60 + $sec);
         }
     }
 
@@ -571,18 +608,34 @@ class WINNT extends OS
         foreach ($this->_devicelist('PCI') as $pciDev) {
             $dev = new HWDevice();
             $dev->setName($pciDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setManufacturer($pciDev['Manufacturer']);
+                $dev->setProduct($pciDev['Product']);
+            }
             $this->sys->setPciDevices($dev);
         }
 
         foreach ($this->_devicelist('IDE') as $ideDev) {
             $dev = new HWDevice();
             $dev->setName($ideDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setCapacity($ideDev['Capacity']);
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $dev->setSerial($ideDev['Serial']);
+                }
+            }
             $this->sys->setIdeDevices($dev);
         }
 
         foreach ($this->_devicelist('SCSI') as $scsiDev) {
             $dev = new HWDevice();
             $dev->setName($scsiDev['Name']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $dev->setCapacity($scsiDev['Capacity']);
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                    $dev->setSerial($scsiDev['Serial']);
+                }
+            }
             $this->sys->setScsiDevices($dev);
         }
 
@@ -920,25 +973,25 @@ class WINNT extends OS
         if ($this->sys->getDistribution()=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='vitals') {
+        if (!$this->blockname || $this->blockname==='vitals') {
             $this->_hostname();
             $this->_users();
             $this->_uptime();
             $this->_loadavg();
             $this->_processes();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='network') {
+        if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='hardware') {
+        if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_hardware();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='filesystem') {
+        if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
         }
-        if (!defined('PSI_ONLY') || PSI_ONLY==='memory') {
+        if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
     }

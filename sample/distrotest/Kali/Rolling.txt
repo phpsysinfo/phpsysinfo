@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID: Kali
+Description:    Kali GNU/Linux Rolling
+Release:        kali-rolling
+Codename:       kali-rolling
+----------/etc/lsb-release----------
+DISTRIB_ID=Kali
+DISTRIB_RELEASE=kali-rolling
+DISTRIB_CODENAME=kali-rolling
+DISTRIB_DESCRIPTION="Kali GNU/Linux Rolling"
+----------/etc/os-release----------
+PRETTY_NAME="Kali GNU/Linux Rolling"
+NAME="Kali GNU/Linux"
+ID=kali
+VERSION="2018.1"
+VERSION_ID="2018.1"
+ID_LIKE=debian
+ANSI_COLOR="1;31"
+HOME_URL="http://www.kali.org/"
+SUPPORT_URL="http://forums.kali.org/"
+BUG_REPORT_URL="http://bugs.kali.org/"
+----------/etc/debian_version----------
+kali-rolling

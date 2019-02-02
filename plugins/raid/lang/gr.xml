@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
   <!-- $Id: gr.xml 661 2012-08-27 11:26:39Z namiltd $ -->
   <!--
     phpSysInfo language file Language: Greek Created by: ChriZathens
@@ -9,70 +9,79 @@
   <expression id="plugin_raid_001" name="raid_title">
     <exp>Κατάσταση RAID</exp>
   </expression>
-  <expression id="plugin_raid_002" name="raid_devices">
-    <exp>Συσκευές RAID</exp>
-  </expression>
-  <expression id="plugin_raid_003" name="raid_infos">
+  <expression id="plugin_raid_002" name="raid_infos">
     <exp>Επιπρόσθετες Πληροφορίες</exp>
   </expression>
-  <expression id="plugin_raid_004" name="raid_name">
+  <expression id="plugin_raid_003" name="raid_name">
     <exp>Όνομα</exp>
   </expression>
-  <expression id="plugin_raid_005" name="raid_status">
+  <expression id="plugin_raid_004" name="raid_status">
     <exp>Κατάσταση</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_level">
+  <expression id="plugin_raid_005" name="raid_level">
     <exp>Τύπος RAID</exp>
   </expression>
-  <expression id="plugin_raid_007" name="raid_size">
+  <expression id="plugin_raid_006" name="raid_size">
     <exp>Μέγεθος</exp>
   </expression>
-  <expression id="plugin_raid_008" name="raid_stride">
+  <expression id="plugin_raid_007" name="raid_stride">
     <exp>Stride</exp>
   </expression>
-  <expression id="plugin_raid_009" name="raid_subsets">
+  <expression id="plugin_raid_008" name="raid_subsets">
     <exp>Υποσύνολα</exp>
   </expression>
-  <expression id="plugin_raid_010" name="raid_devs">
+  <expression id="plugin_raid_009" name="raid_devs">
     <exp>Συσκευές</exp>
   </expression>
-  <expression id="plugin_raid_011" name="raid_spares">
+  <expression id="plugin_raid_010" name="raid_spares">
     <exp>Spares</exp>
   </expression>
-  <expression id="plugin_raid_012" name="raid_curact">
+  <expression id="plugin_raid_011" name="raid_curact">
     <exp>Τρέχουσα Ενέργεια</exp>
   </expression>
-  <expression id="plugin_raid_013" name="raid_finish">
+  <expression id="plugin_raid_012" name="raid_finish">
     <exp>Ολοκληρώνεται σε</exp>
   </expression>
-  <expression id="plugin_raid_014" name="raid_chunk">
+  <expression id="plugin_raid_013" name="raid_chunk">
     <exp>Μέγεθος Chunk</exp>
   </expression>
-  <expression id="plugin_raid_015" name="raid_algo">
+  <expression id="plugin_raid_014" name="raid_algo">
     <exp>Αλγόριθμος</exp>
   </expression>
-  <expression id="plugin_raid_016" name="raid_superb">
+  <expression id="plugin_raid_015" name="raid_superb">
     <exp>Μόνιμο Superblock</exp>
   </expression>
-  <expression id="plugin_raid_017" name="raid_avail">
+  <expression id="plugin_raid_016" name="raid_avail">
     <exp>διαθέσιμο</exp>
   </expression>
-  <expression id="plugin_raid_018" name="raids_navail">
+  <expression id="plugin_raid_017" name="raids_navail">
     <exp>μη διαθέσιμο</exp>
   </expression>
-  <expression id="plugin_raid_019" name="raid_regact">
+  <expression id="plugin_raid_018" name="raid_regact">
     <exp>Δηλωμένοι/Ενεργοί Δίσκοι</exp>
   </expression>
-  <expression id="plugin_raid_020" name="raid_controller">
+  <expression id="plugin_raid_019" name="raid_controller">
     <exp>Controller</exp>
   </expression>
-  <expression id="plugin_raid_021" name="raid_battcond">
+  <expression id="plugin_raid_020" name="raid_battcond">
     <exp>Κατάσταση Μπαταρίας</exp>
   </expression>
-  <expression id="plugin_raid_022" name="raid_supported">
+  <expression id="plugin_raid_021" name="raid_supported">
     <exp>Αχρησιμοποίητοι Δίσκοι</exp>
   </expression>
-  <expression id="plugin_raid_023" name="raid_program">
+  <expression id="plugin_raid_022" name="raid_program">
     <exp>Πρόγραμμα</exp>
+  </expression>
+  <expression id="plugin_raid_023" name="raid_readpolicy">
+    <exp>Πολιτικές Ανάγνωσης</exp>
+  </expression>
+  <expression id="plugin_raid_024" name="raid_writepolicy">
+    <exp>Πολιτικές Εγγραφής</exp>
+  </expression>
+  <expression id="plugin_raid_025" name="raid_cachesize">
+    <exp>Μέγεθος Λανθάνουσας Μνήμης</exp>
+  </expression>
+  <expression id="plugin_raid_026" name="raid_badblocks">
+    <exp>Bad Blocks</exp>
   </expression>
 </tns:translationPlugin>
