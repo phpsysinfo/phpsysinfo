@@ -496,10 +496,10 @@ class Raid extends PSI_Plugin
                 $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($lines)) {
                     if ($sas === true) {
-                        $prog = "megactl";
+                        $prog = "megasasctl";
                         $prefix = "";
                     } else {
-                        $prog = "megasasctl";
+                        $prog = "megactl";
                         $prefix = "/"; //for megactl and megasasctl conflicts
                     }
                     unset($lines[0]);
