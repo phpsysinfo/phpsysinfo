@@ -497,10 +497,10 @@ class Raid extends PSI_Plugin
                 if (!empty($lines)) {
                     if ($sas === true) {
                         $prog = "megasasctl";
-                        $prefix = "";
+                        $prefix = "/"; //for megactl and megasasctl conflicts
                     } else {
                         $prog = "megactl";
-                        $prefix = "/"; //for megactl and megasasctl conflicts
+                        $prefix = "";
                     }
                     unset($lines[0]);
                     foreach ($lines as $line) {
