@@ -690,7 +690,7 @@ class Linux extends OS
 
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && ($dev_type[1]==='Direct-Access')) {
-                       $sizelist = glob('/sys/bus/scsi/devices/'.($scsiid[1]+0).':'.($scsiid[2]+0).':'.($scsiid[3]+0).':'.($scsiid[4]+0).'/*/*/size', GLOB_NOSORT);
+                       $sizelist = glob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
                        if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
                            $buf = "";
                            for ($i = 0; $i < $total; $i++) {
@@ -722,7 +722,7 @@ class Linux extends OS
                 $device = preg_split("/ /", $buf, 7);
                 if (((isset($device[6]) && trim($device[6]) != "")) ||
                     ((isset($device[5]) && trim($device[5]) != ""))) {
-                    $usbid = ($device[1]+0).'-'.(trim($device[3],':')+0).' '.$device[5];
+                    $usbid = intval($device[1]).'-'.intval(trim($device[3],':')).' '.$device[5];
                     if ((isset($device[6]) && trim($device[6]) != "")) {
                         $usbarray[$usbid]['name'] = trim($device[6]);
                     } else {
@@ -740,7 +740,7 @@ class Linux extends OS
                     $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
                     $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
                     if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
-                        $usbid = ($busnum+0).'-'.($devnum+0).' '.$idvendor.':'.$idproduct;
+                        $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
                         $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
                         if ($manufacturer!==null) {
                             $usbarray[$usbid]['manufacturer'] = $manufacturer;
