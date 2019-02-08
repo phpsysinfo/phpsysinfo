@@ -69,7 +69,7 @@ class Quotas extends PSI_Plugin
         $quotas = array();
         foreach ($this->_filecontent as $thisline) {
             $thisline = preg_replace("/([\s]--)/", "", $thisline);
-            $thisline = preg_split("/(\s)/e", $thisline, -1, PREG_SPLIT_NO_EMPTY);
+            $thisline = preg_split("/(\s)/", $thisline, -1, PREG_SPLIT_NO_EMPTY);
             if (count($thisline) == 7) {
                 $quotas[$i]['user'] = str_replace("--", "", $thisline[0]);
                 $quotas[$i]['byte_used'] = $thisline[1] * 1024;
