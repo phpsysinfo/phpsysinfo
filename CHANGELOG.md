@@ -3,6 +3,12 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.1
+----------------
+
+ - [UPD] bootstrap 4.3.1
+ - [UPD] bootstrap-ie 4.3.100
+
 phpSysInfo 3.3.0
 ----------------
 
