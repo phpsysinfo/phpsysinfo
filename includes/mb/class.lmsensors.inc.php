@@ -139,7 +139,7 @@ class LMSensors extends Sensors
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line) || preg_match("/\sALARM\s+sensor\s+=/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);

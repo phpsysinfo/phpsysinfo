@@ -12,7 +12,7 @@ fan2:        5172 RPM  (min =  712 RPM)
 fan3:           0 RPM  (min =  712 RPM)  ALARM
 temp1:        +50.0°C  (high = +89.0°C, hyst = +84.0°C)  sensor = Intel PECI
 temp2:        +53.0°C  (high = +89.0°C, hyst = +84.0°C)  sensor = Intel PECI
-temp3:        +26.0°C  (high = +75.0°C, hyst = +70.0°C)  sensor = thermistor
+temp3:        +72.0°C  (high = +75.0°C, hyst = +70.0°C)  ALARM  sensor = thermistor
 cpu0_vid:    +1.013 V
 intrusion0:  ALARM
 intrusion1:  OK
