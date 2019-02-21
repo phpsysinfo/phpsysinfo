@@ -789,7 +789,30 @@ class Linux extends OS
             }
         }
 
-        foreach ($usbarray as $usbdev) {
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
+            $devnam = "unknown";
+            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($bufe as $buf) {
+                if (preg_match('/^I:\s+(.+)/', $buf, $bufr)
+                   && isset($bufr[1]) && (trim($bufr[1])!=="")) {
+                    $devnam = trim($bufr[1]);
+                    $usbarray[$devnam]['phys'] = 'unknown';
+                } elseif (preg_match('/^N:\s+Name="([^"]+)"/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['name'] = trim($bufr2[1]);
+                } elseif (preg_match('/^P:\s+Phys=(.*)/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['phys'] = trim($bufr2[1]);
+                } elseif (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                   && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                   && preg_match('/^U:\s+Uniq=(.+)/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['serial'] = trim($bufr2[1]);
+                }
+            }
+        }
+
+        foreach ($usbarray as $usbdev) if (!isset($usbdev['phys']) || preg_match('/^usb-/', $usbdev['phys'])){
             $dev = new HWDevice();
 
             if (isset($usbdev['manufacturer']) && (($manufacturer=$usbdev['manufacturer']) !== 'no manufacturer')) {
