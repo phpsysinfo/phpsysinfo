@@ -89,6 +89,7 @@ table.sortable thead th:hover {
 }
 
 .table-hover > tbody > tr:hover {
+    color: #333;
     background-color: #ececec;
 }
 
