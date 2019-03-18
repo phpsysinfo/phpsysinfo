@@ -101,6 +101,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .table {
+    color: #333;
     background-color: #fff!important;
     margin: 0;
     border: 0;
