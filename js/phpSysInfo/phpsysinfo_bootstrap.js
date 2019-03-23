@@ -312,12 +312,14 @@ function plugin_request(pluginname) {
 $(document).ready(function () {
     var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
 
-    $(document).ajaxStart(function () {
-        $("#loader").css("visibility", "visible");
-    });
-    $(document).ajaxStop(function () {
-        $("#loader").css("visibility", "hidden");
-    });
+    if ($("#hideBootstrapLoader").val().toString()!=="true") {
+        $(document).ajaxStart(function () {
+            $("#loader").css("visibility", "visible");
+        });
+        $(document).ajaxStop(function () {
+            $("#loader").css("visibility", "hidden");
+        });
+    }
     $(window).resize(centerSelect);
 
     sorttable.init();
