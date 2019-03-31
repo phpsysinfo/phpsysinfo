@@ -82,7 +82,7 @@ phpSysInfo language file Language: French Created by: Cyril Servant
     <exp>Err/Drop</exp>
   </expression>
   <expression id="026" name="connections">
-    <exp>Connections réseau établies</exp>
+    <exp>Connexions réseau établies</exp>
   </expression>
   <expression id="027" name="memusage">
     <exp>Utilisation mémoire</exp>
