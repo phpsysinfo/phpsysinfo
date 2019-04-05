@@ -1,12 +1,3 @@
-/**
- * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
- * ajax call
- * @private
- * @param {String} lang language for which the translation should be loaded
- * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
- * @param {String} plugname internal plugin name
- * @return {jQuery} translation jQuery-Object
- */
 var langxml = [], langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
