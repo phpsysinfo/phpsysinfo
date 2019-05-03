@@ -24,11 +24,8 @@
             die();
         </script>
     <![endif]-->
-    <?php if (defined('PSI_CSS_FIX')) : ?><!--[if !IE]><!-->
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-<?php echo PSI_CSS_FIX; ?>.css">
-    <!--<![endif]--><?php endif; ?>
-
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" title="PSI_Template">
+    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_CSS_Fix">
+    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_Template">
 </head>
 
 <body>
@@ -464,15 +461,7 @@ if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstr
 
 </div>
 
-<!--[if lt IE 9]><?php if (defined('PSI_JQUERY_FIX')) : ?><!--><?php endif; ?>
-
-    <script type="text/JavaScript" src="./js.php?name=jquery-1"></script>
-<?php if (defined('PSI_JQUERY_FIX')) : ?><!--<?php endif; ?><![endif]-->
-<!--[if gte IE 9]><?php if (!defined('PSI_JQUERY_FIX')) : ?><!--><?php endif; ?>
-
-    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
-<?php if (!defined('PSI_JQUERY_FIX')) : ?><!--<?php endif; ?><![endif]-->
-
+<script type="text/JavaScript" src="./js.php?name=jquery"></script>
 <script type="text/JavaScript" src="./js.php?name=console-shim"></script>
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>

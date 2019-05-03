@@ -6,12 +6,13 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.3.1
 ----------------
 
- - [UPD] jQuery 3.4.1
  - [UPD] bootstrap 4.3.1
  - [UPD] bootstrap-ie 4.3.100
 
  - [NEW] HIDE_BOOTSTRAP_LOADER option
  - [NEW] Uprecords plugin - DENOTE_BY_ASTERISK option
+
+ - [DEL] jQuery 3.3.1
 
 phpSysInfo 3.3.0
 ----------------

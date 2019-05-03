@@ -3,14 +3,6 @@ versions, links and simple description of used jquery files
 
 jquery.js
 ---------
-VERSION  : 3.4.1
-URL      : http://jquery.com/
-DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle
-           events, perform animations, and add Ajax interactions to your web pages.
-USED     : used for the entire userinterface
-
-jquery-1.js
----------
 VERSION  : 1.12.4
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle

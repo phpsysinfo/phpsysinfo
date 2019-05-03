@@ -51,11 +51,7 @@ function readCookie(name) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $('link[rel*=style][title]').each(function getTitle(i) {
-        if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', 'templates/' + template + "_bootstrap.css");
-        }
-    });
+    $("#PSI_Template")[0].setAttribute('href', 'templates/' + template + "_bootstrap.css");
 }
 
 /**
@@ -301,7 +297,7 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
+    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "", ua = null, useragent = navigator.userAgent;
 
     if ($("#hideBootstrapLoader").val().toString()!=="true") {
         $(document).ajaxStart(function () {
@@ -311,6 +307,21 @@ $(document).ready(function () {
             $("#loader").css("visibility", "hidden");
         });
     }
+
+    if (useragent.match(/Safari\/(\d+)\.[\d\.]+$/) !== null) {
+        $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
+        if (ua[1]<=15) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
+        } else if (ua[1]<=20) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox20.css');
+        } else if (ua[1]<=27) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
+        } else if (ua[1]==28) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+        }
+    }
+        
     $(window).resize(centerSelect);
 
     sorttable.init();
