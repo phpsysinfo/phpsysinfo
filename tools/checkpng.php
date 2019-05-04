@@ -17,7 +17,7 @@ echo "<![endif]-->";
 echo "</head>";
 echo "<body>";
 
-$pngtable = glob('../gfx/images/*.png');
+$pngtable = glob('{../gfx/images/*.png,../plugins/*/gfx/*.png}', GLOB_BRACE);
 if (is_array($pngtable) && (($total = count($pngtable)) > 0)) {
     echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\">";
     echo "<tr>";
