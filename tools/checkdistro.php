@@ -1,7 +1,9 @@
 <?php
 echo "<!DOCTYPE html>";
+echo "<head>";
 echo "<meta charset=\"UTF-8\">";
 echo "<title> </title>";
+echo "</head>"
 echo "<body>";
 
 define('PSI_APP_ROOT', dirname(__FILE__).'/..');
@@ -125,7 +127,7 @@ class _Linux extends Linux
 
 $system = new _Linux();
 if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
-    echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\"";
+    echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\">";
     echo "<tr>";
     echo "<td>Distrotest sample</td>";
     echo "<td>Distro Name</td>";
@@ -159,7 +161,7 @@ if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
                         echo $icon."</td>";
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("");
@@ -179,7 +181,7 @@ if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
                         echo $icon."</td>";
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("");
@@ -199,7 +201,7 @@ if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
                             echo "<td style='color:red'>";
                         else
                             echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\">";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
                         echo $icon."</td>";
                         $sys->setDistribution("");
                         $sys->setDistributionIcon("");
