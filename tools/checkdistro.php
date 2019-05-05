@@ -3,7 +3,7 @@ echo "<!DOCTYPE html>";
 echo "<head>";
 echo "<meta charset=\"UTF-8\">";
 echo "<title> </title>";
-echo "</head>"
+echo "</head>";
 echo "<body>";
 
 define('PSI_APP_ROOT', dirname(__FILE__).'/..');
