@@ -812,7 +812,7 @@ class Linux extends OS
             }
         }
 
-        foreach ($usbarray as $usbdev) if (!isset($usbdev['phys']) || preg_match('/^usb-/', $usbdev['phys'])){
+        foreach ($usbarray as $usbdev) if (!isset($usbdev['phys']) || preg_match('/^usb-/', $usbdev['phys'])) {
             $dev = new HWDevice();
 
             if (isset($usbdev['manufacturer']) && (($manufacturer=$usbdev['manufacturer']) !== 'no manufacturer')) {
