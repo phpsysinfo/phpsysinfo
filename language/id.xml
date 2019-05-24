@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+phpSysInfo language file Language: Indonesian Created by: RegalChivas
+-->
+<tns:translation language="indonesia" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>Informasi Sistem</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>Sistem Vital</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>Canonical Hostname</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>IP Pembaca</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>Versi Kernel</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>Nama Distro</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>Waktu Hidup</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>Pengguna Sekarang</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>Beban Rata-rata</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>Informasi Perangkat Keras</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>Processors</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>Model</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>Kecepatan CPU</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>Kecepatan BUS</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>Ukuran Cache</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>Sistem Bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>Perangkat PCI</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>Perangkat IDE</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>Perangkat SCSI</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>Perangkat USB</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>Penggunaan Jaringan</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>Perangkat</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>Diterima</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>Dikirim</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>Kesalahan / Peringatan</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>Koneksi Jaringan Tertera</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>Penggunaan Memori</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>Memori Fisik</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>Disk Swap</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>Sistem File Terpasang</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>Mountpoint</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>Partisi</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>Pemakaian</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>Tipe</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>Bebas</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>Digunakan</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>Ukuran</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>Keselurahan</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>KB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>Nihil</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>Kapasitas</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>Template</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>Bahasa</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Kirim</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Dibuat oleh</exp>
+  </expression>
+  <expression id="048" name="days">
+    <exp>hari</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>jam</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>menit</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>Suhu</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>Voltase</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>Kipas</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Nilai</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Min</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Max</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Histeresis</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Pembatasan</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Label</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>RPM</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>Kernel + Aplikasi</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>Buffers</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>Cached</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Jump to</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>Informasi UPS</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>Nama</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>Model</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>Mode</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>Memulai</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>Status</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>Padam</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>Penyebab Pemadaman Terakhir</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>Waktu Pemadaman Terakhir</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Tegangan Saluran</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>Persenan Beban</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>Tegangan Baterai</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>Pengisi Daya Baterai</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>Sisa Waktu Baterai</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>Menit</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>Suhu</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualisasi</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Boot Terakhir</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+  <expression id="097" name="syslang">
+    <exp>Bahasa Sistem</exp>
+  </expression>
+  <expression id="098" name="codepage">
+    <exp>Halaman Kode</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>Detail</exp>
+  </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>Kecepatan Max CPU</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>Kecepatan Min CPU</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>Daya</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>tanggal Baterai</exp>
+  </expression>
+  <expression id="105" name="current">
+    <exp>Arus</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>Mesin</exp>
+  </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>Frekuensi Jalur</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Processes</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>Berjalan</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>Istirahat</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>Berhenti</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>Menunggu</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>Lainnya</exp>
+  </expression>
+  <expression id="117" name="tb">
+    <exp>Perangkat TB</exp>
+  </expression>
+  <expression id="118" name="i2c">
+    <exp>Perangkat I2C</exp>
+  </expression>
+  <expression id="119" name="no_processors">
+    <exp>Jumlah Prosesor</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Jumlah Perangkat</exp>
+  </expression>
+  <expression id="121" name="other">
+    <exp>Lainnya</exp>
+  </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Pabrikan</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Produk</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Nomor Seri</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>Bebas</exp>
+  </expression>
+  <expression id="126" name="nvme">
+    <exp>Perangkat NVMe</exp>
+  </expression>
+</tns:translation>
