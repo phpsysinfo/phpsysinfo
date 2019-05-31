@@ -1,9 +1,14 @@
 function renderPlugin_psstatus(data) {
 
     var directives = {
-        Status: {
+        Status1: {
             text: function () {
-                return (this.Status === "1") ? "ON" : "OFF";
+                return (this.Status === "1") ? "ON" : "";
+            }
+        },
+        Status0: {
+            text: function () {
+                return (this.Status === "1") ? "" : "OFF";
             }
         }
     };

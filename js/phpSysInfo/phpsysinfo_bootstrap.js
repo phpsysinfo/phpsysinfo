@@ -321,7 +321,7 @@ $(document).ready(function () {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
         }
     }
-        
+
     $(window).resize(centerSelect);
 
     sorttable.init();

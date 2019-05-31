@@ -212,8 +212,6 @@ a:hover {
 }
 
 .badge {
-    background-color: #777;
-    color: #fff;
     font-size: 12px;
     border-radius: 10px;
     padding: 3px 7px;

@@ -1,9 +1,14 @@
 function renderPlugin_hyperv(data) {
 
     var directives = {
-        State: {
+        State1: {
             text: function () {
-                return (this.State === "2") ? "ON" : "OFF";
+                return (this.State === "2") ? "ON" : "";
+            }
+        },
+        State0: {
+            text: function () {
+                return (this.State === "2") ? "" : "OFF";
             }
         }
     };
