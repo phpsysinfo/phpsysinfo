@@ -52,6 +52,13 @@ case "xml":
     $webpage = new WebpageXML("complete");
     $webpage->run();
     break;
+case "json":
+    $webpage = new WebpageXML("complete");
+    $json = $webpage->getJsonString();
+    header("Cache-Control: no-cache, must-revalidate\n");
+    header("Content-Type: application/json\n\n");
+    echo $json;
+    break;
 case "bootstrap":
 /*
     $tpl = new Template("/templates/html/index_bootstrap.html");
