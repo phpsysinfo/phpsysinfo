@@ -39,8 +39,15 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
     // if $output is correct generate output in proper type
     if (isset($output) && is_object($output)) {
         if (isset($_GET['json']) || isset($_GET['jsonp'])) {
+            header("Cache-Control: no-cache, must-revalidate\n");
             $json = $output->getJsonString();
-            echo isset($_GET['jsonp']) ? (!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')' : $json;
+            if (isset($_GET['jsonp'])) {
+                header("Content-Type: application/javascript\n\n");
+                echo (!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')';
+            } else {
+                header("Content-Type: application/json\n\n");
+                echo $json;
+            }
         } else {
             $output->run();
         }
