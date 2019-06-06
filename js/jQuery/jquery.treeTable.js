@@ -1,6 +1,6 @@
 /* 
 Copyright: Paul Hanlon
-version 2009-06-22+statefix+spanfix+altfix
+version 2009-06-22+statefix+spanfix+altfix+undefinedfix
 Released under the MIT/BSD licence which means you can do anything you want 
 with it, as long as you keep this copyright notice on the page 
 */
