@@ -446,7 +446,7 @@ Array.prototype.push_attrs=function(element) {
 
 function full_addr(ip_string) {
     var wrongvalue = false;
-    ip_string = ip_string.trim().toLowerCase();
+    ip_string = $.trim(ip_string).toLowerCase();
     // ipv4 notation
     if (ip_string.match(/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
         ip_string ='::ffff:' + ip_string;
