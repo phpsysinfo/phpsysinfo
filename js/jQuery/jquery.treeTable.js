@@ -105,10 +105,10 @@ with it, as long as you keep this copyright notice on the page
       jqt.click(function(){
         var num = parseInt(jqt.attr("id").substr(tid.length));//Number of the row
         if (jqt.parents("tr").next().is(".collapsed")){//If the table row directly below is collapsed
-          expandKids(num, (jqt.attr("src")==opts.lastShutImg));//Then expand all children not in collarr
+          expandKids(num, jqt.attr("last")==1);//Then expand all children not in collarr
           if(opts.state){creset(num,true);}//If state is set, store in cookie
         }else{//Collapse all and set image to opts.shutImg or opts.lastShutImg on parents
-          collapseKids(num, (jqt.attr("src")==opts.lastOpenImg));
+          collapseKids(num, jqt.attr("last")==1);
           if(opts.state){creset(num,false);}//If state is set, store in cookie
         }
         stripe();//Restripe the rows
