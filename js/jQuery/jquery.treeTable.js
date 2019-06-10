@@ -1,6 +1,6 @@
 /* 
 Copyright: Paul Hanlon
-version 2009-06-22+statefix+spanfix+altfix+undefinedfix+ie6cachefix
+version 2009-06-22+statefix+spanfix+altfix+undefinedfix+ie6cachefix+multilinefix
 Released under the MIT/BSD licence which means you can do anything you want 
 with it, as long as you keep this copyright notice on the page 
 */
@@ -20,12 +20,13 @@ with it, as long as you keep this copyright notice on the page
         if (mapa[ro]){//It's a parent as well. Build it's string and move on to it's children
           pre=(y==yl-1)? opts.blankImg: opts.vertLineImg;
           img=(y==yl-1)? opts.lastOpenImg: opts.openImg;
-          mapb[ro-1] = preStr + '<span class="treeimg"><div style="background-image: url(\''+img+'\')" class="parimg" id="'+tid+ro+'"'+(img=(y==yl-1)? ' last=1': '')+'></div></span>';
-          pref = preStr + '<span class="treeimg"><div style="background-image: url(\''+pre+'\')" class="preimg"></div></span>';
+          mapb[ro-1] = preStr + '<span class="treeimg" style="background-image: url(\''+pre+'\')"><div style="background-image: url(\''+img+'\')" class="parimg" id="'+tid+ro+'"'+(img=(y==yl-1)? ' last=1': '')+'></div></span>';
+          pref = preStr + '<span class="treeimg preimg" style="background-image: url(\''+pre+'\')"></span>';
           arguments.callee(ro, pref);
         }else{//it's a child
+          pre=(y==yl-1)? opts.blankImg: opts.vertLineImg;
           img = (y==yl-1)? opts.lastLeafImg: opts.leafImg;//It's the last child, It's child will have a blank field behind it
-          mapb[ro-1] = preStr + '<span class="treeimg"><div style="background-image: url(\''+img+'\')" class="ttimage" id="'+tid+ro+'"></div></span>';
+          mapb[ro-1] = preStr + '<span class="treeimg" style="background-image: url(\''+pre+'\')"><div style="background-image: url(\''+img+'\')" class="ttimage" id="'+tid+ro+'"></div></span>';
         }
       }
     },
