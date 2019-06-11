@@ -95,7 +95,7 @@ function snmppinfo_buildTable(xml) {
                     break;
             }
         }
-        html += "      <tr><td><span class=\"treespan\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
+        html += "      <tr><td><span class=\"treespan\">" + desc + "<br>&nbsp;</span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;
