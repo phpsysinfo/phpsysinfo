@@ -87,6 +87,9 @@ MacBookPro13,3:MacBook Pro Core i7:Intel Core I7-6700HQ/I7-6820HQ/I7-6920HQ
 MacBookPro14,1:MacBook Pro Core i5/i7:Intel Core I5-7360U/I7-7660U
 MacBookPro14,2:MacBook Pro Core i5/i7:Intel Core I5-7267U/I5-7287U/I7-7567U
 MacBookPro14,3:MacBook Pro Core i7:Intel Core I7-7700HQ/I7-7820HQ/I7-7920HQ
+MacBookPro15,1:MacBook Pro Core i7/i9:Intel Core I7-8750H/I7-8850H/I7-9750H/I9-8950HK/I9-9880H/I9-9980HK
+MacBookPro15,2:MacBook Pro Core i5/i7:Intel Core I5-8259U/I5-8279U/I7-8559U/I7-8569U
+MacBookPro15,3:MacBook Pro Core i7/i9:Intel Core I7-8850H/I9-8950HK/I9-9880H/I9-9980HK
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800

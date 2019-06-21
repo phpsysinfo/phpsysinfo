@@ -1,12 +1,3 @@
-/**
- * load the given translation an translate the entire page<br><br>retrieving the translation is done through a
- * ajax call
- * @private
- * @param {String} lang language for which the translation should be loaded
- * @param {String} plugin if plugin is given, the plugin translation file will be read instead of the main translation file
- * @param {String} plugname internal plugin name
- * @return {jQuery} translation jQuery-Object
- */
 var langxml = [], langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
@@ -60,11 +51,7 @@ function readCookie(name) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $('link[rel*=style][title]').each(function getTitle(i) {
-        if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', 'templates/' + template + "_bootstrap.css");
-        }
-    });
+    $("#PSI_Template")[0].setAttribute('href', 'templates/' + template + "_bootstrap.css");
 }
 
 /**
@@ -310,14 +297,31 @@ function plugin_request(pluginname) {
 
 
 $(document).ready(function () {
-    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "";
+    var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "", ua = null, useragent = navigator.userAgent;
 
-    $(document).ajaxStart(function () {
-        $("#loader").css("visibility", "visible");
-    });
-    $(document).ajaxStop(function () {
-        $("#loader").css("visibility", "hidden");
-    });
+    if ($("#hideBootstrapLoader").val().toString()!=="true") {
+        $(document).ajaxStart(function () {
+            $("#loader").css("visibility", "visible");
+        });
+        $(document).ajaxStop(function () {
+            $("#loader").css("visibility", "hidden");
+        });
+    }
+
+    if (useragent.match(/Safari\/(\d+)\.[\d\.]+$/) !== null) {
+        $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
+        if (ua[1]<=15) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
+        } else if (ua[1]<=20) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox20.css');
+        } else if (ua[1]<=27) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
+        } else if (ua[1]==28) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+        }
+    }
+
     $(window).resize(centerSelect);
 
     sorttable.init();
@@ -442,7 +446,7 @@ Array.prototype.push_attrs=function(element) {
 
 function full_addr(ip_string) {
     var wrongvalue = false;
-    ip_string = ip_string.trim().toLowerCase();
+    ip_string = $.trim(ip_string).toLowerCase();
     // ipv4 notation
     if (ip_string.match(/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$)/)) {
         ip_string ='::ffff:' + ip_string;

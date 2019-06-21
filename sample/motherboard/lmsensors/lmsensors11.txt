@@ -1,0 +1,20 @@
+w83793-i2c-0-2f
+Adapter: SMBus I801 adapter at 1100
+VcoreA:       +1.20 V  (min =  +0.92 V, max =  +1.49 V)
+VcoreB:       +1.19 V  (min =  +0.92 V, max =  +1.49 V)
+in2:          +1.19 V  (min =  +1.08 V, max =  +1.33 V)
+in3:          +0.50 V  (min =  +0.38 V, max =  +0.69 V)
++5V:          +5.07 V  (min =  +4.52 V, max =  +5.50 V)
+5VSB:         +5.07 V  (min =  +4.52 V, max =  +5.50 V)
+Vbat:         +3.23 V  (min =  +2.70 V, max =  +3.30 V)
+fan1:        5152 RPM  (min =  712 RPM)
+fan2:        5172 RPM  (min =  712 RPM)
+fan3:           0 RPM  (min =  712 RPM)  ALARM
+temp1:        +50.0°C  (high = +89.0°C, hyst = +84.0°C)  sensor = Intel PECI
+temp2:        +53.0°C  (high = +89.0°C, hyst = +84.0°C)  sensor = Intel PECI
+temp3:        +72.0°C  (high = +75.0°C, hyst = +70.0°C)  ALARM  sensor = thermistor
+cpu0_vid:    +1.013 V
+intrusion0:  ALARM
+intrusion1:  OK
+alarms: Chassis intrusion detection ALARM
+beep_enable: disabled

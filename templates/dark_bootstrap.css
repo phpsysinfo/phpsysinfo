@@ -90,6 +90,7 @@ table.sortable thead th:hover {
 }
 
 .table-hover > tbody > tr:hover {
+    color: #c8c8c8;
     background-color: #49515a;
 }
 
@@ -102,6 +103,7 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .table {
+    color: #c8c8c8;
     background-color: #2e3338!important;
     margin: 0;
     border: 0;
@@ -211,8 +213,6 @@ a:hover {
 }
 
 .badge {
-    background-color: #777;
-    color: #fff;
     font-size: 12px;
     border-radius: 10px;
     padding: 3px 7px;

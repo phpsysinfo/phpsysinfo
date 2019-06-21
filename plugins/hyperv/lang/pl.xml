@@ -7,7 +7,7 @@ phpSysInfo language file Language: Polish Created by: Mieczysław Nalewaj
  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
   <expression id="plugin_hyperv_001" name="hyperv_title">
-    <exp>Hyper-V Status</exp>
+    <exp>Status Hyper-V</exp>
   </expression>
   <expression id="plugin_hyperv_002" name="hyperv_name">
     <exp>Nazwa maszyny</exp>

@@ -3,32 +3,32 @@ function renderPlugin_stablebit(data) {
     var directives = {
         IsHot: {
             html: function () {
-                return (this.IsHot === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsHot === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         IsSmartWarning: {
             html: function () {
-                return (this.IsSmartWarning === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsSmartWarning === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         IsSmartPastThresholds: {
             html: function () {
-                return (this.IsSmartPastThresholds === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsSmartPastThresholds === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         IsSmartPastAdvisoryThresholds: {
             html: function () {
-                return (this.IsSmartPastAdvisoryThresholds === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsSmartPastAdvisoryThresholds === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         IsSmartFailurePredicted: {
             html: function () {
-                return (this.IsSmartFailurePredicted === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsSmartFailurePredicted === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         IsDamaged: {
             html: function () {
-                return (this.IsDamaged === "1") ? "<span class=\"badge\">ON</span>" : "<span class=\"badge\">OFF</span>";
+                return (this.IsDamaged === "1") ? "<span class=\"badge badge-danger\">YES</span>" : "<span class=\"badge badge-success\">NO</span>";
             }
         },
         TemperatureC: {

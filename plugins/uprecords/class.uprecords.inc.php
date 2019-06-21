@@ -43,7 +43,11 @@ class uprecords extends PSI_Plugin
                 }
 
                 if (strpos($line, '->') !== false) {
-                    $buffer[0] = '-> '.$buffer[0];
+                   if (defined('PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK') && (PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK === true)) {
+                        $buffer[0] .= ' *';
+                    } else {
+                        $buffer[0] = '-> '.$buffer[0];
+                    }
                 }
 
                 if (count($buffer) > 4) {

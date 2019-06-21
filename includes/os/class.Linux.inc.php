@@ -690,7 +690,7 @@ class Linux extends OS
 
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && ($dev_type[1]==='Direct-Access')) {
-                       $sizelist = glob('/sys/bus/scsi/devices/'.($scsiid[1]+0).':'.($scsiid[2]+0).':'.($scsiid[3]+0).':'.($scsiid[4]+0).'/*/*/size', GLOB_NOSORT);
+                       $sizelist = glob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
                        if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
                            $buf = "";
                            for ($i = 0; $i < $total; $i++) {
@@ -722,7 +722,7 @@ class Linux extends OS
                 $device = preg_split("/ /", $buf, 7);
                 if (((isset($device[6]) && trim($device[6]) != "")) ||
                     ((isset($device[5]) && trim($device[5]) != ""))) {
-                    $usbid = ($device[1]+0).'-'.(trim($device[3],':')+0).' '.$device[5];
+                    $usbid = intval($device[1]).'-'.intval(trim($device[3],':')).' '.$device[5];
                     if ((isset($device[6]) && trim($device[6]) != "")) {
                         $usbarray[$usbid]['name'] = trim($device[6]);
                     } else {
@@ -740,7 +740,7 @@ class Linux extends OS
                     $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
                     $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
                     if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
-                        $usbid = ($busnum+0).'-'.($devnum+0).' '.$idvendor.':'.$idproduct;
+                        $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
                         $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
                         if ($manufacturer!==null) {
                             $usbarray[$usbid]['manufacturer'] = $manufacturer;
@@ -789,7 +789,30 @@ class Linux extends OS
             }
         }
 
-        foreach ($usbarray as $usbdev) {
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
+            $devnam = "unknown";
+            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($bufe as $buf) {
+                if (preg_match('/^I:\s+(.+)/', $buf, $bufr)
+                   && isset($bufr[1]) && (trim($bufr[1])!=="")) {
+                    $devnam = trim($bufr[1]);
+                    $usbarray[$devnam]['phys'] = 'unknown';
+                } elseif (preg_match('/^N:\s+Name="([^"]+)"/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['name'] = trim($bufr2[1]);
+                } elseif (preg_match('/^P:\s+Phys=(.*)/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['phys'] = trim($bufr2[1]);
+                } elseif (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                   && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                   && preg_match('/^U:\s+Uniq=(.+)/', $buf, $bufr2)
+                   && isset($bufr2[1]) && (trim($bufr2[1])!=="")) {
+                    $usbarray[$devnam]['serial'] = trim($bufr2[1]);
+                }
+            }
+        }
+
+        foreach ($usbarray as $usbdev) if (!isset($usbdev['phys']) || preg_match('/^usb-/', $usbdev['phys'])) {
             $dev = new HWDevice();
 
             if (isset($usbdev['manufacturer']) && (($manufacturer=$usbdev['manufacturer']) !== 'no manufacturer')) {

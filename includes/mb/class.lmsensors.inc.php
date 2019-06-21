@@ -139,7 +139,7 @@ class LMSensors extends Sensors
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line)) {
+                if (preg_match("/\sALARM\s*$/", $line) || preg_match("/\sALARM\s+sensor\s+=/", $line)) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
@@ -364,6 +364,43 @@ class LMSensors extends Sensors
     }
 
     /**
+     * get other information
+     *
+     * @return void
+     */
+    private function _other()
+    {
+        $sname = '';
+        foreach ($this->_lines as $line) {
+            if ((trim($line) !== "") && (strpos($line, ':') === false)) {
+                $sname = trim($line);
+                if (preg_match('/^([^-]+)-/', $sname, $snamebuf)) {
+                    $sname = ' ('.$snamebuf[1].')';
+                } else {
+                    $sname = '';
+                }
+            }
+            $data = array();
+            preg_match("/^(.+):\s*([^\-\+\d\s].+)$/", $line, $data);
+            if ((count($data)>2) && ($data[1]!=="Adapter")) {
+                $dev = new SensorDevice();
+                $dev->setName($data[1].$sname);
+                if (preg_match("/(.*\s*)ALARM\s*$/", $data[2], $aldata)) {
+                    $dev->setEvent("Alarm");
+                    if ((count($aldata)>1) && trim($aldata[1]!=="")) {
+                        $dev->setValue(trim($aldata[1]));
+                    } else {
+                        $dev->setValue($data[2]);
+                    }
+                } else {
+                    $dev->setValue($data[2]);
+                }
+                $this->mbinfo->setMbOther($dev);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_Sensor::build()
@@ -377,5 +414,6 @@ class LMSensors extends Sensors
         $this->_fans();
         $this->_power();
         $this->_current();
+        $this->_other();
     }
 }

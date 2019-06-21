@@ -159,7 +159,7 @@ class FreeIPMI extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
              if ($buffer[4] == "N/A"
-                && $buffer[11] != "N/A") {
+                && $buffer[2] != "OEM Reserved" && $buffer[11] != "N/A") {
                 $dev = new SensorDevice();
                 $dev->setName($buffer[1].' ('.$buffer[2].')');
                 $dev->setValue(trim($buffer[11], '\''));
