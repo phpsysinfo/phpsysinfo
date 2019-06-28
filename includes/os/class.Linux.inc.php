@@ -306,6 +306,9 @@ class Linux extends OS
                 $bufr = preg_replace('/^(processor\s*:\s*\d+)\r?$/m', "$1\n", $bufr);
             }
 
+            // IBM/S390
+            $bufr = preg_replace('/\ncpu number\s*:\s*(\d+)\r?\ncpu MHz dynamic\s*:\s*(\d+)/m', "\nprocessor:$1\nclock:$2", $bufr);
+
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -316,6 +319,7 @@ class Linux extends OS
             $_revi = null;
             $_cpus = null;
             $_buss = null;
+            $_bogo = null;
             $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
@@ -348,6 +352,10 @@ class Linux extends OS
                                 $_buss = round($bufr2[1]/1000000);
                             }
                             break;
+                        case 'bogomips per cpu':
+                            $_bogo = round($arrBuff1);
+                            break;
+                        case 'vendor_id':
                         case 'cpu':
                             $procname = $arrBuff1;
                             break;
@@ -392,6 +400,11 @@ class Linux extends OS
                             if ($arrBuff1 > 0) { //openSUSE fix
                                 $dev->setCpuSpeed($arrBuff1);
                                 $speedset = true;
+                            }
+                            break;
+                        case 'cpu mhz static':
+                            if ($arrBuff1 > 0) { //openSUSE fix
+                                $dev->setCpuSpeedMax($arrBuff1);
                             }
                             break;
                         case 'cycle frequency [hz]':
@@ -444,7 +457,6 @@ class Linux extends OS
                 if ($impl === null) $impl = $_impl;
                 if ($part === null) $part = $_part;
 
-
                 // sparc64 specific code follows
                 // This adds the ability to display the cache that a CPU has
                 // Originally made by Sven Blumenstein <bazik@gentoo.org> in 2004
@@ -470,6 +482,9 @@ class Linux extends OS
                 if (($dev->getCpuSpeed() == 0) && ($_cpus !== null)) {
                     $dev->setCpuSpeed($_cpus);
                     $speedset = true;
+                }
+                if (($dev->getBogomips() == 0) && ($_bogo !== null)) {
+                    $dev->setBogomips($_bogo);
                 }
 
                 if ($proc != null) {
