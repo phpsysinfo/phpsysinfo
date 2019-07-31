@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.2
+----------------
+
+ - [UPD] Korean Translation ko.xml
+
 phpSysInfo 3.3.1
 ----------------
 
