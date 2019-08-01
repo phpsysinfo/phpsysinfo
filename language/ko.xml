@@ -373,7 +373,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>제조사</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>산물</exp>
+    <exp>제품</exp>
   </expression>
   <expression id="124" name="serial">
     <exp>시리얼번호</exp>
