@@ -86,7 +86,7 @@ function raid_buildinfos(xml, id) {
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
-    button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
+    button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-collapse:collapse; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -248,7 +248,7 @@ $(document).ready(function raid_buildpage() {
 
     $("#footer").before(buildBlock("Raid", 1, true));
     html += "        <div style=\"overflow-x:auto;\">\n";
-    html += "          <table id=\"Plugin_RaidTable\" style=\"border-spacing:0;\">\n";
+    html += "          <table id=\"Plugin_RaidTable\" style=\"border-collapse:collapse;\">\n";
     html += "          </table>\n";
     html += "        </div>\n";
     $("#Plugin_Raid").append(html);

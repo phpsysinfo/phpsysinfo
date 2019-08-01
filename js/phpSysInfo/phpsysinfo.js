@@ -269,7 +269,7 @@ function filesystemtable() {
     var html = "";
     html += "<h2>" + genlang(30) + "</h2>\n";
     html += "        <div style=\"overflow-x:auto;\">\n";
-    html += "          <table id=\"filesystemTable\" style=\"border-spacing:0;\">\n";
+    html += "          <table id=\"filesystemTable\" style=\"border-collapse:collapse;\">\n";
     html += "            <thead>\n";
     html += "              <tr>\n";
     html += "                <th>" + genlang(31) + "</th>\n";
@@ -1026,10 +1026,10 @@ function refreshNetwork(xml) {
     html += "</div>\n";
     html0 += "<div style=\"overflow-x:auto;\">\n";
     if (isinfo) {
-       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\" style=\"border-collapse:collapse;\">\n";
        html1 += "   <tbody class=\"tree\">\n";
     } else {
-       html0 += "  <table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-collapse:collapse;\">\n";
        html1 += "   <tbody class=\"tbody_network\">\n";
     }
     $("#network").append(html0+html1+html);

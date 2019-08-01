@@ -64,7 +64,7 @@ function updatenotifier_buildTable() {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_UpdateNotifierTable\" style=\"border-spacing:0;\">\n";
+    html += "  <table id=\"Plugin_UpdateNotifierTable\" style=\"border-collapse:collapse;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
     html += "        <th id=\"UpdateNotifierTable-info\">" + genlang(2, "UpdateNotifier") + "</th>\n";
