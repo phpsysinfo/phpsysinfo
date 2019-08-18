@@ -1,6 +1,6 @@
 /* 
 Copyright: Paul Hanlon
-version 2009-06-22+statefix+spanfix+altfix+undefinedfix+ie6cachefix+multilinefix
+version 2009-06-22+statefix+spanfix+altfix+undefinedfix+ie6cachefix+multilinefix+divfix
 Released under the MIT/BSD licence which means you can do anything you want 
 with it, as long as you keep this copyright notice on the page 
 */
@@ -88,7 +88,7 @@ with it, as long as you keep this copyright notice on the page
     }
     buildText(0,"");
     jq("tbody tr", this).each(function(i){//Inject the images into the column to make it work
-      jq(this).children("td").eq(opts.column).prepend(mapb[i]);
+      jq(this).children("td").eq(opts.column).children("div").prepend(mapb[i]);
     });
     if(opts.state) collarr = cget(tid);
     if (!collarr.length){

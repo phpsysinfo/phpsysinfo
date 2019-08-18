@@ -157,16 +157,20 @@ table {
 .treespan {
     display: table-cell;
     *float: left; /* ie6 ie7 */
-    vertical-align: middle;
 }
 
 .treespanbold {
     font-weight: bold;
     display: table-cell;
     *float: left; /* ie6 ie7 */
-    vertical-align: middle;
 }
 
 .tree tr td {
     cursor: auto;
+    height: 100%;
+}
+
+.treediv {
+    display: table;
+    height: 100%;
 }

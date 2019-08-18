@@ -59,7 +59,7 @@ function ps_buildTable(xml) {
         cpu = parseInt($(this).attr("CPUUsage"), 10);
         expanded = parseInt($(this).attr("Expanded"), 10);
 
-        html += "        <tr><td><span class=\"treespan\">" + name + "</span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td><td>" + createBar(cpu) + "</td></tr>\n";
+        html += "        <tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</div></span></td><td>" + pid + "</td><td>" + ppid + "</td><td>" + createBar(percent) + "</td><td>" + createBar(cpu) + "</td></tr>\n";
         close = tree.push(parentId);
         if (!isNaN(expanded) && (expanded === 0)) {
             closed.push(close);

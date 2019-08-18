@@ -74,7 +74,7 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "      <tr><td colspan=\"3\"><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
+            html += "      <tr><td colspan=\"3\"><div class=\"treediv\"><span class=\"treespanbold\">" + device + " (" + name + ") </div></span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
@@ -95,7 +95,7 @@ function snmppinfo_buildTable(xml) {
                     break;
             }
         }
-        html += "      <tr><td><span class=\"treespan\" style=\"height:31px;vertical-align:top;padding-top:1px;\">" + desc + "</span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
+        html += "      <tr><td><div class=\"treediv\"><span class=\"treespan\">" + desc + "</div></span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;
