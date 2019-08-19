@@ -206,12 +206,12 @@ function raid_populate(xml) {
         raid_diskicon(this, id);
 
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
-            $("#Plugin_Raid_InfoTable" + id).slideDown("slow");
+            $("#Plugin_Raid_InfoTable" + id).slideDown("fast");
             $("#sPlugin_Raid_Info" + id).hide();
             $("#hPlugin_Raid_Info" + id).show();
         });
         $("#hPlugin_Raid_Info" + id).click(function raid_hideinfo() {
-            $("#Plugin_Raid_InfoTable" + id).slideUp("slow");
+            $("#Plugin_Raid_InfoTable" + id).slideUp("fast");
             $("#hPlugin_Raid_Info" + id).hide();
             $("#sPlugin_Raid_Info" + id).show();
         });
