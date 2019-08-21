@@ -165,6 +165,6 @@ table {
 }
 
 .treediv {
-    display: table;
+    display: inline-table;
     height: 100%;
 }

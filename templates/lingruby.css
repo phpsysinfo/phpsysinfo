@@ -141,7 +141,7 @@ table {
 }
 
 .treespanbold {
-    font-weight: normal;
+    font-weight: bold;
     display: table-cell;
     *float: left; /* ie6 ie7 */
 }
@@ -152,6 +152,6 @@ table {
 }
 
 .treediv {
-    display: table;
+    display: inline-table;
     height: 100%;
 }

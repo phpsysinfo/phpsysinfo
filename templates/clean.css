@@ -169,6 +169,6 @@ table th {
 }
 
 .treediv {
-    display: table;
+    display: inline-table;
     height: 100%;
 }
