@@ -37,7 +37,7 @@ function snmppinfo_buildTable(xml) {
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
 
     html += "  <div style=\"overflow-x:auto;\">\n";
-    html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "SNMPPInfo") + "</th>\n";

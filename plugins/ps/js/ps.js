@@ -37,7 +37,7 @@ function ps_buildTable(xml) {
     $("#Plugin_PS #Plugin_PSTable").remove();
 
     html += "  <div style=\"overflow-x:auto;\">\n";
-    html += "    <table id=\"Plugin_PSTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "    <table id=\"Plugin_PSTable\" class=\"tablemain\">\n";
     html += "      <thead>\n";
     html += "        <tr>\n";
     html += "          <th>" + genlang(2, "PS") + "</th>\n";

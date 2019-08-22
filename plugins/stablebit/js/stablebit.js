@@ -37,7 +37,7 @@ function stablebit_buildTable(xml) {
     $("#Plugin_StableBit #Plugin_StableBitTable").remove();
 
     html += "  <div style=\"overflow-x:auto;\">\n";
-    html += "    <table id=\"Plugin_StableBitTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "    <table id=\"Plugin_StableBitTable\" class=\"tablemain\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "StableBit") + "</th>\n";

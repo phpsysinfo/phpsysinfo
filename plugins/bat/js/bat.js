@@ -37,7 +37,7 @@ function bat_buildTable(xml) {
     $("#Plugin_BAT #Plugin_BATTable").remove();
 
     html += "  <div style=\"overflow-x:auto;\">\n";
-    html += "   <table id=\"Plugin_BATTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "   <table id=\"Plugin_BATTable\" class=\"tablemain\">\n";
     html += "    <thead>\n";
     html += "     <tr>\n";
     html += "      <th>" + genlang(6, "BAT") + "</th>\n";

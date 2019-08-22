@@ -889,7 +889,7 @@ function refreshHardware(xml) {
     $("#hardware").empty();
     html += "<h2>" + genlang(10) + "</h2>\n";
     html += " <div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"HardwareTree\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "  <table id=\"HardwareTree\" class=\"tablemain\">\n";
     html += "   <tbody class=\"tree\">\n";
 
     $("Hardware", xml).each(function getMachine(id) {
@@ -1022,7 +1022,7 @@ function refreshNetwork(xml) {
     html += "</div>\n";
     html0 += "<div style=\"overflow-x:auto;\">\n";
     if (isinfo) {
-       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\" style=\"border-collapse:collapse;\">\n";
+       html0 += "  <table id=\"NetworkTree\" class=\"tablemain\">\n";
        html1 += "   <tbody class=\"tree\">\n";
     } else {
        html0 += "  <table id=\"NetworkTree\" class=\"stripeMe\" style=\"border-collapse:collapse;\">\n";
@@ -1070,7 +1070,7 @@ function refreshMemory(xml) {
     $("#memory").empty();
     html += "<h2>" + genlang(27) + "</h2>\n";
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "  <table id=\"MemoryTree\" class=\"tablemain\">\n";
     html += "   <thead>\n";
     html += "     <tr>\n";
     html += "      <th style=\"width:200px;\">" + genlang(34) + "</th>\n";

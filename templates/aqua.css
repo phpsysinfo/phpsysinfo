@@ -184,3 +184,9 @@ table tfoot td {
     display: inline-table;
     height: 100%;
 }
+
+.tablemain {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
