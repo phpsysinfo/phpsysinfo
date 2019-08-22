@@ -181,7 +181,7 @@ table tfoot td {
 }
 
 .treediv {
-    display: inline-table;
+    display: table;
     height: 100%;
 }
 
