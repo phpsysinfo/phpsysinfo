@@ -28,7 +28,7 @@ html {
 
 body {
     font-family: "Comic Sans MS",  sans-serif;
-    font-size: .85em;
+    font-size: .75em;
     position: relative;
     width: 940px;
     _width: 945px; /* ie6 */
@@ -141,7 +141,7 @@ table {
 }
 
 .treespanbold {
-    font-weight: bold;
+    font-weight: normal;
     display: table-cell;
     *float: left; /* ie6 ie7 */
 }
