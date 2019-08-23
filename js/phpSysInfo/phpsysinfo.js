@@ -995,7 +995,7 @@ function refreshNetwork(xml) {
             }
         }
 
-        html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + "</td><td class=\"right\">" + formatBytes(tx, xml) + "</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+        html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
 
         networkindex = tree.push(0);
 
