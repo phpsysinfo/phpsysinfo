@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v1.12.4
+ * jQuery JavaScript Library v1.12.4-ff3
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -3620,7 +3620,6 @@ function completed() {
 
 jQuery.ready.promise = function( obj ) {
 	if ( !readyList ) {
-
 		readyList = jQuery.Deferred();
 
 		// Catch cases where $(document).ready() is called
@@ -3628,7 +3627,7 @@ jQuery.ready.promise = function( obj ) {
 		// Support: IE6-10
 		// Older IE sometimes signals "interactive" too soon
 		if ( document.readyState === "complete" ||
-			( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
+		    ( document.readyState !== "loading" && !document.documentElement.doScroll && (/a/[-1]!=='a') ) ) {
 
 			// Handle it asynchronously to allow scripts the opportunity to delay ready
 			window.setTimeout( jQuery.ready );
@@ -6627,7 +6626,7 @@ var documentElement = document.documentElement;
 
 		// Check for getComputedStyle so that this code is not run in IE<9.
 		if ( window.getComputedStyle ) {
-			divStyle = window.getComputedStyle( div );
+			divStyle = window.getComputedStyle( div, null );
 			pixelPositionVal = ( divStyle || {} ).top !== "1%";
 			reliableMarginLeftVal = ( divStyle || {} ).marginLeft === "2px";
 			boxSizingReliableVal = ( divStyle || { width: "4px" } ).width === "4px";
@@ -6654,7 +6653,7 @@ var documentElement = document.documentElement;
 			div.style.width = "1px";
 
 			reliableMarginRightVal =
-				!parseFloat( ( window.getComputedStyle( contents ) || {} ).marginRight );
+				!parseFloat( ( window.getComputedStyle( contents, null ) || {} ).marginRight );
 
 			div.removeChild( contents );
 		}
@@ -6705,7 +6704,7 @@ if ( window.getComputedStyle ) {
 			view = window;
 		}
 
-		return view.getComputedStyle( elem );
+		return view.getComputedStyle( elem, null );
 	};
 
 	curCSS = function( elem, name, computed ) {
