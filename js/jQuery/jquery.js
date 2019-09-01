@@ -7286,10 +7286,10 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 				// Support: IE8 only
 				// getClientRects() errors on disconnected elems
 				( jQuery.contains( elem.ownerDocument, elem ) ?
-					elem.getBoundingClientRect().left -
+					(!elem.getBoundingClientRect?0:(elem.getBoundingClientRect().left -
 						swap( elem, { marginLeft: 0 }, function() {
 							return elem.getBoundingClientRect().left;
-						} ) :
+						} ) ) ):
 					0
 				)
 			) + "px";
