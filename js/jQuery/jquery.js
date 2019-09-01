@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v1.12.4-ff3
+ * jQuery JavaScript Library v1.12.4-ff3-ff2
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -6667,7 +6667,7 @@ var documentElement = document.documentElement;
 		// display:none (it is still safe to use offsets if a parent element is
 		// hidden; don safety goggles and see bug #4512 for more information).
 		div.style.display = "none";
-		reliableHiddenOffsetsVal = div.getClientRects().length === 0;
+		reliableHiddenOffsetsVal = !div.getClientRects || (div.getClientRects().length === 0);
 		if ( reliableHiddenOffsetsVal ) {
 			div.style.display = "";
 			div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
@@ -10006,7 +10006,7 @@ jQuery.expr.filters.hidden = function( elem ) {
 	// Opera reports offsetWidths and offsetHeights less than zero on some elements
 	return support.reliableHiddenOffsets() ?
 		( elem.offsetWidth <= 0 && elem.offsetHeight <= 0 &&
-			!elem.getClientRects().length ) :
+			(!elem.getClientRects || !elem.getClientRects().length) ) :
 			filterHidden( elem );
 };
 
