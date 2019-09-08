@@ -1,0 +1,64 @@
+----------/etc/os-release----------
+NAME="Exherbo"
+PRETTY_NAME="Exherbo Linux"
+ID="exherbo"
+ANSI_COLOR="0;32"
+HOME_URL="https://www.exherbo.org/"
+SUPPORT_URL="irc://irc.freenode.net/#exherbo"
+BUG_REPORT_URL="https://bugs.exherbo.org/" 
+----------/etc/exherbo-release----------
+                                                                           
+           a.                                                              
+           WQa.       _a/    _aw/                                          
+           4WQQ,     jQQf   ]QQQQ.                                         
+            4WF _,  jWQQ[   jQQQQ;     .g,  _s,.                           
+             - _QL _QQQQw,  ]QQQW      dQ(  -4QQc                          
+              <QQm jQQQQWQw,)QQQk    _yQQL    "$Q;                         
+             _QQQQ;mQQQQQQWQgmQQQQ}~-"9QQQQ(   -?                          
+            .mQQQQcQQQQQQQQQQQQQD'     "QP'                                
+            jQQQQQQWQW?^---"WWQQ'  _v,  )  _sss,                           
+            mWQQQQQQQ[      ]WQQ.  von  -gamWWWQm,                         
+           .QQQQQQQQQL  -'  ]WQQc  -*"  :QQQQQQQQm.                        
+           =QQQQQQQQQQc    _mQQQQ,      jQQQQQQQQQ[                        
+           )WQQQQQQQQWT'   ""!??TVas_aaQQQQQQQQQQQm                        
+           :QQQQQQQD"  ___i__,__.   "!?$QQQQQQQQQQQ.                       
+           -QQQQQQ! .%vnnonnoonnvvvi,,. -"$QQQQQQQQ[                       
+            4QQQQ( _nvnvnvnvnvnvnnvnnnns=, "WQQQQQQf                       
+            -QQQF _nnv}` -<vnvnvnvvnvnvvnn>. 4QQQQQf                       
+             ]QQ` vvnv(   .nvnvnvnvnv~ .-Ins, 4QQQQ[                       
+              4W .nvnvv,._%nnvnvnvnv=    =vvv. QWQW`                       
+               4c <nvnvnnnvnvvnvvnvn;    :nnv; mQQf                        
+                {. {vnvnvvnvnvnvnvnvs,  .%nv} _QWP                         
+                 +. "{vvnnvnvnvnvnvnvnvvnvn}` yQD`                         
+                   ._  --^""|{IIvvnvnvnvI"~ _mQP                           
+                     "nwas,,,      ----  .<wQW!                            
+                       -?VQQQQQmmgywwawwmQQQP`                             
+                     _    -"?V$QQQQWWWQWWV!`                               
+                    .QQa,       --"""""`     _yg,                          
+            .__.    jQQQQQwaa,,          _swQQQQQa  3gw,                   
+         _wmQQQQW'.jQQQWHVVWWWQQmgwwwwwyQ8?"` mQQQm, ?WWc                  
+         ?HWWWWW^.jmT!`        -~""!"!^`    .wQQQQW#>                      
+            ~"?' jP`                       _mQQQQQVXZa                     
+                J^  _saaawaaass,,__.     _aQQQQQD' )ZZo.                   
+              .u<ayQQQWWQWWWWWWQQQQQQQQQQQQQQQ@!   ]ZUZL                   
+              jQQQQV?^--"?9$QQQQQQQQQQQQQQQQV"    _mXZUZ;                  
+             _QQQF`          ~"!????T?TT??!`     <mXZZZUL                  
+             ]QQQ,                             _wZXZZ#ZZZ,                 
+              "?VQwwwwwwgmmwa,,            ._wXm#Z#ZZZZ#Z[                 
+         .__.    -?$WWWWQQWQQQQQwwwwaaaawuwZ#ZZZZZZZ#Z#e"`                 
+     _wgQP4QQQwa.   ?$WQQQQQQQQQQQWWWWWBXZZZUZUZ#2!4X7`   .sawyywas.       
+   =mQQQW` $QQQWQa,   "$QQQQQQQQQQQQWBZZZUZ#ZZZZ"  %'     -4QQWQQQWQma.    
+   d#QQQ[  ]QQQQQQQg,   "$QQQQQQQQB#ZZZZ#ZZZ2!^  _%         "9QQQQQQQWm,   
+   #ZZWP   :QQQQQQQQQg,   4QQQQW#ZZZXXYY""~     _r  .wmc      -?$QQQQQQm   
+   3#Z2     QQQQQQP4QQQw.  -~~----             _Z   yQQQQw,      ~9VQQQQ   
+   +Ze     :QQQQQf ]QQQQm,                    <#(  jQQQQWWQQw,       "9Z   
+    -      jQQQQP  ]WQQQQm.                ._wZZ   4WQQQQQQQQQQa,     .}   
+        .adWQQQ@`  ]QQQQQQL   _____s_asaaomZ#ZU2    "?9WWQQQQQQQQWaaaum'   
+       .XZXZWWP    jQQQQQQQ/  ]#Z####ZZXZUXZZZZC        -"9$QQWB#ZZZXZr    
+         !SZ?^    .QQQQQQQQL  )ZZ#ZZZZUZUZZ#XY!^  _c.       ?SZZZZZZUX`    
+                  jQQQQQQQQf   -""?Y?Y??!"~-      =WW#a,,     -"SZZ#2`     
+                _dQQQQQQQQW'                       !XZ###qaaaaaaXZZ!       
+                 -"YHQQQQ@'                         -?#XZZUZZXZXZ?`        
+                      ~"^                              "YXZZZX?"`          
+                                                           -               
+                                                                            

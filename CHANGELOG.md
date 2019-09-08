@@ -8,6 +8,8 @@ phpSysInfo 3.3.2
 
  - [UPD] Korean Translation ko.xml
 
+ - [ADD] Exherbo to detected distros
+
 phpSysInfo 3.3.1
 ----------------
 
