@@ -30,7 +30,6 @@ div#nyroModalFull div#nyroModalWrapper a#closeBut {
 	right: -13px;
 	width: 12px;
 	height: 12px;
-	text-indent: -9999em;
 	background: url(../../gfx/close.gif) no-repeat;
 	outline: 0;
 }
