@@ -986,7 +986,7 @@ function renderMemory(data) {
         },
         Name: {
             html: function () {
-                return this.Name + '<br/>' + ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
+                return this.Name + '<br>' + ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
             }
         }
     };

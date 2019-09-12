@@ -103,10 +103,10 @@ function raid_buildaction(xml) {
             tunit = $(this).attr("Time_Unit");
             percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
-            html += genlang(11, "Raid") + ":&nbsp;" + name + "<br/>";
+            html += genlang(11, "Raid") + ":&nbsp;" + name + "<br>";
             html += createBar(percent);
             if ((time !== undefined) && (tunit !== undefined)) {
-                html += "<br/>";
+                html += "<br>";
                 html += genlang(12, "Raid") + ":&nbsp;" + time + "&nbsp;" + tunit;
             }
             html += "</div>";

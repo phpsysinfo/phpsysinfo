@@ -6,7 +6,7 @@ function renderPlugin_raid(data) {
             name = data.Name;
             if ((name !== undefined) && (parseInt(name) !== -1)) {
                 percent = Math.round(parseFloat(data.Percent));
-                html += "<div>" + genlang(11,'raid') + ":" + String.fromCharCode(160) + name + "<br/>";
+                html += "<div>" + genlang(11,'raid') + ":" + String.fromCharCode(160) + name + "<br>";
                 html += '<table class="table table-nopadding" style="width:100%;"><tbody><tr><td style="width:44%;"><div class="progress">' +
                         '<div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div></td><td>&nbsp;</td></tr></tbody></table>';

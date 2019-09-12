@@ -342,8 +342,8 @@ function filesystemtable() {
 function populateErrors(xml) {
     var values = false;
     $("Errors Error", xml).each(function getError(id) {
-//        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br/><br/><pre>" + $(this).text() + "</pre><hr>");
-        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br/><br/><pre>" + $(this).attr("Message") + "</pre><hr>");
+//        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br><br><pre>" + $(this).text() + "</pre><hr>");
+        $("#errorlist").append("<b>" + $(this).attr("Function") + "</b><br><br><pre>" + $(this).attr("Message") + "</pre><hr>");
         values = true;
     });
     if (values) {
@@ -640,7 +640,7 @@ function refreshVitals(xml) {
         users = parseInt($(this).attr("Users"), 10);
         loadavg = $(this).attr("LoadAvg");
         if ($(this).attr("CPULoad") !== undefined) {
-            loadavg = loadavg + "<br/>" + createBar(parseInt($(this).attr("CPULoad"), 10));
+            loadavg = loadavg + "<br>" + createBar(parseInt($(this).attr("CPULoad"), 10));
         }
         if ($(this).attr("SysLang") !== undefined) {
             syslang = $(this).attr("SysLang");
@@ -1209,7 +1209,7 @@ function refreshFilesystems(xml) {
             mpoint = mpid;
         }
         if (options !== undefined) {
-            options_text = "<br/><i>(" + options + ")</i>";
+            options_text = "<br><i>(" + options + ")</i>";
         }
         if (!isNaN(inodes)) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
