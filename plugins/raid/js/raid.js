@@ -170,9 +170,9 @@ function raid_diskicon(xml, id) {
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
-                    $("#Plugin_Raid_List-" + id).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:-moz-inline-box;display:inline-block;zoom:1;*display:inline;text-align:center\">" + name + "<br></div>");
+                    $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
                 } else {
-                    $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:-moz-inline-box;display:inline-block;zoom:1;*display:inline;text-align:center\">" + name + "<br></div>");
+                    $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
                 } 
             }
         }
