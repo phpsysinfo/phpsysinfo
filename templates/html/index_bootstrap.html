@@ -8,6 +8,7 @@
     <meta name="author" content="">
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <noscript><meta http-equiv="refresh" content="2; URL=index.php?disp=static"/></noscript>
     <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
     <!--[if IE 9]>
         <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
@@ -46,6 +47,12 @@
             <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility:hidden;"/>
             <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="visibility:hidden;"/>
         </div>
+        <noscript>
+            <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
+            <p>In approximatively 2 seconds you will be redirected to the static version of phpSysInfo.</p>
+            <p>&nbsp;</p>
+            <p><a href="index.php?disp=static">Click here to switch to the static version</a></p>
+        </noscript>
         <div id="select" class="select" style="display:none;">
             <span class="lang_044" style="display:none;">Template</span>
             <select class="template" id="template" style="display:none;">
