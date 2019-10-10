@@ -14,7 +14,7 @@ if (!defined('PSI_CONFIG_FILE')) {
     if (!is_readable(PSI_CONFIG_FILE)) {
         echo "ERROR: phpsysinfo.ini does not exist or is not readable by the webserver in the phpsysinfo directory";
         die();
-    } elseif  (!($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
+    } elseif (!($config = @parse_ini_file(PSI_CONFIG_FILE, true))) {
         echo "ERROR: phpsysinfo.ini file is not parsable";
         die();
     } else {
