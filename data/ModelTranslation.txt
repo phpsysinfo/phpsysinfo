@@ -93,6 +93,7 @@ MacBookPro15,1:MacBook Pro Core i7/i9:Intel Core I7-8750H/I7-8850H/I7-9750H/I9-8
 MacBookPro15,2:MacBook Pro Core i5/i7:Intel Core I5-8259U/I5-8279U/I7-8559U/I7-8569U
 MacBookPro15,3:MacBook Pro Core i7/i9:Intel Core I7-8850H/I9-8950HK/I9-9880H/I9-9980HK
 MacBookPro15,4:MacBook Pro Core i5/i7:Intel Core I5-8257U/I7-8557U
+MacBookPro16,1:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9880HK
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800
