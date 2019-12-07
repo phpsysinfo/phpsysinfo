@@ -276,8 +276,18 @@ class SunOS extends OS
      */
     private function _distro()
     {
-        $this->sys->setDistribution('SunOS');
-        $this->sys->setDistributionIcon('SunOS.png');
+        if (CommonFunctions::rfts('/etc/release', $buf, 1, 4096, false) && (trim($buf)!="")) {
+            $this->sys->setDistribution(trim($buf));
+            $list = @parse_ini_file(PSI_APP_ROOT."/data/distros.ini", true);
+            if ($list && preg_match('/^(\S+)\s*/', preg_replace('/^Oracle\s+/', 'Oracle', trim($buf)), $id_buf) && isset($list[trim($id_buf[1])]['Image'])) {
+                $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+            } else {
+                $this->sys->setDistributionIcon('SunOS.png');
+            }
+        } else {
+            $this->sys->setDistribution('SunOS');
+            $this->sys->setDistributionIcon('SunOS.png');
+        }
     }
 
     /**
