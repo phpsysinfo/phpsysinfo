@@ -616,7 +616,7 @@ function refreshVitals(xml) {
         return;
     }
 
-    var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "";
+    var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "", os = "";
     var processes = 0, prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
     var syslang = "", codepage = "";
     var lastboot = 0;
@@ -635,6 +635,7 @@ function refreshVitals(xml) {
         kernel = $(this).attr("Kernel");
         distro = $(this).attr("Distro");
         icon = $(this).attr("Distroicon");
+        os = $(this).attr("OS");
         uptime = formatUptime(parseInt($(this).attr("Uptime"), 10));
         lastboot = new Date(timestamp - (parseInt($(this).attr("Uptime"), 10)*1000));
         users = parseInt($(this).attr("Users"), 10);
@@ -690,6 +691,7 @@ function refreshVitals(xml) {
         $("#s_ip_title").html(ip);
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
+        $("#s_os").html("<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
         $("#s_kernel").html(kernel);
         $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);

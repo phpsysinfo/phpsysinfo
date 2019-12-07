@@ -10,6 +10,8 @@ phpSysInfo 3.3.2
 
  - [ADD] Exherbo to detected distros
 
+ - [NEW] OS Type information
+
 phpSysInfo 3.3.1
 ----------------
 

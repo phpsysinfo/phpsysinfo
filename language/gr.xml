@@ -384,4 +384,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
   <expression id="126" name="nvme">
     <exp>Συσκευές NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

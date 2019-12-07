@@ -384,4 +384,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="126" name="nvme">
     <exp>Urządzenia NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>Typ systemu</exp>
+  </expression>
 </tns:translation>

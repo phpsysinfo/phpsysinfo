@@ -169,7 +169,8 @@ class XML
                 }
             }
         }
-        $vitals->addAttribute('OS', PSI_OS);
+//        $vitals->addAttribute('OS', PSI_OS);
+        $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);
     }
 
     /**

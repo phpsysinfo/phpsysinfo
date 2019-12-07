@@ -384,4 +384,7 @@ phpSysInfo language file Language: Japanese Created by: nrgmilk
   <expression id="126" name="nvme">
     <exp>NVMeデバイス</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

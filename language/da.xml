@@ -384,4 +384,7 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="126" name="nvme">
     <exp>NVMe enheder</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

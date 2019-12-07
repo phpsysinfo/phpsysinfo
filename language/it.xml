@@ -384,4 +384,7 @@ phpSysInfo language file Language: Italian Created by: Dario Pilori
   <expression id="126" name="nvme">
     <exp>Unità NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

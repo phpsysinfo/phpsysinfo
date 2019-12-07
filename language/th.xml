@@ -384,4 +384,7 @@ phpSysInfo language file Language: Thai Created by: Audun Larsen
   <expression id="126" name="nvme">
     <exp>อุปกรณ์NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

@@ -384,4 +384,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
   <expression id="126" name="nvme">
     <exp>Dispositivios NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>
