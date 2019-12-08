@@ -300,8 +300,11 @@ class SunOS extends OS
         if (CommonFunctions::rfts('/etc/release', $buf, 1, 4096, false) && (trim($buf)!="")) {
             $this->sys->setDistribution(trim($buf));
             $list = @parse_ini_file(PSI_APP_ROOT."/data/distros.ini", true);
-            if ($list && preg_match('/^(\S+)\s*/', preg_replace('/^Oracle\s+/', 'Oracle', trim($buf)), $id_buf) && isset($list[trim($id_buf[1])]['Image'])) {
+            if ($list && preg_match('/^(\S+)\s*/', preg_replace('/^Open\s+/', 'Open', preg_replace('/^Oracle\s+/', 'Oracle', trim($buf))), $id_buf) && isset($list[trim($id_buf[1])]['Image'])) {
                 $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
+                if (isset($list[trim($id_buf[1])]['Name'])) {
+                    $this->sys->setDistribution(trim($list[trim($id_buf[1])]['Name']));
+                }
             } else {
                 $this->sys->setDistributionIcon('SunOS.png');
             }
