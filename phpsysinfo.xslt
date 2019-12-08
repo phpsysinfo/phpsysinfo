@@ -75,6 +75,37 @@
                                                             select="@IPAddr" />
                                                     </td>
                                                 </tr>
+                                                <tr class="odd">
+                                                    <td style="width:160px;">
+                                                        <span>
+                                                            <xsl:text>OS Type</xsl:text>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <img
+                                                            style="height:16px; width:16px;">
+                                                            <xsl:attribute
+                                                                name="src">
+                                                                <xsl:if
+                                                                test="substring(string(concat(&apos;gfx/images/&apos;,@OS,&apos;.png&apos;)), 2, 1) = ':'">
+                                                                    <xsl:text>file:///</xsl:text>
+                                                                </xsl:if>
+                                                                <xsl:value-of
+                                                                select="translate(string(concat(&apos;gfx/images/&apos;,@OS,&apos;.png&apos;)), '&#x5c;', '/')" />
+                                                            </xsl:attribute>
+                                                            <xsl:attribute
+                                                                name="alt" />
+                                                        </img>
+                                                        <span>
+                                                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                                        </span>
+                                                        <span>
+                                                            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+                                                        </span>
+                                                        <xsl:value-of
+                                                            select="@OS" />
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td style="width:160px;">
                                                         <span>

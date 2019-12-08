@@ -22,6 +22,7 @@
     <complexType name="Vitals">
         <attribute name="Hostname" type="string" use="required"></attribute>
         <attribute name="IPAddr" type="string" use="required"></attribute>
+        <attribute name="OS" type="string" use="required"></attribute>
         <attribute name="Kernel" type="string" use="required"></attribute>
         <attribute name="Distro" type="string" use="required"></attribute>
         <attribute name="Distroicon" type="string" use="required"></attribute>
