@@ -784,13 +784,17 @@ class Raid extends PSI_Plugin
                     foreach ($this->_result['devices'][$group]['items'] as $id=>$data) { // type analize
                         if ((!isset($data['childs']) || ($data['childs']<1)) && ($data['parentid']>=0) && !preg_match("/^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $data['name'])) {
                             $this->_result['devices'][$group]['items'][$id]['type'] = "disk";
-                        } elseif (isset($data['childs']) && ($data['childs']>1) && !preg_match("/^spares$|^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $data['name'])) {
-                            $this->_result['devices'][$group]['items'][$id]['name2'] = "stripe";
-                       }
+                        } elseif (isset($data['childs']) && !preg_match("/^spares$|^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $data['name'])) {
+                            if (($data['childs']==1) && ($data['parentid']==-2) && isset($this->_result['devices'][$group]['items'][$id+1]) && !preg_match("/^mirror$|^mirror-|^spare$|^spare-|^replacing$|^replacing-|^raidz[123]$|^raidz[123]-/", $this->_result['devices'][$group]['items'][$id+1]['name'])) {
+                                $this->_result['devices'][$group]['items'][$id]['name2'] = "jbod";
+                            } elseif ($data['childs']>1) {
+                                $this->_result['devices'][$group]['items'][$id]['name2'] = "stripe";
+                            }
+                        }
                     }
 
                     foreach ($this->_result['devices'][$group]['items'] as $id=>$data) { // size optimize
-                        if (($data['parentid']<0) && isset($data['childs']) && ($data['childs']==1)) {
+                        if (($data['parentid']<0) && isset($data['childs']) && ($data['childs']==1) && (!isset($data['name2']) || ($data['name2']!=="jbod"))) {
                             if ($data['parentid']==-2) {
                                 unset($this->_result['devices'][$group]['items'][$id]);
                             } elseif (($data['parentid'] == -1) && !isset($this->_result['devices'][$group]['items'][$id+1]['type'])) {
