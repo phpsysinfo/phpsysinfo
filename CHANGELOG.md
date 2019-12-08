@@ -9,6 +9,7 @@ phpSysInfo 3.3.2
  - [UPD] Korean Translation ko.xml
 
  - [ADD] Exherbo to detected distros
+ - [ADD] PCI devices list on SunOS
 
  - [NEW] OS Type information
 

@@ -141,6 +141,27 @@ class SunOS extends OS
     }
 
     /**
+     * PCI devices
+     *
+     * @return void
+     */
+    protected function _pci()
+    {
+        if (CommonFunctions::executeProgram('prtconf', '', $buf, PSI_DEBUG) && ($buf!="")) {
+            if (preg_match('/^\s+pci(,[\s\S]+)\n\s+fw,/m',$buf, $buf2)) {
+                $lines = preg_split("/\n/", $buf2[1], -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($lines as $line) {
+                    if (preg_match('/^        (\S+) /',$line, $ar_buf)) {
+                        $dev = new HWDevice();
+                        $dev->setName(trim($ar_buf[1],','));
+                        $this->sys->setPciDevices($dev);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Network devices
      *
      * @return void
@@ -341,6 +362,7 @@ class SunOS extends OS
         }
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_cpuinfo();
+            $this->_pci();
         }
         if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
