@@ -238,21 +238,18 @@ class SunOS extends OS
                         if (isset($pcidev['device'])) {
                             $dev = new HWDevice();
                             if (isset($pcidev['model'])) {
-                                $dev->setName($pcidev['model']);
+                                $name = $pcidev['model'];
                             } else {
-                                $dev->setName($pcidev['device']);
+                                $name = $pcidev['device'];
                             }
+                            if (isset($pcidev['device-name'])) {
+                                $name .= ': '.$pcidev['device-name'];
+                            }
+                            $dev->setName($name);
 
                             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                                $prod = '';
-                                if (isset($pcidev['device-name'])) {
-                                    $prod .= $pcidev['device-name'];
-                                }
                                 if (isset($pcidev['subsystem-name']) && ($pcidev['subsystem-name']!=='unknown subsystem')) {
-                                    $prod .= ' '.$pcidev['subsystem-name'];
-                                }
-                                if (trim($prod)!=='') {
-                                    $dev->setProduct(trim($prod));
+                                    $dev->setProduct($pcidev['subsystem-name']);
                                 }
                                 if (isset($pcidev['vendor-name'])) {
                                     $dev->setManufacturer($pcidev['vendor-name']);
