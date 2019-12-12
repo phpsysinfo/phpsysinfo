@@ -691,9 +691,9 @@ function refreshVitals(xml) {
         $("#s_ip_title").html(ip);
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
-        $("#s_os").html("<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
         $("#s_kernel").html(kernel);
         $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        $("#s_os").html("<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
             $("#s_lastboot").html(lastboot.toLocaleString());
