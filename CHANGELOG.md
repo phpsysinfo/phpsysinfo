@@ -12,6 +12,7 @@ phpSysInfo 3.3.2
  - [ADD] PCI devices list on SunOS
 
  - [NEW] OS Type information
+ - [NEW] CPU manufacturer information
 
 phpSysInfo 3.3.1
 ----------------

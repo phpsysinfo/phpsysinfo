@@ -91,7 +91,10 @@ class Minix extends OS
                             } elseif (preg_match("/ svm/", $arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
-                        break;
+                            break;
+                        case 'vendor_id':
+                            $dev->setVendorId($arrBuff[1]);
+                            break; 
                         }
                     }
                 }

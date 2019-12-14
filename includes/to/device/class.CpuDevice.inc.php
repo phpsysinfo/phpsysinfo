@@ -75,6 +75,13 @@ class CpuDevice
     private $_busSpeed = null;
 
     /**
+     * bogomips of the cpu, if available
+     *
+     * @var Integer
+     */
+    private $_bogomips = null;
+
+    /**
      * temperature of the cpu, if available
      *
      * @var Integer
@@ -82,11 +89,11 @@ class CpuDevice
     private $_temp = null;
 
     /**
-     * bogomips of the cpu, if available
+     * vendorid, if available
      *
-     * @var Integer
+     * @var String
      */
-    private $_bogomips = null;
+    private $_vendorid = null;
 
     /**
      * current load in percent of the cpu, if available
@@ -96,55 +103,107 @@ class CpuDevice
     private $_load = null;
 
     /**
-     * Returns $_bogomips.
+     * Returns $_model.
      *
-     * @see Cpu::$_bogomips
+     * @see Cpu::$_model
      *
-     * @return Integer
+     * @return String
      */
-    public function getBogomips()
+    public function getModel()
     {
-        return $this->_bogomips;
+        return $this->_model;
     }
 
     /**
-     * Sets $_bogomips.
+     * Sets $_model.
      *
-     * @param Integer $bogomips bogompis
+     * @param String $model cpumodel
      *
-     * @see Cpu::$_bogomips
+     * @see Cpu::$_model
      *
      * @return Void
      */
-    public function setBogomips($bogomips)
+    public function setModel($model)
     {
-        $this->_bogomips = $bogomips;
+        $this->_model = $model;
     }
 
     /**
-     * Returns $_busSpeed.
+     * Returns $_cpuSpeed.
      *
-     * @see Cpu::$_busSpeed
+     * @see Cpu::$_cpuSpeed
      *
      * @return Integer
      */
-    public function getBusSpeed()
+    public function getCpuSpeed()
     {
-        return $this->_busSpeed;
+        return $this->_cpuSpeed;
     }
 
     /**
-     * Sets $_busSpeed.
+     * Sets $_cpuSpeed.
      *
-     * @param Integer $busSpeed busspeed
+     * @param Integer $cpuSpeed cpuspeed
      *
-     * @see Cpu::$_busSpeed
+     * @see Cpu::$_cpuSpeed
      *
      * @return Void
      */
-    public function setBusSpeed($busSpeed)
+    public function setCpuSpeed($cpuSpeed)
     {
-        $this->_busSpeed = $busSpeed;
+        $this->_cpuSpeed = $cpuSpeed;
+    }
+
+    /**
+     * Returns $_cpuSpeedMax.
+     *
+     * @see Cpu::$_cpuSpeedMAx
+     *
+     * @return Integer
+     */
+    public function getCpuSpeedMax()
+    {
+        return $this->_cpuSpeedMax;
+    }
+
+    /**
+     * Sets $_cpuSpeedMax.
+     *
+     * @param Integer $cpuSpeedMax cpuspeedmax
+     *
+     * @see Cpu::$_cpuSpeedMax
+     *
+     * @return Void
+     */
+    public function setCpuSpeedMax($cpuSpeedMax)
+    {
+        $this->_cpuSpeedMax = $cpuSpeedMax;
+    }
+
+    /**
+     * Returns $_cpuSpeedMin.
+     *
+     * @see Cpu::$_cpuSpeedMin
+     *
+     * @return Integer
+     */
+    public function getCpuSpeedMin()
+    {
+        return $this->_cpuSpeedMin;
+    }
+
+    /**
+     * Sets $_cpuSpeedMin.
+     *
+     * @param Integer $cpuSpeedMin cpuspeedmin
+     *
+     * @see Cpu::$_cpuSpeedMin
+     *
+     * @return Void
+     */
+    public function setCpuSpeedMin($cpuSpeedMin)
+    {
+        $this->_cpuSpeedMin = $cpuSpeedMin;
     }
 
     /**
@@ -200,107 +259,55 @@ class CpuDevice
     }
 
     /**
-     * Returns $_cpuSpeed.
+     * Returns $_busSpeed.
      *
-     * @see Cpu::$_cpuSpeed
-     *
-     * @return Integer
-     */
-    public function getCpuSpeed()
-    {
-        return $this->_cpuSpeed;
-    }
-
-    /**
-     * Returns $_cpuSpeedMax.
-     *
-     * @see Cpu::$_cpuSpeedMAx
+     * @see Cpu::$_busSpeed
      *
      * @return Integer
      */
-    public function getCpuSpeedMax()
+    public function getBusSpeed()
     {
-        return $this->_cpuSpeedMax;
+        return $this->_busSpeed;
     }
 
     /**
-     * Returns $_cpuSpeedMin.
+     * Sets $_busSpeed.
      *
-     * @see Cpu::$_cpuSpeedMin
+     * @param Integer $busSpeed busspeed
+     *
+     * @see Cpu::$_busSpeed
+     *
+     * @return Void
+     */
+    public function setBusSpeed($busSpeed)
+    {
+        $this->_busSpeed = $busSpeed;
+    }
+
+    /**
+     * Returns $_bogomips.
+     *
+     * @see Cpu::$_bogomips
      *
      * @return Integer
      */
-    public function getCpuSpeedMin()
+    public function getBogomips()
     {
-        return $this->_cpuSpeedMin;
+        return $this->_bogomips;
     }
 
     /**
-     * Sets $_cpuSpeed.
+     * Sets $_bogomips.
      *
-     * @param Integer $cpuSpeed cpuspeed
+     * @param Integer $bogomips bogompis
      *
-     * @see Cpu::$_cpuSpeed
+     * @see Cpu::$_bogomips
      *
      * @return Void
      */
-    public function setCpuSpeed($cpuSpeed)
+    public function setBogomips($bogomips)
     {
-        $this->_cpuSpeed = $cpuSpeed;
-    }
-
-    /**
-     * Sets $_cpuSpeedMax.
-     *
-     * @param Integer $cpuSpeedMax cpuspeedmax
-     *
-     * @see Cpu::$_cpuSpeedMax
-     *
-     * @return Void
-     */
-    public function setCpuSpeedMax($cpuSpeedMax)
-    {
-        $this->_cpuSpeedMax = $cpuSpeedMax;
-    }
-
-    /**
-     * Sets $_cpuSpeedMin.
-     *
-     * @param Integer $cpuSpeedMin cpuspeedmin
-     *
-     * @see Cpu::$_cpuSpeedMin
-     *
-     * @return Void
-     */
-    public function setCpuSpeedMin($cpuSpeedMin)
-    {
-        $this->_cpuSpeedMin = $cpuSpeedMin;
-    }
-
-    /**
-     * Returns $_model.
-     *
-     * @see Cpu::$_model
-     *
-     * @return String
-     */
-    public function getModel()
-    {
-        return $this->_model;
-    }
-
-    /**
-     * Sets $_model.
-     *
-     * @param String $model cpumodel
-     *
-     * @see Cpu::$_model
-     *
-     * @return Void
-     */
-    public function setModel($model)
-    {
-        $this->_model = $model;
+        $this->_bogomips = $bogomips;
     }
 
     /**
@@ -332,6 +339,32 @@ class CpuDevice
         $this->_temp = $temp;
     }
 */
+
+    /**
+     * Returns $_vendorid.
+     *
+     * @see Cpu::$_vendorid
+     *
+     * @return String
+     */
+    public function getVendorId()
+    {
+        return $this->_vendorid;
+    }
+
+    /**
+     * Sets $_vendorid.
+     *
+     * @param string $vendorid
+     *
+     * @see Cpu::$_vendorid
+     *
+     * @return Void
+     */
+    public function setVendorId($vendorid)
+    {
+        $this->_vendorid = $vendorid;
+    }
 
     /**
      * Returns $_load.

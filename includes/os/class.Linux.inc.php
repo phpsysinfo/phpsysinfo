@@ -450,6 +450,9 @@ class Linux extends OS
                         case 'cpu part':
                             $part = $arrBuff1;
                             break;
+                        case 'vendor_id':
+                            $dev->setVendorId($arrBuff1);
+                            break;
                         }
                     }
                 }
@@ -568,6 +571,7 @@ class Linux extends OS
                     $this->sys->setCpus($dev);
                 }
             }
+
             $cpudevices = glob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
             if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
                 for (; $cpustopped > 0; $cpustopped--) {

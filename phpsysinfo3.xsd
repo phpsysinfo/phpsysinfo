@@ -141,20 +141,6 @@
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="CpuTemp" use="optional">
-            <simpleType>
-                <restriction base="unsignedLong">
-                    <minInclusive value="0"></minInclusive>
-                </restriction>
-            </simpleType>
-        </attribute>
-        <attribute name="BusSpeed" use="optional">
-            <simpleType>
-                <restriction base="unsignedLong">
-                    <minInclusive value="0"></minInclusive>
-                </restriction>
-            </simpleType>
-        </attribute>
         <attribute name="Cache" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">
@@ -163,6 +149,13 @@
             </simpleType>
         </attribute>
         <attribute name="Virtualization" type="string" use="optional"></attribute>
+        <attribute name="BusSpeed" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
         <attribute name="Bogomips" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">
@@ -170,6 +163,14 @@
                 </restriction>
             </simpleType>
         </attribute>
+        <attribute name="CpuTemp" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Manufacturer" type="string" use="optional"></attribute>
         <attribute name="Load" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">

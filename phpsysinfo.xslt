@@ -383,24 +383,6 @@
                                                             </tr>
                                                         </xsl:if>
                                                         <xsl:if
-                                                            test="count(@BusSpeed )&gt;0">
-                                                            <tr class="odd">
-                                                                <td
-                                                                    style="width:160px;">
-                                                                    <span>
-                                                                        <xsl:text>Bus Speed</xsl:text>
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <xsl:value-of
-                                                                        select="@BusSpeed" />
-                                                                    <span>
-                                                                        <xsl:text> MHz</xsl:text>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                        </xsl:if>
-                                                        <xsl:if
                                                             test="count(@Cache )&gt;0">
                                                             <tr>
                                                                 <td
@@ -434,6 +416,24 @@
                                                             </tr>
                                                         </xsl:if>
                                                         <xsl:if
+                                                            test="count(@BusSpeed )&gt;0">
+                                                            <tr class="odd">
+                                                                <td
+                                                                    style="width:160px;">
+                                                                    <span>
+                                                                        <xsl:text>Bus Speed</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <xsl:value-of
+                                                                        select="@BusSpeed" />
+                                                                    <span>
+                                                                        <xsl:text> MHz</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </xsl:if>
+                                                        <xsl:if
                                                             test="count(@Bogomips )&gt;0">
                                                             <tr class="odd">
                                                                 <td
@@ -445,6 +445,39 @@
                                                                 <td>
                                                                     <xsl:value-of
                                                                         select="round(@Bogomips)" />
+                                                                </td>
+                                                            </tr>
+                                                        </xsl:if>
+                                                        <xsl:if
+                                                            test="count(@Manufacturer )&gt;0">
+                                                            <tr class="odd">
+                                                                <td
+                                                                    style="width:160px;">
+                                                                    <span>
+                                                                        <xsl:text>Manufacturer</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <xsl:value-of
+                                                                        select="@Manufacturer" />
+                                                                </td>
+                                                            </tr>
+                                                        </xsl:if>
+                                                        <xsl:if
+                                                            test="count(@Load )&gt;0">
+                                                            <tr class="odd">
+                                                                <td
+                                                                    style="width:160px;">
+                                                                    <span>
+                                                                        <xsl:text>Load Averages</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <xsl:value-of
+                                                                        select="round(@Load)" />
+                                                                    <span>
+                                                                        <xsl:text> %</xsl:text>
+                                                                    </span>
                                                                 </td>
                                                             </tr>
                                                         </xsl:if>

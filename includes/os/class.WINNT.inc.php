@@ -126,7 +126,7 @@ class WINNT extends OS
      */
     private function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed'));
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer'));
         return $this->_Win32_Processor;
     }
 
@@ -524,6 +524,8 @@ class WINNT extends OS
                             $allCpus[$coreCount]['Name'] = $buffer2[1];
                         } elseif (preg_match("/^\s*~MHz\s+REG_DWORD\s+(0x.+)\s*$/i", $line, $buffer2)) {
                             $allCpus[$coreCount]['CurrentClockSpeed'] = hexdec($buffer2[1]);
+                        } elseif (preg_match("/^\s*VendorIdentifier\s+REG_SZ\s+(.+)\s*$/i", $line, $buffer2)) {
+                            $allCpus[$coreCount]['Manufacturer'] = $buffer2[1];
                         }
                     }
                 }
@@ -561,6 +563,7 @@ class WINNT extends OS
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
+                if (isset($oneCpu['Manufacturer'])) $cpu->setVendorId($oneCpu['Manufacturer']);
                 if (PSI_LOAD_BAR) {
                     if ((count($allCpus) == 1) && ($globalcpus > 1)) {
                         if (($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($cpuCount+1)) && isset($cpubuffer['cpu'.$i])) {

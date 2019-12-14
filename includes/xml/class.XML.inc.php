@@ -326,6 +326,7 @@ class XML
         }
 
         $cpu = null;
+        $vendortab = null;
         foreach ($this->_sys->getCpus() as $oneCpu) {
             if ($cpu === null) $cpu = $hardware->addChild('CPU');
             $tmp = $cpu->addChild('CpuCore');
@@ -352,6 +353,13 @@ class XML
             }
             if ($oneCpu->getVirt() !== null) {
                 $tmp->addAttribute('Virt', $oneCpu->getVirt());
+            }
+            if ($oneCpu->getVendorId() !== null) {
+                if ($vendortab === null) $vendortab = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
+                $shortvendorid = preg_replace('/[\s!]/', '', $oneCpu->getVendorId());
+                if ($vendortab && ($shortvendorid != "") && isset($vendortab['manufacturer'][$shortvendorid])) {
+                    $tmp->addAttribute('Manufacturer', $vendortab['manufacturer'][$shortvendorid]);
+                }
             }
             if ($oneCpu->getBogomips() !== null) {
                 $tmp->addAttribute('Bogomips', $oneCpu->getBogomips());
