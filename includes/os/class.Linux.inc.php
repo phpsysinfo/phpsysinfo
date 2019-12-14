@@ -320,6 +320,7 @@ class Linux extends OS
             $_cpus = null;
             $_buss = null;
             $_bogo = null;
+            $_vend = null;
             $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
@@ -356,6 +357,7 @@ class Linux extends OS
                             $_bogo = round($arrBuff1);
                             break;
                         case 'vendor_id':
+                            $_vend = $arrBuff1;
                         case 'cpu':
                             $procname = $arrBuff1;
                             break;
@@ -488,6 +490,9 @@ class Linux extends OS
                 }
                 if (($dev->getBogomips() == 0) && ($_bogo !== null)) {
                     $dev->setBogomips($_bogo);
+                }
+                if (($dev->getVendorId() === null) && ($_vend !== null)) {
+                    $dev->setVendorId($_vend);
                 }
 
                 if ($proc != null) {
