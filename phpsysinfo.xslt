@@ -476,7 +476,7 @@
                                                                     <xsl:value-of
                                                                         select="round(@Load)" />
                                                                     <span>
-                                                                        <xsl:text> %</xsl:text>
+                                                                        <xsl:text>%</xsl:text>
                                                                     </span>
                                                                 </td>
                                                             </tr>
