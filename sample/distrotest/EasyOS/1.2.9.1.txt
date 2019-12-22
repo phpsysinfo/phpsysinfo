@@ -1,0 +1,40 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Quirky
+Description:	Easy Pyro64
+Release:	1.2.9.1
+Codename:	pyro64
+----------/etc/lsb-release----------
+LSB_VERSION=n/a
+DISTRIB_ID=Quirky
+DISTRIB_RELEASE=1.2.9.1
+DISTRIB_CODENAME=pyro64
+DISTRIB_DESCRIPTION="Easy Pyro64"
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Easy Pyro64'
+#version number of this distribution:
+DISTRO_VERSION=1.2.9.1
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='oe'
+#Prefix for some filenames: exs: aprilsave.2fs, april-5.1.3.4.sfs
+DISTRO_FILE_PREFIX='pyro64'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='pyro'
+#the kernel pet package used: Kernel 'linux-quirky' now compiled in OE, do not specify here if use that:
+DISTRO_KERNEL_PET='linux_kernel-5.4.1-pyro64.pet'
+#DISTRO_KERNEL_PET='linux_kernel-4.14.157-pyro64.pet'
+#DISTRO_KERNEL_PET='linux_kernel-5.2.21-pyro64.pet'
+#for Easy Linux, need to specify this skeleton image...
+DISTRO_SKELETON_IMAGE='easy-skeleton-amd64-1280mb.img.gz'
+DISTRO_TARGETARCH='amd64'
+#subname for online PETs dir. Ex: 'slacko14', dir 'pet_packages-slacko14', db file 'Packages-pet-slacko14-official':
+#note: prior to existence of this variable, online subname was set to $DISTRO_COMPAT_VERSION or via some hack code.
+DISTRO_DB_SUBNAME='pyro'
+#this will cause all of /lib64, /usr/lib64 and /usr/X11R7/lib moved into /lib,
+#/usr/lib, /usr/X11R7/lib, and the latter made into symlinks:
+DISTRO_ARCHDIR_SYMLINKS='no'
+#yes if want xorg to start immediately first boot (without cli dialogs):
+DISTRO_XORG_AUTO='yes'
+DISTRO_ARCHDIR=''
+DISTRO_PUPPYDATE='Dec 2019'

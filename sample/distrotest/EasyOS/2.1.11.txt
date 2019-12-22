@@ -1,0 +1,40 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Quirky
+Description:	Easy Buster64
+Release:	2.1.11
+Codename:	buster64
+----------/etc/lsb-release----------
+LSB_VERSION=n/a
+DISTRIB_ID=Quirky
+DISTRIB_RELEASE=2.1.11
+DISTRIB_CODENAME=buster64
+DISTRIB_DESCRIPTION="Easy Buster64"
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='Easy Buster64'
+#version number of this distribution:
+DISTRO_VERSION=2.1.11
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='debian'
+#Prefix for some filenames: exs: aprilsave.2fs, april-5.1.3.4.sfs
+DISTRO_FILE_PREFIX='buster64'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='buster'
+#the kernel pet package used: Kernel 'linux-quirky' now compiled in OE, do not specify here if use that:
+DISTRO_KERNEL_PET='linux_kernel-5.4.6-buster64.pet'
+#DISTRO_KERNEL_PET='linux_kernel-4.19.88-buster64.pet'
+#DISTRO_KERNEL_PET='linux_kernel-5.2.21-buster64.pet'
+#for Easy Linux, need to specify this skeleton image...
+DISTRO_SKELETON_IMAGE='easy-skeleton-amd64-1280mb.img.gz'
+DISTRO_TARGETARCH='amd64'
+#subname for online PETs dir. Ex: 'slacko14', dir 'pet_packages-slacko14', db file 'Packages-pet-slacko14-official':
+#note: prior to existence of this variable, online subname was set to $DISTRO_COMPAT_VERSION or via some hack code.
+DISTRO_DB_SUBNAME='buster'
+#this will cause all of /lib64, /usr/lib64 and /usr/X11R7/lib moved into /lib,
+#/usr/lib, /usr/X11R7/lib, and the latter made into symlinks:
+DISTRO_ARCHDIR_SYMLINKS='no'
+#yes if want xorg to start immediately first boot (without cli dialogs):
+DISTRO_XORG_AUTO='yes'
+DISTRO_ARCHDIR='x86_64-linux-gnu'
+DISTRO_PUPPYDATE='Dec 2019'
