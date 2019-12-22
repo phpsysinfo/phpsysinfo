@@ -1,0 +1,37 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Quirky
+Description:	Easy Beaver
+Release:	0.9.4
+Codename:	beaver64
+----------/etc/lsb-release----------
+LSB_VERSION=n/a
+DISTRIB_ID=Quirky
+DISTRIB_RELEASE=0.9.4
+DISTRIB_CODENAME=beaver64
+DISTRIB_DESCRIPTION="Easy Beaver"
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+#Note: Ubuntu 16.04 LTS is named Xenial Xerus.
+DISTRO_NAME='Easy Beaver' #EASY
+#version number of this distribution:
+DISTRO_VERSION=0.9.4 #EASY
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='ubuntu'
+#Prefix for some filenames: exs: unicornsave.2fs, unicorn-4.99.0.sfs
+DISTRO_FILE_PREFIX='beaver64'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='bionic'
+#the kernel pet package used:
+DISTRO_KERNEL_PET='linux_kernel-4.18.9-beaver64.pet'
+DISTRO_SKELETON_IMAGE='easy-skeleton-amd64-640mb.img.gz' #EASY
+#read by /usr/bin/xwin to bypass Xorg Wizard at first boot:
+DISTRO_XORG_AUTO='yes'
+DISTRO_TARGETARCH='amd64'
+#subname for online PETs dir. Ex: 'unicorn', dir 'pet_packages-unicorn', db file 'Packages-pet-unicorn-official':
+#note: prior to existence of this variable, online subname was set to $DISTRO_COMPAT_VERSION or via some hack code.
+DISTRO_DB_SUBNAME='beaver'
+#yes here will cause /lib/x86_64-linux-gnu to be a symlink to /lib (and /usr/lib...):
+DISTRO_ARCHDIR_SYMLINKS='no'
+DISTRO_ARCHDIR='x86_64-linux-gnu'
+DISTRO_PUPPYDATE='Sep 2018'
