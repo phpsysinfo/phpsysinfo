@@ -511,22 +511,22 @@ class WINNT extends OS
                 $this->sys->setLoadPercent($cpubuffer['cpu_Total']);
             }
         } elseif ($buffer = $this->_get_Win32_Processor()) {
-            $loadavg = "";
+            $loadok = true;
             $sum = 0;
             foreach ($buffer as $load) {
                 $value = $load['LoadPercentage'];
                 if ($value !== null) {
-                    $loadavg .= $value.' ';
                     $sum += $value;
                 } else {
-                    $loadavg = null;
+                    $loadok = false;
                     break;
                 }
             }
-            if ($loadavg !== null) {
-                $this->sys->setLoad(trim($loadavg));
+            if ($loadok) {
+                $percent = round($sum / count($buffer));
+                $this->sys->setLoad($percent);
                 if (PSI_LOAD_BAR) {
-                    $this->sys->setLoadPercent($sum / count($buffer));
+                    $this->sys->setLoadPercent($percent);
                 }
             }
         }
