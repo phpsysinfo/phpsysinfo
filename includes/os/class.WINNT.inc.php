@@ -705,9 +705,13 @@ class WINNT extends OS
                             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
                                 $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
                                 if (!isset($aliases[$cname])) { // duplicate checking
-                                    $aliases[$cname] = $netID;
+                                    $aliases[$cname]['id'] = $netID;
+                                    $aliases[$cname]['name'] = $strName;
+                                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, fale)) {
+                                        $aliases[$cname]['netname'] = $strCName;
+                                    }
                                 } else {
-                                    $aliases[$cname] = '';
+                                    $aliases[$cname]['id'] = '';
                                 }
                             }
                         }
@@ -721,17 +725,18 @@ class WINNT extends OS
                                 && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
                                 $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
                                 if (!isset($aliases2[$cname])) { // duplicate checking
-                                    $aliases[$cname] = $strGUID;
+                                    $aliases[$cname]['id'] = $strGUID;
+                                    $aliases[$cname]['name'] = $strName;
                                 } else {
-                                    $aliases[$cname] = '';
+                                    $aliases[$cname]['id'] = '';
                                 }
                             }
                         }
                     }
                 }
 
-                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', 'Description', 'MACAddress', 'IPAddress'));
-                foreach ($allDevices as $device) {
+                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
+                foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
 /*
@@ -751,19 +756,20 @@ class WINNT extends OS
                     }
     
                     $macexist = false;
-                    if (($aliases) && isset($aliases[$name]) && ($aliases[$name] !== "")) {
+                    if (($aliases) && isset($aliases[$name]) && isset($aliases[$name]['id']) && ($aliases[$name]['id'] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                            if ($aliases[$name]==$NetworkAdapterConfiguration['SettingID']) {
-                                $name = $NetworkAdapterConfiguration['Description'];
-                                if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
-                                    $name="Microsoft ISATAP Adapter";
-                                elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                                    $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
-                                $dev->setName($name);                           
+                            if ($aliases[$name]['id']==$NetworkAdapterConfiguration['SettingID']) {
+                                $mininame = $aliases[$name]['name'];
+                                if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $mininame))
+                                    $mininame="Microsoft ISATAP Adapter";
+                                elseif (preg_match('/\s-\s([^-]*)$/', $mininame, $ar_name))
+                                    $name=substr($mininame, 0, strlen($mininame)-strlen($ar_name[0]));
+                                $dev->setName($mininame);
                                 if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
+                                    if (isset($aliases[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $aliases[$name]['netname']));
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
-                                       && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                       && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
                                         foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
