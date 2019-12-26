@@ -25,6 +25,18 @@
  */
 class CommonFunctions
 {
+    /**
+     * holds codepage for chcp
+     *
+     * @var integer
+     */
+    private static $_cp = null;
+
+    public static function setcp($cp)
+    {
+        CommonFunctions::$_cp = $cp;
+    }
+
     private static function _parse_log_file($string)
     {
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
@@ -645,5 +657,98 @@ class CommonFunctions
     public static function name_natural_compare($a, $b)
     {
         return strnatcmp($a->getName(), $b->getName());
+    }
+
+    /**
+     * readReg function
+     *
+     * @return boolean command successfull or not
+     */
+    public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true)
+    {
+        $strBuffer = '';
+        if ($reg === false) {
+            $last = strrpos($strName, "\\");
+            $keyname = substr($strName, $last + 1);
+            if (CommonFunctions::$_cp) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    $strBuffer = $buffer2[1];
+                } else {
+                    return false;
+                }
+            } else {
+                if (CommonFunctions::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    $strBuffer = $buffer2[1];
+                } else {
+                    return false;
+                }
+            }
+        } elseif ($reg) {
+            try {
+                $strBuffer = $reg->RegRead($strName);
+            } catch (Exception $e) { 
+                if ($booErrorRep) {
+                    $error->addError('ReadReg("'.$strName.'")', 'Caught exception: ', $e->getMessage());
+                }
+
+                return false;
+            }
+        } 
+
+        return true;
+    }
+
+
+    /**
+     * enumKey function
+     *
+     * @return boolean command successfull or not
+     */
+    public static function enumKey($key, $strName, &$arrBuffer, $booErrorRep = true)
+    {
+        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
+
+        $arrBuffer = array();
+        if ($key === false) {
+            if (CommonFunctions::$_cp) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                    foreach($buffer2[1] as $sub_key) {
+                        $arrBuffer[] = trim($sub_key);
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (CommonFunctions::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                    foreach($buffer2[1] as $sub_key) {
+                        $arrBuffer[] = trim($sub_key);
+                    }
+                } else {
+                    return false;
+                }
+            }
+        } elseif ($key) {
+            $first = strpos($strName, "\\");
+            $hkey = substr($strName, 0, $first);
+            if (isset($_hkey[$hkey])) {
+                $sub_keys = new VARIANT();
+                try {
+                   $key->EnumKey($_hkey[$hkey], substr($strName, $first+1), $sub_keys);
+                } catch (Exception $e) {
+                    if ($booErrorRep) {
+                        $error->addError('EnumKey("'.$strName.'")', 'Caught exception: ', $e->getMessage());
+                    }
+
+                    return false;
+                }
+                foreach($sub_keys as $sub_key) {
+                    $arrBuffer[] = $sub_key;
+                }
+            } else {
+               return false;
+            }
+        }
+
+        return true;
     }
 }

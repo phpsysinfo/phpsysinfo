@@ -70,6 +70,20 @@ class WINNT extends OS
     private $_wmi = null;
 
     /**
+     * holds the COM object that we pull all the RegRead data from
+     *
+     * @var Object
+     */
+    private $_reg = null;
+
+    /**
+     * holds the COM object that we pull all the EnumKey data from
+     *
+     * @var Object
+     */
+    private $_key = null;
+
+    /**
      * holds all devices, which are in the system
      *
      * @var array
@@ -177,6 +191,21 @@ class WINNT extends OS
         } catch (Exception $e) {
             $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
         }
+        try {
+            // initialize the RegRead object
+            $this->_reg = new COM("WScript.Shell");
+        } catch (Exception $e) {
+            //$this->error->addError("Windows Scripting Host error", "PhpSysInfo can not initialize Windows Scripting Host for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+            $this->_reg = false;
+        }
+        try {
+            // initialize the EnumKey object
+            $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
+        } catch (Exception $e) {
+            //$this->error->addError("WWinmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+            $this->_key = false;
+        }
+
         $this->_getCodeSet();
     }
 
@@ -189,11 +218,11 @@ class WINNT extends OS
     {
         $buffer = $this->_get_Win32_OperatingSystem();
         if (!$buffer) {
-            if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage /v ACP', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ACP\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
-                $buffer[0]['CodeSet'] = $buffer2[1];
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
+                $buffer[0]['CodeSet'] = $strBuf;
             }
-            if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language /v Default', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*Default\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
-                $buffer[0]['Locale'] = $buffer2[1];
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language\\Default", $strBuf, false)) {
+                $buffer[0]['Locale'] = $strBuf;
             }
         }
         if ($buffer && isset($buffer[0])) {
@@ -208,6 +237,7 @@ class WINNT extends OS
                 } else {
                     $codename = '';
                 }
+                CommonFunctions::setcp($codeset);
                 $this->_codepage = 'windows-'.$codeset.$codename;
             }
             if (isset($buffer[0]['Locale']) && (($locale = hexdec($buffer[0]['Locale']))>0)) {
@@ -302,8 +332,8 @@ class WINNT extends OS
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
-            if (!$buffer && CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName /v ComputerName', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ComputerName\s+REG_SZ\s+(\S+)\s*$/mi", $strBuf, $buffer2)) {
-                    $buffer[0]['Name'] = $buffer2[1];
+            if (!$buffer && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName\\ComputerName", $strBuf, false) && (strlen($strBuf) > 0)) {
+                    $buffer[0]['Name'] = $strBuf;
             }
             if ($buffer) {
                 $result = $buffer[0]['Name'];
@@ -437,11 +467,11 @@ class WINNT extends OS
                     $this->sys->setDistributionIcon('ReactOS.png');
                     $this->_wmi = false; // No WMI info on ReactOS yet
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
-                    if (CommonFunctions::executeProgram('reg', 'query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion" /v ProductName 2>&1', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^\s*ProductName\s+REG_SZ\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
-                        if (preg_match("/^Microsoft /", $buffer2[1])) {
-                            $this->sys->setDistribution($buffer2[1]);
+                    if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
+                        if (preg_match("/^Microsoft /", $strBuf)) {
+                            $this->sys->setDistribution($strBuf);
                         } else {
-                            $this->sys->setDistribution("Microsoft ".$buffer2[1]);
+                            $this->sys->setDistribution("Microsoft ".$strBuf);
                         }
                     } else {
                         $this->sys->setDistribution($ar_temp[1]);
@@ -511,20 +541,19 @@ class WINNT extends OS
     {
         $allCpus = $this->_get_Win32_Processor();
         if (!$allCpus) {
-            if (CommonFunctions::executeProgram('reg', 'query HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor /s', $strBuf, false) && (strlen($strBuf) > 0)) {
-                $lines = preg_split('/\n/', $strBuf);
-                $coreCount = -1;
-                foreach ($lines as $line) {
-                    if (preg_match('/^HKEY_LOCAL_MACHINE\\\\HARDWARE\\\\DESCRIPTION\\\\System\\\\CentralProcessor\\\\\d+/i', $line)) {
-                        $coreCount++;
-                    } elseif ($coreCount >= 0) {
-                        if (preg_match("/^\s*ProcessorNameString\s+REG_SZ\s+(.+)\s*$/i", $line, $buffer2)) {
-                            $allCpus[$coreCount]['Name'] = $buffer2[1];
-                        } elseif (preg_match("/^\s*~MHz\s+REG_DWORD\s+(0x.+)\s*$/i", $line, $buffer2)) {
-                            $allCpus[$coreCount]['CurrentClockSpeed'] = hexdec($buffer2[1]);
-                        } elseif (preg_match("/^\s*VendorIdentifier\s+REG_SZ\s+(.+)\s*$/i", $line, $buffer2)) {
-                            $allCpus[$coreCount]['Manufacturer'] = $buffer2[1];
+            $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor";
+            if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                foreach ($arrBuf as $coreCount) {
+                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\ProcessorNameString", $strBuf, false)) {
+                        $allCpus[$coreCount]['Name'] = $strBuf;
+                    }
+                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\~MHz", $strBuf, false)) {
+                        if (preg_match("/^0x([0-9a-f]+)$/i", $strBuf, $hexvalue)) {
+                            $allCpus[$coreCount]['CurrentClockSpeed'] = hexdec($hexvalue[1]);
                         }
+                    }
+                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\VendorIdentifier", $strBuf, false)) {
+                        $allCpus[$coreCount]['Manufacturer'] = $strBuf;
                     }
                 }
             }
@@ -667,56 +696,70 @@ class WINNT extends OS
             } else {
                 $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
             }
-            /*if (!$allDevices && CommonFunctions::executeProgram('ipconfig', '/all', $devicesbuf, false) && ($devicesbuf!== "")) {
-                $netdevices = preg_split('/^(Ethernet)|(Wireless)|(Tunnel) [^\n]+\n\r\n/m', $devicesbuf, -1, PREG_SPLIT_NO_EMPTY);
-                if (sizeof($netdevices)>1)  foreach ($netdevices as $devnr=>$netdevice) if ($devnr > 0) {
-                    $bufe = preg_split("/\r\n   /", trim($netdevice), -1, PREG_SPLIT_NO_EMPTY);
-                    $notdiss = true;
-                    foreach ($bufe as $buf) {
-                        list($key, $value) = preg_split('/[\s\.]+: /', $buf, 2);
-                        if (($key == "Media State") && (trim($value) == "Media disconnected")) {
-                            $notdiss = false;
-                        } elseif ($notdiss && ($key == "Description") && (trim($value) !== "")) {
-                            $allDevices[] = array('Name'=>trim($value), 'BytesSentPersec'=>0, 'BytesTotalPersec'=>0, 'BytesReceivedPersec'=>0, 'PacketsReceivedErrors'=>0, 'PacketsReceivedDiscarded'=>0, 'CurrentBandwidth'=>0);
+            if ($allDevices) {
+                $aliases = array();
+                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
+                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                    foreach ($arrBuf as $netID) {
+                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias                      
+                            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
+                                $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                                if (!isset($aliases[$cname])) { // duplicate checking
+                                    $aliases[$cname] = $netID;
+                                } else {
+                                    $aliases[$cname] = '';
+                                }
+                            }
                         }
                     }
                 }
-            }*/
-            if ($allDevices) {
-                $aliases = array();
-                $allAdapters = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapter', array('Name', 'GUID'));
-                foreach ($allAdapters as $adapter) {
-                    if (isset($adapter['GUID'])) {
-                        $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $adapter['Name']); //convert to canonical
-                        if (!isset($aliases[$cname])) { // duplicate checking
-                            $aliases[$cname] = $adapter['GUID'];
-                        } else {
-                            $aliases[$cname] = '';
+                if (!$aliases) {
+                    $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
+                    if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                        foreach ($arrBuf as $netCount) {
+                            if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
+                                && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
+                                $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                                if (!isset($aliases2[$cname])) { // duplicate checking
+                                    $aliases[$cname] = $strGUID;
+                                } else {
+                                    $aliases[$cname] = '';
+                                }
+                            }
                         }
                     }
                 }
 
-                if (preg_match('/^windows-(\d+)$/', $this->_codepage, $codepage)
-                    && CommonFunctions::executeProgram('cmd', '/c chcp '.$codepage[1].' && reg query HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network /v Name /s', $strBuf, false)
-                    && (strlen($strBuf) > 0)
-                    && preg_match_all('/^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\Network\\\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\\\({[^{]+})\\\\Connection\r\n\s+Name\s+REG_SZ\s+([^\r\n]+)/mi', $strBuf, $buffer)) {
-                    for ($i = 0; $i < sizeof($buffer[0]); $i++) {
-                        if (!isset($aliases[$buffer[2][$i]])) { // duplicate checking
-                            $aliases[$buffer[2][$i]] = $buffer[1][$i];
-                        } elseif ($aliases[$buffer[2][$i]] !== $buffer[1][$i]) { //duplicate and different
-                            $aliases[$buffer[2][$i]] = '';
-                        }
-                    }
-                }
-                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('Description', 'MACAddress', 'IPAddress', 'SettingID'));
+                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', 'Description', 'MACAddress', 'IPAddress'));
                 foreach ($allDevices as $device) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
+/*
+                    if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
+                        $name="Microsoft ISATAP Adapter";
+                    elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
+                        $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
+                    $dev->setName($name);
+*/
+                    if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name)) {
+                        $dev->setName("Microsoft ISATAP Adapter");
+                    } else {
+                        if (preg_match('/\s-\s([^-]*)$/', $name, $ar_name)) {
+                            $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
+                        }
+                        $dev->setName($name);
+                    }
+    
                     $macexist = false;
                     if (($aliases) && isset($aliases[$name]) && ($aliases[$name] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                             if ($aliases[$name]==$NetworkAdapterConfiguration['SettingID']) {
-                                $dev->setName($NetworkAdapterConfiguration['Description']);
+                                $name = $NetworkAdapterConfiguration['Description'];
+                                if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
+                                    $name="Microsoft ISATAP Adapter";
+                                elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
+                                    $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
+                                $dev->setName($name);                           
                                 if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
@@ -731,33 +774,7 @@ class WINNT extends OS
                             }
                         }
                     }
-                    if ($dev->getName() == "") { //no alias or no alias description
-                        $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $name); //convert to canonical
-                        if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
-                            $name="Microsoft ISATAP Adapter";
-                        elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                            $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
-                        $dev->setName($name);
 
-                        foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                            if (str_replace(array('(', ')', '#'), array('[', ']', '_'), $NetworkAdapterConfiguration['Description']) === $cname) {
-                                $macexist = $macexist || (trim($NetworkAdapterConfiguration['MACAddress']) !== "");
-
-                                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                                    if ($dev->getInfo() !== null) {
-                                        $dev->setInfo(''); //multiple with the same name
-                                    } else {
-                                        if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
-                                           && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
-                                        if (isset($NetworkAdapterConfiguration['IPAddress']))
-                                            foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
-                                                if (($ipaddres != "0.0.0.0") && !preg_match('/^fe80::/i', $ipaddres))
-                                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
-                                    }
-                                }
-                            }
-                        }
-                    }
                     if ($macexist
                         || ($device['CurrentBandwidth'] >= 1000000)
                         || ($device['BytesTotalPersec'] != 0)
