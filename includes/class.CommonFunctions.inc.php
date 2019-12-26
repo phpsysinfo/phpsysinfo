@@ -623,7 +623,7 @@ class CommonFunctions
             } catch (Exception $e) {
                 if (PSI_DEBUG) {
                     $error = PSI_Error::singleton();
-                    $error->addError($e->getCode(),preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
+                    $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                 }
             }
         }
@@ -688,7 +688,8 @@ class CommonFunctions
                 $strBuffer = $reg->RegRead($strName);
             } catch (Exception $e) { 
                 if ($booErrorRep) {
-                    $error->addError('ReadReg("'.$strName.'")', 'Caught exception: ', $e->getMessage());
+                    $error = PSI_Error::singleton();
+                    $error->addError("readReg()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                 }
 
                 return false;
@@ -733,10 +734,11 @@ class CommonFunctions
             if (isset($_hkey[$hkey])) {
                 $sub_keys = new VARIANT();
                 try {
-                   $key->EnumKey($_hkey[$hkey], substr($strName, $first+1), $sub_keys);
+                   $key->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
                 } catch (Exception $e) {
                     if ($booErrorRep) {
-                        $error->addError('EnumKey("'.$strName.'")', 'Caught exception: ', $e->getMessage());
+                        $error = PSI_Error::singleton();
+                        $error->addError("enumKey()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));;
                     }
 
                     return false;
