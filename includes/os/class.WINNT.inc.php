@@ -707,7 +707,7 @@ class WINNT extends OS
                                 if (!isset($aliases[$cname])) { // duplicate checking
                                     $aliases[$cname]['id'] = $netID;
                                     $aliases[$cname]['name'] = $strName;
-                                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, fale)
+                                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, false)
                                        && (str_replace(array('(', ')', '#'), array('[', ']', '_'), $strCName) !== $cname)) {
                                         $aliases[$cname]['netname'] = $strCName;
                                     }
