@@ -523,7 +523,7 @@ class WINNT extends OS
                 }
             }
             if ($loadok) {
-                $percent = round($sum / count($buffer));
+                $percent = $sum / count($buffer);
                 $this->sys->setLoad($percent);
                 if (PSI_LOAD_BAR) {
                     $this->sys->setLoadPercent($percent);
