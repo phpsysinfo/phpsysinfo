@@ -718,19 +718,19 @@ class WINNT extends OS
                         }
                     }
                 }
-                if (!$aliases) {
-                    $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
-                    if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
-                        foreach ($arrBuf as $netCount) {
-                            if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
-                                && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
-                                $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
-                                if (!isset($aliases2[$cname])) { // duplicate checking
-                                    $aliases[$cname]['id'] = $strGUID;
-                                    $aliases[$cname]['name'] = $strName;
-                                } else {
-                                    $aliases[$cname]['id'] = '';
-                                }
+
+                $aliases2 = array();
+                $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
+                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                    foreach ($arrBuf as $netCount) {
+                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
+                            && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
+                            $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                            if (!isset($aliases2[$cname])) { // duplicate checking
+                                $aliases2[$cname]['id'] = $strGUID;
+                                $aliases2[$cname]['name'] = $strName;
+                            } else {
+                                $aliases2[$cname]['id'] = '';
                             }
                         }
                     }
@@ -757,10 +757,10 @@ class WINNT extends OS
                     }
     
                     $macexist = false;
-                    if (($aliases) && isset($aliases[$name]) && isset($aliases[$name]['id']) && ($aliases[$name]['id'] !== "")) {
+                    if (((($ali=$aliases) && isset($ali[$name])) || (($ali=$aliases2) && isset($ali[$name]))) && isset($ali[$name]['id']) && ($ali[$name]['id'] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                            if ($aliases[$name]['id']==$NetworkAdapterConfiguration['SettingID']) {
-                                $mininame = $aliases[$name]['name'];
+                            if ($ali[$name]['id']==$NetworkAdapterConfiguration['SettingID']) {
+                                $mininame = $ali[$name]['name'];
                                 if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $mininame))
                                     $mininame="Microsoft ISATAP Adapter";
                                 elseif (preg_match('/\s-\s([^-]*)$/', $mininame, $ar_name))
@@ -768,7 +768,7 @@ class WINNT extends OS
                                 $dev->setName($mininame);
                                 if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-                                    if (isset($aliases[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $aliases[$name]['netname']));
+                                    if (isset($ali[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $ali[$name]['netname']));
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                        && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
