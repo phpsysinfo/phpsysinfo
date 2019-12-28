@@ -792,9 +792,9 @@ class WINNT extends OS
                         if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                             if (($speedinfo = $device['CurrentBandwidth']) >= 1000000) {
                                 if ($speedinfo > 1000000000) {
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000000)."Gb/s");
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').round($speedinfo/1000000000, 2)."Gb/s");
                                 } else {
-                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').($speedinfo/1000000)."Mb/s");
+                                    $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').round($speedinfo/1000000, 2)."Mb/s");
                                 }
                             }
                         }
