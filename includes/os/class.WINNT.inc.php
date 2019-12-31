@@ -740,13 +740,7 @@ class WINNT extends OS
                 foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
-/*
-                    if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name))
-                        $name="Microsoft ISATAP Adapter";
-                    elseif (preg_match('/\s-\s([^-]*)$/', $name, $ar_name))
-                        $name=substr($name, 0, strlen($name)-strlen($ar_name[0]));
-                    $dev->setName($name);
-*/
+
                     if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $name)) {
                         $dev->setName("Microsoft ISATAP Adapter");
                     } else {
