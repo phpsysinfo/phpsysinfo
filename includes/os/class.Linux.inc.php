@@ -938,7 +938,7 @@ class Linux extends OS
                     if (isset($nlocate[2]) && isset($nsize[2])) {
                         $dev = new HWDevice();
                         $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
-                        if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && (PSI_SHOW_DEVICES_INFOS)) {
                             if (isset($nlocate[4]) && isset($nsize[4])) {
                                 if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
                                     switch ($tmpbuf[2]) {
