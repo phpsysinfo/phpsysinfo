@@ -595,7 +595,7 @@ class CommonFunctions
     public static function getWMI($wmi, $strClass, $strValue = array())
     {
         $arrData = array();
-        if ($wmi) {
+        if (gettype($wmi) === "object") {
             $value = "";
             try {
                 $objWEBM = $wmi->Get($strClass);
@@ -683,7 +683,7 @@ class CommonFunctions
                     return false;
                 }
             }
-        } elseif ($reg) {
+        } elseif (gettype($reg) === "object") {
             try {
                 $strBuffer = $reg->RegRead($strName);
             } catch (Exception $e) {
@@ -728,7 +728,7 @@ class CommonFunctions
                     return false;
                 }
             }
-        } elseif ($key) {
+        } elseif (gettype($key) === "object") {
             $first = strpos($strName, "\\");
             $hkey = substr($strName, 0, $first);
             if (isset($_hkey[$hkey])) {
