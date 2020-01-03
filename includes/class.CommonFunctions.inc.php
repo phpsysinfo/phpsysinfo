@@ -686,7 +686,7 @@ class CommonFunctions
         } elseif ($reg) {
             try {
                 $strBuffer = $reg->RegRead($strName);
-            } catch (Exception $e) { 
+            } catch (Exception $e) {
                 if ($booErrorRep) {
                     $error = PSI_Error::singleton();
                     $error->addError("readReg()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
@@ -694,7 +694,7 @@ class CommonFunctions
 
                 return false;
             }
-        } 
+        }
 
         return true;
     }
@@ -713,7 +713,7 @@ class CommonFunctions
         if ($key === false) {
             if (CommonFunctions::$_cp) {
                 if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
-                    foreach($buffer2[1] as $sub_key) {
+                    foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
                 } else {
@@ -721,7 +721,7 @@ class CommonFunctions
                 }
             } else {
                 if (CommonFunctions::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
-                    foreach($buffer2[1] as $sub_key) {
+                    foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
                 } else {
@@ -743,7 +743,7 @@ class CommonFunctions
 
                     return false;
                 }
-                foreach($sub_keys as $sub_key) {
+                foreach ($sub_keys as $sub_key) {
                     $arrBuffer[] = $sub_key;
                 }
             } else {

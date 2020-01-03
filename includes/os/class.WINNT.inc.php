@@ -570,7 +570,6 @@ class WINNT extends OS
             $globalcpus+=$cpuCount;
         }
 
-
         foreach ($allCpus as $oneCpu) {
             $cpuCount = 1;
             if (isset($oneCpu['NumberOfLogicalProcessors'])) {
@@ -701,7 +700,7 @@ class WINNT extends OS
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
                 if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netID) {
-                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias                      
+                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias
                             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
                                 $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
                                 if (!isset($aliases[$cname])) { // duplicate checking
