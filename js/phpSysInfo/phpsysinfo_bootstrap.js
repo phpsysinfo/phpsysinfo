@@ -82,6 +82,8 @@ function getLanguage(plugin, langarrId) {
         timeout: 100000,
         error: function error() {
             $("#errors").append("<li><b>Error loading language</b> - " + getLangUrl + "</li><br>");
+            $("#errorbutton").attr('data-toggle', 'modal');
+            $("#errorbutton").css('cursor', 'pointer');
             $("#errorbutton").css("visibility", "visible");
         },
         success: function buildblocks(xml) {
@@ -202,6 +204,8 @@ function changeSpanLanguage(plugin) {
 
 function reload(initiate) {
     $("#errorbutton").css("visibility", "hidden");
+    $("#errorbutton").css('cursor', 'default');
+    $("#errorbutton").attr('data-toggle', '');
     $("#errors").empty();
     $.ajax({
         dataType: "json",
@@ -218,6 +222,8 @@ function reload(initiate) {
                 catch (err) {
                 }
                 if (errs > 0) {
+                    $("#errorbutton").attr('data-toggle', 'modal');
+                    $("#errorbutton").css('cursor', 'pointer');
                     $("#errorbutton").css("visibility", "visible");
                 }
             }
@@ -1569,11 +1575,15 @@ function renderErrors(data) {
             $("#errors").append("<li><b>"+datas[i]["@attributes"].Function+"</b> - "+datas[i]["@attributes"].Message.replace(/\n/g, "<br>")+"</li><br>");
         }
         if (i > 0) {
+            $("#errorbutton").attr('data-toggle', 'modal');
+            $("#errorbutton").css('cursor', 'pointer');
             $("#errorbutton").css("visibility", "visible");
         }
     }
     catch (err) {
         $("#errorbutton").css("visibility", "hidden");
+        $("#errorbutton").css('cursor', 'default');
+        $("#errorbutton").attr('data-toggle', '');
     }
 }
 
