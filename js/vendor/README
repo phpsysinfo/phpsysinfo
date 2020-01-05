@@ -38,7 +38,7 @@ USED     : used for the entire bootstrap userinterface
 
 sorttable.js
 ---------
-VERSION  : 2+2014.12.25.12_fix-noinit
+VERSION  : 2+2014.12.25.12_fix-noinit-noarrayforeach
 URL      : https://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
 USED     : used for the entire bootstrap userinterface

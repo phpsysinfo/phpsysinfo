@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2+2014.12.25_fix-noinit
+  version 2+2014.12.25_fix-noinit-noarrayforeach
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
@@ -418,6 +418,7 @@ fixEvent.stopPropagation = function() {
 	License: http://www.opensource.org/licenses/mit-license.php
 */
 
+/*
 // array-like enumeration
 if (!Array.forEach) { // mozilla already supports this
 	Array.forEach = function(array, block, context) {
@@ -426,6 +427,7 @@ if (!Array.forEach) { // mozilla already supports this
 		}
 	};
 }
+*/
 
 // generic enumeration
 Function.prototype.forEach = function(object, block, context) {
@@ -459,7 +461,10 @@ var forEach = function(object, block, context) {
 			resolve = String;
 		} else if (typeof object.length == "number") {
 			// the object is array-like
-			resolve = Array;
+			for (var i = 0; i < object.length; i++) {
+                block.call(context, object[i], i, object);
+			}
+			return;
 		}
 		resolve.forEach(object, block, context);
 	}
