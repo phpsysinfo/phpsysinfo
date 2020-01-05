@@ -314,7 +314,7 @@ $(document).ready(function () {
         });
     }
 
-    if (useragent.match(/Safari\/(\d+)\.[\d\.]+$/) !== null) {
+    if (((ua=useragent.match(/Safari\/(\d+)\.[\d\.]+$/)) !== null) && (ua[1]<=534)) {
         $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
         if (ua[1]<=15) {
