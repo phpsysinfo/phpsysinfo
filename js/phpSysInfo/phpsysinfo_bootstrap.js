@@ -184,8 +184,7 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
-        $("#select").show(); //show if any language loaded
-        centerSelect();
+        $("#select").css( "display", "table-cell" ); //show if any language loaded
         $("#output").show();
     } else {
         langarrId += plugin;
@@ -328,7 +327,7 @@ $(document).ready(function () {
         }
     }
 
-    $(window).resize(centerSelect);
+    $(window).resize();
 
     sorttable.init();
 
@@ -392,8 +391,8 @@ $(document).ready(function () {
             changeLanguage(plugin_liste[i]);
         }
 */
-        $('#language').show();
-        $('span[class=lang_045]').show(); 
+        $("#langblock").css( "display", "inline-block" );
+
         $("#language").change(function changeLang() {
             current_language = $("#language").val().toString();
             createCookie('psi_language', current_language, 365);
@@ -416,8 +415,9 @@ $(document).ready(function () {
             }
         }
         switchStyle($("#template").val().toString());
-        $('#template').show();
-        $('span[class=lang_044]').show();
+
+        $("#tempblock").css( "display", "inline-block" );
+
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
@@ -431,17 +431,6 @@ $(document).ready(function () {
         reload(false);
     });
 });
-
-function centerSelect() {
-    var postop = $('.select').position().top;
-    if (postop > 0) {
-        if (postop < 10) { //no flex and one line
-            $('.select').css('marginTop', 11);
-        } else { //flex or two lines
-            $('.select').css('marginTop', 0);
-        }
-    }
-}
 
 Array.prototype.push_attrs=function(element) {
     for (var i = 0; i < element.length ; i++) {

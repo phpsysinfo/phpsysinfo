@@ -43,49 +43,57 @@
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
 <div class="navbar fixed-top">
-    <div class="container">
-        <div class="navbar-brand">
-            <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/> phpSysInfo<sup> <a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a>
-            </sup><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;visibility:hidden;">
-                <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility:hidden;"/>
+    <div class="container" style="display:block;">
+        <div style="display:table-cell">
+            <div class="navbar-brand">
+                <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/> phpSysInfo<sup> <a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a>
+                </sup><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;visibility:hidden;">
+                    <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility:hidden;"/>
+                </div>
             </div>
         </div>
-        <noscript>
-            <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
-            <p>In approximatively 2 seconds you will be redirected to the static version of phpSysInfo.</p>
-            <p>&nbsp;</p>
-            <p><a href="index.php?disp=static">Click here to switch to the static version</a></p>
-        </noscript>
-        <div id="select" class="select" style="display:none;">
-            <span class="lang_044" style="display:none;">Template</span>
-            <select class="template" id="template" style="display:none;">
+
+        <div id="select" class="select" style="display:none;width:100%;vertical-align:middle;text-align:right;">
+            <div id="tempblock" style="display:none;">
+                <span class="lang_044">Template</span>
+                <select class="template" id="template">
 <?php if ($picktemplate) {
 foreach ($bootstraptemplates as $t) :
     $selected = "";
     if ($bootstraptemplate === $t) {
         $selected = " selected=\"selected\"";
     }
-    echo "                <option value=\"".$t."\"".$selected.">".$t."</option>\n";
+    echo "                    <option value=\"".$t."\"".$selected.">".$t."</option>\n";
 endforeach;
 } else {
-    echo "                <option value=\"".$bootstraptemplate."\" selected=\"selected\">".$bootstraptemplate."</option>\n";
+    echo "                    <option value=\"".$bootstraptemplate."\" selected=\"selected\">".$bootstraptemplate."</option>\n";
 }?>
-            </select>
-            <span class="lang_045" style="display:none;">Language</span>
-            <select class="language" id="language" style="display:none;">
+                </select>
+            </div>
+            <div id="langblock" style="display:none;">
+                <span class="lang_045">Language</span>
+                <select class="language" id="language">
 <?php if ($picklanguage) {
 foreach ($languages as $l) :
     $selected = "";
     if ($language === $l) {
         $selected = " selected=\"selected\"";
     }
-    echo "                <option value=\"".$l."\"".$selected.">".$l."</option>\n";
+    echo "                    <option value=\"".$l."\"".$selected.">".$l."</option>\n";
 endforeach;
 } else {
-    echo "                <option value=\"".$language."\" selected=\"selected\">".$language."</option>\n";
+    echo "                    <option value=\"".$language."\" selected=\"selected\">".$language."</option>\n";
 }?>
-            </select>
+                </select>
+            </div>
         </div>
+
+        <noscript>
+            <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
+            <p>In approximatively 2 seconds you will be redirected to the static version of phpSysInfo.</p>
+            <p>&nbsp;</p>
+            <p><a href="index.php?disp=static">Click here to switch to the static version</a></p>
+        </noscript>
     </div>
 </div>
 
