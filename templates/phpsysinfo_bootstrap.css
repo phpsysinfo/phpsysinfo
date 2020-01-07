@@ -25,6 +25,8 @@ wbr {
 .navbar {
     background-color: #3b87c8;
     border-color: #2d6da3;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .navbar-brand, .navbar-brand:hover {
