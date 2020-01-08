@@ -33,7 +33,7 @@ wbr {
   }
   @media screen and (min-device-width: 576px) {
       .navbar {
-          padding-right: 0px;
+          padding-right: 0;
       }
   }
 }
