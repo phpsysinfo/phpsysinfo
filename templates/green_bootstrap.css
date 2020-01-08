@@ -25,11 +25,11 @@ wbr {
 .navbar {
     background-color: #3bc873;
     border-color: #33b667;
-    margin-right: 0;
 }
 
 .navbar-brand, .navbar-brand:hover {
     color: #fff;
+    margin-right: 0;
 }
 
 .treegrid-span {
