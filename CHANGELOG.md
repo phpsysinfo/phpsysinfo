@@ -13,6 +13,7 @@ phpSysInfo 3.3.2
 
  - [NEW] OS Type information
  - [NEW] CPU manufacturer information
+ - [NEW] Frontend Bootstrap view in web app mode on mobile devices
 
 phpSysInfo 3.3.1
 ----------------
