@@ -28,14 +28,15 @@ wbr {
 }
 
 @media (max-width: 575.98px) {
-  .navbar {
-       padding-left: 1px;
-  }
-  @media screen and (min-device-width: 576px) {
-      .navbar {
-          padding-right: 0;
-      }
-  }
+    .navbar, .col-lg-6, .col-lg-12 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .navbar-brand, .navbar-brand:hover {
