@@ -27,18 +27,6 @@ wbr {
     border-color: #33b667;
 }
 
-@media (max-width: 575.98px) {
-    .navbar, .col-lg-6, .col-lg-12 {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .row {
-        margin-left: 0;
-        margin-right: 0;
-    }
-}
-
 .navbar-brand, .navbar-brand:hover {
     color: #fff;
     margin-right: 0;
