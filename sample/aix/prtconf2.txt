@@ -1,0 +1,86 @@
+System Model: IBM,7998-61X
+Machine Serial Number: 01sd123
+Processor Type: PowerPC_POWER6
+Processor Implementation Mode: POWER 6
+Processor Version: PV_6
+Number Of Processors: 4
+Processor Clock Speed: 4005 MHz
+CPU Type: 64-bit
+Kernel Type: 64-bit
+LPAR Info: 1 06-5BD4A
+Memory Size: 31616 MB
+Good Memory Size: 31616 MB
+Platform Firmware level: EA350_132
+Firmware Version: IBM,EA350_132
+Console Login: enable
+Auto Restart: true
+Full Core: false
+
+Network Information
+        Host Name: SAPIBM
+        IP Address: 192.168.1.1
+        Sub Netmask: 255.255.252.0
+        Gateway: 192.168.1.1
+        Name Server:
+        Domain Name:
+
+Paging Space Information
+        Total Paging Space: 512MB
+        Percent Used: 3%
+
+Volume Groups Information
+==============================================================================
+==============================================================================
+
+INSTALLED RESOURCE LIST
+
+The following resources are installed on the machine.
++/- = Added or deleted from Resource List.
+*   = Diagnostic support not available.
+
+  Model Architecture: chrp
+  Model Implementation: Multiple Processor, PCI bus
+
++ sys0                                                                           System Object
++ sysplanar0                                                                     System Planar
+* vio0                                                                           Virtual I/O Bus
+* vsa0             U7998.61X.065BD4A-V1-C0                                       LPAR Virtual Serial Adapter
+* vty0             U7998.61X.065BD4A-V1-C0-L0                                    Asynchronous Terminal
+* pci3             U78A5.001.WIH4F4F-P1                                          PCI Bus
++ fcs0             U78A5.001.WIH4F4F-P1-C6-T1                                    FC Adapter
++ fscsi0           U78A5.001.WIH4F4F-P1-C6-T1                                    FC SCSI I/O Controller Protocol Device
+* hdisk1           U78A5.001.WIH4F4F-P1-C6-T1-W5006048C52A8FD87-L25000000000000  EMC Symmetrix FCP Raid5
+* hdisk2           U78A5.001.WIH4F4F-P1-C6-T1-W5006048C52A8FD87-L26000000000000  EMC Symmetrix FCP Raid5
+* hdisk0           U78A5.001.WIH4F4F-P1-C6-T1-W5006048C52A8FD87-L0               EMC Symmetrix FCP Raid1
+* hdisk30          U78A5.001.WIH4F4F-P1-C6-T1-W5006048C52A8FD87-L44000000000000  EMC Symmetrix FCP Raid5
+* hdiskpower0      U78A5.001.WIH4F4F-P1-C6-T1-L2                                 PowerPath Device
+* hdiskpower1      U78A5.001.WIH4F4F-P1-C6-T1-L3                                 PowerPath Device
+* hdiskpower2      U78A5.001.WIH4F4F-P1-C6-T1-L4                                 PowerPath Device
+* hdisk3           U78A5.001.WIH4F4F-P1-C6-T1-W5006048452A8FD86-L0               EMC Symmetrix FCP Raid1
+* hdisk4           U78A5.001.WIH4F4F-P1-C6-T1-W5006048C52A8FD86-L0               EMC Symmetrix FCP Raid1
++ fcs1             U78A5.001.WIH4F4F-P1-C6-T2                                    FC Adapter
++ fscsi1           U78A5.001.WIH4F4F-P1-C6-T2                                    FC SCSI I/O Controller Protocol Device
+* pci2             U78A5.001.WIH4F4F-P1                                          PCI Bus
++ ati0             U78A5.001.WIH4F4F-P1-C5-T1                                    Native Display Graphics Adapter
+* pci1             U78A5.001.WIH4F4F-P1                                          PCI Bus
++ usbhc0           U78A5.001.WIH4F4F-P1                                          USB Host Controller (33103500)
++ usbhc1           U78A5.001.WIH4F4F-P1                                          USB Host Controller (33103500)
++ usbhc2           U78A5.001.WIH4F4F-P1                                          USB Enhanced Host Controller (3310e000)
+* pci0             U78A5.001.WIH4F4F-P1                                          PCI Bus
++ sissas0          U78A5.001.WIH4F4F-P1-T5                                       PCI-X266 Planar 3Gb SAS Adapter
+* sas0             U78A5.001.WIH4F4F-P1-T5                                       Controller SAS Protocol
+* sfwcomm0                                                                       SAS Storage Framework Comm
++ ses0             U78A5.001.WIH4F4F-P1-Y1                                       SAS Enclosure Services Device
+* sata0            U78A5.001.WIH4F4F-P1-T5                                       Controller SATA Protocol
+* lhea0            U78A5.001.WIH4F4F-P1                                          Logical Host Ethernet Adapter (l-hea)
++ ent1             U78A5.001.WIH4F4F-P1-T7                                       Logical Host Ethernet Port (lp-hea)
++ ent0             U78A5.001.WIH4F4F-P1-T6                                       Logical Host Ethernet Port (lp-hea)
++ L2cache0                                                                       L2 Cache
++ mem0                                                                           Memory
++ proc0                                                                          Processor
++ proc2                                                                          Processor
++ proc4                                                                          Processor
++ proc6                                                                          Processor
++ cd0              U78A5.001.WIH4F4F-P1-T1-L1-L2-L3                              USB DVD-ROM Drive
+* kbd0             U78A5.001.WIH4F4F-P1-T2-L1                                    USB keyboard
+* mouse0           U78A5.001.WIH4F4F-P1-T2-L1                                    USB mouse

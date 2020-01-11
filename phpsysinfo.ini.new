@@ -569,7 +569,7 @@ SHOW_SERIAL=false
 ;             - for others the option is inactive (uses "command" instead)
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt"
-;         or "raidmegasasctl" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
+;         or "raidmegasasctl.txt" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
 ;
 ACCESS="command"
 

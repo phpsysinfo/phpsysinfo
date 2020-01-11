@@ -1,6 +1,6 @@
 /*
   SortTable
-  version 2+2014.12.25_fix-noinit
+  version 2+2014.12.25_fix-noinit-noforeach
   7th April 2007
   Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
 
@@ -38,12 +38,12 @@ sorttable = {
 
     sorttable.DATE_RE = /^(\d\d?)[\/\.-](\d\d?)[\/\.-]((\d\d)?\d\d)$/;
 
-    forEach(document.getElementsByTagName('table'), function(table) {
-      if (table.className.search(/\bsortable\b/) != -1) {
-        sorttable.makeSortable(table);
+    allTables=document.getElementsByTagName('table');
+    for (var i=0; i < allTables.length; i++) {
+      if (allTables[i].className.search(/\bsortable\b/) != -1) {
+        sorttable.makeSortable(allTables[i]);
       }
-    });
-
+    }
   },
 
   makeSortable: function(table) {
@@ -127,12 +127,13 @@ sorttable = {
 
           // remove sorttable_sorted classes
           theadrow = this.parentNode;
-          forEach(theadrow.childNodes, function(cell) {
-            if (cell.nodeType == 1) { // an element
-              cell.className = cell.className.replace('sorttable_sorted_reverse','');
-              cell.className = cell.className.replace('sorttable_sorted','');
+          for (var i=0; i < theadrow.childNodes.length; i++) {
+            if (theadrow.childNodes[i].nodeType == 1) { // an element
+              theadrow.childNodes[i].className = theadrow.childNodes[i].className.replace('sorttable_sorted_reverse','');
+              theadrow.childNodes[i].className = theadrow.childNodes[i].className.replace('sorttable_sorted','');
             }
-          });
+          }
+
           sortfwdind = document.getElementById('sorttable_sortfwdind'+$(this).parent().parent().parent()[0].id);
           if (sortfwdind) { sortfwdind.parentNode.removeChild(sortfwdind); }
           sortrevind = document.getElementById('sorttable_sortrevind'+$(this).parent().parent().parent()[0].id);
@@ -409,58 +410,4 @@ fixEvent.preventDefault = function() {
 };
 fixEvent.stopPropagation = function() {
   this.cancelBubble = true;
-};
-
-// Dean's forEach: http://dean.edwards.name/base/forEach.js
-/*
-	forEach, version 1.0
-	Copyright 2006, Dean Edwards
-	License: http://www.opensource.org/licenses/mit-license.php
-*/
-
-// array-like enumeration
-if (!Array.forEach) { // mozilla already supports this
-	Array.forEach = function(array, block, context) {
-		for (var i = 0; i < array.length; i++) {
-			block.call(context, array[i], i, array);
-		}
-	};
-}
-
-// generic enumeration
-Function.prototype.forEach = function(object, block, context) {
-	for (var key in object) {
-		if (typeof this.prototype[key] == "undefined") {
-			block.call(context, object[key], key, object);
-		}
-	}
-};
-
-// character enumeration
-String.forEach = function(string, block, context) {
-	Array.forEach(string.split(""), function(chr, index) {
-		block.call(context, chr, index, string);
-	});
-};
-
-// globally resolve forEach enumeration
-var forEach = function(object, block, context) {
-	if (object) {
-		var resolve = Object; // default
-		if (object instanceof Function) {
-			// functions have a "length" property
-			resolve = Function;
-		} else if (object.forEach instanceof Function) {
-			// the object implements a custom forEach method so use that
-			object.forEach(block, context);
-			return;
-		} else if (typeof object == "string") {
-			// the object is a string
-			resolve = String;
-		} else if (typeof object.length == "number") {
-			// the object is array-like
-			resolve = Array;
-		}
-		resolve.forEach(object, block, context);
-	}
 };

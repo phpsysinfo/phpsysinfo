@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.2
+----------------
+
+ - [UPD] Korean Translation ko.xml
+
+ - [ADD] Exherbo and EasyOS to detected distros
+ - [ADD] PCI devices list on SunOS
+
+ - [NEW] OS Type information
+ - [NEW] CPU manufacturer information
+ - [NEW] Frontend Bootstrap view in web app mode on mobile devices
+
 phpSysInfo 3.3.1
 ----------------
 

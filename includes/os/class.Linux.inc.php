@@ -306,6 +306,9 @@ class Linux extends OS
                 $bufr = preg_replace('/^(processor\s*:\s*\d+)\r?$/m', "$1\n", $bufr);
             }
 
+            // IBM/S390
+            $bufr = preg_replace('/\ncpu number\s*:\s*(\d+)\r?\ncpu MHz dynamic\s*:\s*(\d+)/m', "\nprocessor:$1\nclock:$2", $bufr);
+
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -316,6 +319,8 @@ class Linux extends OS
             $_revi = null;
             $_cpus = null;
             $_buss = null;
+            $_bogo = null;
+            $_vend = null;
             $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
@@ -348,6 +353,11 @@ class Linux extends OS
                                 $_buss = round($bufr2[1]/1000000);
                             }
                             break;
+                        case 'bogomips per cpu':
+                            $_bogo = round($arrBuff1);
+                            break;
+                        case 'vendor_id':
+                            $_vend = $arrBuff1;
                         case 'cpu':
                             $procname = $arrBuff1;
                             break;
@@ -394,6 +404,11 @@ class Linux extends OS
                                 $speedset = true;
                             }
                             break;
+                        case 'cpu mhz static':
+                            if ($arrBuff1 > 0) { //openSUSE fix
+                                $dev->setCpuSpeedMax($arrBuff1);
+                            }
+                            break;
                         case 'cycle frequency [hz]':
                             $dev->setCpuSpeed($arrBuff1 / 1000000);
                             $speedset = true;
@@ -437,13 +452,15 @@ class Linux extends OS
                         case 'cpu part':
                             $part = $arrBuff1;
                             break;
+                        case 'vendor_id':
+                            $dev->setVendorId($arrBuff1);
+                            break;
                         }
                     }
                 }
                 if ($arch === null) $arch = $_arch;
                 if ($impl === null) $impl = $_impl;
                 if ($part === null) $part = $_part;
-
 
                 // sparc64 specific code follows
                 // This adds the ability to display the cache that a CPU has
@@ -470,6 +487,12 @@ class Linux extends OS
                 if (($dev->getCpuSpeed() == 0) && ($_cpus !== null)) {
                     $dev->setCpuSpeed($_cpus);
                     $speedset = true;
+                }
+                if (($dev->getBogomips() == 0) && ($_bogo !== null)) {
+                    $dev->setBogomips($_bogo);
+                }
+                if (($dev->getVendorId() === null) && ($_vend !== null)) {
+                    $dev->setVendorId($_vend);
                 }
 
                 if ($proc != null) {
@@ -502,7 +525,7 @@ class Linux extends OS
 */
                     if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
-                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837'))
+                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837') || ($_hard === 'BCM2711') || ($_hard === 'BCM2838'))
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             if ($raslist && !preg_match('/[^0-9a-f]/', $_revi)) {
@@ -553,6 +576,7 @@ class Linux extends OS
                     $this->sys->setCpus($dev);
                 }
             }
+
             $cpudevices = glob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
             if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
                 for (; $cpustopped > 0; $cpustopped--) {
@@ -914,7 +938,7 @@ class Linux extends OS
                     if (isset($nlocate[2]) && isset($nsize[2])) {
                         $dev = new HWDevice();
                         $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
-                        if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && (PSI_SHOW_DEVICES_INFOS)) {
                             if (isset($nlocate[4]) && isset($nsize[4])) {
                                 if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
                                     switch ($tmpbuf[2]) {
@@ -1472,7 +1496,7 @@ class Linux extends OS
                     } else {
                         $dist = trim($id_buf[1]);
                     }
-                    if (preg_match('/^DISTRO_VERSION=(.+)/m', $buf, $vers_buf)) {
+                    if (preg_match('/^DISTRO_VERSION=([^#\n\r]+)/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
                     } else {
                         $this->sys->setDistribution($dist);

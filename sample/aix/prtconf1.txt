@@ -1,0 +1,65 @@
+System Model: IBM,9133-55A
+Machine Serial Number: 05F8123A
+Processor Type: PowerPC_POWER5
+Number Of Processors: 4
+Processor Clock Speed: 1499 MHz
+CPU Type: 64-bit
+Kernel Type: 64-bit
+LPAR Info: 1 galaxy198
+Memory Size: 4096 MB
+Good Memory Size: 4096 MB
+Platform Firmware level: Not Available
+Firmware Version: IBM,SF240_338
+Console Login: enable
+Auto Restart: true
+Full Core: false
+
+Network Information
+        Host Name: testibm
+        IP Address: 192.168.1.2
+        Sub Netmask: 255.255.255.0
+        Gateway: 192.168.1.1
+        Name Server: 192.168.1.1
+        Domain Name: foo.com
+
+Paging Space Information
+        Total Paging Space: 8192MB
+        Percent Used: 1%
+
+Volume Groups Information
+==============================================================================
+rootvg:
+PV_NAME           PV STATE          TOTAL PPs   FREE PPs    FREE DISTRIBUTION
+hdisk0            active            525         383         109..24..42..99..109
+==============================================================================
+
+INSTALLED RESOURCE LIST
+
+The following resources are installed on the machine.
++/- = Added or deleted from Resource List.
+*   = Diagnostic support not available.
+
+  Model Architecture: chrp
+  Model Implementation: Multiple Processor, PCI bus
+
++ sys0                                                                           System Object
++ sysplanar0                                                                     System Planar
+* vio0                                                                           Virtual I/O Bus
+* vsa0             U9133.55A.06F865G-V1-C0                                       LPAR Virtual Serial Adapter
+* vty0             U9133.55A.06F865G-V1-C0-L0                                    Asynchronous Terminal
+* pci2             U787B.001.DNWCF4C-P1                                          PCI Bus
+* pci7             U787B.001.DNWCF4C-P1                                          PCI Bus
++ ent2             U787B.001.DNWCF4C-P1-T9                                       2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)
++ ent3             U787B.001.DNWCF4C-P1-T10                                      2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)
+* pci8             U787B.001.DNWCF4C-P1                                          PCI Bus
++ usbhc0           U787B.001.DNWCF4C-P1                                          USB Host Controller (33103500)
++ usbhc1           U787B.001.DNWCF4C-P1                                          USB Host Controller (33103500)
+* pci9             U787B.001.DNWCF4C-P1                                          PCI Bus
++ fcs2             U787B.001.DNWCF4C-P1-C1-T1                                    FC Adapter
+* fcnet2           U787B.001.DNWCF4C-P1-C1-T1                                    Fibre Channel Network Protocol Device
+* fscsi2           U787B.001.DNWCF4C-P1-C1-T1                                    FC SCSI I/O Controller Protocol Device
++ mem0                                                                           Memory
++ proc0                                                                          Processor
++ proc2                                                                          Processor
++ proc4                                                                          Processor
++ proc6                                                                          Processor

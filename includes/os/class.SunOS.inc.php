@@ -26,6 +26,83 @@
  */
 class SunOS extends OS
 {
+
+    /**
+     * content of prtconf -v
+     *
+     * @var array
+     */
+    private $_prtconf = null;
+
+    /**
+     * Execute prtconf -v and save ass array
+     *
+     * @return array
+     */
+    protected function prtconf()
+    {
+        if ($this->_prtconf === null) {
+            $this->_prtconf = array();
+            if (CommonFunctions::executeProgram('prtconf', '-v', $buf, PSI_DEBUG) && ($buf!="")) {
+                $blocks = preg_split( '/\n(?=    \S)/', $buf, -1, PREG_SPLIT_NO_EMPTY);
+                if (!empty($blocks) && (count($blocks)>2)) {
+                    array_shift($blocks);
+                    foreach ($blocks as $block) {
+                        if (preg_match('/^    (\S+) /',$block, $ar_buf)) {
+                            $group = trim($ar_buf[1], ',');
+                            $grouparr = array();
+                            $blocks1 = preg_split( '/\n(?=        \S)/', $block, -1, PREG_SPLIT_NO_EMPTY);
+                            if (!empty($blocks1) && count($blocks1)) {
+                                array_shift($blocks1);
+                                foreach ($blocks1 as $block1) {
+                                    if (!preg_match('/^        name=\'([^\']+)\'/',$block1)
+                                       && preg_match('/^        (\S+) /',$block1, $ar_buf)) {
+                                        $device = trim($ar_buf[1], ',');
+                                        $devicearr = array();
+                                        $blocks2 = preg_split( '/\n(?=            \S)/', $block1, -1, PREG_SPLIT_NO_EMPTY);
+                                        if (!empty($blocks2) && count($blocks2)) {
+                                            array_shift($blocks2);
+                                            foreach ($blocks2 as $block2) {
+                                                if (!preg_match('/^            name=\'([^\']+)\'/',$block2)
+                                                   && preg_match('/^            (\S+) /',$block2, $ar_buf)) {
+                                                    $subdev = trim($ar_buf[1], ',');
+                                                    $subdevarr = array();
+                                                    $blocks3 = preg_split( '/\n(?=                \S)/', $block2, -1, PREG_SPLIT_NO_EMPTY);
+                                                    if (!empty($blocks3) && count($blocks3)) {
+                                                        array_shift($blocks3);
+                                                        foreach ($blocks3 as $block3) {
+                                                            if (preg_match('/^                name=\'([^\']+)\' [\s\S]+ value=\'?([^\']+)\'?/m',$block3, $ar_buf)) {
+                                                                if ($subdev==='Hardware') {
+                                                                    $subdevarr[$ar_buf[1]] = $ar_buf[2];
+                                                                    $subdevarr['device'] = $device;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (count($subdevarr)) {
+                                                            $devicearr = $subdevarr;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (count($devicearr)) {
+                                            $grouparr[$device][] = $devicearr;
+                                        }
+                                    }
+                                }
+                            }
+                            if (count($grouparr)) {
+                                $this->_prtconf[$group][] = $grouparr;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->_prtconf;
+    }
+
     /**
      * Extract kernel values via kstat() interface
      *
@@ -120,11 +197,17 @@ class SunOS extends OS
             $cpuc = count(preg_split('/\n/', $m, -1, PREG_SPLIT_NO_EMPTY));
             for ($cpu=0; $cpu < $cpuc; $cpu++) {
                 $dev = new CpuDevice();
-                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
-                   $dev->setCpuSpeed($buf);
-                }
                 if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':current_clock_Hz')) !== "") {
-                    $dev->setCpuSpeedMax($buf/1000000);
+                    $dev->setCpuSpeed($buf/1000000);
+                } elseif (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':clock_MHz')) !== "") {
+                    $dev->setCpuSpeed($buf);
+                }
+                if (($buf = $this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':supported_frequencies_Hz')) !== "") {
+                    $cpuarr = preg_split('/:/', $buf, -1, PREG_SPLIT_NO_EMPTY);
+                    if (($cpuarrc=count($cpuarr))>1) {
+                        $dev->setCpuSpeedMin($cpuarr[0]/1000000);
+                        $dev->setCpuSpeedMax($cpuarr[$cpuarrc-1]/1000000);
+                    }
                 }
                 if (($buf  =$this->_kstat('cpu_info:'.$cpu.':cpu_info'.$cpu.':brand')) !== "") {
                     $dev->setModel($buf);
@@ -138,6 +221,47 @@ class SunOS extends OS
                 $this->sys->setCpus($dev);
             }
          }
+    }
+
+    /**
+     * PCI devices
+     *
+     * @return void
+     */
+    protected function _pci()
+    {
+        $prtconf = $this->prtconf();
+        if ((count($prtconf)>1) && isset($prtconf['pci'])) {
+            foreach ($prtconf['pci'] as $prt) {
+                foreach ($prt as $pci) {
+                    foreach ($pci as $pcidev) {
+                        if (isset($pcidev['device'])) {
+                            $dev = new HWDevice();
+                            if (isset($pcidev['model'])) {
+                                $name = $pcidev['model'];
+                            } else {
+                                $name = $pcidev['device'];
+                            }
+                            if (isset($pcidev['device-name'])) {
+                                $name .= ': '.$pcidev['device-name'];
+                            }
+                            $dev->setName($name);
+
+                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                if (isset($pcidev['subsystem-name']) && ($pcidev['subsystem-name']!=='unknown subsystem')) {
+                                    $dev->setProduct($pcidev['subsystem-name']);
+                                }
+                                if (isset($pcidev['vendor-name'])) {
+                                    $dev->setManufacturer($pcidev['vendor-name']);
+                                }
+                            }
+
+                            $this->sys->setPciDevices($dev);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -276,8 +400,21 @@ class SunOS extends OS
      */
     private function _distro()
     {
-        $this->sys->setDistribution('SunOS');
-        $this->sys->setDistributionIcon('SunOS.png');
+        if (CommonFunctions::rfts('/etc/release', $buf, 1, 4096, false) && (trim($buf)!="")) {
+            $this->sys->setDistribution(trim($buf));
+            $list = @parse_ini_file(PSI_APP_ROOT."/data/distros.ini", true);
+            if ($list && preg_match('/^(\S+)\s*/', preg_replace('/^Open\s+/', 'Open', preg_replace('/^Oracle\s+/', 'Oracle', trim($buf))), $id_buf) && isset($list[$distid=(trim($id_buf[1].' SunOS'))]['Image'])) {
+                $this->sys->setDistributionIcon($list[$distid]['Image']);
+                if (isset($list[trim($distid)]['Name'])) {
+                    $this->sys->setDistribution(trim($list[$distid]['Name']).' '.$this->sys->getDistribution());
+                }
+            } else {
+                $this->sys->setDistributionIcon('SunOS.png');
+            }
+        } else {
+            $this->sys->setDistribution('SunOS');
+            $this->sys->setDistributionIcon('SunOS.png');
+        }
     }
 
     /**
@@ -331,6 +468,7 @@ class SunOS extends OS
         }
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_cpuinfo();
+            $this->_pci();
         }
         if (!$this->blockname || $this->blockname==='network') {
             $this->_network();

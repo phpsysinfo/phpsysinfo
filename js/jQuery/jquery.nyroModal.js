@@ -6,7 +6,7 @@
  * Licensed under the MIT license
  *
  * $Date: 2010-02-23 (Tue, 23 Feb 2010) $
- * $version: 1.6.2+jquery1.8fix+bindfix
+ * $version: 1.6.2+jquery1.8fix+bindfix+ff2fix
  */
 jQuery(function($) {
 
@@ -290,7 +290,7 @@ jQuery(function($) {
 			manual: '<div class="wrapper"></div>'
 		},
 
-		closeButton: '<a href="#" class="nyroModalClose" id="closeBut" title="close">Close</a>', // Adding automaticly as the first child of #nyroModalWrapper
+		closeButton: '<a href="#" class="nyroModalClose" id="closeBut" title="close"></a>', // Adding automaticly as the first child of #nyroModalWrapper
 
 		title: null, // Modal title
 		titleFromIframe: true, // When using iframe in the same domain, try to get the title from it

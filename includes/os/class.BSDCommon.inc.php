@@ -32,7 +32,7 @@ abstract class BSDCommon extends OS
      *
      * @var array
      */
-    private $_dmesg = array();
+    private $_dmesg = null;
 
     /**
      * regexp1 for cpu information out of the syslog
@@ -174,12 +174,12 @@ abstract class BSDCommon extends OS
      */
     protected function readdmesg()
     {
-        if (count($this->_dmesg) === 0) {
-            if (PSI_OS != "Darwin") {
-                if (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf)) {  // Once again but with debug
-                    $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
-                    $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
-                }
+        if ($this->_dmesg === null) {
+            if ((PSI_OS != "Darwin") && (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf))) {  // Once again but with debug
+                $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
+                $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $this->_dmesg = array();
             }
         }
 

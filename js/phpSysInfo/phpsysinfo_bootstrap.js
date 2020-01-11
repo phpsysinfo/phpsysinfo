@@ -82,6 +82,8 @@ function getLanguage(plugin, langarrId) {
         timeout: 100000,
         error: function error() {
             $("#errors").append("<li><b>Error loading language</b> - " + getLangUrl + "</li><br>");
+            $("#errorbutton").attr('data-toggle', 'modal');
+            $("#errorbutton").css('cursor', 'pointer');
             $("#errorbutton").css("visibility", "visible");
         },
         success: function buildblocks(xml) {
@@ -182,8 +184,7 @@ function changeSpanLanguage(plugin) {
                 }
             }
         });
-        $("#select").show(); //show if any language loaded
-        centerSelect();
+        $("#select").css( "display", "table-cell" ); //show if any language loaded
         $("#output").show();
     } else {
         langarrId += plugin;
@@ -202,6 +203,8 @@ function changeSpanLanguage(plugin) {
 
 function reload(initiate) {
     $("#errorbutton").css("visibility", "hidden");
+    $("#errorbutton").css('cursor', 'default');
+    $("#errorbutton").attr('data-toggle', '');
     $("#errors").empty();
     $.ajax({
         dataType: "json",
@@ -218,6 +221,8 @@ function reload(initiate) {
                 catch (err) {
                 }
                 if (errs > 0) {
+                    $("#errorbutton").attr('data-toggle', 'modal');
+                    $("#errorbutton").css('cursor', 'pointer');
                     $("#errorbutton").css("visibility", "visible");
                 }
             }
@@ -308,7 +313,7 @@ $(document).ready(function () {
         });
     }
 
-    if (useragent.match(/Safari\/(\d+)\.[\d\.]+$/) !== null) {
+    if (((ua=useragent.match(/Safari\/(\d+)\.[\d\.]+$/)) !== null) && (ua[1]<=534)) {
         $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
         if (ua[1]<=15) {
@@ -322,7 +327,7 @@ $(document).ready(function () {
         }
     }
 
-    $(window).resize(centerSelect);
+    $(window).resize();
 
     sorttable.init();
 
@@ -386,8 +391,8 @@ $(document).ready(function () {
             changeLanguage(plugin_liste[i]);
         }
 */
-        $('#language').show();
-        $('span[class=lang_045]').show(); 
+        $("#langblock").css( "display", "inline-block" );
+
         $("#language").change(function changeLang() {
             current_language = $("#language").val().toString();
             createCookie('psi_language', current_language, 365);
@@ -410,8 +415,9 @@ $(document).ready(function () {
             }
         }
         switchStyle($("#template").val().toString());
-        $('#template').show();
-        $('span[class=lang_044]').show();
+
+        $("#tempblock").css( "display", "inline-block" );
+
         $("#template").change(function changeTemplate() {
             switchStyle($("#template").val().toString());
             createCookie('psi_bootstrap_template', $("#template").val().toString(), 365);
@@ -425,17 +431,6 @@ $(document).ready(function () {
         reload(false);
     });
 });
-
-function centerSelect() {
-    var postop = $('.select').position().top;
-    if (postop > 0) {
-        if (postop < 10) { //no flex and one line
-            $('.select').css('marginTop', 11);
-        } else { //flex or two lines
-            $('.select').css('marginTop', 0);
-        }
-    }
-}
 
 Array.prototype.push_attrs=function(element) {
     for (var i = 0; i < element.length ; i++) {
@@ -579,6 +574,11 @@ function renderVitals(data) {
         Distro: {
             html: function () {
                 return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
+            }
+        },
+        OS: {
+            html: function () {
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
             }
         },
         LoadAvg: {
@@ -743,7 +743,7 @@ function renderHardware(data) {
         html+="</tr>";
     }
 
-    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Load:9};
+    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
     try {
         datas = items(data.Hardware.CPU.CpuCore);
         for (i = 0; i < datas.length; i++) {
@@ -986,7 +986,7 @@ function renderMemory(data) {
         },
         Name: {
             html: function () {
-                return this.Name + '<br/>' + ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
+                return this.Name + '<br>' + ((this.MountPoint !== undefined) ? this.MountPoint : this.MountPointID);
             }
         }
     };
@@ -1564,11 +1564,15 @@ function renderErrors(data) {
             $("#errors").append("<li><b>"+datas[i]["@attributes"].Function+"</b> - "+datas[i]["@attributes"].Message.replace(/\n/g, "<br>")+"</li><br>");
         }
         if (i > 0) {
+            $("#errorbutton").attr('data-toggle', 'modal');
+            $("#errorbutton").css('cursor', 'pointer');
             $("#errorbutton").css("visibility", "visible");
         }
     }
     catch (err) {
         $("#errorbutton").css("visibility", "hidden");
+        $("#errorbutton").css('cursor', 'default');
+        $("#errorbutton").attr('data-toggle', '');
     }
 }
 

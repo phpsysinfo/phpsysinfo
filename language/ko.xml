@@ -346,7 +346,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>중지됨</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
-    <exp>zombie</exp>
+    <exp>좀비</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
     <exp>대기 중</exp>
@@ -367,21 +367,24 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>디바이스 개수</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>기타</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>제조사</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>Product</exp>
+    <exp>제품</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>Serial number</exp>
+    <exp>시리얼번호</exp>
   </expression>
   <expression id="125" name="memfree">
     <exp>남은 공간</exp>
   </expression>
   <expression id="126" name="nvme">
     <exp>NVMe 장치</exp>
+  </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
   </expression>
 </tns:translation>

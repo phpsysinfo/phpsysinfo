@@ -384,4 +384,7 @@ phpSysInfo language file Language: Icelandic Created by: Saevar Holm and Kristja
   <expression id="126" name="nvme">
     <exp>NVMe jaðartæki</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

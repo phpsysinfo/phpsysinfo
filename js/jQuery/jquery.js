@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v1.12.4
+ * jQuery JavaScript Library v1.12.4-ff3fix-ff2fix
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -3594,8 +3594,8 @@ jQuery.extend( {
  */
 function detach() {
 	if ( document.addEventListener ) {
-		document.removeEventListener( "DOMContentLoaded", completed );
-		window.removeEventListener( "load", completed );
+		document.removeEventListener( "DOMContentLoaded", completed, false );
+		window.removeEventListener( "load", completed, false );
 
 	} else {
 		document.detachEvent( "onreadystatechange", completed );
@@ -3620,7 +3620,6 @@ function completed() {
 
 jQuery.ready.promise = function( obj ) {
 	if ( !readyList ) {
-
 		readyList = jQuery.Deferred();
 
 		// Catch cases where $(document).ready() is called
@@ -3628,7 +3627,7 @@ jQuery.ready.promise = function( obj ) {
 		// Support: IE6-10
 		// Older IE sometimes signals "interactive" too soon
 		if ( document.readyState === "complete" ||
-			( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
+		    ( document.readyState !== "loading" && !document.documentElement.doScroll && (/a/[-1]!=='a') ) ) {
 
 			// Handle it asynchronously to allow scripts the opportunity to delay ready
 			window.setTimeout( jQuery.ready );
@@ -3637,10 +3636,10 @@ jQuery.ready.promise = function( obj ) {
 		} else if ( document.addEventListener ) {
 
 			// Use the handy event callback
-			document.addEventListener( "DOMContentLoaded", completed );
+			document.addEventListener( "DOMContentLoaded", completed, false );
 
 			// A fallback to window.onload, that will always work
-			window.addEventListener( "load", completed );
+			window.addEventListener( "load", completed, false );
 
 		// If IE event model is used
 		} else {
@@ -5494,7 +5493,7 @@ jQuery.removeEvent = document.removeEventListener ?
 
 		// This "if" is needed for plain objects
 		if ( elem.removeEventListener ) {
-			elem.removeEventListener( type, handle );
+			elem.removeEventListener( type, handle, false );
 		}
 	} :
 	function( elem, type, handle ) {
@@ -6627,7 +6626,7 @@ var documentElement = document.documentElement;
 
 		// Check for getComputedStyle so that this code is not run in IE<9.
 		if ( window.getComputedStyle ) {
-			divStyle = window.getComputedStyle( div );
+			divStyle = window.getComputedStyle( div, null );
 			pixelPositionVal = ( divStyle || {} ).top !== "1%";
 			reliableMarginLeftVal = ( divStyle || {} ).marginLeft === "2px";
 			boxSizingReliableVal = ( divStyle || { width: "4px" } ).width === "4px";
@@ -6654,7 +6653,7 @@ var documentElement = document.documentElement;
 			div.style.width = "1px";
 
 			reliableMarginRightVal =
-				!parseFloat( ( window.getComputedStyle( contents ) || {} ).marginRight );
+				!parseFloat( ( window.getComputedStyle( contents, null ) || {} ).marginRight );
 
 			div.removeChild( contents );
 		}
@@ -6668,7 +6667,7 @@ var documentElement = document.documentElement;
 		// display:none (it is still safe to use offsets if a parent element is
 		// hidden; don safety goggles and see bug #4512 for more information).
 		div.style.display = "none";
-		reliableHiddenOffsetsVal = div.getClientRects().length === 0;
+		reliableHiddenOffsetsVal = !div.getClientRects || (div.getClientRects().length === 0);
 		if ( reliableHiddenOffsetsVal ) {
 			div.style.display = "";
 			div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
@@ -6705,7 +6704,7 @@ if ( window.getComputedStyle ) {
 			view = window;
 		}
 
-		return view.getComputedStyle( elem );
+		return view.getComputedStyle( elem, null );
 	};
 
 	curCSS = function( elem, name, computed ) {
@@ -7287,10 +7286,10 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 				// Support: IE8 only
 				// getClientRects() errors on disconnected elems
 				( jQuery.contains( elem.ownerDocument, elem ) ?
-					elem.getBoundingClientRect().left -
+					(!elem.getBoundingClientRect?0:(elem.getBoundingClientRect().left -
 						swap( elem, { marginLeft: 0 }, function() {
 							return elem.getBoundingClientRect().left;
-						} ) :
+						} ) ) ):
 					0
 				)
 			) + "px";
@@ -10007,7 +10006,7 @@ jQuery.expr.filters.hidden = function( elem ) {
 	// Opera reports offsetWidths and offsetHeights less than zero on some elements
 	return support.reliableHiddenOffsets() ?
 		( elem.offsetWidth <= 0 && elem.offsetHeight <= 0 &&
-			!elem.getClientRects().length ) :
+			(!elem.getClientRects || !elem.getClientRects().length) ) :
 			filterHidden( elem );
 };
 

@@ -29,6 +29,8 @@ iMac17,1:iMac Core i5/i7:Intel Core I5-6500/I5-6600/I7-6700K
 iMac18,1:iMac Core i5:Intel Core I5-7360U
 iMac18,2:iMac Core i5/i7:Intel Core I5-7400/I5-7500/I7-7700
 iMac18,3:iMac Core i5/i7:Intel Core I5-7500/I5-7600/I5-7600K/I7-7700K
+iMac19,1:iMac Core i5/i9:Intel Core I5-8500/I5-8600/I5-9600K/I9-9900K
+iMac19,2:iMac Core i3/i5/i7:Intel Core I3-8100/I5-8500/I7-8700
 M43ADP1,1:Development Mac Pro:Intel Xeon X5340
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
@@ -90,6 +92,8 @@ MacBookPro14,3:MacBook Pro Core i7:Intel Core I7-7700HQ/I7-7820HQ/I7-7920HQ
 MacBookPro15,1:MacBook Pro Core i7/i9:Intel Core I7-8750H/I7-8850H/I7-9750H/I9-8950HK/I9-9880H/I9-9980HK
 MacBookPro15,2:MacBook Pro Core i5/i7:Intel Core I5-8259U/I5-8279U/I7-8559U/I7-8569U
 MacBookPro15,3:MacBook Pro Core i7/i9:Intel Core I7-8850H/I9-8950HK/I9-9880H/I9-9980HK
+MacBookPro15,4:MacBook Pro Core i5/i7:Intel Core I5-8257U/I7-8557U
+MacBookPro16,1:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9980HK
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800

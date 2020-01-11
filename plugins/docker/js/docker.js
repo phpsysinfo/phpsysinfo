@@ -58,7 +58,7 @@ function docker_buildTable() {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_DockerTable\" class=\"stripeMe\" style=\"border-spacing:0;\">\n";
+    html += "  <table id=\"Plugin_DockerTable\" class=\"stripeMe\" style=\"border-collapse:collapse;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
     html += "        <th>" + genlang(101, "docker") + "</th>\n";

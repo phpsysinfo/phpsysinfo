@@ -86,7 +86,7 @@ function raid_buildinfos(xml, id) {
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
-    button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-spacing:0; display:none;\"><tbody>" + html + "</tbody></table>";
+    button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-collapse:collapse; display:none;\"><tbody>" + html + "</tbody></table>";
     return button;
 }
 
@@ -103,10 +103,10 @@ function raid_buildaction(xml) {
             tunit = $(this).attr("Time_Unit");
             percent = parseFloat($(this).attr("Percent"));
             html += "<div style=\"padding-left:10px;\">";
-            html += genlang(11, "Raid") + ":&nbsp;" + name + "<br/>";
+            html += genlang(11, "Raid") + ":&nbsp;" + name + "<br>";
             html += createBar(percent);
             if ((time !== undefined) && (tunit !== undefined)) {
-                html += "<br/>";
+                html += "<br>";
                 html += genlang(12, "Raid") + ":&nbsp;" + time + "&nbsp;" + tunit;
             }
             html += "</div>";
@@ -170,9 +170,9 @@ function raid_diskicon(xml, id) {
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
-                    $("#Plugin_Raid_List-" + id).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + name + "<br></div>");
+                    $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
                 } else {
-                    $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;display:inline-block;text-align:center\">" + name + "<br></div>");
+                    $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
                 } 
             }
         }
@@ -206,12 +206,12 @@ function raid_populate(xml) {
         raid_diskicon(this, id);
 
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
-            $("#Plugin_Raid_InfoTable" + id).slideDown("slow");
+            $("#Plugin_Raid_InfoTable" + id).slideDown("fast");
             $("#sPlugin_Raid_Info" + id).hide();
             $("#hPlugin_Raid_Info" + id).show();
         });
         $("#hPlugin_Raid_Info" + id).click(function raid_hideinfo() {
-            $("#Plugin_Raid_InfoTable" + id).slideUp("slow");
+            $("#Plugin_Raid_InfoTable" + id).slideUp("fast");
             $("#hPlugin_Raid_Info" + id).hide();
             $("#sPlugin_Raid_Info" + id).show();
         });
@@ -248,7 +248,7 @@ $(document).ready(function raid_buildpage() {
 
     $("#footer").before(buildBlock("Raid", 1, true));
     html += "        <div style=\"overflow-x:auto;\">\n";
-    html += "          <table id=\"Plugin_RaidTable\" style=\"border-spacing:0;\">\n";
+    html += "          <table id=\"Plugin_RaidTable\" style=\"border-collapse:collapse;\">\n";
     html += "          </table>\n";
     html += "        </div>\n";
     $("#Plugin_Raid").append(html);

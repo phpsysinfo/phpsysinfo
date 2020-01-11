@@ -59,7 +59,7 @@ function psstatus_buildTable() {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_PSStatusTable\" style=\"border-spacing:0;\">\n";
+    html += "  <table id=\"Plugin_PSStatusTable\" style=\"border-collapse:collapse;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
     html += "        <th>" + genlang(2, "PSStatus") + "</th>\n";

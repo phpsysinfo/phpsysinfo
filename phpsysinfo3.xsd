@@ -25,6 +25,7 @@
         <attribute name="Kernel" type="string" use="required"></attribute>
         <attribute name="Distro" type="string" use="required"></attribute>
         <attribute name="Distroicon" type="string" use="required"></attribute>
+        <attribute name="OS" type="string" use="required"></attribute>
         <attribute name="Uptime" type="unsignedLong" use="required"></attribute>
         <attribute name="Users" type="unsignedLong" use="required"></attribute>
         <attribute name="LoadAvg" type="string" use="required"></attribute>
@@ -140,20 +141,6 @@
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="CpuTemp" use="optional">
-            <simpleType>
-                <restriction base="unsignedLong">
-                    <minInclusive value="0"></minInclusive>
-                </restriction>
-            </simpleType>
-        </attribute>
-        <attribute name="BusSpeed" use="optional">
-            <simpleType>
-                <restriction base="unsignedLong">
-                    <minInclusive value="0"></minInclusive>
-                </restriction>
-            </simpleType>
-        </attribute>
         <attribute name="Cache" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">
@@ -162,6 +149,13 @@
             </simpleType>
         </attribute>
         <attribute name="Virtualization" type="string" use="optional"></attribute>
+        <attribute name="BusSpeed" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
         <attribute name="Bogomips" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">
@@ -169,6 +163,14 @@
                 </restriction>
             </simpleType>
         </attribute>
+        <attribute name="CpuTemp" use="optional">
+            <simpleType>
+                <restriction base="unsignedLong">
+                    <minInclusive value="0"></minInclusive>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="Manufacturer" type="string" use="optional"></attribute>
         <attribute name="Load" use="optional">
             <simpleType>
                 <restriction base="unsignedLong">

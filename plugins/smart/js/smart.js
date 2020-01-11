@@ -36,7 +36,7 @@ function smart_buildTable(xml) {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_SMARTTable\" style=\"border-spacing:0;\">\n";
+    html += "  <table id=\"Plugin_SMARTTable\" style=\"border-collapse:collapse;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
     html += "        <th class=\"right\">" + genlang(2, "SMART") + "</th>\n";

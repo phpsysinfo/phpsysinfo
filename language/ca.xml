@@ -384,4 +384,7 @@ phpSysInfo language file Language: Catalan Created by: Axel Arbones #LittleBerry
   <expression id="126" name="nvme">
     <exp>Dispositius NVMe</exp>
   </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
 </tns:translation>

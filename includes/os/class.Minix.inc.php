@@ -31,7 +31,7 @@ class Minix extends OS
      *
      * @var array
      */
-    private $_dmesg = array();
+    private $_dmesg = null;
 
     /**
      * read /var/log/messages, but only if we haven't already
@@ -40,11 +40,13 @@ class Minix extends OS
      */
     protected function readdmesg()
     {
-        if (count($this->_dmesg) === 0) {
+        if ($this->_dmesg === null) {
             if (CommonFunctions::rfts('/var/log/messages', $buf)) {
                     $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
                     $parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
                     $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $this->_dmesg = array();
             }
         }
 
@@ -89,7 +91,10 @@ class Minix extends OS
                             } elseif (preg_match("/ svm/", $arrBuff[1])) {
                                 $dev->setVirt("svm");
                             }
-                        break;
+                            break;
+                        case 'vendor_id':
+                            $dev->setVendorId($arrBuff[1]);
+                            break;
                         }
                     }
                 }

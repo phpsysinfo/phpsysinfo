@@ -5,7 +5,20 @@
     text-align: center;
     margin-bottom: 5px;
     margin-left: 10px;
+    _margin-left: 5px; /* ie6 */
     margin-right: 10px;
+    _margin-right: 5px; /* ie6 */
+    float: left;
+}
+
+.plugin_raid_item {
+    border: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px;
+    _margin: 10px 10px 10px 5px; /* ie6 */
+    _padding-bottom: 8px; /* ie6 */
     float: left;
 }
 

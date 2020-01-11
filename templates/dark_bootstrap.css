@@ -30,6 +30,7 @@ wbr {
 
 .navbar-brand, .navbar-brand:hover {
     color: #fff;
+    margin-right: 0;
 }
 
 .treegrid-span {
@@ -114,13 +115,8 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     width: 32px;
 }
 
-.errorbutton {
-    cursor: pointer;
-}
-
 .select {
     color: #c8c8c8;
-    float: right;
 }
 
 .template {

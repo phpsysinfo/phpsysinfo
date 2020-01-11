@@ -37,7 +37,7 @@ function snmppinfo_buildTable(xml) {
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
 
     html += "  <div style=\"overflow-x:auto;\">\n";
-    html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\" style=\"width:100%;\">\n";
+    html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "SNMPPInfo") + "</th>\n";
@@ -74,7 +74,7 @@ function snmppinfo_buildTable(xml) {
         }
 
         if (device!=lastdev) {
-            html += "      <tr><td colspan=\"3\"><span class=\"treespanbold\">" + device + " (" + name + ") </span></td></tr>\n";
+            html += "      <tr><td colspan=\"3\"><div class=\"treediv\"><span class=\"treespanbold\">" + device + " (" + name + ") </div></span></td></tr>\n";
             index = tree.push(0);
             lastdev = device;
         }
@@ -95,7 +95,7 @@ function snmppinfo_buildTable(xml) {
                     break;
             }
         }
-        html += "      <tr><td><span class=\"treespan\">" + desc + "<br>&nbsp;</span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
+        html += "      <tr><td><div class=\"treediv\"><span class=\"treespan\">" + desc + "</div></span></td><td>" + createBar(percent) +"</td><td class=\"right\">" + units + sunits + "</td></tr>\n";
 
         tree.push(index);
         snmppinfo_show = true;
