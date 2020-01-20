@@ -62,7 +62,7 @@ BLOCKS=true
 
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
-; - PLUGINS="MDStatus,PS"  //list of plugins
+; - PLUGINS="Raid,PS"  //list of plugins
 ; - PLUGINS=false  //no plugins
 ; included plugins:
 ; - Raid           - show the software, fake, zpool or megaraid RAID status
