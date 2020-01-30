@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.3
+----------------
+
+ - [ADD] Persian (Farsi) Translation fa.xml
+
 phpSysInfo 3.3.2
 ----------------
 
