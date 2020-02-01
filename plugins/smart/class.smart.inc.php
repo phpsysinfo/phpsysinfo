@@ -70,7 +70,7 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'wmi':
-                if (PSI_OS == 'WINNT') {
+                if ((PSI_OS == 'WINNT') && CommonFunctions::isAdmin()) {
                     $asd_wmi = null;
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
@@ -118,6 +118,8 @@ class SMART extends PSI_Plugin
                             $this->_filecontent[$_name] .= "SMART Error Log Version";
                         }
                     }
+                } else {
+                    $this->global_error->addError("WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                 }
                 break;
             case 'command':

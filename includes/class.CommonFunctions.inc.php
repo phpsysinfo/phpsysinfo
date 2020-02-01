@@ -32,9 +32,29 @@ class CommonFunctions
      */
     private static $_cp = null;
 
+    /**
+     * value of checking run as administrator
+     *
+     * @var boolean
+     */
+    private static $_asadmin = null;
+
     public static function setcp($cp)
     {
         CommonFunctions::$_cp = $cp;
+    }
+
+    public static function isAdmin()
+    {
+        if (CommonFunctions::$_asadmin == null) {
+            if ((PSI_OS == 'WINNT') && CommonFunctions::executeProgram('net', 'session', $strBuf, false)) {
+                    CommonFunctions::$_asadmin = true;
+            } else {
+                CommonFunctions::$_asadmin = false;
+            }
+        }
+
+        return CommonFunctions::$_asadmin;
     }
 
     private static function _parse_log_file($string)
