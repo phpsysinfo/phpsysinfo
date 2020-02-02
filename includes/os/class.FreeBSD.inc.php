@@ -133,9 +133,16 @@ class FreeBSD extends BSDCommon
      */
     private function _distroicon()
     {
-        if (extension_loaded('pfSense') && CommonFunctions::rfts('/etc/version', $version, 1, 4096, false) && (trim($version) != '')) { // pfSense detection
-            $this->sys->setDistribution('pfSense '. trim($version));
-            $this->sys->setDistributionIcon('pfSense.png');
+        if (CommonFunctions::rfts('/etc/version', $version, 1, 4096, false) && (($version=trim($version)) != '')) {
+            if (extension_loaded('pfSense')) { // pfSense detection
+                $this->sys->setDistribution('pfSense '. $version);
+                $this->sys->setDistributionIcon('pfSense.png');
+            } elseif (preg_match('/^FreeNAS/i', $version)){ // FreeNAS detection
+                $this->sys->setDistribution($version);
+                $this->sys->setDistributionIcon('FreeNAS.png');
+            } else {
+                $this->sys->setDistributionIcon('FreeBSD.png');
+            }
         } else {
             $this->sys->setDistributionIcon('FreeBSD.png');
         }
