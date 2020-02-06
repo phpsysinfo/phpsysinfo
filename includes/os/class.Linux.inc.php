@@ -228,7 +228,7 @@ class Linux extends OS
             $this->_cpu_loads = array();
 
             $cpu_tmp = array();
-            if (CommonFunctions::rfts('/proc/stat', $buf)) {
+            if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG)) {
                 if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $line) {
                         $cpu = $line[1];
@@ -249,7 +249,7 @@ class Linux extends OS
                 // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
                 sleep(1);
 
-                if (CommonFunctions::rfts('/proc/stat', $buf)) {
+                if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG)) {
                     if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                         foreach ($matches as $line) {
                             $cpu = $line[1];
