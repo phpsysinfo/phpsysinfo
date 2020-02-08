@@ -28,16 +28,20 @@ class ThermalZone extends Sensors
     {
         parent::__construct();
         if (PSI_OS == 'WINNT') {
-            $_wmi = null;
-            try {
-                // initialize the wmi object
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-                $_wmi = $objLocator->ConnectServer('', 'root\WMI');
-            } catch (Exception $e) {
-                $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
-            }
-            if ($_wmi) {
-                $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+            if (CommonFunctions::isAdmin()) {
+                $_wmi = null;
+                try {
+                    // initialize the wmi object
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
+                    $_wmi = $objLocator->ConnectServer('', 'root\WMI');
+                } catch (Exception $e) {
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
+                }
+                if ($_wmi) {
+                    $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+                }
+            } else {
+                $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
             }
         }
     }
