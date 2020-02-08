@@ -119,7 +119,7 @@ class SMART extends PSI_Plugin
                         }
                     }
                 } else {
-                    $this->global_error->addError("WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
+                    $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                 }
                 break;
             case 'command':
