@@ -41,7 +41,18 @@ class ThermalZone extends Sensors
                     $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
                 }
             } else {
-                $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
+                if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/thermalzone.txt', $lines, 0, 4096, false)) { //output of "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName"
+                    $lines = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $lines));
+                    $lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                    if ((($clines=count($lines)) > 1) && preg_match("/CriticalTripPoint\s+CurrentTemperature\s+InstanceName/i", $lines[0])) for ($i = 1; $i < $clines; $i++) {
+                        $values = preg_split("/\s+/", trim($lines[$i]), -1, PREG_SPLIT_NO_EMPTY);
+                        if (count($values)==3) {
+                            $this->_buf[] = array('CriticalTripPoint'=>trim($values[0]), 'CurrentTemperature'=>trim($values[1]), 'InstanceName'=>trim($values[2]));
+                        }
+                    }
+                } else {
+                    $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
+                }
             }
         }
     }
