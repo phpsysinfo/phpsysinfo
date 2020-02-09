@@ -8,6 +8,7 @@ phpSysInfo 3.3.3
 
  - [ADD] Persian (Farsi) Translation fa.xml
  - [ADD] FreeNAS to detected distros
+ - [ADD] SMART plugin - reading contents of wmic command for WinNT
 
 phpSysInfo 3.3.2
 ----------------

@@ -663,7 +663,8 @@ ACCESS="command"
 ;            try to set: SUDO_COMMANDS="smartctl" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /usr/sbin/smartctl
 ; - "data" (a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "smart{disk_number}.txt";
-;          content is the output from "smartctl --all device")
+;          content is the output from "smartctl --all device"
+;          or on WinNT only from "wmic /namespace:\\root\wmi path MSStorageDriver_ATAPISmartData get VendorSpecific | more +{disk_number}")
 ; - "wmi" information is retrieved everytime through WMI (WinNT only)
 ;
 ACCESS="command"
