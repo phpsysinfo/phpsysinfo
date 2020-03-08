@@ -43,8 +43,8 @@ class HyperV extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $wmic = $objLocator->ConnectServer('', 'root\CIMv2');
-                    $buffer = CommonFunctions::getWMI($wmic, 'Win32_OperatingSystem', array('Version'));
+                    $cim = $objLocator->ConnectServer('', 'root\CIMv2');
+                    $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
                     if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                         if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
                             $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
