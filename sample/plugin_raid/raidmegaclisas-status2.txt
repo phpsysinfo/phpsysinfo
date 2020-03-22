@@ -1,0 +1,17 @@
+-- Controller information --
+-- ID | H/W Model      | RAM    | Temp | BBU    | Firmware     
+c0    | PERC H310 Mini | 0MB    | 57C  | Absent | FW: 20.12.1-0002 
+
+-- Array information --
+-- ID | Type   |    Size |  Strpsz | Flags | DskCache |   Status |  OS Path | CacheCade |InProgress   
+c0u0  | RAID-1 |    558G |   64 KB | RA,WT |  Default |  Optimal | /dev/sdb | None      |None         
+
+-- Disk information --
+-- ID  | Type | Drive Model                    | Size     | Status          | Speed    | Temp | Slot ID  | LSI ID  
+c0u0p0 | HDD  | WD WD6001BKHG D1S6WXH1E93ABC99 | 558.3 Gb | Online, Spun Up | 6.0Gb/s  | 30C  | [32:0]   | 0       
+c0u0p1 | HDD  | WD WD6001BKHG D1S6WXH1E93DEF99 | 558.3 Gb | Online, Spun Up | 6.0Gb/s  | 29C  | [32:1]   | 1       
+
+-- Unconfigured Disk information --
+-- ID   | Type | Drive Model                    | Size     | Status | Speed    | Temp | Slot ID  | LSI ID | Path    
+c0uXpY  | HDD  | WD WD6001BKHG D1S6WXH1E93GHI99 | 558.3 Gb | JBOD   | 6.0Gb/s  | 26C  | [32:3]   | 3      | /dev/sda
+
