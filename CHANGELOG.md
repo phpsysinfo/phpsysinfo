@@ -17,6 +17,7 @@ phpSysInfo 3.3.2
 
  - [ADD] Exherbo and EasyOS to detected distros
  - [ADD] PCI devices list on SunOS
+ - [ADD] Raid plugin - megaclisas-status status
 
  - [NEW] OS Type information
  - [NEW] CPU manufacturer information

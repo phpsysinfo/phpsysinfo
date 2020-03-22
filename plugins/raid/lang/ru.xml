@@ -83,4 +83,7 @@
   <expression id="plugin_raid_026" name="raid_badblocks">
     <exp>Bad Blocks</exp>
   </expression>
+  <expression id="plugin_raid_027" name="raid_diskcache">
+    <exp>Disk Cache</exp>
+  </expression>
 </tns:translationPlugin>

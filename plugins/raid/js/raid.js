@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -56,6 +56,7 @@ function raid_buildinfos(xml, id) {
     devbad = parseInt($(xml).attr("Bad_Blocks"), 10);
     devread = $(xml).attr("ReadPolicy");
     devwrite = $(xml).attr("WritePolicy");
+    devdiskcache = $(xml).attr("DiskCache");
     html += "<tr><td>" + genlang(22, "Raid") + "</td><td>" + prog + "</td></tr>";
     if (devname !== undefined) html += "<tr><td>" + genlang(3, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(4, "Raid") + "</td><td>" + devstatus + "</td></tr>";
@@ -82,6 +83,7 @@ function raid_buildinfos(xml, id) {
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
     if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml) + "</td></tr>";
+    if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
