@@ -82,9 +82,9 @@
     <exp>Μέγεθος Λανθάνουσας Μνήμης</exp>
   </expression>
   <expression id="plugin_raid_026" name="raid_badblocks">
-    <exp>Bad Blocks</exp>
+    <exp>Χαλασμένα Μπλοκ</exp>
   </expression>
   <expression id="plugin_raid_027" name="raid_diskcache">
-    <exp>Disk Cache</exp>
+    <exp>Λανθάνουσα Μνήμη Δίσκου</exp>
   </expression>
 </tns:translationPlugin>
