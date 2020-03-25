@@ -247,21 +247,36 @@ abstract class BSDCommon extends OS
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
         $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR && (PSI_OS != "Darwin")) {
-            if ($fd = $this->grabkey('kern.cp_time')) {
-                // Find out the CPU load
-                // user + sys = load
-                // total = total
-                preg_match($this->_CPURegExp2, $fd, $res);
-                $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
-                $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
-                // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-                sleep(1);
-                $fd = $this->grabkey('kern.cp_time');
-                preg_match($this->_CPURegExp2, $fd, $res);
-                $load2 = $res[2] + $res[3] + $res[4];
-                $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+        if (PSI_LOAD_BAR) { 
+            if (PSI_OS != "Darwin") {
+                if ($fd = $this->grabkey('kern.cp_time')) {
+                    // Find out the CPU load
+                    // user + sys = load
+                    // total = total
+                    preg_match($this->_CPURegExp2, $fd, $res);
+                    $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
+                    $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
+                    // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
+                    sleep(1);
+                    $fd = $this->grabkey('kern.cp_time');
+                    preg_match($this->_CPURegExp2, $fd, $res);
+                    $load2 = $res[2] + $res[3] + $res[4];
+                    $total2 = $res[2] + $res[3] + $res[4] + $res[5];
+                    $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+                }
+            } else {
+                $ncpu = $this->grabkey('hw.ncpu');
+                if (!is_null($ncpu) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                    $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
+                    if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
+                        array_shift($pslines);
+                        $sum = 0;
+                        foreach ($pslines as $psline) {
+                            $sum+=trim($psline);
+                        }
+                        $this->sys->setLoadPercent(min($sum/$ncpu, 100));
+                    }
+                }
             }
         }
     }
