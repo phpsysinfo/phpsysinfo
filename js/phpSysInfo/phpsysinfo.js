@@ -285,6 +285,8 @@ function filesystemtable() {
 
     $("#filesystem").append(html);
 
+    $("#filesystem").css("width", "1875px");
+
     filesystemTable = $("#filesystemTable").dataTable({
         "bPaginate": false,
         "bLengthChange": false,
@@ -296,13 +298,13 @@ function filesystemtable() {
         "bStateSave": true,
         "aoColumns": [{
             "sType": 'span-string',
+            "sWidth": "150px"
+        }, {
+            "sType": 'span-string',
             "sWidth": "100px"
         }, {
             "sType": 'span-string',
-            "sWidth": "50px"
-        }, {
-            "sType": 'span-string',
-            "sWidth": "200px"
+            "sWidth": "250px"
         }, {
             "sType": 'span-number'
         }, {
@@ -961,6 +963,10 @@ function refreshMemory(xml) {
     var html = "", tree = [], closed = [];
 
     $("#memory").empty();
+    
+    $("#memory").css("width", "930px");
+    
+    
     html += "<h2>" + genlang(27, false) + "</h2>\n";
     html += "  <table id=\"MemoryTree\" class=\"tablemain\" style=\"width:100%;\">\n";
     html += "   <thead>\n";

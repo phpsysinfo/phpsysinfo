@@ -57,7 +57,7 @@ function smart_buildTable(xml) {
         "bSort": true,
         "bInfo": false,
         "bProcessing": true,
-        "bAutoWidth": false,
+        "bAutoWidth": true,
         "bStateSave": true
     });
 }
@@ -136,7 +136,7 @@ $(document).ready(function smart_buildpage() {
     var html = "";
 
     $("#footer").before(buildBlock("SMART", 1, true));
-    $("#Plugin_SMART").css("width", "915px");
+    $("#Plugin_SMART").css("width", "1876px");
 
     smart_request();
 

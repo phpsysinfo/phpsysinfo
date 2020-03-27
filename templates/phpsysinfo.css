@@ -3,7 +3,6 @@
  */
 a {
     text-decoration: none;
-    color: #c03000;
 }
 
 a:hover {
@@ -18,28 +17,26 @@ wbr {
 }
 
 html {
-    height: 100%;
-    background: url("../gfx/html.gif");
+    height: 98%;
 }
 
 body {
     position: relative;
-    width: 940px;
+    width: 1900px;
     _width: 945px; /* ie6 */
     min-height: 100%;
     overflow: auto;
     margin: 0 auto;
-    padding: 20px 20px 0 20px;
-    font: 0.75em arial, tahoma, helvetica, sans-serif;
+    padding: 10px 0px 0 0px;
+    //font: 0.75em arial, tahoma, helvetica, sans-serif;
+    font: 0.95em arial, tahoma, helvetica, sans-serif;
     color: #000;
-    background: #fff url("../gfx/body.gif") repeat-y;
-    _bac\kground: #fff; /* ie6 only */
 }
 
 h1 {
     margin: 0 10px;
     _margin: 0 15px 0 10px; /* ie6 */
-    padding: 10px 10px;
+    padding: 1px 1px;
     border-top: 1px solid #8A6E5A;
     border-bottom: 1px solid #8A6E5A;
     font-size: 2em;
@@ -49,8 +46,8 @@ h1 {
 }
 
 #select {
-    text-align: right;
-    padding: 10px;
+    text-align: rigth;
+    padding: 0px;
 }
 
 #select select {
@@ -59,7 +56,7 @@ h1 {
 
 #vitals, #network, #memory, #filesystem, #hardware, #temp, #voltage, #fan, #power, #current, #ups {
     float: left;
-    width: 451px;
+    width: 930px;
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     padding: 1px;
@@ -112,13 +109,13 @@ h3 {
 #footer {
     clear: both;
     color: #c9c9c9;
-    margin: 12px;
-    padding: 13px 25px;
+    margin: 1px;
+    padding: 10px 25px;
     line-height: 18px;
 }
 
 #memory, #filesystem {
-    width: 915px;
+    width: 100px;
 }
 
 .bar {
@@ -142,7 +139,7 @@ p {
 }
 
 #pciTable, #ideTable, #scsiTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+    padding: 0px 0px;
 }
 
 .treeimg {
