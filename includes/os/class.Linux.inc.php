@@ -29,7 +29,7 @@ class Linux extends OS
     /**
      * Assoc array of all CPUs loads.
      */
-    protected $_cpu_loads;
+    private $_cpu_loads = null;
 
     /**
      * Machine
