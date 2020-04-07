@@ -562,7 +562,7 @@ SHOW_SERIAL=false
 ;             - megasasctl:        command "megasasctl" (on Linux only)
 ;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
-;             - megaclisas-status: command "megaclisas-status"
+;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WINNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid
 ;             - graid:             command "graid list" is run (on FreeBSD only)
 ;             - zpool:             command "zpool status" is run

@@ -72,7 +72,11 @@ class Raid extends PSI_Plugin
                 $notwas = false;
             }
             if (in_array('megaclisas-status', $RaidProgs)) {
-                CommonFunctions::executeProgram("megaclisas-status", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                if (PSI_OS == 'WINNT') {
+                    CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                } else {
+                    CommonFunctions::executeProgram("megaclisas-status", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                }
                 $notwas = false;
             }
             if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidProgs)) {
