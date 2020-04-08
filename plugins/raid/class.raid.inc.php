@@ -788,7 +788,7 @@ class Raid extends PSI_Plugin
                             break;
                     }
                     $this->_result['devices'][$uname]['items'][$uname."-".$id]['info'] = trim($buffArgs[4]);
-                    if (count($buffArgs) == 10) $this->_result['devices'][$uname]['items'][$uname."-".$id]['info'].=" ".trim($buffArgs[9]);
+                    if ((count($buffArgs) == 10) && (trim($buffArgs[9]) != 'N/A')) $this->_result['devices'][$uname]['items'][$uname."-".$id]['info'].=" ".trim($buffArgs[9]);
                 }
             }
         } 

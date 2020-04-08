@@ -165,12 +165,8 @@ class CommonFunctions
             if (($strPath !== $exceptPath) && !is_dir($strPath)) {
                 continue;
             }
-            if (PSI_OS == 'WINNT') {
-                $strProgrammpath = $strPathS.$strProgram;
-            } else {
-                $strProgrammpath = $strPathS.$strProgram;
-            }
-            if (is_executable($strProgrammpath)) {
+            $strProgrammpath = $strPathS.$strProgram;
+            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
                 return $strProgrammpath;
             }
         }
