@@ -279,7 +279,7 @@ class Linux extends OS
         if (isset($this->_cpu_loads[$cpuline])) {
             return $this->_cpu_loads[$cpuline];
         } else {
-            return 0;
+            return null;
         }
     }
 
