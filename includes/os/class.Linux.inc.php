@@ -228,7 +228,7 @@ class Linux extends OS
             $this->_cpu_loads = array();
 
             $cpu_tmp = array();
-            if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG)) {
+            if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {
                 if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $line) {
                         $cpu = $line[1];
