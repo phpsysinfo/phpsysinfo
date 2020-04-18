@@ -118,15 +118,17 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     color: #333;
 }
 
+select {
+    background-color: #fff;
+}
+
 .template {
     cursor: pointer;
-    background-color: #fff;
     color: #333;
 }
 
 .language {
     cursor: pointer;
-    background-color: #fff;
     color: #333;
 }
 

@@ -84,6 +84,10 @@ table th {
     color: #3a3;
 }
 
+select {
+    background-color: #fff;
+}
+
 #select {
     text-align: right;
 }

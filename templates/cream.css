@@ -78,6 +78,10 @@ table {
     background-color: #fff;
 }
 
+select {
+    background-color: #fff;
+}
+
 #select {
     text-align: right;
 }

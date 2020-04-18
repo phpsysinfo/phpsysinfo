@@ -80,6 +80,10 @@ table {
     width: 100%;
 }
 
+select {
+    background-color: #fff;
+}
+
 #select {
     text-align: right;
 }

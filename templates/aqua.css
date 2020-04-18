@@ -87,6 +87,10 @@ table tfoot td {
     color: #2e2e2e;
 }
 
+select {
+    background-color: #fff;
+}
+
 #select {
     text-align: right;
     padding: 10px;
