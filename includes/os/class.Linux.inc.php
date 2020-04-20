@@ -1011,7 +1011,7 @@ class Linux extends OS
                                    || preg_match('/^\s+link\/\S+\s+(\S+)$/i', $buf2, $ar_buf2)) {
                                     if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                         $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
-                                        if ($macaddr === '00-00-00-00-00-00') { // empty
+                                        if ($macaddr === '00-00-00-00-00-00') { // empty addr
                                             $macaddr = "";
                                         }
                                     }
@@ -1176,7 +1176,7 @@ class Linux extends OS
                            || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $line, $ar_buf2)) {
                             if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                 $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
-                                if ($macaddr === '00-00-00-00-00-00') { // empty
+                                if ($macaddr === '00-00-00-00-00-00') { // empty addr
                                     $macaddr = "";
                                 }
                             }
@@ -1206,7 +1206,7 @@ class Linux extends OS
                              || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $line, $ar_buf2)) {
                                 if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                     $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
-                                    if ($macaddr === '00-00-00-00-00-00') { // empty
+                                    if ($macaddr === '00-00-00-00-00-00') { // empty addr
                                         $macaddr = "";
                                     }
                                 }
