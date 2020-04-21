@@ -415,28 +415,34 @@ class Darwin extends BSDCommon
     protected function distro()
     {
         $this->sys->setDistributionIcon('Darwin.png');
-        if (!CommonFunctions::executeProgram('system_profiler', 'SPSoftwareDataType', $buffer, PSI_DEBUG) || !preg_match('/\n\s*System Version:/', $buffer)) {
+        if ((!CommonFunctions::executeProgram('system_profiler', 'SPSoftwareDataType', $buffer, PSI_DEBUG) || !preg_match('/\n\s*System Version:/', $buffer))
+           && (!CommonFunctions::executeProgram('sw_vers', '', $buffer, PSI_DEBUG) || !preg_match('/^ProductName:/', $buffer))) {
             parent::distro();
-        } else {
-            $arrBuff = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($arrBuff as $line) {
-                $arrLine = preg_split("/:/", $line, -1, PREG_SPLIT_NO_EMPTY);
-                if (trim($arrLine[0]) === "System Version") {
-                    $distro = trim($arrLine[1]);
-
-                    if (preg_match('/^Mac OS|^OS X|^macOS/', $distro)) {
-                        $this->sys->setDistributionIcon('Apple.png');
-                        if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) (\d+\.\d+)/', $distro, $ver)
-                            && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))
-                            && isset($list['OS X'][$ver[2]])) {
-                            $distro.=' '.$list['OS X'][$ver[2]];
-                        }
-                    }
-
-                    $this->sys->setDistribution($distro);
-
-                    return;
+        } else {  
+            $distro_tmp = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($distro_tmp as $info) {
+                $info_tmp = preg_split('/:/', $info, 2);
+                if (isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") &&
+                     isset($distro_tmp[1]) && !is_null($distro_tmp[1]) && (trim($distro_tmp[1]) != "")) {
+                    $distro_arr[trim($info_tmp[0])] = trim($info_tmp[1]);
                 }
+            }
+            if (isset($distro_arr['ProductName']) && isset($distro_arr['ProductVersion']) && isset($distro_arr['BuildVersion'])) {
+                $distro_arr['System Version'] = $distro_arr['ProductName'].' '.$distro_arr['ProductVersion'].' ('.$distro_arr['BuildVersion'].')';
+            }
+            if (isset($distro_arr['System Version'])) {
+                $distro = $distro_arr['System Version'];
+                if (preg_match('/^Mac OS|^OS X|^macOS/', $distro)) {
+                    $this->sys->setDistributionIcon('Apple.png');
+                    if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) (\d+\.\d+)/', $distro, $ver)
+                        && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))
+                        && isset($list['OS X'][$ver[2]])) {
+                        $distro.=' '.$list['OS X'][$ver[2]];
+                    }
+                }
+                $this->sys->setDistribution($distro);
+            } else {
+                parent::distro();
             }
         }
     }
