@@ -1172,8 +1172,7 @@ class Linux extends OS
                             }
                         }
                         if (preg_match('/^'.$ar_buf[1].'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $line, $ar_buf2)
-                           || preg_match('/^'.$ar_buf[1].'\s+Link\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $line, $ar_buf2)
-                           || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $line, $ar_buf2)) {
+                           || preg_match('/^'.$ar_buf[1].'\s+Link\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $line, $ar_buf2)) {
                             if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                 $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
                                 if ($macaddr === '00-00-00-00-00-00') { // empty
