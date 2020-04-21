@@ -415,7 +415,7 @@ class Darwin extends BSDCommon
     protected function distro()
     {
         $this->sys->setDistributionIcon('Darwin.png');
-        if (!CommonFunctions::executeProgram('system_profiler', 'SPSoftwareDataType', $buffer, PSI_DEBUG)) {
+        if (!CommonFunctions::executeProgram('system_profiler', 'SPSoftwareDataType', $buffer, PSI_DEBUG) || !preg_match('/\n\s*System Version:/', $buffer)) {
             parent::distro();
         } else {
             $arrBuff = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
