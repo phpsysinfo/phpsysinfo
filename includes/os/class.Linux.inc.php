@@ -154,9 +154,12 @@ class Linux extends OS
                     $result .= ' [docker]';
                 }
             }
-            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)
-                && preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
-                    $result .= ' [lxss]';
+            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) { 
+                if (preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
+                    $result .= ' [lxss wsl]';
+                } elseif (preg_match('/^Linux version [\d\.-]+-microsoft-standard/', $strBuf2)) {
+                    $result .= ' [lxss wsl2]';
+                }
             }
             $this->sys->setKernel($result);
         }
