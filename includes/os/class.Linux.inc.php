@@ -156,9 +156,9 @@ class Linux extends OS
             }
             if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) { 
                 if (preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
-                    $result .= ' [lxss wsl]';
+                    $result .= ' [wsl]';
                 } elseif (preg_match('/^Linux version [\d\.-]+-microsoft-standard/', $strBuf2)) {
-                    $result .= ' [lxss wsl2]';
+                    $result .= ' [wsl2]';
                 }
             }
             $this->sys->setKernel($result);
