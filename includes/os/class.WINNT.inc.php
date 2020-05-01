@@ -610,8 +610,9 @@ class WINNT extends OS
      */
     private function _machine()
     {
-        $buffer = $this->_get_Win32_ComputerSystem();
-        $bufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
+        $xbuffer = $this->_get_Win32_ComputerSystem();
+        $xbufferp = CommonFunctions::getWMI($this->_wmi, 'Win32_BaseBoard', array('Product'));
+        $xbufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
 
         if (!$buffer) {
             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
@@ -624,6 +625,11 @@ class WINNT extends OS
                 $buffer[0]['SystemFamily'] = $strBuf;
             }
         }
+        if (!$bufferp) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BaseBoardProduct", $strBuf, false)) {
+                $bufferp[0]['Product'] = $strBuf;
+            }
+        }
         if (!$bufferb) {
             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSVersion", $strBuf, false)) {
                 $bufferb[0]['SMBIOSBIOSVersion'] = $strBuf;
@@ -632,34 +638,42 @@ class WINNT extends OS
                 $bufferb[0]['ReleaseDate'] = $strBuf;
             }
         }
-        
         $buf = "";
+        $model = "";
         if ($buffer && isset($buffer[0])) {
-            if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=$buffer[0]['Manufacturer'])) {
+            if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer[0]['Manufacturer'])) && ($buf2 !== "")) {
                 $buf .= ' '.$buf2;
             }
 
-            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model'])) {
+            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=trim($buffer[0]['Model'])) && ($buf2 !== "")) {
+                $model = $buf2;
                 $buf .= ' '.$buf2;
             }
-
-            if (isset($buffer[0]['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=$buffer[0]['SystemFamily'])) {
-                $buf .= '/'.$buf2;
+        }
+        if ($bufferp && isset($bufferp[0])) {
+            if (isset($bufferp[0]['Product']) && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$/i", $buf2=trim($bufferp[0]['Product'])) && ($buf2 !== "")) {
+                if ($buf2 !== $model) {
+                    $buf .= '/'.$buf2;
+                } elseif (isset($buffer[0]['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=trim($buffer[0]['SystemFamily'])) && ($buf2 !== "")) {
+                    $buf .= '/'.$buf2;
+                }
             }
         }
         if ($bufferb && isset($bufferb[0])) {
-            if (isset($bufferb[0]['SMBIOSBIOSVersion'])||isset($bufferb[0]['ReleaseDate'])) {
-                $buf .= ', BIOS';
-            }
-            if (isset($bufferb[0]['SMBIOSBIOSVersion'])) {
-                $buf .= ' '.$bufferb[0]['SMBIOSBIOSVersion'];
+            $bver = "";
+            $brel = "";
+            if (isset($bufferb[0]['SMBIOSBIOSVersion']) && (($buf2=trim($bufferb[0]['SMBIOSBIOSVersion'])) !== "")) {
+                $bver .= ' '.$buf2;
             }
             if (isset($bufferb[0]['ReleaseDate'])) {
                 if (preg_match("/^(\d{4})(\d{2})(\d{2})\d{6}\.\d{6}\+\d{3}$/", $bufferb[0]['ReleaseDate'], $dateout)) {
-                    $buf .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
+                    $brel .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
                 } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $bufferb[0]['ReleaseDate'])) {
-                    $buf .= ' '.$bufferb[0]['ReleaseDate'];
+                    $brel .= ' '.$bufferb[0]['ReleaseDate'];
                 }
+            }
+            if ((trim($bver) !== "") || (trim($brel) !== "")) {
+                $buf .= ', BIOS'.$bver.$brel;
             }
         }
 
