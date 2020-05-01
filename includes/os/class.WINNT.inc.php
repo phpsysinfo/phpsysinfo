@@ -84,6 +84,13 @@ class WINNT extends OS
     private $_key = null;
 
     /**
+     * holds result of 'cmd /c ver'
+     *
+     * @var string
+     */
+    private $_ver = "";
+
+    /**
      * holds all devices, which are in the system
      *
      * @var array
@@ -184,26 +191,36 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        try {
-            // initialize the wmi object
-            $objLocator = new COM('WbemScripting.SWbemLocator');
-            $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-        } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+
+        if (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
+            $this->_ver = $ver_value;
         }
-        try {
-            // initialize the RegRead object
-            $this->_reg = new COM("WScript.Shell");
-        } catch (Exception $e) {
-            //$this->error->addError("Windows Scripting Host error", "PhpSysInfo can not initialize Windows Scripting Host for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-            $this->_reg = false;
-        }
-        try {
-            // initialize the EnumKey object
-            $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
-        } catch (Exception $e) {
-            //$this->error->addError("WWinmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-            $this->_key = false;
+        if (($this->_ver !== "") && preg_match("/ReactOS\r?\nVersion\s+.+/", $this->_ver)) {
+            $this->_wmi = false; // No WMI info on ReactOS yet
+            $this->_reg = false; // No RegRead on ReactOS yet
+            $this->_key = false; // No EnumKey on ReactOS yet
+        } else {
+            try {
+                // initialize the wmi object
+                $objLocator = new COM('WbemScripting.SWbemLocator');
+                $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+            } catch (Exception $e) {
+                $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+            }
+            try {
+                // initialize the RegRead object
+                $this->_reg = new COM("WScript.Shell");
+            } catch (Exception $e) {
+                //$this->error->addError("Windows Scripting Host error", "PhpSysInfo can not initialize Windows Scripting Host for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                $this->_reg = false;
+            }
+            try {
+                // initialize the EnumKey object
+                $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
+            } catch (Exception $e) {
+                //$this->error->addError("WWinmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                $this->_key = false;
+            }
         }
 
         $this->_getCodeSet();
@@ -460,12 +477,11 @@ class WINNT extends OS
             else
                 $icon = 'Win8.png';
             $this->sys->setDistributionIcon($icon);
-        } elseif (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false)) {
-                if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
+        } elseif ($this->_ver !== "") {
+                if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $this->_ver, $ar_temp)) {
                     $this->sys->setDistribution("ReactOS");
                     $this->sys->setKernel($ar_temp[1]);
                     $this->sys->setDistributionIcon('ReactOS.png');
-                    $this->_wmi = false; // No WMI info on ReactOS yet
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
                     if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
                         if (preg_match("/^Microsoft /", $strBuf)) {
