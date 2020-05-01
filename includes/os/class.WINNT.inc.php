@@ -610,9 +610,9 @@ class WINNT extends OS
      */
     private function _machine()
     {
-        $xbuffer = $this->_get_Win32_ComputerSystem();
-        $xbufferp = CommonFunctions::getWMI($this->_wmi, 'Win32_BaseBoard', array('Product'));
-        $xbufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
+        $buffer = $this->_get_Win32_ComputerSystem();
+        $bufferp = CommonFunctions::getWMI($this->_wmi, 'Win32_BaseBoard', array('Product'));
+        $bufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
 
         if (!$buffer) {
             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
