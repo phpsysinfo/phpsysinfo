@@ -129,7 +129,7 @@ class WINNT extends OS
      */
     private function _get_Win32_ComputerSystem()
     {
-        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model'));
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
         return $this->_Win32_ComputerSystem;
     }
 
@@ -611,8 +611,30 @@ class WINNT extends OS
     private function _machine()
     {
         $buffer = $this->_get_Win32_ComputerSystem();
-        if ($buffer) {
-            $buf = "";
+        $bufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
+
+        if (!$buffer) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
+                $buffer[0]['Manufacturer'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", $strBuf, false)) {
+                $buffer[0]['Model'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemFamily", $strBuf, false)) {
+                $buffer[0]['SystemFamily'] = $strBuf;
+            }
+        }
+        if (!$bufferb) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSVersion", $strBuf, false)) {
+                $bufferb[0]['SMBIOSBIOSVersion'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSReleaseDate", $strBuf, false)) {
+                $bufferb[0]['ReleaseDate'] = $strBuf;
+            }
+        }
+        
+        $buf = "";
+        if ($buffer && isset($buffer[0])) {
             if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=$buffer[0]['Manufacturer'])) {
                 $buf .= ' '.$buf2;
             }
@@ -620,9 +642,29 @@ class WINNT extends OS
             if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model'])) {
                 $buf .= ' '.$buf2;
             }
-            if (trim($buf) != "") {
-                $this->sys->setMachine(trim($buf));
+
+            if (isset($buffer[0]['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=$buffer[0]['SystemFamily'])) {
+                $buf .= '/'.$buf2;
             }
+        }
+        if ($bufferb && isset($bufferb[0])) {
+            if (isset($bufferb[0]['SMBIOSBIOSVersion'])||isset($bufferb[0]['ReleaseDate'])) {
+                $buf .= ', BIOS';
+            }
+            if (isset($bufferb[0]['SMBIOSBIOSVersion'])) {
+                $buf .= ' '.$bufferb[0]['SMBIOSBIOSVersion'];
+            }
+            if (isset($bufferb[0]['ReleaseDate'])) {
+                if (preg_match("/^(\d{4})(\d{2})(\d{2})\d{6}\.\d{6}\+\d{3}$/", $bufferb[0]['ReleaseDate'], $dateout)) {
+                    $buf .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
+                } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $bufferb[0]['ReleaseDate'])) {
+                    $buf .= ' '.$bufferb[0]['ReleaseDate'];
+                }
+            }
+        }
+
+        if (trim($buf) != "") {
+            $this->sys->setMachine(trim($buf));
         }
     }
 
