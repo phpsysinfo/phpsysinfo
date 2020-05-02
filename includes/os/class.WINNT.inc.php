@@ -479,8 +479,13 @@ class WINNT extends OS
             $this->sys->setDistributionIcon($icon);
         } elseif ($this->_ver !== "") {
                 if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $this->_ver, $ar_temp)) {
-                    $this->sys->setDistribution("ReactOS");
-                    $this->sys->setKernel($ar_temp[1]);
+                    if (preg_match("/^(\d+\.\d+\.\d+)(.+)$/", trim($ar_temp[1]), $ver_temp)) {
+                        $this->sys->setDistribution("ReactOS ".trim($ver_temp[1]));
+                        $this->sys->setKernel(trim($ver_temp[2]));
+                    } else {
+                        $this->sys->setDistribution("ReactOS");
+                        $this->sys->setKernel($ar_temp[1]);
+                    }
                     $this->sys->setDistributionIcon('ReactOS.png');
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
                     if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
