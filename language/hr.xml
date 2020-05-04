@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: de.xml 699 2012-09-15 11:57:13Z namiltd $ -->
+<!--
+phpSysInfo language file Language: Croatian Created by: Martin Sajda
+-->
+<tns:translation language="hrvatski"  charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+  <expression id="001" name="title">
+    <exp>System Informacije za</exp>
+  </expression>
+  <expression id="002" name="vitals">
+    <exp>Pregled sistema</exp>
+  </expression>
+  <expression id="003" name="hostname">
+    <exp>Dodijeljeno ime servera</exp>
+  </expression>
+  <expression id="004" name="ip">
+    <exp>Prateći IP</exp>
+  </expression>
+  <expression id="005" name="kversion">
+    <exp>Kernel verzija</exp>
+  </expression>
+  <expression id="006" name="dversion">
+    <exp>Ime distribucije</exp>
+  </expression>
+  <expression id="007" name="uptime">
+    <exp>Radno vrijeme</exp>
+  </expression>
+  <expression id="008" name="users">
+    <exp>Logirani korisnici</exp>
+  </expression>
+  <expression id="009" name="loadavg">
+    <exp>Iskorištenost</exp>
+  </expression>
+  <expression id="010" name="hardware">
+    <exp>Hardverski pregled</exp>
+  </expression>
+  <expression id="011" name="numcpu">
+    <exp>Prozesori</exp>
+  </expression>
+  <expression id="012" name="cpumodel">
+    <exp>Model</exp>
+  </expression>
+  <expression id="013" name="cpuspeed">
+    <exp>Taktfrequenz</exp>
+  </expression>
+  <expression id="014" name="busspeed">
+    <exp>BUS brzina</exp>
+  </expression>
+  <expression id="015" name="cache">
+    <exp>Predmemorija veličina</exp>
+  </expression>
+  <expression id="016" name="bogomips">
+    <exp>System Bogomips</exp>
+  </expression>
+  <expression id="017" name="pci">
+    <exp>PCI Uređaji</exp>
+  </expression>
+  <expression id="018" name="ide">
+    <exp>IDE Uređaji</exp>
+  </expression>
+  <expression id="019" name="scsi">
+    <exp>SCSI Uređaji</exp>
+  </expression>
+  <expression id="020" name="usb">
+    <exp>USB Uređaji</exp>
+  </expression>
+  <expression id="021" name="netusage">
+    <exp>Iskorištenost mreže</exp>
+  </expression>
+  <expression id="022" name="device">
+    <exp>Mreža</exp>
+  </expression>
+  <expression id="023" name="received">
+    <exp>Primljeno</exp>
+  </expression>
+  <expression id="024" name="sent">
+    <exp>Poslano</exp>
+  </expression>
+  <expression id="025" name="errors">
+    <exp>Greška/odbačeno</exp>
+  </expression>
+  <expression id="026" name="connections">
+    <exp>Aktivne mrežne veze</exp>
+  </expression>
+  <expression id="027" name="memusage">
+    <exp>Iskorištenost radne memorije</exp>
+  </expression>
+  <expression id="028" name="phymem">
+    <exp>Fizikalna memorija</exp>
+  </expression>
+  <expression id="029" name="swap">
+    <exp>swap datoteku</exp>
+  </expression>
+  <expression id="030" name="fs">
+    <exp>Datotečni sustavi (Particije)</exp>
+  </expression>
+  <expression id="031" name="mount">
+    <exp>Mount</exp>
+  </expression>
+  <expression id="032" name="partition">
+    <exp>Particija</exp>
+  </expression>
+  <expression id="033" name="percent">
+    <exp>Postotak iskorištenost</exp>
+  </expression>
+  <expression id="034" name="type">
+    <exp>Vrsta</exp>
+  </expression>
+  <expression id="035" name="free">
+    <exp>Slobodno</exp>
+  </expression>
+  <expression id="036" name="used">
+    <exp>Zauzeto</exp>
+  </expression>
+  <expression id="037" name="size">
+    <exp>Veličina</exp>
+  </expression>
+  <expression id="038" name="totals">
+    <exp>Ukupno</exp>
+  </expression>
+  <expression id="039" name="kb">
+    <exp>kB</exp>
+  </expression>
+  <expression id="040" name="mb">
+    <exp>MB</exp>
+  </expression>
+  <expression id="041" name="gb">
+    <exp>GB</exp>
+  </expression>
+  <expression id="042" name="none">
+    <exp>Bez</exp>
+  </expression>
+  <expression id="043" name="capacity">
+    <exp>Kapacitet</exp>
+  </expression>
+  <expression id="044" name="template">
+    <exp>Dizajn predloška</exp>
+  </expression>
+  <expression id="045" name="language">
+    <exp>Jezik</exp>
+  </expression>
+  <expression id="046" name="submit">
+    <exp>Izmjeni</exp>
+  </expression>
+  <expression id="047" name="created">
+    <exp>Scripta od</exp>
+	  </expression>
+  <expression id="048" name="days">
+    <exp>Dana</exp>
+  </expression>
+  <expression id="049" name="hours">
+    <exp>Sati</exp>
+  </expression>
+  <expression id="050" name="minutes">
+    <exp>Minuta</exp>
+  </expression>
+  <expression id="051" name="temperature">
+    <exp>Temperature</exp>
+  </expression>
+  <expression id="052" name="voltage">
+    <exp>tenzije</exp>
+  </expression>
+  <expression id="053" name="fans">
+    <exp>Ventilatori</exp>
+  </expression>
+  <expression id="054" name="s_value">
+    <exp>Vrijednost</exp>
+  </expression>
+  <expression id="055" name="s_min">
+    <exp>Minimalno</exp>
+  </expression>
+  <expression id="056" name="s_max">
+    <exp>Maksimalno</exp>
+  </expression>
+  <expression id="057" name="hysteresis">
+    <exp>Hysteresis</exp>
+  </expression>
+  <expression id="058" name="s_limit">
+    <exp>Limit</exp>
+  </expression>
+  <expression id="059" name="s_label">
+    <exp>Opis</exp>
+  </expression>
+  <expression id="060" name="degreec">
+    <exp>°C</exp>
+  </expression>
+  <expression id="061" name="degreef">
+    <exp>°F</exp>
+  </expression>
+  <expression id="062" name="voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="063" name="rpm_mark">
+    <exp>Umin</exp>
+  </expression>
+  <expression id="064" name="app">
+    <exp>Jezgra + aplikacije</exp>
+  </expression>
+  <expression id="065" name="buffers">
+    <exp>Međuspremnike</exp>
+  </expression>
+  <expression id="066" name="cached">
+    <exp>predmemorija</exp>
+  </expression>
+  <expression id="067" name="jumpto">
+    <exp>Skačem na</exp>
+  </expression>
+  <expression id="068" name="ups_title">
+    <exp>USV informacije</exp>
+  </expression>
+  <expression id="069" name="ups_name">
+    <exp>Ime</exp>
+  </expression>
+  <expression id="070" name="ups_model">
+    <exp>Model</exp>
+  </expression>
+  <expression id="071" name="ups_mode">
+    <exp>način</exp>
+  </expression>
+  <expression id="072" name="ups_start_time">
+    <exp>Server startan</exp>
+  </expression>
+  <expression id="073" name="ups_status">
+    <exp>Status</exp>
+  </expression>
+  <expression id="074" name="ups_outages_count">
+    <exp>Neuspjeh</exp>
+  </expression>
+  <expression id="075" name="ups_last_outage">
+    <exp>Razlog zadnjeg neuspjeha</exp>
+  </expression>
+  <expression id="076" name="ups_last_outage_finish">
+    <exp>Zadnje vrijeme neuspjeha</exp>
+  </expression>
+  <expression id="077" name="ups_line_voltage">
+    <exp>Napon mreže</exp>
+  </expression>
+  <expression id="078" name="ups_load_percent">
+    <exp>iskorištenost</exp>
+  </expression>
+  <expression id="079" name="ups_battery_voltage">
+    <exp>napon baterije</exp>
+  </expression>
+  <expression id="080" name="ups_battery_charge_percent">
+    <exp>Napunjenosti baterije</exp>
+  </expression>
+  <expression id="081" name="ups_time_left_minutes">
+    <exp>Trajnost baterije</exp>
+  </expression>
+  <expression id="082" name="ups_voltage_mark">
+    <exp>V</exp>
+  </expression>
+  <expression id="083" name="ups_minutes_mark">
+    <exp>Minuta</exp>
+  </expression>
+  <expression id="084" name="ups_temperature">
+    <exp>Temperatura</exp>
+  </expression>
+  <expression id="085" name="tb">
+    <exp>TB</exp>
+  </expression>
+  <expression id="086" name="tib">
+    <exp>TiB</exp>
+  </expression>
+  <expression id="087" name="gib">
+    <exp>GiB</exp>
+  </expression>
+  <expression id="088" name="mib">
+    <exp>MiB</exp>
+  </expression>
+  <expression id="089" name="kib">
+    <exp>KiB</exp>
+  </expression>
+  <expression id="090" name="pib">
+    <exp>PiB</exp>
+  </expression>
+  <expression id="091" name="pb">
+    <exp>PB</exp>
+  </expression>
+  <expression id="092" name="mhz">
+    <exp>MHz</exp>
+  </expression>
+  <expression id="093" name="ghz">
+    <exp>GHz</exp>
+  </expression>
+  <expression id="094" name="virtualization">
+    <exp>Virtualizacija</exp>
+  </expression>
+  <expression id="095" name="lastboot">
+    <exp>Zadnji start</exp>
+  </expression>
+  <expression id="096" name="bytes">
+    <exp>B</exp>
+  </expression>
+  <expression id="097" name="syslang">
+    <exp>Jezik sistema</exp>
+  </expression>
+  <expression id="098" name="codepage">
+    <exp>CODE stranice</exp>
+  </expression>
+  <expression id="099" name="details">
+    <exp>Detalji</exp>
+  </expression>
+  <expression id="100" name="cpuspeedMax">
+    <exp>CPU brzina Maksimalno</exp>
+  </expression>
+  <expression id="101" name="cpuspeedMin">
+    <exp>CPU brzina minimalno</exp>
+  </expression>
+  <expression id="102" name="power">
+    <exp>performanse</exp>
+  </expression>
+  <expression id="103" name="power_mark">
+    <exp>W</exp>
+  </expression>
+  <expression id="104" name="ups_battery_date">
+    <exp>Akku Datum</exp>
+  </expression>
+  <expression id="105" name="current">
+    <exp>Jačina struje</exp>
+  </expression>
+  <expression id="106" name="current_mark">
+    <exp>A</exp>
+  </expression>
+  <expression id="107" name="machine">
+    <exp>Uređaj</exp>
+  </expression>
+  <expression id="108" name="ups_line_frequency">
+    <exp>Snaga frekvencije</exp>
+  </expression>
+  <expression id="109" name="Hz">
+    <exp>Hz</exp>
+  </expression>
+  <expression id="110" name="Processes">
+    <exp>Prozesi</exp>
+  </expression>
+  <expression id="111" name="ProcessesRunning">
+    <exp>stalno</exp>
+  </expression>
+  <expression id="112" name="ProcessesSleeping">
+    <exp>spavajući</exp>
+  </expression>
+  <expression id="113" name="ProcessesStopped">
+    <exp>Stopirano</exp>
+  </expression>
+  <expression id="114" name="ProcessesZombie">
+    <exp>zombie</exp>
+  </expression>
+  <expression id="115" name="ProcessesWaiting">
+    <exp>Čekajući</exp>
+  </expression>
+  <expression id="116" name="ProcessesOther">
+    <exp>ostali</exp>
+  </expression>
+  <expression id="117" name="tb">
+    <exp>TB Devices</exp>
+  </expression>
+  <expression id="118" name="i2c">
+    <exp>I2C Devices</exp>
+  </expression>
+  <expression id="119" name="no_processors">
+    <exp>Number of processors</exp>
+  </expression>
+  <expression id="120" name="no_devices">
+    <exp>Number of devices</exp>
+  </expression>
+  <expression id="121" name="other">
+    <exp>Other</exp>
+  </expression>
+  <expression id="122" name="manufacturer">
+    <exp>Manufacturer</exp>
+  </expression>
+  <expression id="123" name="product">
+    <exp>Product</exp>
+  </expression>
+  <expression id="124" name="serial">
+    <exp>Serial number</exp>
+  </expression>
+  <expression id="125" name="memfree">
+    <exp>Free</exp>
+  </expression>
+  <expression id="126" name="nvme">
+    <exp>NVMe Devices</exp>
+  </expression>
+  <expression id="127" name="os">
+    <exp>OS Type</exp>
+  </expression>
+</tns:translation>
