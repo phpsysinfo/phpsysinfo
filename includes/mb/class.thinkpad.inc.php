@@ -26,8 +26,12 @@ class Thinkpad extends Hwmon
         if (PSI_OS == 'Linux') {
             $hwpaths = glob("/sys/devices/platform/thinkpad_hwmon/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) == 1)) {
-                $this->_temperature($hwpaths[0]);
-                $this->_fans($hwpaths[0]);
+                $hwpaths = array_merge($hwpaths, glob($hwpaths[0]."hwmon/hwmon*/", GLOB_NOSORT));
+                $totalh = count($hwpaths);
+                for ($h = 0; $h < $totalh; $h++) {
+                    $this->_temperature($hwpaths[$h]);
+                    $this->_fans($hwpaths[$h]);
+                }
             }
         }
     }
