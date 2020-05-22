@@ -325,10 +325,10 @@ $(document).ready(function () {
         } else if (ua[1]==28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
         }
-    } else if ((ua=useragent.match(/Midori\/(\d+)\.(\d+)*$/))  !== null) {
-        if ((ua[1]==0) && (ua[2]<=4)) {
+    } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)*$/))  !== null) {
+        if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
-        } else if ((ua[1]==0) && (ua[2]==5)) {
+        } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
         }
     }
