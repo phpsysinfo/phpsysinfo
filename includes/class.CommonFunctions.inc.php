@@ -140,7 +140,7 @@ class CommonFunctions
         if ((PSI_OS == 'WINNT') && CommonFunctions::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
-                    if (is_dir($windir."\\sysnative")) {
+                    if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") somtimes not work
                         $exceptPath = $windir."\\sysnative"; //32-bit PHP on 64-bit Windows
                     } else {
                         $exceptPath = $windir."\\SysWOW64"; //64-bit PHP on 64-bit Windows
