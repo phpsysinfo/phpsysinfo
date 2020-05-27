@@ -41,22 +41,50 @@ class PSStatus extends PSI_Plugin
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
             switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
             case 'command':
+                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                    $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                } else {
+                    $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                }
                 if (PSI_OS == 'WINNT') {
-                    try {
-                        $objLocator = new COM('WbemScripting.SWbemLocator');
-                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                        $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
-                        foreach ($process_wmi as $process) {
-                            $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
+                    $short = true;
+                    if (strcasecmp($enc, "UTF-8") == 0) {
+                        foreach ($processes as $process) {
+                            if (mb_strlen($process, "UTF-8") > 15) {
+                                $short = false;
+                                break;
+                            }
                         }
-                    } catch (Exception $e) {
+                    } else {
+                        foreach ($processes as $process) {
+                            if (strlen($process) > 15) {
+                                $short = false;
+                                break;
+                            }
+                        }
+                    }
+                    if ($short && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+                        $psdata = preg_split("/\r?\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+                        if (!empty($psdata)) foreach ($psdata as $psline) {
+                            $psvalues = preg_split("/ /", $psline, -1, PREG_SPLIT_NO_EMPTY);
+                            if ((count($psvalues) == 5) && is_numeric($psvalues[3])) {
+                                $this->_filecontent[] = array(strtolower($psvalues[4]), $psvalues[3]);
+                            }
+                        }
+                    }
+
+                    if (!$short || (count($this->_filecontent) == 0)) {
+                        try {
+                            $objLocator = new COM('WbemScripting.SWbemLocator');
+                            $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                            $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
+                            foreach ($process_wmi as $process) {
+                                $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
+                            }
+                        } catch (Exception $e) {
+                        }
                     }
                 } else {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-                        $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                    } else {
-                        $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                    }
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
