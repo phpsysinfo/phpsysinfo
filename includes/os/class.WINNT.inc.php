@@ -292,7 +292,43 @@ class WINNT extends OS
             } else {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
             }
+
+            if (empty($this->_wmidevices)) {
+                $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
+                $id = 0;
+                if (CommonFunctions::enumKey($this->_key, $hkey, $portBuf, false)) {
+                    foreach ($portBuf as $scsiport) {
+                        if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport, $busBuf, false)) {
+                            foreach ($busBuf as $scsibus) {
+                                if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
+                                    foreach ($tarBuf as $scsitar) if (!strncasecmp($scsitar, "Target Id ", strlen("Target Id "))) {
+                                        if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
+                                            foreach ($logBuf as $scsilog) if (!strncasecmp($scsilog, "Logical Unit Id ", strlen("Logical Unit Id "))) {
+                                               $hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
+                                               if ((CommonFunctions::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || CommonFunctions::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
+                                                  && (($typeBuf=strtolower(trim($typeBuf))) !== "")) {
+                                                  if ((($typeBuf == 'diskperipheral') || ($typeBuf == 'cdromperipheral'))
+                                                     && CommonFunctions::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
+                                                      $this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
+                                                      if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                                                         && (CommonFunctions::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false))
+                                                         && (($serBuf=trim($serBuf)) !== "")) {
+                                                          $this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
+                                                      }
+                                                      $id++;
+                                                  }
+                                               }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
         $list = array();
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
@@ -300,7 +336,7 @@ class WINNT extends OS
                     if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
-                    if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
+                    if (!isset($device['Manufacturer']) || preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
                         $device['Manufacturer'] = null;
                     }
                     $device['Capacity'] = null;
