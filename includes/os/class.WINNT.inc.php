@@ -95,14 +95,14 @@ class WINNT extends OS
      *
      * @var array
      */
-    private $_wmidevices;
+    private $_wmidevices = array();
 
     /**
      * holds all disks, which are in the system
      *
      * @var array
      */
-    private $_wmidisks;
+    private $_wmidisks = array();
 
     /**
      * store language encoding of the system to convert some output to utf-8
@@ -291,7 +291,6 @@ class WINNT extends OS
                 }
             } else {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
-                $this->_wmidisks = array();
             }
         }
         $list = array();
