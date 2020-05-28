@@ -195,7 +195,7 @@ class WINNT extends OS
         if (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
             $this->_ver = $ver_value;
         }
-        if (($this->_ver !== "") && preg_match("/ReactOS\r?\nVersion\s+.+/", $this->_ver)) {
+        if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
             $this->_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No RegRead on ReactOS yet
             $this->_key = false; // No EnumKey on ReactOS yet
@@ -513,8 +513,8 @@ class WINNT extends OS
                 $icon = 'Win8.png';
             $this->sys->setDistributionIcon($icon);
         } elseif ($this->_ver !== "") {
-                if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $this->_ver, $ar_temp)) {
-                    if (preg_match("/^(\d+\.\d+\.\d+)(.+)$/", trim($ar_temp[1]), $ver_temp)) {
+                if (preg_match("/ReactOS\r?\n\S+\s+(.+)/", $this->_ver, $ar_temp)) {
+                    if (preg_match("/^(\d+\.\d+\.\d+[\S]*)(.+)$/", trim($ar_temp[1]), $ver_temp)) {
                         $this->sys->setDistribution("ReactOS ".trim($ver_temp[1]));
                         $this->sys->setKernel(trim($ver_temp[2]));
                     } else {
