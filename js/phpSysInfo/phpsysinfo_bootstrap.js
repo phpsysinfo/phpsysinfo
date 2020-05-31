@@ -313,8 +313,12 @@ $(document).ready(function () {
         });
     }
 
-    if (((ua=useragent.match(/Safari\/(\d+)\.[\d\.]+$/)) !== null) && (ua[1]<=534)) {
-        $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+    if ((ua=useragent.match(/Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
+        if (ua[1]<=5) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+        } else if (ua[1]<=8) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
+        }
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
         if (ua[1]<=15) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
