@@ -319,7 +319,7 @@ $(document).ready(function () {
         } else if (ua[1]<=8) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
         }
-    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
+    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/))  !== null) {
         if (ua[1]<=15) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
         } else if (ua[1]<=20) {
@@ -329,7 +329,7 @@ $(document).ready(function () {
         } else if (ua[1]==28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
         }
-    } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)*/))  !== null) {
+    } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/))  !== null) {
         if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
         } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
