@@ -338,8 +338,8 @@ $(document).ready(function () {
     } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/))  !== null) {
         if (ua[1]<=25) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome25.css');
-        } else if (ua[1]==26) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome26.css');
+        } else if (ua[1]<=28) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
         }
     }
 
