@@ -707,7 +707,7 @@ class WINNT extends OS
             }
         }
         if ($bufferp && isset($bufferp[0])) {
-            if (isset($bufferp[0]['Product']) && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$/i", $buf2=trim($bufferp[0]['Product'])) && ($buf2 !== "")) {
+            if (isset($bufferp[0]['Product']) && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$|^Default string$/i", $buf2=trim($bufferp[0]['Product'])) && ($buf2 !== "")) {
                 if ($buf2 !== $model) {
                     $buf .= '/'.$buf2;
                 } elseif (isset($buffer[0]['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=trim($buffer[0]['SystemFamily'])) && ($buf2 !== "")) {
