@@ -554,6 +554,9 @@ class XML
                     if ($dev->getMin() !== null) {
                         $item->addAttribute('Min', $dev->getMin());
                     }
+                    if ($dev->getUnit() !== "") {
+                        $item->addAttribute('Unit', $dev->getUnit());
+                    }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }

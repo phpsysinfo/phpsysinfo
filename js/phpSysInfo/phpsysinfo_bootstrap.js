@@ -1308,13 +1308,22 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                if (this.Unit === "%") {
+                    return round(this.Value,0) + "%";
+                } else {
+                    return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                }
             }
         },
         Min: {
             html: function () {
-                if (this.Min !== undefined)
-                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
+                if (this.Min !== undefined) {
+                    if (this.Unit === "%") {
+                        return round(this.Min,0) + "%";
+                    } else {
+                        return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
+                    }
+                }
             }
         },
         Label: {

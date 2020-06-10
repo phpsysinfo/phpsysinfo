@@ -238,6 +238,7 @@ DATETIME_FORMAT="UTC"
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
+; - NvidiaSMI      Nvidia GPU drivers (FreeBSD/Linux/SunOS/WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
@@ -515,6 +516,19 @@ ACCESS="command"
 ; - ACCESS="data"  //read data from file data/speedfan.txt
 ;
 ACCESS="command"
+
+
+[sensor_nvidiasmi]
+; NvidiaSMI motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'nvidia-smi -q' command
+; - ACCESS="data"  //read data from file data/nvidiasmi.txt
+;
+ACCESS="data"
+
+;The path to nvidia-smi.exe for the WinNT system
+;
+EXE_PATH="c:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe"
 
 
 ; ********************************

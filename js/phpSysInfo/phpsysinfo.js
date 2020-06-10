@@ -1355,16 +1355,26 @@ function refreshFans(xml) {
     var values = false;
     $("#fansTable tbody").empty();
     $("MBInfo Fans Item", xml).each(function getFans(id) {
-        var label = "", value = 0, min = 0, _min = "", event = "";
+        var label = "", value = 0, min = 0, _min = "", event = "", unit = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
         min = parseFloat($(this).attr("Min"));
-        if (isFinite(min))
-            _min = round(min,0) + "&nbsp;" + genlang(63);
-        event = $(this).attr("Event");
-        if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        unit = $(this).attr("Unit");
+        if (unit === "%") {
+            if (isFinite(min))
+                _min = round(min,0) + "%";
+            event = $(this).attr("Event");
+            if (event !== undefined)
+                label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "%</td><td class=\"right\">" + _min + "</td></tr>");
+        } else {
+            if (isFinite(min))
+                _min = round(min,0) + "&nbsp;" + genlang(63);
+            event = $(this).attr("Event");
+            if (event !== undefined)
+                label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        }
         values = true;
     });
     if (values) {

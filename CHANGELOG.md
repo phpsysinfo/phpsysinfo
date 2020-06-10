@@ -11,6 +11,8 @@ phpSysInfo 3.3.3
  - [ADD] FreeNAS and UOS to detected distros
  - [ADD] SMART plugin - reading contents of wmic command for WinNT
 
+ - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU
+
 phpSysInfo 3.3.2
 ----------------
 
