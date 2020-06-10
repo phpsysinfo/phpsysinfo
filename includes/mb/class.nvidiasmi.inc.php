@@ -1,6 +1,6 @@
 <?php
 /**
- * thinkpad sensor class, getting hardware temperature information and fan speed from nvidia-smi utility
+ * nvidiasmi sensor class, getting hardware temperature information and fan speed from nvidia-smi utility
  *
  * PHP version 5
  *
