@@ -104,7 +104,6 @@ class NvidiaSMI extends Sensors
                         $dev->setUnit("%");
                         $this->mbinfo->setMbFan($dev);
                     }
-
                 }
                 break;
         }
