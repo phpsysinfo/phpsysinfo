@@ -524,7 +524,7 @@ ACCESS="command"
 ; - ACCESS="command"  //read data from 'nvidia-smi -q' command
 ; - ACCESS="data"  //read data from file data/nvidiasmi.txt
 ;
-ACCESS="data"
+ACCESS="command"
 
 ;The path to nvidia-smi.exe for the WinNT system
 ;
