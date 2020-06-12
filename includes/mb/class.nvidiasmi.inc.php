@@ -77,7 +77,7 @@ class NvidiaSMI extends Sensors
                         $dev = new SensorDevice();
                         $dev->setName("GPU ".($c)." (nvidiasmi)");
                         $dev->setValue($out[1]);
-                        if (preg_match("/^\s+GPU Max Operating Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
+                        if (preg_match("/^\s+GPU Shutdown Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
                             $dev->setMax($out[1]);
                         }
                         $this->mbinfo->setMbTemp($dev);
