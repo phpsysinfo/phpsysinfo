@@ -107,25 +107,29 @@ class NvidiaSMI extends Sensors
                     if (preg_match("/^\s+Gpu\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
                         $dev = new SensorDevice();
                         $dev->setName("GPU ".($c)." Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]."%");
+                        $dev->setValue($out[1]);
+                        $dev->setUnit("%");
                         $this->mbinfo->setMbOther($dev);
                     }
                     if (preg_match("/^\s+Memory\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
                         $dev = new SensorDevice();
                         $dev->setName("GPU ".($c)." Memory Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]."%");
+                        $dev->setValue($out[1]);
+                        $dev->setUnit("%");
                         $this->mbinfo->setMbOther($dev);
                     }
                     if (preg_match("/^\s+Encoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
                         $dev = new SensorDevice();
                         $dev->setName("GPU ".($c)." Encoder Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]."%");
+                        $dev->setValue($out[1]);
+                        $dev->setUnit("%");
                         $this->mbinfo->setMbOther($dev);
                     }
                     if (preg_match("/^\s+Decoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
                         $dev = new SensorDevice();
                         $dev->setName("GPU ".($c)." Decoder Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]."%");
+                        $dev->setValue($out[1]);
+                        $dev->setUnit("%");
                         $this->mbinfo->setMbOther($dev);
                     }
                 }

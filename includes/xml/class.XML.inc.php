@@ -620,6 +620,9 @@ class XML
                     $item = $other->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    if ($dev->getUnit() !== "") {
+                        $item->addAttribute('Unit', $dev->getUnit());
+                    }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
                     }

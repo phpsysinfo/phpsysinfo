@@ -1284,15 +1284,15 @@ function refreshTemp(xml) {
     var values = false;
     $("#temperatureTable tbody").empty();
     $("MBInfo Temperature Item", xml).each(function getTemperatures(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", event = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-        limit = parseFloat($(this).attr("Max"));
-        if (isFinite(limit))
-            _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+        limit = parseFloat($(this).attr("Max"));
+        if (isFinite(limit))
+            _limit = formatTemp(limit, xml);
         $("#temperatureTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1318,18 +1318,18 @@ function refreshVoltage(xml) {
     var values = false;
     $("#voltageTable tbody").empty();
     $("MBInfo Voltage Item", xml).each(function getVoltages(id) {
-        var label = "", value = 0, max = 0, min = 0, _min = "", _max = "", event = "";
+        var label = "", value = 0, event = "", max = 0, min = 0, _min = "", _max = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
             _max = round(max, 2) + "&nbsp;" + genlang(62);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(62);
-        event = $(this).attr("Event");
-        if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1355,24 +1355,21 @@ function refreshFans(xml) {
     var values = false;
     $("#fansTable tbody").empty();
     $("MBInfo Fans Item", xml).each(function getFans(id) {
-        var label = "", value = 0, min = 0, _min = "", event = "", unit = "";
+        var label = "", value = 0, event = "", min = 0, _min = "", unit = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         min = parseFloat($(this).attr("Min"));
         unit = $(this).attr("Unit");
         if (unit === "%") {
             if (isFinite(min))
                 _min = round(min,0) + "%";
-            event = $(this).attr("Event");
-            if (event !== undefined)
-                label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-            $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "%</td><td class=\"right\">" + _min + "</td></tr>");
+            $("#fansTable tbody").append("<tr><td>" + label + "</td><td style=\"width:160px;\">" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
         } else {
             if (isFinite(min))
                 _min = round(min,0) + "&nbsp;" + genlang(63);
-            event = $(this).attr("Event");
-            if (event !== undefined)
-                label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
             $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
         }
         values = true;
@@ -1399,15 +1396,15 @@ function refreshPower(xml) {
     var values = false;
     $("#powerTable tbody").empty();
     $("MBInfo Power Item", xml).each(function getPowers(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", event = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-        limit = parseFloat($(this).attr("Max"));
-        if (isFinite(limit))
-            _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+        limit = parseFloat($(this).attr("Max"));
+        if (isFinite(limit))
+            _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1433,20 +1430,18 @@ function refreshCurrent(xml) {
     var values = false;
     $("#currentTable tbody").empty();
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
-        var label = "", value = "", min = 0, max = 0, _min = "", _max = "", event = "";
+        var label = "", value = "", event = "", min = 0, max = 0, _min = "", _max = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
             _max = round(max, 2) + "&nbsp;" + genlang(106);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(106);
-
-        event = $(this).attr("Event");
-        if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1472,14 +1467,18 @@ function refreshOther(xml) {
     var values = false;
     $("#otherTable tbody").empty();
     $("MBInfo Other Item", xml).each(function getOthers(id) {
-        var label = "", value = "", event = "";
+        var label = "", value = "", event = "", unit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
+        unit = $(this).attr("Unit");
+        if (unit === "%") {
+            $("#otherTable tbody").append("<tr><td>" + label + "</td><td style=\"width:160px;\">" + createBar(round(value,0)) + "</td></tr>");
+        } else {
+            $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
+        }
         values = true;
     });
     if (values) {

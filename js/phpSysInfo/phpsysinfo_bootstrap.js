@@ -1309,7 +1309,9 @@ function renderFans(data) {
         Value: {
             html: function () {
                 if (this.Unit === "%") {
-                    return round(this.Value,0) + "%";
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
                 } else {
                     return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
                 }
@@ -1450,6 +1452,18 @@ function renderOther(data) {
     }
 
     var directives = {
+        Value: {
+            html: function () {
+                if (this.Unit === "%") {
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                   // return round(this.Value,0) + "%";
+                } else {
+                    return this.Value;
+                }
+            }
+        },
         Label: {
             html: function () {
                 if (this.Event === undefined)
