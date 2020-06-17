@@ -687,7 +687,7 @@ class CommonFunctions
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
                     $strBuffer = $buffer2[1];
                 } else {
                     return false;
@@ -728,7 +728,7 @@ class CommonFunctions
         $arrBuffer = array();
         if ($key === false) {
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
