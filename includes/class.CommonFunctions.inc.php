@@ -41,20 +41,25 @@ class CommonFunctions
 
     public static function setcp($cp)
     {
-        CommonFunctions::$_cp = $cp;
+        self::$_cp = $cp;
+    }
+
+    public static function getcp()
+    {
+        return self::$_cp;
     }
 
     public static function isAdmin()
     {
-        if (CommonFunctions::$_asadmin == null) {
-            if ((PSI_OS == 'WINNT') && CommonFunctions::executeProgram('net', 'session', $strBuf, false)) {
-                    CommonFunctions::$_asadmin = true;
+        if (self::$_asadmin == null) {
+            if ((PSI_OS == 'WINNT') && self::executeProgram('net', 'session', $strBuf, false)) {
+                self::$_asadmin = true;
             } else {
-                CommonFunctions::$_asadmin = false;
+                self::$_asadmin = false;
             }
         }
 
-        return CommonFunctions::$_asadmin;
+        return self::$_asadmin;
     }
 
     private static function _parse_log_file($string)
@@ -104,11 +109,11 @@ class CommonFunctions
                 $path_parts = pathinfo($strProgram);
             }
             if (PSI_OS == 'WINNT') {
-                if (CommonFunctions::readenv('Path', $serverpath)) {
+                if (self::readenv('Path', $serverpath)) {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             } else {
-                if (CommonFunctions::readenv('PATH', $serverpath)) {
+                if (self::readenv('PATH', $serverpath)) {
                     $arrPath = preg_split('/:/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
             }
@@ -137,7 +142,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && CommonFunctions::readenv('WinDir', $windir)) {
+        if ((PSI_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
                     if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
@@ -323,7 +328,7 @@ class CommonFunctions
     public static function rolv($similarFileName, $match = "//", $replace = "")
     {
         $filename = preg_replace($match, $replace, $similarFileName);
-        if (CommonFunctions::fileexists($filename) && CommonFunctions::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
+        if (self::fileexists($filename) && self::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
             return $buf;
         } else {
             return null;
@@ -686,14 +691,14 @@ class CommonFunctions
         if ($reg === false) {
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
-            if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+            if (self::$_cp) {
+                if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
                     $strBuffer = $buffer2[1];
                 } else {
                     return false;
                 }
             } else {
-                if (CommonFunctions::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                if (self::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
                     $strBuffer = $buffer2[1];
                 } else {
                     return false;
@@ -727,8 +732,8 @@ class CommonFunctions
 
         $arrBuffer = array();
         if ($key === false) {
-            if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+            if (self::$_cp) {
+                if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
@@ -736,7 +741,7 @@ class CommonFunctions
                     return false;
                 }
             } else {
-                if (CommonFunctions::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                if (self::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
