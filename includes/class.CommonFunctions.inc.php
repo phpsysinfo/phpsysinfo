@@ -176,7 +176,7 @@ class CommonFunctions
 
     /**
      * Execute a system program. return a trim()'d result.
-     * does very crude pipe checking.  you need ' | ' for it to work
+     * does very crude pipe and multiple commands (on WinNT) checking.  you need ' | ' or ' & ' for it to work
      * ie $program = CommonFunctions::executeProgram('netstat', '-anp | grep LIST');
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
@@ -249,14 +249,14 @@ class CommonFunctions
             }
         }
 
-        // see if we've gotten a |, if we have we need to do path checking on the cmd
+        // see if we've gotten a | or &, if we have we need to do path checking on the cmd
         if ($strArgs) {
             $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
             for ($i = 0, $cnt_args = count($arrArgs); $i < $cnt_args; $i++) {
-                if ($arrArgs[$i] == '|') {
+                if (($arrArgs[$i] == '|') || ($arrArgs[$i] == '&')) {
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
-                    $strArgs = preg_replace("/\| ".$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                    $strArgs = preg_replace('/'.$arrArgs[$i].' '.$strCmd.'/', $arrArgs[$i].' "'.$strNewcmd.'"', $strArgs);
                 }
             }
             $strArgs = ' '.$strArgs;
@@ -687,7 +687,7 @@ class CommonFunctions
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
                     $strBuffer = $buffer2[1];
                 } else {
                     return false;
@@ -728,7 +728,7 @@ class CommonFunctions
         $arrBuffer = array();
         if ($key === false) {
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' && reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
