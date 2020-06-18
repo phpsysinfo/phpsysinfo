@@ -140,7 +140,7 @@ class CommonFunctions
         if ((PSI_OS == 'WINNT') && CommonFunctions::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
-                    if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") somtimes not work
+                    if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
                         $exceptPath = $windir."\\sysnative"; //32-bit PHP on 64-bit Windows
                     } else {
                         $exceptPath = $windir."\\SysWOW64"; //64-bit PHP on 64-bit Windows
@@ -687,7 +687,7 @@ class CommonFunctions
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
                     $strBuffer = $buffer2[1];
                 } else {
                     return false;
@@ -728,7 +728,7 @@ class CommonFunctions
         $arrBuffer = array();
         if ($key === false) {
             if (CommonFunctions::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.CommonFunctions::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
                         $arrBuffer[] = trim($sub_key);
                     }
