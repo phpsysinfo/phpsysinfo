@@ -74,11 +74,11 @@ BLOCKS=true
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
-; - Iptables       - show iptables rules list
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
 ; - Docker         - show docker stats
+; - Viewer         - show output of any command or file viewer.txt contents
 ;
 PLUGINS=false
 
@@ -777,16 +777,27 @@ SHORT_MODE = false
 DENOTE_BY_ASTERISK = false
 
 
-[iptables]
-; Iptables Plugin configuration
+[viewer]
+; Viewer Plugin configuration
 
-; define how to access the iptables rules data
-; - "command" iptables-save command is run everytime the block gets refreshed or build
-;             if access error try to set: SUDO_COMMANDS="iptables-save" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /sbin/iptables-save
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "iptables.txt"; content is the output from "iptables-save")
+; define how to access the data
+; - "command" COMMAND command is run everytime the block gets refreshed or build
+; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "viewer.txt")
 ;
 ACCESS="command"
 
+; define COMMAND name (for command access)
+; eg:
+; - "iptables-save" iptables-save command is run everytime the block gets refreshed or build (Linux)
+;                   if access error try to set: SUDO_COMMANDS="iptables-save" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /sbin/iptables-save
+; - "systeminfo"    systeminfo command is run everytime the block gets refreshed or build (WinNT)
+;
+
+COMMAND=""
+
+; define COMMAND parameters (for command access)
+;
+PARAMS=""
 
 [pingtest]
 ; PingTest Plugin configuration

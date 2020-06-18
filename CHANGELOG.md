@@ -12,6 +12,9 @@ phpSysInfo 3.3.3
  - [ADD] SMART plugin - reading contents of wmic command for WinNT
 
  - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU
+ - [NEW] plugin Viewer - show output of any command or file viewer.txt contents
+
+ - [DEL] Removed deprecated plugin Iptables
 
 phpSysInfo 3.3.2
 ----------------
