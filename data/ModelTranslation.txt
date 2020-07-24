@@ -94,6 +94,8 @@ MacBookPro15,2:MacBook Pro Core i5/i7:Intel Core I5-8259U/I5-8279U/I7-8559U/I7-8
 MacBookPro15,3:MacBook Pro Core i7/i9:Intel Core I7-8850H/I9-8950HK/I9-9880H/I9-9980HK
 MacBookPro15,4:MacBook Pro Core i5/i7:Intel Core I5-8257U/I7-8557U
 MacBookPro16,1:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9980HK
+MacBookPro16,2:MacBook Pro Core i5/i7:Intel Core I5-1038NG7/I7-1068NG7
+MacBookPro16,3:MacBook Pro Core i5/i7:Intel Core I5-8257U/I7-8557U
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800
@@ -111,6 +113,7 @@ MacPro3,1:Mac Pro Quad/Eight Core:Intel Xeon E5462/E5472/X5482
 MacPro4,1:Mac Pro Quad/Eight Core:Intel Xeon E5520/E5550/X5570/W3520/W3540/W3580
 MacPro5,1:Mac Pro Quad/Six/Eight/Twelve Core:Intel Xeon E5620/E5645/W3530/W3565/W3680/X5650/X5670/X5675
 MacPro6,1:Mac Pro Quad/Six/Eight/Twelve Core:Intel Xeon E5-1620v2/E5-1650v2/E5-1680v2/E5-2697v2
+MacPro7,1:Mac Pro Eight/12/16/24/28 Core:Intel Xeon W-3223/W-3235/W-3245/W-3265M/W-3275M
 PowerBook1,1:PowerBook G3:PowerPC 750 (G3)
 PowerBook2,1:iBook G3:PowerPC 750 (G3)
 PowerBook2,2:iBook G3:PowerPC 750cx (G3)
