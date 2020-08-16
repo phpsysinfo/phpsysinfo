@@ -19,7 +19,7 @@ function renderPlugin_bat(data) {
         FullCapacityBar: {
             html: function () {
                 if (( this.CapacityUnit !== "%" ) && (this.DesignCapacity !== undefined)){
-                    var percent = (this.DesignCapacity > 0) ? round(100*this.FullCapacity/this.DesignCapacity,0) : 0;
+                    var percent = (this.DesignCapacity > 0) ? round(100*this.FullCapacity/this.DesignCapacity, 0) : 0;
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
                 } else {
@@ -30,8 +30,8 @@ function renderPlugin_bat(data) {
         RemainingCapacity: {
             html: function () {
                 if ( this.CapacityUnit === "%" ) {
-                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + round(this.RemainingCapacity,0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this.RemainingCapacity,0) + '%</div>';
+                    return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + this.RemainingCapacity + '%;"></div>' +
+                        '</div><div class="percent">' + this.RemainingCapacity + '%</div>';
                 } else {
                     return this.RemainingCapacity + String.fromCharCode(160) + this.CapacityUnit;
                 }
@@ -40,7 +40,7 @@ function renderPlugin_bat(data) {
         RemainingCapacityBar: {
             html: function () {
                 if (( this.CapacityUnit !== "%" ) && (this.FullCapacity !== undefined)){
-                    var percent = (this.FullCapacity > 0) ? round(100*this.RemainingCapacity/this.FullCapacity,0) : 0;
+                    var percent = (this.FullCapacity > 0) ? round(100*this.RemainingCapacity/this.FullCapacity, 0) : 0;
                     return '<div class="progress"><div class="progress-bar progress-bar-info" style="width:' + percent + '%;"></div>' +
                         '</div><div class="percent">' + percent + '%</div>';
                 } else {
@@ -88,6 +88,19 @@ function renderPlugin_bat(data) {
                    if (bats[i]["@attributes"].FullCapacity !== undefined) {
                        delete bats[i]["@attributes"].FullCapacity;
                    }
+                }
+
+                if ((bats[i]["@attributes"].DesignCapacity !== undefined) 
+                   && isNaN(bats[i]["@attributes"].DesignCapacity = parseInt(bats[i]["@attributes"].DesignCapacity, 10))) {
+                    delete bats[i]["@attributes"].DesignCapacity;
+                }
+                if ((bats[i]["@attributes"].FullCapacity !== undefined) 
+                   && isNaN(bats[i]["@attributes"].FullCapacity = parseInt(bats[i]["@attributes"].FullCapacity, 10))) {
+                    delete bats[i]["@attributes"].FullCapacity;
+                }
+                if ((bats[i]["@attributes"].RemainingCapacity !== undefined) 
+                   && isNaN(bats[i]["@attributes"].RemainingCapacity = parseInt(bats[i]["@attributes"].RemainingCapacity, 10))) {
+                    delete bats[i]["@attributes"].RemainingCapacity;
                 }
 
                 try {
