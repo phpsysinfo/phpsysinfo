@@ -261,7 +261,11 @@ class CommonFunctions
                 if (($arrArgs[$i] == '|') || ($arrArgs[$i] == '&')) {
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
-                    $strArgs = preg_replace('/'.$arrArgs[$i].' '.$strCmd.'/', $arrArgs[$i].' "'.$strNewcmd.'"', $strArgs);
+                    if ($arrArgs[$i] == '|') {
+                        $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                    } else {
+                        $strArgs = preg_replace('/& '.$strCmd.'/', '& "'.$strNewcmd.'"', $strArgs);
+                    }
                 }
             }
             $strArgs = ' '.$strArgs;
