@@ -468,7 +468,7 @@ function full_addr(ip_string) {
         ip_string = ipv4[1];
         ipv4 = ipv4[2].match(/[0-9]+/g);
         for (var i = 0;i < 4;i ++) {
-            var byte = parseInt(ipv4[i],10);
+            var byte = parseInt(ipv4[i], 10);
             if (byte<256) {
                 ipv4[i] = ("0" + byte.toString(16)).substr(-2);
             } else {
@@ -569,12 +569,12 @@ function renderVitals(data) {
                 var timestamp = 0;
                 var datetimeFormat;
                 if ((data.Generation !== undefined) && (data.Generation["@attributes"] !== undefined) && (data.Generation["@attributes"].timestamp !== undefined) ) {
-                    timestamp = parseInt(data.Generation["@attributes"].timestamp)*1000; //server time
+                    timestamp = parseInt(data.Generation["@attributes"].timestamp, 10) * 1000; //server time
                     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
                 } else {
                     timestamp = Number(new Date()); //client time
                 }
-                lastboot = new Date(timestamp - (parseInt(this.Uptime)*1000));
+                lastboot = new Date(timestamp - (parseInt(this.Uptime, 10) * 1000));
                 if (((datetimeFormat = data.Options["@attributes"].datetimeFormat) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
                     return lastboot.toLocaleString();
                 } else {
@@ -612,24 +612,24 @@ function renderVitals(data) {
             html: function () {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
-                processes = parseInt(this.Processes);
+                processes = parseInt(this.Processes, 10);
                 if (this.ProcessesRunning !== undefined) {
-                    p111 = parseInt(this.ProcessesRunning);
+                    p111 = parseInt(this.ProcessesRunning, 10);
                 }
                 if (this.ProcessesSleeping !== undefined) {
-                    p112 = parseInt(this.ProcessesSleeping);
+                    p112 = parseInt(this.ProcessesSleeping, 10);
                 }
                 if (this.ProcessesStopped !== undefined) {
-                    p113 = parseInt(this.ProcessesStopped);
+                    p113 = parseInt(this.ProcessesStopped, 10);
                 }
                 if (this.ProcessesZombie !== undefined) {
-                    p114 = parseInt(this.ProcessesZombie);
+                    p114 = parseInt(this.ProcessesZombie, 10);
                 }
                 if (this.ProcessesWaiting !== undefined) {
-                    p115 = parseInt(this.ProcessesWaiting);
+                    p115 = parseInt(this.ProcessesWaiting, 10);
                 }
                 if (this.ProcessesOther !== undefined) {
-                    p116 = parseInt(this.ProcessesOther);
+                    p116 = parseInt(this.ProcessesOther, 10);
                 }
                 if (p111 || p112 || p113 || p114 || p115 || p116) {
                     processes += " (";
@@ -713,7 +713,7 @@ function renderHardware(data) {
         },
         Bogomips: {
             text: function () {
-                return parseInt(this.Bogomips);
+                return parseInt(this.Bogomips, 10);
             }
         },
         Load: {
@@ -733,8 +733,8 @@ function renderHardware(data) {
         },
         hwCount: {
             text: function() {
-                if ((this.Count !== undefined) && !isNaN(this.Count) && (parseInt(this.Count)>1)) {
-                    return parseInt(this.Count);
+                if ((this.Count !== undefined) && !isNaN(this.Count) && (parseInt(this.Count, 10)>1)) {
+                    return parseInt(this.Count, 10);
                 } else {
                     return "";
                 }
@@ -859,8 +859,8 @@ function renderHardware(data) {
             datas = items(data.Hardware[hw_type].Device);
             for (i = 0; i < datas.length; i++) {
                 $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
-                if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count)>1)) {
-                    licz += parseInt(datas[i]["@attributes"].Count);
+                if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count, 10)>1)) {
+                    licz += parseInt(datas[i]["@attributes"].Count, 10);
                 } else {
                     licz++;
                 }
@@ -932,19 +932,19 @@ function renderMemory(data) {
                         '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"].Percent + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"].Percent + '%</div>';
                 } else {
-                    var rest = parseInt(this["@attributes"].Percent);
+                    var rest = parseInt(this["@attributes"].Percent, 10);
                     var html = '<div class="progress">';
                     if ((this.Details["@attributes"].AppPercent !== undefined) && (this.Details["@attributes"].AppPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-info" style="width:' + this.Details["@attributes"].AppPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].AppPercent);
+                        rest -= parseInt(this.Details["@attributes"].AppPercent, 10);
                     }
                     if ((this.Details["@attributes"].CachedPercent !== undefined) && (this.Details["@attributes"].CachedPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-warning" style="width:' + this.Details["@attributes"].CachedPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].CachedPercent);
+                        rest -= parseInt(this.Details["@attributes"].CachedPercent, 10);
                     }
                     if ((this.Details["@attributes"].BuffersPercent !== undefined) && (this.Details["@attributes"].BuffersPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-danger" style="width:' + this.Details["@attributes"].BuffersPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].BuffersPercent);
+                        rest -= parseInt(this.Details["@attributes"].BuffersPercent, 10);
                     }
                     if (rest > 0) {
                         html += '<div class="progress-bar progress-bar-success" style="width:' + rest + '%;"></div>';
@@ -1068,7 +1068,7 @@ function renderFilesystem(data) {
             html: function () {
                 return '<div class="progress">' + '<div class="' +
                     ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
-                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
+                        (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                     '" style="width:' + this.Percent + '% ;"></div>' +
                     '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
             }
@@ -1083,13 +1083,13 @@ function renderFilesystem(data) {
             fs_data.push(datas[i]["@attributes"]);
             if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
                 if (datas[i]["@attributes"].Ignore == 1) {
-                    total.Total += parseInt(datas[i]["@attributes"].Used);
-                    total.Used += parseInt(datas[i]["@attributes"].Used);
+                    total.Total += parseInt(datas[i]["@attributes"].Used, 10);
+                    total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                 }
             } else {
-                total.Total += parseInt(datas[i]["@attributes"].Total);
-                total.Free += parseInt(datas[i]["@attributes"].Free);
-                total.Used += parseInt(datas[i]["@attributes"].Used);
+                total.Total += parseInt(datas[i]["@attributes"].Total, 10);
+                total.Free += parseInt(datas[i]["@attributes"].Free, 10);
+                total.Used += parseInt(datas[i]["@attributes"].Used, 10);
             }
             total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
         }
