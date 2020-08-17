@@ -1,0 +1,9 @@
+Name    Mtu   Network     Address              Ipkts Ierrs    Opkts Oerrs Colls Drop
+lo0     32768 <Link>                               0     0        0     0     0    0
+lo0     32768 fe80::%lo0/ fe80::1%lo0              0     0        0     0     0    0
+lo0     32768 ::1/128     ::1                      0     0        0     0     0    0
+lo0     32768 127/8       127.0.0.1                0     0        0     0     0    0
+em0     1500  <Link>      08:00:27:e5:b2:55       48     0       46     0     0    0
+em0     1500  10.0.2/24   10.0.2.15               48     0       46     0     0    0
+enc0*   0     <Link>                               0     0        0     0     0    0
+pflog0  33144 <Link>                               0     0        0     0     0    0
