@@ -237,11 +237,13 @@ class LMSensors extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
-                if (isset($data[4])) {
-                    $dev->setMin($data[4]);
-                }
-                if (isset($data[6])) {
-                    $dev->setMax($data[6]);
+                if (!isset($data[4]) || ($data[4] != 0) || !isset($data[6]) || ($data[6] != 0)) {
+                    if (isset($data[4])) {
+                        $dev->setMin($data[4]);
+                    }
+                    if (isset($data[6])) {
+                        $dev->setMax($data[6]);
+                    }
                 }
                 if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
@@ -349,11 +351,13 @@ class LMSensors extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);
                 $dev->setValue($data[2]);
-                if (isset($data[4])) {
-                    $dev->setMin($data[4]);
-                }
-                if (isset($data[6])) {
-                    $dev->setMax($data[6]);
+                if (!isset($data[4]) || ($data[4] != 0) || !isset($data[6]) || ($data[6] != 0)) {
+                    if (isset($data[4])) {
+                        $dev->setMin($data[4]);
+                    }
+                    if (isset($data[6])) {
+                        $dev->setMax($data[6]);
+                    }
                 }
                 if (preg_match("/\sALARM\s*$/", $line)) {
                     $dev->setEvent("Alarm");
