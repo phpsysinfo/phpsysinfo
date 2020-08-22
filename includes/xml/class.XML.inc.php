@@ -569,11 +569,13 @@ class XML
                     $item = $volt->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
-                    if ($dev->getMin() !== null) {
-                        $item->addAttribute('Min', $dev->getMin());
-                    }
-                    if ($dev->getMax() !== null) {
-                        $item->addAttribute('Max', $dev->getMax());
+                    if (($dev->getMin() === null) || ($dev->getMin() != 0) || ($dev->getMax() === null) || ($dev->getMax() != 0)) {
+                        if ($dev->getMin() !== null) {
+                            $item->addAttribute('Min', $dev->getMin());
+                        }
+                        if ($dev->getMax() !== null) {
+                            $item->addAttribute('Max', $dev->getMax());
+                        }
                     }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
@@ -602,11 +604,13 @@ class XML
                     $item = $current->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
-                    if ($dev->getMin() !== null) {
-                        $item->addAttribute('Min', $dev->getMin());
-                    }
-                    if ($dev->getMax() !== null) {
-                        $item->addAttribute('Max', $dev->getMax());
+                    if (($dev->getMin() === null) || ($dev->getMin() != 0) || ($dev->getMax() === null) || ($dev->getMax() != 0)) {
+                        if ($dev->getMin() !== null) {
+                            $item->addAttribute('Min', $dev->getMin());
+                        }
+                        if ($dev->getMax() !== null) {
+                            $item->addAttribute('Max', $dev->getMax());
+                        }
                     }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
                         $item->addAttribute('Event', $dev->getEvent());
