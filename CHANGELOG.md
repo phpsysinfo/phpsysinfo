@@ -8,7 +8,7 @@ phpSysInfo 3.3.3
 
  - [ADD] Persian (Farsi) Translation fa.xml
  - [ADD] Croatian Translation hr.xml
- - [ADD] FreeNAS and UOS to detected distros
+ - [ADD] Milis, FreeNAS and UOS to detected distros
  - [ADD] SMART plugin - reading contents of wmic command for WinNT
 
  - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU

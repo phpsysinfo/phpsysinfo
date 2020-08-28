@@ -108,6 +108,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                || file_exists($fname = '/etc/locale.conf')
                || file_exists($fname = '/etc/sysconfig/language')
                || file_exists($fname = '/etc/profile.d/lang.sh')
+               || file_exists($fname = '/etc/profile.d/i18n.sh')
                || file_exists($fname = '/etc/profile')) {
                 $contents = @file_get_contents($fname);
             } else {
