@@ -609,7 +609,19 @@ abstract class BSDCommon extends OS
      */
     protected function usb()
     {
-        foreach ($this->readdmesg() as $line) {
+        $notwas = true;
+        if ((PSI_OS == 'FreeBSD') && CommonFunctions::executeProgram('usbconfig', '', $bufr, false)) {
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($lines as $line) {
+                if (preg_match('/^(ugen[0-9]+\.[0-9]+): <([^,]*)(.*)> at (usbus[0-9]+)/', $line, $ar_buf)) {
+                    $notwas = false;
+                    $dev = new HWDevice();
+                    $dev->setName($ar_buf[2]);
+                    $this->sys->setUSBDevices($dev);
+                }
+            }
+        }
+        if ($notwas) foreach ($this->readdmesg() as $line) {
 //            if (preg_match('/^(ugen[0-9\.]+): <(.*)> (.*) (.*)/', $line, $ar_buf)) {
 //                    $dev->setName($ar_buf[1].": ".$ar_buf[2]);
             if (preg_match('/^(u[a-z]+[0-9]+): <([^,]*)(.*)> on (usbus[0-9]+)/', $line, $ar_buf)) {
