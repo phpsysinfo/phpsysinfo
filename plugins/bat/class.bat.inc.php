@@ -39,17 +39,22 @@ class BAT extends PSI_Plugin
                 $_cim = null; //root\CIMv2
                 $_wmi = null; //root\WMI
                 try {
+                    // initialize the wmi objects
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    // initialize the wmi object
-                    if (!defined('PSI_WMI_HOSTNAME'))
-                        $_cim = $objLocator->ConnectServer('', 'root\CIMv2');
-                    else
+
+                    if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME'))
+                        $_cim = $objLocator->ConnectServer(PSI_PLUGIN_BAT_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_BAT_WMI_USER, PSI_PLUGIN_BAT_WMI_PASSWORD);
+                    elseif (defined('PSI_WMI_HOSTNAME'))
                         $_cim = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                    // initialize the wmi object
-                    if (!defined('PSI_WMI_HOSTNAME'))
-                        $_wmi = $objLocator->ConnectServer('', 'root\WMI');
                     else
+                        $_cim = $objLocator->ConnectServer('', 'root\CIMv2');
+
+                    if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME'))
+                        $_wmi = $objLocator->ConnectServer(PSI_PLUGIN_BAT_WMI_HOSTNAME, 'root\WMI', PSI_PLUGIN_BAT_WMI_USER, PSI_PLUGIN_BAT_WMI_PASSWORD);
+                    elseif (defined('PSI_WMI_HOSTNAME'))
                         $_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\WMI', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                    else
+                        $_wmi = $objLocator->ConnectServer('', 'root\WMI');
                 } catch (Exception $e) {
                     $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 }

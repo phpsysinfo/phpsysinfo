@@ -208,10 +208,10 @@ class WINNT extends OS
             try {
                 // initialize the wmi object
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (!defined('PSI_WMI_HOSTNAME'))
-                    $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                else
+                if (defined('PSI_WMI_HOSTNAME'))
                     $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                else
+                    $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
             } catch (Exception $e) {
                 $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
             }

@@ -40,10 +40,12 @@ class PS extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    if (!defined('PSI_WMI_HOSTNAME'))
-                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                    else
+                    if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
+                        $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PS_WMI_USER, PSI_PLUGIN_PS_WMI_PASSWORD);
+                    elseif (defined('PSI_WMI_HOSTNAME'))
                         $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                    else
+                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {
