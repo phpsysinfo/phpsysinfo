@@ -243,6 +243,13 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    /* maximum time in seconds a script is allowed to run before it is terminated by the parser */
+    if (defined('PSI_MAX_TIMEOUT')) {
+        ini_set('max_execution_time', max(intval(PSI_MAX_TIMEOUT), 0));
+    } else {
+        ini_set('max_execution_time', 30);
+    }
+
     /* executeProgram() timeout value in seconds */
     if (defined('PSI_EXEC_TIMEOUT')) {
         define('PSI_EXEC_TIMEOUT_INT', max(intval(PSI_EXEC_TIMEOUT), 1));
