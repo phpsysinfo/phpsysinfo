@@ -768,7 +768,7 @@ class CommonFunctions
 
                     return false;
                 }
-                foreach ($sub_keys as $sub_key) {
+                if (variant_get_type($sub_keys) !== VT_NULL) foreach ($sub_keys as $sub_key) {
                     $arrBuffer[] = $sub_key;
                 }
             } else {

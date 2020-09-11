@@ -399,8 +399,14 @@ class WINNT extends OS
                         (version_compare("255.255.255.255", $ip, "=="))) {
                         $this->sys->setHostname($result); // internal ip
                     } else {
-                        $this->sys->setHostname(gethostbyaddr($ip));
+                        $hostname = gethostbyaddr($ip);
+                        if ($hostname !== false)
+                            $this->sys->setHostname($hostname);
+                        else
+                            $this->sys->setHostname($result);
                     }
+                } else {
+                    $this->sys->setHostname($result);
                 }
             } else {
                 if (CommonFunctions::readenv('COMPUTERNAME', $hnm)) $this->sys->setHostname($hnm);
