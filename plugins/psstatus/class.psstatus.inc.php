@@ -63,7 +63,7 @@ class PSStatus extends PSI_Plugin
                             }
                         }
                     }
-                    if ($short && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+                    if (!defined('PSI_WMI_HOSTNAME') && $short && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
                         $psdata = preg_split("/\r?\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                         if (!empty($psdata)) foreach ($psdata as $psline) {
                             $psvalues = preg_split("/ /", $psline, -1, PREG_SPLIT_NO_EMPTY);
@@ -76,7 +76,10 @@ class PSStatus extends PSI_Plugin
                     if (!$short || (count($this->_filecontent) == 0)) {
                         try {
                             $objLocator = new COM('WbemScripting.SWbemLocator');
-                            $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                            if (!defined('PSI_WMI_HOSTNAME'))
+                                $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                            else
+                                $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                             $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
                             foreach ($process_wmi as $process) {
                                 $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));

@@ -43,13 +43,22 @@ class HyperV extends PSI_Plugin
             if (PSI_OS == 'WINNT') {
                 try {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $cim = $objLocator->ConnectServer('', 'root\CIMv2');
+                    if (!defined('PSI_WMI_HOSTNAME'))
+                        $cim = $objLocator->ConnectServer('', 'root\CIMv2');
+                    else
+                        $cim = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                     $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
                     if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                         if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                            $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
+                            if (!defined('PSI_WMI_HOSTNAME'))
+                                $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
+                            else
+                                $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\virtualization\v2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                         } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
-                            $wmi = $objLocator->ConnectServer('', 'root\virtualization');
+                            if (!defined('PSI_WMI_HOSTNAME'))
+                                $wmi = $objLocator->ConnectServer('', 'root\virtualization');
+                            else
+                                $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\virtualization', PSI_WMI_USER, PSI_WMI_PASSWORD);
                         } else {
                            $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
                            break;

@@ -52,7 +52,7 @@ class CommonFunctions
     public static function isAdmin()
     {
         if (self::$_asadmin == null) {
-            if ((PSI_OS == 'WINNT') && self::executeProgram('net', 'session', $strBuf, false)) {
+            if ((PSI_OS == 'WINNT') && (defined('PSI_WMI_HOSTNAME') || self::executeProgram('net', 'session', $strBuf, false))) {
                 self::$_asadmin = true;
             } else {
                 self::$_asadmin = false;
@@ -692,6 +692,9 @@ class CommonFunctions
     public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true)
     {
         $strBuffer = '';
+        if (defined('PSI_WMI_HOSTNAME')) {
+            return false;
+        }
         if ($reg === false) {
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
@@ -732,9 +735,12 @@ class CommonFunctions
      */
     public static function enumKey($key, $strName, &$arrBuffer, $booErrorRep = true)
     {
+        $arrBuffer = array();
+        if (defined('PSI_WMI_HOSTNAME')) {
+            return false;
+        }
         $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
 
-        $arrBuffer = array();
         if ($key === false) {
             if (self::$_cp) {
                 if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {

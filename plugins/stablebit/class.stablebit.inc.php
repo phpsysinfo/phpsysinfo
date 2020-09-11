@@ -43,7 +43,10 @@ class StableBit extends PSI_Plugin
         if (PSI_OS == 'WINNT') {
             try {
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                $wmi = $objLocator->ConnectServer('', 'root\StableBit\Scanner');
+                if (!defined('PSI_WMI_HOSTNAME'))
+                    $wmi = $objLocator->ConnectServer('', 'root\StableBit\Scanner');
+                else
+                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\StableBit\Scanner', PSI_WMI_USER, PSI_WMI_PASSWORD);
                 $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
             } catch (Exception $e) {
             }

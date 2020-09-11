@@ -33,7 +33,10 @@ class ThermalZone extends Sensors
                 try {
                     // initialize the wmi object
                     $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $_wmi = $objLocator->ConnectServer('', 'root\WMI');
+                    if (!defined('PSI_WMI_HOSTNAME'))
+                        $_wmi = $objLocator->ConnectServer('', 'root\WMI');
+                    else
+                        $_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\WMI', PSI_WMI_USER, PSI_WMI_PASSWORD);
                 } catch (Exception $e) {
                     $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
                 }

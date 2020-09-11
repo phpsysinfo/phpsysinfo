@@ -74,7 +74,10 @@ class SMART extends PSI_Plugin
                     $asd_wmi = null;
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
-                        $wmi = $objLocator->ConnectServer('', 'root\wmi');
+                        if (!defined('PSI_WMI_HOSTNAME'))
+                            $wmi = $objLocator->ConnectServer('', 'root\wmi');
+                        else
+                            $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\wmi', PSI_WMI_USER, PSI_WMI_PASSWORD);
                         $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                     } catch (Exception $e) {
                     }

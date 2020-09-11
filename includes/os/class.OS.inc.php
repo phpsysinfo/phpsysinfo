@@ -145,7 +145,8 @@ abstract class OS implements PSI_Interface_OS
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
         } else {
-            if (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) {
+            if (((PSI_OS != 'WINNT') || !defined('PSI_WMI_HOSTNAME'))
+                && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
             } else {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname()));

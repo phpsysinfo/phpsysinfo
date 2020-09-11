@@ -181,8 +181,13 @@ class WINNT extends OS
      */
     private function _get_systeminfo()
     {
-        if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
-        return $this->_systeminfo;
+        if (!defined('PSI_WMI_HOSTNAME')) {
+            if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
+
+            return $this->_systeminfo;
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -192,7 +197,7 @@ class WINNT extends OS
     {
         parent::__construct($blockname);
 
-        if (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
+        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
             $this->_ver = $ver_value;
         }
         if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
@@ -203,7 +208,10 @@ class WINNT extends OS
             try {
                 // initialize the wmi object
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                if (!defined('PSI_WMI_HOSTNAME'))
+                    $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                else
+                    $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
             } catch (Exception $e) {
                 $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
             }
@@ -380,7 +388,7 @@ class WINNT extends OS
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if ((PSI_USE_VHOST === true) && !defined('PSI_WMI_HOSTNAME')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
@@ -471,7 +479,7 @@ class WINNT extends OS
      */
     protected function _users()
     {
-        if (CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -1083,7 +1091,7 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
