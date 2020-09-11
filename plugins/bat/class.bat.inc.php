@@ -39,13 +39,11 @@ class BAT extends PSI_Plugin
                 $_cim = null; //root\CIMv2
                 $_wmi = null; //root\WMI
                 try {
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
                     // initialize the wmi object
-                    $objLocatorCIM = new COM('WbemScripting.SWbemLocator');
-                    $_cim = $objLocatorCIM->ConnectServer('', 'root\CIMv2');
-
+                    $_cim = $objLocator->ConnectServer('', 'root\CIMv2');
                     // initialize the wmi object
-                    $objLocatorWMI = new COM('WbemScripting.SWbemLocator');
-                    $_wmi = $objLocatorWMI->ConnectServer('', 'root\WMI');
+                    $_wmi = $objLocator->ConnectServer('', 'root\WMI');
                 } catch (Exception $e) {
                     $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 }
