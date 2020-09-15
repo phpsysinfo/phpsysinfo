@@ -226,7 +226,7 @@ class WINNT extends OS
                 // initialize the EnumKey object
                 $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
             } catch (Exception $e) {
-                //$this->error->addError("WWinmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                //$this->error->addError("Winmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
                 $this->_key = false;
             }
         }
