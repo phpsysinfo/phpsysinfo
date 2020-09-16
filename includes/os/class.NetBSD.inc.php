@@ -29,9 +29,9 @@ class NetBSD extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct($blockname = false)
+    public function __construct($blockname = false, $pluginname = "")
     {
-        parent::__construct($blockname);
+        parent::__construct($blockname, $pluginname);
         $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/user = (.*), nice = (.*), sys = (.*), intr = (.*), idle = (.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");

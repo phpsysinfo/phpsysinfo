@@ -193,10 +193,9 @@ class WINNT extends OS
     /**
      * build the global Error object and create the WMI connection
      */
-    public function __construct($blockname = false)
+    public function __construct($blockname = false, $pluginname = "")
     {
-        parent::__construct($blockname);
-
+        parent::__construct($blockname, $pluginname);
         if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
             $this->_ver = $ver_value;
         }
@@ -213,8 +212,11 @@ class WINNT extends OS
                 $this->_reg = false; // No EnumKey and ReadReg
             }
             if (isset($objLocator) && (gettype($objLocator) === "object")) {
+                $plugname = strtoupper(trim($pluginname));
                 try {
-                    if (defined('PSI_WMI_HOSTNAME'))
+                    if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
+                        $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\CIMv2', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                    elseif (defined('PSI_WMI_HOSTNAME'))
                         $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                     else
                         $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
@@ -223,7 +225,9 @@ class WINNT extends OS
                     $this->_wmi = false; // No WMI info
                 }
                 try {
-                    if (defined('PSI_WMI_HOSTNAME')) {
+                    if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
+                        $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                    elseif (defined('PSI_WMI_HOSTNAME')) {
                         $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
                     } else {
                         $this->_wmireg = $objLocator->ConnectServer('', 'root\default');

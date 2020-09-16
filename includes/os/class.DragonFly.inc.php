@@ -29,9 +29,9 @@ class DragonFly extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    public function __construct($blockname = false)
+    public function __construct($blockname = false, $pluginname = "")
     {
-        parent::__construct($blockname);
+        parent::__construct($blockname, $pluginname);
         $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");

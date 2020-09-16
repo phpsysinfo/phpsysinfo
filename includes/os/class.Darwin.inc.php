@@ -30,9 +30,9 @@ class Darwin extends BSDCommon
     /**
      * define the regexp for log parser
      */
-    /* public function __construct($blockname = false)
+    /* public function __construct($blockname = false, $pluginname = "")
     {
-        parent::__construct($blockname);
+        parent::__construct($blockname, $pluginname);
         $this->error->addWarning("The Darwin version of phpSysInfo is a work in progress, some things currently don't work!");
         $this->setCPURegExp1("/CPU: (.*) \((.*)-MHz (.*)\)/");
         $this->setCPURegExp2("/(.*) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/");

@@ -66,13 +66,6 @@ class XML
     private $_plugin = '';
 
     /**
-     * generate a xml for a plugin or for the main app
-     *
-     * @var boolean
-     */
-    private $_plugin_request = false;
-
-    /**
      * generate the entire xml with all plugins or only a part of the xml (main or plugin)
      *
      * @var boolean
@@ -93,20 +86,14 @@ class XML
     public function __construct($complete = false, $pluginname = "", $blockname = false)
     {
         $this->_errors = PSI_Error::singleton();
-        if ($pluginname == "") {
-            $this->_plugin_request = false;
-            $this->_plugin = '';
-        } else {
-            $this->_plugin_request = true;
-            $this->_plugin = $pluginname;
-        }
+        $this->_plugin = $pluginname;
         if ($complete) {
             $this->_complete_request = true;
         } else {
             $this->_complete_request = false;
         }
         $os = PSI_OS;
-        $this->_sysinfo = new $os($blockname);
+        $this->_sysinfo = new $os($blockname, $pluginname);
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
@@ -708,7 +695,7 @@ class XML
      */
     private function _buildXml()
     {
-        if (!$this->_plugin_request || $this->_complete_request) {
+        if (($this->_plugin == '') || $this->_complete_request) {
             if ($this->_sys === null) {
                 if (PSI_DEBUG === true) {
                     // unstable version check
@@ -771,20 +758,22 @@ class XML
     private function _buildPlugins()
     {
         $pluginroot = $this->_xml->addChild("Plugins");
-        if (($this->_plugin_request || $this->_complete_request) && count($this->_plugins) > 0) {
+        if ((($this->_plugin != '') || $this->_complete_request) && count($this->_plugins) > 0) {
             $plugins = array();
             if ($this->_complete_request) {
                 $plugins = $this->_plugins;
             }
-            if ($this->_plugin_request) {
+            if (($this->_plugin != '')) {
                 $plugins = array($this->_plugin);
             }
             foreach ($plugins as $plugin) {
-                $object = new $plugin($this->_sysinfo->getEncoding());
-                $object->execute();
-                $oxml = $object->xml();
-                if (sizeof($oxml) > 0) {
-                    $pluginroot->combinexml($oxml);
+                if ((PSI_OS != 'WINNT') || ($this->_plugin != '') || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')) {
+                    $object = new $plugin($this->_sysinfo->getEncoding());
+                    $object->execute();
+                    $oxml = $object->xml();
+                    if (sizeof($oxml) > 0) {
+                        $pluginroot->combinexml($oxml);
+                    }
                 }
             }
         }
@@ -825,7 +814,7 @@ class XML
             $options->addAttribute('threshold', 90);
         }
         if (count($this->_plugins) > 0) {
-            if ($this->_plugin_request) {
+            if (($this->_plugin != '')) {
                 $plug = $this->_xml->addChild('UsedPlugins');
                 $plug->addChild('Plugin')->addAttribute('name', $this->_plugin);
             } elseif ($this->_complete_request) {
