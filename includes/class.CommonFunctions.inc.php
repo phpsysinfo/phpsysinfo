@@ -691,11 +691,13 @@ class CommonFunctions
      */
     public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true)
     {
-        $strBuffer = '';
-        if (defined('PSI_WMI_HOSTNAME')) {
-            return false;
-        }
+        $arrBuffer = array();
+        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
+
         if ($reg === false) {
+            if (defined('PSI_WMI_HOSTNAME')) {
+                return false;
+            }
             $last = strrpos($strName, "\\");
             $keyname = substr($strName, $last + 1);
             if (self::$_cp) {
@@ -712,36 +714,48 @@ class CommonFunctions
                 }
             }
         } elseif (gettype($reg) === "object") {
-            try {
-                $strBuffer = $reg->RegRead($strName);
-            } catch (Exception $e) {
-                if ($booErrorRep) {
-                    $error = PSI_Error::singleton();
-                    $error->addError("readReg()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
-                }
+            $first = strpos($strName, "\\");
+            $last = strrpos($strName, "\\");
+            $hkey = substr($strName, 0, $first);
+            if (isset($_hkey[$hkey])) {
+                $sub_keys = new VARIANT();
+                try {
+                 $reg->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                } catch (Exception $e) {
+                    if ($booErrorRep) {
+                        $error = PSI_Error::singleton();
+                        $error->addError("GetStringValue()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));;
+                    }
 
-                return false;
+                    return false;
+                }
+                if (variant_get_type($sub_keys) !== VT_NULL) {
+                    $strBuffer = strval($sub_keys);
+                } else {
+                    return false;
+                }
+            } else {
+               return false;
             }
         }
 
         return true;
     }
 
-
     /**
      * enumKey function
      *
      * @return boolean command successfull or not
      */
-    public static function enumKey($key, $strName, &$arrBuffer, $booErrorRep = true)
+    public static function enumKey($reg, $strName, &$arrBuffer, $booErrorRep = true)
     {
         $arrBuffer = array();
-        if (defined('PSI_WMI_HOSTNAME')) {
-            return false;
-        }
         $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
 
-        if ($key === false) {
+        if ($reg === false) {
+            if (defined('PSI_WMI_HOSTNAME')) {
+                return false;
+            }
             if (self::$_cp) {
                 if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
                     foreach ($buffer2[1] as $sub_key) {
@@ -759,13 +773,13 @@ class CommonFunctions
                     return false;
                 }
             }
-        } elseif (gettype($key) === "object") {
+        } elseif (gettype($reg) === "object") {
             $first = strpos($strName, "\\");
             $hkey = substr($strName, 0, $first);
             if (isset($_hkey[$hkey])) {
                 $sub_keys = new VARIANT();
                 try {
-                   $key->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
+                   $reg->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
                 } catch (Exception $e) {
                     if ($booErrorRep) {
                         $error = PSI_Error::singleton();
@@ -776,6 +790,8 @@ class CommonFunctions
                 }
                 if (variant_get_type($sub_keys) !== VT_NULL) foreach ($sub_keys as $sub_key) {
                     $arrBuffer[] = $sub_key;
+                } else {
+                    return false;
                 }
             } else {
                return false;

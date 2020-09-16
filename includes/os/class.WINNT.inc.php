@@ -63,25 +63,25 @@ class WINNT extends OS
     private $_systeminfo = null;
 
     /**
-     * holds the COM object that we pull all the WMI data from
+     * holds the COM object that we pull WMI root\CIMv2 data from
      *
      * @var Object
      */
     private $_wmi = null;
 
     /**
-     * holds the COM object that we pull all the RegRead data from
+     * holds the COM object that we pull WMI root\default data from
+     *
+     * @var Object
+     */
+    private $_wmireg = null;
+
+    /**
+     * holds the COM object that we pull all the EnumKey and RegRead data from
      *
      * @var Object
      */
     private $_reg = null;
-
-    /**
-     * holds the COM object that we pull all the EnumKey data from
-     *
-     * @var Object
-     */
-    private $_key = null;
 
     /**
      * holds result of 'cmd /c ver'
@@ -202,32 +202,45 @@ class WINNT extends OS
         }
         if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
             $this->_wmi = false; // No WMI info on ReactOS yet
-            $this->_reg = false; // No RegRead on ReactOS yet
-            $this->_key = false; // No EnumKey on ReactOS yet
+            $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
             try {
                 // initialize the wmi object
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (defined('PSI_WMI_HOSTNAME'))
-                    $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                else
-                    $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
             } catch (Exception $e) {
-                $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                $this->error->addError("WbemScripting.SWbemLocator error", "Create COM object error.");
+                $this->_wmi = false; // No WMI info
+                $this->_reg = false; // No EnumKey and ReadReg
             }
-            try {
-                // initialize the RegRead object
-                $this->_reg = new COM("WScript.Shell");
-            } catch (Exception $e) {
-                //$this->error->addError("Windows Scripting Host error", "PhpSysInfo can not initialize Windows Scripting Host for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-                $this->_reg = false;
-            }
-            try {
-                // initialize the EnumKey object
-                $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
-            } catch (Exception $e) {
-                //$this->error->addError("Winmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-                $this->_key = false;
+            if (isset($objLocator) && (gettype($objLocator) === "object")) {
+                try {
+                    if (defined('PSI_WMI_HOSTNAME'))
+                        $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                    else
+                        $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                } catch (Exception $e) {
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface root\CIMv2 for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                    $this->_wmi = false; // No WMI info
+                }
+                try {
+                    if (defined('PSI_WMI_HOSTNAME')) {
+                        $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                    } else {
+                        $this->_wmireg = $objLocator->ConnectServer('', 'root\default');
+                    }
+                } catch (Exception $e) {
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                    $this->_reg = false; // No EnumKey and ReadReg
+                    $this->_wmireg = false;
+                }
+                if ($this->_wmireg) {
+                    $this->_wmireg->Security_->ImpersonationLevel = 3;
+                    try {
+                        $this->_reg = $this->_wmireg->Get("StdRegProv");
+                    } catch (Exception $e) {
+                        $this->_reg = false; // No EnumKey and ReadReg
+                    }
+                }
             }
         }
 
@@ -304,13 +317,13 @@ class WINNT extends OS
             if (empty($this->_wmidevices)) {
                 $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
                 $id = 0;
-                if (CommonFunctions::enumKey($this->_key, $hkey, $portBuf, false)) {
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $portBuf, false)) {
                     foreach ($portBuf as $scsiport) {
-                        if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport, $busBuf, false)) {
+                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport, $busBuf, false)) {
                             foreach ($busBuf as $scsibus) {
-                                if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
+                                if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
                                     foreach ($tarBuf as $scsitar) if (!strncasecmp($scsitar, "Target Id ", strlen("Target Id "))) {
-                                        if (CommonFunctions::enumKey($this->_key, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
+                                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
                                             foreach ($logBuf as $scsilog) if (!strncasecmp($scsilog, "Logical Unit Id ", strlen("Logical Unit Id "))) {
                                                $hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
                                                if ((CommonFunctions::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || CommonFunctions::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
@@ -612,7 +625,7 @@ class WINNT extends OS
         $allCpus = $this->_get_Win32_Processor();
         if (!$allCpus) {
             $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor";
-            if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+            if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                 foreach ($arrBuf as $coreCount) {
                     if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\ProcessorNameString", $strBuf, false)) {
                         $allCpus[$coreCount]['Name'] = $strBuf;
@@ -824,7 +837,7 @@ class WINNT extends OS
             if ($allDevices) {
                 $aliases = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
-                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netID) {
                         if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias
                             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
@@ -846,7 +859,7 @@ class WINNT extends OS
 
                 $aliases2 = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
-                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netCount) {
                         if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
                             && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
