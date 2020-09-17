@@ -410,20 +410,27 @@ class XML
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
         $mount->addAttribute('MountPointID', $i);
-        if ($dev->getFsType()!=="") $mount->addAttribute('FSType', $dev->getFsType());
+        if ($dev->getFsType()!=="") {
+            $mount->addAttribute('FSType', $dev->getFsType());
+        }
         $mount->addAttribute('Name', $dev->getName());
         $mount->addAttribute('Free', sprintf("%.0f", $dev->getFree()));
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
-        $mount->addAttribute('Percent', $dev->getPercentUsed());
+        $percentUsed = $dev->getPercentUsed();
+        $percentCapacity = $dev->getPercentCapacity();
+        $mount->addAttribute('Percent', $percentUsed);
+        if ($percentCapacity > $percentUsed) {
+            $mount->addAttribute('Buffers', $percentCapacity - $percentUsed);
+        }
+        if ($dev->getPercentInodesUsed() !== null) {
+            $mount->addAttribute('Inodes', $dev->getPercentInodesUsed());
+        }
         if ($dev->getIgnore() > 0) $mount->addAttribute('Ignore', $dev->getIgnore());
         if (PSI_SHOW_MOUNT_OPTION === true) {
             if ($dev->getOptions() !== null) {
                 $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
             }
-        }
-        if ($dev->getPercentInodesUsed() !== null) {
-            $mount->addAttribute('Inodes', $dev->getPercentInodesUsed());
         }
         if (PSI_SHOW_MOUNT_POINT === true) {
             $mount->addAttribute('MountPoint', $dev->getMountPoint());

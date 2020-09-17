@@ -61,6 +61,13 @@ class DiskDevice
     private $_total = 0;
 
     /**
+     * capacity in percent
+     *
+     * @var Integer
+     */
+    private $_percentCapacity = 0;
+
+    /**
      * mount point of the disk device if available
      *
      * @var String
@@ -77,14 +84,14 @@ class DiskDevice
     /**
      * inodes usage in percent if available
      *
-     * @var
+     * @var Integer
      */
     private $_percentInodesUsed = null;
 
     /**
      * ignore mode
      *
-     * @var Ignore
+     * @var Integer
      */
     private $_ignore = 0;
 
@@ -99,7 +106,7 @@ class DiskDevice
     public function getPercentUsed()
     {
         if ($this->_total > 0) {
-            return round($this->_used / $this->_total * 100);
+            return min(ceil($this->_used / $this->_total * 100), 100);
         } else {
             return 0;
         }
@@ -335,5 +342,31 @@ class DiskDevice
     public function setIgnore($ignore)
     {
         $this->_ignore = $ignore;
+    }
+
+    /**
+     * Returns $_percentCapacity.
+     *
+     * @see DiskDevice::$_percentCapacity
+     *
+     * @return Integer
+     */
+    public function getPercentCapacity()
+    {
+        return $this->_percentCapacity;
+    }
+
+    /**
+     * Sets $_percentCapacity.
+     *
+     * @param Integer $_percentCapacity capacity in percent
+     *
+     * @see DiskDevice::$_percentCapacity
+     *
+     * @return Void
+     */
+    public function setPercentCapacity($percentCapacity)
+    {
+        $this->_percentCapacity = min($percentCapacity, 100);
     }
 }

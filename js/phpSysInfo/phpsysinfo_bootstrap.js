@@ -1066,11 +1066,21 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                return '<div class="progress">' + '<div class="' +
-                    ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
-                        (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
-                    '" style="width:' + this.Percent + '% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                if ((this.Buffers !== undefined) && (this.Buffers > 0)) {
+
+                    return '<div class="progress">' + '<div class="' +
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                            (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
+                        '" style="width:' + this.Percent + '% ;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width:' + this.Buffers + '% ;"></div>'
+                        +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                } else {
+                    return '<div class="progress">' + '<div class="' +
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                            (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
+                        '" style="width:' + this.Percent + '% ;"></div>' +
+                        '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                }
             }
         }
     };
