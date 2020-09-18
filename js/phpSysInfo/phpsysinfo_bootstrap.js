@@ -1066,19 +1066,21 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                if ((this.Buffers !== undefined) && (this.Buffers > 0)) {
-
+                var used1 = (this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0;
+                var used2 = Math.ceil(this.Percent);
+                var uses21= used2 - used1;
+                if (uses21 > 0) {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
-                        '" style="width:' + this.Percent + '% ;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width:' + this.Buffers + '% ;"></div>'
+                        '" style="width:' + used1 + '% ;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>'
                         +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
                 } else {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
-                        '" style="width:' + this.Percent + '% ;"></div>' +
+                        '" style="width:' + used2 + '% ;"></div>' +
                         '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
                 }
             }
@@ -1101,7 +1103,7 @@ function renderFilesystem(data) {
                 total.Free += parseInt(datas[i]["@attributes"].Free, 10);
                 total.Used += parseInt(datas[i]["@attributes"].Used, 10);
             }
-            total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
+            total.Percent = (total.Total != 0) ? round(100 - (total.Free / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);

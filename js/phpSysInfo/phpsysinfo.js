@@ -1255,7 +1255,7 @@ function refreshFilesystems(xml) {
             total_free += free;
             total_size += size;
         }
-        total_usage = round((total_used / total_size) * 100, 2);
+        total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
     });
 
     if (!isNaN(threshold) && (total_usage >= threshold)) {
