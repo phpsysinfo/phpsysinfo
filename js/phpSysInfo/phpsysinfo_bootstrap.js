@@ -1068,8 +1068,8 @@ function renderFilesystem(data) {
             html: function () {
                 var used1 = (this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0;
                 var used2 = Math.ceil(this.Percent);
-                var uses21= used2 - used1;
-                if (uses21 > 0) {
+                var used21= used2 - used1;
+                if (used21 > 0) {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
