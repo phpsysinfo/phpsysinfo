@@ -147,7 +147,6 @@ class Parser
                             if ($df_buf[3]>0) {
                                 $dev->setFree($df_buf[3] * 1024);
                             }
-                            $dev->setPercentCapacity($df_buf[4]);
                         }
                         if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
 

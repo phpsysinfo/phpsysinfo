@@ -418,11 +418,7 @@ class XML
         $mount->addAttribute('Used', sprintf("%.0f", $dev->getUsed()));
         $mount->addAttribute('Total', sprintf("%.0f", $dev->getTotal()));
         $percentUsed = $dev->getPercentUsed();
-        $percentCapacity = $dev->getPercentCapacity();
         $mount->addAttribute('Percent', $percentUsed);
-        if ($percentCapacity > $percentUsed) {
-            $mount->addAttribute('Buffers', $percentCapacity - $percentUsed);
-        }
         if ($dev->getPercentInodesUsed() !== null) {
             $mount->addAttribute('Inodes', $dev->getPercentInodesUsed());
         }
