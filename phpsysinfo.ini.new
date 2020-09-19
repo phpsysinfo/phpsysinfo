@@ -59,6 +59,21 @@ SUDO_COMMANDS=false
 ;
 BLOCKS=true
 
+; Maximum time in seconds a script is allowed to run before it is terminated by the parser */
+;
+;MAX_TIMEOUT=30
+
+; executeProgram() timeout value in seconds
+;
+;EXEC_TIMEOUT=30
+
+; snmprealwalk() and executeProgram("snmpwalk") number of seconds until the first timeout
+;
+;SNMP_TIMEOUT=3
+
+; snmprealwalk() and executeProgram("snmpwalk") number of times to retry if timeouts occur
+;
+;SNMP_RETRY=0
 
 ; External WinNT server connection parameters
 ; These settings can also be entered for a specific plug-in so that only it connects to an external server
