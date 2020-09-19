@@ -575,12 +575,12 @@ class WINNT extends OS
                         $icon = 'WinXP.png';
                     $this->sys->setDistributionIcon($icon);
                 } else {
-                    $this->sys->setDistribution("WinNT");
-                    $this->sys->setDistributionIcon('Win2000.png');
+                    $this->sys->setDistribution("WINNT");
+                    $this->sys->setDistributionIcon('WINNT.png');
                 }
         } else {
-            $this->sys->setDistribution("WinNT");
-            $this->sys->setDistributionIcon('Win2000.png');
+            $this->sys->setDistribution("WINNT");
+            $this->sys->setDistributionIcon('WINNT.png');
         }
     }
 
