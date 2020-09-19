@@ -843,14 +843,14 @@ class WINNT extends OS
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
                 if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netID) {
-                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias
+                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) {
                             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
-                                $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                                $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                                 if (!isset($aliases[$cname])) { // duplicate checking
                                     $aliases[$cname]['id'] = $netID;
                                     $aliases[$cname]['name'] = $strName;
                                     if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, false)
-                                       && (str_replace(array('(', ')', '#'), array('[', ']', '_'), $strCName) !== $cname)) {
+                                       && (str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strCName) !== $cname)) {
                                         $aliases[$cname]['netname'] = $strCName;
                                     }
                                 } else {
@@ -867,7 +867,7 @@ class WINNT extends OS
                     foreach ($arrBuf as $netCount) {
                         if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
                             && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
-                            $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                            $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                             if (!isset($aliases2[$cname])) { // duplicate checking
                                 $aliases2[$cname]['id'] = $strGUID;
                                 $aliases2[$cname]['name'] = $strName;
