@@ -60,6 +60,15 @@ SUDO_COMMANDS=false
 BLOCKS=true
 
 
+; External WinNT server connection parameters
+; These settings can also be entered for a specific plug-in so that only it connects to an external server
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+;
+;WMI_HOSTNAME="hostname"
+;WMI_USER="username"
+;WMI_PASSWORD="password"
+
+
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
 ; - PLUGINS="Raid,PS"  //list of plugins
