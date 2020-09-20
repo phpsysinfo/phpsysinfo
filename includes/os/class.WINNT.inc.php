@@ -221,7 +221,7 @@ class WINNT extends OS
                     else
                         $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                 } catch (Exception $e) {
-                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface root\CIMv2 for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface root\CIMv2 for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
                     $this->_wmi = false; // No WMI info
                 }
                 try {
@@ -233,7 +233,7 @@ class WINNT extends OS
                         $this->_wmireg = $objLocator->ConnectServer('', 'root\default');
                     }
                 } catch (Exception $e) {
-                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
                     $this->_reg = false; // No EnumKey and ReadReg
                     $this->_wmireg = false;
                 }
