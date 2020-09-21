@@ -104,11 +104,11 @@ class CommonFunctions
         $arrPath = array();
 
         if (empty($path_parts['dirname']) || ($path_parts['dirname'] == '.')) {
-            if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
+            if ((PHP_OS == 'WINNT') && empty($path_parts['extension'])) {
                 $strProgram .= '.exe';
                 $path_parts = pathinfo($strProgram);
             }
-            if (PSI_OS == 'WINNT') {
+            if (PHP_OS == 'WINNT') {
                 if (self::readenv('Path', $serverpath)) {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
@@ -133,7 +133,7 @@ class CommonFunctions
         }
 
         //add some default paths if we still have no paths here
-        if (empty($arrPath) && PSI_OS != 'WINNT') {
+        if (empty($arrPath) && PHP_OS != 'WINNT') {
             if (PSI_OS == 'Android') {
                 array_push($arrPath, '/system/bin');
             } else {
@@ -142,7 +142,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PSI_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
+        if ((PHP_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
                     if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
@@ -160,7 +160,7 @@ class CommonFunctions
 
         foreach ($arrPath as $strPath) {
             // Path with and without trailing slash
-            if (PSI_OS == 'WINNT') {
+            if (PHP_OS == 'WINNT') {
                 $strPath = rtrim($strPath, "\\");
                 $strPathS = $strPath."\\";
             } else {
@@ -171,7 +171,7 @@ class CommonFunctions
                 continue;
             }
             $strProgrammpath = $strPathS.$strProgram;
-            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
+            if (is_executable($strProgrammpath) || ((PHP_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
                 return $strProgrammpath;
             }
         }
@@ -210,7 +210,7 @@ class CommonFunctions
             }
         }
 
-        if ((PSI_OS !== 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+        if ((PHP_OS !== 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
             $strSet = $strmatch[1].' ';
             $strProgramname = $strmatch[2];
         } else {
@@ -230,7 +230,7 @@ class CommonFunctions
             }
         }
 
-        if ((PSI_OS !== 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+        if ((PHP_OS !== 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
             if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
                 $sudocommands = eval(PSI_SUDO_COMMANDS);
             } else {
@@ -276,7 +276,7 @@ class CommonFunctions
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            if (PSI_OS == 'WINNT') {
+            if (PHP_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>/dev/null", "r");
@@ -350,7 +350,7 @@ class CommonFunctions
     public static function readenv($strElem, &$strBuffer)
     {
         $strBuffer = '';
-        if (PSI_OS == 'WINNT') { //case insensitive
+        if (PHP_OS == 'WINNT') { //case insensitive
             if (isset($_SERVER)) {
                 foreach ($_SERVER as $index=>$value) {
                     if (is_string($value) && (trim($value) !== '') && (strtolower($index) === strtolower($strElem))) {
@@ -530,7 +530,7 @@ class CommonFunctions
     {
         if ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        elseif (PSI_OS == "WINNT")
+        elseif (PHP_OS == "WINNT")
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
         else
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring');
@@ -649,6 +649,49 @@ class CommonFunctions
                 if (PSI_DEBUG) {
                     $error = PSI_Error::singleton();
                     $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
+                }
+            }
+        } elseif ((gettype($wmi) === "string") && (PHP_OS === "Linux")) {
+            $delimeter = '@@@DELIM@@@';
+            if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'"', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
+                /*
+                if (self::$_cp) {
+                    $encoding = "Windows-".self::$_cp;
+                    $enclist = mb_list_encodings();
+                    if (in_array($encoding, $enclist)) {
+                        $strBuf = mb_convert_encoding($strBuf, $encoding, 'UTF-8');
+                    } elseif (function_exists("iconv")) {
+                        if (($iconvout=iconv('UTF-8', $encoding, $strBuf))!==false) {
+                            $strBuf = $iconvout;
+                        }
+                    } elseif (function_exists("libiconv") && (($iconvout=libiconv('UTF-8', $encoding, $strBuf))!==false)) {
+                        $strBuf = $iconvout;
+                    }
+                }*/
+                $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines) >=3 ) {
+                    unset($lines[0]);
+                    $names = preg_split('/'.$delimeter.'/', $lines[1], -1, PREG_SPLIT_NO_EMPTY);
+                    $namesc = count($names);
+                    unset($lines[1]);
+                    foreach ($lines as $line) {
+                        $arrInstance = array();
+                        $values = preg_split('/'.$delimeter.'/', $line, -1);
+                        if (count($values) == $namesc) {
+                            foreach ($values as $id=>$value) {
+                                if (empty($strValue)) {
+                                    if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
+                                    else $arrInstance[$names[$id]] = null;
+                                } else {
+                                    if (in_array($names[$id], $strValue)) {
+                                        if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
+                                        else $arrInstance[$names[$id]] = null;
+                                    }
+                                }
+                            }
+                            $arrData[] = $arrInstance;
+                        }
+                    }
                 }
             }
         }

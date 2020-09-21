@@ -203,46 +203,51 @@ class WINNT extends OS
             $this->_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
-            try {
-                // initialize the wmi object
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-            } catch (Exception $e) {
-                $this->error->addError("WbemScripting.SWbemLocator error", "Create COM object error.");
-                $this->_wmi = false; // No WMI info
+            if (defined('PSI_WMI_HOSTNAME') && (PHP_OS === "Linux")) {
+                $this->_wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
                 $this->_reg = false; // No EnumKey and ReadReg
-            }
-            if (isset($objLocator) && (gettype($objLocator) === "object")) {
-                $plugname = strtoupper(trim($pluginname));
+            } else {
                 try {
-                    if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
-                        $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\CIMv2', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
-                    elseif (defined('PSI_WMI_HOSTNAME'))
-                        $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                    else
-                        $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                    // initialize the wmi object
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
                 } catch (Exception $e) {
-                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface root\CIMv2 for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+                    $this->error->addError("WbemScripting.SWbemLocator error", "Create COM object error.");
                     $this->_wmi = false; // No WMI info
-                }
-                try {
-                    if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
-                        $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
-                    elseif (defined('PSI_WMI_HOSTNAME')) {
-                        $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                    } else {
-                        $this->_wmireg = $objLocator->ConnectServer('', 'root\default');
-                    }
-                } catch (Exception $e) {
-                    $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
                     $this->_reg = false; // No EnumKey and ReadReg
-                    $this->_wmireg = false;
                 }
-                if ($this->_wmireg) {
-                    $this->_wmireg->Security_->ImpersonationLevel = 3;
+                if (isset($objLocator) && (gettype($objLocator) === "object")) {
+                    $plugname = strtoupper(trim($pluginname));
                     try {
-                        $this->_reg = $this->_wmireg->Get("StdRegProv");
+                        if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
+                            $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\CIMv2', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                        elseif (defined('PSI_WMI_HOSTNAME'))
+                            $this->_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                        else
+                            $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
                     } catch (Exception $e) {
+                        $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface root\CIMv2 for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+                        $this->_wmi = false; // No WMI info
+                    }
+                    try {
+                        if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
+                            $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                        elseif (defined('PSI_WMI_HOSTNAME')) {
+                            $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                        } else {
+                            $this->_wmireg = $objLocator->ConnectServer('', 'root\default');
+                        }
+                    } catch (Exception $e) {
+                        $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
                         $this->_reg = false; // No EnumKey and ReadReg
+                        $this->_wmireg = false;
+                    }
+                    if ($this->_wmireg) {
+                        $this->_wmireg->Security_->ImpersonationLevel = 3;
+                        try {
+                            $this->_reg = $this->_wmireg->Get("StdRegProv");
+                        } catch (Exception $e) {
+                            $this->_reg = false; // No EnumKey and ReadReg
+                        }
                     }
                 }
             }

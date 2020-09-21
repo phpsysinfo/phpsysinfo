@@ -103,7 +103,9 @@ if (!defined('PSI_CONFIG_FILE')) {
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
         if (PHP_OS == 'Linux') {
-            if (file_exists($fname = '/etc/sysconfig/i18n')
+            if (defined('PSI_WMI_HOSTNAME')) {
+                define('PSI_OS', 'WINNT');
+            } elseif (file_exists($fname = '/etc/sysconfig/i18n')
                || file_exists($fname = '/etc/default/locale')
                || file_exists($fname = '/etc/locale.conf')
                || file_exists($fname = '/etc/sysconfig/language')
