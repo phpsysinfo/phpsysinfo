@@ -70,7 +70,7 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'wmi':
-                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))){
+                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
                     if ((PSI_OS === 'WINNT') && !defined('PSI_PLUGIN_SMART_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME') && !CommonFunctions::isAdmin()) {
                         $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                     } else {

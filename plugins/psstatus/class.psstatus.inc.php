@@ -46,7 +46,7 @@ class PSStatus extends PSI_Plugin
                 } else {
                     $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 }
-                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))){
+                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
 
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {

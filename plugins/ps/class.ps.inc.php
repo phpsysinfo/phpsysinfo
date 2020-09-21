@@ -37,7 +37,7 @@ class PS extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))){
+            if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
                 try {
                     if (PHP_OS === "Linux") {
                         if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
@@ -255,7 +255,7 @@ class PS extends PSI_Plugin
                     $xmlnode->addAttribute('CPUUsage', $value[3]);
                 }
                 $xmlnode->addAttribute('Name', $value[4]);
-                if ((PSI_OS !== 'WINNT') && ((PSI_OS !== 'Linux') || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME')))){
+                if ((PSI_OS !== 'WINNT') && ((PSI_OS !== 'Linux') || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) &&
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
                     || ((!defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false)) && ($value[4] === "[kthreadd]")))) {
                     $xmlnode->addAttribute('Expanded', 0);
