@@ -653,7 +653,7 @@ class CommonFunctions
             }
         } elseif ((gettype($wmi) === "string") && (PHP_OS === "Linux")) {
             $delimeter = '@@@DELIM@@@';
-            if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'"', $strBuf, false) && preg_match("/^CLASS:\s/", $strBuf)) {
+            if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
                 /*
                 if (self::$_cp) {
                     $encoding = "Windows-".self::$_cp;
