@@ -37,15 +37,26 @@ class PS extends PSI_Plugin
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if (PSI_OS == 'WINNT') {
+            if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))){
                 try {
-                    $objLocator = new COM('WbemScripting.SWbemLocator');
-                    if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
-                        $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PS_WMI_USER, PSI_PLUGIN_PS_WMI_PASSWORD);
-                    elseif (defined('PSI_WMI_HOSTNAME'))
-                        $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                    else
-                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                    if (PHP_OS === "Linux") {
+                        if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
+                            $wmi = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_PS_WMI_USER.'%'.PSI_PLUGIN_PS_WMI_PASSWORD.' //'.PSI_PLUGIN_PS_WMI_HOSTNAME.' "select * from';
+                        elseif (defined('PSI_WMI_HOSTNAME'))
+                            $wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                        else
+                            $wmi = null;
+                    } elseif (PHP_OS === "WINNT") {
+                        $objLocator = new COM('WbemScripting.SWbemLocator');
+                        if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
+                            $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PS_WMI_USER, PSI_PLUGIN_PS_WMI_PASSWORD);
+                        elseif (defined('PSI_WMI_HOSTNAME'))
+                            $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                        else
+                            $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                    } else {
+                        $wmi = null;
+                    }
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {
@@ -152,13 +163,9 @@ class PS extends PSI_Plugin
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
             break;
         }
-        if (PSI_OS != 'WINNT') {
-            if (trim($buffer) != "") {
-                $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-                unset($this->_filecontent[0]);
-            } else {
-                $this->_filecontent = array();
-            }
+        if (trim($buffer) != "") {
+            $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            unset($this->_filecontent[0]);
         }
     }
     /**
@@ -248,7 +255,7 @@ class PS extends PSI_Plugin
                     $xmlnode->addAttribute('CPUUsage', $value[3]);
                 }
                 $xmlnode->addAttribute('Name', $value[4]);
-                if ((PSI_OS !== 'WINNT') &&
+                if ((PSI_OS !== 'WINNT') && ((PSI_OS !== 'Linux') || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME')))){
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
                     || ((!defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false)) && ($value[4] === "[kthreadd]")))) {
                     $xmlnode->addAttribute('Expanded', 0);

@@ -40,8 +40,15 @@ class HyperV extends PSI_Plugin
     {
         switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
-            if (PSI_OS == 'WINNT') {
-                try {
+            $cim = null;
+            $wmi = null;
+            try {
+                if (PSI_OS === "Linux") {
+                    if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
+                        $cim = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
+                    elseif (defined('PSI_WMI_HOSTNAME'))
+                        $cim = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                } elseif (PHP_OS === "WINNT") {
                     // initialize the wmi objects
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
@@ -50,38 +57,54 @@ class HyperV extends PSI_Plugin
                         $cim = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                     else
                         $cim = $objLocator->ConnectServer('', 'root\CIMv2');
-                    $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
-                    if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
-                        if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
+                }
+                $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
+                if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
+                    if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
+                        if (PSI_OS === "Linux") {
+                            if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
+                                $wmi = '--namespace="root\virtualization\v2" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
+                            elseif (defined('PSI_WMI_HOSTNAME')) 
+                                $wmi = '--namespace="root\virtualization\v2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                        } elseif (PHP_OS === "WINNT") {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_PLUGIN_HYPERV_WMI_HOSTNAME, 'root\virtualization\v2', PSI_PLUGIN_HYPERV_WMI_USER, PSI_PLUGIN_HYPERV_WMI_PASSWORD);
                             elseif (defined('PSI_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\virtualization\v2', PSI_WMI_USER, PSI_WMI_PASSWORD);
                             else
                                 $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
-                        } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
+                        }
+                    } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
+                        if (PSI_OS === "Linux") {
+                            if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
+                                $wmi = '--namespace="root\virtualization" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
+                            elseif (defined('PSI_WMI_HOSTNAME'))
+                                $wmi = '--namespace="root\virtualization" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                            else
+                                $wmi = null;
+                        } elseif (PHP_OS === "WINNT") {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_PLUGIN_HYPERV_WMI_HOSTNAME, 'root\virtualization', PSI_PLUGIN_HYPERV_WMI_USER, PSI_PLUGIN_HYPERV_WMI_PASSWORD);
                             elseif (defined('PSI_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\virtualization', PSI_WMI_USER, PSI_WMI_PASSWORD);
                             else
                                 $wmi = $objLocator->ConnectServer('', 'root\virtualization');
-                        } else {
-                           $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
-                           break;
                         }
                     } else {
-                        $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
-                        break;
+                       $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                       break;
                     }
-                    $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
-                    if (is_array($result)) foreach ($result as $machine) {
-                        if ($machine['InstallDate'] !== null) {
-                            $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
-                        }
-                    }
-                } catch (Exception $e) {
+                } else {
+                    $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                    break;
                 }
+                $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
+                if (is_array($result)) foreach ($result as $machine) {
+                    if ($machine['InstallDate'] !== null) {
+                        $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
+                    }
+                }
+            } catch (Exception $e) {
             }
             break;
         case 'data':

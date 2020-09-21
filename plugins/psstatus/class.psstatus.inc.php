@@ -46,7 +46,8 @@ class PSStatus extends PSI_Plugin
                 } else {
                     $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 }
-                if (PSI_OS == 'WINNT') {
+                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))){
+
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {
                         foreach ($processes as $process) {
@@ -75,13 +76,24 @@ class PSStatus extends PSI_Plugin
 
                     if (!$short || (count($this->_filecontent) == 0)) {
                         try {
-                            $objLocator = new COM('WbemScripting.SWbemLocator');
-                            if (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME'))
-                                $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PSSTATUS_WMI_USER, PSI_PLUGIN_PSSTATUS_WMI_PASSWORD);
-                            elseif (defined('PSI_WMI_HOSTNAME'))
-                                $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                            else
-                                $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                            if (PHP_OS === "Linux") {
+                                if (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME'))
+                                    $wmi = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_PSSTATUS_WMI_USER.'%'.PSI_PLUGIN_PSSTATUS_WMI_PASSWORD.' //'.PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME.' "select * from';
+                                elseif (defined('PSI_WMI_HOSTNAME'))
+                                    $wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                                else
+                                    $wmi = null;
+                            } elseif (PHP_OS === "WINNT") {
+                                $objLocator = new COM('WbemScripting.SWbemLocator');
+                                if (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME'))
+                                    $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PSSTATUS_WMI_USER, PSI_PLUGIN_PSSTATUS_WMI_PASSWORD);
+                                elseif (defined('PSI_WMI_HOSTNAME'))
+                                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                                else
+                                    $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                            } else {
+                                $wmi = null;
+                            }
                             $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
                             foreach ($process_wmi as $process) {
                                 $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
