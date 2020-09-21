@@ -39,7 +39,7 @@ class BAT extends PSI_Plugin
                 $_cim = null; //root\CIMv2
                 $_wmi = null; //root\WMI
                 try {
-                    if (PSI_OS === "Linux") {
+                    if (PHP_OS === "Linux") {
                         if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME')) {
                             $_cim = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_BAT_WMI_USER.'%'.PSI_PLUGIN_BAT_WMI_PASSWORD.' //'.PSI_PLUGIN_BAT_WMI_HOSTNAME.' "select * from';
                             $_cim = '--namespace="root\WMI" -U '.PSI_PLUGIN_BAT_WMI_USER.'%'.PSI_PLUGIN_BAT_WMI_PASSWORD.' //'.PSI_PLUGIN_BAT_WMI_HOSTNAME.' "select * from';

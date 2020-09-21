@@ -41,7 +41,7 @@ class StableBit extends PSI_Plugin
     public function execute()
     {
         try {
-            if (PSI_OS === "Linux") {
+            if ((PHP_OS === "Linux") && (PSI_OS !== "Android")) {
                 if (defined('PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME'))
                     $wmi = '--namespace="root\StableBit\Scanner" -U '.PSI_PLUGIN_STABLEBIT_WMI_USER.'%'.PSI_PLUGIN_STABLEBIT_WMI_PASSWORD.' //'.PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME.' "select * from';
                 elseif (defined('PSI_WMI_HOSTNAME'))
