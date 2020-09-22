@@ -175,7 +175,7 @@ abstract class BSDCommon extends OS
     protected function readdmesg()
     {
         if ($this->_dmesg === null) {
-            if ((PSI_OS != "Darwin") && (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf))) {  // Once again but with debug
+            if ((PSI_OS != 'Darwin') && (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf))) {  // Once again but with debug
                 $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
                 $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             } else {
@@ -248,7 +248,7 @@ abstract class BSDCommon extends OS
         $s = preg_replace('/ }/', '', $s);
         $this->sys->setLoad($s);
         if (PSI_LOAD_BAR) { 
-            if (PSI_OS != "Darwin") {
+            if (PSI_OS != 'Darwin') {
                 if ($fd = $this->grabkey('kern.cp_time')) {
                     // Find out the CPU load
                     // user + sys = load
@@ -292,7 +292,7 @@ abstract class BSDCommon extends OS
     {
         $dev = new CpuDevice();
 
-        if (PSI_OS == "NetBSD") {
+        if (PSI_OS == 'NetBSD') {
             if ($model = $this->grabkey('machdep.cpu_brand')) {
                $dev->setModel($model);
             }

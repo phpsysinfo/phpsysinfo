@@ -64,7 +64,7 @@ class PingTest extends PSI_Plugin
                     }
                 }
                 foreach ($addresses as $address) {
-                    CommonFunctions::executeProgram("ping".((strpos($address, ':') === false)?'':((PSI_OS !== 'WINNT')?'6':'')), $params." ".$address, $buffer, PSI_DEBUG);
+                    CommonFunctions::executeProgram("ping".((strpos($address, ':') === false)?'':((PSI_OS != 'WINNT')?'6':'')), $params." ".$address, $buffer, PSI_DEBUG);
                     if ((strlen($buffer) > 0) && preg_match("/[=<]([\d\.]+)\s*ms/", $buffer, $tmpout)) {
                         $this->_filecontent[] = array($address, $tmpout[1]);
                     }

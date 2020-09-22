@@ -203,7 +203,7 @@ class WINNT extends OS
             $this->_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
-            if (defined('PSI_WMI_HOSTNAME') && (PHP_OS === "Linux")) {
+            if (defined('PSI_WMI_HOSTNAME') && (PHP_OS == 'Linux')) {
                 $this->_wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
                 $this->_reg = false; // No EnumKey and ReadReg
             } else {

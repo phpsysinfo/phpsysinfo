@@ -43,12 +43,12 @@ class HyperV extends PSI_Plugin
             $cim = null;
             $wmi = null;
             try {
-                if ((PHP_OS === "Linux") && (PSI_OS !== "Android")) {
+                if ((PHP_OS == 'Linux') && (PSI_OS != 'Android')) {
                     if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                         $cim = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
                     elseif (defined('PSI_WMI_HOSTNAME'))
                         $cim = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                } elseif (PHP_OS === "WINNT") {
+                } elseif (PHP_OS == 'WINNT') {
                     // initialize the wmi objects
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
@@ -61,14 +61,14 @@ class HyperV extends PSI_Plugin
                 $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
                 if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                     if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                        if ((PHP_OS === "Linux") && (PSI_OS !== "Android")) {
+                        if ((PHP_OS == 'Linux') && (PSI_OS != 'Android')) {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = '--namespace="root\virtualization\v2" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
                             elseif (defined('PSI_WMI_HOSTNAME')) 
                                 $wmi = '--namespace="root\virtualization\v2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
                             else
                                 $wmi = null;
-                        } elseif (PHP_OS === "WINNT") {
+                        } elseif (PHP_OS == 'WINNT') {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_PLUGIN_HYPERV_WMI_HOSTNAME, 'root\virtualization\v2', PSI_PLUGIN_HYPERV_WMI_USER, PSI_PLUGIN_HYPERV_WMI_PASSWORD);
                             elseif (defined('PSI_WMI_HOSTNAME'))
@@ -77,14 +77,14 @@ class HyperV extends PSI_Plugin
                                 $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
                         }
                     } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
-                        if ((PHP_OS === "Linux") && (PSI_OS !== "Android")) {
+                        if ((PHP_OS == 'Linux') && (PSI_OS != 'Android')) {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = '--namespace="root\virtualization" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
                             elseif (defined('PSI_WMI_HOSTNAME'))
                                 $wmi = '--namespace="root\virtualization" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
                             else
                                 $wmi = null;
-                        } elseif (PHP_OS === "WINNT") {
+                        } elseif (PHP_OS == 'WINNT') {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_PLUGIN_HYPERV_WMI_HOSTNAME, 'root\virtualization', PSI_PLUGIN_HYPERV_WMI_USER, PSI_PLUGIN_HYPERV_WMI_PASSWORD);
                             elseif (defined('PSI_WMI_HOSTNAME'))

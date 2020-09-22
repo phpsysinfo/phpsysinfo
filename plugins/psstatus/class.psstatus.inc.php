@@ -46,7 +46,7 @@ class PSStatus extends PSI_Plugin
                 } else {
                     $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 }
-                if ((PSI_OS === 'WINNT') || ((PSI_OS === 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
+                if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
 
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {
@@ -76,14 +76,14 @@ class PSStatus extends PSI_Plugin
 
                     if (!$short || (count($this->_filecontent) == 0)) {
                         try {
-                            if (PHP_OS === "Linux") {
+                            if (PHP_OS == 'Linux') {
                                 if (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME'))
                                     $wmi = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_PSSTATUS_WMI_USER.'%'.PSI_PLUGIN_PSSTATUS_WMI_PASSWORD.' //'.PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME.' "select * from';
                                 elseif (defined('PSI_WMI_HOSTNAME'))
                                     $wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
                                 else
                                     $wmi = null;
-                            } elseif (PHP_OS === "WINNT") {
+                            } elseif (PHP_OS == 'WINNT') {
                                 $objLocator = new COM('WbemScripting.SWbemLocator');
                                 if (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME'))
                                     $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PSSTATUS_WMI_USER, PSI_PLUGIN_PSSTATUS_WMI_PASSWORD);

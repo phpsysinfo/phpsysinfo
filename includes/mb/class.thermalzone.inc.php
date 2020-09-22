@@ -30,10 +30,10 @@ class ThermalZone extends Sensors
         if (PSI_OS == 'WINNT') {
             if (CommonFunctions::isAdmin()) {
                 $_wmi = null;
-                if (PHP_OS === "Linux") {
+                if (PHP_OS == 'Linux') {
                     if (defined('PSI_WMI_HOSTNAME'))
                         $_wmi = '--namespace="root\WMI" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                } elseif (PHP_OS === "WINNT") {
+                } elseif (PHP_OS == 'WINNT') {
                     try {
                         // initialize the wmi object
                         $objLocator = new COM('WbemScripting.SWbemLocator');

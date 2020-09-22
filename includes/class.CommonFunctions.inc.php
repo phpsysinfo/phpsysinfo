@@ -210,7 +210,7 @@ class CommonFunctions
             }
         }
 
-        if ((PHP_OS !== 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+        if ((PHP_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
             $strSet = $strmatch[1].' ';
             $strProgramname = $strmatch[2];
         } else {
@@ -230,7 +230,7 @@ class CommonFunctions
             }
         }
 
-        if ((PHP_OS !== 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+        if ((PHP_OS != 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
             if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
                 $sudocommands = eval(PSI_SUDO_COMMANDS);
             } else {
@@ -530,7 +530,7 @@ class CommonFunctions
     {
         if ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        elseif (PHP_OS == "WINNT")
+        elseif (PHP_OS == 'WINNT')
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
         else
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring');
@@ -651,23 +651,22 @@ class CommonFunctions
                     $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                 }
             }
-        } elseif ((gettype($wmi) === "string") && (PHP_OS === "Linux")) {
+        } elseif ((gettype($wmi) === "string") && (PHP_OS == 'Linux')) {
             $delimeter = '@@@DELIM@@@';
             if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
-                /*
                 if (self::$_cp) {
                     $encoding = "Windows-".self::$_cp;
                     $enclist = mb_list_encodings();
-                    if (in_array($encoding, $enclist)) {
-                        $strBuf = mb_convert_encoding($strBuf, $encoding, 'UTF-8');
+                    if (in_array($encoding, $enclist) &&  in_array(PSI_SYSTEM_CODEPAGE, $enclist))
+                        $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
                     } elseif (function_exists("iconv")) {
-                        if (($iconvout=iconv('UTF-8', $encoding, $strBuf))!==false) {
+                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false) {
                             $strBuf = $iconvout;
                         }
-                    } elseif (function_exists("libiconv") && (($iconvout=libiconv('UTF-8', $encoding, $strBuf))!==false)) {
+                    } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false)) {
                         $strBuf = $iconvout;
                     }
-                }*/
+                }
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                 if (count($lines) >=3 ) {
                     unset($lines[0]);
