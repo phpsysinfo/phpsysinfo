@@ -66,6 +66,8 @@ class HyperV extends PSI_Plugin
                                 $wmi = '--namespace="root\virtualization\v2" -U '.PSI_PLUGIN_HYPERV_WMI_USER.'%'.PSI_PLUGIN_HYPERV_WMI_PASSWORD.' //'.PSI_PLUGIN_HYPERV_WMI_HOSTNAME.' "select * from';
                             elseif (defined('PSI_WMI_HOSTNAME')) 
                                 $wmi = '--namespace="root\virtualization\v2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+                            else
+                                $wmi = null;
                         } elseif (PHP_OS === "WINNT") {
                             if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME'))
                                 $wmi = $objLocator->ConnectServer(PSI_PLUGIN_HYPERV_WMI_HOSTNAME, 'root\virtualization\v2', PSI_PLUGIN_HYPERV_WMI_USER, PSI_PLUGIN_HYPERV_WMI_PASSWORD);
