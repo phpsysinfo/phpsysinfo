@@ -165,7 +165,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-            if (defined('PSI_OS') && (PSI_OS != 'Android') && defined('PSI_WMI_HOSTNAME')) {
+            if ((!defined('PSI_OS') || (PSI_OS != 'Android')) && defined('PSI_WMI_HOSTNAME')) {
                     define('PSI_OS', 'WINNT');
             }
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini

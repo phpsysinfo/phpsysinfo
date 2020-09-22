@@ -660,7 +660,7 @@ class CommonFunctions
                     if (in_array($encoding, $enclist) &&  in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
                         $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
                     } elseif (function_exists("iconv")) {
-                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false) {
+                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding.'//IGNORE', $strBuf))!==false) {
                             $strBuf = $iconvout;
                         }
                     } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false)) {
