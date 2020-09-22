@@ -163,7 +163,7 @@ class PS extends PSI_Plugin
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
             break;
         }
-        if (trim($buffer) != "") {
+        if (isset($buffer) && (trim($buffer) != "")) {
             $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
             unset($this->_filecontent[0]);
         }
