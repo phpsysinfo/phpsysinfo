@@ -656,15 +656,17 @@ class CommonFunctions
             if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
                 if (self::$_cp) {
                     $encoding = "Windows-".self::$_cp;
-                    $enclist = mb_list_encodings();
-                    if (in_array($encoding, $enclist) &&  in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
-                        $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
-                    } elseif (function_exists("iconv")) {
-                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding.'//IGNORE', $strBuf))!==false) {
+                    if ($encoding != PSI_SYSTEM_CODEPAGE) {
+                        $enclist = mb_list_encodings();
+                        if (in_array($encoding, $enclist) &&  in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
+                            $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
+                        } elseif (function_exists("iconv")) {
+                            if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding.'//IGNORE', $strBuf))!==false) {
+                                $strBuf = $iconvout;
+                            }
+                        } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false)) {
                             $strBuf = $iconvout;
                         }
-                    } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false)) {
-                        $strBuf = $iconvout;
                     }
                 }
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
