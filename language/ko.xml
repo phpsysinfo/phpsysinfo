@@ -52,7 +52,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>캐쉬 크기</exp>
   </expression>
   <expression id="016" name="bogomips">
-    <exp>자체 테스트 클럭</exp>
+    <exp>BogoMIPS</exp>
   </expression>
   <expression id="017" name="pci">
     <exp>PCI 장치</exp>
@@ -88,13 +88,13 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>메모리 사용량</exp>
   </expression>
   <expression id="028" name="phymem">
-    <exp>물리적 메모리</exp>
+    <exp>물리 메모리</exp>
   </expression>
   <expression id="029" name="swap">
     <exp>디스크 스왑</exp>
   </expression>
   <expression id="030" name="fs">
-    <exp>마운트된 시스템</exp>
+    <exp>마운트된 파일시스템</exp>
   </expression>
   <expression id="031" name="mount">
     <exp>마운트 지점</exp>
@@ -130,7 +130,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>GB</exp>
   </expression>
   <expression id="042" name="none">
-    <exp>none</exp>
+    <exp>없음</exp>
   </expression>
   <expression id="043" name="capacity">
     <exp>용량</exp>
@@ -181,13 +181,13 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>제한</exp>
   </expression>
   <expression id="059" name="s_label">
-    <exp>Label</exp>
+    <exp>레이블</exp>
   </expression>
   <expression id="060" name="degreec">
-    <exp>도 (섭씨)</exp>
+    <exp>°C</exp>
   </expression>
   <expression id="061" name="degreef">
-    <exp>도 (화씨)</exp>
+    <exp>°F</exp>
   </expression>
   <expression id="062" name="voltage_mark">
     <exp>V</exp>
@@ -202,7 +202,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>버퍼</exp>
   </expression>
   <expression id="066" name="cached">
-    <exp>캐쉬</exp>
+    <exp>캐시</exp>
   </expression>
   <expression id="067" name="jumpto">
     <exp>이동 : </exp>
@@ -220,31 +220,31 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>모드</exp>
   </expression>
   <expression id="072" name="ups_start_time">
-    <exp>Started</exp>
+    <exp>시작 시간</exp>
   </expression>
   <expression id="073" name="ups_status">
     <exp>상태</exp>
   </expression>
   <expression id="074" name="ups_outages_count">
-    <exp>Outages</exp>
+    <exp>작동 중단</exp>
   </expression>
   <expression id="075" name="ups_last_outage">
-    <exp>Last outage cause</exp>
+    <exp>마지막 작동 중단 사유</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Last outage timestamp</exp>
+    <exp>마지막 작동 중단 타임스탬프</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
     <exp>라인 전압</exp>
   </expression>
   <expression id="078" name="ups_load_percent">
-    <exp>Load percent</exp>
+    <exp>부하율</exp>
   </expression>
   <expression id="079" name="ups_battery_voltage">
     <exp>배터리 전압</exp>
   </expression>
   <expression id="080" name="ups_battery_charge_percent">
-    <exp>배터리 충전</exp>
+    <exp>배터리 충전률</exp>
   </expression>
   <expression id="081" name="ups_time_left_minutes">
     <exp>배터리 남은 시간</exp>
@@ -298,7 +298,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>시스템 언어</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>코드 페이지 (인코딩)</exp>
+    <exp>코드 페이지</exp>
   </expression>
   <expression id="099" name="details">
     <exp>세부 사항</exp>
@@ -340,7 +340,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>실행 중</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>유휴 중</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
     <exp>중지됨</exp>
@@ -376,7 +376,7 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>제품</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>시리얼번호</exp>
+    <exp>시리얼 번호</exp>
   </expression>
   <expression id="125" name="memfree">
     <exp>남은 공간</exp>
@@ -385,6 +385,6 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>NVMe 장치</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>OS 종류</exp>
   </expression>
 </tns:translation>
