@@ -230,7 +230,7 @@ class WINNT extends OS
                     }
                     try {
                         if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
-                            $this->_wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                            $this->_wmireg = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
                         elseif (defined('PSI_WMI_HOSTNAME')) {
                             $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
                         } else {
