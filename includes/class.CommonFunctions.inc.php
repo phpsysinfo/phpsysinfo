@@ -764,7 +764,7 @@ class CommonFunctions
             if (isset($_hkey[$hkey])) {
                 $sub_keys = new VARIANT();
                 try {
-                 $reg->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                    $reg->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
                 } catch (Exception $e) {
                     if ($booErrorRep) {
                         $error = PSI_Error::singleton();
