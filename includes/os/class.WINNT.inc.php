@@ -70,13 +70,6 @@ class WINNT extends OS
     private $_wmi = null;
 
     /**
-     * holds the COM object that we pull WMI root\default data from
-     *
-     * @var Object
-     */
-    private $_wmireg = null;
-
-    /**
      * holds the COM object that we pull all the EnumKey and RegRead data from
      *
      * @var Object
@@ -230,24 +223,16 @@ class WINNT extends OS
                     }
                     try {
                         if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'))
-                            $this->_wmireg = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                            $this->_reg = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), 'root\default', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
                         elseif (defined('PSI_WMI_HOSTNAME')) {
-                            $this->_wmireg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
+                            $this->_reg = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\default', PSI_WMI_USER, PSI_WMI_PASSWORD);
                         } else {
-                            $this->_wmireg = $objLocator->ConnectServer('', 'root\default');
+                            $this->_reg = $objLocator->ConnectServer('', 'root\default');
                         }
+                        $this->_reg->Security_->ImpersonationLevel = 3;
                     } catch (Exception $e) {
                         $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI root\default interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
                         $this->_reg = false; // No EnumKey and ReadReg
-                        $this->_wmireg = false;
-                    }
-                    if ($this->_wmireg) {
-                        $this->_wmireg->Security_->ImpersonationLevel = 3;
-                        try {
-                            $this->_reg = $this->_wmireg->Get("StdRegProv");
-                        } catch (Exception $e) {
-                            $this->_reg = false; // No EnumKey and ReadReg
-                        }
                     }
                 }
             }
