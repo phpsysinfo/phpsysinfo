@@ -149,7 +149,14 @@ abstract class OS implements PSI_Interface_OS
                 && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
             } else {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+                //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
+                $hn = $this->sys->getHostname();
+                $ghbn = gethostbyname($hn);
+                if (defined('PSI_WMI_HOSTNAME') && ($hn === $ghbn)) {
+                    $this->sys->setIp(PSI_WMI_HOSTNAME);
+                } else {
+                    $this->sys->setIp($ghbn);
+                }
             }
         }
     }
