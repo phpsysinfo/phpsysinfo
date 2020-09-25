@@ -528,7 +528,7 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if (((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)) && ((PHP_OS != 'Linux') && (PSI_OS != 'WINNT')) || !defined('PSI_WMI_HOSTNAME'))
+        if (((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)) && (((PHP_OS != 'Linux') && (PSI_OS != 'WINNT')) || !defined('PSI_WMI_HOSTNAME')))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PHP_OS == 'WINNT')
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
