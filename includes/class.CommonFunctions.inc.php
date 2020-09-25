@@ -658,7 +658,7 @@ class CommonFunctions
                     $encoding = "Windows-".self::$_cp;
                     if ($encoding != PSI_SYSTEM_CODEPAGE) {
                         $enclist = mb_list_encodings();
-                        if (in_array($encoding, $enclist) &&  in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
+                        if (in_array($encoding, $enclist) && in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
                             $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
                         } elseif (function_exists("iconv")) {
                             if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding.'//IGNORE', $strBuf))!==false) {
