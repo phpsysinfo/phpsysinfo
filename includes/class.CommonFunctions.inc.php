@@ -856,7 +856,7 @@ class CommonFunctions
         $wmi = false;
         $plugname = strtoupper(trim($pluginname));
         try {
-            if (PSI_OS == 'Linux') {
+            if (PHP_OS == 'Linux') {
                 if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'))
                     $wmi = '--namespace="'.$namespace.'" -U '.constant('PSI_PLUGIN_'.$plugname.'_WMI_USER').'%'.constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD').' //'.constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME').' "select * from';
                 elseif (defined('PSI_WMI_HOSTNAME'))
@@ -876,7 +876,7 @@ class CommonFunctions
                 $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
             }
         }
-        
+
         return $wmi;
     }
 }
