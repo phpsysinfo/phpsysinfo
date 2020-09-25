@@ -1923,7 +1923,8 @@ function buildBlock(plugin, translationid, reload) {
     }
     block += "<div id=\"panel_" + plugin + "\" style=\"display:none;\">\n";
     block += "<div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
-    block += "<h2>" + reloadpic + genlang(translationid, plugin) + "</h2>\n";
+    block += "<h2>" + reloadpic + genlang(translationid, plugin) + "\n";
+    block += "<span class=\"Hostname_" + plugin + "\"></span></h2>\n";
     block += "</div>\n";
     block += "</div>\n";
     return block;

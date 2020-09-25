@@ -27,17 +27,7 @@ class OHM extends Sensors
     public function __construct()
     {
         parent::__construct();
-        $_wmi = null;
-        try {
-            // initialize the wmi object
-            $objLocator = new COM('WbemScripting.SWbemLocator');
-            if (defined('PSI_WMI_HOSTNAME'))
-                $_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\OpenHardwareMonitor', PSI_WMI_USER, PSI_WMI_PASSWORD);
-            else
-                $_wmi = $objLocator->ConnectServer('', 'root\OpenHardwareMonitor');
-        } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for OpenHardwareMonitor data.");
-        }
+        $_wmi = CommonFunctions::initWMI('root\OpenHardwareMonitor', '', true);
         if ($_wmi) {
             $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
             if ($tmpbuf) foreach ($tmpbuf as $buffer) {

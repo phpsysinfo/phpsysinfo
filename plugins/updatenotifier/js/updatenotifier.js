@@ -28,8 +28,13 @@ var UpdateNotifier_show = false, UpdateNotifier_table;
  * @param {jQuery} xml plugin-XML
  */
 function updatenotifier_populate(xml) {
-    var html = "";
+    var html = "", hostname = "";
  
+    hostname = $("Plugins Plugin_UpdateNotifier", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_UpdateNotifier]').html(hostname);
+    }
+
     $("Plugins Plugin_UpdateNotifier UpdateNotifier", xml).each(function(idp) {
         var packages = "", security = "";
         packages = $("packages", this).text();

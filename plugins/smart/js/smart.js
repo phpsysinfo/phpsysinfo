@@ -33,7 +33,12 @@ var smart_show = false, smart_table;
  * fill the plugin block with table structure
  */
 function smart_buildTable(xml) {
-    var html = "";
+    var html = "", hostname = "";
+
+    hostname = $("Plugins Plugin_SMART", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_SMART]').html(hostname);
+    }
 
     html += "<div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"Plugin_SMARTTable\" style=\"border-collapse:collapse;\">\n";

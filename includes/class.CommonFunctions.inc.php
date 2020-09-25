@@ -133,7 +133,7 @@ class CommonFunctions
         }
 
         //add some default paths if we still have no paths here
-        if (empty($arrPath) && PHP_OS != 'WINNT') {
+        if (empty($arrPath) && (PHP_OS != 'WINNT')) {
             if (PSI_OS == 'Android') {
                 array_push($arrPath, '/system/bin');
             } else {
@@ -843,5 +843,40 @@ class CommonFunctions
         }
 
         return true;
+    }
+
+
+    /**
+     * initWMI function
+     *
+     * @return string, object or false
+     */
+    public static function initWMI($namespace, $pluginname = '', $booErrorRep = false)
+    {
+        $wmi = false;
+        $plugname = strtoupper(trim($pluginname));
+        try {
+            if (PSI_OS == 'Linux') {
+                if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'))
+                    $wmi = '--namespace="'.$namespace.'" -U '.constant('PSI_PLUGIN_'.$plugname.'_WMI_USER').'%'.constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD').' //'.constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME').' "select * from';
+                elseif (defined('PSI_WMI_HOSTNAME'))
+                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
+            } elseif (PHP_OS == 'WINNT') {
+                $objLocator = new COM('WbemScripting.SWbemLocator');
+                if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'))
+                    $wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), $namespace, constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                elseif (defined('PSI_WMI_HOSTNAME') && defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD'))
+                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, $namespace, PSI_WMI_USER, PSI_WMI_PASSWORD);
+                else
+                    $wmi = $objLocator->ConnectServer('', $namespace);
+            }
+        } catch (Exception $e) {
+            if ($booErrorRep) {
+                $error = PSI_Error::singleton();
+                $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+            }
+        }
+        
+        return $wmi;
     }
 }

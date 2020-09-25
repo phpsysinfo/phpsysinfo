@@ -41,24 +41,7 @@ class StableBit extends PSI_Plugin
     public function execute()
     {
         try {
-            if ((PHP_OS == 'Linux') && (PSI_OS != 'Android')) {
-                if (defined('PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME'))
-                    $wmi = '--namespace="root\StableBit\Scanner" -U '.PSI_PLUGIN_STABLEBIT_WMI_USER.'%'.PSI_PLUGIN_STABLEBIT_WMI_PASSWORD.' //'.PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME.' "select * from';
-                elseif (defined('PSI_WMI_HOSTNAME'))
-                    $wmi = '--namespace="root\StableBit\Scanner" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                else
-                    $wmi = null;
-            } elseif (PHP_OS == 'WINNT') {
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (defined('PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME'))
-                    $wmi = $objLocator->ConnectServer(PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME, 'root\StableBit\Scanner', PSI_PLUGIN_STABLEBIT_WMI_USER, PSI_PLUGIN_STABLEBIT_WMI_PASSWORD);
-                elseif (defined('PSI_WMI_HOSTNAME'))
-                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\StableBit\Scanner', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                else
-                    $wmi = $objLocator->ConnectServer('', 'root\StableBit\Scanner');
-            } else {
-                $wmi = null;
-            }
+            $wmi = CommonFunctions::initWMI('root\StableBit\Scanner', get_class());
             $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
         } catch (Exception $e) {
         }

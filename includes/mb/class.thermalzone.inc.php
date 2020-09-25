@@ -29,23 +29,7 @@ class ThermalZone extends Sensors
         parent::__construct();
         if (PSI_OS == 'WINNT') {
             if (CommonFunctions::isAdmin()) {
-                $_wmi = null;
-                if (PHP_OS == 'Linux') {
-                    if (defined('PSI_WMI_HOSTNAME'))
-                        $_wmi = '--namespace="root\WMI" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                } elseif (PHP_OS == 'WINNT') {
-                    try {
-                        // initialize the wmi object
-                        $objLocator = new COM('WbemScripting.SWbemLocator');
-                        if (defined('PSI_WMI_HOSTNAME'))
-                            $_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\WMI', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                        else
-                            $_wmi = $objLocator->ConnectServer('', 'root\WMI');
-                    } catch (Exception $e) {
-                        $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
-                    }
-                }
-
+                $_wmi = CommonFunctions::initWMI('root\WMI', '', true);
                 if ($_wmi) {
                     $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
                 }

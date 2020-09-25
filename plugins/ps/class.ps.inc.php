@@ -39,24 +39,7 @@ class PS extends PSI_Plugin
         case 'command':
             if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
                 try {
-                    if (PHP_OS == 'Linux') {
-                        if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
-                            $wmi = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_PS_WMI_USER.'%'.PSI_PLUGIN_PS_WMI_PASSWORD.' //'.PSI_PLUGIN_PS_WMI_HOSTNAME.' "select * from';
-                        elseif (defined('PSI_WMI_HOSTNAME'))
-                            $wmi = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                        else
-                            $wmi = null;
-                    } elseif (PHP_OS == 'WINNT') {
-                        $objLocator = new COM('WbemScripting.SWbemLocator');
-                        if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME'))
-                            $wmi = $objLocator->ConnectServer(PSI_PLUGIN_PS_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_PS_WMI_USER, PSI_PLUGIN_PS_WMI_PASSWORD);
-                        elseif (defined('PSI_WMI_HOSTNAME'))
-                            $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                        else
-                            $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                    } else {
-                        $wmi = null;
-                    }
+                    $wmi = CommonFunctions::initWMI('root\CIMv2', get_class());
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {

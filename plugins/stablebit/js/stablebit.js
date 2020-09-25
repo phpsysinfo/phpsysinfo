@@ -32,9 +32,14 @@ var stablebit_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function stablebit_buildTable(xml) {
-    var html = "", tree = [], closed = [];
+    var html = "", tree = [], closed = [], hostname = "";
 
     $("#Plugin_StableBit #Plugin_StableBitTable").remove();
+
+    hostname = $("Plugins Plugin_StableBit", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_StableBit]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_StableBitTable\" class=\"tablemain\">\n";

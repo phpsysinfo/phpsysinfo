@@ -36,37 +36,11 @@ class BAT extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
             if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
-                $_cim = null; //root\CIMv2
-                $_wmi = null; //root\WMI
-                try {
-                    if (PHP_OS == 'Linux') {
-                        if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME')) {
-                            $_cim = '--namespace="root\CIMv2" -U '.PSI_PLUGIN_BAT_WMI_USER.'%'.PSI_PLUGIN_BAT_WMI_PASSWORD.' //'.PSI_PLUGIN_BAT_WMI_HOSTNAME.' "select * from';
-                            $_cim = '--namespace="root\WMI" -U '.PSI_PLUGIN_BAT_WMI_USER.'%'.PSI_PLUGIN_BAT_WMI_PASSWORD.' //'.PSI_PLUGIN_BAT_WMI_HOSTNAME.' "select * from';
-                        } elseif (defined('PSI_WMI_HOSTNAME')) {
-                            $_cim = '--namespace="root\CIMv2" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                            $_cim = '--namespace="root\WMI" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                        }
-                    } elseif (PHP_OS == 'WINNT') {
-                        // initialize the wmi objects
-                        $objLocator = new COM('WbemScripting.SWbemLocator');
+                $_cim = CommonFunctions::initWMI('root\CIMv2', get_class(), true);
+                $_wmi = CommonFunctions::initWMI('root\WMI', get_class());
+                $bufferWB = array();
 
-                        if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME')) {
-                            $_cim = $objLocator->ConnectServer(PSI_PLUGIN_BAT_WMI_HOSTNAME, 'root\CIMv2', PSI_PLUGIN_BAT_WMI_USER, PSI_PLUGIN_BAT_WMI_PASSWORD);
-                            $_wmi = $objLocator->ConnectServer(PSI_PLUGIN_BAT_WMI_HOSTNAME, 'root\WMI', PSI_PLUGIN_BAT_WMI_USER, PSI_PLUGIN_BAT_WMI_PASSWORD);
-                        } elseif (defined('PSI_WMI_HOSTNAME')) {
-                            $_cim = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\CIMv2', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                            $_wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\WMI', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                        } else {
-                            $_cim = $objLocator->ConnectServer('', 'root\CIMv2');
-                            $_wmi = $objLocator->ConnectServer('', 'root\WMI');
-                        }
-                    }
-                } catch (Exception $e) {
-                    $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
-                }
-
-                $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                if ($_cim !== false) $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
                 if (sizeof($bufferWB)>0) {
                     $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
                     $bufferBS = CommonFunctions::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));

@@ -33,9 +33,14 @@ var pingtest_show = false, pingtest_table;
  * @param {jQuery} xml plugin-XML
  */
 function pingtest_populate(xml) {
-    var address = "", pingtime = 0, state = "";
+    var address = "", pingtime = 0, state = "", hostname = "";
 
     pingtest_table.fnClearTable();
+
+    hostname = $("Plugins Plugin_PingTest", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_PingTest]').html(hostname);
+    }
 
     $("Plugins Plugin_PingTest Ping", xml).each(function pingtest_getprocess(idp) {
         address = $(this).attr("Address");

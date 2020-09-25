@@ -186,10 +186,17 @@ function raid_diskicon(xml, id) {
  * @param {jQuery} xml plugin-XML
  */
 function raid_populate(xml) {
+    var hostname = "";
+   
     $("#Plugin_RaidTable").empty();
+
+    hostname = $("Plugins Plugin_Raid", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Raid]').html(hostname);
+    }
+
     $("#Plugin_RaidTable").append("<tbody>");
-    var arr = $("Plugins Plugin_Raid Raid", xml);
-    arr.each(function raid_getdevice(id) {
+    $("Plugins Plugin_Raid Raid", xml).each(function raid_getdevice(id) {
         var htmldisks = "", buildedaction = "";
         htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td id=\"Plugin_Raid_List-" + id + "\"></td></tr>";
@@ -198,9 +205,6 @@ function raid_populate(xml) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
         htmldisks += "<tr><td>" + raid_buildinfos($(this), id);
-        /*if (id != (arr.length - 1)) { // not last element
-            htmldisks += "<br>";
-        }*/
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
 

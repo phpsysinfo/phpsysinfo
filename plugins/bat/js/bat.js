@@ -32,9 +32,14 @@ var bat_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function bat_buildTable(xml) {
-    var html = "", tree = [], closed = [], batcount = 0;
+    var html = "", tree = [], closed = [], batcount = 0, index = 0, hostname = "";
 
     $("#Plugin_BAT #Plugin_BATTable").remove();
+
+    hostname = $("Plugins Plugin_BAT", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_BAT]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "   <table id=\"Plugin_BATTable\" class=\"tablemain\">\n";
@@ -47,9 +52,7 @@ function bat_buildTable(xml) {
     html += "    </thead>\n";
     html += "    <tbody class=\"tree\">\n";
 
-    var index = 0;
-
-    $("Plugins Plugin_Bat Bat", xml).each(function bat_getdisks(id) {
+    $("Plugins Plugin_Bat Bat", xml).each(function bat_getbats(id) {
         var name = "", DesignCapacity = 0, FullCapacity = 0, Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = 0, PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
         name = $(this).attr("Name");
         if (name === undefined) {

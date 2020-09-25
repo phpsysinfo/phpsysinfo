@@ -33,9 +33,13 @@ var viewer_show = false;
  */
 
 function viewer_populate(xml) {
-
-    var html = "", name = "";
+    var html = "", name = "", hostname = "";
  
+    hostname = $("Plugins Plugin_Viewer", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Viewer]').html(hostname);
+    }
+
     name = $("Plugins Plugin_Viewer Viewer", xml).attr("Name");
     $("#Plugin_viewerTable-th").empty();
     if (name !== undefined) $("#Plugin_viewerTable-th").append(name);

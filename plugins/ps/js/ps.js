@@ -32,9 +32,14 @@ var ps_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function ps_buildTable(xml) {
-    var html = "", tree = [], closed = [], memwas = false, cpuwas = false;
+    var html = "", tree = [], closed = [], memwas = false, cpuwas = false, hostname = "";
 
     $("#Plugin_PS #Plugin_PSTable").remove();
+
+    hostname = $("Plugins Plugin_PS", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_PS]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_PSTable\" class=\"tablemain\">\n";

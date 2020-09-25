@@ -32,9 +32,14 @@ var snmppinfo_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function snmppinfo_buildTable(xml) {
-    var html = "", tree = [], closed = [];
+    var html = "", tree = [], closed = [], hostname = "";
 
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
+
+    hostname = $("Plugins Plugin_SNMPInfo", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_SNMPInfo]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\">\n";

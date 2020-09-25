@@ -33,8 +33,12 @@ var uprecords_show = false;
  */
 
 function uprecords_populate(xml) {
+    var html = "", datetimeFormat = "", hostname = "";
 
-    var html = "", datetimeFormat = "";
+    hostname = $("Plugins Plugin_uprecords", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_uprecords]').html(hostname);
+    }
 
     $("Options", xml).each(function getByteFormat(id) {
         datetimeFormat = $(this).attr("datetimeFormat");

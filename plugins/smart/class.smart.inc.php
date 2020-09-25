@@ -76,24 +76,7 @@ class SMART extends PSI_Plugin
                     } else {
                         $asd_wmi = null;
                         try {
-                            if (PHP_OS == 'Linux') {
-                                if (defined('PSI_PLUGIN_SMART_WMI_HOSTNAME'))
-                                    $wmi = '--namespace="root\wmi" -U '.PSI_PLUGIN_SMART_WMI_USER.'%'.PSI_PLUGIN_SMART_WMI_PASSWORD.' //'.PSI_PLUGIN_SMART_WMI_HOSTNAME.' "select * from';
-                                elseif (defined('PSI_WMI_HOSTNAME'))
-                                    $wmi = '--namespace="root\wmi" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-                                else
-                                    $wmi = null;
-                            } elseif (PHP_OS == 'WINNT') {
-                                $objLocator = new COM('WbemScripting.SWbemLocator');
-                                if (defined('PSI_PLUGIN_SMART_WMI_HOSTNAME'))
-                                    $wmi = $objLocator->ConnectServer(PSI_PLUGIN_SMART_WMI_HOSTNAME, 'root\wmi', PSI_PLUGIN_SMART_WMI_USER, PSI_PLUGIN_SMART_WMI_PASSWORD);
-                                elseif (defined('PSI_WMI_HOSTNAME'))
-                                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, 'root\wmi', PSI_WMI_USER, PSI_WMI_PASSWORD);
-                                else
-                                    $wmi = $objLocator->ConnectServer('', 'root\wmi');
-                            } else {
-                                $wmi = null;
-                            }
+                            $wmi = CommonFunctions::initWMI('root\wmi', get_class());
                             $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                         } catch (Exception $e) {
                         }

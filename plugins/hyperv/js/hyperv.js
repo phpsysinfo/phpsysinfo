@@ -34,9 +34,14 @@ var hyperv_show = false, hyperv_table;
  * @param {jQuery} xml plugin-XML
  */
 function hyperv_populate(xml) {
-    var name = "", status = 0, state = "";
+    var name = "", status = 0, state = "", hostname = "";
 
     hyperv_table.fnClearTable();
+
+    hostname = $("Plugins Plugin_HyperV", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_HyperV]').html(hostname);
+    }
 
     $("Plugins Plugin_HyperV Machine", xml).each(function hyperv_getprocess(idp) {
         name = $(this).attr("Name");
