@@ -31,6 +31,12 @@ class PSStatus extends PSI_Plugin
     private $_result = array();
 
     /**
+     * variable, which holds the current codepage
+     * @var string
+     */
+    private $_enc;
+
+    /**
      * read the data into an internal array and also call the parent constructor
      *
      * @param String $enc target encoding
@@ -38,6 +44,7 @@ class PSStatus extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
+        $this->_enc = $enc;
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
             switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
             case 'command':
@@ -129,17 +136,37 @@ class PSStatus extends PSI_Plugin
     public function execute()
     {
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-                $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
-            } else {
-                $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
-            }
             if (((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_PSSTATUS_HOSTNAME')))) &&
                (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
+                $strBuf = PSI_PLUGIN_PSSTATUS_PROCESSES;
+                if ($this->_enc != PSI_SYSTEM_CODEPAGE) {
+                    $enclist = mb_list_encodings();
+                    if (in_array($this->_enc, $enclist) && in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
+                        $strBuf = mb_convert_encoding($strBuf, $this->_enc, PSI_SYSTEM_CODEPAGE);
+                    } elseif (function_exists("iconv")) {
+                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $this->_enc.'//IGNORE', $strBuf))!==false) {
+                            $strBuf = $iconvout;
+                        }
+                    } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $this->_enc, $strBuf))!==false)) {
+                        $strBuf = $iconvout;
+                    }
+                }
+                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                    $processes = eval($strBuf);
+                } else {
+                    $processes = array($strBuf);
+                }
+
                 foreach ($processes as $process) {
                     $this->_result[] = array($process, $this->process_inarray(strtolower($process), $this->_filecontent));
                 }
             } else {
+                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                    $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                } else {
+                    $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
+                }
+
                 foreach ($processes as $process) {
                     $this->_result[] = array($process, $this->process_inarray($process, $this->_filecontent));
                 }
