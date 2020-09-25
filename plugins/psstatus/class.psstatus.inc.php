@@ -134,7 +134,8 @@ class PSStatus extends PSI_Plugin
             } else {
                 $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
             }
-            if ((PSI_OS == 'WINNT') && (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
+            if (((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_PSSTATUS_HOSTNAME')))) &&
+               (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 foreach ($processes as $process) {
                     $this->_result[] = array($process, $this->process_inarray(strtolower($process), $this->_filecontent));
                 }
