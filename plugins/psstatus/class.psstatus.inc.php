@@ -139,19 +139,8 @@ class PSStatus extends PSI_Plugin
             if (((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_PSSTATUS_HOSTNAME')))) &&
                (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 $strBuf = PSI_PLUGIN_PSSTATUS_PROCESSES;
-                if ($this->_enc != PSI_SYSTEM_CODEPAGE) {
-                    $enclist = mb_list_encodings();
-                    if (in_array($this->_enc, $enclist) && in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
-                        $strBuf = mb_convert_encoding($strBuf, $this->_enc, PSI_SYSTEM_CODEPAGE);
-                    } elseif (function_exists("iconv")) {
-                        if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $this->_enc.'//IGNORE', $strBuf))!==false) {
-                            $strBuf = $iconvout;
-                        }
-                    } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $this->_enc, $strBuf))!==false)) {
-                        $strBuf = $iconvout;
-                    }
-                }
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
+                CommonFunctions::convertCP($strBuf, $this->_enc);
+                if (preg_match(ARRAY_EXP, $strBuf)) {
                     $processes = eval($strBuf);
                 } else {
                     $processes = array($strBuf);
