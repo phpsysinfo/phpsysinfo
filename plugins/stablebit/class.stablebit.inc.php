@@ -40,10 +40,12 @@ class StableBit extends PSI_Plugin
      */
     public function execute()
     {
-        try {
-            $wmi = CommonFunctions::initWMI('root\StableBit\Scanner', get_class());
-            $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
-        } catch (Exception $e) {
+        if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_STABLEBIT_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
+            try {
+                $wmi = CommonFunctions::initWMI('root\StableBit\Scanner', get_class());
+                $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
+            } catch (Exception $e) {
+            }
         }
     }
 

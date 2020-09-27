@@ -35,6 +35,7 @@ class PS extends PSI_Plugin
     public function __construct($enc)
     {
         parent::__construct(__CLASS__, $enc);
+        $buffer = "";
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
             if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
@@ -80,7 +81,7 @@ class PS extends PSI_Plugin
                     }
                 } catch (Exception $e) {
                 }
-            } else {
+            } elseif (PSI_OS != 'WINNT') {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,pcpu,args", $buffer, PSI_DEBUG);
                 if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n\s*\d+\s+\d+\s+[\d\.]+\s+[\d\.]+\s+.+/", $buffer))) { //alternative method if no data
                     if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
@@ -140,13 +141,15 @@ class PS extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
+            if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
+            }
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
             break;
         }
-        if (isset($buffer) && (trim($buffer) != "")) {
+        if (trim($buffer) != "") {
             $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
             unset($this->_filecontent[0]);
         }

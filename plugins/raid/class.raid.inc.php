@@ -52,7 +52,7 @@ class Raid extends PSI_Plugin
         }
 
         $notwas = true;
-        switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
+        if ((PSI_OS != 'WINNT') && ((PSI_OS != 'Linux') || (!defined('PSI_PLUGIN_RAID_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME')))) switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
         case 'php-snmp':
             if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {

@@ -91,7 +91,7 @@ class PSStatus extends PSI_Plugin
                         } catch (Exception $e) {
                         }
                     }
-                } else {
+                } elseif (PSI_OS != 'WINNT') {
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
@@ -110,12 +110,14 @@ class PSStatus extends PSI_Plugin
                 }
                 break;
             case 'data':
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/psstatus.txt", $buffer);
-                $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($processes as $process) {
-                    $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
-                    if (count($ps) == 2) {
-                        $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+                    CommonFunctions::rfts(PSI_APP_ROOT."/data/psstatus.txt", $buffer);
+                    $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($processes as $process) {
+                        $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
+                        if (count($ps) == 2) {
+                            $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                        }
                     }
                 }
                 break;

@@ -178,7 +178,7 @@ class BAT extends PSI_Plugin
                 if ($buffer[0]['info'] !== '') {
                     $buffer[0]['info'] .= "POWER_SUPPLY_NAME=acpibat0\n";
                 }
-            } else {
+            } elseif ((PSI_OS == 'Lunux') || (PSI_OS == 'Android')) {
                 $itemcount = 0;
                 if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_BAT_UPOWER') && PSI_PLUGIN_BAT_UPOWER) {
                     $info = '';
@@ -300,20 +300,22 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
-            $itemcount = 0;
-            $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
-            foreach ($infoarray as $infoitem) { //upower detection
-                if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
-                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
-                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
-                    $buffer[$itemcount++]['info'] = $infoitem;
+            if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
+                $itemcount = 0;
+                $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
+                foreach ($infoarray as $infoitem) { //upower detection
+                    if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
+                       && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
+                       && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
+                        $buffer[$itemcount++]['info'] = $infoitem;
+                    }
                 }
+                if ($itemcount == 0) {
+                    $buffer[0]['info'] = $info;
+                }
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             }
-            if ($itemcount == 0) {
-                $buffer[0]['info'] = $info;
-            }
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[bat] ACCESS");

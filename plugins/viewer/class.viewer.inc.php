@@ -46,7 +46,7 @@ class Viewer extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        switch (strtolower(PSI_PLUGIN_VIEWER_ACCESS)) {
+        if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_VIEWER_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) switch (strtolower(PSI_PLUGIN_VIEWER_ACCESS)) {
             case 'command':
                 if (defined('PSI_PLUGIN_VIEWER_COMMAND') && is_string(PSI_PLUGIN_VIEWER_COMMAND)) {
                     if (defined('PSI_PLUGIN_VIEWER_PARAMS') && is_string(PSI_PLUGIN_VIEWER_PARAMS)) {

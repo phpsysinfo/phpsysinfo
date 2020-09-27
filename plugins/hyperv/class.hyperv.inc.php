@@ -38,7 +38,7 @@ class HyperV extends PSI_Plugin
      */
     public function execute()
     {
-        switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
+        if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
                 $cim = CommonFunctions::initWMI('root\CIMv2', get_class());
