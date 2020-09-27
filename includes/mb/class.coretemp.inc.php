@@ -37,7 +37,7 @@ class Coretemp extends Hwmon
                     $this->_temperature($hwpaths[$h]);
                 }
             }
-        } else {
+        } elseif (PSI_OS == 'FreeBSD') {
             $smp = 1;
             CommonFunctions::executeProgram('sysctl', '-n kern.smp.cpus', $smp);
             for ($i = 0; $i < $smp; $i++) {

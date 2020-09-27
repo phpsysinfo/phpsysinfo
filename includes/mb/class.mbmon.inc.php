@@ -27,7 +27,7 @@ class MBMon extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_MBMON_ACCESS')?strtolower(PSI_SENSOR_MBMON_ACCESS):'command') {
+        if (PSI_OS != 'WINNT') switch (defined('PSI_SENSOR_MBMON_ACCESS')?strtolower(PSI_SENSOR_MBMON_ACCESS):'command') {
         case 'tcp':
             $fp = fsockopen("localhost", 411, $errno, $errstr, 5);
             if ($fp) {

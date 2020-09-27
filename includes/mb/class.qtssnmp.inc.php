@@ -75,7 +75,9 @@ class QTSsnmp extends Sensors
      */
     public function build()
     {
-        $this->_temperature();
-        $this->_fans();
+        if (PSI_OS == 'Linux') {
+            $this->_temperature();
+            $this->_fans();
+        }
     }
 }

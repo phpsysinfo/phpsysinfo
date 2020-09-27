@@ -57,8 +57,10 @@ class PiTemp extends Sensors
 
     public function build()
     {
-        $this->_temperature();
-        $this->_voltage();
-        $this->_current();
+        if (PSI_OS == 'Linux') {
+            $this->_temperature();
+            $this->_voltage();
+            $this->_current();
+        }
     }
 }

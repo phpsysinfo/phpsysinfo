@@ -34,14 +34,16 @@ class MBM5 extends Sensors
     public function __construct()
     {
         parent::__construct();
-        $delim = "/;/";
-        CommonFunctions::rfts(PSI_APP_ROOT."/data/MBM5.csv", $buffer);
-        if (strpos($buffer, ";") === false) {
-            $delim = "/,/";
+        if ((PSI_OS == 'WINNT') && !defined('PSI_WMI_HOSTNAME')) {
+            $delim = "/;/";
+            CommonFunctions::rfts(PSI_APP_ROOT."/data/MBM5.csv", $buffer);
+            if (strpos($buffer, ";") === false) {
+                $delim = "/,/";
+            }
+            $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_buf_label = preg_split($delim, substr($buffer[0], 0, -2), -1, PREG_SPLIT_NO_EMPTY);
+            $this->_buf_value = preg_split($delim, substr($buffer[1], 0, -2), -1, PREG_SPLIT_NO_EMPTY);
         }
-        $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-        $this->_buf_label = preg_split($delim, substr($buffer[0], 0, -2), -1, PREG_SPLIT_NO_EMPTY);
-        $this->_buf_value = preg_split($delim, substr($buffer[1], 0, -2), -1, PREG_SPLIT_NO_EMPTY);
     }
 
     /**

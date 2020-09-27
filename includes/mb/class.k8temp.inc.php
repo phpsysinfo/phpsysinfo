@@ -27,7 +27,7 @@ class K8Temp extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
+        if (PSI_OS != 'WINNT') switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
         case 'command':
             $lines = "";
             CommonFunctions::executeProgram('k8temp', '', $lines);

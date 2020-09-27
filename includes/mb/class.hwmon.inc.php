@@ -239,19 +239,21 @@ class Hwmon extends Sensors
      */
     public function build()
     {
-        $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
-        if (is_array($hwpaths) && (count($hwpaths) > 0)) {
-            $hwpaths2 = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
-            if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
-                $hwpaths = array_merge($hwpaths, $hwpaths2);
-            }
-            $totalh = count($hwpaths);
-            for ($h = 0; $h < $totalh; $h++) {
-                $this->_temperature($hwpaths[$h]);
-                $this->_voltage($hwpaths[$h]);
-                $this->_fans($hwpaths[$h]);
-                $this->_power($hwpaths[$h]);
-                $this->_current($hwpaths[$h]);
+        if (PSI_OS == 'Linux') {
+            $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
+            if (is_array($hwpaths) && (count($hwpaths) > 0)) {
+                $hwpaths2 = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
+                if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
+                    $hwpaths = array_merge($hwpaths, $hwpaths2);
+                }
+                $totalh = count($hwpaths);
+                for ($h = 0; $h < $totalh; $h++) {
+                    $this->_temperature($hwpaths[$h]);
+                    $this->_voltage($hwpaths[$h]);
+                    $this->_fans($hwpaths[$h]);
+                    $this->_power($hwpaths[$h]);
+                    $this->_current($hwpaths[$h]);
+                }
             }
         }
     }

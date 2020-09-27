@@ -27,7 +27,7 @@ class Healthd extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_HEALTHD_ACCESS')?strtolower(PSI_SENSOR_HEALTHD_ACCESS):'command') {
+        if (PSI_OS == 'FreeBSD') switch (defined('PSI_SENSOR_HEALTHD_ACCESS')?strtolower(PSI_SENSOR_HEALTHD_ACCESS):'command') {
         case 'command':
             if (CommonFunctions::executeProgram('healthdc', '-t', $lines)) {
                 $lines0 = preg_split("/\n/", $lines, 1, PREG_SPLIT_NO_EMPTY);

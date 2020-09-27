@@ -27,12 +27,14 @@ class OHM extends Sensors
     public function __construct()
     {
         parent::__construct();
-        $_wmi = CommonFunctions::initWMI('root\OpenHardwareMonitor', '', true);
-        if ($_wmi) {
-            $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
-            if ($tmpbuf) foreach ($tmpbuf as $buffer) {
-                if (!isset($this->_buf[$buffer['SensorType']]) || !isset($this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']])) { // avoid duplicates
-                    $this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']] = $buffer['Value'];
+        if (PSI_OS == 'WINNT') {
+            $_wmi = CommonFunctions::initWMI('root\OpenHardwareMonitor', '', true);
+            if ($_wmi) {
+                $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
+                if ($tmpbuf) foreach ($tmpbuf as $buffer) {
+                    if (!isset($this->_buf[$buffer['SensorType']]) || !isset($this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']])) { // avoid duplicates
+                        $this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']] = $buffer['Value'];
+                    }
                 }
             }
         }

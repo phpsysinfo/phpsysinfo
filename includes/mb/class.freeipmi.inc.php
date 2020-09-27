@@ -27,7 +27,7 @@ class FreeIPMI extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
+        if (PSI_OS != 'WINNT') switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
