@@ -178,7 +178,7 @@ class BAT extends PSI_Plugin
                 if ($buffer[0]['info'] !== '') {
                     $buffer[0]['info'] .= "POWER_SUPPLY_NAME=acpibat0\n";
                 }
-            } elseif ((PSI_OS == 'Lunux') || (PSI_OS == 'Android')) {
+            } elseif ((PSI_OS == 'Linux') || (PSI_OS == 'Android')) {
                 $itemcount = 0;
                 if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_BAT_UPOWER') && PSI_PLUGIN_BAT_UPOWER) {
                     $info = '';
