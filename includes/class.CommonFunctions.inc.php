@@ -52,7 +52,7 @@ class CommonFunctions
     public static function isAdmin()
     {
         if (self::$_asadmin == null) {
-            if ((PSI_OS == 'WINNT') && (defined('PSI_WMI_HOSTNAME') || self::executeProgram('net', 'session', $strBuf, false))) {
+            if ((PSI_OS == 'WINNT') && self::executeProgram('net', 'session', $strBuf, false)) {
                 self::$_asadmin = true;
             } else {
                 self::$_asadmin = false;
