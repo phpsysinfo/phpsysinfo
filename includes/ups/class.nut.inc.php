@@ -57,7 +57,7 @@ class Nut extends UPS
                 }
             }
         } else { //use default if address and port not defined
-            if ((PSI_OS != 'WINNT') || !defined('PSI_WMI_HOSTNAME')) {
+            if (!CommonFunctions::emuNT()) {
                 CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
             } else {
                 CommonFunctions::executeProgram('upsc', '-l '.PSI_WMI_HOSTNAME, $output, PSI_DEBUG);

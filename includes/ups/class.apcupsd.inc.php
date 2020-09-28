@@ -52,7 +52,7 @@ class Apcupsd extends UPS
                 }
             }
         } else { //use default if address and port not defined
-            if ((PSI_OS != 'WINNT') || !defined('PSI_WMI_HOSTNAME')) {
+            if (!CommonFunctions::emuNT()) {
                 CommonFunctions::executeProgram('apcaccess', 'status', $temp);
             } else {
                 CommonFunctions::executeProgram('apcaccess', 'status '.PSI_WMI_HOSTNAME, $temp);

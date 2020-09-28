@@ -35,7 +35,7 @@ class BAT extends PSI_Plugin
         $buffer = array();
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
+            if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
                 $_cim = CommonFunctions::initWMI('root\CIMv2', get_class(), true);
                 $_wmi = CommonFunctions::initWMI('root\WMI', get_class());
                 $bufferWB = array();
@@ -178,7 +178,7 @@ class BAT extends PSI_Plugin
                 if ($buffer[0]['info'] !== '') {
                     $buffer[0]['info'] .= "POWER_SUPPLY_NAME=acpibat0\n";
                 }
-            } elseif ((PSI_OS == 'Linux') || (PSI_OS == 'Android')) {
+            } else {
                 $itemcount = 0;
                 if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_BAT_UPOWER') && PSI_PLUGIN_BAT_UPOWER) {
                     $info = '';
@@ -300,7 +300,7 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_BAT_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+            if (!CommonFunctions::emuNT(get_class())) {
                 CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
                 $itemcount = 0;
                 $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);

@@ -38,7 +38,7 @@ class HyperV extends PSI_Plugin
      */
     public function execute()
     {
-        if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
+        if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
                 $cim = CommonFunctions::initWMI('root\CIMv2', get_class());
@@ -66,12 +66,14 @@ class HyperV extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
-            $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($processes as $process) {
-                $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($ps) == 2) {
-                    $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+            if (!CommonFunctions::emuNT(get_class())) {
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
+                $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($processes as $process) {
+                    $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
+                    if (count($ps) == 2) {
+                        $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                    }
                 }
             }
             break;

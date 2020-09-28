@@ -53,8 +53,7 @@ class PSStatus extends PSI_Plugin
                 } else {
                     $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 }
-                if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
-
+                if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {
                         foreach ($processes as $process) {
@@ -71,7 +70,7 @@ class PSStatus extends PSI_Plugin
                             }
                         }
                     }
-                    if (!defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME') && $short && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+                    if (!CommonFunctions::emuNT(get_class()) && $short && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
                         $psdata = preg_split("/\r?\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                         if (!empty($psdata)) foreach ($psdata as $psline) {
                             $psvalues = preg_split("/ /", $psline, -1, PREG_SPLIT_NO_EMPTY);
@@ -91,7 +90,7 @@ class PSStatus extends PSI_Plugin
                         } catch (Exception $e) {
                         }
                     }
-                } elseif (PSI_OS != 'WINNT') {
+                } else {
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
@@ -110,7 +109,7 @@ class PSStatus extends PSI_Plugin
                 }
                 break;
             case 'data':
-                if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+                if (!CommonFunctions::emuNT(get_class())) {
                     CommonFunctions::rfts(PSI_APP_ROOT."/data/psstatus.txt", $buffer);
                     $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($processes as $process) {
@@ -138,7 +137,7 @@ class PSStatus extends PSI_Plugin
     public function execute()
     {
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-            if (((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PSSTATUS_WMI_HOSTNAME') || defined('PSI_PSSTATUS_HOSTNAME')))) &&
+            if (((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) &&
                (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 $strBuf = PSI_PLUGIN_PSSTATUS_PROCESSES;
                 CommonFunctions::convertCP($strBuf, $this->_enc);

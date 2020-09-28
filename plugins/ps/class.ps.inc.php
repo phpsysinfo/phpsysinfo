@@ -38,7 +38,7 @@ class PS extends PSI_Plugin
         $buffer = "";
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || ((PSI_OS == 'Linux') && (defined('PSI_PLUGIN_PS_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME')))) {
+            if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
                 try {
                     $wmi = CommonFunctions::initWMI('root\CIMv2', get_class());
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
@@ -81,7 +81,7 @@ class PS extends PSI_Plugin
                     }
                 } catch (Exception $e) {
                 }
-            } elseif (PSI_OS != 'WINNT') {
+            } else {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,pcpu,args", $buffer, PSI_DEBUG);
                 if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n\s*\d+\s+\d+\s+[\d\.]+\s+[\d\.]+\s+.+/", $buffer))) { //alternative method if no data
                     if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
@@ -141,7 +141,7 @@ class PS extends PSI_Plugin
             }
             break;
         case 'data':
-            if (((PSI_OS != 'WINNT') && (PSI_OS != 'Linux')) || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) {
+            if (!CommonFunctions::emuNT(get_class())) {
                 CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
             }
             break;
@@ -241,7 +241,7 @@ class PS extends PSI_Plugin
                     $xmlnode->addAttribute('CPUUsage', $value[3]);
                 }
                 $xmlnode->addAttribute('Name', $value[4]);
-                if ((PSI_OS != 'WINNT') && ((PSI_OS != 'Linux') || (!defined('PSI_PLUGIN_PS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME'))) &&
+                if ((PSI_OS != 'WINNT') && !CommonFunctions::emuNT(get_class())) &&
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
                     || ((!defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false)) && ($value[4] === "[kthreadd]")))) {
                     $xmlnode->addAttribute('Expanded', 0);

@@ -28,7 +28,7 @@ class ThermalZone extends Sensors
     {
         parent::__construct();
         if (PSI_OS == 'WINNT') {
-            if (defined('PSI_WMI_HOSTNAME') || CommonFunctions::isAdmin()) {
+            if (CommonFunctions::emuNT() || CommonFunctions::isAdmin()) {
                 $_wmi = CommonFunctions::initWMI('root\WMI', '', true);
                 if ($_wmi) {
                     $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));

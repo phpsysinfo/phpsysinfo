@@ -528,7 +528,7 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if (((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)) && (((PHP_OS != 'Linux') && (PSI_OS != 'WINNT')) || !defined('PSI_WMI_HOSTNAME')))
+        if (((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)) && (((PHP_OS != 'Linux') && (PHP_OS != 'WINNT')) || !defined('PSI_WMI_HOSTNAME')))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PHP_OS == 'WINNT')
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
@@ -888,4 +888,16 @@ class CommonFunctions
             }
         }
     }
+
+    /**
+     * emuNT function
+     *
+     * @return booleant
+     */
+   public static function emuNT($pluginname = '')
+   {
+       $plugname = strtoupper(trim($pluginname));
+       return ((empty($plugname) && (PSI_OS == 'WINNT') && defined('PSI_WMI_HOSTNAME')) ||
+          (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && (defined('PSI_PLUGIN_'.$pluginname.'_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME'))));
+   }
 }

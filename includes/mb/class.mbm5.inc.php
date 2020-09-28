@@ -34,7 +34,7 @@ class MBM5 extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if ((PSI_OS == 'WINNT') && !defined('PSI_WMI_HOSTNAME')) {
+        if ((PSI_OS == 'WINNT') && !CommonFunctions::emuNT()) {
             $delim = "/;/";
             CommonFunctions::rfts(PSI_APP_ROOT."/data/MBM5.csv", $buffer);
             if (strpos($buffer, ";") === false) {

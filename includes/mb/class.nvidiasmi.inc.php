@@ -31,7 +31,7 @@ class NvidiaSMI extends Sensors
         case 'command':
             $lines = "";
             if (PSI_OS == 'WINNT') {
-                if (!defined('PSI_WMI_HOSTNAME')) {
+                if (!CommonFunctions::emuNT()) {
                     $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";               
                     if (($_exe=realpath(trim($winnt_exe))) && preg_match("/^([a-zA-Z]:\\\\[^\\\\]+)/", $_exe, $out)) {
                         CommonFunctions::executeProgram('cmd', "/c set ProgramFiles=".$out[1]."^&\"".$_exe."\" -q", $lines);
@@ -46,7 +46,7 @@ class NvidiaSMI extends Sensors
             $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.txt', $lines)) {
+            if (!CommonFunctions::emuNT() && CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.txt', $lines)) {
                 $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

@@ -69,7 +69,7 @@ class uprecords extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if ((PSI_OS != 'WINNT') && ((PSI_OS != 'Linux') || (!defined('PSI_PLUGIN_UPRECORDS_WMI_HOSTNAME') && !defined('PSI_WMI_HOSTNAME')))) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
+        if (!CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
             case 'command':
                 $lines = "";
                 $options = "";
