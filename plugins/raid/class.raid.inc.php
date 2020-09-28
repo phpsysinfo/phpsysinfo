@@ -52,40 +52,42 @@ class Raid extends PSI_Plugin
         }
 
         $notwas = true;
-        if (!CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
+        switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
         case 'php-snmp':
-            if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
-                CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
-                $notwas = false;
-            }
-            if ((PSI_OS == 'Linux') && in_array('dmraid', $RaidProgs)) {
-                CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $this->_filecontent['dmraid'], PSI_DEBUG);
-                $notwas = false;
-            }
-            if ((PSI_OS == 'Linux') && in_array('megactl', $RaidProgs)) {
-                CommonFunctions::executeProgram("megactl", "", $this->_filecontent['megactl'], PSI_DEBUG);
-                $notwas = false;
-            }
-            if ((PSI_OS == 'Linux') && in_array('megasasctl', $RaidProgs)) {
-                CommonFunctions::executeProgram("megasasctl", "", $this->_filecontent['megasasctl'], PSI_DEBUG);
-                $notwas = false;
-            }
-            if (in_array('megaclisas-status', $RaidProgs)) {
-                if (PSI_OS == 'WINNT') {
-                    CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
-                } else {
-                    CommonFunctions::executeProgram("megaclisas-status", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+            if (!CommonFunctions::emuNT(get_class())) {
+                if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
+                    CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
+                    $notwas = false;
                 }
-                $notwas = false;
-            }
-            if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidProgs)) {
-                CommonFunctions::executeProgram("graid", "list", $this->_filecontent['graid'], PSI_DEBUG);
-                $notwas = false;
-            }
-            if (in_array('zpool', $RaidProgs)) {
-                CommonFunctions::executeProgram("zpool", "status", $this->_filecontent['zpool'], PSI_DEBUG);
-                $notwas = false;
+                if ((PSI_OS == 'Linux') && in_array('dmraid', $RaidProgs)) {
+                    CommonFunctions::executeProgram("dmraid", "-s -vv 2>&1", $this->_filecontent['dmraid'], PSI_DEBUG);
+                    $notwas = false;
+                }
+                if ((PSI_OS == 'Linux') && in_array('megactl', $RaidProgs)) {
+                    CommonFunctions::executeProgram("megactl", "", $this->_filecontent['megactl'], PSI_DEBUG);
+                    $notwas = false;
+                }
+                if ((PSI_OS == 'Linux') && in_array('megasasctl', $RaidProgs)) {
+                    CommonFunctions::executeProgram("megasasctl", "", $this->_filecontent['megasasctl'], PSI_DEBUG);
+                    $notwas = false;
+                }
+                if (in_array('megaclisas-status', $RaidProgs)) {
+                    if (PSI_OS == 'WINNT') {
+                        CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                    } else {
+                        CommonFunctions::executeProgram("megaclisas-status", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                    }
+                    $notwas = false;
+                }
+                if ((PSI_OS == 'FreeBSD') && in_array('graid', $RaidProgs)) {
+                    CommonFunctions::executeProgram("graid", "list", $this->_filecontent['graid'], PSI_DEBUG);
+                    $notwas = false;
+                }
+                if (in_array('zpool', $RaidProgs)) {
+                    CommonFunctions::executeProgram("zpool", "status", $this->_filecontent['zpool'], PSI_DEBUG);
+                    $notwas = false;
+                }
             }
             if (in_array('idrac', $RaidProgs)) {
                 if (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
@@ -135,7 +137,7 @@ class Raid extends PSI_Plugin
             }
             break;
         case 'data':
-            foreach ($this->prog_items as $item) {
+            if (!CommonFunctions::emuNT(get_class())) foreach ($this->prog_items as $item) {
                 if (in_array($item, $RaidProgs)) {
                     if ($item !== 'idrac') {
                         CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);
