@@ -898,6 +898,6 @@ class CommonFunctions
    {
        $plugname = strtoupper(trim($pluginname));
        return ((empty($plugname) && (PSI_OS == 'WINNT') && defined('PSI_WMI_HOSTNAME')) ||
-          (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && (defined('PSI_PLUGIN_'.$pluginname.'_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME'))));
+          (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME'))));
    }
 }
