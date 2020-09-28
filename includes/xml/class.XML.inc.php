@@ -769,9 +769,9 @@ class XML
             if (($this->_plugin != '')) {
                 $plugins = array($this->_plugin);
             }
-            foreach ($plugins as $plugin) {                
-                if (!CommonFunctions::emuNT($plugin) || (defined('PSI_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') && 
-                   (PSI_WMI_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')))) {
+            foreach ($plugins as $plugin) {
+                if (!CommonFunctions::emuNT($plugin) || 
+                   (defined('PSI_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') && (PSI_WMI_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')))) {
                     $object = new $plugin($this->_sysinfo->getEncoding());
                     $object->execute();
                     $oxml = $object->xml();

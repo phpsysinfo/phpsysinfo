@@ -131,7 +131,7 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
         $dom->appendChild($root);
         $this->xml = new SimpleXMLExtended(simplexml_import_dom($dom), $enc);
         if (CommonFunctions::emuNT($this->_plugin_name) &&
-           (!defined('PSI_WMI_HOSTNAME') || (PSI_WMI_HOSTNAME != constant('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_WMI_HOSTNAME')))) {
+           (!defined('PSI_WMI_HOSTNAME') || !defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_WMI_HOSTNAME') || (PSI_WMI_HOSTNAME != constant('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_WMI_HOSTNAME')))) {
             $this->xml->addAttribute('Hostname', constant('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_WMI_HOSTNAME'));
         }
     }
