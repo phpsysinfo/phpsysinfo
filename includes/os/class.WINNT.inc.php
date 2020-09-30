@@ -196,10 +196,9 @@ class WINNT extends OS
             $this->_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
-            $plugname = strtoupper(trim($pluginname));
-            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', $plugname, true);
+            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', $pluginname, true);
             if (PHP_OS == 'WINNT') {
-                $this->_reg = CommonFunctions::initWMI('root\default', $plugname, true);
+                $this->_reg = CommonFunctions::initWMI('root\default', $pluginname, true);
                 if (gettype($this->_reg) === "object") {
                     $this->_reg->Security_->ImpersonationLevel = 3;
                 }
