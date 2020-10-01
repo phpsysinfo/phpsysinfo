@@ -880,7 +880,8 @@ class CommonFunctions
     public static function convertCP(&$strBuf, $encoding)
     {
         if (defined('PSI_SYSTEM_CODEPAGE') && ($encoding != PSI_SYSTEM_CODEPAGE)) {
-            if (preg_match("/^windows-\d+ \((.+)\)$/", PSI_SYSTEM_CODEPAGE, $buf)) {
+            $systemcp = PSI_SYSTEM_CODEPAGE;
+            if (preg_match("/^windows-\d+ \((.+)\)$/", $systemcp, $buf)) {
                 $systemcp = $buf[1];
             }
             if (preg_match("/^windows-\d+ \((.+)\)$/", $encoding, $buf)) {
