@@ -57,10 +57,10 @@ class Nut extends UPS
                 }
             }
         } else { //use default if address and port not defined
-            if (!CommonFunctions::emuNT()) {
+            if (!defined('PSI_EMU_HOSTNAME')) {
                 CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
             } else {
-                CommonFunctions::executeProgram('upsc', '-l '.PSI_WMI_HOSTNAME, $output, PSI_DEBUG);
+                CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
             }
             $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($ups_names as $ups_name) {

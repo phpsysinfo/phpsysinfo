@@ -27,17 +27,14 @@ class NvidiaSMI extends Sensors
     public function __construct()
     {
         parent::__construct();
-        switch (defined('PSI_SENSOR_NVIDIASMI_ACCESS')?strtolower(PSI_SENSOR_NVIDIASMI_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_NVIDIASMI_ACCESS')?strtolower(PSI_SENSOR_NVIDIASMI_ACCESS):'command') {
         case 'command':
-            $lines = "";
             if (PSI_OS == 'WINNT') {
-                if (!CommonFunctions::emuNT()) {
-                    $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";               
-                    if (($_exe=realpath(trim($winnt_exe))) && preg_match("/^([a-zA-Z]:\\\\[^\\\\]+)/", $_exe, $out)) {
-                        CommonFunctions::executeProgram('cmd', "/c set ProgramFiles=".$out[1]."^&\"".$_exe."\" -q", $lines);
-                    } else {
-                        $this->error->addConfigError('__construct()', '[sensor_nvidiasmi] EXE_PATH="'.$winnt_exe.'"');
-                    }
+                $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";               
+                if (($_exe=realpath(trim($winnt_exe))) && preg_match("/^([a-zA-Z]:\\\\[^\\\\]+)/", $_exe, $out)) {
+                    CommonFunctions::executeProgram('cmd', "/c set ProgramFiles=".$out[1]."^&\"".$_exe."\" -q", $lines);
+                } else {
+                    $this->error->addConfigError('__construct()', '[sensor_nvidiasmi] EXE_PATH="'.$winnt_exe.'"');
                 }
             } else {
                 CommonFunctions::executeProgram('nvidia-smi', '-q', $lines);
@@ -46,7 +43,7 @@ class NvidiaSMI extends Sensors
             $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (!CommonFunctions::emuNT() && CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.txt', $lines)) {
+            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.txt', $lines)) {
                 $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

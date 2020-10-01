@@ -70,13 +70,13 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'wmi':
-                if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
-                    if ((PSI_OS == 'WINNT') && !CommonFunctions::emuNT(get_class()) && !CommonFunctions::isAdmin()) {
+                if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                    if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !CommonFunctions::isAdmin()) {
                         $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                     } else {
                         $asd_wmi = null;
                         try {
-                            $wmi = CommonFunctions::initWMI('root\wmi', get_class());
+                            $wmi = CommonFunctions::initWMI('root\wmi');
                             $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                         } catch (Exception $e) {
                         }
@@ -124,7 +124,7 @@ class SMART extends PSI_Plugin
                 }
                 break;
             case 'command':
-                if (!CommonFunctions::emuNT(get_class())) foreach ($disks as $disk) {
+                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
                     if (trim($disk) != "") {
                         $diskdev = "";
                         if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {
@@ -144,7 +144,7 @@ class SMART extends PSI_Plugin
                 break;
             case 'data':
                 $dn=0;
-                if (!CommonFunctions::emuNT(get_class())) foreach ($disks as $disk) {
+                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
                     $buffer="";
                     if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.txt", $buffer) && !empty($buffer)) {
                         if (preg_match("/^.+\n.{(.+)}/", $buffer, $out)) { //wmic format

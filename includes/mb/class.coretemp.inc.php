@@ -25,7 +25,7 @@ class Coretemp extends Hwmon
      */
     public function build()
     {
-        if (PSI_OS == 'Linux') {
+        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
             $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) > 0)) {
                 $hwpaths2 = glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT);

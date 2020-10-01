@@ -38,16 +38,16 @@ class HyperV extends PSI_Plugin
      */
     public function execute()
     {
-        if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
+        if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
-                $cim = CommonFunctions::initWMI('root\CIMv2', get_class());
+                $cim = CommonFunctions::initWMI('root\CIMv2');
                 $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
                 if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                     if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                        $wmi = CommonFunctions::initWMI('root\virtualization\v2', get_class());
+                        $wmi = CommonFunctions::initWMI('root\virtualization\v2');
                     } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
-                        $wmi = CommonFunctions::initWMI('root\virtualization', get_class());
+                        $wmi = CommonFunctions::initWMI('root\virtualization');
                     } else {
                        $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
                        break;
@@ -66,7 +66,7 @@ class HyperV extends PSI_Plugin
             }
             break;
         case 'data':
-            if (!CommonFunctions::emuNT(get_class())) {
+            if (!defined('PSI_EMU_HOSTNAME')) {
                 CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
                 $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($processes as $process) {

@@ -93,7 +93,7 @@ class Docker extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if ((PSI_OS != 'WINNT') && !CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
             case 'command':
                 $lines = "";
                 if (CommonFunctions::executeProgram('docker', 'stats --no-stream --format \'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}\'', $lines) && !empty($lines))

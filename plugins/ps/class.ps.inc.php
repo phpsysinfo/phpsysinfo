@@ -38,9 +38,9 @@ class PS extends PSI_Plugin
         $buffer = "";
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
+            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
                 try {
-                    $wmi = CommonFunctions::initWMI('root\CIMv2', get_class());
+                    $wmi = CommonFunctions::initWMI('root\CIMv2');
                     $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {
@@ -141,7 +141,7 @@ class PS extends PSI_Plugin
             }
             break;
         case 'data':
-            if (!CommonFunctions::emuNT(get_class())) {
+            if (!defined('PSI_EMU_HOSTNAME')) {
                 CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
             }
             break;
@@ -241,7 +241,7 @@ class PS extends PSI_Plugin
                     $xmlnode->addAttribute('CPUUsage', $value[3]);
                 }
                 $xmlnode->addAttribute('Name', $value[4]);
-                if ((PSI_OS != 'WINNT') && !CommonFunctions::emuNT(get_class()) &&
+                if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') &&
                     ((($parentid === 1) && (!defined('PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_PID1CHILD_EXPANDED === false)))
                     || ((!defined('PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED') || (PSI_PLUGIN_PS_SHOW_KTHREADD_EXPANDED === false)) && ($value[4] === "[kthreadd]")))) {
                     $xmlnode->addAttribute('Expanded', 0);

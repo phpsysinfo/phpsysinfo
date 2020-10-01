@@ -24,7 +24,7 @@ class HDDTemp extends Sensors
     private function _temperature()
     {
         $ar_buf = array();
-        if (PSI_OS == 'Linux') switch (defined('PSI_SENSOR_HDDTEMP_ACCESS')?strtolower(PSI_SENSOR_HDDTEMP_ACCESS):'command') {
+        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_HDDTEMP_ACCESS')?strtolower(PSI_SENSOR_HDDTEMP_ACCESS):'command') {
         case 'tcp':
             $lines = '';
             // Timo van Roermund: connect to the hddtemp daemon, use a 5 second timeout.

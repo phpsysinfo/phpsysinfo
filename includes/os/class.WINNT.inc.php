@@ -174,7 +174,7 @@ class WINNT extends OS
      */
     private function _get_systeminfo()
     {
-        if (!defined('PSI_WMI_HOSTNAME')) {
+        if (!defined('PSI_EMU_HOSTNAME')) {
             if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
 
             return $this->_systeminfo;
@@ -186,19 +186,56 @@ class WINNT extends OS
     /**
      * build the global Error object and create the WMI connection
      */
-    public function __construct($blockname = false, $pluginname = "")
+    public function __construct($blockname = false)
     {
-        parent::__construct($blockname, $pluginname);
-        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
+        parent::__construct($blockname);
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
             $this->_ver = $ver_value;
         }
         if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
             $this->_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
-            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', $pluginname, true);
-            if (PHP_OS == 'WINNT') {
-                $this->_reg = CommonFunctions::initWMI('root\default', $pluginname, true);
+            if (PSI_OS == 'WINNT') {
+                if (defined('PSI_EMU_HOSTNAME')) {
+                    try {
+                        $objLocator = new COM('WbemScripting.SWbemLocator');
+                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                        $buffer = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('CodeSet'));
+                        if (!$buffer) {
+                            $reg = $objLocator->ConnectServer('', 'root\default');
+                            if (CommonFunctions::readReg($reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
+                                $buffer[0]['CodeSet'] = $strBuf;
+                            }
+                        }
+                        if ($buffer && isset($buffer[0])) {
+                            if (isset($buffer[0]['CodeSet'])) {
+                                $codeset = $buffer[0]['CodeSet'];
+                                if ($codeset == 932) {
+                                    $codename = ' (SJIS)';
+                                } elseif ($codeset == 949) {
+                                    $codename = ' (EUC-KR)';
+                                } elseif ($codeset == 950) {
+                                    $codename = ' (BIG-5)';
+                                } else {
+                                    $codename = '';
+                                }
+                                define('PSI_SYSTEM_CODEPAGE', 'windows-'.$codeset.$codename);
+                            }
+                        }
+                    } catch (Exception $e) {
+                        define('PSI_SYSTEM_CODEPAGE', null);
+                        if (PSI_DEBUG) {
+                            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed");
+                        }
+                    }
+                } else {
+                    define('PSI_SYSTEM_CODEPAGE', null);
+                }
+            }
+            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', true);
+            if (PSI_OS == 'WINNT') {
+                $this->_reg = CommonFunctions::initWMI('root\default', PSI_DEBUG);
                 if (gettype($this->_reg) === "object") {
                     $this->_reg->Security_->ImpersonationLevel = 3;
                 }
@@ -364,7 +401,7 @@ class WINNT extends OS
      */
     private function _hostname()
     {
-        if ((PSI_USE_VHOST === true) && !defined('PSI_WMI_HOSTNAME')) {
+        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
@@ -455,7 +492,7 @@ class WINNT extends OS
      */
     protected function _users()
     {
-        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -1067,7 +1104,7 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (!defined('PSI_WMI_HOSTNAME') && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }

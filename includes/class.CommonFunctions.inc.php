@@ -104,11 +104,11 @@ class CommonFunctions
         $arrPath = array();
 
         if (empty($path_parts['dirname']) || ($path_parts['dirname'] == '.')) {
-            if ((PHP_OS == 'WINNT') && empty($path_parts['extension'])) {
+            if ((PSI_OS == 'WINNT') && empty($path_parts['extension'])) {
                 $strProgram .= '.exe';
                 $path_parts = pathinfo($strProgram);
             }
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 if (self::readenv('Path', $serverpath)) {
                     $arrPath = preg_split('/;/', $serverpath, -1, PREG_SPLIT_NO_EMPTY);
                 }
@@ -133,7 +133,7 @@ class CommonFunctions
         }
 
         //add some default paths if we still have no paths here
-        if (empty($arrPath) && (PHP_OS != 'WINNT')) {
+        if (empty($arrPath) && (PSI_OS != 'WINNT')) {
             if (PSI_OS == 'Android') {
                 array_push($arrPath, '/system/bin');
             } else {
@@ -142,7 +142,7 @@ class CommonFunctions
         }
 
         $exceptPath = "";
-        if ((PHP_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
+        if ((PSI_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
             foreach ($arrPath as $strPath) {
                 if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
                     if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
@@ -160,7 +160,7 @@ class CommonFunctions
 
         foreach ($arrPath as $strPath) {
             // Path with and without trailing slash
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 $strPath = rtrim($strPath, "\\");
                 $strPathS = $strPath."\\";
             } else {
@@ -171,7 +171,7 @@ class CommonFunctions
                 continue;
             }
             $strProgrammpath = $strPathS.$strProgram;
-            if (is_executable($strProgrammpath) || ((PHP_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
+            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
                 return $strProgrammpath;
             }
         }
@@ -210,7 +210,7 @@ class CommonFunctions
             }
         }
 
-        if ((PHP_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+        if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
             $strSet = $strmatch[1].' ';
             $strProgramname = $strmatch[2];
         } else {
@@ -230,7 +230,7 @@ class CommonFunctions
             }
         }
 
-        if ((PHP_OS != 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+        if ((PSI_OS != 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
             if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
                 $sudocommands = eval(PSI_SUDO_COMMANDS);
             } else {
@@ -276,7 +276,7 @@ class CommonFunctions
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
-            if (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>/dev/null", "r");
@@ -350,7 +350,7 @@ class CommonFunctions
     public static function readenv($strElem, &$strBuffer)
     {
         $strBuffer = '';
-        if (PHP_OS == 'WINNT') { //case insensitive
+        if (PSI_OS == 'WINNT') { //case insensitive
             if (isset($_SERVER)) {
                 foreach ($_SERVER as $index=>$value) {
                     if (is_string($value) && (trim($value) !== '') && (strtolower($index) === strtolower($strElem))) {
@@ -528,9 +528,9 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if (((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)) && (((PHP_OS != 'Linux') && (PHP_OS != 'WINNT')) || !defined('PSI_WMI_HOSTNAME')))
+        if (defined('PSI_SYSTEM_CODEPAGE') && ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
-        elseif (PHP_OS == 'WINNT')
+        elseif (PSI_OS == 'WINNT')
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');
         else
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring');
@@ -651,11 +651,20 @@ class CommonFunctions
                     $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                 }
             }
-        } elseif ((gettype($wmi) === "string") && (PHP_OS == 'Linux')) {
+        } elseif ((gettype($wmi) === "string") && (PSI_OS == 'Linux')) {
             $delimeter = '@@@DELIM@@@';
             if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
                 if (self::$_cp) {
-                    self::convertCP($strBuf, "Windows-".self::$_cp);
+                    if (self::$_cp == 932) {
+                        $codename = ' (SJIS)';
+                    } elseif (self::$_cp == 949) {
+                        $codename = ' (EUC-KR)';
+                    } elseif (self::$_cp == 950) {
+                        $codename = ' (BIG-5)';
+                    } else {
+                        $codename = '';
+                    }
+                    self::convertCP($strBuf, 'windows-'.self::$_cp.$codename);
                 }
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                 if (count($lines) >=3 ) {
@@ -727,7 +736,7 @@ class CommonFunctions
         $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
 
         if ($reg === false) {
-            if (defined('PSI_WMI_HOSTNAME')) {
+            if (defined('PSI_EMU_HOSTNAME')) {
                 return false;
             }
             $last = strrpos($strName, "\\");
@@ -785,7 +794,7 @@ class CommonFunctions
         $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
 
         if ($reg === false) {
-            if (defined('PSI_WMI_HOSTNAME')) {
+            if (defined('PSI_EMU_HOSTNAME')) {
                 return false;
             }
             if (self::$_cp) {
@@ -839,22 +848,17 @@ class CommonFunctions
      *
      * @return string, object or false
      */
-    public static function initWMI($namespace, $pluginname = '', $booErrorRep = false)
+    public static function initWMI($namespace, $booErrorRep = false)
     {
         $wmi = false;
-        $plugname = strtoupper(trim($pluginname));
         try {
-            if (PHP_OS == 'Linux') {
-                if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'))
-                    $wmi = '--namespace="'.$namespace.'" -U '.constant('PSI_PLUGIN_'.$plugname.'_WMI_USER').'%'.constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD').' //'.constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME').' "select * from';
-                elseif (defined('PSI_WMI_HOSTNAME'))
-                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_WMI_USER.'%'.PSI_WMI_PASSWORD.' //'.PSI_WMI_HOSTNAME.' "select * from';
-            } elseif (PHP_OS == 'WINNT') {
+            if (PSI_OS == 'Linux') {
+                if (defined('PSI_EMU_HOSTNAME'))
+                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
+            } elseif (PSI_OS == 'WINNT') {
                 $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (!empty($plugname) && defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'))
-                    $wmi = $objLocator->ConnectServer(constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'), $namespace, constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'), constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
-                elseif (defined('PSI_WMI_HOSTNAME') && defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD'))
-                    $wmi = $objLocator->ConnectServer(PSI_WMI_HOSTNAME, $namespace, PSI_WMI_USER, PSI_WMI_PASSWORD);
+                if (defined('PSI_EMU_HOSTNAME'))
+                    $wmi = $objLocator->ConnectServer(PSI_EMU_HOSTNAME, $namespace, PSI_EMU_USER, PSI_EMU_PASSWORD);
                 else
                     $wmi = $objLocator->ConnectServer('', $namespace);
             }
@@ -875,29 +879,23 @@ class CommonFunctions
      */
     public static function convertCP(&$strBuf, $encoding)
     {
-        if ($encoding != PSI_SYSTEM_CODEPAGE) {
+        if (defined('PSI_SYSTEM_CODEPAGE') && ($encoding != PSI_SYSTEM_CODEPAGE)) {
+            if (preg_match("/^windows-\d+ \((.+)\)$/", PSI_SYSTEM_CODEPAGE, $buf)) {
+                $systemcp = $buf[1];
+            }
+            if (preg_match("/^windows-\d+ \((.+)\)$/", $encoding, $buf)) {
+                $encoding = $buf[1];
+            }
             $enclist = mb_list_encodings();
-            if (in_array($encoding, $enclist) && in_array(PSI_SYSTEM_CODEPAGE, $enclist)) {
-                $strBuf = mb_convert_encoding($strBuf, $encoding, PSI_SYSTEM_CODEPAGE);
+            if (in_array($encoding, $enclist) && in_array($systemcp, $enclist)) {
+                $strBuf = mb_convert_encoding($strBuf, $encoding, $systemcp);
             } elseif (function_exists("iconv")) {
-                if (($iconvout=iconv(PSI_SYSTEM_CODEPAGE, $encoding.'//IGNORE', $strBuf))!==false) {
+                if (($iconvout=iconv($systemcp, $encoding.'//IGNORE', $strBuf))!==false) {
                     $strBuf = $iconvout;
                 }
-            } elseif (function_exists("libiconv") && (($iconvout=libiconv(PSI_SYSTEM_CODEPAGE, $encoding, $strBuf))!==false)) {
+            } elseif (function_exists("libiconv") && (($iconvout=libiconv($systemcp, $encoding, $strBuf))!==false)) {
                 $strBuf = $iconvout;
             }
         }
     }
-
-    /**
-     * emuNT function
-     *
-     * @return booleant
-     */
-   public static function emuNT($pluginname = '')
-   {
-       $plugname = strtoupper(trim($pluginname));
-       return ((empty($plugname) && (PSI_OS == 'WINNT') && defined('PSI_WMI_HOSTNAME')) ||
-          (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME') || defined('PSI_WMI_HOSTNAME'))));
-   }
 }

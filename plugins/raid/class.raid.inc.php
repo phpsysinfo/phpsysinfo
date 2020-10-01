@@ -55,7 +55,7 @@ class Raid extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
         case 'php-snmp':
-            if (!CommonFunctions::emuNT(get_class())) {
+            if (!defined('PSI_EMU_HOSTNAME')) {
                 if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
                     CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
                     $notwas = false;
@@ -137,7 +137,7 @@ class Raid extends PSI_Plugin
             }
             break;
         case 'data':
-            if (!CommonFunctions::emuNT(get_class())) foreach ($this->prog_items as $item) {
+            if (!defined('PSI_EMU_HOSTNAME')) foreach ($this->prog_items as $item) {
                 if (in_array($item, $RaidProgs)) {
                     if ($item !== 'idrac') {
                         CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.".txt", $this->_filecontent[$item], 0, 4096, false);

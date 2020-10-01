@@ -38,7 +38,7 @@ class Quotas extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
         $buffer = "";
-        if ((PSI_OS != 'WINNT') && !CommonFunctions::emuNT(get_class())) switch (strtolower(PSI_PLUGIN_QUOTAS_ACCESS)) {
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_QUOTAS_ACCESS)) {
         case 'command':
             CommonFunctions::executeProgram("repquota", "-au", $buffer, PSI_DEBUG);
             break;

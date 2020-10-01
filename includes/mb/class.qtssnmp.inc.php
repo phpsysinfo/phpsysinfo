@@ -75,7 +75,7 @@ class QTSsnmp extends Sensors
      */
     public function build()
     {
-        if (PSI_OS == 'Linux') {
+        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
             $this->_temperature();
             $this->_fans();
         }

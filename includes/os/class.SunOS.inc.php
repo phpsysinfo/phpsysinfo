@@ -147,17 +147,17 @@ class SunOS extends OS
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && ($os!="")) {
-            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && ($version!="")) {
-                $os.=' '.$version;
+        if (CommonFunctions::executeProgram('uname', '-s', $kernel, PSI_DEBUG) && ($kernel != "")) {
+            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && ($version != "")) {
+                $kernel.=' '.$version;
             }
-            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && ($subversion!="")) {
-                $os.=' ('.$subversion.')';
+            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && ($subversion != "")) {
+                $kernel.=' ('.$subversion.')';
             }
-            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && ($platform!="")) {
-                $os.=' '.$platform;
+            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && ($platform != "")) {
+                $kernel.=' '.$platform;
             }
-            $this->sys->setKernel($os);
+            $this->sys->setKernel($kernel);
         }
     }
 

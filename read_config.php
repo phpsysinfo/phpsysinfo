@@ -165,9 +165,6 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-            if ((!defined('PSI_OS') || (PSI_OS != 'Android')) && defined('PSI_WMI_HOSTNAME')) {
-                    define('PSI_OS', 'WINNT');
-            }
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
                && $contents && (preg_match('/^(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches)
@@ -286,7 +283,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
         } elseif (PSI_OS=='Minix') {
             define('PSI_SYSTEM_CODEPAGE', 'CP437');
-        } else {
+        } elseif (PSI_OS!='WINNT'){
             define('PSI_SYSTEM_CODEPAGE', null);
         }
     }

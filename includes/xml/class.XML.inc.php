@@ -92,8 +92,12 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        $os = PSI_OS;
-        $this->_sysinfo = new $os($blockname, $pluginname);
+        if (defined('PSI_EMU_HOSTNAME')) {
+            $os = 'WINNT';
+        } else {
+            $os = PSI_OS;
+        }
+        $this->_sysinfo = new $os($blockname);
         $this->_plugins = CommonFunctions::getPlugins();
         $this->_xmlbody();
     }
@@ -770,7 +774,7 @@ class XML
                 $plugins = array($this->_plugin);
             }
             foreach ($plugins as $plugin) {
-                if (!$this->_complete_request || !CommonFunctions::emuNT($plugin) || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') || 
+                if (!$this->_complete_request || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') || 
                    (defined('PSI_WMI_HOSTNAME') && (PSI_WMI_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')))) {
                     $object = new $plugin($this->_sysinfo->getEncoding());
                     $object->execute();

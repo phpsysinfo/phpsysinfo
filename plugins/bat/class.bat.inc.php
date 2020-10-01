@@ -35,9 +35,9 @@ class BAT extends PSI_Plugin
         $buffer = array();
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || CommonFunctions::emuNT(get_class())) {
-                $_cim = CommonFunctions::initWMI('root\CIMv2', get_class(), true);
-                $_wmi = CommonFunctions::initWMI('root\WMI', get_class());
+            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                $_cim = CommonFunctions::initWMI('root\CIMv2', true);
+                $_wmi = CommonFunctions::initWMI('root\WMI');
                 $bufferWB = array();
 
                 if ($_cim !== false) $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
@@ -300,7 +300,7 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            if (!CommonFunctions::emuNT(get_class())) {
+            if (!defined('PSI_EMU_HOSTNAME')) {
                 CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
                 $itemcount = 0;
                 $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);

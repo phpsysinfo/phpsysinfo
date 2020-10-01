@@ -47,7 +47,7 @@ abstract class OS implements PSI_Interface_OS
     /**
      * build the global Error object
      */
-    public function __construct($blockname = false, $pluginname = "")
+    public function __construct($blockname = false)
     {
         $this->error = PSI_Error::singleton();
         $this->sys = new System();
@@ -145,15 +145,15 @@ abstract class OS implements PSI_Interface_OS
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
         } else {
-            if (((PSI_OS != 'WINNT') || !defined('PSI_WMI_HOSTNAME'))
+            if (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME'))
                 && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
                 $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
             } else {
                 //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
                 $hn = $this->sys->getHostname();
                 $ghbn = gethostbyname($hn);
-                if (defined('PSI_WMI_HOSTNAME') && ($hn === $ghbn)) {
-                    $this->sys->setIp(PSI_WMI_HOSTNAME);
+                if (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
+                    $this->sys->setIp(PSI_EMU_HOSTNAME);
                 } else {
                     $this->sys->setIp($ghbn);
                 }
