@@ -160,8 +160,12 @@ class XML
                 }
             }
         }
-//        $vitals->addAttribute('OS', PSI_OS);
-        $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);
+
+        if (defined('PSI_EMU_HOSTNAME')) {
+            $vitals->addAttribute('OS', 'WINNT');
+        } else {
+            $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);
+        }
     }
 
     /**
