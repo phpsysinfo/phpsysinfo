@@ -76,6 +76,7 @@ BLOCKS=true
 ;SNMP_RETRY=0
 
 ; External WinNT server connection parameters
+; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
 ; These settings can also be entered for a specific plug-in so that only it connects to an external server
 ; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
 ;
