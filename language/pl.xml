@@ -388,7 +388,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>Typ systemu</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Liczba pamięci</exp>
+    <exp>Liczba chipów pamięci</exp>
   </expression>
   <expression id="129" name="speed">
     <exp>Prędkość</exp>

@@ -388,7 +388,7 @@ phpSysInfo language file Language: Russian Created by: Max Shchuplov Updated by:
     <exp>OS Type</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memories</exp>
+    <exp>Number of memory chips</exp>
   </expression>
   <expression id="129" name="speed">
     <exp>Speed</exp>

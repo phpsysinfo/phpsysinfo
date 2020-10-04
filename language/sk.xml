@@ -388,7 +388,7 @@ phpSysInfo language file Language: Slovak Created by: Peter 'Pessoft' Kolínek
     <exp>OS Type</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memories</exp>
+    <exp>Number of memory chips</exp>
   </expression>
   <expression id="129" name="speed">
     <exp>Speed</exp>
