@@ -749,7 +749,25 @@ function renderHardware(data) {
         }
     };
 
+    var mem_directives = {
+        Speed: {
+            html: function() {
+                return formatHertz(this.Speed);
+            }
+        },
+        Capacity: {
+            html: function () {
+                return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
+            }
+        }
+    };
+
     var dev_directives = {
+        Speed: {
+            html: function() {
+                return formatBPS(1000000*this.Speed);
+            }
+        },
         Capacity: {
             html: function () {
                 return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
@@ -802,15 +820,23 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
+    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Speed:129,Serial:124};
+    for (hw_type in {MEM:0,PCI:1,IDE:2,SCSI:3,NVMe:4,USB:5,TB:6,I2C:7}) {
         try {
-            datas = items(data.Hardware[hw_type].Device);
+            if (hw_type == 'MEM') {
+                datas = items(data.Hardware[hw_type].Chip);
+            } else {
+                datas = items(data.Hardware[hw_type].Device);
+            }
             for (i = 0; i < datas.length; i++) {
                 if (i === 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
+                    if (hw_type == 'MEM') {
+                        html+="<td><span class=\"treegrid-span\">" + genlang('128') + ":</span></td>"; //Number of memories
+                    } else {
+                        html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
+                    }                    
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -860,10 +886,14 @@ function renderHardware(data) {
     }
 
     var licz;
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
+    for (hw_type in {MEM:0,PCI:1,IDE:2,SCSI:3,NVMe:4,USB:5,TB:6,I2C:7}) {
         try {
             licz = 0;
-            datas = items(data.Hardware[hw_type].Device);
+            if (hw_type == 'MEM') {
+                datas = items(data.Hardware[hw_type].Chip);
+            } else {
+                datas = items(data.Hardware[hw_type].Device);
+            }
             for (i = 0; i < datas.length; i++) {
                 $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
                 if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count, 10)>1)) {
@@ -871,9 +901,17 @@ function renderHardware(data) {
                 } else {
                     licz++;
                 }
-                for (proc_param in devparamlist) {
-                    if ((datas[i]["@attributes"][proc_param] !== undefined)) {
-                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
+                if (hw_type == 'MEM') {
+                    for (proc_param in devparamlist) {
+                        if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                            $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], mem_directives);
+                        }
+                    }
+                } else {
+                    for (proc_param in devparamlist) {
+                        if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                            $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
+                        }
                     }
                 }
             }

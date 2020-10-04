@@ -387,4 +387,13 @@ phpSysInfo language file Language: Spanish Created by: J.F. Ruano
   <expression id="127" name="os">
     <exp>OS Type</exp>
   </expression>
+  <expression id="128" name="no_memories">
+    <exp>Number of memories</exp>
+  </expression>
+  <expression id="129" name="speed">
+    <exp>Speed</exp>
+  </expression>
+  <expression id="130" name="mem">
+    <exp>Memory Chips</exp>
+  </expression>
 </tns:translation>

@@ -213,6 +213,75 @@ class XML
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
         }
+        $cpu = null;
+        $vendortab = null;
+        foreach ($this->_sys->getCpus() as $oneCpu) {
+            if ($cpu === null) $cpu = $hardware->addChild('CPU');
+            $tmp = $cpu->addChild('CpuCore');
+            $tmp->addAttribute('Model', $oneCpu->getModel());
+            if ($oneCpu->getCpuSpeed() !== 0) {
+                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
+            }
+            if ($oneCpu->getCpuSpeedMax() !== 0) {
+                $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
+            }
+            if ($oneCpu->getCpuSpeedMin() !== 0) {
+                $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
+            }
+/*
+            if ($oneCpu->getTemp() !== null) {
+                $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
+            }
+*/
+            if ($oneCpu->getBusSpeed() !== null) {
+                $tmp->addAttribute('BusSpeed', $oneCpu->getBusSpeed());
+            }
+            if ($oneCpu->getCache() !== null) {
+                $tmp->addAttribute('Cache', $oneCpu->getCache());
+            }
+            if ($oneCpu->getVirt() !== null) {
+                $tmp->addAttribute('Virt', $oneCpu->getVirt());
+            }
+            if ($oneCpu->getVendorId() !== null) {
+                if ($vendortab === null) $vendortab = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
+                $shortvendorid = preg_replace('/[\s!]/', '', $oneCpu->getVendorId());
+                if ($vendortab && ($shortvendorid != "") && isset($vendortab['manufacturer'][$shortvendorid])) {
+                    $tmp->addAttribute('Manufacturer', $vendortab['manufacturer'][$shortvendorid]);
+                }
+            }
+            if ($oneCpu->getBogomips() !== null) {
+                $tmp->addAttribute('Bogomips', $oneCpu->getBogomips());
+            }
+            if ($oneCpu->getLoad() !== null) {
+                $tmp->addAttribute('Load', $oneCpu->getLoad());
+            }
+        }
+        $mem = null;
+        foreach (System::removeDupsAndCount($this->_sys->getMemDevices()) as $dev) {
+            if ($mem === null) $mem = $hardware->addChild('MEM');
+            $tmp = $mem->addChild('Chip');
+            $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getCapacity() !== null) {
+                    $tmp->addAttribute('Capacity', $dev->getCapacity());
+                }
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+                if ($dev->getSpeed() !== null) {
+                    $tmp->addAttribute('Speed', $dev->getSpeed());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
+        }
         $pci = null;
         foreach (System::removeDupsAndCount($this->_sys->getPciDevices()) as $dev) {
             if ($pci === null) $pci = $hardware->addChild('PCI');
@@ -224,26 +293,6 @@ class XML
                 }
                 if ($dev->getProduct() !== null) {
                     $tmp->addAttribute('Product', $dev->getProduct());
-                }
-            }
-            if ($dev->getCount() > 1) {
-                $tmp->addAttribute('Count', $dev->getCount());
-            }
-        }
-        $usb = null;
-        foreach (System::removeDupsAndCount($this->_sys->getUsbDevices()) as $dev) {
-            if ($usb === null) $usb = $hardware->addChild('USB');
-            $tmp = $usb->addChild('Device');
-            $tmp->addAttribute('Name', $dev->getName());
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if ($dev->getManufacturer() !== null) {
-                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
-                }
-                if ($dev->getProduct() !== null) {
-                    $tmp->addAttribute('Product', $dev->getProduct());
-                }
-                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
-                    $tmp->addAttribute('Serial', $dev->getSerial());
                 }
             }
             if ($dev->getCount() > 1) {
@@ -301,6 +350,29 @@ class XML
                 $tmp->addAttribute('Count', $dev->getCount());
             }
         }
+        $usb = null;
+        foreach (System::removeDupsAndCount($this->_sys->getUsbDevices()) as $dev) {
+            if ($usb === null) $usb = $hardware->addChild('USB');
+            $tmp = $usb->addChild('Device');
+            $tmp->addAttribute('Name', $dev->getName());
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if ($dev->getManufacturer() !== null) {
+                    $tmp->addAttribute('Manufacturer', $dev->getManufacturer());
+                }
+                if ($dev->getProduct() !== null) {
+                    $tmp->addAttribute('Product', $dev->getProduct());
+                }
+                if ($dev->getSpeed() !== null) {
+                    $tmp->addAttribute('Speed', $dev->getSpeed());
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
+                    $tmp->addAttribute('Serial', $dev->getSerial());
+                }
+            }
+            if ($dev->getCount() > 1) {
+                $tmp->addAttribute('Count', $dev->getCount());
+            }
+        }
         $tb = null;
         foreach (System::removeDupsAndCount($this->_sys->getTbDevices()) as $dev) {
             if ($tb === null) $tb = $hardware->addChild('TB');
@@ -317,50 +389,6 @@ class XML
             $tmp->addAttribute('Name', $dev->getName());
             if ($dev->getCount() > 1) {
                 $tmp->addAttribute('Count', $dev->getCount());
-            }
-        }
-
-        $cpu = null;
-        $vendortab = null;
-        foreach ($this->_sys->getCpus() as $oneCpu) {
-            if ($cpu === null) $cpu = $hardware->addChild('CPU');
-            $tmp = $cpu->addChild('CpuCore');
-            $tmp->addAttribute('Model', $oneCpu->getModel());
-            if ($oneCpu->getCpuSpeed() !== 0) {
-                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
-            }
-            if ($oneCpu->getCpuSpeedMax() !== 0) {
-                $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
-            }
-            if ($oneCpu->getCpuSpeedMin() !== 0) {
-                $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
-            }
-/*
-            if ($oneCpu->getTemp() !== null) {
-                $tmp->addAttribute('CpuTemp', $oneCpu->getTemp());
-            }
-*/
-            if ($oneCpu->getBusSpeed() !== null) {
-                $tmp->addAttribute('BusSpeed', $oneCpu->getBusSpeed());
-            }
-            if ($oneCpu->getCache() !== null) {
-                $tmp->addAttribute('Cache', $oneCpu->getCache());
-            }
-            if ($oneCpu->getVirt() !== null) {
-                $tmp->addAttribute('Virt', $oneCpu->getVirt());
-            }
-            if ($oneCpu->getVendorId() !== null) {
-                if ($vendortab === null) $vendortab = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                $shortvendorid = preg_replace('/[\s!]/', '', $oneCpu->getVendorId());
-                if ($vendortab && ($shortvendorid != "") && isset($vendortab['manufacturer'][$shortvendorid])) {
-                    $tmp->addAttribute('Manufacturer', $vendortab['manufacturer'][$shortvendorid]);
-                }
-            }
-            if ($oneCpu->getBogomips() !== null) {
-                $tmp->addAttribute('Bogomips', $oneCpu->getBogomips());
-            }
-            if ($oneCpu->getLoad() !== null) {
-                $tmp->addAttribute('Load', $oneCpu->getLoad());
             }
         }
     }

@@ -485,6 +485,57 @@
                                                 </tbody>
                                             </table>
                                         </xsl:for-each>
+                                        <xsl:for-each select="MEM">
+                                            <h3>
+                                                <span>
+                                                    <xsl:text>Memory Chips</xsl:text>
+                                                </span>
+                                            </h3>
+                                            <table style="display:block; border-spacing:0;"
+                                                id="memTable"
+                                                width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <ul
+                                                                style="margin-left:10px;">
+                                                                <xsl:for-each
+                                                                    select="Chip">
+                                                                    <li>
+                                                                        <xsl:if
+                                                                            test="count(@Count )&gt;0">
+                                                                            <xsl:if
+                                                                                test="round(@Count) &gt;1">
+                                                                                <span>
+                                                                                    <xsl:text>(</xsl:text>
+                                                                                </span>
+                                                                                <xsl:value-of select="round(@Count)" />
+                                                                                <span>
+                                                                                    <xsl:text>x) </xsl:text>
+                                                                                </span>
+                                                                            </xsl:if>
+                                                                        </xsl:if>
+                                                                        <xsl:value-of
+                                                                            select="@Name" />
+                                                                        <xsl:if
+                                                                            test="count(@Capacity )&gt;0">
+                                                                            <span>
+                                                                                <xsl:text> (</xsl:text>
+                                                                            </span>
+                                                                            <xsl:value-of select="round(@Capacity div 1024)" />
+                                                                            <span>
+                                                                                <xsl:text> KiB)</xsl:text>
+                                                                            </span>
+                                                                        </xsl:if>
+
+                                                                    </li>
+                                                                </xsl:for-each>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </xsl:for-each>
                                         <xsl:for-each select="PCI">
                                             <h3>
                                                 <span>

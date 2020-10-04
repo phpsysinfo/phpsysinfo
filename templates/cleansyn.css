@@ -105,7 +105,7 @@ select {
     color: #ccc;
 }
 
-#pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
+#memTable, #pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
     padding: 0px 30px;
 }
 
