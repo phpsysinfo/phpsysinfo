@@ -59,7 +59,7 @@ SUDO_COMMANDS=false
 ;
 BLOCKS=true
 
-; Maximum time in seconds a script is allowed to run before it is terminated by the parser */
+; Maximum time in seconds a script is allowed to run before it is terminated by the parser
 ;
 ;MAX_TIMEOUT=30
 
