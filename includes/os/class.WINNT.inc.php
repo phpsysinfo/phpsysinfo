@@ -1137,7 +1137,7 @@ class WINNT extends OS
             }
             $dev->setName(trim($name));
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if (isset($mem['Manufacturer']) && !preg_match("/^00/", $manufacturer = $mem['Manufacturer'])) {
+                if (isset($mem['Manufacturer']) && !preg_match("/^\d/", $manufacturer = $mem['Manufacturer'])) {
                     $dev->setManufacturer($manufacturer);
                 }
                 if (isset($mem['Capacity'])) {
