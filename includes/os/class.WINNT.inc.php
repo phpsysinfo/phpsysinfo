@@ -1130,8 +1130,8 @@ class WINNT extends OS
             if (isset($mem['Tag'])) {
                 $name = $mem['Tag'];
             }
-            if (isset($mem['PartNumber'])) {
-                $name .= ' - '.$mem['PartNumber'];
+            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None')) {
+                $name .= ' - '.$part;
             } else {
                 $name = $mem['PartNumber'];
             }
@@ -1209,8 +1209,8 @@ class WINNT extends OS
                 if (($memtype = trim($memtype)) != '') {
                     $dev->setProduct($memtype);
                 }
-                if (isset($mem['ConfiguredClockSpeed'])) {
-                    $dev->setSpeed($mem['ConfiguredClockSpeed']);
+                if (isset($mem['ConfiguredClockSpeed']) && (($clock = $mem['ConfiguredClockSpeed']) > 0)) {
+                    $dev->setSpeed($clock);
                 }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && isset($mem['SerialNumber'])) { 
                     $dev->setSerial($mem['SerialNumber']);
