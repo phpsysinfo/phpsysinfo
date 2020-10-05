@@ -1124,10 +1124,10 @@ class WINNT extends OS
     private function _meminfo()
     {
         $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'Tag', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
-        if ($allMems) foreach ($allMems as $mem) if (isset($mem['Tag']) || isset($mem['PartNumber'])) {
+        if ($allMems) foreach ($allMems as $mem) {
             $dev = new HWDevice();
             $name = '';
-            if (isset($mem['Tag'])) {
+            if (isset($mem['Tag']) && (($part = $mem['Tag']) != 'None')) {
                 $name = $mem['Tag'];
             }
             if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None')) {
@@ -1138,10 +1138,18 @@ class WINNT extends OS
                 }
             }
             if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != 'None')) {
-                $name .= ' in '.$bank;
+                if ($name != '') {
+                    $name .= ' in '.$bank;
+                } else {
+                    $name = 'Physical Memory in '.$bank;
+                }
             }
 
-            $dev->setName(trim($name));
+            if ($name != '') {
+                $dev->setName(trim($name));
+            } else {
+                $dev->setName('Physical Memory');
+            }
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                 if (isset($mem['Manufacturer']) && !preg_match("/^\d/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != 'None')) {
                     $dev->setManufacturer($manufacturer);
