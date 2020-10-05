@@ -132,9 +132,9 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _ip()
     {
-        if (PSI_USE_VHOST === true) {
+        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
            if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
-               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
+              && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
                 if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
                     $this->sys->setIp($dnsrec[0]['ipv6']); //from DNS (avoid IPv6 NAT translation)
@@ -144,19 +144,16 @@ abstract class OS implements PSI_Interface_OS
             } else {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
+        } elseif (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
+            $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
         } else {
-            if (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME'))
-                && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
-                $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
+            //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
+            $hn = $this->sys->getHostname();
+            $ghbn = gethostbyname($hn);
+            if (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
+                $this->sys->setIp(PSI_EMU_HOSTNAME);
             } else {
-                //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
-                $hn = $this->sys->getHostname();
-                $ghbn = gethostbyname($hn);
-                if (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
-                    $this->sys->setIp(PSI_EMU_HOSTNAME);
-                } else {
-                    $this->sys->setIp($ghbn);
-                }
+                $this->sys->setIp($ghbn);
             }
         }
     }
