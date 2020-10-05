@@ -1127,17 +1127,17 @@ class WINNT extends OS
         if ($allMems) foreach ($allMems as $mem) {
             $dev = new HWDevice();
             $name = '';
-            if (isset($mem['Tag']) && (($part = $mem['Tag']) != 'None')) {
-                $name = $mem['Tag'];
+            if (isset($mem['Tag']) && (($tag = $mem['Tag']) != 'None') && ($tag != '')) {
+                $name = $tag;
             }
-            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None')) {
+            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None') && ($part != '')) {
                 if ($name != '') {
                     $name .= ' - '.$part;
                 } else {
                     $name = $part;
                 }
             }
-            if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != 'None')) {
+            if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != 'None') && ($bank != '')) {
                 if ($name != '') {
                     $name .= ' in '.$bank;
                 } else {
@@ -1217,7 +1217,7 @@ class WINNT extends OS
                         case 23: $memtype .= ' LGA'; break;
                     }
                 }
-                if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && ($mem['DataWidth'] != $mem['TotalWidth'])) {
+                if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && (($dataw = $mem['DataWidth']) > 0) && (($totalw = $mem['TotalWidth']) > 0) && ($dataw < $totalw)) {
                     $memtype .= ' ECC';
                 }
                 if (($memtype = trim($memtype)) != '') {
@@ -1227,7 +1227,7 @@ class WINNT extends OS
                     $dev->setSpeed($clock);
                 }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
-                   isset($mem['SerialNumber']) && (($serial = $mem['SerialNumber']) != 'None')) {
+                   isset($mem['SerialNumber']) && (($serial = $mem['SerialNumber']) != 'None') && ($serial != '')) {
                     $dev->setSerial($serial);
                 }
             }
