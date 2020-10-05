@@ -429,8 +429,10 @@ class WINNT extends OS
                 } else {
                     $this->sys->setHostname($result);
                 }
-            } else {
-                if (CommonFunctions::readenv('COMPUTERNAME', $hnm)) $this->sys->setHostname($hnm);
+            } elseif (defined('PSI_EMU_HOSTNAME')) {
+                $this->sys->setHostname(PSI_EMU_HOSTNAME);
+            } elseif (CommonFunctions::readenv('COMPUTERNAME', $hnm)) {
+                $this->sys->setHostname($hnm);            
             }
         }
     }
