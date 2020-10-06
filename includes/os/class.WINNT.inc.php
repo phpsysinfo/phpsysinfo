@@ -1130,11 +1130,11 @@ class WINNT extends OS
             $dev = new HWDevice();
             $name = '';
 
-            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None') && ($part != '')) {
+            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
                 $name = $part;
             }
 
-            if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != 'None') && ($dloc != '')) {
+            if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None')) {
                 if ($name != '') {
                     $name .= ' - '.$dloc;
                 } else {
@@ -1142,7 +1142,7 @@ class WINNT extends OS
                 }
             }
 
-            if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != 'None') && ($bank != '')) {
+            if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None')) {
                 if ($name != '') {
                     $name .= ' in '.$bank;
                 } else {
@@ -1156,7 +1156,7 @@ class WINNT extends OS
                 $dev->setName('Physical Memory');
             }
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if (isset($mem['Manufacturer']) && !preg_match("/^[\dA-F]{12}$/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != 'None')) {
+                if (isset($mem['Manufacturer']) && !preg_match("/^[\dA-F]{12}$/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
                     $dev->setManufacturer($manufacturer);
                 }
                 if (isset($mem['Capacity'])) {
@@ -1232,7 +1232,7 @@ class WINNT extends OS
                     $dev->setSpeed($clock);
                 }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
-                   isset($mem['SerialNumber']) && (($serial = $mem['SerialNumber']) != 'None') && ($serial != '')) {
+                   isset($mem['SerialNumber']) && (($serial = $mem['SerialNumber']) != '') && ($serial != 'None')) {
                     $dev->setSerial($serial);
                 }
             }
