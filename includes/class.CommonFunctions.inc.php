@@ -54,7 +54,7 @@ class CommonFunctions
         if (self::$_asadmin == null) {
             if (PSI_OS == 'WINNT') {
                 $strBuf = '';
-                self::executeProgram('sfc', '2>&1', $strBuf, false);
+                self::executeProgram('sfc', '2>&1', $strBuf, false); // 'net session' for detection does not work if "Server" (LanmanServer) service is stopped
                 if (preg_match('/^\/SCANNOW\s/m', $strBuf)) {
                     self::$_asadmin = true;
                 } else {
