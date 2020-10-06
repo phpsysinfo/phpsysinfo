@@ -1156,7 +1156,7 @@ class WINNT extends OS
                 $dev->setName('Physical Memory');
             }
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if (isset($mem['Manufacturer']) && !preg_match("/^\d/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != 'None')) {
+                if (isset($mem['Manufacturer']) && !preg_match("/^[\dA-F]{12}$/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != 'None')) {
                     $dev->setManufacturer($manufacturer);
                 }
                 if (isset($mem['Capacity'])) {
