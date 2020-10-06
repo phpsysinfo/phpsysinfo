@@ -1125,20 +1125,23 @@ class WINNT extends OS
      */
     private function _meminfo()
     {
-        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'Tag', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
+        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
         if ($allMems) foreach ($allMems as $mem) {
             $dev = new HWDevice();
             $name = '';
-            if (isset($mem['Tag']) && (($tag = $mem['Tag']) != 'None') && ($tag != '')) {
-                $name = $tag;
-            }
+
             if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != 'None') && ($part != '')) {
+                $name = $part;
+            }
+
+            if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != 'None') && ($dloc != '')) {
                 if ($name != '') {
-                    $name .= ' - '.$part;
+                    $name .= ' - '.$dloc;
                 } else {
-                    $name = $part;
+                    $name = $dloc;
                 }
             }
+
             if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != 'None') && ($bank != '')) {
                 if ($name != '') {
                     $name .= ' in '.$bank;
