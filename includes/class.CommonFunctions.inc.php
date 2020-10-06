@@ -52,8 +52,14 @@ class CommonFunctions
     public static function isAdmin()
     {
         if (self::$_asadmin == null) {
-            if ((PSI_OS == 'WINNT') && self::executeProgram('net', 'session', $strBuf, false)) {
-                self::$_asadmin = true;
+            if (PSI_OS == 'WINNT') {
+                $strBuf = '';
+                self::executeProgram('sfc', '2>&1', $strBuf, false);
+                if (preg_match('/^\/SCANNOW\s/m', $strBuf)) {
+                    self::$_asadmin = true;
+                } else {
+                    self::$_asadmin = false;
+                }
             } else {
                 self::$_asadmin = false;
             }
