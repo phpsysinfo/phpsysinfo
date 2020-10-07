@@ -101,7 +101,7 @@ class CommonFunctions
      *
      * @return string|null complete path and name of the program
      */
-    private static function _findProgram($strProgram)
+    public static function _findProgram($strProgram)
     {
         $path_parts = pathinfo($strProgram);
         if (empty($path_parts['basename'])) {

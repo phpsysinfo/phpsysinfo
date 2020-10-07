@@ -461,6 +461,18 @@ UPS_SNMPUPS_ACCESS="php-snmp"
 
 
 ; ********************************
+;       MISC PARAMETERS
+; ********************************
+
+
+; define how to access the dmidecode data
+; - "data" read data from file data/dmidecode.txt
+; - "command" execute command: dmidecode -t 17
+;
+DMIDECODE_ACCESS="command"
+
+
+; ********************************
 ;    SENSORS PROGRAMS PARAMETERS
 ; ********************************
 

@@ -14,7 +14,7 @@ phpSysInfo 3.3.3
  - [NEW] Ability to read information from an external WinNT server (new WMI_HOSTNAME, WMI_USER and WMI_PASSWORD parameters)
  - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU
  - [NEW] plugin Viewer - show output of any command or file viewer.txt contents
- - [NEW] Memory chips information on WinNT
+ - [NEW] Memory chips information
  - [NEW] USB devices speed info on Linux
 
  - [DEL] Removed deprecated plugin Iptables
