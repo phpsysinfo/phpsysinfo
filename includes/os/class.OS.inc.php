@@ -229,7 +229,7 @@ abstract class OS implements PSI_Interface_OS
                         if (($memtype = trim($memtype)) != '') {
                             $dev->setProduct($memtype);
                         }
-                        if (isset($mem['Configured Clock Speed']) && preg_match('/^(\d+)\sMHz$/', $mem['Configured Clock Speed'], $clock) && ($clock[1] > 0)) {
+                        if (isset($mem['Configured Clock Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)$/', $mem['Configured Clock Speed'], $clock) && ($clock[1] > 0)) {
                             $dev->setSpeed($clock[1]);
                         }
                         if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
