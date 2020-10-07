@@ -1130,7 +1130,7 @@ class WINNT extends OS
             $dev = new HWDevice();
             $name = '';
 
-            if (isset($mem['PartNumber']) && (($part = $mem['PartNumber']) != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
+            if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
                 $name = $part;
             }
 
@@ -1156,7 +1156,7 @@ class WINNT extends OS
                 $dev->setName('Physical Memory');
             }
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if (isset($mem['Manufacturer']) && !preg_match("/^[\dA-F]{12}$/", $manufacturer = $mem['Manufacturer']) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
+                if (isset($mem['Manufacturer']) && !preg_match("/^[\dA-F]{12}$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
                     $dev->setManufacturer($manufacturer);
                 }
                 if (isset($mem['Capacity'])) {
@@ -1232,7 +1232,7 @@ class WINNT extends OS
                     $dev->setSpeed($clock);
                 }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
-                   isset($mem['SerialNumber']) && (($serial = $mem['SerialNumber']) != '') && ($serial != 'None')) {
+                   isset($mem['SerialNumber']) && !preg_match("/^SerNum\d+$/", $serial = $mem['SerialNumber']) && ($serial != '') && ($serial != 'None')) {
                     $dev->setSerial($serial);
                 }
             }
