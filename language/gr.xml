@@ -385,15 +385,15 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Συσκευές NVMe</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>Τύπος Λ/Σ</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
+    <exp>Αριθμός τσιπ μνήμης</exp>
   </expression>
   <expression id="129" name="speed">
-    <exp>Speed</exp>
+    <exp>Ταχύτητα</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
+    <exp>Τσιπ Μνήμης</exp>
   </expression>
 </tns:translation>
