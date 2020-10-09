@@ -1190,7 +1190,7 @@ class WINNT extends OS
                     }
                 } elseif (isset($mem['SMBIOSMemoryType'])) {
                     switch ($mem['SMBIOSMemoryType']) {
-//                        case 0: $memtype = ''; break;
+//                        case 0: $memtype = 'Invalid'; break;
 //                        case 1: $memtype = 'Other'; break;
 //                        case 2: $memtype = 'Unknown'; break;
                         case 3: $memtype = 'DRAM'; break;
