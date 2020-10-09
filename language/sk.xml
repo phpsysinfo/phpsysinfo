@@ -396,4 +396,10 @@ phpSysInfo language file Language: Slovak Created by: Peter 'Pessoft' Kolínek
   <expression id="130" name="mem">
     <exp>Memory Chips</exp>
   </expression>
+  <expression id="131" name="mtps">
+    <exp>MT/s</exp>
+  </expression>
+  <expression id="132" name="gtps">
+    <exp>GT/s</exp>
+  </expression>
 </tns:translation>

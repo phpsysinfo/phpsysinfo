@@ -403,6 +403,23 @@ function formatHertz(mhertz) {
 }
 
 /**
+ * format a given MT/s value to a better readable statement with the right suffix
+ * @param {Number} mtps mtps value that should be formatted
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatMTps(mtps) {
+    if ((mtps >= 0) && (mtps < 1000)) {
+        return mtps.toString() + "&nbsp;" + genlang(131);
+    } else {
+        if (mtps >= 1000) {
+            return round(mtps / 1000, 2) + "&nbsp;" + genlang(132);
+        } else {
+            return "";
+        }
+    }
+}
+
+/**
  * format the byte values into a user friendly value with the corespondenting unit expression<br>support is included
  * for binary and decimal output<br>user can specify a constant format for all byte outputs or the output is formated
  * automatically so that every value can be read in a user friendly way
@@ -866,7 +883,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
             tree.push(devcoreposition);
         }
         if (speed !== undefined) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(129) + ":</span></div></td><td>" + ((type=="MEM")?formatHertz(speed):formatBPS(1000000*speed)) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(129) + ":</span></div></td><td>" + ((type=="MEM")?formatMTps(speed):formatBPS(1000000*speed)) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {

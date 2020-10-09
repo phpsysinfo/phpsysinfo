@@ -752,7 +752,7 @@ function renderHardware(data) {
     var mem_directives = {
         Speed: {
             html: function() {
-                return formatHertz(this.Speed);
+                return formatMTps(this.Speed);
             }
         },
         Capacity: {
@@ -1732,6 +1732,23 @@ function formatHertz(mhertz) {
     } else {
         if (mhertz >= 1000) {
             return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93);
+        } else {
+            return "";
+        }
+    }
+}
+
+/**
+ * format a given MT/s value to a better readable statement with the right suffix
+ * @param {Number} mtps mtps value that should be formatted
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatMTps(mtps) {
+    if ((mtps >= 0) && (mtps < 1000)) {
+        return mtps.toString() + String.fromCharCode(160) + genlang(131);
+    } else {
+        if (mtps >= 1000) {
+            return round(mtps / 1000, 2) + String.fromCharCode(160) + genlang(132);
         } else {
             return "";
         }
