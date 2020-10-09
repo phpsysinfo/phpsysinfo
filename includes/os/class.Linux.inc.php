@@ -1052,7 +1052,8 @@ class Linux extends OS
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
-                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535)) {
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
@@ -1099,16 +1100,16 @@ class Linux extends OS
                     }
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                        if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                            $speed = trim($buf);
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
                             } else {
                                 $unit = "M";
                             }
-                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $speedinfo = $speed.$unit.'b/s '.strtolower(trim($buf));
+                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (($duplex=strtolower(trim($buf)))!="") && ($duplex!='unknown')) {
+                                $speedinfo = $speed.$unit.'b/s '.$duplex;
                             } else {
                                 $speedinfo = $speed.$unit.'b/s';
                             }
@@ -1172,16 +1173,16 @@ class Linux extends OS
                     $dev->setName($ar_buf[1]);
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                        if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                            $speed = trim($buf);
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
                             } else {
                                 $unit = "M";
                             }
-                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $speedinfo = $speed.$unit.'b/s '.strtolower(trim($buf));
+                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (($duplex=strtolower(trim($buf)))!="") && ($duplex!='unknown')) {
+                                $speedinfo = $speed.$unit.'b/s '.$duplex;
                             } else {
                                 $speedinfo = $speed.$unit.'b/s';
                             }
