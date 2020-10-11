@@ -855,14 +855,15 @@ function countCpu(xml) {
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
     $("Hardware " + type + ((type=="MEM")?" Chip":" Device"), xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", speed = "", devcoreposition = 0;
+        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", speed = 0, voltage = 0, devcoreposition = 0;
 
         devicecount++;
         name = $(this).attr("Name");
         capacity = parseInt($(this).attr("Capacity"), 10);
         manufacturer = $(this).attr("Manufacturer");
         product = $(this).attr("Product");
-        speed = $(this).attr("Speed");
+        speed = parseInt($(this).attr("Speed"), 10);
+        voltage = parseFloat($(this).attr("Voltage"));
         serial = $(this).attr("Serial");
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
@@ -882,8 +883,12 @@ function fillHWDevice(xml, type, tree, rootposition) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(123) + ":</span></div></td><td>" + product + "</td></tr>\n";
             tree.push(devcoreposition);
         }
-        if (speed !== undefined) {
+        if (!isNaN(speed)) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(129) + ":</span></div></td><td>" + ((type=="MEM")?formatMTps(speed):formatBPS(1000000*speed)) + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (!isNaN(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {

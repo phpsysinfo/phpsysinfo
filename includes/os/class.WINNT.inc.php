@@ -1125,7 +1125,7 @@ class WINNT extends OS
      */
     private function _meminfo()
     {
-        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
+        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
         if ($allMems) foreach ($allMems as $mem) {
             $dev = new HWDevice();
             $name = '';
@@ -1261,6 +1261,9 @@ class WINNT extends OS
                 }
                 if (isset($mem['ConfiguredClockSpeed']) && (($clock = $mem['ConfiguredClockSpeed']) > 0)) {
                     $dev->setSpeed($clock);
+                }
+                if (isset($mem['ConfiguredVoltage']) && (($voltage = $mem['ConfiguredVoltage']) > 0)) {
+                    $dev->setVoltage($voltage/1000);
                 }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
                    isset($mem['SerialNumber']) && !preg_match("/^SerNum\d+$/", $serial = $mem['SerialNumber']) && ($serial != '') && ($serial != 'None')) {

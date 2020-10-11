@@ -68,6 +68,13 @@ class HWDevice
     private $_speed = null;
 
     /**
+     * voltage of the device, if not available it will be null
+     *
+     * @var Float
+     */
+    private $_voltage = null;
+
+    /**
      * count of the device
      *
      * @var Integer
@@ -223,6 +230,32 @@ class HWDevice
     public function setSpeed($speed)
     {
         $this->_speed = $speed;
+    }
+
+    /**
+     * Returns $_voltage.
+     *
+     * @see HWDevice::$_voltage
+     *
+     * @return Float
+     */
+    public function getVoltage()
+    {
+        return $this->_voltage;
+    }
+
+    /**
+     * Sets $_voltage.
+     *
+     * @param Float $voltage voltage
+     *
+     * @see HWDevice::$_voltage
+     *
+     * @return Void
+     */
+    public function setVoltage($voltage)
+    {
+        $this->_voltage = $voltage;
     }
 
     /**

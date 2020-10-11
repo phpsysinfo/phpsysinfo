@@ -232,6 +232,9 @@ abstract class OS implements PSI_Interface_OS
                         if (isset($mem['Configured Clock Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)$/', $mem['Configured Clock Speed'], $clock) && ($clock[1] > 0)) {
                             $dev->setSpeed($clock[1]);
                         }
+                        if (isset($mem['Configured Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Configured Voltage'], $voltage) && ($voltage[1] > 0)) {
+                            $dev->setVoltage($voltage[1]);
+                        }
                         if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
                            isset($mem['Serial Number']) && !preg_match("/^SerNum\d+$/", $serial = $mem['Serial Number']) && ($serial != 'None')) {
                             $dev->setSerial($serial);

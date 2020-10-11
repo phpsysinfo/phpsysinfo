@@ -274,6 +274,9 @@ class XML
                 if ($dev->getSpeed() !== null) {
                     $tmp->addAttribute('Speed', $dev->getSpeed());
                 }
+                if ($dev->getVoltage() !== null) {
+                    $tmp->addAttribute('Voltage', $dev->getVoltage());
+                }
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL && ($dev->getSerial() !== null)) {
                     $tmp->addAttribute('Serial', $dev->getSerial());
                 }

@@ -755,6 +755,11 @@ function renderHardware(data) {
                 return formatMTps(this.Speed);
             }
         },
+        Voltage: {
+            html: function() {
+                return round(this.Voltage, 2) + ' V';
+            }
+        },
         Capacity: {
             html: function () {
                 return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
@@ -820,7 +825,7 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Speed:129,Serial:124};
+    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Speed:129,Voltage:52,Serial:124};
     for (hw_type in {MEM:0,PCI:1,IDE:2,SCSI:3,NVMe:4,USB:5,TB:6,I2C:7}) {
         try {
             if (hw_type == 'MEM') {
