@@ -215,10 +215,10 @@ abstract class OS implements PSI_Interface_OS
                         }
                         $dev->setCapacity($size[1]*1024*1024);
                         $memtype = '';
-                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Other') && ($type != 'Unknown')) {
+                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             $memtype = $type;
                         }
-                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'Other') && ($form != 'Unknown')) {
+                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
                             $memtype .= ' '.$form;
                         }
                         if (isset($mem['Data Width']) && isset($mem['Total Width']) &&
