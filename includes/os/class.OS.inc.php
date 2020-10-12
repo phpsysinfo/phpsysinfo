@@ -184,7 +184,7 @@ abstract class OS implements PSI_Interface_OS
                         $mem[trim($params[1])] = $params2;
                     }
                 }
-                if (isset($mem['Size']) && preg_match('/^(\d+)\sMB$/', $mem['Size'], $size) && ($size[1] > 0)) {
+                if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)) {
                     $dev = new HWDevice();
                     $name = '';
                     if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
@@ -213,7 +213,11 @@ abstract class OS implements PSI_Interface_OS
                         if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
                             $dev->setManufacturer($manufacturer);
                         }
-                        $dev->setCapacity($size[1]*1024*1024);
+                        if ($size[2] == 'G') {
+                            $dev->setCapacity($size[1]*1024*1024*1024);
+                        } else {
+                            $dev->setCapacity($size[1]*1024*1024);
+                        }
                         $memtype = '';
                         if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             $memtype = $type;
