@@ -1126,151 +1126,161 @@ class WINNT extends OS
     private function _meminfo()
     {
         $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
-        if ($allMems) foreach ($allMems as $mem) {
-            $dev = new HWDevice();
-            $name = '';
-            if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
-                $name = $part;
-            }
-            if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None')) {
-                if ($name != '') {
-                    $name .= ' - '.$dloc;
-                } else {
-                    $name = $dloc;
-                }
-            }
-            if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None')) {
-                if ($name != '') {
-                    $name .= ' in '.$bank;
-                } else {
-                    $name = 'Physical Memory in '.$bank;
-                }
-            }
-            if ($name != '') {
-                $dev->setName(trim($name));
-            } else {
-                $dev->setName('Physical Memory');
-            }
+        if ($allMems) {
+            $reg = false;
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
-                    $dev->setManufacturer($manufacturer);
-                }
-                if (isset($mem['Capacity'])) {
-                    $dev->setCapacity($mem['Capacity']);
-                }
-                $memtype = '';
-                if (isset($mem['MemoryType']) && (($memval = $mem['MemoryType']) != 0)) {
-                    switch ($memval) {
-//                        case 0: $memtype = 'Unknown'; break;
-//                        case 1: $memtype = 'Other'; break;
-                        case 2: $memtype = 'DRAM'; break;
-                        case 3: $memtype = 'Synchronous DRAM'; break;
-                        case 4: $memtype = 'Cache DRAM'; break;
-                        case 5: $memtype = 'EDO'; break;
-                        case 6: $memtype = 'EDRAM'; break;
-                        case 7: $memtype = 'VRAM'; break;
-                        case 8: $memtype = 'SRAM'; break;
-                        case 9: $memtype = 'RAM'; break;
-                        case 10: $memtype = 'ROM'; break;
-                        case 11: $memtype = 'Flash'; break;
-                        case 12: $memtype = 'EEPROM'; break;
-                        case 13: $memtype = 'FEPROM'; break;
-                        case 14: $memtype = 'EPROM'; break;
-                        case 15: $memtype = 'CDRAM'; break;
-                        case 16: $memtype = '3DRAM'; break;
-                        case 17: $memtype = 'SDRAM'; break;
-                        case 18: $memtype = 'SGRAM'; break;
-                        case 19: $memtype = 'RDRAM'; break;
-                        case 20: $memtype = 'DDR'; break;
-                        case 21: $memtype = 'DDR2'; break;
-                        case 22: $memtype = 'DDR2 FB-DIMM'; break;
-                        case 24: $memtype = 'DDR3'; break;
-                        case 25: $memtype = 'FBD2'; break;
-                        case 26: $memtype = 'DDR4'; break;
-                    }
-                } elseif (isset($mem['SMBIOSMemoryType'])) {
-                    switch ($mem['SMBIOSMemoryType']) {
-//                        case 0: $memtype = 'Invalid'; break;
-//                        case 1: $memtype = 'Other'; break;
-//                        case 2: $memtype = 'Unknown'; break;
-                        case 3: $memtype = 'DRAM'; break;
-                        case 4: $memtype = 'EDRAM'; break;
-                        case 5: $memtype = 'VRAM'; break;
-                        case 6: $memtype = 'SRAM'; break;
-                        case 7: $memtype = 'RAM'; break;
-                        case 8: $memtype = 'ROM'; break;
-                        case 9: $memtype = 'FLASH'; break;
-                        case 10: $memtype = 'EEPROM'; break;
-                        case 11: $memtype = 'FEPROM'; break;
-                        case 12: $memtype = 'EPROM'; break;
-                        case 13: $memtype = 'CDRAM'; break;
-                        case 14: $memtype = '3DRAM'; break;
-                        case 15: $memtype = 'SDRAM'; break;
-                        case 16: $memtype = 'SGRAM'; break;
-                        case 17: $memtype = 'RDRAM'; break;
-                        case 18: $memtype = 'DDR'; break;
-                        case 19: $memtype = 'DDR2'; break;
-                        case 20: $memtype = 'DDR2 FB-DIMM'; break;
-                        case 24: $memtype = 'DDR3'; break;
-                        case 25: $memtype = 'FBD2'; break;
-                        case 26: $memtype = 'DDR4'; break;
-                        case 27: $memtype = 'LPDDR'; break;
-                        case 28: $memtype = 'LPDDR2'; break;
-                        case 29: $memtype = 'LPDDR3'; break;
-                        case 30: $memtype = 'DDR3'; break;
-                        case 31: $memtype = 'FBD2'; break;
-                        case 32: $memtype = 'Logical non-volatile device'; break;
-                        case 33: $memtype = 'HBM2'; break;
-                        case 34: $memtype = 'DDR5'; break;
-                        case 35: $memtype = 'LPDDR5'; break;
-                    }
-                }
-                if (isset($mem['FormFactor'])) {
-                    switch ($mem['FormFactor']) {
-//                        case 0: $memtype .= ' Unknown'; break;
-//                        case 1: $memtype .= ' Other'; break;
-                        case 2: $memtype .= ' SIP'; break;
-                        case 3: $memtype .= ' DIP'; break;
-                        case 4: $memtype .= ' ZIP'; break;
-                        case 5: $memtype .= ' SOJ'; break;
-                        case 6: $memtype .= ' Proprietary'; break;
-                        case 7: $memtype .= ' SIMM'; break;
-                        case 8: $memtype .= ' DIMM'; break;
-                        case 9: $memtype .= ' TSOPO'; break;
-                        case 10: $memtype .= ' PGA'; break;
-                        case 11: $memtype .= ' RIM'; break;
-                        case 12: $memtype .= ' SODIMM'; break;
-                        case 13: $memtype .= ' SRIMM'; break;
-                        case 14: $memtype .= ' SMD'; break;
-                        case 15: $memtype .= ' SSMP'; break;
-                        case 16: $memtype .= ' QFP'; break;
-                        case 17: $memtype .= ' TQFP'; break;
-                        case 18: $memtype .= ' SOIC'; break;
-                        case 19: $memtype .= ' LCC'; break;
-                        case 20: $memtype .= ' PLCC'; break;
-                        case 21: $memtype .= ' BGA'; break;
-                        case 22: $memtype .= ' FPBGA'; break;
-                        case 23: $memtype .= ' LGA'; break;
-                    }
-                }
-                if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && (($dataw = $mem['DataWidth']) > 0) && (($totalw = $mem['TotalWidth']) > 0) && ($dataw < $totalw)) {
-                    $memtype .= ' ECC';
-                }
-                if (($memtype = trim($memtype)) != '') {
-                    $dev->setProduct($memtype);
-                }
-                if (isset($mem['ConfiguredClockSpeed']) && (($clock = $mem['ConfiguredClockSpeed']) > 0)) {
-                    $dev->setSpeed($clock);
-                }
-                if (isset($mem['ConfiguredVoltage']) && (($voltage = $mem['ConfiguredVoltage']) > 0)) {
-                    $dev->setVoltage($voltage/1000);
-                }
-                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
-                   isset($mem['SerialNumber']) && !preg_match("/^SerNum\d+$/", $serial = $mem['SerialNumber']) && ($serial != '') && ($serial != 'None')) {
-                    $dev->setSerial($serial);
-                }
+                $arrMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemoryArray', array('MemoryErrorCorrection'));
+                $reg = (count($arrMems) == 1) && isset($arrMems[0]['MemoryErrorCorrection']) && ($arrMems[0]['MemoryErrorCorrection'] == 6);
             }
-            $this->sys->setMemDevices($dev);
+            foreach ($allMems as $mem) {
+                $dev = new HWDevice();
+                $name = '';
+                if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
+                    $name = $part;
+                 }
+                if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None')) {
+                    if ($name != '') {
+                        $name .= ' - '.$dloc;
+                    } else {
+                        $name = $dloc;
+                    }
+                }
+                if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None')) {
+                    if ($name != '') {
+                        $name .= ' in '.$bank;
+                    } else {
+                        $name = 'Physical Memory in '.$bank;
+                    }
+                }
+                if ($name != '') {
+                    $dev->setName(trim($name));
+                } else {
+                    $dev->setName('Physical Memory');
+                }
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
+                        $dev->setManufacturer($manufacturer);
+                    }
+                    if (isset($mem['Capacity'])) {
+                        $dev->setCapacity($mem['Capacity']);
+                    }
+                    $memtype = '';
+                    if (isset($mem['MemoryType']) && (($memval = $mem['MemoryType']) != 0)) {
+                        switch ($memval) {
+//                            case 0: $memtype = 'Unknown'; break;
+//                            case 1: $memtype = 'Other'; break;
+                            case 2: $memtype = 'DRAM'; break;
+                            case 3: $memtype = 'Synchronous DRAM'; break;
+                            case 4: $memtype = 'Cache DRAM'; break;
+                            case 5: $memtype = 'EDO'; break;
+                            case 6: $memtype = 'EDRAM'; break;
+                            case 7: $memtype = 'VRAM'; break;
+                            case 8: $memtype = 'SRAM'; break;
+                            case 9: $memtype = 'RAM'; break;
+                            case 10: $memtype = 'ROM'; break;
+                            case 11: $memtype = 'Flash'; break;
+                            case 12: $memtype = 'EEPROM'; break;
+                            case 13: $memtype = 'FEPROM'; break;
+                            case 14: $memtype = 'EPROM'; break;
+                            case 15: $memtype = 'CDRAM'; break;
+                            case 16: $memtype = '3DRAM'; break;
+                            case 17: $memtype = 'SDRAM'; break;
+                            case 18: $memtype = 'SGRAM'; break;
+                            case 19: $memtype = 'RDRAM'; break;
+                            case 20: $memtype = 'DDR'; break;
+                            case 21: $memtype = 'DDR2'; break;
+                            case 22: $memtype = 'DDR2 FB-DIMM'; break;
+                            case 24: $memtype = 'DDR3'; break;
+                            case 25: $memtype = 'FBD2'; break;
+                            case 26: $memtype = 'DDR4'; break;
+                        }
+                    } elseif (isset($mem['SMBIOSMemoryType'])) {
+                        switch ($mem['SMBIOSMemoryType']) {
+//                            case 0: $memtype = 'Invalid'; break;
+//                            case 1: $memtype = 'Other'; break;
+//                            case 2: $memtype = 'Unknown'; break;
+                            case 3: $memtype = 'DRAM'; break;
+                            case 4: $memtype = 'EDRAM'; break;
+                            case 5: $memtype = 'VRAM'; break;
+                            case 6: $memtype = 'SRAM'; break;
+                            case 7: $memtype = 'RAM'; break;
+                            case 8: $memtype = 'ROM'; break;
+                            case 9: $memtype = 'FLASH'; break;
+                            case 10: $memtype = 'EEPROM'; break;
+                            case 11: $memtype = 'FEPROM'; break;
+                            case 12: $memtype = 'EPROM'; break;
+                            case 13: $memtype = 'CDRAM'; break;
+                            case 14: $memtype = '3DRAM'; break;
+                            case 15: $memtype = 'SDRAM'; break;
+                            case 16: $memtype = 'SGRAM'; break;
+                            case 17: $memtype = 'RDRAM'; break;
+                            case 18: $memtype = 'DDR'; break;
+                            case 19: $memtype = 'DDR2'; break;
+                            case 20: $memtype = 'DDR2 FB-DIMM'; break;
+                            case 24: $memtype = 'DDR3'; break;
+                            case 25: $memtype = 'FBD2'; break;
+                            case 26: $memtype = 'DDR4'; break;
+                            case 27: $memtype = 'LPDDR'; break;
+                            case 28: $memtype = 'LPDDR2'; break;
+                            case 29: $memtype = 'LPDDR3'; break;
+                            case 30: $memtype = 'DDR3'; break;
+                            case 31: $memtype = 'FBD2'; break;
+                            case 32: $memtype = 'Logical non-volatile device'; break;
+                            case 33: $memtype = 'HBM2'; break;
+                            case 34: $memtype = 'DDR5'; break;
+                            case 35: $memtype = 'LPDDR5'; break;
+                        }
+                    }
+                    if (isset($mem['FormFactor'])) {
+                        switch ($mem['FormFactor']) {
+//                                case 0: $memtype .= ' Unknown'; break;
+//                                case 1: $memtype .= ' Other'; break;
+                            case 2: $memtype .= ' SIP'; break;
+                            case 3: $memtype .= ' DIP'; break;
+                            case 4: $memtype .= ' ZIP'; break;
+                            case 5: $memtype .= ' SOJ'; break;
+                            case 6: $memtype .= ' Proprietary'; break;
+                            case 7: $memtype .= ' SIMM'; break;
+                            case 8: $memtype .= ' DIMM'; break;
+                            case 9: $memtype .= ' TSOPO'; break;
+                            case 10: $memtype .= ' PGA'; break;
+                            case 11: $memtype .= ' RIM'; break;
+                            case 12: $memtype .= ' SODIMM'; break;
+                            case 13: $memtype .= ' SRIMM'; break;
+                            case 14: $memtype .= ' SMD'; break;
+                            case 15: $memtype .= ' SSMP'; break;
+                            case 16: $memtype .= ' QFP'; break;
+                            case 17: $memtype .= ' TQFP'; break;
+                            case 18: $memtype .= ' SOIC'; break;
+                            case 19: $memtype .= ' LCC'; break;
+                            case 20: $memtype .= ' PLCC'; break;
+                            case 21: $memtype .= ' BGA'; break;
+                            case 22: $memtype .= ' FPBGA'; break;
+                            case 23: $memtype .= ' LGA'; break;
+                        }
+                    }
+                    if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && (($dataw = $mem['DataWidth']) > 0) && (($totalw = $mem['TotalWidth']) > 0) && ($dataw < $totalw)) {
+                        $memtype .= ' ECC';
+                    }
+                    if ($reg) {
+                        $memtype .= ' REG';
+                    }
+                    if (($memtype = trim($memtype)) != '') {
+                        $dev->setProduct($memtype);
+                    }
+                    if (isset($mem['ConfiguredClockSpeed']) && (($clock = $mem['ConfiguredClockSpeed']) > 0)) {
+                        $dev->setSpeed($clock);
+                    }
+                    if (isset($mem['ConfiguredVoltage']) && (($voltage = $mem['ConfiguredVoltage']) > 0)) {
+                        $dev->setVoltage($voltage/1000);
+                    }
+                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
+                       isset($mem['SerialNumber']) && !preg_match("/^SerNum\d+$/", $serial = $mem['SerialNumber']) && ($serial != '') && ($serial != 'None')) {
+                        $dev->setSerial($serial);
+                    }
+                }
+                $this->sys->setMemDevices($dev);
+            }
         }
     }
 
