@@ -226,6 +226,9 @@ abstract class OS implements PSI_Interface_OS
                            ($dataw[1]  > 0) && ($totalw[1] >0) && ($dataw[1] < $totalw[1])) {
                             $memtype .= ' ECC';
                         }
+                        if (isset($mem['Type Detail']) && preg_match('/Registered/', $mem['Type Detail'])) {
+                            $memtype .= ' REG';
+                        }
                         if (($memtype = trim($memtype)) != '') {
                             $dev->setProduct($memtype);
                         }
