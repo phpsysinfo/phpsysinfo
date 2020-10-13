@@ -187,10 +187,10 @@ abstract class OS implements PSI_Interface_OS
                 if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)) {
                     $dev = new HWDevice();
                     $name = '';
-                    if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
+                    if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'Not Specified') && ($part != 'NOT AVAILABLE')) {
                         $name = $part;
                     }
-                    if (isset($mem['Locator']) && (($dloc = $mem['Locator']) != 'None')) {
+                    if (isset($mem['Locator']) && (($dloc = $mem['Locator']) != 'None') && ($dloc != 'Not Specified')) {
                         if ($name != '') {
                             $name .= ' - '.$dloc;
                         } else {
@@ -210,7 +210,7 @@ abstract class OS implements PSI_Interface_OS
                         $dev->setName('Physical Memory');
                     }
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
+                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
                             $dev->setManufacturer($manufacturer);
                         }
                         if ($size[2] == 'G') {
@@ -219,8 +219,8 @@ abstract class OS implements PSI_Interface_OS
                             $dev->setCapacity($size[1]*1024*1024);
                         }
                         $memtype = '';
-                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
-                            if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)$/', $mem['Speed'], $speed) && ($speed[1] > 0) && preg_match('/^(DDR\d+)(.*)/', $type, $ddr)) {
+                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
+                            if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && preg_match('/^(DDR\d+)(.*)/', $type, $ddr)) {
                                 if (isset($ddr[2])) {
                                     $memtype = $ddr[1].'-'.$speed[1].' '.$ddr[2];
                                 } else {
@@ -230,7 +230,7 @@ abstract class OS implements PSI_Interface_OS
                                 $memtype = $type;
                             }
                         }
-                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
+                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'Not Specified') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
                             $memtype .= ' '.$form;
                         }
                         if (isset($mem['Data Width']) && isset($mem['Total Width']) &&
@@ -251,7 +251,7 @@ abstract class OS implements PSI_Interface_OS
                             $dev->setVoltage($voltage[1]);
                         }
                         if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
-                           isset($mem['Serial Number']) && !preg_match("/^SerNum\d+$/", $serial = $mem['Serial Number']) && ($serial != 'None')) {
+                           isset($mem['Serial Number']) && !preg_match("/^SerNum\d+$/", $serial = $mem['Serial Number']) && ($serial != 'None') && ($serial != 'Not Specified')) {
                             $dev->setSerial($serial);
                         }
                     }
