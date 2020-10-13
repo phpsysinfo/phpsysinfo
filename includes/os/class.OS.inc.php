@@ -220,7 +220,7 @@ abstract class OS implements PSI_Interface_OS
                         }
                         $memtype = '';
                         if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
-                            if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && preg_match('/^(DDR\d+)(.*)/', $type, $ddr)) {
+                            if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && preg_match('/^(DDR\d*)(.*)/', $type, $ddr)) {
                                 if (isset($ddr[2])) {
                                     $memtype = $ddr[1].'-'.$speed[1].' '.$ddr[2];
                                 } else {
