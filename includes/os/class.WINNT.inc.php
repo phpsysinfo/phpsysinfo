@@ -1125,7 +1125,7 @@ class WINNT extends OS
      */
     private function _meminfo()
     {
-        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
+        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
         if ($allMems) {
             $reg = false;
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
@@ -1229,6 +1229,13 @@ class WINNT extends OS
                             case 33: $memtype = 'HBM2'; break;
                             case 34: $memtype = 'DDR5'; break;
                             case 35: $memtype = 'LPDDR5'; break;
+                        }
+                    }
+                    if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && preg_match('/^(DDR\d+)(.*)/', $memtype, $ddr)) {
+                        if (isset($ddr[2])) {
+                            $memtype = $ddr[1].'-'.$speed.' '.$ddr[2];
+                        } else {
+                            $memtype = $ddr[1].'-'.$speed;
                         }
                     }
                     if (isset($mem['FormFactor'])) {
