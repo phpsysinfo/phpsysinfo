@@ -210,7 +210,7 @@ abstract class OS implements PSI_Interface_OS
                         $dev->setName('Physical Memory');
                     }
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
+                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && !preg_match("/^JEDEC ID:/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
                             $dev->setManufacturer($manufacturer);
                         }
                         if ($size[2] == 'G') {
