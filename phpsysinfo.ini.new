@@ -468,6 +468,8 @@ UPS_SNMPUPS_ACCESS="php-snmp"
 ; define how to access the dmidecode data
 ; - "data" read data from file data/dmidecode.txt
 ; - "command" execute command: dmidecode -t 17
+;   If access error try execute first: chmod 4755 /usr/sbin/dmidecode
+;   This method is not recommended for safety reasons!
 ;
 DMIDECODE_ACCESS="command"
 

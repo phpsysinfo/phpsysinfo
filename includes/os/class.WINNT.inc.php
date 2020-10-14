@@ -1231,11 +1231,11 @@ class WINNT extends OS
                             case 35: $memtype = 'LPDDR5'; break;
                         }
                     }
-                    if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && preg_match('/^(DDR\d*)(.*)/', $memtype, $ddr)) {
-                        if (isset($ddr[2])) {
-                            $memtype = $ddr[1].'-'.$speed.' '.$ddr[2];
+                    if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && (preg_match('/^(DDR\d*)(.*)/', $memtype, $dr) || preg_match('/^(SDR)AM(.*)/', $memtype, $dr))) {
+                        if (isset($dr[2])) {
+                            $memtype = $dr[1].'-'.$speed.' '.$dr[2];
                         } else {
-                            $memtype = $ddr[1].'-'.$speed;
+                            $memtype = $dr[1].'-'.$speed;
                         }
                     }
                     if (isset($mem['FormFactor'])) {
