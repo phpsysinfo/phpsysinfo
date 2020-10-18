@@ -3,32 +3,32 @@ function renderPlugin_smart(data) {
     if ((data.Plugins.Plugin_SMART !== undefined) && (data.Plugins.Plugin_SMART.columns !== undefined) && (items(data.Plugins.Plugin_SMART.columns.column).length > 0) && (data.Plugins.Plugin_SMART.disks !== undefined) && (items(data.Plugins.Plugin_SMART.disks.disk).length > 0)) {
         var smartitems = items(data.Plugins.Plugin_SMART.columns.column);
         var smartnames = {
-            1:"plugin_smart_101",	// "Raw Read Error Rate",		
-            2:"plugin_smart_102",	// "Throughput Performance",
-            3:"plugin_smart_103",	// "Spin Up Time",
-            4:"plugin_smart_104",	// "Start Stop Count",
-            5:"plugin_smart_105",	// "Reallocated Sector Ct",
-            7:"plugin_smart_106",	// "Seek Error Rate",
-            8:"plugin_smart_108",	// "Seek Time Performance",
-            9:"plugin_smart_109",	// "Power On Hours",
-            10:"plugin_smart_110",	// "Spin Retry Count",
-            11:"plugin_smart_111",	// "Calibration Retry Count",
-            12:"plugin_smart_112",	// "Power Cycle Count",
-            190:"plugin_smart_290",	// "Airflow Temperature",
-            191:"plugin_smart_291",	// "G-sense Error Rate",
-            192:"plugin_smart_292",	// "Power-Off Retract Count",
-            193:"plugin_smart_293",	// "Load Cycle Count",
-            194:"plugin_smart_294",	// "Temperature",
-            195:"plugin_smart_295",	// "Hardware ECC Recovered",
-            196:"plugin_smart_296",  // "Reallocated Event Count",
-            197:"plugin_smart_297",  // "Current Pending Sector",
-            198:"plugin_smart_298",  // "Offline Uncorr.",
-            199:"plugin_smart_299",  // "UDMA CRC Error Count",
-            200:"plugin_smart_300",  // "Multi Zone Error Rate",
-            201:"plugin_smart_301",  // "Soft Read Error Rate",
-            202:"plugin_smart_302",  // "Data Address Mark Errors",
-            223:"plugin_smart_323",  // "Load Retry Count",
-            225:"plugin_smart_325",  };	// "Load Cycle Count"
+            1:  "plugin_smart_101",   // "Raw Read Error Rate",
+            2:  "plugin_smart_102",   // "Throughput Performance",
+            3:  "plugin_smart_103",   // "Spin Up Time",
+            4:  "plugin_smart_104",   // "Start Stop Count",
+            5:  "plugin_smart_105",   // "Reallocated Sector Ct",
+            7:  "plugin_smart_106",   // "Seek Error Rate",
+            8:  "plugin_smart_108",   // "Seek Time Performance",
+            9:  "plugin_smart_109",   // "Power On Hours",
+            10: "plugin_smart_110",   // "Spin Retry Count",
+            11: "plugin_smart_111",   // "Calibration Retry Count",
+            12: "plugin_smart_112",   // "Power Cycle Count",
+            190:"plugin_smart_290",   // "Airflow Temperature",
+            191:"plugin_smart_291",   // "G-sense Error Rate",
+            192:"plugin_smart_292",   // "Power-Off Retract Count",
+            193:"plugin_smart_293",   // "Load Cycle Count",
+            194:"plugin_smart_294",   // "Temperature",
+            195:"plugin_smart_295",   // "Hardware ECC Recovered",
+            196:"plugin_smart_296",   // "Reallocated Event Count",
+            197:"plugin_smart_297",   // "Current Pending Sector",
+            198:"plugin_smart_298",   // "Offline Uncorr.",
+            199:"plugin_smart_299",   // "UDMA CRC Error Count",
+            200:"plugin_smart_300",   // "Multi Zone Error Rate",
+            201:"plugin_smart_301",   // "Soft Read Error Rate",
+            202:"plugin_smart_302",   // "Data Address Mark Errors",
+            223:"plugin_smart_323",   // "Load Retry Count",
+            225:"plugin_smart_325",}; // "Load Cycle Count"
         
         var html = '';
         var i,j;
@@ -36,7 +36,7 @@ function renderPlugin_smart(data) {
 
         html+="<thead>";
         html+="<tr>";
-        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, 'smart')+"</th>";	// Name
+        html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, 'smart')+"</th>"; // Name
         for (i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"].id;
             if (smartnames[smartid] !== undefined) {
