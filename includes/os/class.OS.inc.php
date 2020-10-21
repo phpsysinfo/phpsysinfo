@@ -187,17 +187,17 @@ abstract class OS implements PSI_Interface_OS
                 if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)) {
                     $dev = new HWDevice();
                     $name = '';
-                    if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'Not Specified') && ($part != 'NOT AVAILABLE')) {
+                    if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'N/A') && ($part != 'Not Specified') && ($part != 'NOT AVAILABLE')) {
                         $name = $part;
                     }
-                    if (isset($mem['Locator']) && (($dloc = $mem['Locator']) != 'None') && ($dloc != 'Not Specified')) {
+                    if (isset($mem['Locator']) && (($dloc = $mem['Locator']) != 'None') && ($dloc != 'N/A') && ($dloc != 'Not Specified')) {
                         if ($name != '') {
                             $name .= ' - '.$dloc;
                         } else {
                             $name = $dloc;
                         }
                     }
-                    if (isset($mem['Bank Locator']) && (($bank = $mem['Bank Locator']) != 'None') && ($bank != 'Not Specified')) {
+                    if (isset($mem['Bank Locator']) && (($bank = $mem['Bank Locator']) != 'None') && ($bank != 'N/A') && ($bank != 'Not Specified')) {
                         if ($name != '') {
                             $name .= ' in '.$bank;
                         } else {
@@ -210,7 +210,7 @@ abstract class OS implements PSI_Interface_OS
                         $dev->setName('Physical Memory');
                     }
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && !preg_match("/^JEDEC ID:/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
+                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && !preg_match("/^JEDEC ID:/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'N/A') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
                             $dev->setManufacturer($manufacturer);
                         }
                         if ($size[2] == 'G') {
@@ -219,7 +219,7 @@ abstract class OS implements PSI_Interface_OS
                             $dev->setCapacity($size[1]*1024*1024);
                         }
                         $memtype = '';
-                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
+                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
                                 if (isset($dr[2])) {
                                     $memtype = $dr[1].'-'.$speed[1].' '.$dr[2];
@@ -230,7 +230,7 @@ abstract class OS implements PSI_Interface_OS
                                 $memtype = $type;
                             }
                         }
-                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'Not Specified') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
+                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'N/A') && ($form != 'Not Specified') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
                             $memtype .= ' '.$form;
                         }
                         if (isset($mem['Data Width']) && isset($mem['Total Width']) &&
