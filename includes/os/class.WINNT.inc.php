@@ -1135,17 +1135,17 @@ class WINNT extends OS
             foreach ($allMems as $mem) {
                 $dev = new HWDevice();
                 $name = '';
-                if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'NOT AVAILABLE')) {
+                if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'N/A') && ($part != 'NOT AVAILABLE')) {
                     $name = $part;
                  }
-                if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None')) {
+                if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None') && ($dloc != 'N/A')) {
                     if ($name != '') {
                         $name .= ' - '.$dloc;
                     } else {
                         $name = $dloc;
                     }
                 }
-                if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None')) {
+                if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None') && ($bank != 'N/A')) {
                     if ($name != '') {
                         $name .= ' in '.$bank;
                     } else {
@@ -1158,7 +1158,7 @@ class WINNT extends OS
                     $dev->setName('Physical Memory');
                 }
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                    if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != '')  && ($manufacturer != 'None') && ($manufacturer != 'UNKNOWN')) {
+                    if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && ($manufacturer != '') && ($manufacturer != 'None') && ($manufacturer != 'N/A') && ($manufacturer != 'UNKNOWN')) {
                         $dev->setManufacturer($manufacturer);
                     }
                     if (isset($mem['Capacity'])) {
