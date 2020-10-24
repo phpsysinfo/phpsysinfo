@@ -1125,7 +1125,7 @@ class WINNT extends OS
      */
     private function _meminfo()
     {
-        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel'));
+        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel', 'MinVoltage', 'MaxVoltage'));
         if ($allMems) {
             $reg = false;
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
@@ -1232,10 +1232,15 @@ class WINNT extends OS
                         }
                     }
                     if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && (preg_match('/^(DDR\d*)(.*)/', $memtype, $dr) || preg_match('/^(SDR)AM(.*)/', $memtype, $dr))) {
-                        if (isset($dr[2])) {
-                            $memtype = $dr[1].'-'.$speed.' '.$dr[2];
+                        if (isset($mem['MinVoltage']) && isset($mem['MaxVoltage']) && (($minv = $mem['MinVoltage']) > 0) && (($maxv = $mem['MaxVoltage']) > 0) && ($minv < $maxv)) {
+                            $lv = 'L';
                         } else {
-                            $memtype = $dr[1].'-'.$speed;
+                            $lv = '';
+                        }
+                        if (isset($dr[2])) {
+                            $memtype = $dr[1].$lv.'-'.$speed.' '.$dr[2];
+                        } else {
+                            $memtype = $dr[1].$lv.'-'.$speed;
                         }
                     }
                     if (isset($mem['FormFactor'])) {

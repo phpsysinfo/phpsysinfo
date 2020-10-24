@@ -221,10 +221,17 @@ abstract class OS implements PSI_Interface_OS
                         $memtype = '';
                         if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
-                                if (isset($dr[2])) {
-                                    $memtype = $dr[1].'-'.$speed[1].' '.$dr[2];
+                               if (isset($mem['Minimum Voltage']) && isset($mem['Total Width']) &&
+                                  preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
+                                  ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
+                                    $lv = 'L';
                                 } else {
-                                    $memtype = $dr[1].'-'.$speed[1];
+                                    $lv = '';
+                                }
+                                if (isset($dr[2])) {
+                                    $memtype = $dr[1].$lv.'-'.$speed[1].' '.$dr[2];
+                                } else {
+                                    $memtype = $dr[1].$lv.'-'.$speed[1];
                                 }
                             } else {
                                 $memtype = $type;
