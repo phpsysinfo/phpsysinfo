@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * BAT Plugin, which displays battery state
  *
@@ -682,7 +682,7 @@ class BAT extends PSI_Plugin
             if (isset($bat_item['name'])) {
                 $xmlbat->addAttribute("Name", $bat_item['name']);
             }
-            if (isset($bat_item['model']) && ($bat_item['model'] !== "1")) {
+            if (isset($bat_item['model']) && ($bat_item['model'] !== '') && ($bat_item['model'] !== '1')) {
                 $xmlbat->addAttribute("Model", $bat_item['model']);
             }
             if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
@@ -692,7 +692,7 @@ class BAT extends PSI_Plugin
                && ($bat_item['serialnumber'] !== "0000")) {
                 $xmlbat->addAttribute("SerialNumber", $bat_item['serialnumber']);
             }
-            if (isset($bat_item['manufacturer']) && ($bat_item['manufacturer'] !== '-Virtual Battery 0-')) {
+            if (isset($bat_item['manufacturer']) && ($bat_item['manufacturer'] !== '') && ($bat_item['manufacturer'] !== '-Virtual Battery 0-')) {
                 $xmlbat->addAttribute("Manufacturer", $bat_item['manufacturer']);
             }
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&
