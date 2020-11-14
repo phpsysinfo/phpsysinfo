@@ -1097,7 +1097,7 @@ function renderFilesystem(data) {
         },
         Used: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore >= 2)) {
+                if ((this.Ignore !== undefined) && (this.Ignore >= 3)) {
                     return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
                 } else {
                     return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
@@ -1121,14 +1121,14 @@ function renderFilesystem(data) {
                 var used21= used2 - used1;
                 if (used21 > 0) {
                     return '<div class="progress">' + '<div class="' +
-                        ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                         '" style="width:' + used1 + '% ;"></div>' +
                         '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>'
                         +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
                 } else {
                     return '<div class="progress">' + '<div class="' +
-                        ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                         '" style="width:' + used2 + '% ;"></div>' +
                         '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
@@ -1144,7 +1144,9 @@ function renderFilesystem(data) {
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
             if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
-                if (datas[i]["@attributes"].Ignore == 1) {
+                if (datas[i]["@attributes"].Ignore == 2) {
+                    total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
+                } else if (datas[i]["@attributes"].Ignore == 1) {
                     total.Total += parseInt(datas[i]["@attributes"].Used, 10);
                     total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                 }

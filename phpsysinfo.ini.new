@@ -345,6 +345,12 @@ IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, lxfs, udf, UDF, C
 IGNORE_USAGE=""
 
 
+; Ignore total size of mounts
+; Example : IGNORE_SIZE="/System/Volumes/VM,/System/Volumes/Prebot"
+;
+IGNORE_SIZE=""
+
+
 ; Ignore free space size of mounts
 ; Example : IGNORE_FREE="/zfs/space,/zfs/data"
 ;
