@@ -59,6 +59,7 @@ MacBookAir7,1:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
 MacBookAir7,2:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
 MacBookAir8,1:MacBook Air Core i5:Intel Core I5-8210Y
 MacBookAir9,1:MacBook Air Core i3/i5/i7:Intel Core I3-1000NG4/I5-1030NG7/I7-1060NG7
+MacBookAir10,1:MacBook Air ARM M1:Apple M1
 MacBookPro1,1:MacBook Pro Core Duo:Intel Core Duo L2400/T2400/T2500/T2600
 MacBookPro1,2:MacBook Pro Core Duo:Intel Core Duo T2600
 MacBookPro2,1:MacBook Pro Core 2 Duo:Intel Core 2 Duo T7600
