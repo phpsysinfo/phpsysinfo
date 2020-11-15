@@ -346,9 +346,9 @@ IGNORE_USAGE=""
 
 
 ; Ignore total size of mounts
-; Example : IGNORE_SIZE="/System/Volumes/VM,/System/Volumes/Prebot"
+; Example : IGNORE_TOTAL="/System/Volumes/VM,/System/Volumes/Prebot"
 ;
-IGNORE_SIZE=""
+IGNORE_TOTAL=""
 
 
 ; Ignore free space size of mounts
