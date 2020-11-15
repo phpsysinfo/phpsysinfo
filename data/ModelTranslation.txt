@@ -59,7 +59,7 @@ MacBookAir7,1:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
 MacBookAir7,2:MacBook Air Core i5/i7:Intel Core I5-5250U/I7-5650U
 MacBookAir8,1:MacBook Air Core i5:Intel Core I5-8210Y
 MacBookAir9,1:MacBook Air Core i3/i5/i7:Intel Core I3-1000NG4/I5-1030NG7/I7-1060NG7
-MacBookAir10,1:MacBook Air ARM M1:Apple M1
+MacBookAir10,1:MacBook Air M1:Apple M1
 MacBookPro1,1:MacBook Pro Core Duo:Intel Core Duo L2400/T2400/T2500/T2600
 MacBookPro1,2:MacBook Pro Core Duo:Intel Core Duo T2600
 MacBookPro2,1:MacBook Pro Core 2 Duo:Intel Core 2 Duo T7600
@@ -101,6 +101,7 @@ MacBookPro16,1:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9980HK
 MacBookPro16,2:MacBook Pro Core i5/i7:Intel Core I5-1038NG7/I7-1068NG7
 MacBookPro16,3:MacBook Pro Core i5/i7:Intel Core I5-8257U/I7-8557U
 MacBookPro16,4:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9980HK
+MacBookPro17,1:MacBook Pro M1:Apple M1
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800
@@ -112,6 +113,7 @@ Macmini6,1:Mac mini Core i5:Intel Core I5-3210M
 Macmini6,2:Mac mini Core i7:Intel Core I7-3615QM/I7-3720QM
 Macmini7,1:Mac mini Core i5/i7:Intel Core I5-4260U/I5-4278U/I5-4308U/I7-4578U
 Macmini8,1:Mac mini Core i3/i5/i7:Intel Core I3-8100/I5-8500B/I7-8700B
+Macmini9,1:Mac mini M1:Apple M1
 MacPro1,1:Mac Pro Quad Core:Intel Xeon 5130/5150/5160
 MacPro2,1:Mac Pro Eight Core:Intel Xeon X5365
 MacPro3,1:Mac Pro Quad/Eight Core:Intel Xeon E5462/E5472/X5482
