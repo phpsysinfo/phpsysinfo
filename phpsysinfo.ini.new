@@ -334,9 +334,9 @@ FS_USAGE_THRESHOLD=90
 
 
 ; Ignore usage and usage threshold for filesystem types
-; Example : IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, lxfs, udf, UDF, CDFS"
+; Example : IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, tmpfs, lxfs, udf, UDF, CDFS"
 ;
-IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, lxfs, udf, UDF, CDFS"
+IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, tmpfs, lxfs, udf, UDF, CDFS"
 
 
 ; Ignore usage of mounts
