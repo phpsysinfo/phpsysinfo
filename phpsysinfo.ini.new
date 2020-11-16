@@ -370,6 +370,11 @@ HIDE_FS_TYPES=""
 HIDE_DISKS=""
 
 
+; Hide totals information
+;
+HIDE_TOTALS=false
+
+
 ; ********************************
 ;      NETWORK PARAMETERS
 ; ********************************

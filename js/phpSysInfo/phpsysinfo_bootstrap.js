@@ -1079,29 +1079,17 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
-                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Total, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore > 0) && showtotals);
             }
         },
         Free: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
-                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Free, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore > 0) && showtotals);
             }
         },
         Used: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore >= 3)) {
-                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Used, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore >= 3) && showtotals);
             }
         },
         MountPoint: {
@@ -1141,25 +1129,31 @@ function renderFilesystem(data) {
         var fs_data = [];
         var datas = items(data.FileSystem.Mount);
         var total = {Total:0,Free:0,Used:0};
+        var showtotals = $("#hideTotals").val().toString()!=="true";
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
-            if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
-                if (datas[i]["@attributes"].Ignore == 2) {
-                    total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
-                } else if (datas[i]["@attributes"].Ignore == 1) {
-                    total.Total += parseInt(datas[i]["@attributes"].Used, 10);
+            if (showtotals) {
+                if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
+                    if (datas[i]["@attributes"].Ignore == 2) {
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
+                    } else if (datas[i]["@attributes"].Ignore == 1) {
+                        total.Total += parseInt(datas[i]["@attributes"].Used, 10);
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);
+                    }
+                } else {
+                    total.Total += parseInt(datas[i]["@attributes"].Total, 10);
+                    total.Free += parseInt(datas[i]["@attributes"].Free, 10);
                     total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                 }
-            } else {
-                total.Total += parseInt(datas[i]["@attributes"].Total, 10);
-                total.Free += parseInt(datas[i]["@attributes"].Free, 10);
-                total.Used += parseInt(datas[i]["@attributes"].Used, 10);
+                total.Percent = (total.Total != 0) ? round(100 - (total.Free / total.Total) * 100, 2) : 0;
             }
-            total.Percent = (total.Total != 0) ? round(100 - (total.Free / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
-            $('#filesystem-foot').render(total, directives);
+            if (showtotals) {
+                $('#filesystem-foot').render(total, directives);
+                $('#filesystem-foot').show();
+            }
             $('#filesystem_MountPoint').removeClass("sorttable_sorted"); //reset sort order
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);

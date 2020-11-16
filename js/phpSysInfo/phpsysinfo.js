@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [];
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -281,17 +281,19 @@ function filesystemtable() {
     html += "                <th class=\"right\">" + genlang(37) + "</th>\n";
     html += "              </tr>\n";
     html += "            </thead>\n";
-    html += "            <tfoot>\n";
-    html += "              <tr style=\"font-weight : bold\">\n";
-    html += "                <td>&nbsp;</td>\n";
-    html += "                <td>&nbsp;</td>\n";
-    html += "                <td>" + genlang(38) + "</td>\n";
-    html += "                <td id=\"s_fs_total\"></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
-    html += "              </tr>\n";
-    html += "            </tfoot>\n";
+    if (showTotals) {
+        html += "            <tfoot>\n";
+        html += "              <tr style=\"font-weight : bold\">\n";
+        html += "                <td>&nbsp;</td>\n";
+        html += "                <td>&nbsp;</td>\n";
+        html += "                <td>" + genlang(38) + "</td>\n";
+        html += "                <td id=\"s_fs_total\"></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
+        html += "              </tr>\n";
+        html += "            </tfoot>\n";
+    }
     html += "            <tbody>\n";
     html += "            </tbody>\n";
     html += "          </table>\n";
@@ -1251,7 +1253,7 @@ function refreshFilesystems(xml) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
 
-        if (!isNaN(ignore) && (ignore > 0)) {
+        if (!isNaN(ignore) && (ignore > 0) && showTotals) {
             if (ignore >= 3) {
                 if ((ignore == 3) && !isNaN(threshold) && (percent >= threshold)) {
                     filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
@@ -1266,35 +1268,39 @@ function refreshFilesystems(xml) {
                 }
             }
         } else {
-            if (!isNaN(threshold) && (percent >= threshold)) {
+            if (!isNaN(threshold) && (percent >= threshold) && (showTotals || isNaN(ignore) || (ignore < 4))) {
                 filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             } else {
                 filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             }
         }
-        if (!isNaN(ignore) && (ignore > 0)) {
-            if (ignore == 2) {
+        if (showTotals) {
+            if (!isNaN(ignore) && (ignore > 0)) {
+                if (ignore == 2) {
+                    total_used += used;
+                } else if (ignore == 1) {
+                    total_used += used;
+                    total_size += used;
+                }
+            } else {
                 total_used += used;
-            } else if (ignore == 1) {
-                total_used += used;
-                total_size += used;
+                total_free += free;
+                total_size += size;
             }
-        } else {
-            total_used += used;
-            total_free += free;
-            total_size += size;
+            total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
         }
-        total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
     });
-
-    if (!isNaN(threshold) && (total_usage >= threshold)) {
-        $("#s_fs_total").html(createBar(total_usage, "barwarn"));
-    } else {
-        $("#s_fs_total").html(createBar(total_usage));
+    
+    if (showTotals) {
+        if (!isNaN(threshold) && (total_usage >= threshold)) {
+            $("#s_fs_total").html(createBar(total_usage, "barwarn"));
+        } else {
+            $("#s_fs_total").html(createBar(total_usage));
+        }
+        $("#s_fs_tfree").html(formatBytes(total_free, xml));
+        $("#s_fs_tused").html(formatBytes(total_used, xml));
+        $("#s_fs_tsize").html(formatBytes(total_size, xml));
     }
-    $("#s_fs_tfree").html(formatBytes(total_free, xml));
-    $("#s_fs_tused").html(formatBytes(total_used, xml));
-    $("#s_fs_tsize").html(formatBytes(total_size, xml));
 }
 
 /**
@@ -1729,6 +1735,7 @@ $(document).ready(function buildpage() {
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
     showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
+    showTotals = $("#hideTotals").val().toString()!=="true";
     switch ($("#showNetworkActiveSpeed").val().toString()) {
         case "bps":  showNetworkActiveSpeed = 2;
                       break;
