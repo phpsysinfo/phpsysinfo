@@ -45,11 +45,11 @@ class Haiku extends OS
                     $dev->setModel($ar_buf[1]);
                     $arrLines = preg_split("/\n/", $cpu, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($arrLines as $Line) {
-                        if (preg_match("/^\s+Data TLB:\s+(.*)K-byte/", $Line, $Line_buf)) {
+                        if (preg_match("/^\s+Data TLB:\s+(.*)K-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)K-byte/", $Line, $Line_buf)) {
                             $dev->setCache(max($Line_buf[1]*1024, $dev->getCache()));
-                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)M-byte/", $Line, $Line_buf)) {
+                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)M-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)M-byte/", $Line, $Line_buf)) {
                             $dev->setCache(max($Line_buf[1]*1024*1024, $dev->getCache()));
-                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)G-byte/", $Line, $Line_buf)) {
+                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)G-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)G-byte/", $Line, $Line_buf)) {
                             $dev->setCache(max($Line_buf[1]*1024*1024*1024, $dev->getCache()));
                         } elseif (preg_match("/\s+VMX/", $Line, $Line_buf)) {
                             $dev->setVirt("vmx");
