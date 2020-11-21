@@ -202,7 +202,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         } elseif (PHP_OS == 'Haiku') {
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
-                && @exec('locale -m 2>/dev/null', $lines)) {
+                && @exec('locale --message 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
