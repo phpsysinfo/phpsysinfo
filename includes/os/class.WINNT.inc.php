@@ -778,7 +778,11 @@ class WINNT extends OS
             $dev = new HWDevice();
             $dev->setName($pciDev['Name']);
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                $dev->setManufacturer($pciDev['Manufacturer']);
+                if (preg_match("/^@[^\.]+\.inf,%([^%]+)%$/i", trim($pciDev['Manufacturer']), $mbuff)) {
+                   $dev->setManufacturer($mbuff[1]);
+                } else {
+                    $dev->setManufacturer($pciDev['Manufacturer']);
+                }
                 $dev->setProduct($pciDev['Product']);
             }
             $this->sys->setPciDevices($dev);
