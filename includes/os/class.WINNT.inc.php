@@ -357,7 +357,7 @@ class WINNT extends OS
                     if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
-                    if (!isset($device['Manufacturer']) || preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
+                    if (!isset($device['Manufacturer']) || preg_match('/^\(.*\)$/', $device['Manufacturer']) || preg_match('/\sUSB\s/', $device['Manufacturer'])) {
                         $device['Manufacturer'] = null;
                     }
                     $device['Capacity'] = null;
