@@ -43,14 +43,14 @@ class Parser
                     $arrParams[$cp-1] = trim($arrParams[$cp-1],'"'); // remove last "
                     $dev->setName($arrParams[1].': '.$arrParams[2].' '.$arrParams[3]);
                     if (preg_match('/^-/', $arrParams[4])) {
-                        if ($arrParams[5] !== "") && !preg_match('/^Unknown vendor/', $arrParams[5])) {
+                        if (($arrParams[5] !== "") && !preg_match('/^Unknown vendor/', $arrParams[5])) {
                             $dev->setManufacturer(trim($arrParams[5]));
                         }
                         if (($arrParams[6] !== "") && !preg_match('/^Device /', $arrParams[6])) {
                             $dev->setProduct(trim($arrParams[6]));
                         }
                     } else {
-                        if ($arrParams[4] !== "") && !preg_match('/^Unknown vendor/', $arrParams[4])) {
+                        if (($arrParams[4] !== "") && !preg_match('/^Unknown vendor/', $arrParams[4])) {
                             $dev->setManufacturer(trim($arrParams[4]));
                         }
                         if (($arrParams[5] !== "") && !preg_match('/^Device /', $arrParams[5])) {
