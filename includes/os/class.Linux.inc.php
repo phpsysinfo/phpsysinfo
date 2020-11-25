@@ -615,13 +615,13 @@ class Linux extends OS
                 }
                 if ($booDevice) {
                     $dev = new HWDevice();
-                    $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strLine)));
+                    $dev->setName(preg_replace('/\(rev\s[^\)]+\)\.$/', '', trim($strLine)));
                     $this->sys->setPciDevices($dev);
 /*
                     list($strKey, $strValue) = preg_split('/: /', $strLine, 2);
                     if (!preg_match('/bridge/i', $strKey) && !preg_match('/USB/i ', $strKey)) {
                         $dev = new HWDevice();
-                        $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strValue)));
+                        $dev->setName(preg_replace('/\(rev\s[^\)]+\)\.$/', '', trim($strValue)));
                         $this->sys->setPciDevices($dev);
                     }
 */

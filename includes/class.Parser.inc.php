@@ -61,7 +61,7 @@ class Parser
                     $strLine=trim(preg_replace('/(")|( -\S+)/', '', $strLine));
                     $arrParams = preg_split('/ /', trim($strLine), 2);
                     if (count($arrParams) == 2)
-                        $strName = preg_replace('/\(rev.*\)/', '', $arrParams[1]);
+                        $strName = preg_replace('/\(rev\s[^\)]+\)/', '', $arrParams[1]);
                     else
                        $strName = "unknown";
                     $dev->setName($strName);
