@@ -6363,7 +6363,7 @@
 			else
 			{
 				sFullCookie = sNameFile + "=" + encodeURIComponent(sValue) +
-					"; expires=" + date.toGMTString() +"; path=" + aParts.join('/')+"/";
+					"; expires=" + date.toGMTString() +"; path=" + aParts.join('/')+"/; samesite=strict";
 			}
 			
 			/* Are we going to go over the cookie limit of 4KiB? If so, try to delete a cookies
