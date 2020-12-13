@@ -1,6 +1,6 @@
 /*
  * File:        jquery.dataTables.js
- * Version:     1.8.2+jquery1.9fix+parseJSONfix2+bindfix
+ * Version:     1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
  * Created:     28/3/2008
@@ -6396,7 +6396,7 @@
 				if ( sOldName !== "" )
 				{
 					document.cookie = sOldName+"=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path="+
-						aParts.join('/') + "/";
+						aParts.join('/') + "/; samesite=strict";
 				}
 			}
 			
