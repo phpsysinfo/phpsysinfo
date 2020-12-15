@@ -239,7 +239,7 @@ class Raid extends PSI_Plugin
                     }
                     $optionline = $raiddata[$count].$raiddata[$count+1];
                     $count++;
-                    if (preg_match('/([^\sk]*)k chunk/', $optionline, $chunksize)) {
+                    if (preg_match('/(\d+)k chunk/', $optionline, $chunksize)) {
                         $this->_result['devices'][$dev]['chunk_size'] = $chunksize[1];
                     }
                     if ($pos = strpos($optionline, "super non-persistent")) {
