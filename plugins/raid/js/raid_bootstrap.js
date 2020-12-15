@@ -106,6 +106,7 @@ function renderPlugin_raid(data) {
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Spares))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(10, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Spares) + "</td></tr>"; // Spares
 
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Chunk_Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(13, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Chunk_Size) + "K</td></tr>";
+                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Stripe_Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(28, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Stripe_Size) + "</td></tr>";
                     if (raiditems[i]["@attributes"].Algorithm !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(14, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Algorithm + "</td></tr>";
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Persistend_Superblock))) {
                         if (parseInt(raiditems[i]["@attributes"].Persistend_Superblock) == 1) {

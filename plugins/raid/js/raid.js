@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -48,6 +48,7 @@ function raid_buildinfos(xml, id) {
     devdevs = parseInt($(xml).attr("Devs"), 10);
     devspares = parseInt($(xml).attr("Spares"), 10);
     devchunk = parseInt($(xml).attr("Chunk_Size"), 10);
+    devstripe = parseInt($(xml).attr("Stripe_Size"), 10);
     devalgor = $(xml).attr("Algorithm");
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
@@ -68,6 +69,7 @@ function raid_buildinfos(xml, id) {
     if (!isNaN(devspares)) html += "<tr><td>" + genlang(10, "Raid") + "</td><td>" + devspares + "</td></tr>";
 
     if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + devchunk + "K</td></tr>";
+    if (!isNaN(devstripe)) html += "<tr><td>" + genlang(28, "Raid") + "</td><td>" + devstripe + "</td></tr>";
     if (devalgor !== undefined) html += "<tr><td>" + genlang(14, "Raid") + "</td><td>" + devalgor + "</td></tr>";
     if (!isNaN(devpersist)) {
         if (devpersist == 1) {
