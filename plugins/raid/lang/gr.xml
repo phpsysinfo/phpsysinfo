@@ -88,6 +88,6 @@
     <exp>Λανθάνουσα Μνήμη Δίσκου</exp>
   </expression>
   <expression id="plugin_raid_028" name="raid_stripe">
-    <exp>Stripe Size</exp>
+    <exp>Μέγεθος Stripe</exp>
   </expression>
 </tns:translationPlugin>
