@@ -26,44 +26,50 @@ function renderPlugin_raid(data) {
         if (info === undefined) info = "";
         parentid = parseInt(data.ParentID, 10);
 
-        var img = "", alt = "", bcolor = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "";
         switch (data.Status) {
         case "ok":
-            img = "harddriveok.png";
+            imgh = "harddriveok.png";
+            imgs = "soliddriveok.png";
             alt = "ok";
             bcolor = "green";
             break;
         case "F":
-            img = "harddrivefail.png";
+            imgh = "harddrivefail.png";
+            imgs = "soliddrivefail.png";
             alt = "fail";
             bcolor = "red";
             break;
         case "S":
-            img = "harddrivespare.png";
+            imgh = "harddrivespare.png";
+            imgs = "soliddrivespare.png";
             alt = "spare";
             bcolor = "gray";
             break;
        case "U":
-            img = "harddriveunc.png";
+            imgh = "harddriveunc.png";
+            imgs = "soliddriveunc.png";
             alt = "unconfigured";
             bcolor = "purple";
             break;
         case "W":
-            img = "harddrivewarn.png";
+            imgh = "harddrivewarn.png";
+            imgs = "soliddrivewarn.png";
             alt = "warning";
             bcolor = "orange";
             break;
         default:
 //            alert("--" + diskstatus + "--");
-            img = "error.png";
+            imgh = "error.png";
+            imgs = "error.png";
             alt = "error";
 
             break;
         }
 
         if (!isNaN(parentid)) {
-            if (data.Type === "disk") {
-                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
+            if (data.Type !== undefined) {
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
             } else {
                 if (parentid === 0) {
                     $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;float:left;text-align:center\">" + data.Name + "<br></div>");

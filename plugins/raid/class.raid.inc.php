@@ -561,7 +561,7 @@ class Raid extends PSI_Plugin
                         } elseif (count($details) == 4) {
                             if (isset($this->_result['devices'][$prefix.$details[2]])) {
                                 $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['type'] = 'disk';
+                                $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['type'] = "disk";
                                 $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['name'] = $details[0];
                                 if ($details[3] !== 'online') {
                                     $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['info'] = $details[3];
@@ -606,7 +606,7 @@ class Raid extends PSI_Plugin
                             }
                             if (($itemn !== '') && isset($this->_result['devices'][$prefix.$itemn])) {
                                 $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['type'] = 'disk';
+                                $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['type'] = "disk";
                                 $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['name'] = $details[0];
                                 $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['info'] = $details[2];
                                 switch ($details[2]) {
@@ -738,10 +738,15 @@ class Raid extends PSI_Plugin
                 if (((count($buffArgs) == 3) || (count($buffArgs) == 9)) && (isset($this->_result['devices'][$uname]))) {
                     $this->_result['devices'][$uname]['items'][$pname]['parentid'] = 1;
                     $this->_result['devices'][$uname]['items'][$pname]['name'] = $pname;
-                    $this->_result['devices'][$uname]['items'][$pname]['type'] = "disk";
                     if (count($buffArgs) == 3) {
+                        $this->_result['devices'][$uname]['items'][$pname]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
                     } else {
+                        if (trim($buffArgs[1])==="SSD") {
+                            $this->_result['devices'][$uname]['items'][$pname]['type'] = "ssd";
+                        } else {
+                            $this->_result['devices'][$uname]['items'][$pname]['type'] = "disk";
+                        }
                         $dskstat = trim($buffArgs[4]);
                     }
                     switch ($dskstat) {
@@ -785,10 +790,15 @@ class Raid extends PSI_Plugin
                 if (((count($buffArgs) == 3) || (count($buffArgs) == 9) || (count($buffArgs) == 10))) {
                     $this->_result['devices'][$uname]['items'][$uname."-".$id]['parentid'] = 1;
                     $this->_result['devices'][$uname]['items'][$uname."-".$id]['name'] = $pname;
-                    $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "disk";
                     if (count($buffArgs) == 3) {
+                        $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
                     } else {
+                        if (trim($buffArgs[1])==="SSD") {
+                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "ssd";
+                        } else {
+                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "disk";
+                        }
                         $dskstat = trim($buffArgs[4]);
                     }
                     switch ($dskstat) {
@@ -1263,7 +1273,10 @@ class Raid extends PSI_Plugin
                         }
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['name']=$raid_physical['physicalDiskName'];
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['parentid'] = 1;
-                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = 'disk';
+                        if (preg_match("/^Solid State Disk /", $raid_physical['physicalDiskName']))
+                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = "ssd";
+                        else
+                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = "disk";
 
                         if (isset($raid_physical['physicalDiskState'])) {
                             switch ($raid_physical['physicalDiskState']) {

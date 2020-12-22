@@ -134,44 +134,50 @@ function raid_diskicon(xml, id) {
         if (info === undefined) info = "";
         parentid = parseInt($(this).attr("ParentID"), 10);
 
-        var img = "", alt = "", bcolor = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "";
         switch (status) {
         case "ok":
-            img = "harddriveok.png";
+            imgh = "harddriveok.png";
+            imgs = "soliddriveok.png";
             alt = "ok";
             bcolor = "green";
             break;
         case "F":
-            img = "harddrivefail.png";
+            imgh = "harddrivefail.png";
+            imgs = "soliddrivefail.png";
             alt = "fail";
             bcolor = "red";
             break;
         case "U":
-            img = "harddriveunc.png";
+            imgh = "harddriveunc.png";
+            imgs = "soliddriveunc.png";
             alt = "unconfigured";
             bcolor = "purple";
             break;
         case "S":
-            img = "harddrivespare.png";
+            imgh = "harddrivespare.png";
+            imgs = "soliddrivespare.png";
             alt = "spare";
             bcolor = "gray";
             break;
         case "W":
-            img = "harddrivewarn.png";
+            imgh = "harddrivewarn.png";
+            imgs = "soliddrivewarn.png";
             alt = "warning";
             bcolor = "orange";
             break;
         default:
 //            alert("--" + diskstatus + "--");
-            img = "error.png";
+            imgh = "error.png";
+            imgs = "error.png";
             alt = "error";
 
             break;
         }
 
         if (!isNaN(parentid)) {
-            if (type === "disk") {
-                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
+            if (type !== undefined) {
+                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
                     $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
