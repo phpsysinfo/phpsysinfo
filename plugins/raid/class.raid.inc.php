@@ -228,7 +228,9 @@ class Raid extends PSI_Plugin
                             if (isset($partition[5])) {
                                 $search = array("(", ")");
                                 $replace = array("", "");
-                                $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = str_replace($search, $replace, trim($partition[5]));
+                                $dstat = str_replace($search, $replace, trim($partition[5]));
+                                $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = $dstat;
+                                if (($dstat === "F" ) && ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" )) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                             } else {
                                 $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = "ok";
                             }
@@ -271,6 +273,7 @@ class Raid extends PSI_Plugin
                                 if (($diskkey!==0) && ($this->_result['devices'][$dev]['items'][$diskkey]['status']!=="S")) {
                                     if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['items'][$diskkey]['status']=="ok")) {
                                         $this->_result['devices'][$dev]['items'][$diskkey]['status']="W";
+                                        if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" ) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                                     }
                                     $partnr++;
                                 }
@@ -295,6 +298,7 @@ class Raid extends PSI_Plugin
                                 $this->_result['devices'][$dev]['items']['none']['name']="none";
                                 $this->_result['devices'][$dev]['items']['none']['parentid'] = 1;
                                 $this->_result['devices'][$dev]['items']['none']['type']="disk";
+                                if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" ) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                             }
                             asort($this->_result['devices'][$dev]['items']);
                             foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
