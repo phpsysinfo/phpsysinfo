@@ -13,6 +13,9 @@
   <expression id="plugin_smart_002" name="smart_name">
     <exp>Nazwa</exp>
   </expression>
+  <expression id="plugin_smart_100" name="smart_ata_error_count">
+    <exp>ATA Error Count</exp>
+  </expression>
   <expression id="plugin_smart_101" name="smart_raw_read_error_rate">
     <exp>Raw Read Error Rate</exp>
   </expression>

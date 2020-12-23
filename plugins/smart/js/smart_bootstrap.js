@@ -3,6 +3,7 @@ function renderPlugin_smart(data) {
     if ((data.Plugins.Plugin_SMART !== undefined) && (data.Plugins.Plugin_SMART.columns !== undefined) && (items(data.Plugins.Plugin_SMART.columns.column).length > 0) && (data.Plugins.Plugin_SMART.disks !== undefined) && (items(data.Plugins.Plugin_SMART.disks.disk).length > 0)) {
         var smartitems = items(data.Plugins.Plugin_SMART.columns.column);
         var smartnames = {
+            0:  "plugin_smart_100",   // "ATA Error Count",
             1:  "plugin_smart_101",   // "Raw Read Error Rate",
             2:  "plugin_smart_102",   // "Throughput Performance",
             3:  "plugin_smart_103",   // "Spin Up Time",
@@ -56,11 +57,11 @@ function renderPlugin_smart(data) {
             attribitems = items(diskitems[i].attribute);
             var valarray = [];
             for (j = 0;j < attribitems.length; j++) {
-                valarray[attribitems[j]["@attributes"].id] = attribitems[j]["@attributes"].raw_value;
+                valarray[attribitems[j]["@attributes"].id] = attribitems[j]["@attributes"];
             }
             for (j = 0; j < smartitems.length; j++) {
                 smartid = smartitems[j]["@attributes"].id;
-                var itemvalue = valarray[smartid];
+                var itemvalue = valarray[smartid][smartitems[j]["@attributes"].name];
                 if ((itemvalue !== undefined) && (itemvalue !== '' )) {
                     if (smartid === "194") {
                         html += '<td class="rightCell">' + formatTemp(itemvalue, data.Options["@attributes"].tempFormat) + '</td>';

@@ -216,8 +216,11 @@ class SMART extends PSI_Plugin
             if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
 
-            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!)
-            if (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
+            // locate ATA Error Count
+            if (preg_match('/(ATA Error Count: \d+)/', $result, $matches, PREG_OFFSET_CAPTURE))
+                $endIndex = $matches[0][1]+strlen($matches[0][0]);
+            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!) 
+            elseif (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $endIndex = $matches[0][1];
 
             if ($startIndex && $endIndex && ($endIndex>$startIndex))
@@ -229,27 +232,36 @@ class SMART extends PSI_Plugin
                     $labels[$k] = str_replace('#', '', strtolower($v));
                 }
                 $i = 0; // Line number
-                foreach ($vendorInfos as $line) {
+                foreach ($vendorInfos as $line) if (preg_match('/^\s*((\d+)|(id))\s/', $line)) {
                     $line = preg_replace('/^\s+/', '', $line);
                     $values = preg_split('/\s+/', $line);
                     if (count($values) > count($labels)) {
                         $values = array_slice($values, 0, count($labels), true);
                     }
                     $j = 0;
-                    $found = false;
+                    $found = 0;
                     foreach ($values as $value) {
                         if ((in_array($value, array_keys($this->_ids)) && $labels[$j] == 'id')) {
                           $arrFullVa = preg_split('/-/', $this->_ids[$value]);
-                          if (($arrFullVa[0]=="#replace") && !empty($arrFullVa[1]))
+                          if (($arrFullVa[0]=="#replace") && !empty($arrFullVa[1])) {
                               $value=$arrFullVa[1];
+                          }
                         }
-                        if (((in_array($value, array_keys($this->_ids)) && $labels[$j] == 'id') || ($found && (in_array($labels[$j], array_values($this->_ids)))) || ($found && $labels[$j] == 'attribute_name'))) {
+                        if (in_array($value, array_keys($this->_ids)) && ($labels[$j] == 'id') && ($value > 0)) {
                             $this->_result[$disk][$i][$labels[$j]] = $value;
-                            $found = true;
+                            $found = $value;
+                        } elseif (($found > 0) && (($labels[$j] == 'attribute_name') || ($labels[$j] == $this->_ids[$found]))) {
+                            $this->_result[$disk][$i][$labels[$j]] = $value;
                         }
                         $j++;
                     }
                     $i++;
+                } else {
+                    if (in_array(0, array_keys($this->_ids)) && ($this->_ids[0] == 'raw_value') && preg_match('/^ATA Error Count: (\d+)/', $line, $value)) {
+                        $this->_result[$disk][$i]['id'] = 0;
+                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                        $this->_result[$disk][$i]['raw_value'] = $value[1];
+                    }
                 }
             } else {
                 //SCSI and MVMe devices
