@@ -30,7 +30,7 @@ function renderPlugin_smart(data) {
             202:"plugin_smart_302",   // "Data Address Mark Errors",
             223:"plugin_smart_323",   // "Load Retry Count",
             225:"plugin_smart_325",}; // "Load Cycle Count"
-        
+
         var html = '';
         var i,j;
         var smartid;
@@ -61,12 +61,16 @@ function renderPlugin_smart(data) {
             }
             for (j = 0; j < smartitems.length; j++) {
                 smartid = smartitems[j]["@attributes"].id;
-                var itemvalue = valarray[smartid][smartitems[j]["@attributes"].name];
-                if ((itemvalue !== undefined) && (itemvalue !== '' )) {
-                    if (smartid === "194") {
-                        html += '<td class="rightCell">' + formatTemp(itemvalue, data.Options["@attributes"].tempFormat) + '</td>';
+                if ((smartid !== undefined) && (valarray[smartid] !== undefined)) {
+                    var itemvalue = valarray[smartid][smartitems[j]["@attributes"].name];
+                    if ((itemvalue !== undefined) && (itemvalue !== '' )) {
+                        if (smartid === "194") {
+                            html += '<td class="rightCell">' + formatTemp(itemvalue, data.Options["@attributes"].tempFormat) + '</td>';
+                        } else {
+                            html += '<td class="rightCell">' + itemvalue + '</td>';
+                        }
                     } else {
-                        html += '<td class="rightCell">' + itemvalue + '</td>';
+                        html += '<td></td>';
                     }
                 } else {
                     html += '<td></td>';
