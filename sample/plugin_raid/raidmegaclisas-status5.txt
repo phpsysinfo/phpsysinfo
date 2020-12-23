@@ -1,0 +1,19 @@
+-- Controller information --
+-- ID | H/W Model         | RAM    | Temp | BBU    | Firmware     
+c0    | LSI 2108 MegaRAID | 512MB  | N/A  | Good   | FW: 12.15.0-0239 
+
+-- Array information --
+-- ID | Type   |    Size |  Strpsz | Flags | DskCache |   Status |  OS Path | CacheCade |InProgress   
+c0u0  | RAID-5 |   7271G |   64 KB | RA,WB |  Default | Degraded | /dev/sdf | None      |None         
+
+-- Disk information --
+-- ID  | Type | Drive Model                                  | Size     | Status          | Speed    | Temp | Slot ID  | LSI ID  
+c0u0p0 | HDD  | WD-WCC123456789WDC WD20EFRX-68AA110 80.00A80 | 1.817 TB | Rebuilding (9%) | 6.0Gb/s  | 20C  | [252:0]  | 13      
+c0u0p1 | HDD  | WD-WCC234567890WDC WD20EFRX-68AA220 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 25C  | [252:1]  | 15      
+c0u0p2 | HDD  | WD-WCC345678901WDC WD20EFRX-68AA330 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 25C  | [252:2]  | 14      
+c0u0p3 | HDD  | WD-WMC456789012WDC WD20EFRX-68AA440 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 25C  | [252:3]  | 16      
+c0u0p4 | HDD  | WD-WCC567890123WDC WD20EFRX-68AA550 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 25C  | [252:4]  | 17      
+
+
+There is at least one disk/array in a NOT OPTIMAL state.
+RAID ERROR - Arrays: OK:0 Bad:1 - Disks: OK:5 Bad:0

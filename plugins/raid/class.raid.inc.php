@@ -763,6 +763,13 @@ class Raid extends PSI_Plugin
                         case 'Hotspare, Spun down':
                             $this->_result['devices'][$uname]['items'][$pname]['status'] = "S";
                             break;*/
+                        default:
+                           if (preg_match("/^(\S+) \((\d+)%\)/", $dskstat, $progarr)) {
+                               $this->_result['devices'][$uname]['items'][$pname]['status'] = "W";
+                               $this->_result['devices'][$uname]['action']['name'] = trim($progarr[1]);
+                               $this->_result['devices'][$uname]['action']['percent'] = trim($progarr[2]);
+                           }
+                             
                     }
                     $this->_result['devices'][$uname]['items'][$pname]['info'] = $dskstat;
                 }
