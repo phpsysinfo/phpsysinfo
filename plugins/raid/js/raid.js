@@ -267,7 +267,7 @@ $(document).ready(function raid_buildpage() {
     html += "        </div>\n";
     $("#Plugin_Raid").append(html);
 
-    $("#Plugin_Raid").css("width", "915px");
+    $("#Plugin_Raid").addClass("fullsize");
 
     raid_request();
 

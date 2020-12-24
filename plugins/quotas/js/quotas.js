@@ -143,7 +143,7 @@ function quotas_request() {
 
 $(document).ready(function quotas_buildpage() {
     $("#footer").before(buildBlock("Quotas", 1, true));
-    $("#Plugin_Quotas").css("width", "915px");
+    $("#Plugin_Quotas").addClass("fullsize");
 
     quotas_buildTable();
 

@@ -108,7 +108,7 @@ function updatenotifier_request() {
 
 $(document).ready(function() {
     $("#footer").before(buildBlock("UpdateNotifier", 1, true));
-    $("#Plugin_UpdateNotifier").css("width", "451px");
+    $("#Plugin_UpdateNotifier").addClass("halfsize");
 
     updatenotifier_buildTable();
     updatenotifier_request();

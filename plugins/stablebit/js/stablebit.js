@@ -202,7 +202,7 @@ function stablebit_request() {
 
 $(document).ready(function stablebit_buildpage() {
     $("#footer").before(buildBlock("StableBit", 1, true));
-    $("#Plugin_StableBit").css("width", "451px");
+    $("#Plugin_StableBit").addClass("halfsize");
 
     stablebit_request();
 

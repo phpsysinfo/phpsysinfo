@@ -119,7 +119,7 @@ function hyperv_request() {
 
 $(document).ready(function hyperv_buildpage() {
     $("#footer").before(buildBlock("HyperV", 1, true));
-    $("#Plugin_HyperV").css("width", "451px");
+    $("#Plugin_HyperV").addClass("halfsize");
 
     hyperv_buildTable();
 

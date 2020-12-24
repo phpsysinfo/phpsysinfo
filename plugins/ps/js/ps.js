@@ -136,7 +136,7 @@ function ps_request() {
 
 $(document).ready(function ps_buildpage() {
     $("#footer").before(buildBlock("PS", 1, true));
-    $("#Plugin_PS").css("width", "915px");
+    $("#Plugin_PS").addClass("fullsize");
 
     ps_request();
 

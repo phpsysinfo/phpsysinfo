@@ -142,7 +142,7 @@ function docker_request() {
 
 $(document).ready(function docker_buildpage() {
     $("#footer").before(buildBlock("Docker", 1, true));
-    $("#Plugin_Docker").css("width", "915px");
+    $("#Plugin_Docker").addClass("fullsize");
 
     docker_buildTable();
 

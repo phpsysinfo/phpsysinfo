@@ -142,7 +142,7 @@ $(document).ready(function smart_buildpage() {
     var html = "";
 
     $("#footer").before(buildBlock("SMART", 1, true));
-    $("#Plugin_SMART").css("width", "915px");
+    $("#Plugin_SMART").addClass("fullsize");
 
     smart_request();
 

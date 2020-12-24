@@ -118,7 +118,7 @@ function pingtest_request() {
 
 $(document).ready(function pingtest_buildpage() {
     $("#footer").before(buildBlock("PingTest", 1, true));
-    $("#Plugin_PingTest").css("width", "451px");
+    $("#Plugin_PingTest").addClass("halfsize");
 
     pingtest_buildTable();
 

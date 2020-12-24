@@ -117,7 +117,7 @@ function uprecords_request() {
 
 $(document).ready(function uprecords_buildpage() {
     $("#footer").before(buildBlock("uprecords", 1, true));
-    $("#Plugin_uprecords").css("width", "915px");
+    $("#Plugin_uprecords").addClass("fullsize");
 
     uprecords_buildTable();
 

@@ -209,7 +209,7 @@ function bat_request() {
 
 $(document).ready(function bat_buildpage() {
     $("#footer").before(buildBlock("BAT", 1, true));
-    $("#Plugin_BAT").css("width", "451px");
+    $("#Plugin_BAT").addClass("halfsize");
 
     bat_request();
 

@@ -102,7 +102,7 @@ function viewer_request() {
 
 $(document).ready(function viewer_buildpage() {
     $("#footer").before(buildBlock("viewer", 1, true));
-    $("#Plugin_viewer").css("width", "915px");
+    $("#Plugin_viewer").addClass("fullsize");
 
     viewer_buildTable();
 
