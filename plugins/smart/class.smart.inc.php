@@ -216,8 +216,8 @@ class SMART extends PSI_Plugin
             if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
 
-            // locate ATA Error Count
-            if (preg_match('/(ATA Error Count\: \d+)/', $result, $matches, PREG_OFFSET_CAPTURE))
+            // locate ATA Error Count or No Errors Logged
+            if (preg_match('/(ATA Error Count\: \d+)|(No Errors Logged)/', $result, $matches, PREG_OFFSET_CAPTURE))
                 $endIndex = $matches[0][1]+strlen($matches[0][0]);
             // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!) 
             elseif (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
@@ -257,10 +257,16 @@ class SMART extends PSI_Plugin
                     }
                     $i++;
                 } else {
-                    if (in_array(0, array_keys($this->_ids)) && ($this->_ids[0] == 'raw_value') && preg_match('/^ATA Error Count\: (\d+)/', $line, $value)) {
-                        $this->_result[$disk][$i]['id'] = 0;
-                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                        $this->_result[$disk][$i]['raw_value'] = $value[1];
+                    if (in_array(0, array_keys($this->_ids)) && ($this->_ids[0] == 'raw_value')) {
+                        if (preg_match('/^ATA Error Count\: (\d+)/', $line, $value)) {
+                            $this->_result[$disk][$i]['id'] = 0;
+                            $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                            $this->_result[$disk][$i]['raw_value'] = $value[1];
+                        } elseif (preg_match('/^No Errors Logged/', $line, $value)) {
+                            $this->_result[$disk][$i]['id'] = 0;
+                            $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                            $this->_result[$disk][$i]['raw_value'] = 0;
+                        }
                     }
                 }
             } else {
