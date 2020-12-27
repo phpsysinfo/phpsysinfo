@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','graid','zpool','idrac');
+    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','3ware-status','graid','zpool','idrac');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -77,6 +77,14 @@ class Raid extends PSI_Plugin
                         CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
                     } else {
                         CommonFunctions::executeProgram("megaclisas-status", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
+                    }
+                    $notwas = false;
+                }
+                if (in_array('3ware-status', $RaidProgs)) {
+                    if (PSI_OS == 'WINNT') {
+                        CommonFunctions::executeProgram("3ware-status.py", "", $this->_filecontent['3ware-status'], PSI_DEBUG);
+                    } else {
+                        CommonFunctions::executeProgram("3ware-status", "", $this->_filecontent['3ware-status'], PSI_DEBUG);
                     }
                     $notwas = false;
                 }
@@ -493,6 +501,13 @@ class Raid extends PSI_Plugin
 
     private function execute_megactl($buffer, $sas = false)
     {
+        if ($sas === true) {
+            $prog = "megasasctl";
+            $prefix = "/"; //for megactl and megasasctl conflicts
+        } else {
+            $prog = "megactl";
+            $prefix = "";
+        }
         $raiddata = preg_split("/(\r?\n)+(?=[a-z]\d+ )/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         if (!empty($raiddata)) foreach ($raiddata as $raidgroup) {
             if (preg_match("/^([a-z]\d+) /", $raidgroup, $buff)) {
@@ -509,13 +524,6 @@ class Raid extends PSI_Plugin
                 $group = $buff[1];
                 $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($lines)) {
-                    if ($sas === true) {
-                        $prog = "megasasctl";
-                        $prefix = "/"; //for megactl and megasasctl conflicts
-                    } else {
-                        $prog = "megactl";
-                        $prefix = "";
-                    }
                     unset($lines[0]);
                     foreach ($lines as $line) {
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
@@ -631,40 +639,50 @@ class Raid extends PSI_Plugin
         }
     }
 
-    private function execute_megaclisasstatus($buffer)
+    private function execute_status($buffer, $_3ware = false)
     {
         $carr=array();
-        
+        if ($_3ware === true) {
+            $prog = "3ware-status";
+            $prefix = "/"; //for 3ware-status and megaclisas-status conflicts
+            $split = "/\s\s/";
+        } else {
+            $prog = "megaclisas-status";
+            $prefix = "";
+            $split = "/[\s]?\|[\s]?/";
+        }
         $buffLines = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($buffLines as $buffLine) {
             if (preg_match("/^(c\d+)[ |]/", $buffLine, $cbuff)) {
                 $cname = $cbuff[1];
                 $buffArgs = preg_split("/[\s]?\|[\s]?/", $buffLine, -1, PREG_SPLIT_NO_EMPTY);
-                if ((count($buffArgs) == 5) || (count($buffArgs) == 6)) {
+                if ((count($buffArgs) == 2) || (count($buffArgs) == 5) || (count($buffArgs) == 6)) {
                     $carr[$cname]['controller'] = trim($buffArgs[1]);
                     if (count($buffArgs) == 6) $carr[$cname]['battery'] = trim($buffArgs[4]);
-                    $carr[$cname]['cache_size'] = trim($buffArgs[2]);
-                    $unit = preg_replace("/^\d+/", "", trim($buffArgs[2]));
-                    $value = preg_replace("/\D+$/", "", trim($buffArgs[2]));
-                    switch ($unit) {
-                        case 'B':
-                            $carr[$cname]['cache_size'] = $value;
-                            break;
-                        case 'KB':
-                            $carr[$cname]['cache_size'] = 1024*$value;
-                            break;
-                        case 'MB':
-                            $carr[$cname]['cache_size'] = 1024*1024*$value;
-                            break;
-                        case 'GB':
-                            $carr[$cname]['cache_size'] = 1024*1024*1024*$value;
-                            break;
-                        case 'TB':
-                            $carr[$cname]['cache_size'] = 1024*1024*1024*1024*$value;
-                            break;
-                        case 'PB':
-                            $carr[$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value;
-                            break;
+                    if (count($buffArgs) > 2) {
+                        $carr[$cname]['cache_size'] = trim($buffArgs[2]);
+                        $unit = preg_replace("/^\d+/", "", trim($buffArgs[2]));
+                        $value = preg_replace("/\D+$/", "", trim($buffArgs[2]));
+                        switch ($unit) {
+                            case 'B':
+                                $carr[$cname]['cache_size'] = $value;
+                                break;
+                            case 'KB':
+                                $carr[$cname]['cache_size'] = 1024*$value;
+                                break;
+                            case 'MB':
+                                $carr[$cname]['cache_size'] = 1024*1024*$value;
+                                break;
+                            case 'GB':
+                                $carr[$cname]['cache_size'] = 1024*1024*1024*$value;
+                                break;
+                            case 'TB':
+                                $carr[$cname]['cache_size'] = 1024*1024*1024*1024*$value;
+                                break;
+                            case 'PB':
+                                $carr[$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value;
+                                break;
+                         }
                      }
                 } elseif (count($buffArgs) == 3) {
                     $carr[$cname]['controller'] = trim($buffArgs[1]);
@@ -672,143 +690,145 @@ class Raid extends PSI_Plugin
             } elseif (preg_match("/^((c\d+)u\d+)[ |]/", $buffLine, $ubuff)) {
                 $uname = $ubuff[1];
                 $cname = $ubuff[2];
-                $buffArgs = preg_split("/[\s]?\|[\s]?/", $buffLine, -1, PREG_SPLIT_NO_EMPTY);
-                if (((count($buffArgs) == 5) || (count($buffArgs) == 9) || (count($buffArgs) == 10)) && isset($carr[$cname])) {
-                    $this->_result['devices'][$uname]['prog'] = 'megaclisas-status';
-                    $this->_result['devices'][$uname]['level'] = trim($buffArgs[1]);
-                    $this->_result['devices'][$uname]['controller'] = $carr[$cname]['controller'];
-                    if (isset($carr[$cname]['battery'])) $this->_result['devices'][$uname]['battery'] = $carr[$cname]['battery'];
-                    if (isset($carr[$cname]['cache_size'])) $this->_result['devices'][$uname]['cache_size'] = $carr[$cname]['cache_size'];
+                $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
+                if (((count($buffArgs) == 4) || (count($buffArgs) == 5) || (count($buffArgs) == 9) || (count($buffArgs) == 10)) && isset($carr[$cname])) {
+                    $this->_result['devices'][$prefix.$uname]['prog'] = $prog;
+                    $this->_result['devices'][$prefix.$uname]['level'] = trim($buffArgs[1]);
+                    $this->_result['devices'][$prefix.$uname]['controller'] = $carr[$cname]['controller'];
+                    if (isset($carr[$cname]['battery'])) $this->_result['devices'][$prefix.$uname]['battery'] = $carr[$cname]['battery'];
+                    if (isset($carr[$cname]['cache_size'])) $this->_result['devices'][$prefix.$uname]['cache_size'] = $carr[$cname]['cache_size'];
                     $unit = preg_replace("/^\d+/", "", trim($buffArgs[2]));
                     $value = preg_replace("/\D+$/", "", trim($buffArgs[2]));
                     switch ($unit) {
                         case 'B':
-                            $this->_result['devices'][$uname]['size'] = $value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = $value;
                             break;
                         case 'K':
-                            $this->_result['devices'][$uname]['size'] = 1024*$value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = 1024*$value;
                             break;
                         case 'M':
-                            $this->_result['devices'][$uname]['size'] = 1024*1024*$value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = 1024*1024*$value;
                             break;
                         case 'G':
-                            $this->_result['devices'][$uname]['size'] = 1024*1024*1024*$value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = 1024*1024*1024*$value;
                             break;
                         case 'T':
-                            $this->_result['devices'][$uname]['size'] = 1024*1024*1024*1024*$value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = 1024*1024*1024*1024*$value;
                             break;
                         case 'P':
-                            $this->_result['devices'][$uname]['size'] = 1024*1024*1024*1024*1024*$value;
+                            $this->_result['devices'][$prefix.$uname]['size'] = 1024*1024*1024*1024*1024*$value;
                             break;
-                     }
-                    if (count($buffArgs) == 5) {
-                        $this->_result['devices'][$uname]['status'] = trim($buffArgs[3]);
+                    }
+                    if ((count($buffArgs) == 4) || (count($buffArgs) == 5)) {
+                        $this->_result['devices'][$prefix.$uname]['status'] = trim($buffArgs[3]);
                     } else {
-                        $this->_result['devices'][$uname]['status'] = trim($buffArgs[6]);
-                        $this->_result['devices'][$uname]['diskcache'] = trim($buffArgs[5]);
-                        $this->_result['devices'][$uname]['name'] = trim($buffArgs[7]);
+                        $this->_result['devices'][$prefix.$uname]['status'] = trim($buffArgs[6]);
+                        $this->_result['devices'][$prefix.$uname]['diskcache'] = trim($buffArgs[5]);
+                        $this->_result['devices'][$prefix.$uname]['name'] = trim($buffArgs[7]);
                         if (preg_match("/^(\d+) KB$/", trim($buffArgs[3]), $strsize)) {
-                            $this->_result['devices'][$uname]['stripe_size'] = $strsize[1] * 1024;
+                            $this->_result['devices'][$prefix.$uname]['stripe_size'] = $strsize[1] * 1024;
                         }
                         $ctype = trim($buffArgs[4]);
-                        if (preg_match("/^NORA,/", $ctype )) $this->_result['devices'][$uname]['readpolicy'] = "noReadAhead";
-                        elseif (preg_match("/^RA,/", $ctype )) $this->_result['devices'][$uname]['readpolicy'] = "readAhead";
-                        elseif (preg_match("/^ADRA,/", $ctype )) $this->_result['devices'][$uname]['readpolicy'] = "adaptiveReadAhead";
-                        if (preg_match("/,WT$/", $ctype )) $this->_result['devices'][$uname]['writepolicy'] = "writeThrough";
-                        elseif (preg_match("/,WB$/", $ctype )) $this->_result['devices'][$uname]['writepolicy'] = "writeBack";
-                        elseif (preg_match("/,WBF$/", $ctype )) $this->_result['devices'][$uname]['writepolicy'] = "writeBackForce";
+                        if (preg_match("/^NORA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "noReadAhead";
+                        elseif (preg_match("/^RA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "readAhead";
+                        elseif (preg_match("/^ADRA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "adaptiveReadAhead";
+                        if (preg_match("/,WT$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeThrough";
+                        elseif (preg_match("/,WB$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBack";
+                        elseif (preg_match("/,WBF$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBackForce";
                     }
-                    $this->_result['devices'][$uname]['items'][$uname]['parentid'] = 0;
-                    $this->_result['devices'][$uname]['items'][$uname]['name'] = trim($buffArgs[1]);
+                    $this->_result['devices'][$prefix.$uname]['items'][$uname]['parentid'] = 0;
+                    $this->_result['devices'][$prefix.$uname]['items'][$uname]['name'] = trim($buffArgs[1]);
                     if (preg_match("/(.+) : Completed (\d+)%/", trim($buffArgs[count($buffArgs)-1]), $progarr)) {
-                        $this->_result['devices'][$uname]['action']['name'] = trim($progarr[1]);
-                        $this->_result['devices'][$uname]['action']['percent'] = trim($progarr[2]);
+                        $this->_result['devices'][$prefix.$uname]['action']['name'] = trim($progarr[1]);
+                        $this->_result['devices'][$prefix.$uname]['action']['percent'] = trim($progarr[2]);
                     }
-                    switch ($this->_result['devices'][$uname]['status']) {
+                    switch ($this->_result['devices'][$prefix.$uname]['status']) {
+                        case 'OK':
                         case 'Optimal':
-                            $this->_result['devices'][$uname]['items'][$uname]['status'] = "ok";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname]['status'] = "ok";
                             break;
                         case 'Offline':
-                            $this->_result['devices'][$uname]['items'][$uname]['status'] = "F";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname]['status'] = "F";
                             break;
                         default:
-                            $this->_result['devices'][$uname]['items'][$uname]['status'] = "W";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname]['status'] = "W";
                     }
                 }
             } elseif (preg_match("/^(((c\d+)u\d+)p\d+)[ |]/", $buffLine, $pbuff)) {
                 $pname = $pbuff[1];
                 $uname = $pbuff[2];
-                $buffArgs = preg_split("/[\s]?\|[\s]?/", $buffLine, -1, PREG_SPLIT_NO_EMPTY);
-                if (((count($buffArgs) == 3) || (count($buffArgs) == 9)) && (isset($this->_result['devices'][$uname]))) {
-                    $this->_result['devices'][$uname]['items'][$pname]['parentid'] = 1;
-                    $this->_result['devices'][$uname]['items'][$pname]['name'] = $pname;
+                $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
+                if (((count($buffArgs) == 3) || (count($buffArgs) == 9)) && (isset($this->_result['devices'][$prefix.$uname]))) {
+                    $this->_result['devices'][$prefix.$uname]['items'][$pname]['parentid'] = 1;
+                    $this->_result['devices'][$prefix.$uname]['items'][$pname]['name'] = $pname;
                     if (count($buffArgs) == 3) {
-                        $this->_result['devices'][$uname]['items'][$pname]['type'] = "disk";
+                        $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
                     } else {
                         if (trim($buffArgs[1])==="SSD") {
-                            $this->_result['devices'][$uname]['items'][$pname]['type'] = "ssd";
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "ssd";
                         } else {
-                            $this->_result['devices'][$uname]['items'][$pname]['type'] = "disk";
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         }
                         $dskstat = trim($buffArgs[4]);
                     }
                     switch ($dskstat) {
+                        case 'OK':
                         case 'Online':
                         case 'Online, Spun Up':
-                            $this->_result['devices'][$uname]['items'][$pname]['status'] = "ok";
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['status'] = "ok";
                             break;
 /*                        case 'JBOD':
                         case 'Unconfigured(good), Spun Up':
                         case 'Unconfigured(good), Spun down':
-                            $this->_result['devices'][$uname]['items'][$pname]['status'] = "U";
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['status'] = "U";
                             break;
                         case 'Hotspare, Spun Up':
                         case 'Hotspare, Spun down':
-                            $this->_result['devices'][$uname]['items'][$pname]['status'] = "S";
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['status'] = "S";
                             break;*/
                         default:
                            if (preg_match("/^(\S+) \((\d+)%\)/", $dskstat, $progarr)) {
-                               $this->_result['devices'][$uname]['items'][$pname]['status'] = "W";
-                               $this->_result['devices'][$uname]['action']['name'] = trim($progarr[1]);
-                               $this->_result['devices'][$uname]['action']['percent'] = trim($progarr[2]);
+                               $this->_result['devices'][$prefix.$uname]['items'][$pname]['status'] = "W";
+                               $this->_result['devices'][$prefix.$uname]['action']['name'] = trim($progarr[1]);
+                               $this->_result['devices'][$prefix.$uname]['action']['percent'] = trim($progarr[2]);
                            }
                              
                     }
-                    $this->_result['devices'][$uname]['items'][$pname]['info'] = $dskstat;
+                    if ($dskstat !== "OK") $this->_result['devices'][$prefix.$uname]['items'][$pname]['info'] = $dskstat;
                 }
             } elseif (preg_match("/^((c\d+)uXpY)[ |]/", $buffLine, $pbuff)) {
                 $pname = $pbuff[1];
                 $cname = $pbuff[2];
                 $uname = $cname."-unconfigured";
-                $this->_result['devices'][$uname]['prog'] = 'megaclisas-status';
-                $this->_result['devices'][$uname]['controller'] = $carr[$cname]['controller'];
-                if (isset($carr[$cname]['battery'])) $this->_result['devices'][$uname]['battery'] = $carr[$cname]['battery'];
-                if (isset($carr[$cname]['cache_size'])) $this->_result['devices'][$uname]['cache_size'] = $carr[$cname]['cache_size'];
-                $this->_result['devices'][$uname]['status'] = "unconfigured";
-                $this->_result['devices'][$uname]['items'][$uname]['parentid'] = 0;
-                $this->_result['devices'][$uname]['items'][$uname]['name'] = "unconfigured";
-                $this->_result['devices'][$uname]['items'][$uname]['status'] = "U";
-                if (!isset($this->_result['devices'][$uname]['items'][$uname]['count'])) {
+                $this->_result['devices'][$prefix.$uname]['prog'] = $prog;
+                $this->_result['devices'][$prefix.$uname]['controller'] = $carr[$cname]['controller'];
+                if (isset($carr[$cname]['battery'])) $this->_result['devices'][$prefix.$uname]['battery'] = $carr[$cname]['battery'];
+                if (isset($carr[$cname]['cache_size'])) $this->_result['devices'][$prefix.$uname]['cache_size'] = $carr[$cname]['cache_size'];
+                $this->_result['devices'][$prefix.$uname]['status'] = "unconfigured";
+                $this->_result['devices'][$prefix.$uname]['items'][$uname]['parentid'] = 0;
+                $this->_result['devices'][$prefix.$uname]['items'][$uname]['name'] = "unconfigured";
+                $this->_result['devices'][$prefix.$uname]['items'][$uname]['status'] = "U";
+                if (!isset($this->_result['devices'][$prefix.$uname]['items'][$uname]['count'])) {
                     $id = 0;
                 } else {
-                    $id = $this->_result['devices'][$uname]['items'][$uname]['count'];
+                    $id = $this->_result['devices'][$prefix.$uname]['items'][$uname]['count'];
                     $id++;
                 }
-                $this->_result['devices'][$uname]['items'][$uname]['count'] = $id; 
+                $this->_result['devices'][$prefix.$uname]['items'][$uname]['count'] = $id; 
 
-                $buffArgs = preg_split("/[\s]?\|[\s]?/", $buffLine, -1, PREG_SPLIT_NO_EMPTY);
+                $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
                 if (((count($buffArgs) == 3) || (count($buffArgs) == 9) || (count($buffArgs) == 10))) {
-                    $this->_result['devices'][$uname]['items'][$uname."-".$id]['parentid'] = 1;
-                    $this->_result['devices'][$uname]['items'][$uname."-".$id]['name'] = $pname;
+                    $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['parentid'] = 1;
+                    $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['name'] = $pname;
                     if (count($buffArgs) == 3) {
-                        $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "disk";
+                        $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
                     } else {
                         if (trim($buffArgs[1])==="SSD") {
-                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "ssd";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['type'] = "ssd";
                         } else {
-                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['type'] = "disk";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['type'] = "disk";
                         }
                         $dskstat = trim($buffArgs[4]);
                     }
@@ -816,19 +836,19 @@ class Raid extends PSI_Plugin
 /*                        case 'Online':
                         case 'Online, Spun Up':*/
                         case 'JBOD':
-                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['status'] = "ok";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['status'] = "ok";
                             break;
                         case 'Unconfigured(good), Spun Up':
                         case 'Unconfigured(good), Spun down':
-                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['status'] = "U";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['status'] = "U";
                             break;
                         case 'Hotspare, Spun Up':
                         case 'Hotspare, Spun down':
-                            $this->_result['devices'][$uname]['items'][$uname."-".$id]['status'] = "S";
+                            $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['status'] = "S";
                             break;
                     }
-                    $this->_result['devices'][$uname]['items'][$uname."-".$id]['info'] = $dskstat;
-                    if ((count($buffArgs) == 10) && (trim($buffArgs[9]) != 'N/A')) $this->_result['devices'][$uname]['items'][$uname."-".$id]['info'].=" ".trim($buffArgs[9]);
+                    $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['info'] = $dskstat;
+                    if ((count($buffArgs) == 10) && (trim($buffArgs[9]) != 'N/A')) $this->_result['devices'][$prefix.$uname]['items'][$uname."-".$id]['info'].=" ".trim($buffArgs[9]);
                 }
             }
         }
@@ -1552,14 +1572,17 @@ class Raid extends PSI_Plugin
                             case 'megasasctl':
                                 $this->execute_megactl($buffer, true);
                                 break;
+                            case 'megaclisas-status':
+                                $this->execute_status($buffer, false);
+                                break;
+                            case '3ware-status':
+                                $this->execute_status($buffer, true);
+                                break;
                             case 'graid':
                                 $this->execute_graid($buffer);
                                 break;
                             case 'zpool':
                                 $this->execute_zpool($buffer);
-                                break;
-                            case 'megaclisas-status':
-                                $this->execute_megaclisasstatus($buffer);
                                 break;
                         }
                     }
