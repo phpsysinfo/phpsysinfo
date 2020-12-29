@@ -687,7 +687,7 @@ class Raid extends PSI_Plugin
                 } elseif (count($buffArgs) == 3) {
                     $carr[$cname]['controller'] = trim($buffArgs[1]);
                 }
-            } elseif (preg_match("/^((c\d+)u\d+)[ |]/", $buffLine, $ubuff)) {
+            } elseif (preg_match("/^((c\d+)u\d+)[\t |]/", $buffLine, $ubuff)) {
                 $uname = $ubuff[1];
                 $cname = $ubuff[2];
                 $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
@@ -754,7 +754,7 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$uname]['items'][$uname]['status'] = "W";
                     }
                 }
-            } elseif (preg_match("/^(((c\d+)u\d+)p\d+)[ |]/", $buffLine, $pbuff)) {
+            } elseif (preg_match("/^(((c\d+)u\d+)p\d+)[\t |]/", $buffLine, $pbuff)) {
                 $pname = $pbuff[1];
                 $uname = $pbuff[2];
                 $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
@@ -797,7 +797,7 @@ class Raid extends PSI_Plugin
                     }
                     if ($dskstat !== "OK") $this->_result['devices'][$prefix.$uname]['items'][$pname]['info'] = $dskstat;
                 }
-            } elseif (preg_match("/^((c\d+)uXpY)[ |]/", $buffLine, $pbuff)) {
+            } elseif (preg_match("/^((c\d+)uXpY)[\t |]/", $buffLine, $pbuff)) {
                 $pname = $pbuff[1];
                 $cname = $pbuff[2];
                 $uname = $cname."-unconfigured";
