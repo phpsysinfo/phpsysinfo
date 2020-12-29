@@ -645,7 +645,7 @@ class Raid extends PSI_Plugin
         if ($_3ware === true) {
             $prog = "3ware-status";
             $prefix = "/"; //for 3ware-status and megaclisas-status conflicts
-            $split = "/\s\s/";
+            $split = "/\t/";
         } else {
             $prog = "megaclisas-status";
             $prefix = "";
