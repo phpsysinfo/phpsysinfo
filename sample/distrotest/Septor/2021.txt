@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Septor
+Description:	Septor
+Release:	testing
+Codename:	bullseye
+----------/etc/lsb-release----------
+DISTRIB_ID=Septor
+DISTRIB_DESCRIPTION="Septor"
+DISTRIB_RELEASE=KDE
+DISTRIB_CODENAME=2021
+----------/etc/os-release----------
+PRETTY_NAME="Septor"
+NAME="Septor"
+ID=septor
+HOME_URL="https://septor.sourceforge.io"
+SUPPORT_URL="https://septor.sourceforge.io"
+BUG_REPORT_URL="https://bugs.debian.org/"
+----------/etc/debian_version----------
+bullseye/sid
