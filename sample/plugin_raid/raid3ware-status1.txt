@@ -10,7 +10,7 @@ c3u0	RAID1	279G	OK
 c3u2	RAID1	232G	OK
 
 -- Disks informations
--- ID	Model	Status
+-- ID	Model			Status
 c2u0p4	WDC WD20EZRX-32SPEB0	OK
 c2u0p5	WDC WD20EZRX-32D8PB0	OK
 c3u0p0	ST3300831A	OK
