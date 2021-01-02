@@ -115,6 +115,11 @@ class CommonFunctions
     {
         return array();
     }
+
+    public static function _findProgram($strProgram)
+    {
+        return false;
+    }
 }
 
 class _Linux extends Linux
