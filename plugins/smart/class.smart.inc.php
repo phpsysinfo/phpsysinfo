@@ -25,6 +25,12 @@ class SMART extends PSI_Plugin
     private $_result = array();
 
     /**
+     * variable, which holds the events of disks
+     * @var array
+     */
+    private $_event = array();
+
+    /**
      * variable, which holds PSI_PLUGIN_SMART_IDS well formated datas
      * @var array
      */
@@ -212,6 +218,13 @@ class SMART extends PSI_Plugin
             $endIndex = 0;
             $vendorInfos = "";
 
+            if (preg_match('/\nSMART overall-health self-assessment test result\: ([^!\n]+)/', $result, $tmpbuf)) {
+                $event=trim($tmpbuf[1]);
+                if (!empty($event) && ($event!=='PASSED')) {
+                    $this->_event[$disk] = $event;
+                }
+            }
+
             // locate the beginning string offset for the attributes
             if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
@@ -258,11 +271,11 @@ class SMART extends PSI_Plugin
                     $i++;
                 } else {
                     if (in_array(0, array_keys($this->_ids)) && ($this->_ids[0] == 'raw_value')) {
-                        if (preg_match('/^ATA Error Count\: (\d+)/', $line, $value)) {
+                        if (preg_match('/^ATA Error Count\: (\d+)/', $line, $tmpbuf)) {
                             $this->_result[$disk][$i]['id'] = 0;
                             $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                            $this->_result[$disk][$i]['raw_value'] = $value[1];
-                        } elseif (preg_match('/^No Errors Logged/', $line, $value)) {
+                            $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
+                        } elseif (preg_match('/^No Errors Logged/', $line, $tmpbuf)) {
                             $this->_result[$disk][$i]['id'] = 0;
                             $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
                             $this->_result[$disk][$i]['raw_value'] = 0;
@@ -272,15 +285,15 @@ class SMART extends PSI_Plugin
             } else {
                 //SCSI and MVMe devices
                 if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
-                    if (preg_match('/\nread\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $this->_result[$disk][0]['id'] = 1;
                             $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
                             $this->_result[$disk][0]['raw_value'] = trim($values[7]);
                         }
-                    } elseif (preg_match('/\Media and Data Integrity Errors\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    } elseif (preg_match('/\Media and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[5]));
                             $this->_result[$disk][0]['id'] = 1;
@@ -290,8 +303,8 @@ class SMART extends PSI_Plugin
                     }
                 }
                 if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
-                    if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $this->_result[$disk][1]['id'] = 5;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
@@ -300,16 +313,16 @@ class SMART extends PSI_Plugin
                     }
                 }
                 if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
-                    if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', trim($values[7]));
                             $this->_result[$disk][2]['id'] = 9;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals[0];
                         }
-                    } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
                             $this->_result[$disk][2]['id'] = 9;
@@ -319,15 +332,15 @@ class SMART extends PSI_Plugin
                     }
                 }
                 if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
-                    if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $this->_result[$disk][3]['id'] = 194;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = trim($values[3]);
                         }
-                    } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[1]!=null)) {
                             $this->_result[$disk][3]['id'] = 194;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
@@ -336,8 +349,8 @@ class SMART extends PSI_Plugin
                     }
                 }
                 if (!empty($this->_ids[12]) && ($this->_ids[12]=="raw_value")) {
-                    if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
                             $this->_result[$disk][4]['id'] = 12;
@@ -347,8 +360,8 @@ class SMART extends PSI_Plugin
                     }
                 }
                 if (!empty($this->_ids[192]) && ($this->_ids[192]=="raw_value")) {
-                    if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
                             $this->_result[$disk][5]['id'] = 192;
@@ -356,7 +369,13 @@ class SMART extends PSI_Plugin
                             $this->_result[$disk][5]['raw_value'] = $vals;
                         }
                     }
-                }
+                }                
+                if (preg_match('/\nSMART Health Status\: ([^\[\n]+)/', $result, $tmpbuf)) {
+                    $event=trim($tmpbuf[1]);
+                    if (!empty($event) && ($event!=='OK')) {
+                        $this->_event[$disk] = $event;
+                    }
+                } 
             }
         }
         //Usage test
@@ -405,6 +424,7 @@ class SMART extends PSI_Plugin
         foreach ($this->_result as $diskName=>$diskInfos) {
             $diskChild = $disksChild->addChild('disk');
             $diskChild->addAttribute('name', $diskName);
+            if (isset($this->_event[$diskName])) $diskChild->addAttribute('event', $this->_event[$diskName]);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
 

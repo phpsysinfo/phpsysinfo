@@ -74,7 +74,7 @@ function smart_buildTable(xml) {
  * @param {jQuery} xml plugin-XML
  */
 function smart_populate(xml) {
-    var name = "", columns = [];
+    var name = "", event = "", columns = [];
     smart_table.fnClearTable();
 
     // Get datas that the user want to be displayed
@@ -93,7 +93,11 @@ function smart_populate(xml) {
             }
         });
 
-        display.push("<span style=\"display:none;\">" + name + "</span>" + name);
+        event = $(this).attr("event");
+        if (event !== undefined)
+            display.push("<span style=\"display:none;\">" + name + "</span>" + name +" <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>");
+        else
+            display.push("<span style=\"display:none;\">" + name + "</span>" + name);
 
         // On "columns" so we get the right order
         // fixed for Firefox (fix wrong order)

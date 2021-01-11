@@ -53,7 +53,10 @@ function renderPlugin_smart(data) {
         html += '<tbody>';
         for (i = 0; i < diskitems.length; i++) {
             html += '<tr>';
-            html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + '</th>';
+            if (diskitems[i]["@attributes"].event !== undefined)
+                html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + ' <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"' + diskitems[i]["@attributes"].event + '\"/></th>';
+            else
+                html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + '</th>';
             attribitems = items(diskitems[i].attribute);
             var valarray = [];
             for (j = 0;j < attribitems.length; j++) {
