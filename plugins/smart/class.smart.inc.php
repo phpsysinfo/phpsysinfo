@@ -289,7 +289,7 @@ class SMART extends PSI_Plugin
                             $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
                             $this->_result[$disk][0]['raw_value'] = trim($values[7]);
                         }
-                    } elseif (preg_match('/\Media and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
+                    } elseif (preg_match('/\nMedia and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[5]));
