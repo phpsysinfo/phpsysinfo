@@ -94,4 +94,7 @@
   <expression id="plugin_smart_325" name="smart_load_cycle_count_alt">
     <exp>Load Cycle Count</exp>
   </expression>
+  <expression id="plugin_smart_355" name="smart_non-medium_error_count">
+    <exp>Non-medium error count</exp>
+  </expression>
 </tns:translationPlugin>

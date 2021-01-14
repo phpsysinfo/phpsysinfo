@@ -218,33 +218,42 @@ class SMART extends PSI_Plugin
             $endIndex = 0;
             $vendorInfos = "";
 
-            if (preg_match('/\nSMART overall-health self-assessment test result\: ([^!\n]+)/', $result, $tmpbuf)) {
-                $event=trim($tmpbuf[1]);
-                if (!empty($event) && ($event!=='PASSED')) {
-                    $this->_event[$disk] = $event;
-                }
-            }
-
             // locate the beginning string offset for the attributes
             if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
 
-            // locate ATA Error Count or No Errors Logged
-            if (preg_match('/(ATA Error Count\: \d+)|(No Errors Logged)/', $result, $matches, PREG_OFFSET_CAPTURE))
-                $endIndex = $matches[0][1]+strlen($matches[0][0]);
             // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!) 
-            elseif (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
+            if (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $endIndex = $matches[0][1];
 
             if ($startIndex && $endIndex && ($endIndex>$startIndex))
                  $vendorInfos = preg_split("/\n/", substr($result, $startIndex, $endIndex - $startIndex));
 
             if (!empty($vendorInfos)) {
+                if (preg_match('/\nSMART overall-health self-assessment test result\: ([^!\n]+)/', $result, $tmpbuf)) {
+                    $event=trim($tmpbuf[1]);
+                    if (!empty($event) && ($event!=='PASSED')) {
+                        $this->_event[$disk] = $event;
+                    }
+                }
+
+                $i = 0; // Line number
+                if (preg_match('/\nATA Error Count\: (\d+)/', $result, $tmpbuf)) {
+                    $this->_result[$disk][$i]['id'] = 0;
+                    $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                    $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
+                    $i++;
+                } elseif (preg_match('/\nNo Errors Logged/', $result, $tmpbuf)) {
+                    $this->_result[$disk][$i]['id'] = 0;
+                    $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                    $this->_result[$disk][$i]['raw_value'] = 0;
+                    $i++;
+                }
+
                 $labels = preg_split('/\s+/', $vendorInfos[1]);
                 foreach ($labels as $k=>$v) {
                     $labels[$k] = str_replace('#', '', strtolower($v));
                 }
-                $i = 0; // Line number
                 foreach ($vendorInfos as $line) if (preg_match('/^\s*((\d+)|(id))\s/', $line)) {
                     $line = preg_replace('/^\s+/', '', $line);
                     $values = preg_split('/\s+/', $line);
@@ -260,7 +269,7 @@ class SMART extends PSI_Plugin
                               $value=$arrFullVa[1];
                           }
                         }
-                        if (in_array($value, array_keys($this->_ids)) && ($labels[$j] == 'id') && ($value > 0)) {
+                        if (in_array($value, array_keys($this->_ids)) && ($labels[$j] == 'id') && ($value > 0) && ($value < 255)) {
                             $this->_result[$disk][$i][$labels[$j]] = $value;
                             $found = $value;
                         } elseif (($found > 0) && (($labels[$j] == 'attribute_name') || ($labels[$j] == $this->_ids[$found]))) {
@@ -269,18 +278,6 @@ class SMART extends PSI_Plugin
                         $j++;
                     }
                     $i++;
-                } else {
-                    if (in_array(0, array_keys($this->_ids)) && ($this->_ids[0] == 'raw_value')) {
-                        if (preg_match('/^ATA Error Count\: (\d+)/', $line, $tmpbuf)) {
-                            $this->_result[$disk][$i]['id'] = 0;
-                            $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                            $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
-                        } elseif (preg_match('/^No Errors Logged/', $line, $tmpbuf)) {
-                            $this->_result[$disk][$i]['id'] = 0;
-                            $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                            $this->_result[$disk][$i]['raw_value'] = 0;
-                        }
-                    }
                 }
             } else {
                 //SCSI and MVMe devices
@@ -370,6 +367,17 @@ class SMART extends PSI_Plugin
                         }
                     }
                 }                
+                if (!empty($this->_ids[255]) && ($this->_ids[255]=="raw_value")) {
+                    if (preg_match('/\nNon-medium error count\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[2]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[3]));
+                            $this->_result[$disk][6]['id'] = 255;
+                            $this->_result[$disk][6]['attribute_name'] = "Non-medium_Error_Count";
+                            $this->_result[$disk][6]['raw_value'] = $vals;
+                        }
+                    }
+                }
                 if (preg_match('/\nSMART Health Status\: ([^\[\n]+)/', $result, $tmpbuf)) {
                     $event=trim($tmpbuf[1]);
                     if (!empty($event) && ($event!=='OK')) {
