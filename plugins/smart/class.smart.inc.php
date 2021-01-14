@@ -370,11 +370,10 @@ class SMART extends PSI_Plugin
                 if (!empty($this->_ids[255]) && ($this->_ids[255]=="raw_value")) {
                     if (preg_match('/\nNon-medium error count\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
-                        if (!empty($values) && ($values[2]!=null)) {
-                            $vals=preg_replace('/,/', '', trim($values[3]));
+                        if (!empty($values) && ($values[3]!=null)) {
                             $this->_result[$disk][6]['id'] = 255;
                             $this->_result[$disk][6]['attribute_name'] = "Non-medium_Error_Count";
-                            $this->_result[$disk][6]['raw_value'] = $vals;
+                            $this->_result[$disk][6]['raw_value'] = trim($values[3]);
                         }
                     }
                 }
