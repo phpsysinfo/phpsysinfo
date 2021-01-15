@@ -238,16 +238,24 @@ class SMART extends PSI_Plugin
                 }
 
                 $i = 0; // Line number
-                if (preg_match('/\nATA Error Count\: (\d+)/', $result, $tmpbuf)) {
-                    $this->_result[$disk][$i]['id'] = 0;
-                    $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                    $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
-                    $i++;
-                } elseif (preg_match('/\nNo Errors Logged/', $result, $tmpbuf)) {
-                    $this->_result[$disk][$i]['id'] = 0;
-                    $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
-                    $this->_result[$disk][$i]['raw_value'] = 0;
-                    $i++;
+
+                $cid = 0;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nATA Error Count\: (\d+)/', $result, $tmpbuf)) {
+                        $this->_result[$disk][$i]['id'] = $cid;
+                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                        $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
+                        $i++;
+                    } elseif (preg_match('/\nNo Errors Logged/', $result, $tmpbuf)) {
+                        $this->_result[$disk][$i]['id'] = $cid;
+                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                        $this->_result[$disk][$i]['raw_value'] = 0;
+                        $i++;
+                    }
                 }
 
                 $labels = preg_split('/\s+/', $vendorInfos[1]);
@@ -281,40 +289,59 @@ class SMART extends PSI_Plugin
                 }
             } else {
                 //SCSI and MVMe devices
-                if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
-                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbuf)) {
-                        $values=preg_split('/ +/', $tmpbuf[0]);
-                        if (!empty($values) && ($values[7]!=null)) {
-                            $this->_result[$disk][0]['id'] = 1;
-                            $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
-                            $this->_result[$disk][0]['raw_value'] = trim($values[7]);
+                $cid = 187;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbufr) && preg_match('/\nwrite\: (.*)\n/', $result, $tmpbufw) && preg_match('/\nverify\: (.*)\n/', $result, $tmpbufv)) {
+                        $valuesr=preg_split('/ +/', $tmpbufr[0]);
+                        $valuesw=preg_split('/ +/', $tmpbufw[0]);
+                        $valuesv=preg_split('/ +/', $tmpbufv[0]);
+                        if (!empty($valuesr) && !empty($valuesw) && !empty($valuesv) && ($valuesr[7]!=null) && ($valuesw[7]!=null) && ($valuesw[7]!=null)) {
+                            $this->_result[$disk][0]['id'] = $cid;
+                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
+                            $this->_result[$disk][0]['raw_value'] = intval($valuesr[7])+intval($valuesw[7])+intval($valuesv[7]);
                         }
                     } elseif (preg_match('/\nMedia and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[5]));
-                            $this->_result[$disk][0]['id'] = 1;
-                            $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
+                            $this->_result[$disk][0]['id'] = $cid;
+                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
                             $this->_result[$disk][0]['raw_value'] = $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
+
+                $cid = 5;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
-                            $this->_result[$disk][1]['id'] = 5;
+                            $this->_result[$disk][1]['id'] = $cid;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
                             $this->_result[$disk][1]['raw_value'] = trim($values[5]);
                         }
                     }
                 }
-                if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
+
+                $cid = 9;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', trim($values[7]));
-                            $this->_result[$disk][2]['id'] = 9;
+                            $this->_result[$disk][2]['id'] = $cid;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals[0];
                         }
@@ -322,56 +349,80 @@ class SMART extends PSI_Plugin
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
-                            $this->_result[$disk][2]['id'] = 9;
+                            $this->_result[$disk][2]['id'] = $cid;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
+
+                $cid = 194;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $this->_result[$disk][3]['id'] = 194;
+                            $this->_result[$disk][3]['id'] = $cid;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = trim($values[3]);
                         }
                     } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[1]!=null)) {
-                            $this->_result[$disk][3]['id'] = 194;
+                            $this->_result[$disk][3]['id'] = $cid;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = trim($values[1]);
                         }
                     }
                 }
-                if (!empty($this->_ids[12]) && ($this->_ids[12]=="raw_value")) {
+
+                $cid = 12;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][4]['id'] = 12;
+                            $this->_result[$disk][4]['id'] = $cid;
                             $this->_result[$disk][4]['attribute_name'] = "Power_Cycle_Count";
                             $this->_result[$disk][4]['raw_value'] = $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[192]) && ($this->_ids[192]=="raw_value")) {
+                
+                $cid = 192;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][5]['id'] = 192;
+                            $this->_result[$disk][5]['id'] = $cid;
                             $this->_result[$disk][5]['attribute_name'] = "Unsafe_Shutdown_Count";
                             $this->_result[$disk][5]['raw_value'] = $vals;
                         }
                     }
-                }                
-                if (!empty($this->_ids[255]) && ($this->_ids[255]=="raw_value")) {
+                }        
+
+                $cid = 255;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nNon-medium error count\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $this->_result[$disk][6]['id'] = 255;
+                            $this->_result[$disk][6]['id'] = $cid;
                             $this->_result[$disk][6]['attribute_name'] = "Non-medium_Error_Count";
                             $this->_result[$disk][6]['raw_value'] = trim($values[3]);
                         }

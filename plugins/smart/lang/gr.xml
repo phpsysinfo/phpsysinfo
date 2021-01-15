@@ -49,6 +49,9 @@
   <expression id="plugin_smart_112" name="smart_power_cycle_count">
     <exp>Power Cycle Count</exp>
   </expression>
+  <expression id="plugin_smart_287" name="smart_reported_uncorrectable_errors">
+    <exp>Reported Uncorr. Errors</exp>
+  </expression>
   <expression id="plugin_smart_290" name="smart_airflow_temperature_cel">
     <exp>Θερμοκρασία Αέρος</exp>
   </expression>

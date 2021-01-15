@@ -15,6 +15,7 @@ function renderPlugin_smart(data) {
             10: "plugin_smart_110",   // "Spin Retry Count",
             11: "plugin_smart_111",   // "Calibration Retry Count",
             12: "plugin_smart_112",   // "Power Cycle Count",
+            187:"plugin_smart_287",   // "Reported Uncorrectable Errors",
             190:"plugin_smart_290",   // "Airflow Temperature",
             191:"plugin_smart_291",   // "G-sense Error Rate",
             192:"plugin_smart_292",   // "Power-Off Retract Count",
@@ -29,7 +30,8 @@ function renderPlugin_smart(data) {
             201:"plugin_smart_301",   // "Soft Read Error Rate",
             202:"plugin_smart_302",   // "Data Address Mark Errors",
             223:"plugin_smart_323",   // "Load Retry Count",
-            225:"plugin_smart_325",}; // "Load Cycle Count"
+            225:"plugin_smart_325",   // "Load Cycle Count"
+            255:"plugin_smart_355",}; // "Non-medium error count"
 
         var html = '';
         var i,j;

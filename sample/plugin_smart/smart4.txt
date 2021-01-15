@@ -28,7 +28,7 @@ Error counter log:
            fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
 read:   31670228     7327         0  31677555   31677510       1071.313          63
 write:         0        0         0         0          0   15728656813.914           0
-verify:   527341        3         0    527344 5    27452        131.461           0
+verify:   527341        3         0    527344     527452        131.461           0
 
 Non-medium error count: 1618
 
