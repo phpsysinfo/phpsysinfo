@@ -101,11 +101,7 @@ select {
     width: 100px;
 }
 
-.halfsize, #vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
-    width: 451px
-}
-
-#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
+.fullsize, .halfsize {
     float: left;
     margin: 10px 0 0 8px;
     _margin: 10px 4px 0 4px; /* ie6 */
@@ -114,12 +110,12 @@ select {
     background: #fff;
 }
 
-#memTable, #pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.fullsize {
+    width: 916px;
 }
 
-.fullsize, #memory, #filesystem {
-    width: 916px;
+.halfsize {
+    width: 451px;
 }
 
 #filesystemTable thead tr th {

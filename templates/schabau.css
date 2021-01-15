@@ -93,23 +93,19 @@ select {
     width: 100px;
 }
 
-.halfsize, #vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
-    width: 453px
-}
-
-#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
+.fullsize, .halfsize {
     float: left;
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     padding: 1px;
 }
 
-#memTable, #pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.fullsize {
+    width: 918px;
 }
 
-.fullsize, #memory, #filesystem {
-    width: 918px;
+.halfsize {
+    width: 453px;
 }
 
 #filesystemTable thead tr th {
