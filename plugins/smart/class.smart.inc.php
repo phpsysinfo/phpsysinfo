@@ -295,10 +295,14 @@ class SMART extends PSI_Plugin
                     if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
                 }
                 if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
-                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbufr) && preg_match('/\nwrite\: (.*)\n/', $result, $tmpbufw) && preg_match('/\nverify\: (.*)\n/', $result, $tmpbufv)) {
+                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbufr) && preg_match('/\nwrite\: (.*)\n/', $result, $tmpbufw)) {
                         $valuesr=preg_split('/ +/', $tmpbufr[0]);
                         $valuesw=preg_split('/ +/', $tmpbufw[0]);
-                        $valuesv=preg_split('/ +/', $tmpbufv[0]);
+                        if (!preg_match('/\nverify\: (.*)\n/', $result, $tmpbufv)) { //if no verify value yet
+                            $valuesv[7] = 0;
+                        } else {
+                            $valuesv=preg_split('/ +/', $tmpbufv[0]);
+                        }
                         if (!empty($valuesr) && !empty($valuesw) && !empty($valuesv) && ($valuesr[7]!=null) && ($valuesw[7]!=null) && ($valuesw[7]!=null)) {
                             $this->_result[$disk][0]['id'] = $cid;
                             $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
