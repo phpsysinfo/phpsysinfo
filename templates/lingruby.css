@@ -75,6 +75,7 @@ select {
 #select {
     color: #fff;
     text-align: right;
+    padding: 0 10px 0 10px;
     margin-bottom: 45px;
 }
 
@@ -83,7 +84,7 @@ select {
 }
 
 .halfsize, #vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
-    width: 451px
+    width: 453px
 }
 
 #vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
@@ -98,7 +99,7 @@ select {
 }
 
 .fullsize, #memory, #filesystem {
-    width: 915px;
+    width: 918px;
 }
 
 #filesystemTable thead tr th {

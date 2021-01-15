@@ -94,6 +94,7 @@ select {
     right: 30px;
     width: 370px;
     text-align: right;
+    padding: 0 10px 0 10px;
 }
 
 #select select {
@@ -117,7 +118,7 @@ select {
 }
 
 .fullsize, #memory, #filesystem {
-    width: 915px;
+    width: 916px;
 }
 
 #filesystemTable thead tr th {
