@@ -167,6 +167,14 @@ SHOW_MEMORY_INFOS_EXPANDED=false
 HIDE_BOOTSTRAP_LOADER=false
 
 
+; Increase the body width for the "dynamic" frontend by pixels. The value should be even
+; - 0 : disabled
+; - 200 : wider by 200px
+; Default is 0 pixels
+;
+INCREASE_WIDTH=0
+
+
 ; Define the interval for refreshing data in ms
 ; - 0 : disabled
 ; - 1000 : 1 second

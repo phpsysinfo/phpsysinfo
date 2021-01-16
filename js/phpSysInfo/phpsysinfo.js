@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, oldnetwork = [];
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, increaseWidth, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -112,11 +112,19 @@ function round(x, n) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $('link[rel*=style][title]').each(function getTitle(i) {
-        if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + ".css");
-        }
-    });
+    if (increaseWidth > 0) {
+        $('link[rel*=style][title]').each(function getTitle(i) {
+            if (this.getAttribute('title') === 'PSI_Template') {
+                this.setAttribute('href', './templates/css.php?name=' + template + '&increase=' + increaseWidth);
+            }
+        });
+    } else {
+        $('link[rel*=style][title]').each(function getTitle(i) {
+            if (this.getAttribute('title') === 'PSI_Template') {
+                this.setAttribute('href', './templates/' + template + ".css");  
+            }
+        });
+    }
 }
 
 /**
@@ -1736,6 +1744,8 @@ $(document).ready(function buildpage() {
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
     showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
     showTotals = $("#hideTotals").val().toString()!=="true";
+    increaseWidth = $("#increaseWidth").val().toString();
+    if (isNaN(increaseWidth) || (increaseWidth<=0)) increaseWidth = 0;
     switch ($("#showNetworkActiveSpeed").val().toString()) {
         case "bps":  showNetworkActiveSpeed = 2;
                       break;
