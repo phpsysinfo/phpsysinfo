@@ -188,7 +188,7 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("showNetworkActiveSpeed", defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') ? (PSI_SHOW_NETWORK_ACTIVE_SPEED ? ((strtolower(PSI_SHOW_NETWORK_ACTIVE_SPEED) === 'bps') ? 'bps' :'true') : 'false') : 'false');
         $tpl->set("showCPULoadCompact", defined('PSI_LOAD_BAR') ? ((strtolower(PSI_LOAD_BAR) === 'compact') ? 'true' :'false') : 'false');
         $tpl->set("hideBootstrapLoader", defined('PSI_HIDE_BOOTSTRAP_LOADER') ? (PSI_HIDE_BOOTSTRAP_LOADER ? 'true' : 'false') : 'false');
-        $tpl->set("increaseWidth", defined('PSI_INCREASE_WIDTH') ? ((PSI_INCREASE_WIDTH>0) ? PSI_INCREASE_WIDTH : 0) : 0);
+        $tpl->set("increaseWidth", defined('PSI_INCREASE_WIDTH') ? ((intval(PSI_INCREASE_WIDTH)>0) ? intval(PSI_INCREASE_WIDTH) : 0) : 0);
         $tpl->set("hideTotals", defined('PSI_HIDE_TOTALS') ? (PSI_HIDE_TOTALS ? 'true' : 'false') : 'false');
         if (defined('PSI_BLOCKS')) {
             if (is_string(PSI_BLOCKS)) {
