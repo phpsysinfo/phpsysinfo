@@ -19,6 +19,7 @@ phpSysInfo 3.3.3
  - [NEW] USB devices speed info on Linux
  - [NEW] IGNORE_TOTAL option
  - [NEW] HIDE_TOTALS option
+ - [NEW] INCREASE_WIDTH option for frontend "dynamic"
 
  - [DEL] Removed deprecated plugin Iptables
 
