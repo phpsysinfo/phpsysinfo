@@ -56,7 +56,7 @@ function renderPlugin_smart(data) {
         for (i = 0; i < diskitems.length; i++) {
             html += '<tr>';
             if (diskitems[i]["@attributes"].event !== undefined)
-                html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + ' <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"' + diskitems[i]["@attributes"].event + '\"/></th>';
+                html += '<th class="rightCell"><table class="borderless table-hover table-nopadding" style="float:right;"><tbody><tr><td>'+ diskitems[i]["@attributes"].name + ' </td><td><img style="vertical-align:middle;width:20px;" src="./gfx/attention.gif" alt="!" title="' + diskitems[i]["@attributes"].event + '"/></td></tr></tbody></table></th>';
             else
                 html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + '</th>';
             attribitems = items(diskitems[i].attribute);
