@@ -46,7 +46,7 @@ function stablebit_buildTable(xml) {
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "StableBit") + "</th>\n";
-    html += "       <th style=\"width:120px;\">" + genlang(3, "StableBit") + "</th>\n";
+    html += "       <th style=\"width:31%;\">" + genlang(3, "StableBit") + "</th>\n";
     html += "      </tr>\n";
     html += "     </thead>\n";
     html += "     <tbody class=\"tree\">\n";

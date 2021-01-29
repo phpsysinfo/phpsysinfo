@@ -46,7 +46,7 @@ function bat_buildTable(xml) {
     html += "    <thead>\n";
     html += "     <tr>\n";
     html += "      <th>" + genlang(6, "BAT") + "</th>\n";
-    html += "      <th style=\"width:120px;\">" + genlang(7, "BAT") + "</th>\n";
+    html += "      <th style=\"width:31%;\">" + genlang(7, "BAT") + "</th>\n";
     html += "      <th></th>\n";
     html += "     </tr>\n";
     html += "    </thead>\n";

@@ -46,8 +46,8 @@ function snmppinfo_buildTable(xml) {
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "SNMPPInfo") + "</th>\n";
-    html += "       <th style=\"width:120px;\">" + genlang(3, "SNMPPInfo") + "</th>\n";
-    html += "       <th class=\"right\" style=\"width:100px;\">" + genlang(4, "SNMPPInfo") + "</th>\n";
+    html += "       <th style=\"width:31%;\">" + genlang(3, "SNMPPInfo") + "</th>\n";
+    html += "       <th class=\"right\" style=\"width:28.7%;\">" + genlang(4, "SNMPPInfo") + "</th>\n";
     html += "      </tr>\n";
     html += "     </thead>\n";
     html += "     <tbody class=\"tree\">\n";

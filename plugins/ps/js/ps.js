@@ -46,10 +46,10 @@ function ps_buildTable(xml) {
     html += "      <thead>\n";
     html += "        <tr>\n";
     html += "          <th>" + genlang(2, "PS") + "</th>\n";
-    html += "          <th style=\"width:40px;\">" + genlang(3, "PS") + "</th>\n";
-    html += "          <th style=\"width:40px;\">" + genlang(4, "PS") + "</th>\n";
-    html += "          <th style=\"width:120px;\">" + genlang(5, "PS") + "</th>\n";
-    html += "          <th style=\"width:120px;\">" + genlang(6, "PS") + "</th>\n";
+    html += "          <th style=\"width:6.6%;\">" + genlang(3, "PS") + "</th>\n";
+    html += "          <th style=\"width:6.6%;\">" + genlang(4, "PS") + "</th>\n";
+    html += "          <th style=\"width:15.25%;\">" + genlang(5, "PS") + "</th>\n";
+    html += "          <th style=\"width:15.25%;\">" + genlang(6, "PS") + "</th>\n";
     html += "        </tr>\n";
     html += "      </thead>\n";
     html += "      <tbody class=\"tree\">\n";
