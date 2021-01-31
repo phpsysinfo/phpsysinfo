@@ -95,7 +95,7 @@ function smart_populate(xml) {
 
         event = $(this).attr("event");
         if (event !== undefined)
-            display.push("<span style=\"display:none;\">" + name + "</span><table style=\"width:0;float:right;*float:right;\"><tbody><tr><td style=\"padding:0;\">" + name +" </td><td style=\"padding:0;\"><img style=\"vertical-align:middle;width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/></td></tr></tbody></table>");
+            display.push("<span style=\"display:none;\">" + name + "</span><table style=\"width:0;float:right;*float:right;border-spacing:0;\"><tbody><tr><td style=\"padding:0;\">" + name +" </td><td style=\"padding:0;\"><img style=\"vertical-align:middle;width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/></td></tr></tbody></table>");
         else
             display.push("<span style=\"display:none;\">" + name + "</span>" + name);
 
