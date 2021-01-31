@@ -30,11 +30,11 @@ class FreeIPMI extends Sensors
         if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
-            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
             if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/freeipmi.txt', $lines)) {
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
