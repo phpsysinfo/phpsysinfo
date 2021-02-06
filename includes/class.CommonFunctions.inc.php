@@ -771,7 +771,7 @@ class CommonFunctions
                 } catch (Exception $e) {
                     if ($booErrorRep) {
                         $error = PSI_Error::singleton();
-                        $error->addError("GetStringValue()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));;
+                        $error->addError("GetStringValue()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
                     }
 
                     return false;
