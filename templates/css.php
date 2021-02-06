@@ -20,7 +20,7 @@ if ($file != null) {
     $css = $file.'.css';
 
     header("content-type: text/css");
- 
+
     if (file_exists($css) && is_readable($css)) {
         $filecontent = file_get_contents($css);
         if ($increase == 0) {
