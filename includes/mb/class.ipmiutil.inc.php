@@ -27,7 +27,7 @@ class IPMIutil extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_IPMIUTIL_ACCESS')?strtolower(PSI_SENSOR_IPMIUTIL_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME') switch (defined('PSI_SENSOR_IPMIUTIL_ACCESS')?strtolower(PSI_SENSOR_IPMIUTIL_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmiutil', 'sensor -stw', $lines);
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
