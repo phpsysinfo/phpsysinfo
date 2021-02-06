@@ -22,6 +22,8 @@ jobs:
       dist: trusty
     - php: 7.4
       dist: trusty
+    - php: 8.0
+      dist: trusty
 
 script: if find . -name "*.php" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
 
