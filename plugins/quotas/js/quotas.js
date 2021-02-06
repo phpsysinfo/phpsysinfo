@@ -34,7 +34,7 @@ var quotas_show = false, quotas_table;
  * @param {jQuery} xml plugin-XML
  */
 function quotas_populate(xml) {
-    var hostname = ""
+    var hostname = "";
 
     quotas_table.fnClearTable();
 

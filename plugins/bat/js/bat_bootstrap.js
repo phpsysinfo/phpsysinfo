@@ -90,16 +90,13 @@ function renderPlugin_bat(data) {
                    }
                 }
 
-                if ((bats[i]["@attributes"].DesignCapacity !== undefined) 
-                   && isNaN(bats[i]["@attributes"].DesignCapacity = parseInt(bats[i]["@attributes"].DesignCapacity, 10))) {
+                if ((bats[i]["@attributes"].DesignCapacity !== undefined) && isNaN(bats[i]["@attributes"].DesignCapacity = parseInt(bats[i]["@attributes"].DesignCapacity, 10))) {
                     delete bats[i]["@attributes"].DesignCapacity;
                 }
-                if ((bats[i]["@attributes"].FullCapacity !== undefined) 
-                   && isNaN(bats[i]["@attributes"].FullCapacity = parseInt(bats[i]["@attributes"].FullCapacity, 10))) {
+                if ((bats[i]["@attributes"].FullCapacity !== undefined) && isNaN(bats[i]["@attributes"].FullCapacity = parseInt(bats[i]["@attributes"].FullCapacity, 10))) {
                     delete bats[i]["@attributes"].FullCapacity;
                 }
-                if ((bats[i]["@attributes"].RemainingCapacity !== undefined) 
-                   && isNaN(bats[i]["@attributes"].RemainingCapacity = parseInt(bats[i]["@attributes"].RemainingCapacity, 10))) {
+                if ((bats[i]["@attributes"].RemainingCapacity !== undefined) && isNaN(bats[i]["@attributes"].RemainingCapacity = parseInt(bats[i]["@attributes"].RemainingCapacity, 10))) {
                     delete bats[i]["@attributes"].RemainingCapacity;
                 }
 

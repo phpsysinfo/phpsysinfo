@@ -34,7 +34,7 @@ var docker_show = false, docker_table;
 
 function docker_populate(xml) {
 
-    var html = "", hostname = "";
+    var hostname = "";
 
     docker_table.fnClearTable();
 

@@ -53,7 +53,7 @@ function bat_buildTable(xml) {
     html += "    <tbody class=\"tree\">\n";
 
     $("Plugins Plugin_Bat Bat", xml).each(function bat_getbats(id) {
-        var name = "", DesignCapacity = 0, FullCapacity = 0, Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = 0, PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
+        var name = "", DesignCapacity = 0, FullCapacity = 0, DesignVoltage = "",  BatteryType = "", RemainingCapacity = 0, PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
         name = $(this).attr("Name");
         if (name === undefined) {
             name = "Battery"+(batcount++);

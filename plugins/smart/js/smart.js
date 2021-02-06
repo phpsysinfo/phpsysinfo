@@ -143,8 +143,6 @@ function smart_request() {
 }
 
 $(document).ready(function smart_buildpage() {
-    var html = "";
-
     $("#footer").before(buildBlock("SMART", 1, true));
     $("#Plugin_SMART").addClass("fullsize");
 

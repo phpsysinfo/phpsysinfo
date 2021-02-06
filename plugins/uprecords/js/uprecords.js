@@ -21,7 +21,7 @@
 //$Id: uprecords.js 661 2014-01-08 11:26:39 aolah76 $
 
 
-/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
+/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang */
 
 "use strict";
 

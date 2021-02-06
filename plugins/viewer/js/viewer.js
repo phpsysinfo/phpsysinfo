@@ -21,7 +21,7 @@
 //$Id: viewer.js 661 2016-05-03 11:26:39 erpomata $
 
 
-/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
+/*global $, jQuery, buildBlock, datetime, plugin_translate */
 
 "use strict";
 
