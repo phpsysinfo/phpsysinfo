@@ -14,7 +14,7 @@
  */
 
 $file = isset($_GET['name']) ? basename(htmlspecialchars($_GET['name'])) : null;
-$increase = isset($_GET['increase']) ? (($_GET['increase']>0)? $_GET['increase'] : 0) : 0; 
+$increase = isset($_GET['increase']) ? (($_GET['increase']>0)? $_GET['increase'] : 0) : 0;
 
 if ($file != null) {
     $css = $file.'.css';
@@ -29,7 +29,7 @@ if ($file != null) {
             $lines = preg_split("/\r?\n/", $filecontent, -1, PREG_SPLIT_NO_EMPTY);
             $block = '';
             foreach ($lines as $line) {
-                if (preg_match('/^(.+)\{/', $line, $tmpbuf)) { 
+                if (preg_match('/^(.+)\{/', $line, $tmpbuf)) {
                     $block = strtolower(trim($tmpbuf[1]));
                     echo $line."\n";
                 } elseif (($block === 'body') || ($block === '.fullsize')) {

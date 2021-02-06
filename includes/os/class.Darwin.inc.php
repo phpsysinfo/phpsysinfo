@@ -418,7 +418,7 @@ class Darwin extends BSDCommon
         if ((!CommonFunctions::executeProgram('system_profiler', 'SPSoftwareDataType', $buffer, PSI_DEBUG) || !preg_match('/\n\s*System Version:/', $buffer))
            && (!CommonFunctions::executeProgram('sw_vers', '', $buffer, PSI_DEBUG) || !preg_match('/^ProductName:/', $buffer))) {
             parent::distro();
-        } else {  
+        } else {
             $distro_tmp = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);

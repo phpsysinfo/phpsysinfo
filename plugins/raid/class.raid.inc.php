@@ -793,7 +793,6 @@ class Raid extends PSI_Plugin
                                $this->_result['devices'][$prefix.$uname]['action']['name'] = trim($progarr[1]);
                                $this->_result['devices'][$prefix.$uname]['action']['percent'] = trim($progarr[2]);
                            }
-                             
                     }
                     if ($dskstat !== "OK") $this->_result['devices'][$prefix.$uname]['items'][$pname]['info'] = $dskstat;
                 }
@@ -815,7 +814,7 @@ class Raid extends PSI_Plugin
                     $id = $this->_result['devices'][$prefix.$uname]['items'][$uname]['count'];
                     $id++;
                 }
-                $this->_result['devices'][$prefix.$uname]['items'][$uname]['count'] = $id; 
+                $this->_result['devices'][$prefix.$uname]['items'][$uname]['count'] = $id;
 
                 $buffArgs = preg_split($split, $buffLine, -1, PREG_SPLIT_NO_EMPTY);
                 if (((count($buffArgs) == 3) || (count($buffArgs) == 9) || (count($buffArgs) == 10))) {
@@ -1641,7 +1640,7 @@ class Raid extends PSI_Plugin
                 if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
                 if (isset($device['writepolicy'])) $dev->addAttribute("WritePolicy", $device["writepolicy"]);
                 if (isset($device['cache_size'])) $dev->addAttribute("Cache_Size", $device["cache_size"]);
-                if (isset($device['diskcache'])) $dev->addAttribute("DiskCache", $device["diskcache"]);                
+                if (isset($device['diskcache'])) $dev->addAttribute("DiskCache", $device["diskcache"]);
                 if (isset($device['bad_blocks'])) $dev->addAttribute("Bad_Blocks", $device["bad_blocks"]);
 
                 if (isset($device['action'])) {

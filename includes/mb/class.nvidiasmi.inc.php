@@ -30,7 +30,7 @@ class NvidiaSMI extends Sensors
         if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_NVIDIASMI_ACCESS')?strtolower(PSI_SENSOR_NVIDIASMI_ACCESS):'command') {
         case 'command':
             if (PSI_OS == 'WINNT') {
-                $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";               
+                $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";
                 if (($_exe=realpath(trim($winnt_exe))) && preg_match("/^([a-zA-Z]:\\\\[^\\\\]+)/", $_exe, $out)) {
                     CommonFunctions::executeProgram('cmd', "/c set ProgramFiles=".$out[1]."^&\"".$_exe."\" -q", $lines);
                 } else {
@@ -63,7 +63,7 @@ class NvidiaSMI extends Sensors
     public function build()
     {
         $gpuc=count($this->_gpus);
-        switch($gpuc) {
+        switch ($gpuc) {
             case 0:
                 $this->error->addError("nvidia-smi", "No values");
                 break;

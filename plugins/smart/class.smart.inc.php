@@ -222,7 +222,7 @@ class SMART extends PSI_Plugin
             if (preg_match('/(Vendor Specific SMART Attributes with Thresholds)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $startIndex = $matches[0][1];
 
-            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!) 
+            // locate the end string offset for the attributes, this is usually right before string "SMART Error Log Version" or "SMART Error Log not supported" or "Error SMART Error Log Read failed" (hopefully every output has it!)
             if (preg_match('/(SMART Error Log Version)|(SMART Error Log not supported)|(Error SMART Error Log Read failed)/', $result, $matches, PREG_OFFSET_CAPTURE))
                $endIndex = $matches[0][1];
 
@@ -399,7 +399,7 @@ class SMART extends PSI_Plugin
                         }
                     }
                 }
-                
+
                 $cid = 192;
                 if (!empty($this->_ids[$cid])) { //replace test
                     $idsr = preg_split('/-/', $this->_ids[$cid]);
@@ -415,7 +415,7 @@ class SMART extends PSI_Plugin
                             $this->_result[$disk][5]['raw_value'] = $vals;
                         }
                     }
-                }        
+                }
 
                 $cid = 255;
                 if (!empty($this->_ids[$cid])) { //replace test
@@ -437,7 +437,7 @@ class SMART extends PSI_Plugin
                     if (!empty($event) && ($event!=='OK')) {
                         $this->_event[$disk] = $event;
                     }
-                } 
+                }
             }
         }
         //Usage test

@@ -247,7 +247,7 @@ abstract class BSDCommon extends OS
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
         $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR) { 
+        if (PSI_LOAD_BAR) {
             if (PSI_OS != 'Darwin') {
                 if ($fd = $this->grabkey('kern.cp_time')) {
                     // Find out the CPU load

@@ -138,7 +138,7 @@ class Linux extends OS
             if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
                 $result .= ' '.$strBuf;
             }
-        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) &&  preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) && preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
             $result = $ar_buf[1];
             if (preg_match('/SMP/', $strBuf)) {
                 $result .= ' (SMP)';
@@ -154,7 +154,7 @@ class Linux extends OS
                     $result .= ' [docker]';
                 }
             }
-            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) { 
+            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) {
                 if (preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
                     $result .= ' [wsl]';
                 } elseif (preg_match('/^Linux version [\d\.-]+-microsoft-standard/', $strBuf2)) {

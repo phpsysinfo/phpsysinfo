@@ -176,7 +176,6 @@ class WINNT extends OS
     {
         if (!defined('PSI_EMU_HOSTNAME')) {
             if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
-
             return $this->_systeminfo;
         } else {
             return '';
@@ -189,7 +188,7 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== ""))  {
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== "")) {
             $this->_ver = $ver_value;
         }
         if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
@@ -432,7 +431,7 @@ class WINNT extends OS
             } elseif (defined('PSI_EMU_HOSTNAME')) {
                 $this->sys->setHostname(PSI_EMU_HOSTNAME);
             } elseif (CommonFunctions::readenv('COMPUTERNAME', $hnm)) {
-                $this->sys->setHostname($hnm);            
+                $this->sys->setHostname($hnm);
             }
         }
     }

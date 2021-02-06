@@ -102,7 +102,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
-        if (PHP_OS == 'Linux') { 
+        if (PHP_OS == 'Linux') {
             if (file_exists($fname = '/etc/sysconfig/i18n')
                || file_exists($fname = '/etc/default/locale')
                || file_exists($fname = '/etc/locale.conf')
@@ -283,7 +283,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
         } elseif (PSI_OS=='Minix') {
             define('PSI_SYSTEM_CODEPAGE', 'CP437');
-        } elseif (PSI_OS!='WINNT'){
+        } elseif (PSI_OS!='WINNT') {
             define('PSI_SYSTEM_CODEPAGE', null);
         }
     }

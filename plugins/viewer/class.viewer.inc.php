@@ -14,7 +14,7 @@
 class Viewer extends PSI_Plugin
 {
     private $_lines;
-    
+
     private $name = "";
 
     public function __construct($enc)

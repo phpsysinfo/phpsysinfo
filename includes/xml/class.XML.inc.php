@@ -818,7 +818,7 @@ class XML
                 $plugins = array($this->_plugin);
             }
             foreach ($plugins as $plugin) {
-                if (!$this->_complete_request || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') || 
+                if (!$this->_complete_request || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') ||
                    (defined('PSI_WMI_HOSTNAME') && (PSI_WMI_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')))) {
                     $object = new $plugin($this->_sysinfo->getEncoding());
                     $object->execute();
