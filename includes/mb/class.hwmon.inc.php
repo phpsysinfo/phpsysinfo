@@ -34,6 +34,12 @@ class Hwmon extends Sensors
                    $name = "";
                 }
                 if (($buf = CommonFunctions::rolv($sensor[$i], "/_input$/", "_label"))!==null) {
+                    if (($name == " (drivetemp)") && (count($buf = CommonFunctions::gdc($hwpath . "device/block", false)))) {
+                        $labelname = "/dev/" . $buf[0];
+                        if (($buf = CommonFunctions::rolv($hwpath . "device/model"))!==null) {
+                            $labelname .= " (".$buf.")";
+                        }
+                    }
                     $dev->setName($buf.$name);
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
