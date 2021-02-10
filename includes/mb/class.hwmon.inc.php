@@ -41,6 +41,7 @@ class Hwmon extends Sensors
                         $labelname = "/dev/" . $buf[0];
                         if (($buf = CommonFunctions::rolv($hwpath . "device/model"))!==null) {
                             $labelname .= " (".$buf.")";
+                            $name = "";
                         }
                     }
                     if ($labelname !== "") {
