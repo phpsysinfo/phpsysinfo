@@ -563,7 +563,7 @@ ACCESS="command"
 [sensor_ipmicfg]
 ; IPMIcfg motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg --psfruinfo' command
+; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' command
 ; - ACCESS="data"  //read data from file data/ipmicfg.txt
 ;
 ACCESS="command"
