@@ -1,0 +1,64 @@
+Status | (#)Sensor                |      Reading | Low Limit | High Limit |
+------ | ---------                |      ------- | --------- | ---------- |
+    OK | (4) CPU1 Temp            |      25C/77F |       N/A |   70C/158F |
+    OK | (71) CPU2 Temp           |      26C/79F |       N/A |   70C/158F |
+    OK | (138) System Temp        |      27C/81F |   -7C/19F |   85C/185F |
+    OK | (205) Peripheral Temp    |     39C/102F |   -7C/19F |   85C/185F |
+    OK | (272) PCH Temp           |     45C/113F |   -8C/18F |   95C/203F |
+    OK | (339) P1-DIMMA1 TEMP     |     41C/106F |    2C/36F |   85C/185F |
+    OK | (406) P1-DIMMA2 TEMP     |     38C/100F |    2C/36F |   85C/185F |
+       | (473) P1-DIMMA3 TEMP     |          N/A |       N/A |        N/A |
+    OK | (540) P1-DIMMB1 TEMP     |     38C/100F |    2C/36F |   85C/185F |
+    OK | (607) P1-DIMMB2 TEMP     |      32C/90F |    2C/36F |   85C/185F |
+       | (674) P1-DIMMB3 TEMP     |          N/A |       N/A |        N/A |
+    OK | (741) P1-DIMMC1 TEMP     |     44C/111F |    2C/36F |   85C/185F |
+    OK | (808) P1-DIMMC2 TEMP     |     44C/111F |    2C/36F |   85C/185F |
+       | (875) P1-DIMMC3 TEMP     |          N/A |       N/A |        N/A |
+    OK | (942) P1-DIMMD1 TEMP     |     42C/108F |    2C/36F |   85C/185F |
+    OK | (1009) P1-DIMMD2 TEMP    |     39C/102F |    2C/36F |   85C/185F |
+       | (1076) P1-DIMMD3 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1143) P2-DIMME1 TEMP    |     45C/113F |    2C/36F |   85C/185F |
+    OK | (1210) P2-DIMME2 TEMP    |     41C/106F |    2C/36F |   85C/185F |
+       | (1277) P2-DIMME3 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1344) P2-DIMMF1 TEMP    |     40C/104F |    2C/36F |   85C/185F |
+    OK | (1411) P2-DIMMF2 TEMP    |      37C/99F |    2C/36F |   85C/185F |
+       | (1478) P2-DIMMF3 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1545) P2-DIMMG1 TEMP    |     40C/104F |    2C/36F |   85C/185F |
+    OK | (1612) P2-DIMMG2 TEMP    |     40C/104F |    2C/36F |   85C/185F |
+       | (1679) P2-DIMMG3 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1746) P2-DIMMH1 TEMP    |     42C/108F |    2C/36F |   85C/185F |
+    OK | (1813) P2-DIMMH2 TEMP    |      36C/97F |    2C/36F |   85C/185F |
+       | (1880) P2-DIMMH3 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1947) FAN1              |     1725 RPM |   450 RPM |  19050 RPM |
+    OK | (2014) FAN2              |     1650 RPM |   450 RPM |  19050 RPM |
+    OK | (2081) FAN3              |      975 RPM |   450 RPM |  19050 RPM |
+    OK | (2148) FAN4              |     1050 RPM |   450 RPM |  19050 RPM |
+    OK | (2215) FAN5              |     1050 RPM |   450 RPM |  19050 RPM |
+    OK | (2282) FAN6              |     1125 RPM |   450 RPM |  19050 RPM |
+       | (2349) FANA              |          N/A |       N/A |        N/A |
+       | (2416) FANB              |          N/A |       N/A |        N/A |
+    OK | (2483) VTT               |       0.99 V |    0.86 V |     1.39 V |
+    OK | (2550) CPU1 Vcore        |       0.88 V |    0.51 V |     1.52 V |
+    OK | (2617) CPU2 Vcore        |       0.84 V |    0.51 V |     1.52 V |
+    OK | (2684) VDIMM AB          |       1.47 V |    1.15 V |     1.69 V |
+    OK | (2751) VDIMM CD          |       1.48 V |    1.15 V |     1.69 V |
+    OK | (2818) VDIMM EF          |       1.48 V |    1.15 V |     1.69 V |
+    OK | (2885) VDIMM GH          |       1.48 V |    1.15 V |     1.69 V |
+    OK | (2952) +1.1 V            |       1.10 V |    0.92 V |     1.26 V |
+    OK | (3019) +1.5 V            |       1.47 V |    1.29 V |     1.69 V |
+    OK | (3086) 3.3V              |       3.07 V |    2.78 V |     3.79 V |
+    OK | (3153) +3.3VSB           |       3.36 V |    2.78 V |     3.79 V |
+    OK | (3220) 5V                |       4.86 V |    4.28 V |     5.69 V |
+    OK | (3287) +5VSB             |       4.86 V |    4.28 V |     5.69 V |
+    OK | (3354) 12V               |      11.97 V |   10.49 V |    13.56 V |
+    OK | (3421) VBAT              |       3.07 V |    2.54 V |     3.45 V |
+       | (3488) HDD Status        |          N/A |    2.54   |     3.45   |
+  Fail | (3555) Chassis Intru     |  01 C0 01 00 |       N/A |        N/A |
+ [SlaveAddress = 70h] [Module 1]
+ Item                           |                Value
+ ----                           |                -----
+ Status                         |                   On
+ Temperature                    |             54C/129F
+ Fan 1                          |              572 RPM
+ Fan 2                          |              572 RPM
+

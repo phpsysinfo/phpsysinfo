@@ -263,6 +263,7 @@ DATETIME_FORMAT="UTC"
 ; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
+; - IPMIcfg        http://www.supermicro.com/en/solutions/management-software/ipmi-utilities (Linux/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
@@ -558,6 +559,21 @@ ACCESS="command"
 ; - ACCESS="data"  //read data from file data/ipmiutil.txt
 ;
 ACCESS="command"
+
+[sensor_ipmicfg]
+; IPMIcfg motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg --psfruinfo' command
+; - ACCESS="data"  //read data from file data/ipmicfg.txt
+;
+ACCESS="command"
+
+; Execute power supply FRU health info
+; - true   : execute 'ipmicfg --psfruinfo'
+; - false  : don't execute 'ipmicfg --psfruinfo'
+; - "only" : execute 'ipmicfg --psfruinfo' and don't execute 'ipmicfg -sdr'
+;
+PSFRUINFO=true
 
 [sensor_k8temp]
 ; K8Temp motherboard monitoring program configuration

@@ -11,6 +11,7 @@ phpSysInfo 3.3.3
  - [ADD] Milis, FreeNAS, UOS and Septor to detected distros
  - [ADD] SMART plugin - reading contents of wmic command for WinNT
  - [ADD] Raid plugin - 3ware-status status
+ - [ADD] IPMIcfg sensor program support
  
  - [NEW] Ability to read information from an external WinNT server (new WMI_HOSTNAME, WMI_USER and WMI_PASSWORD parameters)
  - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU
