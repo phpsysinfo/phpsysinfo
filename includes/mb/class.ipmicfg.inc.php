@@ -73,7 +73,7 @@ class IPMIcfg extends Sensors
                     $dev->setMax($valbuffmax[1]);
                 }
                 if ((isset($valbuffmin[1]) && ($valbuff[1]<=$valbuffmin[1])) || (isset($valbuffmax[1]) && ($valbuff[1]>=$valbuffmax[1]))) { //own range test due to errors with +256 correction
-                    $dev->setEvent(trim($buffer[0]));
+                    $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
             } elseif ((defined('PSI_SENSOR_IPMICFG_PSFRUINFO') && (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) &&
