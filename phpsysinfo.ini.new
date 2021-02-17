@@ -693,7 +693,7 @@ IDRAC_DEVICES=""
 ; - "command" ps command is run everytime the block gets refreshed or build / on WINNT
 ;             information is retrieved everytime through WMI
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,args")
+;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,pcpu,args")
 ;
 ACCESS="command"
 
