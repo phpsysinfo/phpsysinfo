@@ -8,7 +8,7 @@ phpSysInfo 3.3.3
 
  - [ADD] Persian (Farsi) Translation fa.xml
  - [ADD] Croatian Translation hr.xml
- - [ADD] Milis, FreeNAS, UOS and Septor to detected distros
+ - [ADD] Mabox, Milis, FreeNAS, UOS and Septor to detected distros
  - [ADD] SMART plugin - reading contents of wmic command for WinNT
  - [ADD] Raid plugin - 3ware-status status
  - [ADD] IPMIcfg sensor program support
