@@ -385,6 +385,6 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>NVMe 장치</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>운영체제 종류</exp>
   </expression>
 </tns:translation>
