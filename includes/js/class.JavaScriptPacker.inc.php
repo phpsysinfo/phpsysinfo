@@ -521,7 +521,7 @@ class JavaScriptPacker
 ';
 //};
 /*
-'	if (!\'\'.replace(/^/, String)) {
+'    if (!\'\'.replace(/^/, String)) {
         // decode all the values we need
         while ($count--) $decode[$encode($count)] = $keywords[$count] || $encode($count);
         // global replacement function

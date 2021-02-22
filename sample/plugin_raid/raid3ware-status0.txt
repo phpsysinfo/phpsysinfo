@@ -1,0 +1,12 @@
+-- Controller informations --
+-- ID | Model
+c0 | 8006-2LP
+
+-- Arrays informations --
+-- ID	Type	Size	Status
+c0u0	RAID1	153G	OK
+
+-- Disks informations
+-- ID	Model			Status
+c0u0p0	VNRD3EC4C7J1SM	OK
+c0u0p1	VNRD3EC4C7HZZM	OK

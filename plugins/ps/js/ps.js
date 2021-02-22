@@ -32,19 +32,24 @@ var ps_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function ps_buildTable(xml) {
-    var html = "", tree = [], closed = [], memwas = false, cpuwas = false;
+    var html = "", tree = [], closed = [], memwas = false, cpuwas = false, hostname = "";
 
     $("#Plugin_PS #Plugin_PSTable").remove();
+
+    hostname = $("Plugins Plugin_PS", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_PS]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_PSTable\" class=\"tablemain\">\n";
     html += "      <thead>\n";
     html += "        <tr>\n";
     html += "          <th>" + genlang(2, "PS") + "</th>\n";
-    html += "          <th style=\"width:40px;\">" + genlang(3, "PS") + "</th>\n";
-    html += "          <th style=\"width:40px;\">" + genlang(4, "PS") + "</th>\n";
-    html += "          <th style=\"width:120px;\">" + genlang(5, "PS") + "</th>\n";
-    html += "          <th style=\"width:120px;\">" + genlang(6, "PS") + "</th>\n";
+    html += "          <th style=\"width:6.6%;\">" + genlang(3, "PS") + "</th>\n";
+    html += "          <th style=\"width:6.6%;\">" + genlang(4, "PS") + "</th>\n";
+    html += "          <th style=\"width:15.25%;\">" + genlang(5, "PS") + "</th>\n";
+    html += "          <th style=\"width:15.25%;\">" + genlang(6, "PS") + "</th>\n";
     html += "        </tr>\n";
     html += "      </thead>\n";
     html += "      <tbody class=\"tree\">\n";
@@ -131,7 +136,7 @@ function ps_request() {
 
 $(document).ready(function ps_buildpage() {
     $("#footer").before(buildBlock("PS", 1, true));
-    $("#Plugin_PS").css("width", "915px");
+    $("#Plugin_PS").addClass("fullsize");
 
     ps_request();
 

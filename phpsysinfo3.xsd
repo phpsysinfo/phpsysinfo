@@ -70,15 +70,21 @@
         </attribute>
     </complexType>
 
-    <complexType name="PCI">
+    <complexType name="CPU">
         <sequence>
-            <element name="PCI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+            <element name="CpuCore" type="tns:CpuCore" minOccurs="0" maxOccurs="unbounded"></element>
         </sequence>
     </complexType>
 
-    <complexType name="USB">
+    <complexType name="MEM">
         <sequence>
-            <element name="USB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+            <element name="MEM" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+
+    <complexType name="PCI">
+        <sequence>
+            <element name="PCI" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
         </sequence>
     </complexType>
 
@@ -100,6 +106,12 @@
         </sequence>
     </complexType>
 
+    <complexType name="USB">
+        <sequence>
+            <element name="USB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+    </complexType>
+
     <complexType name="TB">
         <sequence>
             <element name="TB" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
@@ -109,12 +121,6 @@
     <complexType name="I2C">
         <sequence>
             <element name="I2C" type="tns:HWDevice" minOccurs="0" maxOccurs="unbounded"></element>
-        </sequence>
-    </complexType>
-
-    <complexType name="CPU">
-        <sequence>
-            <element name="CpuCore" type="tns:CpuCore" minOccurs="0" maxOccurs="unbounded"></element>
         </sequence>
     </complexType>
 
@@ -183,13 +189,15 @@
     <complexType name="Hardware">
         <attribute name="Name" type="string" use="optional"></attribute>
         <sequence>
+            <element name="CPU" type="tns:CPU" minOccurs="0" maxOccurs="1"></element>
+            <element name="MEM" type="tns:MEM" minOccurs="0" maxOccurs="1"></element>
             <element name="PCI" type="tns:PCI" minOccurs="0" maxOccurs="1"></element>
-            <element name="USB" type="tns:USB" minOccurs="0" maxOccurs="1"></element>
             <element name="IDE" type="tns:IDE" minOccurs="0" maxOccurs="1"></element>
             <element name="SCSI" type="tns:SCSI" minOccurs="0" maxOccurs="1"></element>
+            <element name="NVMe" type="tns:NVMe" minOccurs="0" maxOccurs="1"></element>
+            <element name="USB" type="tns:USB" minOccurs="0" maxOccurs="1"></element>
             <element name="TB" type="tns:TB" minOccurs="0" maxOccurs="1"></element>
             <element name="I2C" type="tns:I2C" minOccurs="0" maxOccurs="1"></element>
-            <element name="CPU" type="tns:CPU" minOccurs="0" maxOccurs="1"></element>
         </sequence>
     </complexType>
 

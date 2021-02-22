@@ -1,0 +1,30 @@
+----------lsb_release -a----------
+Distributor ID:	Uos
+Description:	uos 20
+Release:	20
+Codename:	n/a
+----------/etc/lsb-release----------
+DISTRIB_ID=uos
+DISTRIB_RELEASE=20
+DISTRIB_DESCRIPTION="uos 20"
+DISTRIB_CODENAME=eagle
+----------/etc/os-release----------
+PRETTY_NAME="uos 20"
+NAME="uos"
+VERSION_ID="20"
+VERSION="20"
+ID=uos
+HOME_URL="https://www.chinauos.com/"
+BUG_REPORT_URL="http://bbs.chinauos.com"
+----------/etc/deepin-version----------
+[Release]
+Version=20
+Type=Professional
+Type[zh_CN]=专业版
+Edition=Y2020E0001
+Copyright=Y2020CR001
+[Addition]
+Milestone=
+Buildid=build1
+----------/etc/debian_version----------
+10.1

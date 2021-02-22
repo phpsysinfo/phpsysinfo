@@ -33,7 +33,12 @@ var smart_show = false, smart_table;
  * fill the plugin block with table structure
  */
 function smart_buildTable(xml) {
-    var html = "";
+    var html = "", hostname = "";
+
+    hostname = $("Plugins Plugin_SMART", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_SMART]').html(hostname);
+    }
 
     html += "<div style=\"overflow-x:auto;\">\n";
     html += "  <table id=\"Plugin_SMARTTable\" style=\"border-collapse:collapse;\">\n";
@@ -69,7 +74,7 @@ function smart_buildTable(xml) {
  * @param {jQuery} xml plugin-XML
  */
 function smart_populate(xml) {
-    var name = "", columns = [];
+    var name = "", event = "", columns = [];
     smart_table.fnClearTable();
 
     // Get datas that the user want to be displayed
@@ -88,7 +93,11 @@ function smart_populate(xml) {
             }
         });
 
-        display.push("<span style=\"display:none;\">" + name + "</span>" + name);
+        event = $(this).attr("event");
+        if (event !== undefined)
+            display.push("<span style=\"display:none;\">" + name + "</span><table style=\"width:0;float:right;*float:right;border-spacing:0;\"><tbody><tr><td style=\"padding:0;\">" + name +" </td><td style=\"padding:0;\"><img style=\"vertical-align:middle;width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/></td></tr></tbody></table>");
+        else
+            display.push("<span style=\"display:none;\">" + name + "</span>" + name);
 
         // On "columns" so we get the right order
         // fixed for Firefox (fix wrong order)
@@ -134,10 +143,8 @@ function smart_request() {
 }
 
 $(document).ready(function smart_buildpage() {
-    var html = "";
-
     $("#footer").before(buildBlock("SMART", 1, true));
-    $("#Plugin_SMART").css("width", "915px");
+    $("#Plugin_SMART").addClass("fullsize");
 
     smart_request();
 

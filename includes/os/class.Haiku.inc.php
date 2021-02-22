@@ -45,12 +45,12 @@ class Haiku extends OS
                     $dev->setModel($ar_buf[1]);
                     $arrLines = preg_split("/\n/", $cpu, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($arrLines as $Line) {
-                        if (preg_match("/^\s+Data TLB:\s+(.*)K-byte/", $Line, $Line_buf)) {
-                            $dev->setCache(max($Line_buf[1]*1024, $dev->getCache()));
-                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)M-byte/", $Line, $Line_buf)) {
-                            $dev->setCache(max($Line_buf[1]*1024*1024, $dev->getCache()));
-                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)G-byte/", $Line, $Line_buf)) {
-                            $dev->setCache(max($Line_buf[1]*1024*1024*1024, $dev->getCache()));
+                        if (preg_match("/^\s+Data TLB:\s+(.*)K-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)K-byte/", $Line, $Line_buf)) {
+                            $dev->setCache(max(intval($Line_buf[1])*1024, $dev->getCache()));
+                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)M-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)M-byte/", $Line, $Line_buf)) {
+                            $dev->setCache(max(intval($Line_buf[1])*1024*1024, $dev->getCache()));
+                        } elseif (preg_match("/^\s+Data TLB:\s+(.*)G-byte/", $Line, $Line_buf) || preg_match("/^\s+L0 Data TLB:\s+(.*)G-byte/", $Line, $Line_buf)) {
+                            $dev->setCache(max(intval($Line_buf[1])*1024*1024*1024, $dev->getCache()));
                         } elseif (preg_match("/\s+VMX/", $Line, $Line_buf)) {
                             $dev->setVirt("vmx");
                         } elseif (preg_match("/\s+SVM/", $Line, $Line_buf)) {
@@ -156,19 +156,28 @@ class Haiku extends OS
      */
     private function _uptime()
     {
-        if (CommonFunctions::executeProgram('uptime', '-u', $buf)) {
-            if (preg_match("/^up (\d+) minute[s]?/", $buf, $ar_buf)) {
-                $min = $ar_buf[1];
-                $this->sys->setUptime($min * 60);
-            } elseif (preg_match("/^up (\d+) hour[s]?, (\d+) minute[s]?/", $buf, $ar_buf)) {
-                $min = $ar_buf[2];
-                $hours = $ar_buf[1];
-                $this->sys->setUptime($hours * 3600 + $min * 60);
-            } elseif (preg_match("/^up (\d+) day[s]?, (\d+) hour[s]?, (\d+) minute[s]?/", $buf, $ar_buf)) {
+        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
+            if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
+            } elseif (preg_match("/up[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
+                $min = $ar_buf[2];
+                $hours = $ar_buf[1];
+                $this->sys->setUptime($hours * 3600 + $min * 60);
+            } elseif (preg_match("/up (\d+) day[s]?, (\d+) hour[s]?, (\d+) minute[s]?$/", $buf, $ar_buf)) {
+                $min = $ar_buf[3];
+                $hours = $ar_buf[2];
+                $days = $ar_buf[1];
+                $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
+            } elseif (preg_match("/up (\d+) hour[s]?, (\d+) minute[s]?$/", $buf, $ar_buf)) {
+                $min = $ar_buf[2];
+                $hours = $ar_buf[1];
+                $this->sys->setUptime($hours * 3600 + $min * 60);
+            } elseif (preg_match("/up (\d+) minute[s]?$/", $buf, $ar_buf)) {
+                $min = $ar_buf[1];
+                $this->sys->setUptime($min * 60);
             }
         }
     }
@@ -231,7 +240,7 @@ class Haiku extends OS
             if (preg_match("/(.*)bytes free\s+\(used\/max\s+(.*)\s+\/\s+(.*)\)\s*\n\s+\(cached\s+(.*)\)/", $bufr, $ar_buf)) {
                 $this->sys->setMemTotal($ar_buf[3]);
                 $this->sys->setMemFree($ar_buf[1]);
-                $this->sys->setMemCache($ar_buf[4]);
+                $this->sys->setMemCache(min($ar_buf[4], $ar_buf[2]));
                 $this->sys->setMemUsed($ar_buf[2]);
             }
         }

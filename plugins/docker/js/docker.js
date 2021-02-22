@@ -34,9 +34,14 @@ var docker_show = false, docker_table;
 
 function docker_populate(xml) {
 
-    var html = "";
+    var hostname = "";
 
     docker_table.fnClearTable();
+
+    hostname = $("Plugins Plugin_Docker", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Docker]').html(hostname);
+    }
 
     $("Plugins Plugin_Docker Docker Item", xml).each(function docker_getitem(id) {
         var name = "", cpuu= 0, memu = 0, used = 0, limit = 0, netio = "", blockio = "", pids = 0;
@@ -75,6 +80,7 @@ function docker_buildTable() {
     html += "    </tbody>\n";
     html += "  </table>\n";
     html += "</div>\n";
+
     $("#Plugin_Docker").append(html);
 
     docker_table = $("#Plugin_DockerTable").dataTable({
@@ -136,7 +142,7 @@ function docker_request() {
 
 $(document).ready(function docker_buildpage() {
     $("#footer").before(buildBlock("Docker", 1, true));
-    $("#Plugin_Docker").css("width", "915px");
+    $("#Plugin_Docker").addClass("fullsize");
 
     docker_buildTable();
 

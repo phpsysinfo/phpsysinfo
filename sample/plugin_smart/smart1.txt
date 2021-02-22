@@ -49,24 +49,24 @@ SCT capabilities: (0x003d) SCT Status supported.
 
 SMART Attributes Data Structure revision number: 16
 Vendor Specific SMART Attributes with Thresholds:
-ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED WHEN_FAILED RAW_VALUE
-  1 Raw_Read_Error_Rate 0x000b 100 100 016 Pre-fail Always - 0
-  2 Throughput_Performance 0x0005 134 134 054 Pre-fail Offline - 98
-  3 Spin_Up_Time 0x0007 123 123 024 Pre-fail Always - 587 (Average 584)
-  4 Start_Stop_Count 0x0012 100 100 000 Old_age Always - 16
-  5 Reallocated_Sector_Ct 0x0033 100 100 005 Pre-fail Always - 0
-  7 Seek_Error_Rate 0x000b 100 100 067 Pre-fail Always - 0
-  8 Seek_Time_Performance 0x0005 114 114 020 Pre-fail Offline - 38
-  9 Power_On_Hours 0x0012 100 100 000 Old_age Always - 292
- 10 Spin_Retry_Count 0x0013 100 100 060 Pre-fail Always - 0
- 12 Power_Cycle_Count 0x0032 100 100 000 Old_age Always - 16
-192 Power-Off_Retract_Count 0x0032 100 100 000 Old_age Always - 16
-193 Load_Cycle_Count 0x0012 100 100 000 Old_age Always - 16
-194 Temperature_Celsius 0x0002 230 230 000 Old_age Always - 27 (Lifetime Min/Max 20/45)
-196 Reallocated_Event_Count 0x0032 100 100 000 Old_age Always - 0
-197 Current_Pending_Sector 0x0022 100 100 000 Old_age Always - 0
-198 Offline_Uncorrectable 0x0008 100 100 000 Old_age Offline - 0
-199 UDMA_CRC_Error_Count 0x000a 200 200 000 Old_age Always - 0
+ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_FAILED RAW_VALUE
+  1 Raw_Read_Error_Rate     0x000b   100   100   016    Pre-fail  Always       -       0
+  2 Throughput_Performance  0x0005   134   134   054    Pre-fail  Offline      -       98
+  3 Spin_Up_Time            0x0007   123   123   024    Pre-fail  Always       -       587 (Average 584)
+  4 Start_Stop_Count        0x0012   100   100   000    Old_age   Always       -       16
+  5 Reallocated_Sector_Ct   0x0033   100   100   005    Pre-fail  Always       -       0
+  7 Seek_Error_Rate         0x000b   100   100   067    Pre-fail  Always       -       0
+  8 Seek_Time_Performance   0x0005   114   114   020    Pre-fail  Offline      -       38
+  9 Power_On_Hours          0x0012   100   100   000    Old_age   Always       -       292
+ 10 Spin_Retry_Count        0x0013   100   100   060    Pre-fail  Always       -       0
+ 12 Power_Cycle_Count       0x0032   100   100   000    Old_age   Always       -       16
+192 Power-Off_Retract_Count 0x0032   100   100   000    Old_age   Always       -       16
+193 Load_Cycle_Count        0x0012   100   100   000    Old_age   Always       -       16
+194 Temperature_Celsius     0x0002   230   230   000    Old_age   Always       -       27 (Lifetime Min/Max 20/45)
+196 Reallocated_Event_Count 0x0032   100   100   000    Old_age   Always       -       0
+197 Current_Pending_Sector  0x0022   100   100   000    Old_age   Always       -       0
+198 Offline_Uncorrectable   0x0008   100   100   000    Old_age   Offline      -       0
+199 UDMA_CRC_Error_Count    0x000a   200   200   000    Old_age   Always       -       0
 
 SMART Error Log Version: 0
 No Errors Logged

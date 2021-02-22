@@ -132,9 +132,9 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _ip()
     {
-        if (PSI_USE_VHOST === true) {
+        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
            if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
-               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
+              && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
                 if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
                     $this->sys->setIp($dnsrec[0]['ipv6']); //from DNS (avoid IPv6 NAT translation)
@@ -144,11 +144,126 @@ abstract class OS implements PSI_Interface_OS
             } else {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
+        } elseif (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
+            $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
         } else {
-            if (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) {
-                $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
+            //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
+            $hn = $this->sys->getHostname();
+            $ghbn = gethostbyname($hn);
+            if (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
+                $this->sys->setIp(PSI_EMU_HOSTNAME);
             } else {
-                $this->sys->setIp(gethostbyname($this->sys->getHostname()));
+                $this->sys->setIp($ghbn);
+            }
+        }
+    }
+
+    /**
+     * MEM information from dmidecode
+     *
+     * @return void
+     */
+    protected function _dmimeminfo()
+    {
+        $banks = array();
+        $buffer = '';
+        if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)=="data")) {
+            CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.txt', $buffer);
+        } elseif (CommonFunctions::_findProgram('dmidecode')) {
+            CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
+        }
+        if (!empty($buffer)) {
+            $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
+                $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
+                $mem = array();
+                foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/' ,$line, $params)) {
+                    if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
+                        $mem[trim($params[1])] = trim($buff[1]);
+                    } elseif ($params2 != '') {
+                        $mem[trim($params[1])] = $params2;
+                    }
+                }
+                if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)) {
+                    $dev = new HWDevice();
+                    $name = '';
+                    if (isset($mem['Part Number']) && !preg_match("/^PartNum\d+$/", $part = $mem['Part Number']) && ($part != 'None') && ($part != 'N/A') && ($part != 'Not Specified') && ($part != 'NOT AVAILABLE')) {
+                        $name = $part;
+                    }
+                    if (isset($mem['Locator']) && (($dloc = $mem['Locator']) != 'None') && ($dloc != 'N/A') && ($dloc != 'Not Specified')) {
+                        if ($name != '') {
+                            $name .= ' - '.$dloc;
+                        } else {
+                            $name = $dloc;
+                        }
+                    }
+                    if (isset($mem['Bank Locator']) && (($bank = $mem['Bank Locator']) != 'None') && ($bank != 'N/A') && ($bank != 'Not Specified')) {
+                        if ($name != '') {
+                            $name .= ' in '.$bank;
+                        } else {
+                            $name = 'Physical Memory in '.$bank;
+                        }
+                    }
+                    if ($name != '') {
+                        $dev->setName(trim($name));
+                    } else {
+                        $dev->setName('Physical Memory');
+                    }
+                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                        if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && !preg_match("/^Mfg \d+$/", $manufacturer) && !preg_match("/^JEDEC ID:/", $manufacturer) && ($manufacturer != 'None') && ($manufacturer != 'N/A') && ($manufacturer != 'Not Specified') && ($manufacturer != 'UNKNOWN')) {
+                            $dev->setManufacturer($manufacturer);
+                        }
+                        if ($size[2] == 'G') {
+                            $dev->setCapacity($size[1]*1024*1024*1024);
+                        } else {
+                            $dev->setCapacity($size[1]*1024*1024);
+                        }
+                        $memtype = '';
+                        if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
+                            if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
+                               if (isset($mem['Minimum Voltage']) && isset($mem['Total Width']) &&
+                                  preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
+                                  ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
+                                    $lv = 'L';
+                                } else {
+                                    $lv = '';
+                                }
+                                if (isset($dr[2])) {
+                                    $memtype = $dr[1].$lv.'-'.$speed[1].' '.$dr[2];
+                                } else {
+                                    $memtype = $dr[1].$lv.'-'.$speed[1];
+                                }
+                            } else {
+                                $memtype = $type;
+                            }
+                        }
+                        if (isset($mem['Form Factor']) && (($form = $mem['Form Factor']) != 'None') && ($form != 'N/A') && ($form != 'Not Specified') && ($form != 'Other') && ($form != 'Unknown') && !preg_match('/ '.$form.'$/', $memtype)) {
+                            $memtype .= ' '.$form;
+                        }
+                        if (isset($mem['Data Width']) && isset($mem['Total Width']) &&
+                           preg_match('/^(\d+)\sbits$/', $mem['Data Width'], $dataw) && preg_match('/^(\d+)\sbits$/', $mem['Total Width'], $totalw) &&
+                           ($dataw[1]  > 0) && ($totalw[1] >0) && ($dataw[1] < $totalw[1])) {
+                            $memtype .= ' ECC';
+                        }
+                        if (isset($mem['Type Detail']) && preg_match('/Registered/', $mem['Type Detail'])) {
+                            $memtype .= ' REG';
+                        }
+                        if (($memtype = trim($memtype)) != '') {
+                            $dev->setProduct($memtype);
+                        }
+                        if (isset($mem['Configured Clock Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)$/', $mem['Configured Clock Speed'], $clock) && ($clock[1] > 0)) {
+                            $dev->setSpeed($clock[1]);
+                        }
+                        if (isset($mem['Configured Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Configured Voltage'], $voltage) && ($voltage[1] > 0)) {
+                            $dev->setVoltage($voltage[1]);
+                        }
+                        if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
+                           isset($mem['Serial Number']) && !preg_match("/^SerNum\d+$/", $serial = $mem['Serial Number']) && ($serial != 'None') && ($serial != 'Not Specified')) {
+                            $dev->setSerial($serial);
+                        }
+                    }
+                    $this->sys->setMemDevices($dev);
+                }
             }
         }
     }
@@ -165,6 +280,9 @@ abstract class OS implements PSI_Interface_OS
         $this->build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_ip();
+        }
+        if ((!$this->blockname || $this->blockname==='hardware') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+            $this->_dmimeminfo();
         }
 
         return $this->sys;

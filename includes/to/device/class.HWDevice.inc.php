@@ -56,9 +56,23 @@ class HWDevice
     /**
      * serial number of the device, if not available it will be null
      *
-     * @var Integer
+     * @var String
      */
     private $_serial = null;
+
+    /**
+     * speed of the device, if not available it will be null
+     *
+     * @var Float
+     */
+    private $_speed = null;
+
+    /**
+     * voltage of the device, if not available it will be null
+     *
+     * @var Float
+     */
+    private $_voltage = null;
 
     /**
      * count of the device
@@ -80,7 +94,8 @@ class HWDevice
            && $dev->getCapacity() === $this->_capacity
            && $dev->getManufacturer() === $this->_manufacturer
            && $dev->getProduct() === $this->_product
-           && $dev->getSerial() === $this->_serial) {
+           && $dev->getSerial() === $this->_serial
+           && $dev->getSpeed() === $this->_speed) {
             return true;
         } else {
             return false;
@@ -189,6 +204,58 @@ class HWDevice
     public function setSerial($serial)
     {
         $this->_serial = $serial;
+    }
+
+    /**
+     * Returns $_speed.
+     *
+     * @see HWDevice::$_speed
+     *
+     * @return Float
+     */
+    public function getSpeed()
+    {
+        return $this->_speed;
+    }
+
+    /**
+     * Sets $_speed.
+     *
+     * @param Float $speed speed
+     *
+     * @see HWDevice::$_speed
+     *
+     * @return Void
+     */
+    public function setSpeed($speed)
+    {
+        $this->_speed = $speed;
+    }
+
+    /**
+     * Returns $_voltage.
+     *
+     * @see HWDevice::$_voltage
+     *
+     * @return Float
+     */
+    public function getVoltage()
+    {
+        return $this->_voltage;
+    }
+
+    /**
+     * Sets $_voltage.
+     *
+     * @param Float $voltage voltage
+     *
+     * @see HWDevice::$_voltage
+     *
+     * @return Void
+     */
+    public function setVoltage($voltage)
+    {
+        $this->_voltage = $voltage;
     }
 
     /**

@@ -61,6 +61,13 @@ class SensorDevice
     private $_event = "";
 
     /**
+     * unit of values of the sensor
+     *
+     * @var String
+     */
+    private $_unit = "";
+
+    /**
      * Returns $_max.
      *
      * @see Sensor::$_max
@@ -188,5 +195,31 @@ class SensorDevice
     public function setEvent($event)
     {
         $this->_event = $event;
+    }
+
+    /**
+     * Returns $_unit.
+     *
+     * @see Sensor::$_unit
+     *
+     * @return String
+     */
+    public function getUnit()
+    {
+        return $this->_unit;
+    }
+
+    /**
+     * Sets $_unit.
+     *
+     * @param String $unit sensor unit
+     *
+     * @see Sensor::$_unit
+     *
+     * @return Void
+     */
+    public function setUnit($unit)
+    {
+        $this->_unit = $unit;
     }
 }

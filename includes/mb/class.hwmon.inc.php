@@ -37,6 +37,13 @@ class Hwmon extends Sensors
                     $dev->setName($buf.$name);
                 } else {
                     $labelname = trim(preg_replace("/_input$/", "", pathinfo($sensor[$i], PATHINFO_BASENAME)));
+                    if (($name == " (drivetemp)") && (count($buf = CommonFunctions::gdc($hwpath . "device/block", false)))) {
+                        $labelname = "/dev/" . $buf[0];
+                        if (($buf = CommonFunctions::rolv($hwpath . "device/model"))!==null) {
+                            $labelname .= " (".$buf.")";
+                            $name = "";
+                        }
+                    }
                     if ($labelname !== "") {
                         $dev->setName($labelname.$name);
                     } else {
@@ -239,17 +246,21 @@ class Hwmon extends Sensors
      */
     public function build()
     {
-        $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
-        if (is_array($hwpaths) && (count($hwpaths) > 0)) {
-            $hwpaths = array_merge($hwpaths, glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT));
-        }
-        if (is_array($hwpaths) && (($totalh = count($hwpaths)) > 0)) {
-            for ($h = 0; $h < $totalh; $h++) {
-                $this->_temperature($hwpaths[$h]);
-                $this->_voltage($hwpaths[$h]);
-                $this->_fans($hwpaths[$h]);
-                $this->_power($hwpaths[$h]);
-                $this->_current($hwpaths[$h]);
+        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
+            $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
+            if (is_array($hwpaths) && (count($hwpaths) > 0)) {
+                $hwpaths2 = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
+                if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
+                    $hwpaths = array_merge($hwpaths, $hwpaths2);
+                }
+                $totalh = count($hwpaths);
+                for ($h = 0; $h < $totalh; $h++) {
+                    $this->_temperature($hwpaths[$h]);
+                    $this->_voltage($hwpaths[$h]);
+                    $this->_fans($hwpaths[$h]);
+                    $this->_power($hwpaths[$h]);
+                    $this->_current($hwpaths[$h]);
+                }
             }
         }
     }

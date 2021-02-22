@@ -29,7 +29,7 @@ class Linux extends OS
     /**
      * Assoc array of all CPUs loads.
      */
-    protected $_cpu_loads;
+    private $_cpu_loads = null;
 
     /**
      * Machine
@@ -75,7 +75,7 @@ class Linux extends OS
         }
 
         if ($machine != "") {
-            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified) ?/i", "", $machine)));
+            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified|Default string) ?/i", "", $machine)));
         }
 
         if (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
@@ -138,7 +138,7 @@ class Linux extends OS
             if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
                 $result .= ' '.$strBuf;
             }
-        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) &&  preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) && preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
             $result = $ar_buf[1];
             if (preg_match('/SMP/', $strBuf)) {
                 $result .= ' (SMP)';
@@ -154,9 +154,12 @@ class Linux extends OS
                     $result .= ' [docker]';
                 }
             }
-            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)
-                && preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
-                    $result .= ' [lxss]';
+            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) {
+                if (preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
+                    $result .= ' [wsl]';
+                } elseif (preg_match('/^Linux version [\d\.-]+-microsoft-standard/', $strBuf2)) {
+                    $result .= ' [wsl2]';
+                }
             }
             $this->sys->setKernel($result);
         }
@@ -228,7 +231,7 @@ class Linux extends OS
             $this->_cpu_loads = array();
 
             $cpu_tmp = array();
-            if (CommonFunctions::rfts('/proc/stat', $buf)) {
+            if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {
                 if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $line) {
                         $cpu = $line[1];
@@ -249,7 +252,7 @@ class Linux extends OS
                 // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
                 sleep(1);
 
-                if (CommonFunctions::rfts('/proc/stat', $buf)) {
+                if (CommonFunctions::rfts('/proc/stat', $buf, 0, 4096, PSI_DEBUG)) {
                     if (preg_match_all('/^(cpu[0-9]*) (.*)/m', $buf, $matches, PREG_SET_ORDER)) {
                         foreach ($matches as $line) {
                             $cpu = $line[1];
@@ -279,7 +282,7 @@ class Linux extends OS
         if (isset($this->_cpu_loads[$cpuline])) {
             return $this->_cpu_loads[$cpuline];
         } else {
-            return 0;
+            return null;
         }
     }
 
@@ -612,13 +615,13 @@ class Linux extends OS
                 }
                 if ($booDevice) {
                     $dev = new HWDevice();
-                    $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strLine)));
+                    $dev->setName(preg_replace('/\(rev\s[^\)]+\)\.$/', '', trim($strLine)));
                     $this->sys->setPciDevices($dev);
 /*
                     list($strKey, $strValue) = preg_split('/: /', $strLine, 2);
                     if (!preg_match('/bridge/i', $strKey) && !preg_match('/USB/i ', $strKey)) {
                         $dev = new HWDevice();
-                        $dev->setName(preg_replace('/\([^\)]+\)\.$/', '', trim($strValue)));
+                        $dev->setName(preg_replace('/\(rev\s[^\)]+\)\.$/', '', trim($strValue)));
                         $this->sys->setPciDevices($dev);
                     }
 */
@@ -773,6 +776,10 @@ class Linux extends OS
                         if ($product!==null) {
                             $usbarray[$usbid]['product'] = $product;
                         }
+                        $speed = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/speed');
+                        if ($product!==null) {
+                            $usbarray[$usbid]['speed'] = $speed;
+                        }
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                            && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                             $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
@@ -785,12 +792,16 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) {
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) { //usb-devices
             $devnum = -1;
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
                     $devnum++;
+                    if (preg_match('/\sSpd=([\d\.]+)/', $buf, $bufr)
+                       && isset($bufr[1]) && ($bufr[1]!=="")) {
+                        $usbarray[$devnum]['speed'] = $bufr[1];
+                    }
                 } elseif (preg_match('/^S:/', $buf)) {
                     list($key, $value) = preg_split('/: /', $buf, 2);
                     list($key, $value2) = preg_split('/=/', $value, 2);
@@ -859,10 +870,14 @@ class Linux extends OS
                 $product = '';
             }
 
-            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
-                && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                && isset($usbdev['serial'])) {
-                $dev->setSerial($usbdev['serial']);
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                if (isset($usbdev['speed'])) {
+                    $dev->setSpeed($usbdev['speed']);
+                }
+                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                   && isset($usbdev['serial'])) {
+                    $dev->setSerial($usbdev['serial']);
+                }
             }
 
             if (isset($usbdev['name']) && (($name=$usbdev['name']) !== 'unknown')) {
@@ -1007,9 +1022,8 @@ class Linux extends OS
                                 if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
                                    || preg_match('/\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+link\/ether\s+(\S+)\s+brd/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+link\/ether\s+(\S+)$/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+link\/ieee802.11\s+(\S+)$/i', $buf2, $ar_buf2)) {
+                                   || preg_match('/^\s+link\/\S+\s+(\S+)\s+brd/i', $buf2, $ar_buf2)
+                                   || preg_match('/^\s+link\/\S+\s+(\S+)$/i', $buf2, $ar_buf2)) {
                                     if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                         $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
                                         if ($macaddr === '00-00-00-00-00-00') { // empty
@@ -1038,7 +1052,8 @@ class Linux extends OS
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
                         }
-                        if (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535)) {
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.trim($dev_name).'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
@@ -1085,16 +1100,16 @@ class Linux extends OS
                     }
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                        if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                            $speed = trim($buf);
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
                             } else {
                                 $unit = "M";
                             }
-                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $speedinfo = $speed.$unit.'b/s '.strtolower(trim($buf));
+                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (($duplex=strtolower(trim($buf)))!="") && ($duplex!='unknown')) {
+                                $speedinfo = $speed.$unit.'b/s '.$duplex;
                             } else {
                                 $speedinfo = $speed.$unit.'b/s';
                             }
@@ -1103,7 +1118,8 @@ class Linux extends OS
                 } else {
                     if ($was) {
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                            if (preg_match('/^\s+link\/ether\s+(\S+)\s+brd/i', $line, $ar_buf2)) {
+                            if (preg_match('/^\s+link\/\S+\s+(\S+)\s+brd/i', $line, $ar_buf2)
+                               || preg_match('/^\s+link\/\S+\s+(\S+)$/i', $line, $ar_buf2)) {
                                 if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
                             } elseif (preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2)) {
                                 if ($ar_buf2[1] != $ar_buf2[2]) {
@@ -1157,23 +1173,29 @@ class Linux extends OS
                     $dev->setName($ar_buf[1]);
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                        if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                            $speed = trim($buf);
+                        if ((!CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/operstate', $buf, 1, 4096, false) || (($down=strtolower(trim($buf)))=="") || ($down!=="down")) &&
+                           (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/speed', $buf, 1, 4096, false) && (($speed=trim($buf))!="") && ($buf > 0) && ($buf < 65535))) {
                             if ($speed > 1000) {
                                 $speed = $speed/1000;
                                 $unit = "G";
                             } else {
                                 $unit = "M";
                             }
-                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                                $speedinfo = $speed.$unit.'b/s '.strtolower(trim($buf));
+                            if (CommonFunctions::rfts('/sys/class/net/'.$ar_buf[1].'/duplex', $buf, 1, 4096, false) && (($duplex=strtolower(trim($buf)))!="") && ($duplex!='unknown')) {
+                                $speedinfo = $speed.$unit.'b/s '.$duplex;
                             } else {
                                 $speedinfo = $speed.$unit.'b/s';
                             }
                         }
-                        if (preg_match('/^'.$ar_buf[1].'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $line, $ar_buf2))
-                            if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
-                        elseif (preg_match('/^'.$ar_buf[1].':\s+ip\s+(\S+)\s+mask/i', $line, $ar_buf2))
+                        if (preg_match('/^'.$ar_buf[1].'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $line, $ar_buf2)
+                           || preg_match('/^'.$ar_buf[1].'\s+Link\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $line, $ar_buf2)) {
+                            if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
+                                $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                if ($macaddr === '00-00-00-00-00-00') { // empty
+                                    $macaddr = "";
+                                }
+                            }
+                        } elseif (preg_match('/^'.$ar_buf[1].':\s+ip\s+(\S+)\s+mask/i', $line, $ar_buf2))
                             $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1]);
                     }
                 } else {
@@ -1195,8 +1217,14 @@ class Linux extends OS
 
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             if (preg_match('/\s+encap:Ethernet\s+HWaddr\s(\S+)/i', $line, $ar_buf2)
+                             || preg_match('/\s+encap:UNSPEC\s+HWaddr\s(\S+)-00-00-00-00-00-00-00-00-00-00\s*$/i', $line, $ar_buf2)
                              || preg_match('/^\s+ether\s+(\S+)\s+txqueuelen/i', $line, $ar_buf2)) {
-                                if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
+                                    $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                    if ($macaddr === '00-00-00-00-00-00') { // empty
+                                        $macaddr = "";
+                                    }
+                                }
                             } elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $line, $ar_buf2)
                                   || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $line, $ar_buf2)) {
                                 if ($ar_buf2[1] != $ar_buf2[2]) {

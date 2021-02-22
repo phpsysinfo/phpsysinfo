@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
+/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang */
 
 "use strict";
 
@@ -28,8 +28,13 @@ var UpdateNotifier_show = false, UpdateNotifier_table;
  * @param {jQuery} xml plugin-XML
  */
 function updatenotifier_populate(xml) {
-    var html = "";
+    var html = "", hostname = "";
  
+    hostname = $("Plugins Plugin_UpdateNotifier", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_UpdateNotifier]').html(hostname);
+    }
+
     $("Plugins Plugin_UpdateNotifier UpdateNotifier", xml).each(function(idp) {
         var packages = "", security = "";
         packages = $("packages", this).text();
@@ -103,7 +108,7 @@ function updatenotifier_request() {
 
 $(document).ready(function() {
     $("#footer").before(buildBlock("UpdateNotifier", 1, true));
-    $("#Plugin_UpdateNotifier").css("width", "451px");
+    $("#Plugin_UpdateNotifier").addClass("halfsize");
 
     updatenotifier_buildTable();
     updatenotifier_request();

@@ -12,6 +12,7 @@
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <noscript><meta http-equiv="refresh" content="2; URL=index.php?disp=static"/></noscript>
     <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
+    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-webapp.css">
     <!--[if IE 9]>
         <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
         <script type="text/JavaScript" src="./js.php?name=bootstrap-ie9"></script>
@@ -40,15 +41,15 @@
 <input type="hidden" id="showNetworkActiveSpeed" value="<?php echo $showNetworkActiveSpeed;?>"/>
 <input type="hidden" id="showCPULoadCompact" value="<?php echo $showCPULoadCompact;?>"/>
 <input type="hidden" id="hideBootstrapLoader" value="<?php echo $hideBootstrapLoader;?>"/>
+<input type="hidden" id="hideTotals" value="<?php echo $hideTotals;?>"/>
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
 <div class="navbar fixed-top">
     <div class="container" style="display:block;">
         <div style="display:table-cell">
             <div class="navbar-brand">
-                <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/> phpSysInfo<sup><small> <a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a>
-                </small></sup><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;visibility:hidden;">
-                    <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility:hidden;"/>
+                <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/>&thinsp;phpSys<a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref">Info</a><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;background:url('gfx/attention.gif') no-repeat center;width:49px;height:32px;visibility:hidden;">
+                    <img id="loader" alt="" src="gfx/ajax-loader.gif" style="margin:0 3px 0 3px;visibility:hidden;"/>
                 </div>
             </div>
         </div>
@@ -242,7 +243,7 @@ endforeach;
                                 <td class="rightCell"><span data-bind="Total"></span></td>
                             </tr>
                         </tbody>
-                        <tfoot id="filesystem-foot">
+                        <tfoot id="filesystem-foot" style="display:none;">
                             <tr>
                                 <td></td>
                                 <td></td>

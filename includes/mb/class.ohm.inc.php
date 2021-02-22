@@ -27,19 +27,14 @@ class OHM extends Sensors
     public function __construct()
     {
         parent::__construct();
-        $_wmi = null;
-        try {
-            // initialize the wmi object
-            $objLocator = new COM('WbemScripting.SWbemLocator');
-            $_wmi = $objLocator->ConnectServer('', 'root\OpenHardwareMonitor');
-        } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for OpenHardwareMonitor data.");
-        }
-        if ($_wmi) {
-            $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
-            if ($tmpbuf) foreach ($tmpbuf as $buffer) {
-                if (!isset($this->_buf[$buffer['SensorType']]) || !isset($this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']])) { // avoid duplicates
-                    $this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']] = $buffer['Value'];
+        if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+            $_wmi = CommonFunctions::initWMI('root\OpenHardwareMonitor', true);
+            if ($_wmi) {
+                $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
+                if ($tmpbuf) foreach ($tmpbuf as $buffer) {
+                    if (!isset($this->_buf[$buffer['SensorType']]) || !isset($this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']])) { // avoid duplicates
+                        $this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']] = $buffer['Value'];
+                    }
                 }
             }
         }

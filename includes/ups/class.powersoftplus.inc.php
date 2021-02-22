@@ -38,9 +38,11 @@ class PowerSoftPlus extends UPS
     public function __construct()
     {
         parent::__construct();
-        CommonFunctions::executeProgram('powersoftplus', '-p', $temp);
-        if (! empty($temp)) {
-            $this->_output[] = $temp;
+        if (PSI_OS == 'Linux') {
+            CommonFunctions::executeProgram('powersoftplus', '-p', $temp);
+            if (! empty($temp)) {
+                $this->_output[] = $temp;
+            }
         }
     }
 

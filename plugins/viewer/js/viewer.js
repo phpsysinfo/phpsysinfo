@@ -18,87 +18,98 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//$Id: iptables.js 661 2016-05-03 11:26:39 erpomata $
+//$Id: viewer.js 661 2016-05-03 11:26:39 erpomata $
 
 
-/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
+/*global $, jQuery, buildBlock, datetime, plugin_translate */
 
 "use strict";
 
-var iptables_show = false;
+var viewer_show = false;
 
 /**
  * insert content into table
  * @param {jQuery} xml plugin-XML
  */
 
-function iptables_populate(xml) {
-
-    var html = "";
+function viewer_populate(xml) {
+    var html = "", name = "", hostname = "";
  
-    $("Plugins Plugin_iptables iptables Item", xml).each(function iptables_getitem(idp) {
+    hostname = $("Plugins Plugin_Viewer", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Viewer]').html(hostname);
+    }
+
+    name = $("Plugins Plugin_Viewer Viewer", xml).attr("Name");
+    $("#Plugin_viewerTable-th").empty();
+    if (name !== undefined) $("#Plugin_viewerTable-th").append(name);
+
+    $("Plugins Plugin_Viewer Viewer Item", xml).each(function viewer_getitem(idp) {
         html += "      <tr>\n";
-        html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Rule") + "</td>\n";
+        if ($(this).attr("Line") === "")
+            html += "        <td style=\"font-weight:normal\">&nbsp;</td>\n";
+        else
+            html += "        <td style=\"font-weight:normal\">" +  $(this).attr("Line") + "</td>\n";
         html += "      </tr>\n";
-        iptables_show = true;
+        viewer_show = true;
     });
 
-    $("#Plugin_iptablesTable-tbody").empty().append(html);
-    $('#Plugin_iptablesTable tr:nth-child(even)').addClass('even');
+    $("#Plugin_viewerTable-tbody").empty().append(html);
+    $('#Plugin_viewerTable tr:nth-child(even)').addClass('even');
 
 }
 
-function iptables_buildTable() {
+function viewer_buildTable() {
     var html = "";
 
     html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_iptablesTable\" class=\"stripeMe\" style=\"border-collapse:collapse;\">\n";
+    html += "  <table id=\"Plugin_viewerTable\" class=\"stripeMe\" style=\"border-collapse:collapse;\">\n";
     html += "    <thead>\n";
     html += "      <tr>\n";
-    html += "        <th>" + genlang(101, "iptables") + "</th>\n";
+    html += "        <th id=\"Plugin_viewerTable-th\"></th>\n";
     html += "      </tr>\n";
     html += "    </thead>\n";
-    html += "    <tbody id=\"Plugin_iptablesTable-tbody\">\n";
+    html += "    <tbody id=\"Plugin_viewerTable-tbody\">\n";
     html += "    </tbody>\n";
     html += "  </table>\n";
     html += "</div>\n";
 
-    $("#Plugin_iptables").append(html);
+    $("#Plugin_viewer").append(html);
 }
 
 /**
  * load the xml via ajax
  */
 
-function iptables_request() {
-    $("#Reload_iptablesTable").attr("title", "reload");
+function viewer_request() {
+    $("#Reload_viewerTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=iptables",
+        url: "xml.php?plugin=viewer",
         dataType: "xml",
-        error: function iptables_error() {
-            $.jGrowl("Error loading XML document for Plugin iptables!");
+        error: function viewer_error() {
+            $.jGrowl("Error loading XML document for Plugin Viewer!");
         },
-        success: function iptables_buildblock(xml) {
+        success: function viewer_buildblock(xml) {
             populateErrors(xml);
-            iptables_populate(xml);
-            if (iptables_show) {
-                plugin_translate("iptables");
-                $("#Plugin_iptables").show();
+            viewer_populate(xml);
+            if (viewer_show) {
+                plugin_translate("viewer");
+                $("#Plugin_viewer").show();
             }
         }
     });
 }
 
-$(document).ready(function iptables_buildpage() {
-    $("#footer").before(buildBlock("iptables", 1, true));
-    $("#Plugin_iptables").css("width", "915px");
+$(document).ready(function viewer_buildpage() {
+    $("#footer").before(buildBlock("viewer", 1, true));
+    $("#Plugin_viewer").addClass("fullsize");
 
-    iptables_buildTable();
+    viewer_buildTable();
 
-    iptables_request();
+    viewer_request();
 
-    $("#Reload_iptablesTable").click(function iptables_reload(id) {
-        iptables_request();
+    $("#Reload_viewerTable").click(function viewer_reload(id) {
+        viewer_request();
         $(this).attr("title", datetime());
     });
 });

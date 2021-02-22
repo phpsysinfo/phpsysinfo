@@ -59,10 +59,35 @@ SUDO_COMMANDS=false
 ;
 BLOCKS=true
 
+; Maximum time in seconds a script is allowed to run before it is terminated by the parser
+;
+;MAX_TIMEOUT=30
+
+; executeProgram() timeout value in seconds
+;
+;EXEC_TIMEOUT=30
+
+; snmprealwalk() and executeProgram("snmpwalk") number of seconds until the first timeout
+;
+;SNMP_TIMEOUT=3
+
+; snmprealwalk() and executeProgram("snmpwalk") number of times to retry if timeouts occur
+;
+;SNMP_RETRY=0
+
+; External WinNT server connection parameters
+; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
+; These settings can also be entered for a specific plug-in so that only it connects to an external server
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+;
+;WMI_HOSTNAME="hostname"
+;WMI_USER="username"
+;WMI_PASSWORD="password"
+
 
 ; Plugins that should be included in xml and output
 ; List of plugins should look like "plugin,plugin,plugin". See /plugins directory
-; - PLUGINS="MDStatus,PS"  //list of plugins
+; - PLUGINS="Raid,PS"  //list of plugins
 ; - PLUGINS=false  //no plugins
 ; included plugins:
 ; - Raid           - show the software, fake, zpool or megaraid RAID status
@@ -74,11 +99,11 @@ BLOCKS=true
 ; - UpdateNotifier - show update notifications (only for Ubuntu server)
 ; - SNMPPInfo      - show printers info via SNMP
 ; - Uprecords      - show uprecords info
-; - Iptables       - show iptables rules list
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
 ; - Docker         - show docker stats
+; - Viewer         - show output of any command or file viewer.txt contents
 ;
 PLUGINS=false
 
@@ -140,6 +165,14 @@ SHOW_MEMORY_INFOS_EXPANDED=false
 ; Hide loader for frontend "bootstrap"
 ;
 HIDE_BOOTSTRAP_LOADER=false
+
+
+; Increase the body width for the "dynamic" frontend by pixels. The value should be even
+; - 0 : disabled
+; - 200 : wider by 200px
+; Default is 0 pixels
+;
+INCREASE_WIDTH=0
 
 
 ; Define the interval for refreshing data in ms
@@ -230,6 +263,7 @@ DATETIME_FORMAT="UTC"
 ; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
+; - IPMIcfg        http://www.supermicro.com/en/solutions/management-software/ipmi-utilities (Linux/WinNT)
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
@@ -238,6 +272,7 @@ DATETIME_FORMAT="UTC"
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
+; - NvidiaSMI      Nvidia GPU drivers (FreeBSD/Linux/SunOS/WinNT)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
@@ -308,15 +343,21 @@ FS_USAGE_THRESHOLD=90
 
 
 ; Ignore usage and usage threshold for filesystem types
-; Example : IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, lxfs, udf, UDF, CDFS"
+; Example : IGNORE_THRESHOLD_FS_TYPES="packagefs, iso9660, squashfs, devfs, devtmpfs, tmpfs, lxfs, udf, UDF, CDFS"
 ;
-IGNORE_THRESHOLD_FS_TYPES="iso9660, squashfs, devfs, devtmpfs, lxfs, udf, UDF, CDFS"
+IGNORE_THRESHOLD_FS_TYPES="packagefs, iso9660, squashfs, devfs, devtmpfs, tmpfs, lxfs, udf, UDF, CDFS"
 
 
 ; Ignore usage of mounts
 ; Example : IGNORE_USAGE="/root,/mnt/c"
 ;
 IGNORE_USAGE=""
+
+
+; Ignore total size of mounts
+; Example : IGNORE_TOTAL="/System/Volumes/VM,/System/Volumes/Prebot"
+;
+IGNORE_TOTAL=""
 
 
 ; Ignore free space size of mounts
@@ -336,6 +377,11 @@ HIDE_FS_TYPES=""
 ;           HIDE_DISKS=true  //hide all partitions
 ;
 HIDE_DISKS=""
+
+
+; Hide totals information
+;
+HIDE_TOTALS=false
 
 
 ; ********************************
@@ -435,6 +481,20 @@ UPS_SNMPUPS_ACCESS="php-snmp"
 
 
 ; ********************************
+;       MISC PARAMETERS
+; ********************************
+
+
+; define how to access the dmidecode data
+; - "data" read data from file data/dmidecode.txt
+; - "command" execute command: dmidecode -t 17
+;   If access error try execute first: chmod 4755 /usr/sbin/dmidecode
+;   This method is not recommended for safety reasons!
+;
+DMIDECODE_ACCESS="command"
+
+
+; ********************************
 ;    SENSORS PROGRAMS PARAMETERS
 ; ********************************
 
@@ -500,11 +560,34 @@ ACCESS="command"
 ;
 ACCESS="command"
 
+[sensor_ipmicfg]
+; IPMIcfg motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' command
+; - ACCESS="data"  //read data from file data/ipmicfg.txt (output from: ipmicfg -sdr>ipmicfg.txt; ipmicfg -psfruinfo>>ipmicfg.txt)
+;
+ACCESS="command"
+
+; Execute power supply FRU health info
+; - true   : execute 'ipmicfg --psfruinfo'
+; - false  : don't execute 'ipmicfg --psfruinfo'
+; - "only" : execute 'ipmicfg --psfruinfo' and don't execute 'ipmicfg -sdr'
+;
+PSFRUINFO=true
+
 [sensor_k8temp]
 ; K8Temp motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'k8temp' command
 ; - ACCESS="data"  //read data from file data/k8temp.txt
+;
+ACCESS="command"
+
+[sensor_thermalzone]
+; ThermalZone motherboard monitoring program configuration
+;
+; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WINNT information is retrieved everytime through WMI
+; - ACCESS="data"  //read data from file data/thermalzone.txt (output of WinNT command "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName")
 ;
 ACCESS="command"
 
@@ -515,6 +598,18 @@ ACCESS="command"
 ; - ACCESS="data"  //read data from file data/speedfan.txt
 ;
 ACCESS="command"
+
+[sensor_nvidiasmi]
+; NvidiaSMI motherboard monitoring program configuration
+;
+; - ACCESS="command"  //read data from 'nvidia-smi -q' command
+; - ACCESS="data"  //read data from file data/nvidiasmi.txt
+;
+ACCESS="command"
+
+;The path to nvidia-smi.exe for the WinNT system
+;
+EXE_PATH="c:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe"
 
 
 ; ********************************
@@ -552,29 +647,33 @@ SHOW_SERIAL=false
 ; Raid Plugin configuration
 
 ; define how to access the raid statistic data
-; - "command" - mdstat:     file "/proc/mdstat" is read (on Linux only)
-;             - dmraid:     command "dmraid -s -vv 2>&1" is run (on Linux only)
-;                           If access error try execute first: chmod 4755 /sbin/dmraid
-;                           This method is not recommended for safety reasons!
-;             - megactl:    command "megactl" (on Linux only)
-;                           downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
-;                           If permission error try execute first: chmod 4755 /usr/sbin/megactl
-;             - megasasctl: command "megasasctl" (on Linux only)
-;                           downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
-;                           If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
-;             - graid:      command "graid list" is run (on FreeBSD only)
-;             - zpool:      command "zpool status" is run
-;             - idrac:      command "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {device} .1.3.6.1.4.1.674.10892.5.5.1.20" is run
-; - "php-snmp"- idrac:      execute php snmprealwalk function (php-snmp module must be installed)
+; - "command" - mdstat:            file "/proc/mdstat" is read (on Linux only)
+;             - dmraid:            command "dmraid -s -vv 2>&1" is run (on Linux only)
+;                                  If access error try execute first: chmod 4755 /sbin/dmraid
+;                                  This method is not recommended for safety reasons!
+;             - megactl:           command "megactl" (on Linux only)
+;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;                                  If permission error try execute first: chmod 4755 /usr/sbin/megactl
+;             - megasasctl:        command "megasasctl" (on Linux only)
+;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
+;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WINNT)
+;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid (Python 2) or https://github.com/ElCoyote27/hwraid (Python 3)
+;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WINNT)
+;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid
+;             - graid:             command "graid list" is run (on FreeBSD only)
+;             - zpool:             command "zpool status" is run
+;             - idrac:             command "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {device} .1.3.6.1.4.1.674.10892.5.5.1.20" is run
+; - "php-snmp"- idrac:             execute php snmprealwalk function (php-snmp module must be installed)
 ;             - for others the option is inactive (uses "command" instead)
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt"
-;         or "raidmegasasctl.txt" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
+;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt" or "raidmegasasctl.txt" 
+;         or "raidmegaclisas-status.txt" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
 ;
 ACCESS="command"
 
 ; define possible programs
-PROGRAM="mdstat,dmraid,megactl,megasasctl,graid,zpool,idrac"
+PROGRAM="mdstat,dmraid,megactl,megasasctl,megaclisas-status,3ware-status,graid,zpool,idrac"
 
 ; Hide RAID devices
 ; Example : HIDE_DEVICES="md127"
@@ -594,7 +693,7 @@ IDRAC_DEVICES=""
 ; - "command" ps command is run everytime the block gets refreshed or build / on WINNT
 ;             information is retrieved everytime through WMI
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,args")
+;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,pcpu,args")
 ;
 ACCESS="command"
 
@@ -619,8 +718,8 @@ SHOW_PID1CHILD_EXPANDED=false
 ; PSStatus Plugin configuration
 
 ; define how to access the psstatus statistic data
-; - "command" pidof command is run everytime the block gets refreshed or build / on WINNT
-;             information is retrieved everytime through WMI
+; - "command" pidof command is run everytime the block gets refreshed or build 
+;             / on WINNT information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "psstatus.txt"; content is the output from
 ;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s -x "$ps"`; done</code>
@@ -663,7 +762,8 @@ ACCESS="command"
 ;            try to set: SUDO_COMMANDS="smartctl" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /usr/sbin/smartctl
 ; - "data" (a file must be available in the data directory of the
 ;          phpsysinfo installation with the filename "smart{disk_number}.txt";
-;          content is the output from "smartctl --all device")
+;          content is the output from "smartctl --all device"
+;          or on WinNT only from "wmic /namespace:\\root\wmi path MSStorageDriver_ATAPISmartData get VendorSpecific | more +{disk_number}")
 ; - "wmi" information is retrieved everytime through WMI (WinNT only)
 ;
 ACCESS="command"
@@ -683,8 +783,11 @@ DEVICES="/dev/sda, /dev/sdb"
 ; or for no SCSI devices: ID#-COLUMN_NAME-REPLACEMENT_ID# where REPLACEMENT_ID# is an alternative ID number.
 ; COLUMN_NAME of this ID# will be displayed in the phpsysinfo S.M.A.R.T table. If you want RAW_VALUE to be displayed for the temperature (ID# 194) enter 194-RAW_VALUE
 ; - IDS="194-VALUE,4-VALUE,009-RAW_VALUE"  //ID#-COLUMN_NAME, ID#-COLUMN_NAME, etc...
+; The additional attributes:
+; ATA Error Count is marked as 0-RAW_VALUE
+; Non-medium Error Count is marked as 255-RAW_VALUE
 ;
-IDS="005-RAW_VALUE,194-RAW_VALUE,4-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW_VALUE-225,001-RAW_VALUE,007-RAW_VALUE,200-RAW_VALUE,197-RAW_VALUE,198-RAW_VALUE"
+IDS="005-RAW_VALUE,194-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW_VALUE-225,001-RAW_VALUE,007-RAW_VALUE,200-RAW_VALUE,197-RAW_VALUE,198-RAW_VALUE,0-RAW_VALUE"
 
 
 [snmppinfo]
@@ -760,16 +863,27 @@ SHORT_MODE = false
 DENOTE_BY_ASTERISK = false
 
 
-[iptables]
-; Iptables Plugin configuration
+[viewer]
+; Viewer Plugin configuration
 
-; define how to access the iptables rules data
-; - "command" iptables-save command is run everytime the block gets refreshed or build
-;             if access error try to set: SUDO_COMMANDS="iptables-save" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /sbin/iptables-save
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "iptables.txt"; content is the output from "iptables-save")
+; define how to access the data
+; - "command" COMMAND command is run everytime the block gets refreshed or build
+; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "viewer.txt")
 ;
 ACCESS="command"
 
+; define COMMAND name (for command access)
+; eg:
+; - "iptables-save" iptables-save command is run everytime the block gets refreshed or build (Linux)
+;                   if access error try to set: SUDO_COMMANDS="iptables-save" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /sbin/iptables-save
+; - "systeminfo"    systeminfo command is run everytime the block gets refreshed or build (WinNT)
+;
+
+COMMAND=""
+
+; define COMMAND parameters (for command access)
+;
+PARAMS=""
 
 [pingtest]
 ; PingTest Plugin configuration

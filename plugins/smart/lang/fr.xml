@@ -13,6 +13,9 @@
   <expression id="plugin_smart_002" name="smart_name">
     <exp>Nom</exp>
   </expression>
+  <expression id="plugin_smart_100" name="smart_ata_error_count">
+    <exp>ATA Error Count</exp>
+  </expression>
   <expression id="plugin_smart_101" name="smart_raw_read_error_rate">
     <exp>Raw Read Error Rate</exp>
   </expression>
@@ -45,6 +48,9 @@
   </expression>
   <expression id="plugin_smart_112" name="smart_power_cycle_count">
     <exp>Power Cycle Count</exp>
+  </expression>
+  <expression id="plugin_smart_287" name="smart_reported_uncorrectable_errors">
+    <exp>Reported Uncorr. Errors</exp>
   </expression>
   <expression id="plugin_smart_290" name="smart_airflow_temperature_cel">
     <exp>Airflow Temperature</exp>
@@ -90,5 +96,8 @@
   </expression>
   <expression id="plugin_smart_325" name="smart_load_cycle_count_alt">
     <exp>Load Cycle Count</exp>
+  </expression>
+  <expression id="plugin_smart_355" name="smart_non-medium_error_count">
+    <exp>Non-medium error count</exp>
   </expression>
 </tns:translationPlugin>

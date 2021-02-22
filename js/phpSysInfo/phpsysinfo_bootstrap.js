@@ -21,7 +21,7 @@ function createCookie(name, value, days) {
     } else {
         expires = "";
     }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    document.cookie = name + "=" + value + expires + "; path=/; samesite=strict";
 }
 
 /**
@@ -288,6 +288,13 @@ function plugin_request(pluginname) {
          pluginname: pluginname,
          success: function (data) {
             try {
+                for (var propertyName in data.Plugins) {
+                    if ((data.Plugins[propertyName]["@attributes"] !== undefined) && 
+                       ((hostname = data.Plugins[propertyName]["@attributes"]["Hostname"]) !== undefined)) {
+                        $('span[class=hostname_' + pluginname + ']').html(hostname);
+                    }
+                    break;
+                }
                 // dynamic call
                 window['renderPlugin_' + this.pluginname](data);
                 changeLanguage(this.pluginname);
@@ -313,9 +320,13 @@ $(document).ready(function () {
         });
     }
 
-    if (((ua=useragent.match(/Safari\/(\d+)\.[\d\.]+$/)) !== null) && (ua[1]<=534)) {
-        $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
-    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
+    if ((ua=useragent.match(/Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
+        if (ua[1]<=5) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+        } else if (ua[1]<=8) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
+        }
+    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/))  !== null) {
         if (ua[1]<=15) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
         } else if (ua[1]<=20) {
@@ -324,6 +335,18 @@ $(document).ready(function () {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
         } else if (ua[1]==28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+        }
+    } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/))  !== null) {
+        if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
+        } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
+        }
+    } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/))  !== null) {
+        if (ua[1]<=25) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome25.css');
+        } else if (ua[1]<=28) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
         }
     }
 
@@ -452,7 +475,7 @@ function full_addr(ip_string) {
         ip_string = ipv4[1];
         ipv4 = ipv4[2].match(/[0-9]+/g);
         for (var i = 0;i < 4;i ++) {
-            var byte = parseInt(ipv4[i],10);
+            var byte = parseInt(ipv4[i], 10);
             if (byte<256) {
                 ipv4[i] = ("0" + byte.toString(16)).substr(-2);
             } else {
@@ -553,12 +576,12 @@ function renderVitals(data) {
                 var timestamp = 0;
                 var datetimeFormat;
                 if ((data.Generation !== undefined) && (data.Generation["@attributes"] !== undefined) && (data.Generation["@attributes"].timestamp !== undefined) ) {
-                    timestamp = parseInt(data.Generation["@attributes"].timestamp)*1000; //server time
+                    timestamp = parseInt(data.Generation["@attributes"].timestamp, 10) * 1000; //server time
                     if (isNaN(timestamp)) timestamp = Number(new Date()); //client time
                 } else {
                     timestamp = Number(new Date()); //client time
                 }
-                lastboot = new Date(timestamp - (parseInt(this.Uptime)*1000));
+                lastboot = new Date(timestamp - (parseInt(this.Uptime, 10) * 1000));
                 if (((datetimeFormat = data.Options["@attributes"].datetimeFormat) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
                     return lastboot.toLocaleString();
                 } else {
@@ -596,24 +619,24 @@ function renderVitals(data) {
             html: function () {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
-                processes = parseInt(this.Processes);
+                processes = parseInt(this.Processes, 10);
                 if (this.ProcessesRunning !== undefined) {
-                    p111 = parseInt(this.ProcessesRunning);
+                    p111 = parseInt(this.ProcessesRunning, 10);
                 }
                 if (this.ProcessesSleeping !== undefined) {
-                    p112 = parseInt(this.ProcessesSleeping);
+                    p112 = parseInt(this.ProcessesSleeping, 10);
                 }
                 if (this.ProcessesStopped !== undefined) {
-                    p113 = parseInt(this.ProcessesStopped);
+                    p113 = parseInt(this.ProcessesStopped, 10);
                 }
                 if (this.ProcessesZombie !== undefined) {
-                    p114 = parseInt(this.ProcessesZombie);
+                    p114 = parseInt(this.ProcessesZombie, 10);
                 }
                 if (this.ProcessesWaiting !== undefined) {
-                    p115 = parseInt(this.ProcessesWaiting);
+                    p115 = parseInt(this.ProcessesWaiting, 10);
                 }
                 if (this.ProcessesOther !== undefined) {
-                    p116 = parseInt(this.ProcessesOther);
+                    p116 = parseInt(this.ProcessesOther, 10);
                 }
                 if (p111 || p112 || p113 || p114 || p115 || p116) {
                     processes += " (";
@@ -697,7 +720,7 @@ function renderHardware(data) {
         },
         Bogomips: {
             text: function () {
-                return parseInt(this.Bogomips);
+                return parseInt(this.Bogomips, 10);
             }
         },
         Load: {
@@ -717,8 +740,8 @@ function renderHardware(data) {
         },
         hwCount: {
             text: function() {
-                if ((this.Count !== undefined) && !isNaN(this.Count) && (parseInt(this.Count)>1)) {
-                    return parseInt(this.Count);
+                if ((this.Count !== undefined) && !isNaN(this.Count) && (parseInt(this.Count, 10)>1)) {
+                    return parseInt(this.Count, 10);
                 } else {
                     return "";
                 }
@@ -726,7 +749,30 @@ function renderHardware(data) {
         }
     };
 
+    var mem_directives = {
+        Speed: {
+            html: function() {
+                return formatMTps(this.Speed);
+            }
+        },
+        Voltage: {
+            html: function() {
+                return round(this.Voltage, 2) + ' V';
+            }
+        },
+        Capacity: {
+            html: function () {
+                return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
+            }
+        }
+    };
+
     var dev_directives = {
+        Speed: {
+            html: function() {
+                return formatBPS(1000000*this.Speed);
+            }
+        },
         Capacity: {
             html: function () {
                 return formatBytes(this.Capacity, data.Options["@attributes"].byteFormat);
@@ -779,15 +825,23 @@ function renderHardware(data) {
         $("#hardware-CPU").hide();
     }
 
-    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Serial:124};
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
+    var devparamlist = {Capacity:43,Manufacturer:122,Product:123,Speed:129,Voltage:52,Serial:124};
+    for (hw_type in {MEM:0,PCI:1,IDE:2,SCSI:3,NVMe:4,USB:5,TB:6,I2C:7}) {
         try {
-            datas = items(data.Hardware[hw_type].Device);
+            if (hw_type == 'MEM') {
+                datas = items(data.Hardware[hw_type].Chip);
+            } else {
+                datas = items(data.Hardware[hw_type].Device);
+            }
             for (i = 0; i < datas.length; i++) {
                 if (i === 0) {
                     html+="<tr id=\"hardware-" + hw_type + "\" class=\"treegrid-" + hw_type + "\">";
                     html+="<th>" + hw_type + "</th>";
-                    html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
+                    if (hw_type == 'MEM') {
+                        html+="<td><span class=\"treegrid-span\">" + genlang('128') + ":</span></td>"; //Number of memories
+                    } else {
+                        html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
+                    }                    
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -837,20 +891,32 @@ function renderHardware(data) {
     }
 
     var licz;
-    for (hw_type in {PCI:0,IDE:1,SCSI:2,NVMe:3,USB:4,TB:5,I2C:6}) {
+    for (hw_type in {MEM:0,PCI:1,IDE:2,SCSI:3,NVMe:4,USB:5,TB:6,I2C:7}) {
         try {
             licz = 0;
-            datas = items(data.Hardware[hw_type].Device);
+            if (hw_type == 'MEM') {
+                datas = items(data.Hardware[hw_type].Chip);
+            } else {
+                datas = items(data.Hardware[hw_type].Device);
+            }
             for (i = 0; i < datas.length; i++) {
                 $('#hardware-'+hw_type+'-'+ i).render(datas[i]["@attributes"], hw_directives);
-                if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count)>1)) {
-                    licz += parseInt(datas[i]["@attributes"].Count);
+                if ((datas[i]["@attributes"].Count !== undefined) && !isNaN(datas[i]["@attributes"].Count) && (parseInt(datas[i]["@attributes"].Count, 10)>1)) {
+                    licz += parseInt(datas[i]["@attributes"].Count, 10);
                 } else {
                     licz++;
                 }
-                for (proc_param in devparamlist) {
-                    if ((datas[i]["@attributes"][proc_param] !== undefined)) {
-                        $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
+                if (hw_type == 'MEM') {
+                    for (proc_param in devparamlist) {
+                        if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                            $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], mem_directives);
+                        }
+                    }
+                } else {
+                    for (proc_param in devparamlist) {
+                        if ((datas[i]["@attributes"][proc_param] !== undefined)) {
+                            $('#hardware-'+hw_type+'-'+ i +'-'+proc_param).render(datas[i]["@attributes"], dev_directives);
+                        }
                     }
                 }
             }
@@ -916,19 +982,19 @@ function renderMemory(data) {
                         '<div class="progress-bar progress-bar-info" style="width:' + this["@attributes"].Percent + '%;"></div>' +
                         '</div><div class="percent">' + this["@attributes"].Percent + '%</div>';
                 } else {
-                    var rest = parseInt(this["@attributes"].Percent);
+                    var rest = parseInt(this["@attributes"].Percent, 10);
                     var html = '<div class="progress">';
                     if ((this.Details["@attributes"].AppPercent !== undefined) && (this.Details["@attributes"].AppPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-info" style="width:' + this.Details["@attributes"].AppPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].AppPercent);
+                        rest -= parseInt(this.Details["@attributes"].AppPercent, 10);
                     }
                     if ((this.Details["@attributes"].CachedPercent !== undefined) && (this.Details["@attributes"].CachedPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-warning" style="width:' + this.Details["@attributes"].CachedPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].CachedPercent);
+                        rest -= parseInt(this.Details["@attributes"].CachedPercent, 10);
                     }
                     if ((this.Details["@attributes"].BuffersPercent !== undefined) && (this.Details["@attributes"].BuffersPercent > 0)) {
                         html += '<div class="progress-bar progress-bar-danger" style="width:' + this.Details["@attributes"].BuffersPercent + '%;"></div>';
-                        rest -= parseInt(this.Details["@attributes"].BuffersPercent);
+                        rest -= parseInt(this.Details["@attributes"].BuffersPercent, 10);
                     }
                     if (rest > 0) {
                         html += '<div class="progress-bar progress-bar-success" style="width:' + rest + '%;"></div>';
@@ -1013,29 +1079,17 @@ function renderFilesystem(data) {
     var directives = {
         Total: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
-                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Total, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Total, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore > 0) && showtotals);
             }
         },
         Free: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore > 0)) {
-                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Free, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Free, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore > 0) && showtotals);
             }
         },
         Used: {
             html: function () {
-                if ((this.Ignore !== undefined) && (this.Ignore >= 2)) {
-                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat, true);
-                } else {
-                    return formatBytes(this.Used, data.Options["@attributes"].byteFormat);
-                }
+                return formatBytes(this.Used, data.Options["@attributes"].byteFormat, (this.Ignore !== undefined) && (this.Ignore >= 3) && showtotals);
             }
         },
         MountPoint: {
@@ -1050,11 +1104,23 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                return '<div class="progress">' + '<div class="' +
-                    ( ( ((this.Ignore == undefined) || (this.Ignore < 3)) && ((data.Options["@attributes"].threshold !== undefined) &&
-                        (parseInt(this.Percent) >= parseInt(data.Options["@attributes"].threshold))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
-                    '" style="width:' + this.Percent + '% ;"></div>' +
-                    '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                var used1 = (this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0;
+                var used2 = Math.ceil(this.Percent);
+                var used21= used2 - used1;
+                if (used21 > 0) {
+                    return '<div class="progress">' + '<div class="' +
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                            (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
+                        '" style="width:' + used1 + '% ;"></div>' +
+                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>'
+                        +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                } else {
+                    return '<div class="progress">' + '<div class="' +
+                        ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
+                            (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
+                        '" style="width:' + used2 + '% ;"></div>' +
+                        '</div>' + '<div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                }
             }
         }
     };
@@ -1063,23 +1129,31 @@ function renderFilesystem(data) {
         var fs_data = [];
         var datas = items(data.FileSystem.Mount);
         var total = {Total:0,Free:0,Used:0};
+        var showtotals = $("#hideTotals").val().toString()!=="true";
         for (var i = 0; i < datas.length; i++) {
             fs_data.push(datas[i]["@attributes"]);
-            if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
-                if (datas[i]["@attributes"].Ignore == 1) {
-                    total.Total += parseInt(datas[i]["@attributes"].Used);
-                    total.Used += parseInt(datas[i]["@attributes"].Used);
+            if (showtotals) {
+                if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
+                    if (datas[i]["@attributes"].Ignore == 2) {
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
+                    } else if (datas[i]["@attributes"].Ignore == 1) {
+                        total.Total += parseInt(datas[i]["@attributes"].Used, 10);
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);
+                    }
+                } else {
+                    total.Total += parseInt(datas[i]["@attributes"].Total, 10);
+                    total.Free += parseInt(datas[i]["@attributes"].Free, 10);
+                    total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                 }
-            } else {
-                total.Total += parseInt(datas[i]["@attributes"].Total);
-                total.Free += parseInt(datas[i]["@attributes"].Free);
-                total.Used += parseInt(datas[i]["@attributes"].Used);
+                total.Percent = (total.Total != 0) ? round(100 - (total.Free / total.Total) * 100, 2) : 0;
             }
-            total.Percent = (total.Total !== 0) ? round((total.Used / total.Total) * 100, 2) : 0;
         }
         if (i > 0) {
             $('#filesystem-data').render(fs_data, directives);
-            $('#filesystem-foot').render(total, directives);
+            if (showtotals) {
+                $('#filesystem-foot').render(total, directives);
+                $('#filesystem-foot').show();
+            }
             $('#filesystem_MountPoint').removeClass("sorttable_sorted"); //reset sort order
 //            sorttable.innerSortFunction.apply(document.getElementById('filesystem_MountPoint'), []);
             sorttable.innerSortFunction.apply($('#filesystem_MountPoint')[0], []);
@@ -1292,13 +1366,24 @@ function renderFans(data) {
     var directives = {
         Value: {
             html: function () {
-                return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                if (this.Unit === "%") {
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                } else {
+                    return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                }
             }
         },
         Min: {
             html: function () {
-                if (this.Min !== undefined)
-                    return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
+                if (this.Min !== undefined) {
+                    if (this.Unit === "%") {
+                        return round(this.Min,0) + "%";
+                    } else {
+                        return round(this.Min,0) + String.fromCharCode(160) + genlang(63); //RPM
+                    }
+                }
             }
         },
         Label: {
@@ -1425,6 +1510,18 @@ function renderOther(data) {
     }
 
     var directives = {
+        Value: {
+            html: function () {
+                if (this.Unit === "%") {
+                    return '<div class="progress">' +
+                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                   // return round(this.Value,0) + "%";
+                } else {
+                    return this.Value;
+                }
+            }
+        },
         Label: {
             html: function () {
                 if (this.Event === undefined)
@@ -1636,6 +1733,23 @@ function formatHertz(mhertz) {
     } else {
         if (mhertz >= 1000) {
             return round(mhertz / 1000, 2) + String.fromCharCode(160) + genlang(93);
+        } else {
+            return "";
+        }
+    }
+}
+
+/**
+ * format a given MT/s value to a better readable statement with the right suffix
+ * @param {Number} mtps mtps value that should be formatted
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatMTps(mtps) {
+    if ((mtps >= 0) && (mtps < 1000)) {
+        return mtps.toString() + String.fromCharCode(160) + genlang(131);
+    } else {
+        if (mtps >= 1000) {
+            return round(mtps / 1000, 2) + String.fromCharCode(160) + genlang(132);
         } else {
             return "";
         }

@@ -32,34 +32,37 @@ var bat_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function bat_buildTable(xml) {
-    var html = "", tree = [], closed = [], batcount = 0;
+    var html = "", tree = [], closed = [], batcount = 0, index = 0, hostname = "";
 
     $("#Plugin_BAT #Plugin_BATTable").remove();
+
+    hostname = $("Plugins Plugin_BAT", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_BAT]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "   <table id=\"Plugin_BATTable\" class=\"tablemain\">\n";
     html += "    <thead>\n";
     html += "     <tr>\n";
     html += "      <th>" + genlang(6, "BAT") + "</th>\n";
-    html += "      <th style=\"width:120px;\">" + genlang(7, "BAT") + "</th>\n";
+    html += "      <th style=\"width:31%;\">" + genlang(7, "BAT") + "</th>\n";
     html += "      <th></th>\n";
     html += "     </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody class=\"tree\">\n";
 
-    var index = 0;
-
-    $("Plugins Plugin_Bat Bat", xml).each(function bat_getdisks(id) {
-        var name = "", DesignCapacity = "", FullCapacity = "", Capacity = "", DesignVoltage = "",  BatteryType = "",RemainingCapacity = "", PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
+    $("Plugins Plugin_Bat Bat", xml).each(function bat_getbats(id) {
+        var name = "", DesignCapacity = 0, FullCapacity = 0, DesignVoltage = "",  BatteryType = "", RemainingCapacity = 0, PresentVoltage = "", ChargingState = "", BatteryTemperature = "", BatteryCondition = "", CapacityUnit = "", CycleCount = "", DesignVoltageMax = "", Manufacturer = "", Model = "", SerialNumber = "";
         name = $(this).attr("Name");
         if (name === undefined) {
             name = "Battery"+(batcount++);
         }
-        DesignCapacity = $(this).attr("DesignCapacity");
-        FullCapacity = $(this).attr("FullCapacity");
+        DesignCapacity = parseInt($(this).attr("DesignCapacity"), 10);
+        FullCapacity = parseInt($(this).attr("FullCapacity"), 10);
         DesignVoltage = $(this).attr("DesignVoltage");
         BatteryType = $(this).attr("BatteryType");
-        RemainingCapacity = $(this).attr("RemainingCapacity");
+        RemainingCapacity = parseInt($(this).attr("RemainingCapacity"), 10);
         PresentVoltage = $(this).attr("PresentVoltage");
         ChargingState = $(this).attr("ChargingState");
         BatteryTemperature = $(this).attr("BatteryTemperature");
@@ -89,29 +92,31 @@ function bat_buildTable(xml) {
         if (CapacityUnit === undefined) {
             CapacityUnit = "mWh";
         }
-        if ((CapacityUnit == "%") && (RemainingCapacity !== undefined)) {
-            html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(3, "BAT") + "</div></span></td><td>" + createBar(round(parseInt(RemainingCapacity, 10),0)) +"</td><td></td></tr>\n";
-            tree.push(index);
+        if ((CapacityUnit == "%") && ($(this).attr("RemainingCapacity") !== undefined)) {
+           if (!isNaN(RemainingCapacity)) {
+                html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(3, "BAT") + "</div></span></td><td>" + createBar(RemainingCapacity) +"</td><td></td></tr>\n";
+                tree.push(index);
+            }
         } else {
-            if (DesignCapacity !== undefined) {
+            if (!isNaN(DesignCapacity)) {
                 html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(2, "BAT") + "</div></span></td><td>" + DesignCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                 tree.push(index);
             }
-            if (FullCapacity === undefined) {
-                if (RemainingCapacity !== undefined) {
+            if (isNaN(FullCapacity)) {
+                if (!isNaN(RemainingCapacity)) {
                     html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(3, "BAT") + "</div></span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                     tree.push(index);
                 }
             } else {
-                if (DesignCapacity === undefined) {
+                if (isNaN(DesignCapacity)) {
                     html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(13, "BAT") + "</div></span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                     tree.push(index);
                 } else {            
-                    html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(13, "BAT") + "</div></span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(DesignCapacity, 10) !== 0 ? round(parseInt(FullCapacity, 10) / parseInt(DesignCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
+                    html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(13, "BAT") + "</div></span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td>" + createBar(DesignCapacity !== 0 ? round(FullCapacity / DesignCapacity * 100, 0) : 0) + "</td></tr>\n";
                     tree.push(index);
                 }
-                if (RemainingCapacity !== undefined) {
-                    html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(3, "BAT") + "</div></span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td>" + createBar(parseInt(FullCapacity, 10) !== 0 ? round(parseInt(RemainingCapacity, 10) / parseInt(FullCapacity, 10) * 100, 0) : 0) + "</td></tr>\n";
+                if (!isNaN(RemainingCapacity)) {
+                    html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(3, "BAT") + "</div></span></td><td>" + RemainingCapacity+' '+CapacityUnit +"</td><td>" + createBar(FullCapacity !== 0 ? round(RemainingCapacity / FullCapacity * 100, 0) : 0) + "</td></tr>\n";
                     tree.push(index);
                 }
             }
@@ -204,7 +209,7 @@ function bat_request() {
 
 $(document).ready(function bat_buildpage() {
     $("#footer").before(buildBlock("BAT", 1, true));
-    $("#Plugin_BAT").css("width", "451px");
+    $("#Plugin_BAT").addClass("halfsize");
 
     bat_request();
 

@@ -34,17 +34,38 @@ class Parser
     public static function lspci($debug = PSI_DEBUG)
     {
         $arrResults = array();
-        if (CommonFunctions::executeProgram("lspci", "", $strBuf, $debug)) {
+        if (CommonFunctions::executeProgram("lspci", (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS)?"-m":"", $strBuf, $debug)) {
             $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($arrLines as $strLine) {
-                $arrParams = preg_split('/ /', trim($strLine), 2);
-                if (count($arrParams) == 2)
-                   $strName = $arrParams[1];
-                else
-                   $strName = "unknown";
-                $strName = preg_replace('/\(.*\)/', '', $strName);
                 $dev = new HWDevice();
-                $dev->setName($strName);
+                $arrParams = preg_split('/(\"? ")|(\" (?=-))/', trim($strLine));
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($cp = count($arrParams)) >= 6) {
+                    $arrParams[$cp-1] = trim($arrParams[$cp-1],'"'); // remove last "
+                    $dev->setName($arrParams[1].': '.$arrParams[2].' '.$arrParams[3]);
+                    if (preg_match('/^-/', $arrParams[4])) {
+                        if (($arrParams[5] !== "") && !preg_match('/^Unknown vendor/', $arrParams[5])) {
+                            $dev->setManufacturer(trim($arrParams[5]));
+                        }
+                        if (($arrParams[6] !== "") && !preg_match('/^Device /', $arrParams[6])) {
+                            $dev->setProduct(trim($arrParams[6]));
+                        }
+                    } else {
+                        if (($arrParams[4] !== "") && !preg_match('/^Unknown vendor/', $arrParams[4])) {
+                            $dev->setManufacturer(trim($arrParams[4]));
+                        }
+                        if (($arrParams[5] !== "") && !preg_match('/^Device /', $arrParams[5])) {
+                            $dev->setProduct(trim($arrParams[5]));
+                        }
+                    }
+                } else {
+                    $strLine=trim(preg_replace('/(")|( -\S+)/', '', $strLine));
+                    $arrParams = preg_split('/ /', trim($strLine), 2);
+                    if (count($arrParams) == 2)
+                        $strName = preg_replace('/\(rev\s[^\)]+\)/', '', $arrParams[1]);
+                    else
+                       $strName = "unknown";
+                    $dev->setName($strName);
+                }
                 $arrResults[] = $dev;
             }
         }

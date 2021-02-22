@@ -108,14 +108,15 @@ if (!defined('PSI_CONFIG_FILE')) {
                || file_exists($fname = '/etc/locale.conf')
                || file_exists($fname = '/etc/sysconfig/language')
                || file_exists($fname = '/etc/profile.d/lang.sh')
+               || file_exists($fname = '/etc/profile.d/i18n.sh')
                || file_exists($fname = '/etc/profile')) {
                 $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
                 if (file_exists('/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
-                    if (@exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
-                        define('PSI_UNAMEO', $unameo0);
+                    if (function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
+                        define('PSI_UNAMEO', $unameo0); // is Android on Termux
                     }
                     if (!defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
                         if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' command
@@ -172,7 +173,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     if (file_exists($vtfname = '/sys/module/vt/parameters/default_utf8')
                        && (trim(@file_get_contents($vtfname)) === "1")) {
                             define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
-                    } elseif (@exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
+                    } elseif (function_exists('exec') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                         foreach ($lines as $line) {
                             if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
                                 define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
@@ -181,7 +182,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                         }
                     }
                 }
-                if (!defined('PSI_SYSTEM_LANG') && @exec($matches[1].' locale 2>/dev/null', $lines2)) { //also if not overloaded in phpsysinfo.ini
+                if (!defined('PSI_SYSTEM_LANG') && function_exists('exec') && @exec($matches[1].' locale 2>/dev/null', $lines2)) { //also if not overloaded in phpsysinfo.ini
                     foreach ($lines2 as $line) {
                         if (preg_match('/^LC_MESSAGES="?([^\."@]*)/', $line, $matches2)) {
                             $lang = "";
@@ -201,7 +202,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         } elseif (PHP_OS == 'Haiku') {
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
-                && @exec('locale -m 2>/dev/null', $lines)) {
+                && function_exists('exec') && @exec('locale --message 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
@@ -227,7 +228,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         } elseif (PHP_OS == 'Darwin') {
             if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
-                && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
+                && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
                 $lang = "";
                 if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                     if (isset($langdata['Linux']['_'.$lines[0]])) {
@@ -240,6 +241,13 @@ if (!defined('PSI_CONFIG_FILE')) {
                 define('PSI_SYSTEM_LANG', $lang.' ('.$lines[0].')');
             }
         }
+    }
+
+    /* maximum time in seconds a script is allowed to run before it is terminated by the parser */
+    if (defined('PSI_MAX_TIMEOUT')) {
+        ini_set('max_execution_time', max(intval(PSI_MAX_TIMEOUT), 0));
+    } else {
+        ini_set('max_execution_time', 30);
     }
 
     /* executeProgram() timeout value in seconds */
@@ -275,7 +283,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
         } elseif (PSI_OS=='Minix') {
             define('PSI_SYSTEM_CODEPAGE', 'CP437');
-        } else {
+        } elseif (PSI_OS!='WINNT') {
             define('PSI_SYSTEM_CODEPAGE', null);
         }
     }

@@ -61,9 +61,23 @@ class WebpageXML extends Output implements PSI_Interface_Output
     private function _prepare()
     {
         if ($this->_pluginName === null) {
-            // Figure out which OS we are running on, and detect support
-            if (!file_exists(PSI_APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
-                $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
+            if (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && defined('PSI_WMI_HOSTNAME')) {
+                define('PSI_EMU_HOSTNAME', PSI_WMI_HOSTNAME);
+                if (defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD')) {
+                    define('PSI_EMU_USER', PSI_WMI_USER);
+                    define('PSI_EMU_PASSWORD', PSI_WMI_PASSWORD);
+                } else {
+                    define('PSI_EMU_USER', null);
+                    define('PSI_EMU_PASSWORD', null);
+                }
+                if (!file_exists(PSI_APP_ROOT.'/includes/os/class.WINNT.inc.php')) {
+                    $this->error->addError("file_exists(class.WINNT.inc.php)", "WINNT is not currently supported");
+                }
+            } else {
+                // Figure out which OS we are running on, and detect support
+                if (!file_exists(PSI_APP_ROOT.'/includes/os/class.'.PSI_OS.'.inc.php')) {
+                    $this->error->addError("file_exists(class.".PSI_OS.".inc.php)", PSI_OS." is not currently supported");
+                }
             }
 
             if (!defined('PSI_MBINFO') && (!$this->_blockName || in_array($this->_blockName, array('voltage','current','temperature','fans','power','other')))) {
@@ -125,6 +139,29 @@ class WebpageXML extends Output implements PSI_Interface_Output
             // Create the XML
             $this->_xml = new XML($this->_completeXML, '', $this->_blockName);
         } else {
+            if ((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) {
+                $plugname = strtoupper(trim($this->_pluginName));
+                if (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME')) {
+                    define('PSI_EMU_HOSTNAME', constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'));
+                    if (defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD')) {
+                        define('PSI_EMU_USER', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'));
+                        define('PSI_EMU_PASSWORD', constant('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD'));
+                    } else {
+                        define('PSI_EMU_USER', null);
+                        define('PSI_EMU_PASSWORD', null);
+                    }
+                } elseif (defined('PSI_WMI_HOSTNAME')) {
+                    define('PSI_EMU_HOSTNAME', PSI_WMI_HOSTNAME);
+                    if (defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD')) {
+                        define('PSI_EMU_USER', PSI_WMI_USER);
+                        define('PSI_EMU_PASSWORD', PSI_WMI_PASSWORD);
+                    } else {
+                        define('PSI_EMU_USER', null);
+                        define('PSI_EMU_PASSWORD', null);
+                    }
+                }
+            }
+
             // Create the XML
             $this->_xml = new XML(false, $this->_pluginName);
         }

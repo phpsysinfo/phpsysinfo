@@ -71,8 +71,12 @@ class OpenBSD extends BSDCommon
                 $dev->setName($ar_buf_b[0]);
                 $dev->setTxBytes($ar_buf_b[4]);
                 $dev->setRxBytes($ar_buf_b[3]);
-                $dev->setErrors($ar_buf_n[4] + $ar_buf_n[6]);
-                $dev->setDrops($ar_buf_n[8]);
+                if (sizeof($ar_buf_n) == 9) {
+                    $dev->setErrors($ar_buf_n[4] + $ar_buf_n[6]);
+                    $dev->setDrops($ar_buf_n[8]);
+                } elseif (sizeof($ar_buf_n) == 8) {
+                    $dev->setDrops($ar_buf_n[4] + $ar_buf_n[6]);
+                }
                 if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (CommonFunctions::executeProgram('ifconfig', $ar_buf_b[0].' 2>/dev/null', $bufr2, PSI_DEBUG))) {
                     $speedinfo = "";
                     $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);

@@ -175,7 +175,7 @@ abstract class BSDCommon extends OS
     protected function readdmesg()
     {
         if ($this->_dmesg === null) {
-            if ((PSI_OS != "Darwin") && (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf))) {  // Once again but with debug
+            if ((PSI_OS != 'Darwin') && (CommonFunctions::rfts('/var/run/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/log/dmesg.boot', $buf, 0, 4096, false) || CommonFunctions::rfts('/var/run/dmesg.boot', $buf))) {  // Once again but with debug
                 $parts = preg_split("/rebooting|Uptime/", $buf, -1, PREG_SPLIT_NO_EMPTY);
                 $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
             } else {
@@ -247,21 +247,38 @@ abstract class BSDCommon extends OS
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
         $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR && (PSI_OS != "Darwin")) {
-            if ($fd = $this->grabkey('kern.cp_time')) {
-                // Find out the CPU load
-                // user + sys = load
-                // total = total
-                preg_match($this->_CPURegExp2, $fd, $res);
-                $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
-                $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
-                // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-                sleep(1);
-                $fd = $this->grabkey('kern.cp_time');
-                preg_match($this->_CPURegExp2, $fd, $res);
-                $load2 = $res[2] + $res[3] + $res[4];
-                $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+        if (PSI_LOAD_BAR) {
+            if (PSI_OS != 'Darwin') {
+                if ($fd = $this->grabkey('kern.cp_time')) {
+                    // Find out the CPU load
+                    // user + sys = load
+                    // total = total
+                    if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
+                        $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
+                        $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
+                        // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
+                        sleep(1);
+                        $fd = $this->grabkey('kern.cp_time');
+                        if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
+                            $load2 = $res[2] + $res[3] + $res[4];
+                            $total2 = $res[2] + $res[3] + $res[4] + $res[5];
+                            $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+                        }
+                    }
+                }
+            } else {
+                $ncpu = $this->grabkey('hw.ncpu');
+                if (!is_null($ncpu) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                    $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
+                    if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
+                        array_shift($pslines);
+                        $sum = 0;
+                        foreach ($pslines as $psline) {
+                            $sum+=trim($psline);
+                        }
+                        $this->sys->setLoadPercent(min($sum/$ncpu, 100));
+                    }
+                }
             }
         }
     }
@@ -275,7 +292,7 @@ abstract class BSDCommon extends OS
     {
         $dev = new CpuDevice();
 
-        if (PSI_OS == "NetBSD") {
+        if (PSI_OS == 'NetBSD') {
             if ($model = $this->grabkey('machdep.cpu_brand')) {
                $dev->setModel($model);
             }
@@ -290,7 +307,7 @@ abstract class BSDCommon extends OS
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
-               if (preg_match($this->_CPURegExp1, $line, $ar_buf)) {
+               if (preg_match($this->_CPURegExp1, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
                     if ($dev->getCpuSpeed() === 0) {
                         $dev->setCpuSpeed(round($ar_buf[2]));
                     }
@@ -329,11 +346,11 @@ abstract class BSDCommon extends OS
     protected function scsi()
     {
         foreach ($this->readdmesg() as $line) {
-            if (preg_match($this->_SCSIRegExp1, $line, $ar_buf)) {
+            if (preg_match($this->_SCSIRegExp1, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
                 $dev = new HWDevice();
                 $dev->setName($ar_buf[1].": ".trim($ar_buf[2]));
                 $this->sys->setScsiDevices($dev);
-            } elseif (preg_match($this->_SCSIRegExp2, $line, $ar_buf)) {
+            } elseif (preg_match($this->_SCSIRegExp2, $line, $ar_buf) && (sizeof($ar_buf) > 1)) {
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
@@ -341,7 +358,7 @@ abstract class BSDCommon extends OS
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                             if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
                                 $finddev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
-                            } else {
+                            } elseif (isset($ar_buf[2])) {
                                 $finddev->setCapacity($ar_buf[2] * 1024 * 1024);
                             }
                         }
@@ -355,20 +372,20 @@ abstract class BSDCommon extends OS
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                         if (isset($ar_buf[3]) && ($ar_buf[3]==="G")) {
                                 $dev->setCapacity($ar_buf[2] * 1024 * 1024 * 1024);
-                            } else {
+                            } elseif (isset($ar_buf[2])) {
                                 $dev->setCapacity($ar_buf[2] * 1024 * 1024);
                             }
                     }
                     $this->sys->setScsiDevices($dev);
                 }
-            } elseif (preg_match($this->_SCSIRegExp3, $line, $ar_buf)) {
+            } elseif (preg_match($this->_SCSIRegExp3, $line, $ar_buf) && (sizeof($ar_buf) > 1)) {
                 /* duplication security */
                 $notwas = true;
                 foreach ($this->sys->getScsiDevices() as $finddev) {
                     if ($notwas && (substr($finddev->getName(), 0, strpos($finddev->getName(), ': ')) == $ar_buf[1])) {
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                            && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                            $finddev->setSerial(trim($ar_buf[2]));
+                            if (isset($ar_buf[2])) $finddev->setSerial(trim($ar_buf[2]));
                         }
                         $notwas = false;
                         break;
@@ -379,7 +396,7 @@ abstract class BSDCommon extends OS
                     $dev->setName($ar_buf[1]);
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                        $dev->setSerial(trim($ar_buf[2]));
+                        if (isset($ar_buf[2])) $dev->setSerial(trim($ar_buf[2]));
                     }
                     $this->sys->setScsiDevices($dev);
                 }
@@ -448,11 +465,11 @@ abstract class BSDCommon extends OS
     {
         if ((!$results = Parser::lspci(false)) && (!$results = $this->pciconf())) {
             foreach ($this->readdmesg() as $line) {
-                if (preg_match($this->_PCIRegExp1, $line, $ar_buf)) {
+                if (preg_match($this->_PCIRegExp1, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1].": ".$ar_buf[2]);
                     $results[] = $dev;
-                } elseif (preg_match($this->_PCIRegExp2, $line, $ar_buf)) {
+                } elseif (preg_match($this->_PCIRegExp2, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
                     $dev = new HWDevice();
                     $dev->setName($ar_buf[1].": ".$ar_buf[2]);
                     $results[] = $dev;
@@ -592,7 +609,19 @@ abstract class BSDCommon extends OS
      */
     protected function usb()
     {
-        foreach ($this->readdmesg() as $line) {
+        $notwas = true;
+        if ((PSI_OS == 'FreeBSD') && CommonFunctions::executeProgram('usbconfig', '', $bufr, false)) {
+            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($lines as $line) {
+                if (preg_match('/^(ugen[0-9]+\.[0-9]+): <([^,]*)(.*)> at (usbus[0-9]+)/', $line, $ar_buf)) {
+                    $notwas = false;
+                    $dev = new HWDevice();
+                    $dev->setName($ar_buf[2]);
+                    $this->sys->setUSBDevices($dev);
+                }
+            }
+        }
+        if ($notwas) foreach ($this->readdmesg() as $line) {
 //            if (preg_match('/^(ugen[0-9\.]+): <(.*)> (.*) (.*)/', $line, $ar_buf)) {
 //                    $dev->setName($ar_buf[1].": ".$ar_buf[2]);
             if (preg_match('/^(u[a-z]+[0-9]+): <([^,]*)(.*)> on (usbus[0-9]+)/', $line, $ar_buf)) {

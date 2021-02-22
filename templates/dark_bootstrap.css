@@ -115,14 +115,12 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     width: 32px;
 }
 
-.errorbutton {
-    background: url("../gfx/attention.gif") no-repeat center;
-    width: 43px;
-    height: 32px;
-}
-
 .select {
     color: #c8c8c8;
+}
+
+select {
+    background-color: #fefefe;
 }
 
 .template {

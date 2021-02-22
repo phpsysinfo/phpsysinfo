@@ -385,6 +385,21 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Συσκευές NVMe</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>Τύπος Λ/Σ</exp>
+  </expression>
+  <expression id="128" name="no_memories">
+    <exp>Αριθμός τσιπ μνήμης</exp>
+  </expression>
+  <expression id="129" name="speed">
+    <exp>Ταχύτητα</exp>
+  </expression>
+  <expression id="130" name="mem">
+    <exp>Τσιπ Μνήμης</exp>
+  </expression>
+  <expression id="131" name="mtps">
+    <exp>MT/s</exp>
+  </expression>
+  <expression id="132" name="gtps">
+    <exp>GT/s</exp>
   </expression>
 </tns:translation>

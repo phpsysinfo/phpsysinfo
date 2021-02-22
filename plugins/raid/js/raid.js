@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devbattery = "", devsupported = "", devsize = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -48,6 +48,7 @@ function raid_buildinfos(xml, id) {
     devdevs = parseInt($(xml).attr("Devs"), 10);
     devspares = parseInt($(xml).attr("Spares"), 10);
     devchunk = parseInt($(xml).attr("Chunk_Size"), 10);
+    devstripe = parseInt($(xml).attr("Stripe_Size"), 10);
     devalgor = $(xml).attr("Algorithm");
     devpersist = parseInt($(xml).attr("Persistend_Superblock"), 10);
     devreg = parseInt($(xml).attr("Disks_Registered"), 10);
@@ -56,6 +57,7 @@ function raid_buildinfos(xml, id) {
     devbad = parseInt($(xml).attr("Bad_Blocks"), 10);
     devread = $(xml).attr("ReadPolicy");
     devwrite = $(xml).attr("WritePolicy");
+    devdiskcache = $(xml).attr("DiskCache");
     html += "<tr><td>" + genlang(22, "Raid") + "</td><td>" + prog + "</td></tr>";
     if (devname !== undefined) html += "<tr><td>" + genlang(3, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(4, "Raid") + "</td><td>" + devstatus + "</td></tr>";
@@ -66,7 +68,8 @@ function raid_buildinfos(xml, id) {
     if (!isNaN(devdevs)) html += "<tr><td>" + genlang(9, "Raid") + "</td><td>" + devdevs + "</td></tr>";
     if (!isNaN(devspares)) html += "<tr><td>" + genlang(10, "Raid") + "</td><td>" + devspares + "</td></tr>";
 
-    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + devchunk + "K</td></tr>";
+    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + formatBytes(1024*devchunk, xml) + "</td></tr>";
+    if (!isNaN(devstripe)) html += "<tr><td>" + genlang(28, "Raid") + "</td><td>" + formatBytes(devstripe, xml) + "</td></tr>";
     if (devalgor !== undefined) html += "<tr><td>" + genlang(14, "Raid") + "</td><td>" + devalgor + "</td></tr>";
     if (!isNaN(devpersist)) {
         if (devpersist == 1) {
@@ -82,6 +85,7 @@ function raid_buildinfos(xml, id) {
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
     if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml) + "</td></tr>";
+    if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
@@ -130,44 +134,50 @@ function raid_diskicon(xml, id) {
         if (info === undefined) info = "";
         parentid = parseInt($(this).attr("ParentID"), 10);
 
-        var img = "", alt = "", bcolor = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "";
         switch (status) {
         case "ok":
-            img = "harddriveok.png";
+            imgh = "harddriveok.png";
+            imgs = "soliddriveok.png";
             alt = "ok";
             bcolor = "green";
             break;
         case "F":
-            img = "harddrivefail.png";
+            imgh = "harddrivefail.png";
+            imgs = "soliddrivefail.png";
             alt = "fail";
             bcolor = "red";
             break;
         case "U":
-            img = "harddriveunc.png";
+            imgh = "harddriveunc.png";
+            imgs = "soliddriveunc.png";
             alt = "unconfigured";
             bcolor = "purple";
             break;
         case "S":
-            img = "harddrivespare.png";
+            imgh = "harddrivespare.png";
+            imgs = "soliddrivespare.png";
             alt = "spare";
             bcolor = "gray";
             break;
         case "W":
-            img = "harddrivewarn.png";
+            imgh = "harddrivewarn.png";
+            imgs = "soliddrivewarn.png";
             alt = "warning";
             bcolor = "orange";
             break;
         default:
 //            alert("--" + diskstatus + "--");
-            img = "error.png";
+            imgh = "error.png";
+            imgs = "error.png";
             alt = "error";
 
             break;
         }
 
         if (!isNaN(parentid)) {
-            if (type === "disk") {
-                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
+            if (type !== undefined) {
+                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
                     $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
@@ -184,10 +194,17 @@ function raid_diskicon(xml, id) {
  * @param {jQuery} xml plugin-XML
  */
 function raid_populate(xml) {
+    var hostname = "";
+   
     $("#Plugin_RaidTable").empty();
+
+    hostname = $("Plugins Plugin_Raid", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Raid]').html(hostname);
+    }
+
     $("#Plugin_RaidTable").append("<tbody>");
-    var arr = $("Plugins Plugin_Raid Raid", xml);
-    arr.each(function raid_getdevice(id) {
+    $("Plugins Plugin_Raid Raid", xml).each(function raid_getdevice(id) {
         var htmldisks = "", buildedaction = "";
         htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td id=\"Plugin_Raid_List-" + id + "\"></td></tr>";
@@ -196,9 +213,6 @@ function raid_populate(xml) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
         htmldisks += "<tr><td>" + raid_buildinfos($(this), id);
-        /*if (id != (arr.length - 1)) { // not last element
-            htmldisks += "<br>";
-        }*/
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
 
@@ -253,7 +267,7 @@ $(document).ready(function raid_buildpage() {
     html += "        </div>\n";
     $("#Plugin_Raid").append(html);
 
-    $("#Plugin_Raid").css("width", "915px");
+    $("#Plugin_Raid").addClass("fullsize");
 
     raid_request();
 

@@ -77,14 +77,14 @@ class DiskDevice
     /**
      * inodes usage in percent if available
      *
-     * @var
+     * @var Integer
      */
     private $_percentInodesUsed = null;
 
     /**
      * ignore mode
      *
-     * @var Ignore
+     * @var Integer
      */
     private $_ignore = 0;
 
@@ -99,7 +99,7 @@ class DiskDevice
     public function getPercentUsed()
     {
         if ($this->_total > 0) {
-            return round($this->_used / $this->_total * 100);
+            return 100 - min(floor($this->_free / $this->_total * 100), 100);
         } else {
             return 0;
         }

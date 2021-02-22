@@ -1,0 +1,267 @@
+==============NVSMI LOG==============
+
+Timestamp                           : Sun Nov 22 08:37:22 2015
+Driver Version                      : 352.39
+
+Attached GPUs                       : 2
+GPU 0000:04:00.0
+    Product Name                    : GeForce GTX 690
+    Product Brand                   : GeForce
+    Display Mode                    : N/A
+    Display Active                  : N/A
+    Persistence Mode                : Disabled
+    Accounting Mode                 : N/A
+    Accounting Mode Buffer Size     : N/A
+    Driver Model
+        Current                     : N/A
+        Pending                     : N/A
+    Serial Number                   : N/A
+    GPU UUID                        : GPU-e777fefe-e8c6-466b-89e1-bc39d2a12345
+    Minor Number                    : 0
+    VBIOS Version                   : 80.04.4C.00.0E
+    MultiGPU Board                  : N/A
+    Board ID                        : N/A
+    Inforom Version
+        Image Version               : N/A
+        OEM Object                  : N/A
+        ECC Object                  : N/A
+        Power Management Object     : N/A
+    GPU Operation Mode
+        Current                     : N/A
+        Pending                     : N/A
+    PCI
+        Bus                         : 0x04
+        Device                      : 0x00
+        Domain                      : 0x0000
+        Device Id                   : 0x118810DE
+        Bus Id                      : 0000:04:00.0
+        Sub System Id               : 0x095B10DE
+        GPU Link Info
+            PCIe Generation
+                Max                 : N/A
+                Current             : N/A
+            Link Width
+                Max                 : N/A
+                Current             : N/A
+        Bridge Chip
+            Type                    : N/A
+            Firmware                : N/A
+        Replays since reset         : 0
+        Tx Throughput               : N/A
+        Rx Throughput               : N/A
+    Fan Speed                       : 43 %
+    Performance State               : P0
+    Clocks Throttle Reasons         : N/A
+    FB Memory Usage
+        Total                       : 2047 MiB
+        Used                        : 237 MiB
+        Free                        : 1810 MiB
+    BAR1 Memory Usage
+        Total                       : N/A
+        Used                        : N/A
+        Free                        : N/A
+    Compute Mode                    : Default
+    Utilization
+        Gpu                         : N/A
+        Memory                      : N/A
+        Encoder                     : N/A
+        Decoder                     : N/A
+    Ecc Mode
+        Current                     : N/A
+        Pending                     : N/A
+    ECC Errors
+        Volatile
+            Single Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+            Double Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+        Aggregate
+            Single Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+            Double Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+    Retired Pages
+        Single Bit ECC              : N/A
+        Double Bit ECC              : N/A
+        Pending                     : N/A
+    Temperature
+        GPU Current Temp            : 59 C
+        GPU Shutdown Temp           : N/A
+        GPU Slowdown Temp           : N/A
+    Power Readings
+        Power Management            : N/A
+        Power Draw                  : N/A
+        Power Limit                 : N/A
+        Default Power Limit         : N/A
+        Enforced Power Limit        : N/A
+        Min Power Limit             : N/A
+        Max Power Limit             : N/A
+    Clocks
+        Graphics                    : N/A
+        SM                          : N/A
+        Memory                      : N/A
+    Applications Clocks
+        Graphics                    : N/A
+        Memory                      : N/A
+    Default Applications Clocks
+        Graphics                    : N/A
+        Memory                      : N/A
+    Max Clocks
+        Graphics                    : N/A
+        SM                          : N/A
+        Memory                      : N/A
+    Clock Policy
+        Auto Boost                  : N/A
+        Auto Boost Default          : N/A
+    Processes                       : N/A
+
+GPU 0000:05:00.0
+    Product Name                    : GeForce GTX 690
+    Product Brand                   : GeForce
+    Display Mode                    : N/A
+    Display Active                  : N/A
+    Persistence Mode                : Disabled
+    Accounting Mode                 : N/A
+    Accounting Mode Buffer Size     : N/A
+    Driver Model
+        Current                     : N/A
+        Pending                     : N/A
+    Serial Number                   : N/A
+    GPU UUID                        : GPU-7aad0000-7285-a503-c130-32de1ce12345
+    Minor Number                    : 1
+    VBIOS Version                   : 80.04.4C.00.0F
+    MultiGPU Board                  : N/A
+    Board ID                        : N/A
+    Inforom Version
+        Image Version               : N/A
+        OEM Object                  : N/A
+        ECC Object                  : N/A
+        Power Management Object     : N/A
+    GPU Operation Mode
+        Current                     : N/A
+        Pending                     : N/A
+    PCI
+        Bus                         : 0x05
+        Device                      : 0x00
+        Domain                      : 0x0000
+        Device Id                   : 0x118810DE
+        Bus Id                      : 0000:05:00.0
+        Sub System Id               : 0x095B10DE
+        GPU Link Info
+            PCIe Generation
+                Max                 : N/A
+                Current             : N/A
+            Link Width
+                Max                 : N/A
+                Current             : N/A
+        Bridge Chip
+            Type                    : N/A
+            Firmware                : N/A
+        Replays since reset         : 0
+        Tx Throughput               : N/A
+        Rx Throughput               : N/A
+    Fan Speed                       : 30 %
+    Performance State               : P8
+    Clocks Throttle Reasons         : N/A
+    FB Memory Usage
+        Total                       : 2047 MiB
+        Used                        : 244 MiB
+        Free                        : 1803 MiB
+    BAR1 Memory Usage
+        Total                       : N/A
+        Used                        : N/A
+        Free                        : N/A
+    Compute Mode                    : Default
+    Utilization
+        Gpu                         : N/A
+        Memory                      : N/A
+        Encoder                     : N/A
+        Decoder                     : N/A
+    Ecc Mode
+        Current                     : N/A
+        Pending                     : N/A
+    ECC Errors
+        Volatile
+            Single Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+            Double Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+        Aggregate
+            Single Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+            Double Bit
+                Device Memory       : N/A
+                Register File       : N/A
+                L1 Cache            : N/A
+                L2 Cache            : N/A
+                Texture Memory      : N/A
+                Total               : N/A
+    Retired Pages
+        Single Bit ECC              : N/A
+        Double Bit ECC              : N/A
+        Pending                     : N/A
+    Temperature
+        GPU Current Temp            : 33 C
+        GPU Shutdown Temp           : N/A
+        GPU Slowdown Temp           : N/A
+    Power Readings
+        Power Management            : N/A
+        Power Draw                  : N/A
+        Power Limit                 : N/A
+        Default Power Limit         : N/A
+        Enforced Power Limit        : N/A
+        Min Power Limit             : N/A
+        Max Power Limit             : N/A
+    Clocks
+        Graphics                    : N/A
+        SM                          : N/A
+        Memory                      : N/A
+    Applications Clocks
+        Graphics                    : N/A
+        Memory                      : N/A
+    Default Applications Clocks
+        Graphics                    : N/A
+        Memory                      : N/A
+    Max Clocks
+        Graphics                    : N/A
+        SM                          : N/A
+        Memory                      : N/A
+    Clock Policy
+        Auto Boost                  : N/A
+        Auto Boost Default          : N/A
+    Processes                       : N/A

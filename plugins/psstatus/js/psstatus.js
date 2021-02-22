@@ -34,9 +34,14 @@ var psstatus_show = false, psstatus_table;
  * @param {jQuery} xml plugin-XML
  */
 function psstatus_populate(xml) {
-    var name = "", status = 0, state = "";
+    var name = "", status = 0, state = "", hostname = "";
 
     psstatus_table.fnClearTable();
+
+    hostname = $("Plugins Plugin_PSStatus", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_PSStatus]').html(hostname);
+    }
 
     $("Plugins Plugin_PSStatus Process", xml).each(function psstatus_getprocess(idp) {
         name = $(this).attr("Name");
@@ -114,7 +119,7 @@ function psstatus_request() {
 
 $(document).ready(function psstatus_buildpage() {
     $("#footer").before(buildBlock("PSStatus", 1, true));
-    $("#Plugin_PSStatus").css("width", "451px");
+    $("#Plugin_PSStatus").addClass("halfsize");
 
     psstatus_buildTable();
 

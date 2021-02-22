@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * BAT Plugin, which displays battery state
  *
@@ -35,22 +35,12 @@ class BAT extends PSI_Plugin
         $buffer = array();
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
-            if (PSI_OS == 'WINNT') {
-                $_cim = null; //root\CIMv2
-                $_wmi = null; //root\WMI
-                try {
-                    // initialize the wmi object
-                    $objLocatorCIM = new COM('WbemScripting.SWbemLocator');
-                    $_cim = $objLocatorCIM->ConnectServer('', 'root\CIMv2');
+            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                $_cim = CommonFunctions::initWMI('root\CIMv2', true);
+                $_wmi = CommonFunctions::initWMI('root\WMI');
+                $bufferWB = array();
 
-                    // initialize the wmi object
-                    $objLocatorWMI = new COM('WbemScripting.SWbemLocator');
-                    $_wmi = $objLocatorWMI->ConnectServer('', 'root\WMI');
-                } catch (Exception $e) {
-                    $this->global_error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-                }
-
-                $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                if ($_cim !== false) $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
                 if (sizeof($bufferWB)>0) {
                     $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
                     $bufferBS = CommonFunctions::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));
@@ -310,20 +300,22 @@ class BAT extends PSI_Plugin
             }
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
-            $itemcount = 0;
-            $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
-            foreach ($infoarray as $infoitem) { //upower detection
-                if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
-                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
-                   && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
-                    $buffer[$itemcount++]['info'] = $infoitem;
+            if (!defined('PSI_EMU_HOSTNAME')) {
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.txt", $info);
+                $itemcount = 0;
+                $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
+                foreach ($infoarray as $infoitem) { //upower detection
+                    if (preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\//', $infoitem)
+                       && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/line_power/', $infoitem)
+                       && !preg_match('/^Device: \/org\/freedesktop\/UPower\/devices\/DisplayDevice/', $infoitem)) {
+                        $buffer[$itemcount++]['info'] = $infoitem;
+                    }
                 }
+                if ($itemcount == 0) {
+                    $buffer[0]['info'] = $info;
+                }
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             }
-            if ($itemcount == 0) {
-                $buffer[0]['info'] = $info;
-            }
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.txt", $buffer[0]['state']);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[bat] ACCESS");
@@ -690,7 +682,7 @@ class BAT extends PSI_Plugin
             if (isset($bat_item['name'])) {
                 $xmlbat->addAttribute("Name", $bat_item['name']);
             }
-            if (isset($bat_item['model']) && ($bat_item['model'] !== "1")) {
+            if (isset($bat_item['model']) && ($bat_item['model'] !== '') && ($bat_item['model'] !== '1')) {
                 $xmlbat->addAttribute("Model", $bat_item['model']);
             }
             if (defined('PSI_PLUGIN_BAT_SHOW_SERIAL') && PSI_PLUGIN_BAT_SHOW_SERIAL
@@ -700,7 +692,7 @@ class BAT extends PSI_Plugin
                && ($bat_item['serialnumber'] !== "0000")) {
                 $xmlbat->addAttribute("SerialNumber", $bat_item['serialnumber']);
             }
-            if (isset($bat_item['manufacturer'])) {
+            if (isset($bat_item['manufacturer']) && ($bat_item['manufacturer'] !== '') && ($bat_item['manufacturer'] !== '-Virtual Battery 0-')) {
                 $xmlbat->addAttribute("Manufacturer", $bat_item['manufacturer']);
             }
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&

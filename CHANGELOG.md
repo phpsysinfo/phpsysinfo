@@ -3,6 +3,27 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.3
+----------------
+
+ - [ADD] Persian (Farsi) Translation fa.xml
+ - [ADD] Croatian Translation hr.xml
+ - [ADD] Mabox, Milis, FreeNAS, UOS and Septor to detected distros
+ - [ADD] SMART plugin - reading contents of wmic command for WinNT
+ - [ADD] Raid plugin - 3ware-status status
+ - [ADD] IPMIcfg sensor program support
+ 
+ - [NEW] Ability to read information from an external WinNT server (new WMI_HOSTNAME, WMI_USER and WMI_PASSWORD parameters)
+ - [NEW] NvidiaSMI - sensors monitoring for Nvidia GPU
+ - [NEW] plugin Viewer - show output of any command or file viewer.txt contents
+ - [NEW] Memory chips information
+ - [NEW] USB devices speed info on Linux
+ - [NEW] IGNORE_TOTAL option
+ - [NEW] HIDE_TOTALS option
+ - [NEW] INCREASE_WIDTH option for frontend "dynamic"
+
+ - [DEL] Removed deprecated plugin Iptables
+
 phpSysInfo 3.3.2
 ----------------
 
@@ -10,9 +31,11 @@ phpSysInfo 3.3.2
 
  - [ADD] Exherbo and EasyOS to detected distros
  - [ADD] PCI devices list on SunOS
+ - [ADD] Raid plugin - megaclisas-status status
 
  - [NEW] OS Type information
  - [NEW] CPU manufacturer information
+ - [NEW] Frontend Bootstrap view in web app mode on mobile devices
 
 phpSysInfo 3.3.1
 ----------------

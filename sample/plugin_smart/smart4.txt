@@ -1,0 +1,42 @@
+smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
+
+Device: SEAGATE ST3146855LW Version: 0003
+Serial number: 3LN38VV300001234X9Y9
+Device type: disk
+Transport protocol: Parallel SCSI (SPI-4)
+Local Time is: Wed Jan 6 11:12:33 2010 CET
+Device supports SMART and is Enabled
+Temperature Warning Enabled
+SMART Health Status: FAILURE PREDICTION THRESHOLD EXCEEDED [asc=5d, ascq=0]
+
+Current Drive Temperature:   41 C
+Drive Trip Temperature:      68 C
+Vendor (Seagate) cache information
+ Blocks sent to initiator = 2530286685
+ Blocks received from initiator = 69995041
+ Blocks read from cache and sent to initiator = 369926188
+ Number of read and write commands whose size <= segment size = 285052588
+ Number of read and write commands whose size > segment size = 2
+Vendor (Seagate/Hitachi) factory information
+ number of hours powered up = 14396.07
+ number of minutes until next internal SMART test = 49
+
+Error counter log:
+           Errors Corrected by           Total   Correction     Gigabytes    Total
+               ECC          rereads/    errors   algorithm      processed    uncorrected
+           fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
+read:   31670228     7327         0  31677555   31677510       1071.313          63
+write:         0        0         0         0          0   15728656813.914           0
+verify:   527341        3         0    527344     527452        131.461           0
+
+Non-medium error count: 1618
+
+[GLTSD (Global Logging Target Save Disable) set. Enable Save with '-S on']
+
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Interrupted ('-X' switch)   -   14394                 - [-   -    -]
+
+Long (extended) Self Test duration: 1367 seconds [22.8 minutes]

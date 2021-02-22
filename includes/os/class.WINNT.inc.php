@@ -63,39 +63,39 @@ class WINNT extends OS
     private $_systeminfo = null;
 
     /**
-     * holds the COM object that we pull all the WMI data from
+     * holds the COM object that we pull WMI root\CIMv2 data from
      *
      * @var Object
      */
     private $_wmi = null;
 
     /**
-     * holds the COM object that we pull all the RegRead data from
+     * holds the COM object that we pull all the EnumKey and RegRead data from
      *
      * @var Object
      */
     private $_reg = null;
 
     /**
-     * holds the COM object that we pull all the EnumKey data from
+     * holds result of 'cmd /c ver'
      *
-     * @var Object
+     * @var string
      */
-    private $_key = null;
+    private $_ver = "";
 
     /**
      * holds all devices, which are in the system
      *
      * @var array
      */
-    private $_wmidevices;
+    private $_wmidevices = array();
 
     /**
      * holds all disks, which are in the system
      *
      * @var array
      */
-    private $_wmidisks;
+    private $_wmidisks = array();
 
     /**
      * store language encoding of the system to convert some output to utf-8
@@ -129,7 +129,7 @@ class WINNT extends OS
      */
     private function _get_Win32_ComputerSystem()
     {
-        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model'));
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
         return $this->_Win32_ComputerSystem;
     }
 
@@ -174,8 +174,12 @@ class WINNT extends OS
      */
     private function _get_systeminfo()
     {
-        if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
-        return $this->_systeminfo;
+        if (!defined('PSI_EMU_HOSTNAME')) {
+            if ($this->_systeminfo === null) CommonFunctions::executeProgram('systeminfo', '', $this->_systeminfo, false);
+            return $this->_systeminfo;
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -184,26 +188,59 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        try {
-            // initialize the wmi object
-            $objLocator = new COM('WbemScripting.SWbemLocator');
-            $this->_wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-        } catch (Exception $e) {
-            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== "")) {
+            $this->_ver = $ver_value;
         }
-        try {
-            // initialize the RegRead object
-            $this->_reg = new COM("WScript.Shell");
-        } catch (Exception $e) {
-            //$this->error->addError("Windows Scripting Host error", "PhpSysInfo can not initialize Windows Scripting Host for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-            $this->_reg = false;
-        }
-        try {
-            // initialize the EnumKey object
-            $this->_key = new COM("winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv");
-        } catch (Exception $e) {
-            //$this->error->addError("WWinmgmts Impersonationlevel Script Error", "PhpSysInfo can not initialize Winmgmts Impersonationlevel Script for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed.");
-            $this->_key = false;
+        if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
+            $this->_wmi = false; // No WMI info on ReactOS yet
+            $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
+        } else {
+            if (PSI_OS == 'WINNT') {
+                if (defined('PSI_EMU_HOSTNAME')) {
+                    try {
+                        $objLocator = new COM('WbemScripting.SWbemLocator');
+                        $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
+                        $buffer = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('CodeSet'));
+                        if (!$buffer) {
+                            $reg = $objLocator->ConnectServer('', 'root\default');
+                            if (CommonFunctions::readReg($reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
+                                $buffer[0]['CodeSet'] = $strBuf;
+                            }
+                        }
+                        if ($buffer && isset($buffer[0])) {
+                            if (isset($buffer[0]['CodeSet'])) {
+                                $codeset = $buffer[0]['CodeSet'];
+                                if ($codeset == 932) {
+                                    $codename = ' (SJIS)';
+                                } elseif ($codeset == 949) {
+                                    $codename = ' (EUC-KR)';
+                                } elseif ($codeset == 950) {
+                                    $codename = ' (BIG-5)';
+                                } else {
+                                    $codename = '';
+                                }
+                                define('PSI_SYSTEM_CODEPAGE', 'windows-'.$codeset.$codename);
+                            }
+                        }
+                    } catch (Exception $e) {
+                        define('PSI_SYSTEM_CODEPAGE', null);
+                        if (PSI_DEBUG) {
+                            $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed");
+                        }
+                    }
+                } else {
+                    define('PSI_SYSTEM_CODEPAGE', null);
+                }
+            }
+            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', true);
+            if (PSI_OS == 'WINNT') {
+                $this->_reg = CommonFunctions::initWMI('root\default', PSI_DEBUG);
+                if (gettype($this->_reg) === "object") {
+                    $this->_reg->Security_->ImpersonationLevel = 3;
+                }
+            } else {
+                $this->_reg = false; // No EnumKey and ReadReg on Linux
+            }
         }
 
         $this->_getCodeSet();
@@ -274,9 +311,44 @@ class WINNT extends OS
                 }
             } else {
                 $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
-                $this->_wmidisks = array();
+            }
+
+            if (empty($this->_wmidevices)) {
+                $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
+                $id = 0;
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $portBuf, false)) {
+                    foreach ($portBuf as $scsiport) {
+                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport, $busBuf, false)) {
+                            foreach ($busBuf as $scsibus) {
+                                if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
+                                    foreach ($tarBuf as $scsitar) if (!strncasecmp($scsitar, "Target Id ", strlen("Target Id "))) {
+                                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
+                                            foreach ($logBuf as $scsilog) if (!strncasecmp($scsilog, "Logical Unit Id ", strlen("Logical Unit Id "))) {
+                                               $hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
+                                               if ((CommonFunctions::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || CommonFunctions::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
+                                                  && (($typeBuf=strtolower(trim($typeBuf))) !== "")) {
+                                                  if ((($typeBuf == 'diskperipheral') || ($typeBuf == 'cdromperipheral'))
+                                                     && CommonFunctions::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
+                                                      $this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
+                                                      if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+                                                         && (CommonFunctions::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false))
+                                                         && (($serBuf=trim($serBuf)) !== "")) {
+                                                          $this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
+                                                      }
+                                                      $id++;
+                                                  }
+                                               }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+
         $list = array();
         foreach ($this->_wmidevices as $device) {
             if (substr($device['PNPDeviceID'], 0, strpos($device['PNPDeviceID'], "\\") + 1) == ($strType."\\")) {
@@ -284,7 +356,7 @@ class WINNT extends OS
                     if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
-                    if (preg_match('/^\(.*\)$/', $device['Manufacturer'])) {
+                    if (!isset($device['Manufacturer']) || preg_match('/^\(.*\)$/', $device['Manufacturer']) || (($device['PNPClass']==='USB') && preg_match('/\sUSB\s/', $device['Manufacturer']))) {
                         $device['Manufacturer'] = null;
                     }
                     $device['Capacity'] = null;
@@ -328,7 +400,7 @@ class WINNT extends OS
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
@@ -347,11 +419,19 @@ class WINNT extends OS
                         (version_compare("255.255.255.255", $ip, "=="))) {
                         $this->sys->setHostname($result); // internal ip
                     } else {
-                        $this->sys->setHostname(gethostbyaddr($ip));
+                        $hostname = gethostbyaddr($ip);
+                        if ($hostname !== false)
+                            $this->sys->setHostname($hostname);
+                        else
+                            $this->sys->setHostname($result);
                     }
+                } else {
+                    $this->sys->setHostname($result);
                 }
-            } else {
-                if (CommonFunctions::readenv('COMPUTERNAME', $hnm)) $this->sys->setHostname($hnm);
+            } elseif (defined('PSI_EMU_HOSTNAME')) {
+                $this->sys->setHostname(PSI_EMU_HOSTNAME);
+            } elseif (CommonFunctions::readenv('COMPUTERNAME', $hnm)) {
+                $this->sys->setHostname($hnm);
             }
         }
     }
@@ -413,7 +493,7 @@ class WINNT extends OS
      */
     protected function _users()
     {
-        if (CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('quser', '', $strBuf, false) && (strlen($strBuf) > 0)) {
                 $lines = preg_split('/\n/', $strBuf);
                 $users = count($lines)-1;
         } else {
@@ -460,13 +540,17 @@ class WINNT extends OS
             else
                 $icon = 'Win8.png';
             $this->sys->setDistributionIcon($icon);
-        } elseif (CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false)) {
-                if (preg_match("/ReactOS\r?\nVersion\s+(.+)/", $ver_value, $ar_temp)) {
-                    $this->sys->setDistribution("ReactOS");
-                    $this->sys->setKernel($ar_temp[1]);
+        } elseif ($this->_ver !== "") {
+                if (preg_match("/ReactOS\r?\n\S+\s+(.+)/", $this->_ver, $ar_temp)) {
+                    if (preg_match("/^(\d+\.\d+\.\d+[\S]*)(.+)$/", trim($ar_temp[1]), $ver_temp)) {
+                        $this->sys->setDistribution("ReactOS ".trim($ver_temp[1]));
+                        $this->sys->setKernel(trim($ver_temp[2]));
+                    } else {
+                        $this->sys->setDistribution("ReactOS");
+                        $this->sys->setKernel($ar_temp[1]);
+                    }
                     $this->sys->setDistributionIcon('ReactOS.png');
-                    $this->_wmi = false; // No WMI info on ReactOS yet
-                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $ver_value, $ar_temp)) {
+                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $this->_ver, $ar_temp)) {
                     if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
                         if (preg_match("/^Microsoft /", $strBuf)) {
                             $this->sys->setDistribution($strBuf);
@@ -488,12 +572,12 @@ class WINNT extends OS
                         $icon = 'WinXP.png';
                     $this->sys->setDistributionIcon($icon);
                 } else {
-                    $this->sys->setDistribution("WinNT");
-                    $this->sys->setDistributionIcon('Win2000.png');
+                    $this->sys->setDistribution("WINNT");
+                    $this->sys->setDistributionIcon('WINNT.png');
                 }
         } else {
-            $this->sys->setDistribution("WinNT");
-            $this->sys->setDistributionIcon('Win2000.png');
+            $this->sys->setDistribution("WINNT");
+            $this->sys->setDistributionIcon('WINNT.png');
         }
     }
 
@@ -542,7 +626,7 @@ class WINNT extends OS
         $allCpus = $this->_get_Win32_Processor();
         if (!$allCpus) {
             $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor";
-            if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+            if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                 foreach ($arrBuf as $coreCount) {
                     if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\ProcessorNameString", $strBuf, false)) {
                         $allCpus[$coreCount]['Name'] = $strBuf;
@@ -611,18 +695,74 @@ class WINNT extends OS
     private function _machine()
     {
         $buffer = $this->_get_Win32_ComputerSystem();
-        if ($buffer) {
-            $buf = "";
-            if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=$buffer[0]['Manufacturer'])) {
+        $bufferp = CommonFunctions::getWMI($this->_wmi, 'Win32_BaseBoard', array('Product'));
+        $bufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
+
+        if (!$buffer) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
+                $buffer[0]['Manufacturer'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", $strBuf, false)) {
+                $buffer[0]['Model'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemFamily", $strBuf, false)) {
+                $buffer[0]['SystemFamily'] = $strBuf;
+            }
+        }
+        if (!$bufferp) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BaseBoardProduct", $strBuf, false)) {
+                $bufferp[0]['Product'] = $strBuf;
+            }
+        }
+        if (!$bufferb) {
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSVersion", $strBuf, false)) {
+                $bufferb[0]['SMBIOSBIOSVersion'] = $strBuf;
+            }
+            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSReleaseDate", $strBuf, false)) {
+                $bufferb[0]['ReleaseDate'] = $strBuf;
+            }
+        }
+        $buf = "";
+        $model = "";
+        if ($buffer && isset($buffer[0])) {
+            if (isset($buffer[0]['Manufacturer']) && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer[0]['Manufacturer'])) && ($buf2 !== "")) {
                 $buf .= ' '.$buf2;
             }
 
-            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=$buffer[0]['Model'])) {
+            if (isset($buffer[0]['Model']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=trim($buffer[0]['Model'])) && ($buf2 !== "")) {
+                $model = $buf2;
                 $buf .= ' '.$buf2;
             }
-            if (trim($buf) != "") {
-                $this->sys->setMachine(trim($buf));
+        }
+        if ($bufferp && isset($bufferp[0])) {
+            if (isset($bufferp[0]['Product']) && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$|^Default string$/i", $buf2=trim($bufferp[0]['Product'])) && ($buf2 !== "")) {
+                if ($buf2 !== $model) {
+                    $buf .= '/'.$buf2;
+                } elseif (isset($buffer[0]['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=trim($buffer[0]['SystemFamily'])) && ($buf2 !== "")) {
+                    $buf .= '/'.$buf2;
+                }
             }
+        }
+        if ($bufferb && isset($bufferb[0])) {
+            $bver = "";
+            $brel = "";
+            if (isset($bufferb[0]['SMBIOSBIOSVersion']) && (($buf2=trim($bufferb[0]['SMBIOSBIOSVersion'])) !== "")) {
+                $bver .= ' '.$buf2;
+            }
+            if (isset($bufferb[0]['ReleaseDate'])) {
+                if (preg_match("/^(\d{4})(\d{2})(\d{2})\d{6}\.\d{6}\+\d{3}$/", $bufferb[0]['ReleaseDate'], $dateout)) {
+                    $brel .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
+                } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $bufferb[0]['ReleaseDate'])) {
+                    $brel .= ' '.$bufferb[0]['ReleaseDate'];
+                }
+            }
+            if ((trim($bver) !== "") || (trim($brel) !== "")) {
+                $buf .= ', BIOS'.$bver.$brel;
+            }
+        }
+
+        if (trim($buf) != "") {
+            $this->sys->setMachine(trim($buf));
         }
     }
 
@@ -637,7 +777,11 @@ class WINNT extends OS
             $dev = new HWDevice();
             $dev->setName($pciDev['Name']);
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                $dev->setManufacturer($pciDev['Manufacturer']);
+                if (($pciDev['Manufacturer'] !== null) && preg_match("/^@[^\.]+\.inf,%([^%]+)%$/i", trim($pciDev['Manufacturer']), $mbuff)) {
+                   $dev->setManufacturer($mbuff[1]);
+                } else {
+                    $dev->setManufacturer($pciDev['Manufacturer']);
+                }
                 $dev->setProduct($pciDev['Product']);
             }
             $this->sys->setPciDevices($dev);
@@ -698,16 +842,16 @@ class WINNT extends OS
             if ($allDevices) {
                 $aliases = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
-                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netID) {
-                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) { //a w Name jest net alias
+                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) {
                             if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
-                                $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                                $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                                 if (!isset($aliases[$cname])) { // duplicate checking
                                     $aliases[$cname]['id'] = $netID;
                                     $aliases[$cname]['name'] = $strName;
                                     if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, false)
-                                       && (str_replace(array('(', ')', '#'), array('[', ']', '_'), $strCName) !== $cname)) {
+                                       && (str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strCName) !== $cname)) {
                                         $aliases[$cname]['netname'] = $strCName;
                                     }
                                 } else {
@@ -720,11 +864,11 @@ class WINNT extends OS
 
                 $aliases2 = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
-                if (CommonFunctions::enumKey($this->_key, $hkey, $arrBuf, false)) {
+                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netCount) {
                         if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
                             && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
-                            $cname = str_replace(array('(', ')', '#'), array('[', ']', '_'), $strName); //convert to canonical
+                            $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                             if (!isset($aliases2[$cname])) { // duplicate checking
                                 $aliases2[$cname]['id'] = $strGUID;
                                 $aliases2[$cname]['name'] = $strName;
@@ -965,7 +1109,7 @@ class WINNT extends OS
     public function _processes()
     {
         $processes['*'] = 0;
-        if (CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('qprocess', '*', $strBuf, false) && (strlen($strBuf) > 0)) {
             $lines = preg_split('/\n/', $strBuf);
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
@@ -975,6 +1119,184 @@ class WINNT extends OS
         }
         $processes[' '] = $processes['*'];
         $this->sys->setProcesses($processes);
+    }
+
+    /**
+     * MEM information
+     *
+     * @return void
+     */
+    private function _meminfo()
+    {
+        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel', 'MinVoltage', 'MaxVoltage'));
+        if ($allMems) {
+            $reg = false;
+            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                $arrMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemoryArray', array('MemoryErrorCorrection'));
+                $reg = (count($arrMems) == 1) && isset($arrMems[0]['MemoryErrorCorrection']) && ($arrMems[0]['MemoryErrorCorrection'] == 6);
+            }
+            foreach ($allMems as $mem) {
+                $dev = new HWDevice();
+                $name = '';
+                if (isset($mem['PartNumber']) && !preg_match("/^PartNum\d+$/", $part = $mem['PartNumber']) && ($part != '') && ($part != 'None') && ($part != 'N/A') && ($part != 'NOT AVAILABLE')) {
+                    $name = $part;
+                 }
+                if (isset($mem['DeviceLocator']) && (($dloc = $mem['DeviceLocator']) != '') && ($dloc != 'None') && ($dloc != 'N/A')) {
+                    if ($name != '') {
+                        $name .= ' - '.$dloc;
+                    } else {
+                        $name = $dloc;
+                    }
+                }
+                if (isset($mem['BankLabel']) && (($bank = $mem['BankLabel']) != '') && ($bank != 'None') && ($bank != 'N/A')) {
+                    if ($name != '') {
+                        $name .= ' in '.$bank;
+                    } else {
+                        $name = 'Physical Memory in '.$bank;
+                    }
+                }
+                if ($name != '') {
+                    $dev->setName(trim($name));
+                } else {
+                    $dev->setName('Physical Memory');
+                }
+                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                    if (isset($mem['Manufacturer']) && !preg_match("/^([A-F\d]{4}|[A-F\d]{12}|[A-F\d]{16})$/", $manufacturer = $mem['Manufacturer']) && !preg_match("/^Manufacturer\d+$/", $manufacturer) && !preg_match("/^Mfg \d+$/", $manufacturer) && ($manufacturer != '') && ($manufacturer != 'None') && ($manufacturer != 'N/A') && ($manufacturer != 'UNKNOWN')) {
+                        $dev->setManufacturer($manufacturer);
+                    }
+                    if (isset($mem['Capacity'])) {
+                        $dev->setCapacity($mem['Capacity']);
+                    }
+                    $memtype = '';
+                    if (isset($mem['MemoryType']) && (($memval = $mem['MemoryType']) != 0)) {
+                        switch ($memval) {
+//                            case 0: $memtype = 'Unknown'; break;
+//                            case 1: $memtype = 'Other'; break;
+                            case 2: $memtype = 'DRAM'; break;
+                            case 3: $memtype = 'Synchronous DRAM'; break;
+                            case 4: $memtype = 'Cache DRAM'; break;
+                            case 5: $memtype = 'EDO'; break;
+                            case 6: $memtype = 'EDRAM'; break;
+                            case 7: $memtype = 'VRAM'; break;
+                            case 8: $memtype = 'SRAM'; break;
+                            case 9: $memtype = 'RAM'; break;
+                            case 10: $memtype = 'ROM'; break;
+                            case 11: $memtype = 'Flash'; break;
+                            case 12: $memtype = 'EEPROM'; break;
+                            case 13: $memtype = 'FEPROM'; break;
+                            case 14: $memtype = 'EPROM'; break;
+                            case 15: $memtype = 'CDRAM'; break;
+                            case 16: $memtype = '3DRAM'; break;
+                            case 17: $memtype = 'SDRAM'; break;
+                            case 18: $memtype = 'SGRAM'; break;
+                            case 19: $memtype = 'RDRAM'; break;
+                            case 20: $memtype = 'DDR'; break;
+                            case 21: $memtype = 'DDR2'; break;
+                            case 22: $memtype = 'DDR2 FB-DIMM'; break;
+                            case 24: $memtype = 'DDR3'; break;
+                            case 25: $memtype = 'FBD2'; break;
+                            case 26: $memtype = 'DDR4'; break;
+                        }
+                    } elseif (isset($mem['SMBIOSMemoryType'])) {
+                        switch ($mem['SMBIOSMemoryType']) {
+//                            case 0: $memtype = 'Invalid'; break;
+//                            case 1: $memtype = 'Other'; break;
+//                            case 2: $memtype = 'Unknown'; break;
+                            case 3: $memtype = 'DRAM'; break;
+                            case 4: $memtype = 'EDRAM'; break;
+                            case 5: $memtype = 'VRAM'; break;
+                            case 6: $memtype = 'SRAM'; break;
+                            case 7: $memtype = 'RAM'; break;
+                            case 8: $memtype = 'ROM'; break;
+                            case 9: $memtype = 'FLASH'; break;
+                            case 10: $memtype = 'EEPROM'; break;
+                            case 11: $memtype = 'FEPROM'; break;
+                            case 12: $memtype = 'EPROM'; break;
+                            case 13: $memtype = 'CDRAM'; break;
+                            case 14: $memtype = '3DRAM'; break;
+                            case 15: $memtype = 'SDRAM'; break;
+                            case 16: $memtype = 'SGRAM'; break;
+                            case 17: $memtype = 'RDRAM'; break;
+                            case 18: $memtype = 'DDR'; break;
+                            case 19: $memtype = 'DDR2'; break;
+                            case 20: $memtype = 'DDR2 FB-DIMM'; break;
+                            case 24: $memtype = 'DDR3'; break;
+                            case 25: $memtype = 'FBD2'; break;
+                            case 26: $memtype = 'DDR4'; break;
+                            case 27: $memtype = 'LPDDR'; break;
+                            case 28: $memtype = 'LPDDR2'; break;
+                            case 29: $memtype = 'LPDDR3'; break;
+                            case 30: $memtype = 'DDR3'; break;
+                            case 31: $memtype = 'FBD2'; break;
+                            case 32: $memtype = 'Logical non-volatile device'; break;
+                            case 33: $memtype = 'HBM2'; break;
+                            case 34: $memtype = 'DDR5'; break;
+                            case 35: $memtype = 'LPDDR5'; break;
+                        }
+                    }
+                    if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && (preg_match('/^(DDR\d*)(.*)/', $memtype, $dr) || preg_match('/^(SDR)AM(.*)/', $memtype, $dr))) {
+                        if (isset($mem['MinVoltage']) && isset($mem['MaxVoltage']) && (($minv = $mem['MinVoltage']) > 0) && (($maxv = $mem['MaxVoltage']) > 0) && ($minv < $maxv)) {
+                            $lv = 'L';
+                        } else {
+                            $lv = '';
+                        }
+                        if (isset($dr[2])) {
+                            $memtype = $dr[1].$lv.'-'.$speed.' '.$dr[2];
+                        } else {
+                            $memtype = $dr[1].$lv.'-'.$speed;
+                        }
+                    }
+                    if (isset($mem['FormFactor'])) {
+                        switch ($mem['FormFactor']) {
+//                                case 0: $memtype .= ' Unknown'; break;
+//                                case 1: $memtype .= ' Other'; break;
+                            case 2: $memtype .= ' SIP'; break;
+                            case 3: $memtype .= ' DIP'; break;
+                            case 4: $memtype .= ' ZIP'; break;
+                            case 5: $memtype .= ' SOJ'; break;
+                            case 6: $memtype .= ' Proprietary'; break;
+                            case 7: $memtype .= ' SIMM'; break;
+                            case 8: $memtype .= ' DIMM'; break;
+                            case 9: $memtype .= ' TSOPO'; break;
+                            case 10: $memtype .= ' PGA'; break;
+                            case 11: $memtype .= ' RIM'; break;
+                            case 12: $memtype .= ' SODIMM'; break;
+                            case 13: $memtype .= ' SRIMM'; break;
+                            case 14: $memtype .= ' SMD'; break;
+                            case 15: $memtype .= ' SSMP'; break;
+                            case 16: $memtype .= ' QFP'; break;
+                            case 17: $memtype .= ' TQFP'; break;
+                            case 18: $memtype .= ' SOIC'; break;
+                            case 19: $memtype .= ' LCC'; break;
+                            case 20: $memtype .= ' PLCC'; break;
+                            case 21: $memtype .= ' BGA'; break;
+                            case 22: $memtype .= ' FPBGA'; break;
+                            case 23: $memtype .= ' LGA'; break;
+                        }
+                    }
+                    if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && (($dataw = $mem['DataWidth']) > 0) && (($totalw = $mem['TotalWidth']) > 0) && ($dataw < $totalw)) {
+                        $memtype .= ' ECC';
+                    }
+                    if ($reg) {
+                        $memtype .= ' REG';
+                    }
+                    if (($memtype = trim($memtype)) != '') {
+                        $dev->setProduct($memtype);
+                    }
+                    if (isset($mem['ConfiguredClockSpeed']) && (($clock = $mem['ConfiguredClockSpeed']) > 0)) {
+                        $dev->setSpeed($clock);
+                    }
+                    if (isset($mem['ConfiguredVoltage']) && (($voltage = $mem['ConfiguredVoltage']) > 0)) {
+                        $dev->setVoltage($voltage/1000);
+                    }
+                    if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL &&
+                       isset($mem['SerialNumber']) && !preg_match("/^SerNum\d+$/", $serial = $mem['SerialNumber']) && ($serial != '') && ($serial != 'None')) {
+                        $dev->setSerial($serial);
+                    }
+                }
+                $this->sys->setMemDevices($dev);
+            }
+        }
     }
 
     /**
@@ -1003,6 +1325,7 @@ class WINNT extends OS
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            $this->_meminfo();
             $this->_hardware();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {

@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Milis Linux
+Description:	Milis Linux Operating System
+Release:	2.0
+Codename:	HAN
+----------/etc/lsb-release----------
+DISTRIB_ID="Milis Linux"
+DISTRIB_RELEASE="2.0"
+DISTRIB_CODENAME="HAN"
+DISTRIB_DESCRIPTION="Milis Linux Operating System"
+----------/etc/os-release----------
+DISTRIB_ID="Milis Linux"
+DISTRIB_RELEASE="2.0"
+DISTRIB_CODENAME="HAN"
+DISTRIB_DESCRIPTION="Milis Linux Operating System" 

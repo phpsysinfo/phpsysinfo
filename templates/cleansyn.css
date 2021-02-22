@@ -84,8 +84,13 @@ table th {
     color: #3a3;
 }
 
+select {
+    background-color: #fefefe;
+}
+
 #select {
     text-align: right;
+    padding: 0 10px 0 10px;
 }
 
 #select select {
@@ -93,20 +98,19 @@ table th {
     font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
+.fullsize, .halfsize {
     float: left;
-    width: 451px;
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     color: #ccc;
 }
 
-#pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.fullsize {
+    width: 920px;
 }
 
-#memory, #filesystem {
-    width: 915px;
+.halfsize {
+    width: 455px;
 }
 
 #filesystemTable thead tr th {
