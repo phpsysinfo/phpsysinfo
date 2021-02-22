@@ -388,13 +388,13 @@ phpSysInfo language file Language: Korean Created by: Darkcycle, Kang Bundo, SD 
     <exp>OS 종류</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
+    <exp>메모리 갯수</exp>
   </expression>
   <expression id="129" name="speed">
-    <exp>Speed</exp>
+    <exp>속도</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
+    <exp>메모리</exp>
   </expression>
   <expression id="131" name="mtps">
     <exp>MT/s</exp>
