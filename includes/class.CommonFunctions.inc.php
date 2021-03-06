@@ -673,7 +673,7 @@ class CommonFunctions
                     self::convertCP($strBuf, 'windows-'.self::$_cp.$codename);
                 }
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($lines) >=3 ) {
+                if (count($lines) >=3) {
                     unset($lines[0]);
                     $names = preg_split('/'.$delimeter.'/', $lines[1], -1, PREG_SPLIT_NO_EMPTY);
                     $namesc = count($names);
