@@ -26,7 +26,7 @@
 "use strict";
 
 var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blocks = [], langarr = [],
-     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [];
+     showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, increaseWidth, oldnetwork = [];
 
 /**
  * Fix PNG loading on IE6 or below
@@ -57,7 +57,7 @@ function createCookie(name, value, days) {
     } else {
         expires = "";
     }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    document.cookie = name + "=" + value + expires + "; path=/; samesite=strict";
 }
 
 /**
@@ -112,11 +112,19 @@ function round(x, n) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $('link[rel*=style][title]').each(function getTitle(i) {
-        if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + ".css");
-        }
-    });
+    if (increaseWidth > 0) {
+        $('link[rel*=style][title]').each(function getTitle(i) {
+            if (this.getAttribute('title') === 'PSI_Template') {
+                this.setAttribute('href', './templates/css.php?name=' + template + '&increase=' + increaseWidth);
+            }
+        });
+    } else {
+        $('link[rel*=style][title]').each(function getTitle(i) {
+            if (this.getAttribute('title') === 'PSI_Template') {
+                this.setAttribute('href', './templates/' + template + ".css");  
+            }
+        });
+    }
 }
 
 /**
@@ -281,17 +289,19 @@ function filesystemtable() {
     html += "                <th class=\"right\">" + genlang(37) + "</th>\n";
     html += "              </tr>\n";
     html += "            </thead>\n";
-    html += "            <tfoot>\n";
-    html += "              <tr style=\"font-weight : bold\">\n";
-    html += "                <td>&nbsp;</td>\n";
-    html += "                <td>&nbsp;</td>\n";
-    html += "                <td>" + genlang(38) + "</td>\n";
-    html += "                <td id=\"s_fs_total\"></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
-    html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
-    html += "              </tr>\n";
-    html += "            </tfoot>\n";
+    if (showTotals) {
+        html += "            <tfoot>\n";
+        html += "              <tr style=\"font-weight : bold\">\n";
+        html += "                <td>&nbsp;</td>\n";
+        html += "                <td>&nbsp;</td>\n";
+        html += "                <td>" + genlang(38) + "</td>\n";
+        html += "                <td id=\"s_fs_total\"></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tfree\"></span></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tused\"></span></td>\n";
+        html += "                <td class=\"right\"><span id=\"s_fs_tsize\"></span></td>\n";
+        html += "              </tr>\n";
+        html += "            </tfoot>\n";
+    }
     html += "            <tbody>\n";
     html += "            </tbody>\n";
     html += "          </table>\n";
@@ -396,6 +406,23 @@ function formatHertz(mhertz) {
     } else {
         if (mhertz >= 1000) {
             return round(mhertz / 1000, 2) + "&nbsp;" + genlang(93);
+        } else {
+            return "";
+        }
+    }
+}
+
+/**
+ * format a given MT/s value to a better readable statement with the right suffix
+ * @param {Number} mtps mtps value that should be formatted
+ * @return {String} html string with no breaking spaces and translation statements
+ */
+function formatMTps(mtps) {
+    if ((mtps >= 0) && (mtps < 1000)) {
+        return mtps.toString() + "&nbsp;" + genlang(131);
+    } else {
+        if (mtps >= 1000) {
+            return round(mtps / 1000, 2) + "&nbsp;" + genlang(132);
         } else {
             return "";
         }
@@ -837,14 +864,16 @@ function countCpu(xml) {
  */
 function fillHWDevice(xml, type, tree, rootposition) {
     var devicecount = 0, html = "";
-    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
-        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", devcoreposition = 0;
+    $("Hardware " + type + ((type=="MEM")?" Chip":" Device"), xml).each(function getHWDevice(deviceId) {
+        var name = "", count = 0, capacity = 0, manufacturer = "", product = "", serial = "", speed = 0, voltage = 0, devcoreposition = 0;
 
         devicecount++;
         name = $(this).attr("Name");
         capacity = parseInt($(this).attr("Capacity"), 10);
         manufacturer = $(this).attr("Manufacturer");
         product = $(this).attr("Product");
+        speed = parseInt($(this).attr("Speed"), 10);
+        voltage = parseFloat($(this).attr("Voltage"));
         serial = $(this).attr("Serial");
         count = parseInt($(this).attr("Count"), 10);
         if (!isNaN(count) && count > 1) {
@@ -864,6 +893,14 @@ function fillHWDevice(xml, type, tree, rootposition) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(123) + ":</span></div></td><td>" + product + "</td></tr>\n";
             tree.push(devcoreposition);
         }
+        if (!isNaN(speed)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(129) + ":</span></div></td><td>" + ((type=="MEM")?formatMTps(speed):formatBPS(1000000*speed)) + "</td></tr>\n";
+            tree.push(devcoreposition);
+        }
+        if (!isNaN(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
+            tree.push(devcoreposition);
+        }
         if (serial !== undefined) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(124) + ":</span></div></td><td>" + serial + "</td></tr>\n";
             tree.push(devcoreposition);
@@ -878,7 +915,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
 
 function countHWDevice(xml, type) {
     var devicecount = 0;
-    $("Hardware " + type + " Device", xml).each(function getHWDevice(deviceId) {
+    $("Hardware " + type + ((type=="MEM")?" Chip":" Device"), xml).each(function getHWDevice(deviceId) {
         devicecount++;
     });
     return devicecount;
@@ -915,7 +952,7 @@ function refreshHardware(xml) {
         html += fillCpu(xml, tree, tree.push(0), closed);
     }
 
-    var typelist = {PCI:17,IDE:18,SCSI:19,NVMe:126,USB:20,TB:117,I2C:118};
+    var typelist = {MEM:130,PCI:17,IDE:18,SCSI:19,NVMe:126,USB:20,TB:117,I2C:118};
     for (var dev_type in typelist) {
         if (countHWDevice(xml, dev_type)) {
             html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(typelist[dev_type]) + "</span></div></td></tr>\n";
@@ -966,9 +1003,9 @@ function refreshNetwork(xml) {
     html1 += "   <thead>\n";
     html1 += "    <tr>\n";
     html1 += "     <th>" + genlang(22) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(23) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(24) + "</th>\n";
-    html1 += "     <th class=\"right\" style=\"width:50px;\">" + genlang(25) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:17.7%;\">" + genlang(23) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:17.7%;\">" + genlang(24) + "</th>\n";
+    html1 += "     <th class=\"right\" style=\"width:17.7%;\">" + genlang(25) + "</th>\n";
     html1 += "    </tr>\n";
     html1 += "   </thead>\n";
 
@@ -1082,11 +1119,11 @@ function refreshMemory(xml) {
     html += "  <table id=\"MemoryTree\" class=\"tablemain\">\n";
     html += "   <thead>\n";
     html += "     <tr>\n";
-    html += "      <th style=\"width:200px;\">" + genlang(34) + "</th>\n";
-    html += "      <th style=\"width:285px;\">" + genlang(33) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(125) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(36) + "</th>\n";
-    html += "      <th class=\"right\" style=\"width:100px;\">" + genlang(37) + "</th>\n";
+    html += "      <th>" + genlang(34) + "</th>\n";
+    html += "      <th style=\"width:33.3%;\">" + genlang(33) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:14.2%;\">" + genlang(125) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:14.2%;\">" + genlang(36) + "</th>\n";
+    html += "      <th class=\"right\" style=\"width:14.2%;\">" + genlang(37) + "</th>\n";
     html += "     </tr>\n";
     html += "    </thead>\n";
     html += "    <tbody class=\"tree\">\n";
@@ -1097,7 +1134,7 @@ function refreshMemory(xml) {
         used = parseInt($(this).attr("Used"), 10);
         total = parseInt($(this).attr("Total"), 10);
         percent = parseInt($(this).attr("Percent"), 10);
-        html += "<tr><td style=\"width:200px;\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(28) + "</span></div></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
+        html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(28) + "</span></div></td><td>" + createBar(percent) + "</td><td class=\"right\">" + formatBytes(free, xml) + "</td><td class=\"right\">" + formatBytes(used, xml) + "</td><td class=\"right\">" + formatBytes(total, xml) + "</td></tr>";
         memoryindex = tree.push(0);
 
         $("Memory Details", xml).each(function getMemorydetails(id) {
@@ -1109,15 +1146,15 @@ function refreshMemory(xml) {
             cached = parseInt($(this).attr("Cached"), 10);
             cachedp = parseInt($(this).attr("CachedPercent"), 10);
             if (!isNaN(app)) {
-                html += "<tr><td style=\"width:184px;\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(64) + "</span></div></td><td style=\"width:285px;\">" + createBar(appp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px\">" + formatBytes(app, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(64) + "</span></div></td><td>" + createBar(appp) + "</td><td class=\"right\">&nbsp;</td><td class=\"right\">" + formatBytes(app, xml) + "</td><td class=\"right\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(cached)) {
-                html += "<tr><td style=\"width:184px;\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(66) + "</span></div></td><td style=\"width:285px;\">" + createBar(cachedp) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(cached, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(66) + "</span></div></td><td>" + createBar(cachedp) + "</td><td class=\"right\">&nbsp;</td><td class=\"right\">" + formatBytes(cached, xml) + "</td><td class=\"right\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(buff)) {
-                html += "<tr><td style=\"width:184px;\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(65) + "</span></div></td><td style=\"width:285px\">" + createBar(buffp) + "</td><td class=\"rigth\" style=\"width:100px;\">&nbsp;</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(buff, xml) + "</td><td class=\"right\" style=\"width:100px;\">&nbsp;</td></tr>";
+                html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(65) + "</span></div></td><td>" + createBar(buffp) + "</td><td class=\"rigth\">&nbsp;</td><td class=\"right\">" + formatBytes(buff, xml) + "</td><td class=\"right\">&nbsp;</td></tr>";
                 tree.push(memoryindex);
             }
             if (!isNaN(app) || !isNaN(buff) || !isNaN(cached)) {
@@ -1133,7 +1170,7 @@ function refreshMemory(xml) {
         used = parseInt($(this).attr("Used"), 10);
         total = parseInt($(this).attr("Total"), 10);
         percent = parseInt($(this).attr("Percent"), 10);
-        html += "<tr><td style=\"width:200px;\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(29) + "</span></div></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
+        html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(29) + "</span></div></td><td>" + createBar(percent) + "</td><td class=\"right\">" + formatBytes(free, xml) + "</td><td class=\"right\">" + formatBytes(used, xml) + "</td><td class=\"right\">" + formatBytes(total, xml) + "</td></tr>";
         swapindex = tree.push(0);
 
         $("Memory Swap Mount", xml).each(function getDevices(id) {
@@ -1152,7 +1189,7 @@ function refreshMemory(xml) {
                 mpoint = mpid;
             }
 
-            html += "<tr><td style=\"width:184px;\"><div class=\"treediv\"><span class=\"treespan\">" + mpoint + "</span></div></td><td style=\"width:285px;\">" + createBar(percent) + "</td><td class=\"right\" style=\"width:100px\">" + formatBytes(free, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(used, xml) + "</td><td class=\"right\" style=\"width:100px;\">" + formatBytes(total, xml) + "</td></tr>";
+            html += "<tr><td><div class=\"treediv\"><span class=\"treespan\">" + mpoint + "</span></div></td><td>" + createBar(percent) + "</td><td class=\"right\">" + formatBytes(free, xml) + "</td><td class=\"right\">" + formatBytes(used, xml) + "</td><td class=\"right\">" + formatBytes(total, xml) + "</td></tr>";
             tree.push(swapindex);
         });
     });
@@ -1224,9 +1261,9 @@ function refreshFilesystems(xml) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
 
-        if (!isNaN(ignore) && (ignore > 0)) {
-            if (ignore >= 2) {
-                if ((ignore == 2) && !isNaN(threshold) && (percent >= threshold)) {
+        if (!isNaN(ignore) && (ignore > 0) && showTotals) {
+            if (ignore >= 3) {
+                if ((ignore == 3) && !isNaN(threshold) && (percent >= threshold)) {
                     filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 } else {
                     filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
@@ -1239,33 +1276,39 @@ function refreshFilesystems(xml) {
                 }
             }
         } else {
-            if (!isNaN(threshold) && (percent >= threshold)) {
+            if (!isNaN(threshold) && (percent >= threshold) && (showTotals || isNaN(ignore) || (ignore < 4))) {
                 filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             } else {
                 filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             }
         }
-        if (!isNaN(ignore) && (ignore > 0)) {
-            if (ignore == 1) {
+        if (showTotals) {
+            if (!isNaN(ignore) && (ignore > 0)) {
+                if (ignore == 2) {
+                    total_used += used;
+                } else if (ignore == 1) {
+                    total_used += used;
+                    total_size += used;
+                }
+            } else {
                 total_used += used;
-                total_size += used;
+                total_free += free;
+                total_size += size;
             }
-        } else {
-            total_used += used;
-            total_free += free;
-            total_size += size;
+            total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
         }
-        total_usage = round((total_used / total_size) * 100, 2);
     });
-
-    if (!isNaN(threshold) && (total_usage >= threshold)) {
-        $("#s_fs_total").html(createBar(total_usage, "barwarn"));
-    } else {
-        $("#s_fs_total").html(createBar(total_usage));
+    
+    if (showTotals) {
+        if (!isNaN(threshold) && (total_usage >= threshold)) {
+            $("#s_fs_total").html(createBar(total_usage, "barwarn"));
+        } else {
+            $("#s_fs_total").html(createBar(total_usage));
+        }
+        $("#s_fs_tfree").html(formatBytes(total_free, xml));
+        $("#s_fs_tused").html(formatBytes(total_used, xml));
+        $("#s_fs_tsize").html(formatBytes(total_size, xml));
     }
-    $("#s_fs_tfree").html(formatBytes(total_free, xml));
-    $("#s_fs_tused").html(formatBytes(total_used, xml));
-    $("#s_fs_tsize").html(formatBytes(total_size, xml));
 }
 
 /**
@@ -1284,15 +1327,15 @@ function refreshTemp(xml) {
     var values = false;
     $("#temperatureTable tbody").empty();
     $("MBInfo Temperature Item", xml).each(function getTemperatures(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", event = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-        limit = parseFloat($(this).attr("Max"));
-        if (isFinite(limit))
-            _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+        limit = parseFloat($(this).attr("Max"));
+        if (isFinite(limit))
+            _limit = formatTemp(limit, xml);
         $("#temperatureTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1318,18 +1361,18 @@ function refreshVoltage(xml) {
     var values = false;
     $("#voltageTable tbody").empty();
     $("MBInfo Voltage Item", xml).each(function getVoltages(id) {
-        var label = "", value = 0, max = 0, min = 0, _min = "", _max = "", event = "";
+        var label = "", value = 0, event = "", max = 0, min = 0, _min = "", _max = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
             _max = round(max, 2) + "&nbsp;" + genlang(62);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(62);
-        event = $(this).attr("Event");
-        if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1355,16 +1398,23 @@ function refreshFans(xml) {
     var values = false;
     $("#fansTable tbody").empty();
     $("MBInfo Fans Item", xml).each(function getFans(id) {
-        var label = "", value = 0, min = 0, _min = "", event = "";
+        var label = "", value = 0, event = "", min = 0, _min = "", unit = "";
         label = $(this).attr("Label");
         value = parseFloat($(this).attr("Value"));
-        min = parseFloat($(this).attr("Min"));
-        if (isFinite(min))
-            _min = round(min,0) + "&nbsp;" + genlang(63);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        min = parseFloat($(this).attr("Min"));
+        unit = $(this).attr("Unit");
+        if (unit === "%") {
+            if (isFinite(min))
+                _min = round(min,0) + "%";
+            $("#fansTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        } else {
+            if (isFinite(min))
+                _min = round(min,0) + "&nbsp;" + genlang(63);
+            $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+        }
         values = true;
     });
     if (values) {
@@ -1389,15 +1439,15 @@ function refreshPower(xml) {
     var values = false;
     $("#powerTable tbody").empty();
     $("MBInfo Power Item", xml).each(function getPowers(id) {
-        var label = "", value = "", limit = 0, _limit = "", event = "";
+        var label = "", value = "", event = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-        limit = parseFloat($(this).attr("Max"));
-        if (isFinite(limit))
-            _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+        limit = parseFloat($(this).attr("Max"));
+        if (isFinite(limit))
+            _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1423,20 +1473,18 @@ function refreshCurrent(xml) {
     var values = false;
     $("#currentTable tbody").empty();
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
-        var label = "", value = "", min = 0, max = 0, _min = "", _max = "", event = "";
+        var label = "", value = "", event = "", min = 0, max = 0, _min = "", _max = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-
+        event = $(this).attr("Event");
+        if (event !== undefined)
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         max = parseFloat($(this).attr("Max"));
         if (isFinite(max))
             _max = round(max, 2) + "&nbsp;" + genlang(106);
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(106);
-
-        event = $(this).attr("Event");
-        if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1462,14 +1510,18 @@ function refreshOther(xml) {
     var values = false;
     $("#otherTable tbody").empty();
     $("MBInfo Other Item", xml).each(function getOthers(id) {
-        var label = "", value = "", event = "";
+        var label = "", value = "", event = "", unit = "";
         label = $(this).attr("Label");
         value = $(this).attr("Value");
-
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
-        $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
+        unit = $(this).attr("Unit");
+        if (unit === "%") {
+            $("#otherTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td></tr>");
+        } else {
+            $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
+        }
         values = true;
     });
     if (values) {
@@ -1526,59 +1578,59 @@ function refreshUps(xml) {
         }
         index = tree.push(0);
         if (model !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(70) + "</span></div></td><td>" + model + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(70) + "</span></div></td><td>" + model + "</td></tr>\n";
             tree.push(index);
         }
         if (start_time !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(72) + "</span></div></td><td>" + start_time + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(72) + "</span></div></td><td>" + start_time + "</td></tr>\n";
             tree.push(index);
         }
         if (upsstatus !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(73) + "</span></div></td><td>" + upsstatus + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(73) + "</span></div></td><td>" + upsstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(84) + "</span></div></td><td>" + temperature + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(84) + "</span></div></td><td>" + temperature + "</td></tr>\n";
             tree.push(index);
         }
         if (outages_count !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(74) + "</span></div></td><td>" + outages_count + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(74) + "</span></div></td><td>" + outages_count + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(75) + "</span></div></td><td>" + last_outage + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(75) + "</span></div></td><td>" + last_outage + "</td></tr>\n";
             tree.push(index);
         }
         if (last_outage_finish !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(76) + "</span></div></td><td>" + last_outage_finish + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(76) + "</span></div></td><td>" + last_outage_finish + "</td></tr>\n";
             tree.push(index);
         }
         if (line_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(77) + "</span></div></td><td>" + line_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(77) + "</span></div></td><td>" + line_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
             tree.push(index);
         }
         if (line_frequency !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(108) + "</span></div></td><td>" + line_frequency + "&nbsp;" + genlang(109) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(108) + "</span></div></td><td>" + line_frequency + "&nbsp;" + genlang(109) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(load_percent)) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(78) + "</span></div></td><td>" + createBar(load_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(78) + "</span></div></td><td>" + createBar(load_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_date !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(104) + "</span></div></td><td>" + battery_date + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(104) + "</span></div></td><td>" + battery_date + "</td></tr>\n";
             tree.push(index);
         }
         if (battery_voltage !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(79) + "</span></div></td><td>" + battery_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(79) + "</span></div></td><td>" + battery_voltage + "&nbsp;" + genlang(82) + "</td></tr>\n";
             tree.push(index);
         }
         if (!isNaN(battery_charge_percent)) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(80) + "</span></div></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(80) + "</span></div></td><td>" + createBar(battery_charge_percent) + "</td></tr>\n";
             tree.push(index);
         }
         if (time_left_minutes !== undefined) {
-            html += "<tr><td style=\"width:160px\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(81) + "</span></div></td><td>" + time_left_minutes + "&nbsp;" + genlang(83) + "</td></tr>\n";
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(81) + "</span></div></td><td>" + time_left_minutes + "&nbsp;" + genlang(83) + "</td></tr>\n";
             tree.push(index);
         }
         values=true;
@@ -1691,6 +1743,9 @@ $(document).ready(function buildpage() {
     showNetworkInfosExpanded = $("#showNetworkInfosExpanded").val().toString()==="true";
     showMemoryInfosExpanded = $("#showMemoryInfosExpanded").val().toString()==="true";
     showCPULoadCompact = $("#showCPULoadCompact").val().toString()==="true";
+    showTotals = $("#hideTotals").val().toString()!=="true";
+    increaseWidth = $("#increaseWidth").val().toString();
+    if (isNaN(increaseWidth) || (increaseWidth<=0)) increaseWidth = 0;
     switch ($("#showNetworkActiveSpeed").val().toString()) {
         case "bps":  showNetworkActiveSpeed = 2;
                       break;
@@ -1914,7 +1969,8 @@ function buildBlock(plugin, translationid, reload) {
     }
     block += "<div id=\"panel_" + plugin + "\" style=\"display:none;\">\n";
     block += "<div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";
-    block += "<h2>" + reloadpic + genlang(translationid, plugin) + "</h2>\n";
+    block += "<h2>" + reloadpic + genlang(translationid, plugin) + "\n";
+    block += "<span class=\"Hostname_" + plugin + "\"></span></h2>\n";
     block += "</div>\n";
     block += "</div>\n";
     return block;

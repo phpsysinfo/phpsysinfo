@@ -177,6 +177,15 @@ class System
     private $_nvmeDevices = array();
 
     /**
+     * array with Mem devices
+     *
+     * @see HWDevice
+     *
+     * @var array
+     */
+    private $_memDevices = array();
+
+    /**
      * array with disk devices
      *
      * @see DiskDevice
@@ -962,6 +971,33 @@ class System
     public function setNvmeDevices($nvmeDevices)
     {
         array_push($this->_nvmeDevices, $nvmeDevices);
+    }
+
+    /**
+     * Returns $_memDevices.
+     *
+     * @see System::$_memDevices
+     *
+     * @return array
+     */
+    public function getMemDevices()
+    {
+        return $this->_memDevices;
+    }
+
+    /**
+     * Sets $_memDevices.
+     *
+     * @param HWDevice $memDevices mem device
+     *
+     * @see System::$_memDevices
+     * @see HWDevice
+     *
+     * @return Void
+     */
+    public function setMemDevices($memDevices)
+    {
+        array_push($this->_memDevices, $memDevices);
     }
 
     /**

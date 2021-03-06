@@ -14,6 +14,7 @@ require_once PSI_APP_ROOT.'/includes/os/class.Linux.inc.php';
 define('PSI_USE_VHOST', false);
 define('PSI_DEBUG', false);
 define('PSI_LOAD_BAR', false);
+define('PSI_OS','Linux');
 
 $log_file = "";
 $lsb = true; //enable detection lsb_release -a
@@ -114,6 +115,11 @@ class CommonFunctions
     public static function gdc()
     {
         return array();
+    }
+
+    public static function _findProgram($strProgram)
+    {
+        return false;
     }
 }
 

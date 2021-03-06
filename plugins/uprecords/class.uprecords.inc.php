@@ -69,7 +69,7 @@ class uprecords extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
+        if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
             case 'command':
                 $lines = "";
                 $options = "";

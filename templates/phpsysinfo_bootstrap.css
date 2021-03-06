@@ -118,6 +118,10 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
     color: #333;
 }
 
+select {
+    background-color: #fefefe;
+}
+
 .template {
     cursor: pointer;
     color: #333;

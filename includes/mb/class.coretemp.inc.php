@@ -25,17 +25,19 @@ class Coretemp extends Hwmon
      */
     public function build()
     {
-        if (PSI_OS == 'Linux') {
+        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
             $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) > 0)) {
-                $hwpaths = array_merge($hwpaths, glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT));
-            }
-            if (is_array($hwpaths) && (($totalh = count($hwpaths)) > 0)) {
+                $hwpaths2 = glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT);
+                if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
+                    $hwpaths = array_merge($hwpaths, $hwpaths2);
+                }
+                $totalh = count($hwpaths);
                 for ($h = 0; $h < $totalh; $h++) {
                     $this->_temperature($hwpaths[$h]);
                 }
             }
-        } else {
+        } elseif (PSI_OS == 'FreeBSD') {
             $smp = 1;
             CommonFunctions::executeProgram('sysctl', '-n kern.smp.cpus', $smp);
             for ($i = 0; $i < $smp; $i++) {

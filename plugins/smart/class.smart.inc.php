@@ -25,6 +25,12 @@ class SMART extends PSI_Plugin
     private $_result = array();
 
     /**
+     * variable, which holds the events of disks
+     * @var array
+     */
+    private $_event = array();
+
+    /**
      * variable, which holds PSI_PLUGIN_SMART_IDS well formated datas
      * @var array
      */
@@ -70,58 +76,61 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
             case 'wmi':
-                if (PSI_OS == 'WINNT') {
-                    $asd_wmi = null;
-                    try {
-                        $objLocator = new COM('WbemScripting.SWbemLocator');
-                        $wmi = $objLocator->ConnectServer('', 'root\wmi');
-                        $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
-                    } catch (Exception $e) {
-                    }
-                    foreach ($asd_wmi as $_nr=>$asd) {
-                        $_name = "/dev/sd".chr(97+$_nr);
-                        if (array_search($_name, $disks) !== false) {
-                            $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
-                            $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
-                            $asdvs = $asd['VendorSpecific'];
-                            for ($c = 2; $c < count($asdvs); $c += 12) {
-                                //Attribute values 0x00, 0xff are invalid
-                                $id = $asdvs[$c];
-                                if (($id != 0) && ($id != 255)) {
-                                    switch ($id) {
-                                        case 3:
-                                            //raw16(avg16)
-                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        case 5:
-                                        case 196:
-                                            //raw16(raw16)
-                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        case 9:
-                                        case 240:
-                                            //raw24(raw8)
-                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
-                                            break;
-                                        case 190:
-                                        case 194:
-                                            //tempminmax
-                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        default:
-                                            //raw48
-                                            $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
-                                            break;
+                if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                    if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !CommonFunctions::isAdmin()) {
+                        $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
+                    } else {
+                        $asd_wmi = null;
+                        try {
+                            $wmi = CommonFunctions::initWMI('root\wmi');
+                            $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
+                        } catch (Exception $e) {
+                        }
+                        foreach ($asd_wmi as $_nr=>$asd) {
+                            $_name = "/dev/sd".chr(97+$_nr);
+                            if (array_search($_name, $disks) !== false) {
+                                $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
+                                $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
+                                $asdvs = $asd['VendorSpecific'];
+                                for ($c = 2; $c < count($asdvs); $c += 12) {
+                                    //Attribute values 0x00, 0xff are invalid
+                                    $id = $asdvs[$c];
+                                    if (($id != 0) && ($id != 255)) {
+                                        switch ($id) {
+                                            case 3:
+                                                //raw16(avg16)
+                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                                break;
+                                            case 5:
+                                            case 196:
+                                                //raw16(raw16)
+                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                                break;
+                                            case 9:
+                                            case 240:
+                                                //raw24(raw8)
+                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
+                                                break;
+                                            case 190:
+                                            case 194:
+                                                //tempminmax
+                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                                break;
+                                            default:
+                                                //raw48
+                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
+                                                break;
+                                        }
                                     }
                                 }
+                                $this->_filecontent[$_name] .= "SMART Error Log Version";
                             }
-                            $this->_filecontent[$_name] .= "SMART Error Log Version";
                         }
                     }
                 }
                 break;
             case 'command':
-                foreach ($disks as $disk) {
+                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
                     if (trim($disk) != "") {
                         $diskdev = "";
                         if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {
@@ -141,10 +150,49 @@ class SMART extends PSI_Plugin
                 break;
             case 'data':
                 $dn=0;
-                foreach ($disks as $disk) {
+                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
                     $buffer="";
                     if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.txt", $buffer) && !empty($buffer)) {
-                        $this->_filecontent[$disk] = $buffer;
+                        if (preg_match("/^.+\n.{(.+)}/", $buffer, $out)) { //wmic format
+                            $line = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $out[1]));
+                            $this->_filecontent[$disk] = "\nVendor Specific SMART Attributes with Thresholds\n";
+                            $this->_filecontent[$disk] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
+                            $asdvs = preg_split('/\s*,\s*/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+                            for ($c = 2; $c < count($asdvs); $c += 12) {
+                                //Attribute values 0x00, 0xff are invalid
+                                $id = $asdvs[$c];
+                                if (($id != 0) && ($id != 255)) {
+                                    switch ($id) {
+                                        case 3:
+                                            //raw16(avg16)
+                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        case 5:
+                                        case 196:
+                                            //raw16(raw16)
+                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        case 9:
+                                        case 240:
+                                            //raw24(raw8)
+                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
+                                            break;
+                                        case 190:
+                                        case 194:
+                                            //tempminmax
+                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                            break;
+                                        default:
+                                            //raw48
+                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]),-2).substr("0".dechex($asdvs[$c+1]),-2)." ".substr("00".$asdvs[$c+3],-3)." ".substr("00".$asdvs[$c+4],-3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
+                                            break;
+                                    }
+                                }
+                            }
+                            $this->_filecontent[$disk] .= "SMART Error Log Version";
+                        } else {
+                            $this->_filecontent[$disk] = $buffer;
+                        }
                     }
                     $dn++;
                 }
@@ -182,28 +230,58 @@ class SMART extends PSI_Plugin
                  $vendorInfos = preg_split("/\n/", substr($result, $startIndex, $endIndex - $startIndex));
 
             if (!empty($vendorInfos)) {
+                if (preg_match('/\nSMART overall-health self-assessment test result\: ([^!\n]+)/', $result, $tmpbuf)) {
+                    $event=trim($tmpbuf[1]);
+                    if (!empty($event) && ($event!=='PASSED')) {
+                        $this->_event[$disk] = $event;
+                    }
+                }
+
+                $i = 0; // Line number
+
+                $cid = 0;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nATA Error Count\: (\d+)/', $result, $tmpbuf)) {
+                        $this->_result[$disk][$i]['id'] = $cid;
+                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                        $this->_result[$disk][$i]['raw_value'] = $tmpbuf[1];
+                        $i++;
+                    } elseif (preg_match('/\nNo Errors Logged/', $result, $tmpbuf)) {
+                        $this->_result[$disk][$i]['id'] = $cid;
+                        $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
+                        $this->_result[$disk][$i]['raw_value'] = 0;
+                        $i++;
+                    }
+                }
+
                 $labels = preg_split('/\s+/', $vendorInfos[1]);
                 foreach ($labels as $k=>$v) {
                     $labels[$k] = str_replace('#', '', strtolower($v));
                 }
-                $i = 0; // Line number
-                foreach ($vendorInfos as $line) {
+                foreach ($vendorInfos as $line) if (preg_match('/^\s*((\d+)|(id))\s/', $line)) {
                     $line = preg_replace('/^\s+/', '', $line);
                     $values = preg_split('/\s+/', $line);
                     if (count($values) > count($labels)) {
                         $values = array_slice($values, 0, count($labels), true);
                     }
                     $j = 0;
-                    $found = false;
+                    $found = 0;
                     foreach ($values as $value) {
                         if ((in_array($value, array_keys($this->_ids)) && $labels[$j] == 'id')) {
                           $arrFullVa = preg_split('/-/', $this->_ids[$value]);
-                          if (($arrFullVa[0]=="#replace") && !empty($arrFullVa[1]))
+                          if (($arrFullVa[0]=="#replace") && !empty($arrFullVa[1])) {
                               $value=$arrFullVa[1];
+                          }
                         }
-                        if (((in_array($value, array_keys($this->_ids)) && $labels[$j] == 'id') || ($found && (in_array($labels[$j], array_values($this->_ids)))) || ($found && $labels[$j] == 'attribute_name'))) {
+                        if (in_array($value, array_keys($this->_ids)) && ($labels[$j] == 'id') && ($value > 0) && ($value < 255)) {
                             $this->_result[$disk][$i][$labels[$j]] = $value;
-                            $found = true;
+                            $found = $value;
+                        } elseif (($found > 0) && (($labels[$j] == 'attribute_name') || ($labels[$j] == $this->_ids[$found]))) {
+                            $this->_result[$disk][$i][$labels[$j]] = $value;
                         }
                         $j++;
                     }
@@ -211,90 +289,153 @@ class SMART extends PSI_Plugin
                 }
             } else {
                 //SCSI and MVMe devices
-                if (!empty($this->_ids[1]) && ($this->_ids[1]=="raw_value")) {
-                    if (preg_match('/\nread\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
-                        if (!empty($values) && ($values[7]!=null)) {
-                            $this->_result[$disk][0]['id'] = 1;
-                            $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
-                            $this->_result[$disk][0]['raw_value'] = trim($values[7]);
+                $cid = 187;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nread\: (.*)\n/', $result, $tmpbufr) && preg_match('/\nwrite\: (.*)\n/', $result, $tmpbufw)) {
+                        $valuesr=preg_split('/ +/', $tmpbufr[0]);
+                        $valuesw=preg_split('/ +/', $tmpbufw[0]);
+                        if (!preg_match('/\nverify\: (.*)\n/', $result, $tmpbufv)) { //if no verify value yet
+                            $valuesv[7] = 0;
+                        } else {
+                            $valuesv=preg_split('/ +/', $tmpbufv[0]);
                         }
-                    } elseif (preg_match('/\Media and Data Integrity Errors\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                        if (!empty($valuesr) && !empty($valuesw) && !empty($valuesv) && ($valuesr[7]!=null) && ($valuesw[7]!=null) && ($valuesw[7]!=null)) {
+                            $this->_result[$disk][0]['id'] = $cid;
+                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
+                            $this->_result[$disk][0]['raw_value'] = intval($valuesr[7])+intval($valuesw[7])+intval($valuesv[7]);
+                        }
+                    } elseif (preg_match('/\nMedia and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[5]));
-                            $this->_result[$disk][0]['id'] = 1;
-                            $this->_result[$disk][0]['attribute_name'] = "Raw_Read_Error_Rate";
+                            $this->_result[$disk][0]['id'] = $cid;
+                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
                             $this->_result[$disk][0]['raw_value'] = $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[5]) && ($this->_ids[5]=="raw_value")) {
-                    if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+
+                $cid = 5;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
-                            $this->_result[$disk][1]['id'] = 5;
+                            $this->_result[$disk][1]['id'] = $cid;
                             $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
                             $this->_result[$disk][1]['raw_value'] = trim($values[5]);
                         }
                     }
                 }
-                if (!empty($this->_ids[9]) && ($this->_ids[9]=="raw_value")) {
-                    if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+
+                $cid = 9;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', trim($values[7]));
-                            $this->_result[$disk][2]['id'] = 9;
+                            $this->_result[$disk][2]['id'] = $cid;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals[0];
                         }
-                    } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
-                            $this->_result[$disk][2]['id'] = 9;
+                            $this->_result[$disk][2]['id'] = $cid;
                             $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
                             $this->_result[$disk][2]['raw_value'] =  $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[194]) && ($this->_ids[194]=="raw_value")) {
-                    if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+
+                $cid = 194;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $this->_result[$disk][3]['id'] = 194;
+                            $this->_result[$disk][3]['id'] = $cid;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = trim($values[3]);
                         }
-                    } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+                    } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[1]!=null)) {
-                            $this->_result[$disk][3]['id'] = 194;
+                            $this->_result[$disk][3]['id'] = $cid;
                             $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
                             $this->_result[$disk][3]['raw_value'] = trim($values[1]);
                         }
                     }
                 }
-                if (!empty($this->_ids[12]) && ($this->_ids[12]=="raw_value")) {
-                    if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+
+                $cid = 12;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][4]['id'] = 12;
+                            $this->_result[$disk][4]['id'] = $cid;
                             $this->_result[$disk][4]['attribute_name'] = "Power_Cycle_Count";
                             $this->_result[$disk][4]['raw_value'] = $vals;
                         }
                     }
                 }
-                if (!empty($this->_ids[192]) && ($this->_ids[192]=="raw_value")) {
-                    if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $lines)) {
-                        $values=preg_split('/ +/', $lines[0]);
+
+                $cid = 192;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][5]['id'] = 192;
+                            $this->_result[$disk][5]['id'] = $cid;
                             $this->_result[$disk][5]['attribute_name'] = "Unsafe_Shutdown_Count";
                             $this->_result[$disk][5]['raw_value'] = $vals;
                         }
+                    }
+                }
+
+                $cid = 255;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nNon-medium error count\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $this->_result[$disk][6]['id'] = $cid;
+                            $this->_result[$disk][6]['attribute_name'] = "Non-medium_Error_Count";
+                            $this->_result[$disk][6]['raw_value'] = trim($values[3]);
+                        }
+                    }
+                }
+                if (preg_match('/\nSMART Health Status\: ([^\[\n]+)/', $result, $tmpbuf)) {
+                    $event=trim($tmpbuf[1]);
+                    if (!empty($event) && ($event!=='OK')) {
+                        $this->_event[$disk] = $event;
                     }
                 }
             }
@@ -345,6 +486,7 @@ class SMART extends PSI_Plugin
         foreach ($this->_result as $diskName=>$diskInfos) {
             $diskChild = $disksChild->addChild('disk');
             $diskChild->addAttribute('name', $diskName);
+            if (isset($this->_event[$diskName])) $diskChild->addAttribute('event', $this->_event[$diskName]);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
 

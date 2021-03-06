@@ -13,7 +13,7 @@ USED     : used for the entire userinterface
 
 jquery.dataTables.js
 --------------------
-VERSION  : 1.8.2+jquery1.9fix+parseJSONfix2+bindfix
+VERSION  : 1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix
 URL      : http://plugins.jquery.com/project/DataTables
 DESC     : dataTables is a jQuery plugin for turning a standard HTML table with THEAD and TBODY tags into a sortable
            table without page refreshes.

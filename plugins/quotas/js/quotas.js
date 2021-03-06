@@ -34,7 +34,14 @@ var quotas_show = false, quotas_table;
  * @param {jQuery} xml plugin-XML
  */
 function quotas_populate(xml) {
+    var hostname = "";
+
     quotas_table.fnClearTable();
+
+    hostname = $("Plugins Plugin_Quotas", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_Quotas]').html(hostname);
+    }
 
     $("Plugins Plugin_Quotas Quota", xml).each(function quotas_getquota(id) {
         var user = "", bused = 0, bsoft = 0, bhard = 0, bpuse = 0, fpuse = 0, fused = 0, fsoft = 0, fhard = 0;
@@ -136,7 +143,7 @@ function quotas_request() {
 
 $(document).ready(function quotas_buildpage() {
     $("#footer").before(buildBlock("Quotas", 1, true));
-    $("#Plugin_Quotas").css("width", "915px");
+    $("#Plugin_Quotas").addClass("fullsize");
 
     quotas_buildTable();
 

@@ -43,7 +43,7 @@ class PingTest extends PSI_Plugin
 
             switch (strtolower(PSI_PLUGIN_PINGTEST_ACCESS)) {
             case 'command':
-                if (PSI_OS == 'WINNT') {
+                if (PHP_OS == 'WINNT') {
                     $params = "-n 1";
                     if (defined('PSI_PLUGIN_PINGTEST_TIMEOUT')) {
                         if (($tout = max(intval(PSI_PLUGIN_PINGTEST_TIMEOUT), 0)) > 0) {
@@ -64,7 +64,7 @@ class PingTest extends PSI_Plugin
                     }
                 }
                 foreach ($addresses as $address) {
-                    CommonFunctions::executeProgram("ping".((strpos($address, ':') === false)?'':((PSI_OS !== 'WINNT')?'6':'')), $params." ".$address, $buffer, PSI_DEBUG);
+                    CommonFunctions::executeProgram("ping".((strpos($address, ':') === false)?'':((PHP_OS != 'WINNT')?'6':'')), $params." ".$address, $buffer, PSI_DEBUG);
                     if ((strlen($buffer) > 0) && preg_match("/[=<]([\d\.]+)\s*ms/", $buffer, $tmpout)) {
                         $this->_filecontent[] = array($address, $tmpout[1]);
                     }

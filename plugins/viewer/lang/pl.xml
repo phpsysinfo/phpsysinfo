@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!-- $Id: pl.xml 661 2029-06-1 Mieczyslaw Nalewaj 13:43:21Z namiltd $ -->
+  <!--
+    phpSysInfo language file Language: Polish Created by:  Mieczyslaw Nalewaj
+  -->
+<tns:translationPlugin language="polish" charset="utf-8"
+  xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_viewer_001" name="viewer_hash">
+    <exp>Przeglądarka</exp>
+  </expression>
+ </tns:translationPlugin>

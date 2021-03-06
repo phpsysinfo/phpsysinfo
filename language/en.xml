@@ -387,4 +387,19 @@ phpSysInfo language file Language: English Created by: Audun Larsen
   <expression id="127" name="os">
     <exp>OS Type</exp>
   </expression>
+  <expression id="128" name="no_memories">
+    <exp>Number of memory chips</exp>
+  </expression>
+  <expression id="129" name="speed">
+    <exp>Speed</exp>
+  </expression>
+  <expression id="130" name="mem">
+    <exp>Memory Chips</exp>
+  </expression>
+  <expression id="131" name="mtps">
+    <exp>MT/s</exp>
+  </expression>
+  <expression id="132" name="gtps">
+    <exp>GT/s</exp>
+  </expression>
 </tns:translation>

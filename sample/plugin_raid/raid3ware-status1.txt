@@ -1,0 +1,19 @@
+-- Controller informations --
+-- ID | Model
+c2 | 9500S-12
+c3 | N/A
+
+-- Arrays informations --
+-- ID	Type	Size	Status
+c2u0	RAID1	1862G	OK
+c3u0	RAID1	279G	OK
+c3u2	RAID1	232G	OK
+
+-- Disks informations
+-- ID	Model			Status
+c2u0p4	WDC WD20EZRX-32SPEB0	OK
+c2u0p5	WDC WD20EZRX-32D8PB0	OK
+c3u0p0	ST3300831A	OK
+c3u0p1	ST3300831A	OK
+c3u2p2	ST3250623A	OK
+c3u2p3	ST3250624A	OK

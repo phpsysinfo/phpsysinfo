@@ -1,0 +1,277 @@
+==============NVSMI LOG==============
+
+Timestamp : Thu Aug 11 22:42:34 2016
+Driver Version : 352.93
+
+Attached GPUs : 2
+GPU 0000:05:00.0
+    Product Name : Tesla K80
+    Product Brand : Tesla
+    Display Mode : Disabled
+    Display Active : Disabled
+    Persistence Mode : Disabled
+    Accounting Mode : Disabled
+    Accounting Mode Buffer Size : 1920
+    Driver Model
+        Current : N/A
+        Pending : N/A
+    Serial Number : 0325515512345
+    GPU UUID : GPU-a65eaaaa-8871-ded5-b6ee-526840412345
+    Minor Number : 0
+    VBIOS Version : 80.21.1B.00.01
+    MultiGPU Board : Yes
+    Board ID : 0x300
+    Inforom Version
+        Image Version : 2080.0200.00.04
+        OEM Object : 1.1
+        ECC Object : 3.0
+        Power Management Object : N/A
+    GPU Operation Mode
+        Current : N/A
+        Pending : N/A
+    PCI
+        Bus : 0x05
+        Device : 0x00
+        Domain : 0x0000
+        Device Id : 0x102D10DE
+        Bus Id : 0000:05:00.0
+        Sub System Id : 0x106C10DE
+        GPU Link Info
+            PCIe Generation
+                Max : 3
+                Current : 3
+            Link Width
+                Max : 16x
+                Current : 16x
+        Bridge Chip
+            Type : PLX
+            Firmware : 0xF0472900
+        Replays since reset : 0
+        Tx Throughput : N/A
+        Rx Throughput : N/A
+    Fan Speed : N/A
+    Performance State : P0
+    Clocks Throttle Reasons
+        Idle : Not Active
+        Applications Clocks Setting : Active
+        SW Power Cap : Not Active
+        HW Slowdown : Not Active
+        Unknown : Not Active
+    FB Memory Usage
+        Total : 12287 MiB
+        Used : 56 MiB
+        Free : 12231 MiB
+    BAR1 Memory Usage
+        Total : 16384 MiB
+        Used : 2 MiB
+        Free : 16382 MiB
+    Compute Mode : Default
+    Utilization
+        Gpu : 0 %
+        Memory : 0 %
+        Encoder : 0 %
+        Decoder : 0 %
+    Ecc Mode
+        Current : Disabled
+        Pending : Disabled
+    ECC Errors
+        Volatile
+            Single Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+            Double Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+        Aggregate
+            Single Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+            Double Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+    Retired Pages
+        Single Bit ECC : 0
+        Double Bit ECC : 0
+        Pending : No
+    Temperature
+        GPU Current Temp : 31 C
+        GPU Shutdown Temp : 93 C
+        GPU Slowdown Temp : 88 C
+    Power Readings
+        Power Management : Supported
+        Power Draw : 59.20 W
+        Power Limit : 149.00 W
+        Default Power Limit : 149.00 W
+        Enforced Power Limit : 149.00 W
+        Min Power Limit : 100.00 W
+        Max Power Limit : 175.00 W
+    Clocks
+        Graphics : 562 MHz
+        SM : 562 MHz
+        Memory : 2505 MHz
+    Applications Clocks
+        Graphics : 562 MHz
+        Memory : 2505 MHz
+    Default Applications Clocks
+        Graphics : 562 MHz
+        Memory : 2505 MHz
+    Max Clocks
+        Graphics : 875 MHz
+        SM : 875 MHz
+        Memory : 2505 MHz
+    Clock Policy
+        Auto Boost : On
+        Auto Boost Default : On
+    Processes : None
+
+GPU 0000:06:00.0
+    Product Name : Tesla K80
+    Product Brand : Tesla
+    Display Mode : Disabled
+    Display Active : Disabled
+    Persistence Mode : Disabled
+    Accounting Mode : Disabled
+    Accounting Mode Buffer Size : 1920
+    Driver Model
+        Current : N/A
+        Pending : N/A
+    Serial Number : 0325515512346
+    GPU UUID : GPU-21c2bbbb-72a9-1b68-adab-459d05d12345
+    Minor Number : 1
+    VBIOS Version : 80.21.1B.00.02
+    MultiGPU Board : Yes
+    Board ID : 0x300
+    Inforom Version
+        Image Version : 2080.0200.00.04
+        OEM Object : 1.1
+        ECC Object : 3.0
+        Power Management Object : N/A
+    GPU Operation Mode
+        Current : N/A
+        Pending : N/A
+    PCI
+        Bus : 0x06
+        Device : 0x00
+        Domain : 0x0000
+        Device Id : 0x102D10DE
+        Bus Id : 0000:06:00.0
+        Sub System Id : 0x106C10DE
+        GPU Link Info
+            PCIe Generation
+                Max : 3
+                Current : 3
+            Link Width
+                Max : 16x
+                Current : 16x
+        Bridge Chip
+            Type : PLX
+            Firmware : 0xF0472900
+        Replays since reset : 0
+        Tx Throughput : N/A
+        Rx Throughput : N/A
+    Fan Speed : N/A
+    Performance State : P0
+    Clocks Throttle Reasons
+        Idle : Not Active
+        Applications Clocks Setting : Active
+        SW Power Cap : Not Active
+        HW Slowdown : Not Active
+        Unknown : Not Active
+    FB Memory Usage
+        Total : 12287 MiB
+        Used : 56 MiB
+        Free : 12231 MiB
+    BAR1 Memory Usage
+        Total : 16384 MiB
+        Used : 2 MiB
+        Free : 16382 MiB
+    Compute Mode : Default
+    Utilization
+        Gpu : 0 %
+        Memory : 0 %
+        Encoder : 0 %
+        Decoder : 0 %
+    Ecc Mode
+        Current : Disabled
+        Pending : Disabled
+    ECC Errors
+        Volatile
+            Single Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+            Double Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+        Aggregate
+            Single Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+            Double Bit
+                Device Memory : N/A
+                Register File : N/A
+                L1 Cache : N/A
+                L2 Cache : N/A
+                Texture Memory : N/A
+                Total : N/A
+    Retired Pages
+        Single Bit ECC : 0
+        Double Bit ECC : 0
+        Pending : No
+    Temperature
+        GPU Current Temp : 24 C
+        GPU Shutdown Temp : 93 C
+        GPU Slowdown Temp : 88 C
+    Power Readings
+        Power Management : Supported
+        Power Draw : 70.89 W
+        Power Limit : 149.00 W
+        Default Power Limit : 149.00 W
+        Enforced Power Limit : 149.00 W
+        Min Power Limit : 100.00 W
+        Max Power Limit : 175.00 W
+    Clocks
+        Graphics : 562 MHz
+        SM : 562 MHz
+        Memory : 2505 MHz
+    Applications Clocks
+        Graphics : 562 MHz
+        Memory : 2505 MHz
+    Default Applications Clocks
+        Graphics : 562 MHz
+        Memory : 2505 MHz
+    Max Clocks
+        Graphics : 875 MHz
+        SM : 875 MHz
+        Memory : 2505 MHz
+    Clock Policy
+        Auto Boost : On
+        Auto Boost Default : On
+    Processes : None

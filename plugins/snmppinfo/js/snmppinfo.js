@@ -32,17 +32,22 @@ var snmppinfo_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function snmppinfo_buildTable(xml) {
-    var html = "", tree = [], closed = [];
+    var html = "", tree = [], closed = [], hostname = "";
 
     $("#Plugin_SNMPPInfo #Plugin_SNMPPInfoTable").remove();
+
+    hostname = $("Plugins Plugin_SNMPInfo", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_SNMPInfo]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_SNMPPInfoTable\" class=\"tablemain\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "SNMPPInfo") + "</th>\n";
-    html += "       <th style=\"width:120px;\">" + genlang(3, "SNMPPInfo") + "</th>\n";
-    html += "       <th class=\"right\" style=\"width:100px;\">" + genlang(4, "SNMPPInfo") + "</th>\n";
+    html += "       <th style=\"width:31%;\">" + genlang(3, "SNMPPInfo") + "</th>\n";
+    html += "       <th class=\"right\" style=\"width:28.7%;\">" + genlang(4, "SNMPPInfo") + "</th>\n";
     html += "      </tr>\n";
     html += "     </thead>\n";
     html += "     <tbody class=\"tree\">\n";
@@ -149,7 +154,7 @@ function snmppinfo_request() {
 
 $(document).ready(function snmppinfo_buildpage() {
     $("#footer").before(buildBlock("SNMPPInfo", 1, true));
-    $("#Plugin_SNMPPInfo").css("width", "451px");
+    $("#Plugin_SNMPPInfo").addClass("halfsize");
 
     snmppinfo_request();
 

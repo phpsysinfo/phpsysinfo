@@ -1,0 +1,20 @@
+-- Controller information --
+-- ID | H/W Model                  | RAM    | Temp | Firmware     
+c0    | LSI MegaRAID SAS 9271-8i   | 1024MB | 88C  | FW: 23.32.0-0009 
+c1    | LSI MegaRAID SAS 9280-4i4e | 512MB  | N/A  | FW: 12.15.0-0205 
+
+-- Array information --
+-- ID | Type   |    Size |  Strpsz |   Flags | DskCache |  Status |  OS Path | InProgress   
+c0u0  | RAID-1 |   1817G |  256 KB | ADRA,WT |  Enabled | Optimal | /dev/sda | None         
+c0u1  | RAID-5 |  16370G |  512 KB | ADRA,WB |  Enabled | Optimal | /dev/sdb | None         
+c1u0  | RAID-0 |    476G |  256 KB | ADRA,WT |  Enabled | Optimal | /dev/sdc | None         
+
+-- Disk information --
+-- ID   | Type | Drive Model                                  | Size     | Status          | Speed    | Temp | Slot ID  | LSI Device ID
+c0u0p0  | HDD  | WD-WMC300412345WDC WD20EFRX-68AX9N0 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 31C  | [252:4]  | 17      
+c0u0p1  | HDD  | WD-WMC300412346WDC WD20EFRX-68AX9N0 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 31C  | [252:5]  | 18      
+c0u1p0  | HDD  | WD-WX41DA40ABC1WDC WD60EFRX-68MYMN1 82.00A82 | 5.456 TB | Online, Spun Up | 6.0Gb/s  | 32C  | [252:0]  | 15      
+c0u1p1  | HDD  | WD-WX41DA40ABC2WDC WD60EFRX-68MYMN1 82.00A82 | 5.456 TB | Online, Spun Up | 6.0Gb/s  | 31C  | [252:1]  | 12      
+c0u1p2  | HDD  | WD-WX61DA4HABCDWDC WD60EFRX-68MYMN1 82.00A82 | 5.456 TB | Online, Spun Up | 6.0Gb/s  | 32C  | [252:6]  | 14      
+c0u1p3  | HDD  | WD-WX41DA40ABC1WDC WD60EFRX-68MYMN1 82.00A82 | 5.456 TB | Online, Spun Up | 6.0Gb/s  | 31C  | [252:7]  | 16      
+c1u0p0  | SSD  | 0000000012345678CDE1M2-CT512M4SSD2 070H      | 476.4 Gb | Online, Spun Up | 6.0Gb/s  | N/A  | [252:1]  | 11      

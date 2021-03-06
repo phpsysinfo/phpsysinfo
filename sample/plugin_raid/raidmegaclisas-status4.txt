@@ -1,0 +1,13 @@
+-- Controller informations --
+-- ID | Model | Firmware
+c0 | PERC H710 Mini | 21.3.4-0001
+
+-- Arrays informations --
+-- ID | Type | Size | Status | InProgress
+c0u0 | RAID5 | 1089G | Optimal | None
+
+-- Disks informations
+-- ID | Model | Status
+c0u0p0 | WD WD6001BKHG D1S6WX11E80AB123 | Online, Spun Up
+c0u0p1 | WD WD6001BKHG D1S6WX11E80CD456 | Online, Spun Up
+c0u0p2 | WD WD6001BKHG D1S6WX11E80EF789 | Online, Spun Up

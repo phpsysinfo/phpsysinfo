@@ -147,17 +147,17 @@ class SunOS extends OS
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('uname', '-s', $os, PSI_DEBUG) && ($os!="")) {
-            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && ($version!="")) {
-                $os.=' '.$version;
+        if (CommonFunctions::executeProgram('uname', '-s', $kernel, PSI_DEBUG) && ($kernel != "")) {
+            if (CommonFunctions::executeProgram('uname', '-r', $version, PSI_DEBUG) && ($version != "")) {
+                $kernel.=' '.$version;
             }
-            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && ($subversion!="")) {
-                $os.=' ('.$subversion.')';
+            if (CommonFunctions::executeProgram('uname', '-v', $subversion, PSI_DEBUG) && ($subversion != "")) {
+                $kernel.=' ('.$subversion.')';
             }
-            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && ($platform!="")) {
-                $os.=' '.$platform;
+            if (CommonFunctions::executeProgram('uname', '-i', $platform, PSI_DEBUG) && ($platform != "")) {
+                $kernel.=' '.$platform;
             }
-            $this->sys->setKernel($os);
+            $this->sys->setKernel($kernel);
         }
     }
 
@@ -338,14 +338,16 @@ class SunOS extends OS
         $this->sys->setMemTotal($this->_kstat('unix:0:system_pages:pagestotal') * $pagesize);
         $this->sys->setMemUsed($this->_kstat('unix:0:system_pages:pageslocked') * $pagesize);
         $this->sys->setMemFree($this->_kstat('unix:0:system_pages:pagesfree') * $pagesize);
-        $dev = new DiskDevice();
-        $dev->setName('SWAP');
-        $dev->setFsType('swap');
-        $dev->setMountPoint('SWAP');
-        $dev->setTotal($this->_kstat('unix:0:vminfo:swap_avail') / 1024);
-        $dev->setUsed($this->_kstat('unix:0:vminfo:swap_alloc') / 1024);
-        $dev->setFree($this->_kstat('unix:0:vminfo:swap_free') / 1024);
-        $this->sys->setSwapDevices($dev);
+        if (($swap=$this->_kstat('unix:0:vminfo:swap_avail')) > 0) {
+            $dev = new DiskDevice();
+            $dev->setName('SWAP');
+            $dev->setFsType('swap');
+            $dev->setMountPoint('SWAP');
+            $dev->setTotal($swap / 1024);
+            $dev->setUsed($this->_kstat('unix:0:vminfo:swap_alloc') / 1024);
+            $dev->setFree($this->_kstat('unix:0:vminfo:swap_free') / 1024);
+            $this->sys->setSwapDevices($dev);
+        }
     }
 
     /**

@@ -26,44 +26,50 @@ function renderPlugin_raid(data) {
         if (info === undefined) info = "";
         parentid = parseInt(data.ParentID, 10);
 
-        var img = "", alt = "", bcolor = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "";
         switch (data.Status) {
         case "ok":
-            img = "harddriveok.png";
+            imgh = "harddriveok.png";
+            imgs = "soliddriveok.png";
             alt = "ok";
             bcolor = "green";
             break;
         case "F":
-            img = "harddrivefail.png";
+            imgh = "harddrivefail.png";
+            imgs = "soliddrivefail.png";
             alt = "fail";
             bcolor = "red";
             break;
         case "S":
-            img = "harddrivespare.png";
+            imgh = "harddrivespare.png";
+            imgs = "soliddrivespare.png";
             alt = "spare";
             bcolor = "gray";
             break;
        case "U":
-            img = "harddriveunc.png";
+            imgh = "harddriveunc.png";
+            imgs = "soliddriveunc.png";
             alt = "unconfigured";
             bcolor = "purple";
             break;
         case "W":
-            img = "harddrivewarn.png";
+            imgh = "harddrivewarn.png";
+            imgs = "soliddrivewarn.png";
             alt = "warning";
             bcolor = "orange";
             break;
         default:
 //            alert("--" + diskstatus + "--");
-            img = "error.png";
+            imgh = "error.png";
+            imgs = "error.png";
             alt = "error";
 
             break;
         }
 
         if (!isNaN(parentid)) {
-            if (data.Type === "disk") {
-                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + img + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
+            if (data.Type !== undefined) {
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
             } else {
                 if (parentid === 0) {
                     $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;float:left;text-align:center\">" + data.Name + "<br></div>");
@@ -97,7 +103,7 @@ function renderPlugin_raid(data) {
                     html += "<tr class=\"treegrid-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">" + genlang(2, "raid") + "</span></td><td></td></tr>";
                     html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(22, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Program + "</td></tr>"; // Program
                     if (raiditems[i]["@attributes"].Name !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(3, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Name + "</td></tr>"; // Name
-                    html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Status + "</td></tr>"; 	// Status
+                    html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Status + "</td></tr>"; // Status
                     if (raiditems[i]["@attributes"].Level !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Level + "</td></tr>"; // RAID-Level
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Size), data.Options["@attributes"].byteFormat) + "</td></tr>";// Size
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Stride))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(7, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Stride) + "</td></tr>"; // Stride
@@ -105,7 +111,8 @@ function renderPlugin_raid(data) {
                     if (raiditems[i]["@attributes"].Devs !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Devs) + "</td></tr>"; // Devices
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Spares))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(10, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Spares) + "</td></tr>"; // Spares
 
-                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Chunk_Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(13, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Chunk_Size) + "K</td></tr>";
+                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Chunk_Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(13, 'raid')+"</span></td><td>" + formatBytes(1024*parseInt(raiditems[i]["@attributes"].Chunk_Size), data.Options["@attributes"].byteFormat) + "</td></tr>";
+                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Stripe_Size))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(28, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Stripe_Size), data.Options["@attributes"].byteFormat) + "</td></tr>";
                     if (raiditems[i]["@attributes"].Algorithm !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(14, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Algorithm + "</td></tr>";
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Persistend_Superblock))) {
                         if (parseInt(raiditems[i]["@attributes"].Persistend_Superblock) == 1) {
@@ -123,6 +130,7 @@ function renderPlugin_raid(data) {
                     if (raiditems[i]["@attributes"].ReadPolicy !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(23, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].ReadPolicy + "</td></tr>"; // Read Policy
                     if (raiditems[i]["@attributes"].WritePolicy !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(24, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].WritePolicy + "</td></tr>"; // Write Policy
                     if (raiditems[i]["@attributes"].Cache_Size !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(25, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Cache_Size), data.Options["@attributes"].byteFormat) + "</td></tr>"; // Cache_Size
+                    if (raiditems[i]["@attributes"].DiskCache !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(27, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].DiskCache + "</td></tr>"; // Disk Cache
                     if (raiditems[i]["@attributes"].Bad_Blocks !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(26, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Bad_Blocks) + "</td></tr>"; // Bad_Blocks
 
                     html += "</tbody></table>";

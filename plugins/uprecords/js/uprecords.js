@@ -21,7 +21,7 @@
 //$Id: uprecords.js 661 2014-01-08 11:26:39 aolah76 $
 
 
-/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang, createBar */
+/*global $, jQuery, buildBlock, datetime, plugin_translate, genlang */
 
 "use strict";
 
@@ -33,8 +33,12 @@ var uprecords_show = false;
  */
 
 function uprecords_populate(xml) {
+    var html = "", datetimeFormat = "", hostname = "";
 
-    var html = "", datetimeFormat = "";
+    hostname = $("Plugins Plugin_uprecords", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_uprecords]').html(hostname);
+    }
 
     $("Options", xml).each(function getByteFormat(id) {
         datetimeFormat = $(this).attr("datetimeFormat");
@@ -113,7 +117,7 @@ function uprecords_request() {
 
 $(document).ready(function uprecords_buildpage() {
     $("#footer").before(buildBlock("uprecords", 1, true));
-    $("#Plugin_uprecords").css("width", "915px");
+    $("#Plugin_uprecords").addClass("fullsize");
 
     uprecords_buildTable();
 

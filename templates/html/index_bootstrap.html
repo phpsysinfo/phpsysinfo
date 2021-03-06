@@ -41,6 +41,7 @@
 <input type="hidden" id="showNetworkActiveSpeed" value="<?php echo $showNetworkActiveSpeed;?>"/>
 <input type="hidden" id="showCPULoadCompact" value="<?php echo $showCPULoadCompact;?>"/>
 <input type="hidden" id="hideBootstrapLoader" value="<?php echo $hideBootstrapLoader;?>"/>
+<input type="hidden" id="hideTotals" value="<?php echo $hideTotals;?>"/>
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
 <div class="navbar fixed-top">
@@ -242,7 +243,7 @@ endforeach;
                                 <td class="rightCell"><span data-bind="Total"></span></td>
                             </tr>
                         </tbody>
-                        <tfoot id="filesystem-foot">
+                        <tfoot id="filesystem-foot" style="display:none;">
                             <tr>
                                 <td></td>
                                 <td></td>

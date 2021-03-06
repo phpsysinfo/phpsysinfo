@@ -38,43 +38,42 @@ class HyperV extends PSI_Plugin
      */
     public function execute()
     {
-        switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
+        if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
-            if (PSI_OS == 'WINNT') {
-                try {
-                    $objLocator = new COM('WbemScripting.SWbemLocator');
-                    $wmic = $objLocator->ConnectServer('', 'root\CIMv2');
-                    $buffer = CommonFunctions::getWMI($wmic, 'Win32_OperatingSystem', array('Version'));
-                    if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
-                        if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                            $wmi = $objLocator->ConnectServer('', 'root\virtualization\v2');
-                        } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
-                            $wmi = $objLocator->ConnectServer('', 'root\virtualization');
-                        } else {
-                           $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
-                           break;
-                        }
+            try {
+                $cim = CommonFunctions::initWMI('root\CIMv2');
+                $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
+                if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
+                    if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
+                        $wmi = CommonFunctions::initWMI('root\virtualization\v2');
+                    } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
+                        $wmi = CommonFunctions::initWMI('root\virtualization');
                     } else {
-                        $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
-                        break;
+                       $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                       break;
                     }
-                    $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
-                    if (is_array($result)) foreach ($result as $machine) {
-                        if ($machine['InstallDate'] !== null) {
-                            $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
-                        }
-                    }
-                } catch (Exception $e) {
+                } else {
+                    $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
+                    break;
                 }
+                $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
+                if (is_array($result)) foreach ($result as $machine) {
+                    if ($machine['InstallDate'] !== null) {
+                        $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
+                    }
+                }
+            } catch (Exception $e) {
             }
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
-            $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($processes as $process) {
-                $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($ps) == 2) {
-                    $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+            if (!defined('PSI_EMU_HOSTNAME')) {
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
+                $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($processes as $process) {
+                    $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
+                    if (count($ps) == 2) {
+                        $this->_filecontent[] = array(trim($ps[0]), trim($ps[1]));
+                    }
                 }
             }
             break;

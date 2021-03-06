@@ -27,18 +27,34 @@ class ThermalZone extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (PSI_OS == 'WINNT') {
-            $_wmi = null;
-            try {
-                // initialize the wmi object
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-                $_wmi = $objLocator->ConnectServer('', 'root\WMI');
-            } catch (Exception $e) {
-                $this->error->addError("WMI connect error", "PhpSysInfo can not connect to the WMI interface for ThermalZone data.");
+        switch (defined('PSI_SENSOR_THERMALZONE_ACCESS')?strtolower(PSI_SENSOR_THERMALZONE_ACCESS):'command') {
+        case 'command':
+            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                if (defined('PSI_EMU_HOSTNAME') || CommonFunctions::isAdmin()) {
+                    $_wmi = CommonFunctions::initWMI('root\WMI', true);
+                    if ($_wmi) {
+                        $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+                    }
+                } else {
+                    $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
+                }
             }
-            if ($_wmi) {
-                $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+            break;
+        case 'data':
+            if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rfts(PSI_APP_ROOT.'/data/thermalzone.txt', $lines, 0, 4096, false)) { //output of "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName"
+                $lines = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $lines));
+                $lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                if ((($clines=count($lines)) > 1) && preg_match("/CriticalTripPoint\s+CurrentTemperature\s+InstanceName/i", $lines[0])) for ($i = 1; $i < $clines; $i++) {
+                    $values = preg_split("/\s+/", trim($lines[$i]), -1, PREG_SPLIT_NO_EMPTY);
+                    if (count($values)==3) {
+                        $this->_buf[] = array('CriticalTripPoint'=>trim($values[0]), 'CurrentTemperature'=>trim($values[1]), 'InstanceName'=>trim($values[2]));
+                    }
+                }
             }
+            break;
+        default:
+            $this->error->addConfigError('__construct()', '[sensor_thermalzone] ACCESS');
+            break;
         }
     }
 
@@ -49,7 +65,9 @@ class ThermalZone extends Sensors
      */
     private function _temperature()
     {
-        if (PSI_OS == 'WINNT') {
+        $mode = defined('PSI_SENSOR_THERMALZONE_ACCESS')?strtolower(PSI_SENSOR_THERMALZONE_ACCESS):'command';
+        if ((($mode == 'command') && ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')))
+           || (($mode == 'data') && !defined('PSI_EMU_HOSTNAME'))) {
             if ($this->_buf) foreach ($this->_buf as $buffer) {
                 if (isset($buffer['CurrentTemperature']) && (($value = ($buffer['CurrentTemperature'] - 2732)/10) > -100)) {
                     $dev = new SensorDevice();
@@ -65,7 +83,7 @@ class ThermalZone extends Sensors
                     $this->mbinfo->setMbTemp($dev);
                 }
             }
-        } else {
+        } elseif (($mode == 'command') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
             $notwas = true;
             $thermalzones = glob('/sys/class/thermal/thermal_zone*/');
             if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {

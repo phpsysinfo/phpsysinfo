@@ -38,9 +38,11 @@ class Pmset extends UPS
     public function __construct()
     {
         parent::__construct();
-        $temp = "";
-        if (CommonFunctions::executeProgram('pmset', '-g batt', $temp) && !empty($temp)) {
-            $this->_output[] = $temp;
+        if (PSI_OS == 'Darwin') {
+            $temp = "";
+            if (CommonFunctions::executeProgram('pmset', '-g batt', $temp) && !empty($temp)) {
+                $this->_output[] = $temp;
+            }
         }
     }
 

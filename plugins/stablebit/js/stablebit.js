@@ -32,16 +32,21 @@ var stablebit_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function stablebit_buildTable(xml) {
-    var html = "", tree = [], closed = [];
+    var html = "", tree = [], closed = [], hostname = "";
 
     $("#Plugin_StableBit #Plugin_StableBitTable").remove();
+
+    hostname = $("Plugins Plugin_StableBit", xml).attr('Hostname');
+    if (hostname !== undefined) {
+        $('span[class=Hostname_StableBit]').html(hostname);
+    }
 
     html += "  <div style=\"overflow-x:auto;\">\n";
     html += "    <table id=\"Plugin_StableBitTable\" class=\"tablemain\">\n";
     html += "     <thead>\n";
     html += "      <tr>\n";
     html += "       <th>" + genlang(2, "StableBit") + "</th>\n";
-    html += "       <th style=\"width:120px;\">" + genlang(3, "StableBit") + "</th>\n";
+    html += "       <th style=\"width:31%;\">" + genlang(3, "StableBit") + "</th>\n";
     html += "      </tr>\n";
     html += "     </thead>\n";
     html += "     <tbody class=\"tree\">\n";
@@ -197,7 +202,7 @@ function stablebit_request() {
 
 $(document).ready(function stablebit_buildpage() {
     $("#footer").before(buildBlock("StableBit", 1, true));
-    $("#Plugin_StableBit").css("width", "451px");
+    $("#Plugin_StableBit").addClass("halfsize");
 
     stablebit_request();
 

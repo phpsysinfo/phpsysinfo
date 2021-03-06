@@ -80,28 +80,32 @@ table {
     width: 100%;
 }
 
+select {
+    background-color: #fefefe;
+}
+
 #select {
     text-align: right;
+    padding: 0 10px 0 10px;
 }
 
 #select select {
     width: 100px;
 }
 
-#vitals, #network, #memory, #filesystem, #hardware, #temperature, #voltage, #fans, #power, #current, #other, #ups {
+.fullsize, .halfsize {
     float: left;
-    width: 451px;
     margin: 10px 0 0 10px;
     _margin: 10px 5px 0 5px; /* ie6 */
     padding: 1px;
 }
 
-#pciTable, #ideTable, #scsiTable, #nvmeTable, #usbTable, #tbTable, #i2cTable {
-    padding: 0px 30px;
+.fullsize {
+    width: 918px;
 }
 
-#memory, #filesystem {
-    width: 915px;
+.halfsize {
+    width: 453px;
 }
 
 #filesystemTable thead tr th {

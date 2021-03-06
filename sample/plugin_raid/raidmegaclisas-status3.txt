@@ -1,0 +1,15 @@
+-- Controller information --
+-- ID | H/W Model         | RAM    | Temp | BBU    | Firmware     
+c0    | LSI 2108 MegaRAID | 512MB  | N/A  | Good   | FW: 12.15.0-0239 
+
+-- Array information --
+-- ID | Type   |    Size |  Strpsz | Flags | DskCache |   Status |  OS Path | CacheCade |InProgress   
+c0u0  | RAID-5 |   7271G |   64 KB | RA,WB |  Default |  Optimal | /dev/sdf | None      |Background Initialization : Completed 34%, Taken 80 min. 
+
+-- Disk information --
+-- ID  | Type | Drive Model                                  | Size     | Status          | Speed    | Temp | Slot ID  | LSI ID  
+c0u0p0 | HDD  | WD-WMC300123451WDC WD20EFRX-68AAZN0 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 28C  | [252:0]  | 13      
+c0u0p1 | HDD  | WD-WMC300123452WDC WD20EFRX-68EBZN0 82.00A82 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 29C  | [252:1]  | 15      
+c0u0p2 | HDD  | WD-WMC300123453WDC WD20EFRX-68ECZN0 82.00A82 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 28C  | [252:2]  | 14      
+c0u0p3 | HDD  | WD-WMC300123454WDC WD20EFRX-68ADZN0 80.00A80 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 28C  | [252:3]  | 16      
+c0u0p4 | HDD  | WD-WMC300123455WDC WD20EFRX-68EEZN0 82.00A82 | 1.817 TB | Online, Spun Up | 6.0Gb/s  | 28C  | [252:4]  | 17      
