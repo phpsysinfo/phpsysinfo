@@ -28,6 +28,11 @@
 abstract class BSDCommon extends OS
 {
     /**
+     * Assoc array of all CPUs loads.
+     */
+    private $_cpu_loads = null;
+
+    /**
      * content of the syslog
      *
      * @var array
@@ -236,18 +241,14 @@ abstract class BSDCommon extends OS
     }
 
     /**
-     * Processor Load
-     * optionally create a loadbar
+     * CPU usage
      *
      * @return void
      */
-    protected function loadavg()
+    protected function cpuusage()
     {
-        $s = $this->grabkey('vm.loadavg');
-        $s = preg_replace('/{ /', '', $s);
-        $s = preg_replace('/ }/', '', $s);
-        $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR) {
+        if (is_null($this->_cpu_loads)) {
+            $this->_cpu_loads = array();
             if (PSI_OS != 'Darwin') {
                 if ($fd = $this->grabkey('kern.cp_time')) {
                     // Find out the CPU load
@@ -262,7 +263,7 @@ abstract class BSDCommon extends OS
                         if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
                             $load2 = $res[2] + $res[3] + $res[4];
                             $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                            $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+                            $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
                         }
                     }
                 }
@@ -276,10 +277,34 @@ abstract class BSDCommon extends OS
                         foreach ($pslines as $psline) {
                             $sum+=trim($psline);
                         }
-                        $this->sys->setLoadPercent(min($sum/$ncpu, 100));
+                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
                     }
                 }
             }
+        }
+
+        if (isset($this->_cpu_loads['cpu'])) {
+            return $this->_cpu_loads['cpu'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Processor Load
+     * optionally create a loadbar
+     *
+     * @return void
+     */
+    protected function loadavg()
+    {
+        $s = $this->grabkey('vm.loadavg');
+        $s = preg_replace('/{ /', '', $s);
+        $s = preg_replace('/ }/', '', $s);
+        $this->sys->setLoad($s);
+
+        if (PSI_LOAD_BAR) {
+            $this->sys->setLoadPercent($this->cpuusage());
         }
     }
 
@@ -330,8 +355,12 @@ abstract class BSDCommon extends OS
         }
 
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
+        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1))) {
             $ncpu = 1;
+        }
+        if (($ncpu == 1) && (PSI_LOAD_BAR)) {
+            $dev->setLoad($this->cpuusage());
+        }
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);
         }

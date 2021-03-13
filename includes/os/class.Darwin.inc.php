@@ -160,8 +160,12 @@ class Darwin extends BSDCommon
             $dev->setCache(round($buf));
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
+        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1))) {
             $ncpu = 1;
+        }
+        if (($ncpu == 1) && (PSI_LOAD_BAR)) {
+            $dev->setLoad($this->cpuusage());
+        }
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);
         }
