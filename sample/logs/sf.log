@@ -182,7 +182,7 @@ Host: scsi0 Channel: 00 Id: 00 Lun: 00
   Type:   Direct-Access                    ANSI  SCSI revision: 05
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: pidof -s explorer.exe
 
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/quotas.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/quotas.tmp
 Mon Dec  6 09:00:00 EST 2004
                         1K Block limits               File limits
 User                used        soft        hard  grace    used  soft  hard  grace
@@ -263,7 +263,7 @@ Filename				Type		Size	Used	Priority
 
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Executing: df -i -P 2>/dev/null
 
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/smart0.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/smart0.tmp
 smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
 Home page is http://smartmontools.sourceforge.net/
 
@@ -311,13 +311,13 @@ Long (extended) Self Test duration: 1367 seconds [22.8 minutes]
 proc on /proc type proc (rw)
 ---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /proc/loadavg
 14.01 16.10 16.01 18/358 6013
----Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/mdstat.txt
+---Mon, 03 Jun 2013 11:37:12 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/mdstat.tmp
 Personalities : [linear] [raid0] [raid1] [raid5] [hsm] 
 read_ahead 1024 sectors 
 md0 : active raid5 sdd1[3] sdc6[2] sdb6[1] sda5[0] 633984 blocks
  level 5, 32k chunk, algorithm 2 [4/4] [UUUU] 
 unused devices: <none>
----Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_info.txt
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_info.tmp
 present:                 yes
 design capacity:         50000 mWh
 last full capacity:      50000 mWh
@@ -331,14 +331,14 @@ model number:            1
 serial number:           0
 battery type:            VBOX
 OEM info:                innotek
----Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_state.txt
+---Mon, 03 Jun 2013 11:37:13 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/bat_state.tmp
 present:                 yes
 capacity state:          ok
 charging state:          charged
 present rate:            0 mW
 remaining capacity:      50000 mWh
 present voltage:         10000 mV
----Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/ipmiinfo.txt
+---Mon, 03 Jun 2013 11:37:14 +0000 GMT--- Reading: /home/project-web/phpsysinfo/htdocs/phpsysinfo/data/ipmiinfo.tmp
 BB +1.2V Vtt     | 1.197      | Volts      | ok    | na        | 1.096     | 1.134     | 1.285     | 1.323     | na        
 BB +1.5V AUX     | 1.490      | Volts      | ok    | na        | 1.334     | 1.373     | 1.622     | 1.669     | na        
 BB +1.5V         | 1.469      | Volts      | ok    | na        | 1.326     | 1.365     | 1.625     | 1.677     | na        

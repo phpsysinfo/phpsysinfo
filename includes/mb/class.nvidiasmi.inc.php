@@ -43,7 +43,7 @@ class NvidiaSMI extends Sensors
             $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.txt', $lines)) {
+            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/nvidiasmi.tmp', $lines)) {
                 $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

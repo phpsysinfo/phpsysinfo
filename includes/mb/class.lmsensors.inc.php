@@ -33,7 +33,7 @@ class LMSensors extends Sensors
             CommonFunctions::executeProgram("sensors", "", $lines);
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT.'/data/lmsensors.txt', $lines);
+            CommonFunctions::rfts(PSI_APP_ROOT.'/data/lmsensors.tmp', $lines);
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');

@@ -67,7 +67,7 @@ class HyperV extends PSI_Plugin
             break;
         case 'data':
             if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.tmp", $buffer);
                 $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($processes as $process) {
                     $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);

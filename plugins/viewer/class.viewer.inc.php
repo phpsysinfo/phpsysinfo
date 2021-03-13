@@ -68,7 +68,7 @@ class Viewer extends PSI_Plugin
                 }
                 break;
             case 'data':
-                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/viewer.txt", $lines) && !empty($lines))
+                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/viewer.tmp", $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:

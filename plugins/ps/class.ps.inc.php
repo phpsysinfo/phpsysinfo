@@ -142,7 +142,7 @@ class PS extends PSI_Plugin
             break;
         case 'data':
             if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.tmp", $buffer);
             }
             break;
         default:
