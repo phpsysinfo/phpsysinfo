@@ -186,7 +186,7 @@ REFRESH=60000
 ; Show a graph for current cpuload
 ; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
 ; - "compact" : displayed like above but in compact mode
-; - false : will not be displayed
+; - false : will not be displayed (also in Load Averages field)
 ;
 LOAD_BAR=true
 
