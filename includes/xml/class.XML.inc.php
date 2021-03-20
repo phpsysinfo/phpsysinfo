@@ -681,7 +681,7 @@ class XML
     private function _buildUpsinfo()
     {
         $upsinfo = $this->_xml->addChild('UPSInfo');
-        if (defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
+        if (!defined('PSI_EMU_HOSTNAME') && defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
             $upsinfo->addAttribute('ApcupsdCgiLinks', true);
         }
         if (sizeof(unserialize(PSI_UPSINFO))>0) {
