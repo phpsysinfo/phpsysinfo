@@ -445,7 +445,7 @@ UPS_PROGRAM=false
 
 
 ; Apcupsd supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3551
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3551"
 ; See the following parameters in apcupsd.conf: NETSERVER, NISIP, NISPORT
 ; It uses the defaults if not specified.
 ;
@@ -459,7 +459,7 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 
 ; Nut supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3493
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3493"
 ; See the following parameters in upsd.conf: LISTEN
 ; It uses the defaults if not specified.
 ;
