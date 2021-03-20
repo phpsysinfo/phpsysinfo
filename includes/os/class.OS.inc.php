@@ -167,7 +167,7 @@ abstract class OS implements PSI_Interface_OS
     {
         $banks = array();
         $buffer = '';
-        if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)=="data")) {
+        if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
             CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
         } elseif (CommonFunctions::_findProgram('dmidecode')) {
             CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
