@@ -46,7 +46,11 @@ class Apcupsd extends UPS
                 $upses = array(PSI_UPS_APCUPSD_LIST);
             }
             foreach ($upses as $ups) {
-                CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);
+                if (strtolower(trim($ups))==='data') {
+                    CommonFunctions::rfts(PSI_APP_ROOT.'/data/upsapcupsd.tmp', $temp);
+                } else {
+                    CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);
+                }
                 if (! empty($temp)) {
                     $this->_output[] = $temp;
                 }

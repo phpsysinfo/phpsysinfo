@@ -434,9 +434,9 @@ SHOW_NETWORK_ACTIVE_SPEED=false
 ; We support the following programs so far
 ; - Apcupsd        http://www.apcupsd.com/
 ; - Nut            http://www.networkupstools.org/
+; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
 ; - PowerSoftPlus  http://ever.eu/
 ; - pmset          based on the result of the command "pmset -g batt" on Darwin system
-; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
 ;
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
@@ -445,7 +445,8 @@ UPS_PROGRAM=false
 
 
 ; Apcupsd supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3551"
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port> or "data" for reading data from file "data/upsapcupsd.tmp".
+; The defaults are: "127.0.0.1:3551"
 ; See the following parameters in apcupsd.conf: NETSERVER, NISIP, NISPORT
 ; It uses the defaults if not specified.
 ;
@@ -459,7 +460,8 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 
 ; Nut supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3493"
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port> or "data" for reading data from file "data/upsnut.tmp".
+; The defaults are: "127.0.0.1:3493"
 ; See the following parameters in upsd.conf: LISTEN
 ; It uses the defaults if not specified.
 ;
@@ -467,7 +469,8 @@ UPS_NUT_LIST=false
 
 
 ; SNMPups supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The default port is 161
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port> or "data" for reading data from file "data/upssnmpups.tmp".
+; The default port is 161
 ; List must be specified.
 ;
 UPS_SNMPUPS_LIST=false
@@ -478,6 +481,20 @@ UPS_SNMPUPS_LIST=false
 ; - "command" execute snmpwalk command
 ;
 UPS_SNMPUPS_ACCESS="php-snmp"
+
+
+; PowerSoftPlus supports only one UPS
+; You can specify false for normal executing or "data" for reading data from file "data/upspowersoftplus.tmp".
+; The default is false
+;
+UPS_POWERSOFTPLUS_LIST=false
+
+
+; pmset supports only one UPS
+; You can specify false for normal executing or "data" for reading data from file "data/upspmset.tmp".
+; The default is false
+;
+UPS_PMSET_LIST=false
 
 
 ; ********************************

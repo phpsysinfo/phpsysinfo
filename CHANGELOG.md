@@ -6,6 +6,8 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.4.0
 ----------------
 
+ - [NEW] Ability to read UPS information from a file
+
  - [UPD] Changed all data file extensions from .txt to .tmp 
 
 phpSysInfo 3.3.3

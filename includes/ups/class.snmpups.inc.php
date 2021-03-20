@@ -48,23 +48,30 @@ class SNMPups extends UPS
                         $upss = array(PSI_UPS_SNMPUPS_LIST);
                     }
                     foreach ($upss as $ups) {
-                        CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.1", $buffer, PSI_DEBUG);
-                        if (strlen($buffer) > 0) {
-                            $this->_output[$ups] = $buffer;
-                            $buffer = "";
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.2", $buffer, PSI_DEBUG);
-                            if (strlen($buffer) > 0) {
-                                $this->_output[$ups] .=  "\n".$buffer;
+                        if (strtolower(trim($ups))==='data') {
+                            CommonFunctions::rfts(PSI_APP_ROOT.'/data/upssnmpups.tmp', $temp);
+                            if (! empty($temp)) {
+                                $this->_output[] = $temp;
                             }
-                            $buffer = "";
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.3", $buffer, PSI_DEBUG);
+                        } else {
+                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.1", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
-                                $this->_output[$ups] .=  "\n".$buffer;
-                            }
-                            $buffer = "";
-                            CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.4", $buffer, PSI_DEBUG);
-                            if (strlen($buffer) > 0) {
-                                $this->_output[$ups] .=  "\n".$buffer;
+                                $this->_output[$ups] = $buffer;
+                                $buffer = "";
+                                CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.2", $buffer, PSI_DEBUG);
+                                if (strlen($buffer) > 0) {
+                                    $this->_output[$ups] .=  "\n".$buffer;
+                                }
+                                $buffer = "";
+                                CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.3", $buffer, PSI_DEBUG);
+                                if (strlen($buffer) > 0) {
+                                    $this->_output[$ups] .=  "\n".$buffer;
+                                }
+                                $buffer = "";
+                                CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.4", $buffer, PSI_DEBUG);
+                                if (strlen($buffer) > 0) {
+                                    $this->_output[$ups] .=  "\n".$buffer;
+                                }
                             }
                         }
                     }
@@ -84,50 +91,58 @@ class SNMPups extends UPS
                         $upss = array(PSI_UPS_SNMPUPS_LIST);
                     }
                     foreach ($upss as $ups) {
-                        if (! PSI_DEBUG) {
-                            restore_error_handler(); /* default error handler */
-                            $old_err_rep = error_reporting();
-                            error_reporting(E_ERROR); /* fatal errors only */
-                        }
-                        $bufferarr=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.1", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
-                        if (! PSI_DEBUG) {
-                            error_reporting($old_err_rep); /* restore error level */
-                            set_error_handler('errorHandlerPsi'); /* restore error handler */
-                        }
-                        if (! empty($bufferarr)) {
-                            $buffer="";
-                            foreach ($bufferarr as $id=>$string) {
-                                $buffer .= $id." = ".$string."\n";
+                        if (strtolower(trim($ups))==='data') {
+                            CommonFunctions::rfts(PSI_APP_ROOT.'/data/upssnmpups.tmp', $temp);
+                            if (! empty($temp)) {
+                                $this->_output[] = $temp;
                             }
-
+                        } else {
                             if (! PSI_DEBUG) {
                                 restore_error_handler(); /* default error handler */
                                 $old_err_rep = error_reporting();
                                 error_reporting(E_ERROR); /* fatal errors only */
                             }
-                            $bufferarr2=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.2", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
-                            $bufferarr3=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.3", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
-                            $bufferarr4=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.4", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
+                            $bufferarr=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.1", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
                             if (! PSI_DEBUG) {
                                 error_reporting($old_err_rep); /* restore error level */
                                 set_error_handler('errorHandlerPsi'); /* restore error handler */
                             }
-                            if (! empty($bufferarr2)) {
-                                foreach ($bufferarr2 as $id=>$string) {
+                            if (! empty($bufferarr)) {
+                                $buffer="";
+                                foreach ($bufferarr as $id=>$string) {
                                     $buffer .= $id." = ".$string."\n";
                                 }
-                            if (! empty($bufferarr3)) {
-                                foreach ($bufferarr3 as $id=>$string) {
-                                    $buffer .= $id." = ".$string."\n";
+
+                                if (! PSI_DEBUG) {
+                                    restore_error_handler(); /* default error handler */
+                                    $old_err_rep = error_reporting();
+                                    error_reporting(E_ERROR); /* fatal errors only */
                                 }
-                            }                            }
-                            if (! empty($bufferarr4)) {
-                                foreach ($bufferarr4 as $id=>$string) {
-                                    $buffer .= $id." = ".$string."\n";
+                                $bufferarr2=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.2", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
+                                $bufferarr3=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.3", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
+                                $bufferarr4=snmprealwalk($ups, "public", ".1.3.6.1.4.1.318.1.1.1.4", 1000000 * PSI_SNMP_TIMEOUT_INT, PSI_SNMP_RETRY_INT);
+                                if (! PSI_DEBUG) {
+                                    error_reporting($old_err_rep); /* restore error level */
+                                    set_error_handler('errorHandlerPsi'); /* restore error handler */
                                 }
-                            }
-                            if (strlen(trim($buffer)) > 0) {
-                                $this->_output[$ups] = $buffer;
+                                if (! empty($bufferarr2)) {
+                                    foreach ($bufferarr2 as $id=>$string) {
+                                        $buffer .= $id." = ".$string."\n";
+                                    }
+                                }
+                                if (! empty($bufferarr3)) {
+                                    foreach ($bufferarr3 as $id=>$string) {
+                                        $buffer .= $id." = ".$string."\n";
+                                    }
+                                }
+                                if (! empty($bufferarr4)) {
+                                    foreach ($bufferarr4 as $id=>$string) {
+                                        $buffer .= $id." = ".$string."\n";
+                                    }
+                                }
+                                if (strlen(trim($buffer)) > 0) {
+                                    $this->_output[$ups] = $buffer;
+                                }
                             }
                         }
                     }
