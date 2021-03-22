@@ -494,10 +494,10 @@ UPS_SNMPUPS_LIST=false
 ; - "command" execute snmpwalk command
 ; - "data" for reading data from file data/upssnmpups{ups_number}.tmp
 ;    content is the output from:
-;     "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.1>upssnmpups.tmp
-;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.2>>upssnmpups.tmp
-;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.3>>upssnmpups.tmp
-;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.4>>upssnmpups.tmp"
+;     "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.1>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.2>>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.3>>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.4>>upssnmpups{ups_number}.tmp"
 ;
 UPS_SNMPUPS_ACCESS="php-snmp"
 
