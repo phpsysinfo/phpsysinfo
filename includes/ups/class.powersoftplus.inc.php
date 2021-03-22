@@ -38,7 +38,7 @@ class PowerSoftPlus extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (defined('PSI_UPS_POWERSOFTPLUS_LIST') && (strtolower(trim(PSI_UPS_POWERSOFTPLUS_LIST))==='data')) {
+        if (defined('PSI_UPS_POWERSOFTPLUS_ACCESS') && (strtolower(trim(PSI_UPS_POWERSOFTPLUS_ACCESS))==='data')) {
             CommonFunctions::rfts(PSI_APP_ROOT.'/data/upspowersoftplus.tmp', $temp);
             if (! empty($temp)) {
                 $this->_output[] = $temp;

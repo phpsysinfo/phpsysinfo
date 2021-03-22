@@ -40,43 +40,62 @@ class Nut extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-            if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
-                $upses = eval(PSI_UPS_NUT_LIST);
-            } else {
-                $upses = array(PSI_UPS_NUT_LIST);
-            }
-            foreach ($upses as $ups) {
-                if (strtolower(trim($ups))==='data') {
-                    $ups_names[] = 'data';
+        if (!defined('PSI_UPS_NUT_ACCESS')) {
+             define('PSI_UPS_NUT_ACCESS', false);
+        }
+        switch (strtolower(PSI_UPS_NUT_ACCESS)) {
+        case 'data':
+            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
+                    $upss = eval(PSI_UPS_NUT_LIST);
                 } else {
-                    CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
-                   $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                    $upss = array(PSI_UPS_NUT_LIST);
                 }
-                foreach ($ups_names as $ups_name) {
-                    if ($ups_name==='data') {
-                        $upsname = 'UPS';
-                        CommonFunctions::rfts(PSI_APP_ROOT.'/data/upsnut.tmp', $temp);
-                    } else {
-                        $upsname = trim($ups_name).'@'.trim($ups);
-                        CommonFunctions::executeProgram('upsc', $upsname, $temp, PSI_DEBUG);
-                    }
-                    if (! empty($temp)) {
-                        $this->_output[$upsname] = $temp;
-                    }
-                }
-            }
-        } else { //use default if address and port not defined
-            if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
             } else {
-                CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
+               $upss = array('UPS');
             }
-            $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($ups_names as $ups_name) {
-                CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
+            $un = 0;
+            foreach ($upss as $ups) {
+                $temp = "";
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/upsnut{$un}.tmp", $temp);
                 if (! empty($temp)) {
-                    $this->_output[trim($ups_name)] = $temp;
+                    $this->_output[$ups] = $temp;
+                }
+                $un++;
+            }
+            break;
+        default:
+            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
+                    $upses = eval(PSI_UPS_NUT_LIST);
+                } else {
+                    $upses = array(PSI_UPS_NUT_LIST);
+                }
+                foreach ($upses as $ups) {
+                    CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
+                    $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($ups_names as $ups_name) {
+                        $upsname = trim($ups_name).'@'.trim($ups);
+                        $temp = "";
+                        CommonFunctions::executeProgram('upsc', $upsname, $temp, PSI_DEBUG);
+                        if (! empty($temp)) {
+                            $this->_output[$upsname] = $temp;
+                        }
+                    }
+                }
+            } else { //use default if address and port not defined
+                if (!defined('PSI_EMU_HOSTNAME')) {
+                    CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
+                } else {
+                    CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
+                }
+                $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($ups_names as $ups_name) {
+                    $temp = "";
+                    CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
+                    if (! empty($temp)) {
+                        $this->_output[trim($ups_name)] = $temp;
+                    }
                 }
             }
         }

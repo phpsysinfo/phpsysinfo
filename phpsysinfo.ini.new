@@ -445,13 +445,19 @@ UPS_PROGRAM=false
 
 
 ; Apcupsd supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>
-; or "data" for reading data from file data/upsapcupsd.tmp; content is the output from "apcaccess status"
-; The defaults are: "127.0.0.1:3551"
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3551"
 ; See the following parameters in apcupsd.conf: NETSERVER, NISIP, NISPORT
 ; It uses the defaults if not specified.
 ;
 UPS_APCUPSD_LIST=false
+
+
+; define how to access the Apcupsd data
+; - "command" execute apcaccess command
+; - "data" for reading data from file data/upsapcupsd{ups_number}.tmp
+;    content is the output from "apcaccess status"
+;
+UPS_APCUPSD_ACCESS="command"
 
 
 ; Apcupsd has a CGI monitoring utility called apcupsd-cgi
@@ -461,22 +467,23 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 
 ; Nut supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>
-; or "data" for reading data from file data/upsnut.tmp; content is the output from "upsc {upsname}"
-; The defaults are: "127.0.0.1:3493"
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3493"
 ; See the following parameters in upsd.conf: LISTEN
 ; It uses the defaults if not specified.
 ;
 UPS_NUT_LIST=false
 
 
+; define how to access the Nut data
+; - "command" execute upsc command
+; - "data" for reading data from file data/upsnut{ups_number}.tmp
+;    content is the output from "upsc {upsname}"
+;
+UPS_APCUPSD_ACCESS="command"
+
+
 ; SNMPups supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port> (default port is 161)
-; or "data" for reading data from file data/upssnmpups.tmp; content is the output from:
-; "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.1>upssnmpups.tmp
-;  snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.2>>upssnmpups.tmp
-;  snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.3>>upssnmpups.tmp
-;  snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.4>>upssnmpups.tmp"
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The default port is 161
 ; List must be specified.
 ;
 UPS_SNMPUPS_LIST=false
@@ -485,22 +492,30 @@ UPS_SNMPUPS_LIST=false
 ; define how to access the SNMP data
 ; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
 ; - "command" execute snmpwalk command
+; - "data" for reading data from file data/upssnmpups{ups_number}.tmp
+;    content is the output from:
+;     "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.1>upssnmpups.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.2>>upssnmpups.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.3>>upssnmpups.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.4>>upssnmpups.tmp"
 ;
 UPS_SNMPUPS_ACCESS="php-snmp"
 
 
-; PowerSoftPlus supports only one UPS
-; You can specify false for normal executing or "data" for reading data from file data/upspowersoftplus.tmp; content is the output from "powersoftplus -p"
-; The default is false
+; define how to access the PowerSoftPlus data
+; - "command" execute powersoftplus command
+; - "data" for reading data from file data/upspowersoftplus.tmp
+;    content is the output from "powersoftplus -p"
 ;
-UPS_POWERSOFTPLUS_LIST=false
+UPS_POWERSOFTPLUS_ACCESS="command"
 
 
-; pmset supports only one UPS
-; You can specify false for normal executing or "data" for reading data from file data/upspmset.tmp; content is the output from "pmset -g batt"
-; The default is false
+; define how to access the pmset data
+; - "command" execute pmset command
+; - "data" for reading data from file data/upspmset.tmp
+;    content is the output from "pmset -g batt"
 ;
-UPS_PMSET_LIST=false
+UPS_PMSET_ACCESS="command"
 
 
 ; ********************************

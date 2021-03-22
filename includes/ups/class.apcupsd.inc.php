@@ -39,30 +39,53 @@ class Apcupsd extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
-            if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
-                $upses = eval(PSI_UPS_APCUPSD_LIST);
-            } else {
-                $upses = array(PSI_UPS_APCUPSD_LIST);
-            }
-            foreach ($upses as $ups) {
-                if (strtolower(trim($ups))==='data') {
-                    CommonFunctions::rfts(PSI_APP_ROOT.'/data/upsapcupsd.tmp', $temp);
+        if (!defined('PSI_UPS_APCUPSD_ACCESS')) {
+             define('PSI_UPS_APCUPSD_ACCESS', false);
+        }
+        switch (strtolower(PSI_UPS_APCUPSD_ACCESS)) {
+        case 'data':
+            if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
+                    $upss = eval(PSI_UPS_APCUPSD_LIST);
                 } else {
+                    $upss = array(PSI_UPS_APCUPSD_LIST);
+                }
+            } else {
+               $upss = array('UPS');
+            }
+            $un = 0;
+            foreach ($upss as $ups) {
+                $temp = "";
+                CommonFunctions::rfts(PSI_APP_ROOT."/data/upsapcupsd{$un}.tmp", $temp);
+                if (! empty($temp)) {
+                    $this->_output[] = $temp;
+                }
+                $un++;
+            }
+            break;
+        default:
+            if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
+                    $upses = eval(PSI_UPS_APCUPSD_LIST);
+                } else {
+                    $upses = array(PSI_UPS_APCUPSD_LIST);
+                }
+                foreach ($upses as $ups) {
+                    $temp = "";
                     CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);
+                    if (! empty($temp)) {
+                        $this->_output[] = $temp;
+                    }
+                }
+            } else { //use default if address and port not defined
+                if (!defined('PSI_EMU_HOSTNAME')) {
+                    CommonFunctions::executeProgram('apcaccess', 'status', $temp);
+                } else {
+                    CommonFunctions::executeProgram('apcaccess', 'status '.PSI_EMU_HOSTNAME, $temp);
                 }
                 if (! empty($temp)) {
                     $this->_output[] = $temp;
                 }
-            }
-        } else { //use default if address and port not defined
-            if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::executeProgram('apcaccess', 'status', $temp);
-            } else {
-                CommonFunctions::executeProgram('apcaccess', 'status '.PSI_EMU_HOSTNAME, $temp);
-            }
-            if (! empty($temp)) {
-                $this->_output[] = $temp;
             }
         }
     }
