@@ -10,6 +10,11 @@ phpSysInfo 3.4.0
 
  - [UPD] Changed all data file extensions from .txt to .tmp 
 
+phpSysInfo 3.3.4
+----------------
+
+ - [FIX] Fixed display in static mode
+
 phpSysInfo 3.3.3
 ----------------
 
