@@ -41,7 +41,7 @@
                                     </span>
                                 </h1>
                             </xsl:for-each>
-                            <div id="vitals">
+                            <div id="vitals" class="halfsize">
                                 <xsl:for-each select="Vitals">
                                     <h2>
                                         <span>
@@ -269,7 +269,7 @@
                                     </div>
                                 </xsl:for-each>
                             </div>
-                            <div id="hardware">
+                            <div id="hardware" class="halfsize">
                                 <xsl:for-each select="Hardware">
                                     <h2>
                                         <span>
@@ -851,7 +851,7 @@
                                     </div>
                                 </xsl:for-each>
                             </div>
-                            <div id="memory">
+                            <div id="memory" class="fullsize">
                                 <xsl:for-each select="Memory">
                                     <h2>
                                         <span>
@@ -1216,7 +1216,7 @@
                                     </div>
                                 </xsl:for-each>
                             </div>
-                            <div id="filesystem">
+                            <div id="filesystem" class="fullsize">
                                 <h2>
                                     <span>
                                         <xsl:text>Mounted Filesystems</xsl:text>
@@ -1344,7 +1344,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div id="network">
+                            <div id="network" class="halfsize">
                                 <h2>
                                     <span>
                                         <xsl:text>Network Usage</xsl:text>

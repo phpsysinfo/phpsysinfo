@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.3.4
+----------------
+
+ - [FIX] Fixed display in static mode
+
 phpSysInfo 3.3.3
 ----------------
 
