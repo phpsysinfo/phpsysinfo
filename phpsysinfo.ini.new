@@ -479,7 +479,7 @@ UPS_NUT_LIST=false
 ; - "data" for reading data from file data/upsnut{ups_number}.tmp
 ;    content is the output from "upsc {upsname}"
 ;
-UPS_APCUPSD_ACCESS="command"
+UPS_NUT_ACCESS="command"
 
 
 ; SNMPups supports multiple UPSes
