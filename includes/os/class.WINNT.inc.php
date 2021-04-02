@@ -518,7 +518,11 @@ class WINNT extends OS
         $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
             $ver = $buffer[0]['Version'];
-            $kernel = $ver;
+            if (($this->_ver !== "") && preg_match("/^Microsoft [^\[]*\s*\[\D*\s*(".$ver.".+)\]/", $this->_ver, $ar_temp)){
+                $kernel = $ar_temp[1];
+            } else {
+                $kernel = $ver;
+            }
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
