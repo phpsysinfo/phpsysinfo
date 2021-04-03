@@ -526,7 +526,7 @@ class WINNT extends OS
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
-            if ((substr($kernel, 0, 5) == '10.0.') && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+            if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
                 $karray = preg_split('/\./', $kernel);
                 if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
                     $kernel .= ' ['.$list['win10'][$karray[2]].']';
@@ -571,6 +571,12 @@ class WINNT extends OS
                         $this->sys->setDistribution($ar_temp[1]);
                     }
                     $kernel = $ar_temp[2];
+                    if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+                        $karray = preg_split('/\./', $kernel);
+                        if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
+                            $kernel .= ' ['.$list['win10'][$karray[2]].']';
+                        }
+                    }
                     $this->sys->setKernel($kernel);
                     if ((($kernel[1] == '.') && ($kernel[0] <5)) || (substr($kernel, 0, 4) == '5.0.'))
                         $icon = 'Win2000.png';
