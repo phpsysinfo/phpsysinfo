@@ -518,7 +518,7 @@ class WINNT extends OS
         $buffer = $this->_get_Win32_OperatingSystem();
         if ($buffer) {
             $ver = $buffer[0]['Version'];
-            if (($this->_ver !== "") && preg_match("/^Microsoft [^\[]*\s*\[\D*\s*(".$ver.".+)\]/", $this->_ver, $ar_temp)){
+            if (($this->_ver !== "") && preg_match("/^Microsoft [^\[]*\s*\[\D*\s*(".$ver."\.\d+).*\]/", $this->_ver, $ar_temp)){
                 $kernel = $ar_temp[1];
             } else {
                 $kernel = $ver;
