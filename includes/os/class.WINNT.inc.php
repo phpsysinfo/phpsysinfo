@@ -526,12 +526,6 @@ class WINNT extends OS
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
-            if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
-                $karray = preg_split('/\./', $kernel);
-                if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
-                    $kernel .= ' ['.$list['win10'][$karray[2]].']';
-                }
-            }
             if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
                 $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
             } elseif (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['AddressWidth'])) {
@@ -539,8 +533,14 @@ class WINNT extends OS
             } else {
                 $this->sys->setKernel($kernel);
             }
-            $this->sys->setDistribution($buffer[0]['Caption']);
-
+            $distribution = $buffer[0]['Caption'];
+            if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+                $karray = preg_split('/\./', $kernel);
+                if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
+                    $distribution .= ' ('.$list['win10'][$karray[2]].')';
+                }
+            }
+            $this->sys->setDistribution($distribution);
             if (version_compare($ver, "5.1", "<"))
                 $icon = 'Win2000.png';
             elseif (version_compare($ver, "5.1", ">=") && version_compare($ver, "6.0", "<"))
@@ -563,21 +563,22 @@ class WINNT extends OS
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $this->_ver, $ar_temp)) {
                     if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
                         if (preg_match("/^Microsoft /", $strBuf)) {
-                            $this->sys->setDistribution($strBuf);
+                            $distribution = $strBuf;
                         } else {
-                            $this->sys->setDistribution("Microsoft ".$strBuf);
+                            $distribution = "Microsoft ".$strBuf;
                         }
                     } else {
-                        $this->sys->setDistribution($ar_temp[1]);
+                        $distribution = $ar_temp[1];
                     }
                     $kernel = $ar_temp[2];
+                    $this->sys->setKernel($kernel);
                     if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
                         $karray = preg_split('/\./', $kernel);
                         if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
-                            $kernel .= ' ['.$list['win10'][$karray[2]].']';
+                            $distribution .= ' ('.$list['win10'][$karray[2]].')';
                         }
                     }
-                    $this->sys->setKernel($kernel);
+                    $this->sys->setDistribution($distribution);
                     if ((($kernel[1] == '.') && ($kernel[0] <5)) || (substr($kernel, 0, 4) == '5.0.'))
                         $icon = 'Win2000.png';
                     elseif ((substr($kernel, 0, 4) == '6.0.') || (substr($kernel, 0, 4) == '6.1.'))
