@@ -526,6 +526,12 @@ class WINNT extends OS
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
+            if ((substr($kernel, 0, 5) == '10.0.') && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+                $karray = preg_split('/\./', $kernel);
+                if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
+                    $kernel .= ' ['.$list['win10'][$karray[2]].']';
+                }
+            }
             if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
                 $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
             } elseif (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['AddressWidth'])) {
