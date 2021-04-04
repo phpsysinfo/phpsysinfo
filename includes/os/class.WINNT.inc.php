@@ -561,7 +561,15 @@ class WINNT extends OS
                     }
                     $this->sys->setDistributionIcon('ReactOS.png');
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $this->_ver, $ar_temp)) {
-                    if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
+                    $kernel = $ar_temp[2];
+                    if (($this->_reg === false) && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) {
+                        $kernel .= ' (64-bit)';
+                        if (preg_match("/^Microsoft /", $strBuf)) {
+                            $distribution = $strBuf;
+                        } else {
+                            $distribution = "Microsoft ".$strBuf;
+                        }
+                    } elseif (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
                         if (preg_match("/^Microsoft /", $strBuf)) {
                             $distribution = $strBuf;
                         } else {
@@ -570,7 +578,6 @@ class WINNT extends OS
                     } else {
                         $distribution = $ar_temp[1];
                     }
-                    $kernel = $ar_temp[2];
                     $this->sys->setKernel($kernel);
                     if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
                         $karray = preg_split('/\./', $kernel);
