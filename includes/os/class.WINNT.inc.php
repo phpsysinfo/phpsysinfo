@@ -477,7 +477,7 @@ class WINNT extends OS
             $result = $localtime - $boottime;
 
             $this->sys->setUptime($result);
-        } elseif (($this->sys->getDistribution()=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
+        } elseif ((substr($this->sys->getDistribution(), 0, 7)=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
             $sec = $ar_buf[4];
             $min = $ar_buf[3];
             $hours = $ar_buf[2];
@@ -1081,7 +1081,7 @@ class WINNT extends OS
             }
             $this->sys->setDiskDevices($dev);
         }
-        if (!$buffer && ($this->sys->getDistribution()=="ReactOS")) {
+        if (!$buffer && (substr($this->sys->getDistribution(), 0, 7)=="ReactOS")) {
             // test for command 'free' on current disk
             if (CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, true)) {
                 for ($letter='A'; $letter!='AA'; $letter++) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
@@ -1333,7 +1333,7 @@ class WINNT extends OS
     public function build()
     {
         $this->_distro(); //share getDistribution()
-        if ($this->sys->getDistribution()=="ReactOS") {
+        if (substr($this->sys->getDistribution(), 0, 7)=="ReactOS") {
             $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
         if (!$this->blockname || $this->blockname==='vitals') {
