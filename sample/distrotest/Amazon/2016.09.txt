@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+LSB Version:	:base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch
+Distributor ID:	AmazonAMI
+Description:	Amazon Linux AMI release 2016.09
+Release:	2016.09
+Codename:	n/a
+----------/etc/os-release----------
+NAME="Amazon Linux AMI"
+VERSION="2016.09"
+ID="amzn"
+ID_LIKE="rhel fedora"
+VERSION_ID="2016.09"
+PRETTY_NAME="Amazon Linux AMI 2016.09"
+ANSI_COLOR="0;33"
+CPE_NAME="cpe:/o:amazon:linux:2016.09:ga"
+HOME_URL="http://aws.amazon.com/amazon-linux-ami/"
+----------/etc/system-release----------
+Amazon Linux AMI release 2016.09
