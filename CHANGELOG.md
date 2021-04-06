@@ -5,6 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.0
 ----------------
+ - [ADD] Rocky Linux to detected distros
 
  - [NEW] Ability to read UPS information from a file
 
