@@ -1,0 +1,30 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	AlmaLinux
+Description:	AlmaLinux release 8.3 (Purple Manul)
+Release:	8.3
+Codename:	PurpleManul
+----------/etc/almalinux-release----------
+AlmaLinux release 8.3 (Purple Manul)
+----------/etc/centos-release----------
+AlmaLinux release 8.3 (Purple Manul)
+----------/etc/os-release----------
+NAME="AlmaLinux"
+VERSION="8.3 (Purple Manul)"
+ID="almalinux"
+ID_LIKE="rhel centos fedora"
+VERSION_ID="8.3"
+PLATFORM_ID="platform:el8"
+PRETTY_NAME="AlmaLinux 8.3 (Purple Manul)"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:almalinux:almalinux:8.3:GA"
+HOME_URL="https://almalinux.org/"
+BUG_REPORT_URL="https://bugs.almalinux.org/"
+
+ALMALINUX_MANTISBT_PROJECT="AlmaLinux-8"
+ALMALINUX_MANTISBT_PROJECT_VERSION="8.3"
+
+----------/etc/redhat-release----------
+AlmaLinux release 8.3 (Purple Manul)
+----------/etc/system-release----------
+AlmaLinux release 8.3 (Purple Manul)
