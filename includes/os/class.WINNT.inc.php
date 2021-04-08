@@ -563,7 +563,9 @@ class WINNT extends OS
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $this->_ver, $ar_temp)) {
                     $kernel = $ar_temp[2];
                     if (($this->_reg === false) && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) {
-                        $kernel .= ' (64-bit)';
+                        if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $tmpBuf, false)) {
+                            $kernel .= ' (64-bit)';
+                        }
                         if (preg_match("/^Microsoft /", $strBuf)) {
                             $distribution = $strBuf;
                         } else {
