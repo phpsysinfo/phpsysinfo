@@ -19,6 +19,7 @@ define('PSI_OS','Linux');
 $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
+$other = true; //enable other detection
 
 class PSI_Error
 {
@@ -67,9 +68,14 @@ class CommonFunctions
 
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
-        global $lsb;
         global $lsbfile;
-        if ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release")) {
+        global $other;
+        if ($strFileName=="/etc/lsb-release") {
+            $test = $lsbfile;
+        } else {
+            $test = $other;
+        }
+        if ($test) {
             $strRet=self::_parse_log_file($strFileName);
             if ($strRet && ($intLines == 1) && (strpos($strRet, "\n") !== false)) {
                 $strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
@@ -84,27 +90,26 @@ class CommonFunctions
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $timeout = 30)
     {
         global $lsb;
+        global $other;
         $strBuffer = '';
         if ($strProgramname=='lsb_release') {
             return $lsb && ($strBuffer = self::_parse_log_file('lsb_release -a'));
         } else {
-            return $strBuffer = self::_parse_log_file($strProgramname);
+            return $other && ($strBuffer = self::_parse_log_file($strProgramname));
         }
     }
 
     public static function fileexists($strFileName)
     {
         global $log_file;
-        global $lsb;
         global $lsbfile;
-        if (file_exists($log_file)
-            && ($lsb || $lsbfile || ($strFileName != "/etc/lsb-release"))
-            && ($contents = @file_get_contents($log_file))
-            && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents)) {
-            return true;
+        global $other;
+        if ($strFileName=="/etc/lsb-release") {
+            $test = $lsbfile;
+        } else {
+            $test = $other;
         }
-
-        return false;
+        return $test && file_exists($log_file) && ($contents = @file_get_contents($log_file)) && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents);
     }
 
     public static function readenv($strElem, &$strBuffer)
