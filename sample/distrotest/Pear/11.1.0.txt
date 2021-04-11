@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+Distributor ID:	Neon
+Description:	pearOS ThiccSur 11.1.0
+Release:	20.04
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=pearOS
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="pearOS ThiccSur"
+----------/etc/os-release----------
+NAME="pearOS"
+VERSION="11.1.0"
+ID=ubuntu
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="pearOS ThiccSur"
+VARIANT="ThiccSur"
+VERSION_ID="20.04"
+HOME_URL="https://pearos.xyz"
+SUPPORT_URL=""
+BUG_REPORT_URL=""
+LOGO=/usr/share/extras/sur.png
+PRIVACY_POLICY_URL=""
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+bullseye/sid

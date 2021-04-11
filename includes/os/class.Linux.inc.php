@@ -1342,7 +1342,7 @@ class Linux extends OS
             return;
         }
         // We have the '2>/dev/null' because Ubuntu gives an error on this command which causes the distro to be unknown
-        if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen($distro_info) > 0)) {
+        if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && (strlen($distro_info) > 0) && !preg_match("/^Distributor ID:\s*Neon$/m", $distro_info)) {
             $distro_tmp = preg_split("/\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);
@@ -1378,7 +1378,7 @@ class Linux extends OS
                             $tofind = $distro['Release'];
                         }
                         if (!preg_match("/^".$tofind."[\s\.]|[\(\[]".$tofind."[\.\)\]]|\s".$tofind."$|\s".$tofind."[\s\.]/", $distro['Description'])) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                            $this->sys->setDistribution("ddddddd".$this->sys->getDistribution()." ".$distro['Release']);
                         }
                     }
                 } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
