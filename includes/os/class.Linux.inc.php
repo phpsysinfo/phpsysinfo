@@ -1378,7 +1378,7 @@ class Linux extends OS
                             $tofind = $distro['Release'];
                         }
                         if (!preg_match("/^".$tofind."[\s\.]|[\(\[]".$tofind."[\.\)\]]|\s".$tofind."$|\s".$tofind."[\s\.]/", $distro['Description'])) {
-                            $this->sys->setDistribution("ddddddd".$this->sys->getDistribution()." ".$distro['Release']);
+                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
                         }
                     }
                 } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
