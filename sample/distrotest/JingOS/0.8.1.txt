@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+Distributor ID:	Jingos
+Description:	JingOS Preview Edition
+Release:	20.04
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=jingos
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="JingOS v0.8"
+----------/etc/os-release----------
+NAME="JingOS"
+VERSION="v0.8"
+ID=jingos
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="JingOS Preview Edition"
+VARIANT="Unstable Branches"
+VERSION_ID="20.04"
+HOME_URL="https://www.jingos.com/"
+SUPPORT_URL="https://www.jingos.com/"
+BUG_REPORT_URL="https://www.jingos.com/"
+LOGO=start-here-kde-neon
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+bullseye/sid

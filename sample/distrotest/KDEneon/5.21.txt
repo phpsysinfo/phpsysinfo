@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+Distributor ID:	Neon
+Description:	KDE neon User Edition 5.21
+Release:	20.04
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=neon
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="KDE neon User Edition 5.21"
+----------/etc/os-release----------
+NAME="KDE neon"
+VERSION="5.21"
+ID=neon
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="KDE neon User Edition 5.21"
+VARIANT="User Edition"
+VERSION_ID="20.04"
+HOME_URL="https://neon.kde.org/"
+SUPPORT_URL="https://neon.kde.org/"
+BUG_REPORT_URL="https://bugs.kde.org/"
+LOGO=start-here-kde-neon
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+bullseye/sid
