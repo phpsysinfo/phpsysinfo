@@ -33,6 +33,8 @@ iMac19,1:iMac Core i5/i9:Intel Core I5-8500/I5-8600/I5-9600K/I9-9900K
 iMac19,2:iMac Core i3/i5/i7:Intel Core I3-8100/I5-8500/I7-8700
 iMac20,1:iMac Core i5/i7/i9:Intel Core I5-10500/I5-10600/I7-10700K/I9-10910
 iMac20,2:iMac Core i7/i9:Intel Core I7-10700K/I9-10910
+iMac21,1:MacBook Air M1:Apple M1
+iMac21,2:MacBook Air M1:Apple M1
 M43ADP1,1:Development Mac Pro:Intel Xeon X5340
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
