@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.0
 ----------------
- - [ADD] JingOS, KDE neon, Alma and Rocky Linux to detected distros
+ - [ADD] NethServer, JingOS, KDE neon, Alma and Rocky Linux to detected distros
 
  - [NEW] Ability to read UPS information from a file
 
