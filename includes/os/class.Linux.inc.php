@@ -1026,7 +1026,7 @@ class Linux extends OS
                                    || preg_match('/^\s+link\/\S+\s+(\S+)$/i', $buf2, $ar_buf2)) {
                                     if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                         $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
-                                        if ($macaddr === '00-00-00-00-00-00') { // empty
+                                        if (($macaddr === '00-00-00-00-00-00') || ($macaddr === '00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00') || ($macaddr === '--') || ($macaddr === '0.0.0.0')) { // empty
                                             $macaddr = "";
                                         }
                                     }
@@ -1120,7 +1120,12 @@ class Linux extends OS
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             if (preg_match('/^\s+link\/\S+\s+(\S+)\s+brd/i', $line, $ar_buf2)
                                || preg_match('/^\s+link\/\S+\s+(\S+)$/i', $line, $ar_buf2)) {
-                                if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
+                                    $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
+                                    if (($macaddr === '00-00-00-00-00-00') || ($macaddr === '00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00') || ($macaddr === '--') || ($macaddr === '0.0.0.0')) { // empty
+                                        $macaddr = "";
+                                    }                                   
+                                }
                             } elseif (preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2)) {
                                 if ($ar_buf2[1] != $ar_buf2[2]) {
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
