@@ -27,6 +27,11 @@
 class Linux extends OS
 {
     /**
+     * Uptime command result.
+     */
+    private $_uptime = null;
+
+    /**
      * Assoc array of all CPUs loads.
      */
     private $_cpu_loads = null;
@@ -176,21 +181,21 @@ class Linux extends OS
         if (CommonFunctions::rfts('/proc/uptime', $buf, 1, 4096, PSI_OS != 'Android')) {
             $ar_buf = preg_split('/ /', $buf);
             $this->sys->setUptime(trim($ar_buf[0]));
-        } elseif (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
+        } elseif (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
-            } elseif (preg_match("/up (\d+) day[s]?,[ ]+(\d+) min,/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up (\d+) day[s]?,[ ]+(\d+) min,/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $min * 60);
-            } elseif (preg_match("/up[ ]+(\d+):(\d+),/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up[ ]+(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[2];
                 $hours = $ar_buf[1];
                 $this->sys->setUptime($hours * 3600 + $min * 60);
-            } elseif (preg_match("/up[ ]+(\d+) min,/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up[ ]+(\d+) min,/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[1];
                 $this->sys->setUptime($min * 60);
             }
@@ -210,7 +215,7 @@ class Linux extends OS
             // don't need the extra values, only first three
             unset($result[3]);
             $this->sys->setLoad(implode(' ', $result));
-        } elseif (CommonFunctions::executeProgram('uptime', '', $buf) && preg_match("/load average: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+        } elseif (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
             $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
         }
         if (PSI_LOAD_BAR) {

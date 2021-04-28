@@ -27,6 +27,11 @@
 class Minix extends OS
 {
     /**
+     * uptime command result.
+     */
+    private $_uptime = null;
+
+    /**
      * content of the syslog
      *
      * @var array
@@ -194,13 +199,13 @@ class Minix extends OS
      */
     private function _uptime()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+        if (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
-            } elseif (preg_match("/up (\d+):(\d+),/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up (\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[2];
                 $hours = $ar_buf[1];
                 $this->sys->setUptime($hours * 3600 + $min * 60);
@@ -216,8 +221,8 @@ class Minix extends OS
      */
     private function _loadavg()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+        if (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/load averages: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
             }
         }
