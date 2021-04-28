@@ -215,7 +215,7 @@ class Linux extends OS
             // don't need the extra values, only first three
             unset($result[3]);
             $this->sys->setLoad(implode(' ', $result));
-        } elseif (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
+        } elseif ((!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
             $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
         }
         if (PSI_LOAD_BAR) {
