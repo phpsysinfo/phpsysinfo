@@ -188,7 +188,7 @@ REFRESH=60000
 ; - "compact" : displayed like above but in compact mode
 ; - false : will not be displayed (also in Load Averages field)
 ;
-LOAD_BAR=true
+LOAD_BAR="compact"
 
 
 ; Display the virtual host name and address
