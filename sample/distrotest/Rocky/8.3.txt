@@ -1,5 +1,3 @@
-----------/etc/rocky-release----------
-Rocky Linux release 8.3
 ----------/etc/os-release----------
 NAME="Rocky Linux"
 VERSION="8"
@@ -16,5 +14,7 @@ CENTOS_MANTISBT_PROJECT="Rocky-8"
 CENTOS_MANTISBT_PROJECT_VERSION="8"
 ----------/etc/redhat-release----------
 Rocky Linux release 8.3 
+----------/etc/rocky-release----------
+Rocky Linux release 8.3
 ----------/etc/system-release----------
 Rocky Linux release 8.3 
