@@ -1,3 +1,9 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch
+Distributor ID:	Virtuozzo
+Description:	Virtuozzo Linux release 8
+Release:	8
+Codename:	n/a
 ----------/etc/os-release----------
 NAME="Virtuozzo Linux"
 VERSION="8"
