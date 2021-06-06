@@ -323,6 +323,7 @@ class Linux extends OS
             $_arch = null;
             $_impl = null;
             $_part = null;
+            $_vari = null;
             $_hard = null;
             $_revi = null;
             $_cpus = null;
@@ -344,6 +345,9 @@ class Linux extends OS
                             break;
                         case 'cpu part':
                             $_part = $arrBuff1;
+                            break;
+                        case 'cpu variant':
+                            $_vari = $arrBuff1;
                             break;
                         case 'hardware':
                             $_hard = $arrBuff1;
@@ -382,6 +386,7 @@ class Linux extends OS
                 $arch = null;
                 $impl = null;
                 $part = null;
+                $vari = null;
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
@@ -460,6 +465,9 @@ class Linux extends OS
                         case 'cpu part':
                             $part = $arrBuff1;
                             break;
+                        case 'cpu variant':
+                            $vari = $arrBuff1;
+                            break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff1);
                             break;
@@ -469,6 +477,7 @@ class Linux extends OS
                 if ($arch === null) $arch = $_arch;
                 if ($impl === null) $impl = $_impl;
                 if ($part === null) $part = $_part;
+                if ($vari === null) $vari = $_vari;
 
                 // sparc64 specific code follows
                 // This adds the ability to display the cache that a CPU has
@@ -566,9 +575,10 @@ class Linux extends OS
                             $this->sys->setMachine($_hard);
                         }
                         if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                        if ($cpulist && (isset($cpulist['cpu'][$cpuimplpart = strtolower($impl.','.$part)]))) {
+                        if ($cpulist && (((($vari !== null) && isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part.','.$vari)]))
+                           || isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part)])))) {
                             if (($cpumodel = $dev->getModel()) !== '') {
-                                $dev->setModel($cpumodel.' - '.$cpulist['cpu'][$cpuimplpart]);
+                                $dev->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
                             } else {
                                 $dev->setModel($cpulist['cpu'][$cpuimplpart]);
                             }
