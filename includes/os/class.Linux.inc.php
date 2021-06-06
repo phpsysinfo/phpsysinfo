@@ -580,7 +580,7 @@ class Linux extends OS
                             if (($cpumodel = $dev->getModel()) !== '') {
                                 $dev->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
                             } else {
-                                $dev->setModel($cpulist['cpu'][$cpuimplpart]);
+                                $dev->setModel($cpulist['cpu'][$cpufromlist]);
                             }
                         }
                     } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other hardware
