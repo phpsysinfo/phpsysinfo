@@ -106,10 +106,14 @@ class UpdateNotifier extends PSI_Plugin
      */
     public function xml()
     {
-        if (!empty($this->_result)) {
+        if (!empty($this->_result) && is_numeric($this->_result[0])) {
             $xmluu = $this->xml->addChild("UpdateNotifier");
             $xmluu->addChild("packages", $this->_result[0]);
-            $xmluu->addChild("security", $this->_result[1]);
+            if (is_numeric($this->_result[1])) {
+                $xmluu->addChild("security", $this->_result[1]);
+            } else {
+                $xmluu->addChild("security", 0);
+            }
         }
 
         return $this->xml->getSimpleXmlElement();

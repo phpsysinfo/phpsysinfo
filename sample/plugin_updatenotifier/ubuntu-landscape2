@@ -1,0 +1,2 @@
+1 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
