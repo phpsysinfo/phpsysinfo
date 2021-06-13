@@ -1285,6 +1285,8 @@ class Linux extends OS
     protected function _memory()
     {
         if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
+            $swaptotal = null;
+            $swapfree = null;
             $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^MemTotal:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
@@ -1295,6 +1297,10 @@ class Linux extends OS
                     $this->sys->setMemCache($ar_buf[1] * 1024);
                 } elseif (preg_match('/^Buffers:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
                     $this->sys->setMemBuffer($ar_buf[1] * 1024);
+                } elseif (preg_match('/^SwapTotal:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
+                    $swaptotal = $ar_buf[1] * 1024;
+                } elseif (preg_match('/^SwapFree:\s+(\d+)\s*kB/i', $buf, $ar_buf)) {
+                    $swapfree = $ar_buf[1] * 1024;
                 }
             }
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
@@ -1315,6 +1321,13 @@ class Linux extends OS
                     $dev->setFree($dev->getTotal() - $dev->getUsed());
                     $this->sys->setSwapDevices($dev);
                 }
+            } elseif (!is_null($swaptotal) && !is_null($swapfree) && ($swaptotal > 0)) {
+                    $dev = new DiskDevice();
+                    $dev->setName("SWAP");
+                    $dev->setTotal($swaptotal);
+                    $dev->setFree($swapfree);
+                    $dev->setUsed($dev->getTotal() - $dev->getFree());
+                    $this->sys->setSwapDevices($dev);
             }
         }
     }
