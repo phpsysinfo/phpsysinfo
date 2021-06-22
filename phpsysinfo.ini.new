@@ -624,7 +624,7 @@ ACCESS="command"
 [sensor_thermalzone]
 ; ThermalZone motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WINNT information is retrieved everytime through WMI
+; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WinNT information is retrieved everytime through WMI
 ; - ACCESS="data"  //read data from file data/thermalzone.tmp (output of WinNT command "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName")
 ;
 ACCESS="command"
@@ -695,9 +695,9 @@ SHOW_SERIAL=false
 ;             - megasasctl:        command "megasasctl" (on Linux only)
 ;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
-;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WINNT)
+;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid (Python 2) or https://github.com/ElCoyote27/hwraid (Python 3)
-;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WINNT)
+;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid
 ;             - graid:             command "graid list" is run (on FreeBSD only)
 ;             - zpool:             command "zpool status" is run
@@ -728,7 +728,7 @@ IDRAC_DEVICES=""
 ; PS Plugin configuration
 
 ; define how to access the ps statistic data
-; - "command" ps command is run everytime the block gets refreshed or build / on WINNT
+; - "command" ps command is run everytime the block gets refreshed or build / on WinNT
 ;             information is retrieved everytime through WMI
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "ps.tmp"; content is the output from "ps -axo pid,ppid,pmem,pcpu,args")
@@ -757,14 +757,14 @@ SHOW_PID1CHILD_EXPANDED=false
 
 ; define how to access the psstatus statistic data
 ; - "command" pidof command is run everytime the block gets refreshed or build 
-;             / on WINNT information is retrieved everytime through WMI
+;             / on WinNT information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "psstatus.tmp"; content is the output from
 ;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s -x "$ps"`; done</code>
 ;
 ACCESS="command"
 
-; Regular expression search in the process name (e.g. "ddclient.*")
+; Regular expression search in the process name (e.g. "ddclient.*") for non-WinNT systems 
 ; - true : Regular expression search (used pgrep command)
 ; - false : Normal search (used pidof command)
 ;
@@ -772,7 +772,7 @@ USE_REGEX=false
 
 ; controls which processes are checked if they are running
 ;
-; string contains a list of process names that are checked, names are seperated by a comma (on WINNT names must end with '.exe')
+; string contains a list of process names that are checked, names are seperated by a comma (on WinNT names must end with '.exe')
 ;
 PROCESSES="mysqld, sshd, explorer.exe"
 
