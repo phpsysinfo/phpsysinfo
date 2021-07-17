@@ -402,4 +402,7 @@ phpSysInfo language file Language: Romană Created by: Sorin Gheorghe Update by:
   <expression id="132" name="gtps">
     <exp>GT/s</exp>
   </expression>
+  <expression id="133" name="ups_beeper_status">
+    <exp>Beeper status</exp>
+  </expression>
 </tns:translation>

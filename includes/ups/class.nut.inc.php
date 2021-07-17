@@ -128,6 +128,9 @@ class Nut extends UPS
                 if (isset($ups_data['ups.status'])) {
                     $dev->setStatus($ups_data['ups.status']);
                 }
+                if (isset($ups_data['ups.beeper.status'])) {
+                    $dev->setBeeperStatus($ups_data['ups.beeper.status']);
+                }
 
                 //Line
                 if (isset($ups_data['input.voltage'])) {

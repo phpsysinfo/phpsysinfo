@@ -136,7 +136,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>Kapacita</exp>
   </expression>
   <expression id="044" name="template">
-    <exp>Téma vzhledu</exp>
+    <exp>Šablona vzhledu</exp>
   </expression>
   <expression id="045" name="language">
     <exp>Jazyk</exp>
@@ -295,31 +295,31 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Systémový jazyk</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Znaková stránka</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Podrobnosti</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Nejvyšší frekvence CPU</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Nejnižší frekvence CPU</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Výkon</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Datum baterie</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Proud</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
@@ -328,31 +328,31 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>Machine</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Frekvence sítě</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Procesy</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>aktivní</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>neaktivní</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>zastavené</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>čekající</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>ostatní</exp>
   </expression>
   <expression id="117" name="tb">
     <exp>TB zařízení</exp>
@@ -361,22 +361,22 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>I2C zařízení</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Počet procesorů</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Počet zařízení</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>Ostatní</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>Výrobce</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>Product</exp>
+    <exp>Produkt</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>Serial number</exp>
+    <exp>Sériové číslo</exp>
   </expression>
   <expression id="125" name="memfree">
     <exp>Volné</exp>
@@ -385,21 +385,24 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
     <exp>NVMe zařízení</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>Typ OS</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
+    <exp>Počet paměťových čipů</exp>
   </expression>
   <expression id="129" name="speed">
-    <exp>Speed</exp>
+    <exp>Rychlost</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
+    <exp>Paměťové čipy</exp>
   </expression>
   <expression id="131" name="mtps">
     <exp>MT/s</exp>
   </expression>
   <expression id="132" name="gtps">
     <exp>GT/s</exp>
+  </expression>
+  <expression id="133" name="ups_beeper_status">
+    <exp>Stav pípáku</exp>
   </expression>
 </tns:translation>

@@ -1598,7 +1598,7 @@ function renderUPS(data) {
 
     if ((data.UPSInfo !== undefined) && (items(data.UPSInfo.UPS).length > 0)) {
         var html="";
-        var paramlist = {Model:70,StartTime:72,Status:73,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
+        var paramlist = {Model:70,StartTime:72,Status:73,BeeperStatus:133,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
 
         try {
             datas = items(data.UPSInfo.UPS);

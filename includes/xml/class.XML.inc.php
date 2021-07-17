@@ -698,6 +698,7 @@ class XML
         }
         if (sizeof(unserialize(PSI_UPSINFO))>0) {
             foreach (unserialize(PSI_UPSINFO) as $upsinfoclass) {
+                /** @var PSI_Interface_UPS $upsinfo_data */
                 $upsinfo_data = new $upsinfoclass();
                 $upsinfo_detail = $upsinfo_data->getUPSInfo();
                 foreach ($upsinfo_detail->getUpsDevices() as $ups) {
@@ -713,6 +714,9 @@ class XML
                         $item->addAttribute('StartTime', $ups->getStartTime());
                     }
                     $item->addAttribute('Status', $ups->getStatus());
+                    if ($ups->getBeeperStatus() !== null) {
+                        $item->addAttribute('BeeperStatus', $ups->getBeeperStatus());
+                    }
                     if ($ups->getTemperatur() !== null) {
                         $item->addAttribute('Temperature', $ups->getTemperatur());
                     }
