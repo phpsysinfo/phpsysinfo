@@ -1552,12 +1552,13 @@ function refreshUps(xml) {
 
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
-        var name = "", model = "", mode = "", start_time = "", upsstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", line_frequency = "", load_percent = "", battery_date = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
+        var name = "", model = "", mode = "", start_time = "", upsstatus = "", beeperstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", line_frequency = "", load_percent = "", battery_date = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
         name = $(this).attr("Name");
         model = $(this).attr("Model");
         mode = $(this).attr("Mode");
         start_time = $(this).attr("StartTime");
         upsstatus = $(this).attr("Status");
+        beeperstatus = $(this).attr("BeeperStatus");
 
         temperature = $(this).attr("Temperature");
         outages_count = $(this).attr("OutagesCount");
@@ -1587,6 +1588,10 @@ function refreshUps(xml) {
         }
         if (upsstatus !== undefined) {
             html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(73) + "</span></div></td><td>" + upsstatus + "</td></tr>\n";
+            tree.push(index);
+        }
+        if (beeperstatus !== undefined) {
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(133) + "</span></div></td><td>" + beeperstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {

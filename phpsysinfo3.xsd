@@ -448,6 +448,7 @@
         <attribute name="Mode" type="string" use="required"></attribute>
         <attribute name="StartTime" type="string" use="optional"></attribute>
         <attribute name="Status" type="string" use="required"></attribute>
+        <attribute name="BeeperStatus" type="string" use="optional"></attribute>
         <attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
         <attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>
         <attribute name="LastOutage" type="string" use="optional"></attribute>

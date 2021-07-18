@@ -138,6 +138,13 @@ class UPSDevice
     private $_timeLeft = null;
 
     /**
+     * beeper enabled or disabled
+     *
+     * @var String
+     */
+    private $_beeperStatus = null;
+
+    /**
      * Returns $_batterCharge.
      *
      * @see UPSDevice::$_batterCharge
@@ -551,5 +558,31 @@ class UPSDevice
     public function setTimeLeft($timeLeft)
     {
         $this->_timeLeft = $timeLeft;
+    }
+
+    /**
+     * Returns $_beeperStatus.
+     *
+     * @see UPSDevice::$_beeperStatus
+     *
+     * @return String
+     */
+    public function getBeeperStatus()
+    {
+        return $this->_beeperStatus;
+    }
+
+    /**
+     * Sets $_beeperStatus.
+     *
+     * @param String $beeperStatus beeper status
+     *
+     * @see UPSDevice::$_beeperStatus
+     *
+     * @return Void
+     */
+    public function setBeeperStatus($beeperStatus)
+    {
+        $this->_beeperStatus = $beeperStatus;
     }
 }

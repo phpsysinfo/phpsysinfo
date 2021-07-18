@@ -713,6 +713,9 @@ class XML
                         $item->addAttribute('StartTime', $ups->getStartTime());
                     }
                     $item->addAttribute('Status', $ups->getStatus());
+                    if ($ups->getBeeperStatus() !== null) {
+                        $item->addAttribute('BeeperStatus', $ups->getBeeperStatus());
+                    }
                     if ($ups->getTemperatur() !== null) {
                         $item->addAttribute('Temperature', $ups->getTemperatur());
                     }
