@@ -39,7 +39,7 @@ class UPSInfo
      *
      * @see UPSInfo::$_upsDevices
      *
-     * @return array|UPSDevice[]
+     * @return array
      */
     public function getUpsDevices()
     {
