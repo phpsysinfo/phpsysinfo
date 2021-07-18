@@ -698,7 +698,6 @@ class XML
         }
         if (sizeof(unserialize(PSI_UPSINFO))>0) {
             foreach (unserialize(PSI_UPSINFO) as $upsinfoclass) {
-                /** @var PSI_Interface_UPS $upsinfo_data */
                 $upsinfo_data = new $upsinfoclass();
                 $upsinfo_detail = $upsinfo_data->getUPSInfo();
                 foreach ($upsinfo_detail->getUpsDevices() as $ups) {
