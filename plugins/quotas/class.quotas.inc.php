@@ -69,10 +69,11 @@ class Quotas extends PSI_Plugin
         $i = 0;
         $quotas = array();
         foreach ($this->_filecontent as $thisline) {
-            $thisline = preg_replace("/([\s]--)/", "", $thisline);
+            $thisline = preg_replace("/([\s][-+][-+])/", "", $thisline);
             $thisline = preg_split("/(\s)/", $thisline, -1, PREG_SPLIT_NO_EMPTY);
-            if (count($thisline) == 7) {
-                $quotas[$i]['user'] = str_replace("--", "", $thisline[0]);
+            $thiscount = count($thisline);
+            if (($thiscount == 7) || ($thiscount == 8)) {
+                $quotas[$i]['user'] = trim($thisline[0]," \t+-");
                 $quotas[$i]['byte_used'] = $thisline[1] * 1024;
                 $quotas[$i]['byte_soft'] = $thisline[2] * 1024;
                 $quotas[$i]['byte_hard'] = $thisline[3] * 1024;
@@ -81,10 +82,10 @@ class Quotas extends PSI_Plugin
                 } else {
                     $quotas[$i]['byte_percent_used'] = 0;
                 }
-                $quotas[$i]['file_used'] = $thisline[4];
-                $quotas[$i]['file_soft'] = $thisline[5];
-                $quotas[$i]['file_hard'] = $thisline[6];
-                if ($thisline[6] != 0) {
+                $quotas[$i]['file_used'] = $thisline[$thiscount-3];
+                $quotas[$i]['file_soft'] = $thisline[$thiscount-2];
+                $quotas[$i]['file_hard'] = $thisline[$thiscount-1];
+                if ($quotas[$i]['file_hard'] != 0) {
                     $quotas[$i]['file_percent_used'] = round((($quotas[$i]['file_used'] / $quotas[$i]['file_hard']) * 100), 1);
                 } else {
                     $quotas[$i]['file_percent_used'] = 0;
