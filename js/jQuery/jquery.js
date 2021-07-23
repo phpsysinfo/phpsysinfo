@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v1.12.4-ff3fix-ff2fix
+ * jQuery JavaScript Library v1.12.4-ff3fix-ff2fix-CVE_2015_9251fix-CVE_2019_11358fix
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -209,8 +209,9 @@ jQuery.extend = jQuery.fn.extend = function() {
 				src = target[ name ];
 				copy = options[ name ];
 
+				// Prevent Object.prototype pollution
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
@@ -10445,8 +10446,12 @@ jQuery.ajaxTransport( "script", function( s ) {
 	}
 } );
 
-
-
+// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+jQuery.ajaxPrefilter( function( s ) {
+	if ( s.crossDomain ) {
+		s.contents.script = false;
+	}
+} );
 
 var oldCallbacks = [],
 	rjsonp = /(=)\?(?=&|$)|\?\?/;
