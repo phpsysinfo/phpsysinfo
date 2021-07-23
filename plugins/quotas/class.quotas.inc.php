@@ -71,7 +71,7 @@ class Quotas extends PSI_Plugin
         foreach ($this->_filecontent as $thisline) {
             $thisline = preg_replace("/([\s][-+][-+])/", "", $thisline);
             $thisline = preg_split("/(\s)/", $thisline, -1, PREG_SPLIT_NO_EMPTY);
-            $params = [];
+            $params = array();
             foreach ($thisline as $param) if (is_numeric($param)) {
                 $params[] = $param;
             }
