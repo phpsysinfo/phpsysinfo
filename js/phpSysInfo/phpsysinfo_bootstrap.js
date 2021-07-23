@@ -620,36 +620,38 @@ function renderVitals(data) {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
                 processes = parseInt(this.Processes, 10);
-                if (this.ProcessesRunning !== undefined) {
-                    p111 = parseInt(this.ProcessesRunning, 10);
-                }
-                if (this.ProcessesSleeping !== undefined) {
-                    p112 = parseInt(this.ProcessesSleeping, 10);
-                }
-                if (this.ProcessesStopped !== undefined) {
-                    p113 = parseInt(this.ProcessesStopped, 10);
-                }
-                if (this.ProcessesZombie !== undefined) {
-                    p114 = parseInt(this.ProcessesZombie, 10);
-                }
-                if (this.ProcessesWaiting !== undefined) {
-                    p115 = parseInt(this.ProcessesWaiting, 10);
-                }
-                if (this.ProcessesOther !== undefined) {
-                    p116 = parseInt(this.ProcessesOther, 10);
-                }
-                if (p111 || p112 || p113 || p114 || p115 || p116) {
-                    processes += " (";
-                    for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
-                        if (eval("p" + proc_type)) {
-                            if (not_first) {
-                                processes += ", ";
-                            }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
-                            not_first = true;
-                        }
+                if (processes > 0) {
+                    if (this.ProcessesRunning !== undefined) {
+                        p111 = parseInt(this.ProcessesRunning, 10);
                     }
-                    processes += ")";
+                    if (this.ProcessesSleeping !== undefined) {
+                        p112 = parseInt(this.ProcessesSleeping, 10);
+                    }
+                    if (this.ProcessesStopped !== undefined) {
+                        p113 = parseInt(this.ProcessesStopped, 10);
+                    }
+                    if (this.ProcessesZombie !== undefined) {
+                        p114 = parseInt(this.ProcessesZombie, 10);
+                    }
+                    if (this.ProcessesWaiting !== undefined) {
+                        p115 = parseInt(this.ProcessesWaiting, 10);
+                    }
+                    if (this.ProcessesOther !== undefined) {
+                        p116 = parseInt(this.ProcessesOther, 10);
+                    }
+                    if (p111 || p112 || p113 || p114 || p115 || p116) {
+                        processes += " (";
+                        for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
+                            if (eval("p" + proc_type)) {
+                                if (not_first) {
+                                    processes += ", ";
+                                }
+                                processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
+                                not_first = true;
+                            }
+                        }
+                        processes += ")";
+                    }
                 }
                 return processes;
             }

@@ -630,7 +630,23 @@ function createBar(size, barclass) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVitals(xml) {
-    var hostname = "", ip = "";
+    var hostname = "", ip = "", stripid = 0;
+
+    function setAndStrip(id, value) {
+       if (value !== "") {
+           $(id).html(value);
+           if (stripid%2 === 1) {
+               $(id).closest('tr').addClass('even');
+           } else {
+               $(id).closest('tr').removeClass('even');
+           }
+           $(id).closest('tr').css("display", "");
+           stripid++;
+       } else {
+          $(id).closest('tr').css("display", "none");
+       }
+    }
+
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#vitals").remove();
         $("Vitals", xml).each(function getVitals(id) {
@@ -672,27 +688,15 @@ function refreshVitals(xml) {
         }
         if ($(this).attr("SysLang") !== undefined) {
             syslang = $(this).attr("SysLang");
-            document.getElementById("s_syslang_tr").style.display='';
         }
 
         if ($(this).attr("CodePage") !== undefined) {
             codepage = $(this).attr("CodePage");
-            if ($(this).attr("SysLang") !== undefined) {
-                document.getElementById("s_codepage_tr1").style.display='';
-            } else {
-                document.getElementById("s_codepage_tr2").style.display='';
-            }
         }
 
         //processes
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
-            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") === undefined)) ||
-                (($(this).attr("CodePage") === undefined) && ($(this).attr("SysLang") !== undefined))) {
-                document.getElementById("s_processes_tr1").style.display='';
-            } else {
-                document.getElementById("s_processes_tr2").style.display='';
-            }
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
             prunning = parseInt($(this).attr("ProcessesRunning"), 10);
@@ -715,47 +719,41 @@ function refreshVitals(xml) {
 
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
-        $("#s_ip_title").html(ip);
-        $("#s_hostname").html(hostname);
-        $("#s_ip").html(ip);
-        $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
-        $("#s_os").html("<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
-        $("#s_uptime").html(uptime);
+        $("#s_ip_title").html(ip);      
+        setAndStrip("#s_hostname", hostname);
+        setAndStrip("#s_ip", ip);
+        setAndStrip("#s_kernel", kernel);
+        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
+        setAndStrip("#s_uptime", uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
-            $("#s_lastboot").html(lastboot.toLocaleString());
+            setAndStrip("#s_lastboot", lastboot.toLocaleString());
         } else {
             if (typeof(lastboot.toUTCString)==="function") {
-                $("#s_lastboot").html(lastboot.toUTCString());
+                setAndStrip("#s_lastboot", lastboot.toUTCString());
             } else {
                 //deprecated
-                $("#s_lastboot").html(lastboot.toGMTString());
+                setAndStrip("#s_lastboot", lastboot.toGMTString());
             }
         }
-        $("#s_users").html(users);
-        $("#s_loadavg").html(loadavg);
-        $("#s_syslang").html(syslang);
-        $("#s_codepage_1").html(codepage);
-        $("#s_codepage_2").html(codepage);
-        $("#s_processes_1").html(processes);
-        $("#s_processes_2").html(processes);
-        if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
-            $("#s_processes_1").append(" (");
-            $("#s_processes_2").append(" (");
+        setAndStrip("#s_users", users);
+        setAndStrip("#s_loadavg", loadavg);
+        setAndStrip("#s_syslang", syslang);
+        setAndStrip("#s_codepage", codepage);
+        setAndStrip("#s_processes", processes);
+        if ((processes > 0) && (prunning || psleeping || pstopped || pzombie || pwaiting || pother)) {
+            $("#s_processes").append(" (");
             var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
             for (var proc_type in typelist) {
                 if (eval("p" + proc_type)) {
                     if (not_first) {
-                        $("#s_processes_1").append(", ");
-                        $("#s_processes_2").append(", ");
+                        $("#s_processes").append(", ");
                     }
-                    $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
-                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
+                    $("#s_processes").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
                     not_first = true;
                 }
             }
-            $("#s_processes_1").append(") ");
-            $("#s_processes_2").append(") ");
+            $("#s_processes").append(") ");
         }
     });
 }
