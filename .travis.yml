@@ -29,7 +29,7 @@ script: if find . -name "*.php" -exec php -l {} 2>&1 \; | grep "syntax error, un
 
 branches:
   only:
-    - "master"
+    - "main"
     - "stable"
 
 notifications:
