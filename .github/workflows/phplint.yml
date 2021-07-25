@@ -1,7 +1,5 @@
 name: PHP Linting
 
-on: push
-
 jobs:
   phplint:
 
@@ -36,3 +34,9 @@ jobs:
         uses: dbfx/github-phplint/8.0@master
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+
+on:
+  push:
+    branches:
+      - main
+      - stable
