@@ -544,7 +544,7 @@ class Linux extends OS
                         if (($impl === '0x41')
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837') || ($_hard === 'BCM2711') || ($_hard === 'BCM2838'))
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
-                            if (($raslist === null)) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
+                            if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             if ($raslist && !preg_match('/[^0-9a-f]/', $_revi)) {
                                 if (($revidec = hexdec($_revi)) & 0x800000) {
                                     if ($this->sys->getMachine() === '') {
@@ -574,7 +574,7 @@ class Linux extends OS
                         } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other ARM hardware
                             $this->sys->setMachine($_hard);
                         }
-                        if (($cpulist === null)) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
+                        if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
                         if ($cpulist && (((($vari !== null) && isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part.','.$vari)]))
                            || isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part)])))) {
                             if (($cpumodel = $dev->getModel()) !== '') {
