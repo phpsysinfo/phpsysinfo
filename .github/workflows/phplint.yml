@@ -1,0 +1,38 @@
+name: PHP Linting
+
+on: push
+
+jobs:
+  phplint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+      - name: PHP Lint 5.5
+        uses: dbfx/github-phplint/5.5@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 5.6
+        uses: dbfx/github-phplint/5.6@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 7.2
+        uses: dbfx/github-phplint/7.2@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 7.3
+        uses: dbfx/github-phplint/7.3@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 7.4
+        uses: dbfx/github-phplint/7.4@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 8.0
+        uses: dbfx/github-phplint/8.0@master
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
