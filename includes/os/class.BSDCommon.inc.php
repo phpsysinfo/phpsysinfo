@@ -247,7 +247,7 @@ abstract class BSDCommon extends OS
      */
     protected function cpuusage()
     {
-        if (is_null($this->_cpu_loads)) {
+        if (($this->_cpu_loads === null)) {
             $this->_cpu_loads = array();
             if (PSI_OS != 'Darwin') {
                 if ($fd = $this->grabkey('kern.cp_time')) {
@@ -269,7 +269,7 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 $ncpu = $this->grabkey('hw.ncpu');
-                if (!is_null($ncpu) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                if (($ncpu !== null) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
                     $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
                     if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
                         array_shift($pslines);
@@ -355,7 +355,7 @@ abstract class BSDCommon extends OS
         }
 
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1))) {
+        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
         if (($ncpu == 1) && (PSI_LOAD_BAR)) {

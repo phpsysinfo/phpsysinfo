@@ -1557,7 +1557,7 @@ class Raid extends PSI_Plugin
         if (count($this->_filecontent)>0) {
             foreach ($this->prog_items as $item) if (isset($this->_filecontent[$item])) {
                 if ($item !== 'idrac') {
-                    if (!is_null($buffer = $this->_filecontent[$item]) && (($buffer = trim($buffer)) != "")) {
+                    if ((($buffer = $this->_filecontent[$item]) !== null) && (($buffer = trim($buffer)) != "")) {
                         switch ($item) {
                             case 'mdstat':
                                 $this->execute_mdstat($buffer);

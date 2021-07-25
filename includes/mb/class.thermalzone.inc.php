@@ -89,7 +89,7 @@ class ThermalZone extends Sensors
             if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
-                if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
+                if (CommonFunctions::rfts($thermalzonetemp, $temp, 1, 4096, false) && ($temp !== null) && (($temp = trim($temp)) != "")) {
                     if ($temp >= 1000) {
                         $div = 1000;
                     } elseif ($temp >= 200) {
@@ -104,14 +104,14 @@ class ThermalZone extends Sensors
                         $dev->setValue($temp);
 
                         $temp_type = null;
-                        if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 1, 4096, false) && !is_null($temp_type) && (($temp_type = trim($temp_type)) != "")) {
+                        if (CommonFunctions::rfts($thermalzone.'type', $temp_type, 1, 4096, false) && ($temp_type !== null) && (($temp_type = trim($temp_type)) != "")) {
                             $dev->setName($temp_type);
                         } else {
                             $dev->setName("ThermalZone");
                         }
 
                         $temp_max = null;
-                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 1, 4096, false) && !is_null($temp_max) && (($temp_max = trim($temp_max)) != "") && ($temp_max > -40)) {
+                        if (CommonFunctions::rfts($thermalzone.'trip_point_0_temp', $temp_max, 1, 4096, false) && ($temp_max !== null) && (($temp_max = trim($temp_max)) != "") && ($temp_max > -40)) {
                             $temp_max = $temp_max / $div;
                             if (($temp_max != 0) || ($temp != 0)) { // if non-zero values
                                 $dev->setMax($temp_max);
@@ -128,7 +128,7 @@ class ThermalZone extends Sensors
                 $thermalzones = glob('/proc/acpi/thermal_zone/TH*/temperature');
                 if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                     $temp = null;
-                    if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && !is_null($temp) && (($temp = trim($temp)) != "")) {
+                    if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && ($temp !== null) && (($temp = trim($temp)) != "")) {
                         $dev = new SensorDevice();
                         if (preg_match("/^\/proc\/acpi\/thermal_zone\/(.+)\/temperature$/", $thermalzone, $name)) {
                            $dev->setName("ThermalZone ".$name[1]);

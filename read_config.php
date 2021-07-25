@@ -151,7 +151,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                     }
                                 }
 
-                                if (is_null($out) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
+                                if (($out === null) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
                                     define('PSI_MODE_POPEN', true);
                                 }
                                 fclose($pipes[0]);
@@ -206,7 +206,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
-                        if (!defined('PSI_SYSTEM_CODEPAGE') && isset($matches2[2]) && !is_null($matches2[2]) && (trim($matches2[2]) != "")) { //also if not overloaded in phpsysinfo.ini
+                        if (!defined('PSI_SYSTEM_CODEPAGE') && isset($matches2[2]) && ($matches2[2] !== null) && (trim($matches2[2]) != "")) { //also if not overloaded in phpsysinfo.ini
                             define('PSI_SYSTEM_CODEPAGE', $matches2[2]);
                         }
 

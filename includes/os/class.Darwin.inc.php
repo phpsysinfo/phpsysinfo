@@ -119,7 +119,7 @@ class Darwin extends BSDCommon
         if (CommonFunctions::executeProgram('hostinfo', '| grep "Processor type"', $buf, PSI_DEBUG)) {
             $dev->setModel(preg_replace('/Processor type: /', '', $buf));
             $buf=$this->grabkey('hw.model');
-            if (!is_null($buf) && (trim($buf) != "")) {
+            if (($buf !== null) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
                 if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
                     $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
@@ -134,12 +134,12 @@ class Darwin extends BSDCommon
                 }
             }
             $buf=$this->grabkey('machdep.cpu.brand_string');
-            if (!is_null($buf) && (trim($buf) != "") &&
+            if (($buf !== null) && (trim($buf) != "") &&
                  ((trim($buf) != "i486 (Intel 80486)") || ($dev->getModel() == ""))) {
                 $dev->setModel(trim($buf));
             }
             $buf=$this->grabkey('machdep.cpu.features');
-            if (!is_null($buf) && (trim($buf) != "")) {
+            if (($buf !== null) && (trim($buf) != "")) {
                 if (preg_match("/ VMX/", $buf)) {
                     $dev->setVirt("vmx");
                 } elseif (preg_match("/ SVM/", $buf)) {
@@ -151,16 +151,16 @@ class Darwin extends BSDCommon
         $dev->setBusSpeed(round($this->grabkey('hw.busfrequency') / 1000000));
         $bufn=$this->grabkey('hw.cpufrequency_min');
         $bufx=$this->grabkey('hw.cpufrequency_max');
-        if (!is_null($bufn) && (trim($bufn) != "") && !is_null($bufx) && (trim($bufx) != "") && ($bufn != $bufx)) {
+        if (($bufn !== null) && (trim($bufn) != "") && ($bufx !== null) && (trim($bufx) != "") && ($bufn != $bufx)) {
             $dev->setCpuSpeedMin(round($bufn / 1000000));
             $dev->setCpuSpeedMax(round($bufx / 1000000));
         }
         $buf=$this->grabkey('hw.l2cachesize');
-        if (!is_null($buf) && (trim($buf) != "")) {
+        if (($buf !== null) && (trim($buf) != "")) {
             $dev->setCache(round($buf));
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1))) {
+        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
         if (($ncpu == 1) && (PSI_LOAD_BAR)) {
@@ -426,8 +426,8 @@ class Darwin extends BSDCommon
             $distro_tmp = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($distro_tmp as $info) {
                 $info_tmp = preg_split('/:/', $info, 2);
-                if (isset($distro_tmp[0]) && !is_null($distro_tmp[0]) && (trim($distro_tmp[0]) != "") &&
-                     isset($distro_tmp[1]) && !is_null($distro_tmp[1]) && (trim($distro_tmp[1]) != "")) {
+                if (isset($distro_tmp[0]) && ($distro_tmp[0] !== null) && (trim($distro_tmp[0]) != "") &&
+                     isset($distro_tmp[1]) && ($distro_tmp[1] !== null) && (trim($distro_tmp[1]) != "")) {
                     $distro_arr[trim($info_tmp[0])] = trim($info_tmp[1]);
                 }
             }

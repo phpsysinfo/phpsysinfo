@@ -166,7 +166,7 @@ class OpenBSD extends BSDCommon
             }
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
+        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1))
             $ncpu = 1;
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);

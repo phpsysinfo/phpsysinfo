@@ -71,7 +71,7 @@ class AIX extends OS
      */
     private function _uptime()
     {
-        if (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
             if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
@@ -88,7 +88,7 @@ class AIX extends OS
      */
     private function _loadavg()
     {
-        if (!is_null($this->_uptime) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
             if (preg_match("/average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
             }
