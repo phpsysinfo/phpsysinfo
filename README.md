@@ -69,7 +69,7 @@ That's it.  Restart your webserver (if you changed php.ini), and voila.
 
 #### Docker container installation
 
-- `sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo`
+- `sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo#main`
 - `sudo docker run -i -p 8080:80 -t phpsysinfo`
 - go to http://localhost:8080/phpsysinfo/
 
