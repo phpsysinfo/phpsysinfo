@@ -36,3 +36,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
+
+***!! If you have any problems, please set `DEBUG` to true in `phpsysinfo.ini`
+and include any error messages in your bug report / help request !!***
