@@ -1345,14 +1345,14 @@ class WINNT extends OS
             $this->_loadavg();
             $this->_processes();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
             $this->_meminfo();
             $this->_hardware();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
