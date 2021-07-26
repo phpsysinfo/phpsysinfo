@@ -205,11 +205,11 @@ class FreeBSD extends BSDCommon
             $this->_uptime();
             $this->_processes();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memoryadditional();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

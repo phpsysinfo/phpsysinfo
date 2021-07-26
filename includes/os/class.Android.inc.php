@@ -261,14 +261,14 @@ class Android extends Linux
             $this->_usb();
             $this->_i2c();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }
