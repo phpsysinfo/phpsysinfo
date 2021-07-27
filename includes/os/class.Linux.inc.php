@@ -49,7 +49,7 @@ class Linux extends OS
            ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
               && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))) {
             $machine = trim($ar_buf[1]);
-        } else { //data from /sys/devices/virtual/dmi/id/
+        } else { // data from /sys/devices/virtual/dmi/id/
             $product = "";
             $board = "";
             $bios = "";
