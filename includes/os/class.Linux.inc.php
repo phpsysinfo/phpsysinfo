@@ -370,6 +370,7 @@ class Linux extends OS
                             break;
                         case 'vendor_id':
                             $_vend = $arrBuff1;
+                            break;
                         case 'cpu':
                             $procname = $arrBuff1;
                             break;
