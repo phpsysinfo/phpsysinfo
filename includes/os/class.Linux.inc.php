@@ -589,7 +589,11 @@ class Linux extends OS
                     }
 
                     if ($dev->getModel() === "") {
-                        $dev->setModel("unknown");
+                        if (($vendid = $dev->getVendorId()) !== "") {
+                            $dev->setModel($vendid);
+                        } else {
+                            $dev->setModel("unknown");
+                        }
                     }
                     $cpucount++;
                     $this->sys->setCpus($dev);
