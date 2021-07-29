@@ -213,6 +213,22 @@ class XML
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
         }
+        
+        $virt = $this->_sys->getVirtualizer();
+        $first = true;
+        $virtstring = "";
+        foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if ($virtkey !== "hypervisor") {
+            if ($first) {
+                $first = false;
+            } else {
+                $virtstring .= " ";
+            }
+            $virtstring .= $virtkey;
+        }
+        if ($virtstring !== "") {
+            $hardware->addAttribute('Virtualizer', $virtstring);
+        }
+
         $cpu = null;
         $vendortab = null;
         foreach ($this->_sys->getCpus() as $oneCpu) {

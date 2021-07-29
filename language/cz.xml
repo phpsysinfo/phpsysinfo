@@ -405,4 +405,7 @@ phpSysInfo language file Language: Czech Created by: Peter 'Pessoft' Kolínek
   <expression id="133" name="ups_beeper_status">
     <exp>Stav pípáku</exp>
   </expression>
+  <expression id="134" name="virtualizer">
+    <exp>Virtualizer</exp>
+  </expression>
 </tns:translation>

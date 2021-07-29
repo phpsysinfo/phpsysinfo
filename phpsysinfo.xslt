@@ -296,6 +296,25 @@
                                                 </tbody>
                                             </table>
                                         </xsl:if>
+                                        <xsl:if
+                                            test="count(@Virtualizer )&gt;0">
+                                            <table border="0" style="border-spacing:0;"
+                                                width="100%">
+                                                <tbody>
+                                                    <tr class="odd">
+                                                        <td style="width:160px;">
+                                                            <span>
+                                                                <xsl:text>Virtualizer</xsl:text>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <xsl:value-of
+                                                                select="@Virtualizer" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </xsl:if>
                                         <xsl:for-each select="CPU">
                                             <table border="0" style="border-spacing:0;"
                                                 width="100%">

@@ -40,7 +40,7 @@ class System
     private $_ip = "127.0.0.1";
 
     /**
-     * detailed Information about the kernel
+     * detailed information about the kernel
      *
      * @var String
      */
@@ -251,6 +251,13 @@ class System
      * @var array
      */
     private $_processes = array();
+
+    /**
+     *  array with Virtualizer information
+     *
+     * @var array
+     */
+    private $_virtualizer = array();
 
     /**
      * remove duplicate Entries and Count
@@ -1239,5 +1246,31 @@ class System
             $this->_processes[$proc_type] = $proc_count;
         }
 */
+    }
+
+    /**
+     * Returns $_virtualizer.
+     *
+     * @see System::$_virtualizer
+     *
+     * @return array
+     */
+    public function getVirtualizer()
+    {
+        return $this->_virtualizer;
+    }
+
+    /**
+     * Sets $_virtualizer.
+     *
+     * @param String $virtualizer virtualizername
+     *
+     * @see System::$_virtualizer
+     *
+     * @return Void
+     */
+    public function setVirtualizer($virtualizer)
+    {
+        $this->_virtualizer[$virtualizer] = true;
     }
 }

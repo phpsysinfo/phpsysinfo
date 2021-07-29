@@ -929,7 +929,7 @@ function refreshHardware(xml) {
         return;
     }
 
-    var html = "", tree = [], closed = [], index = 0, machine = "";
+    var html = "", tree = [], closed = [], index = 0, machine = "", virtualizer = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10) + "</h2>\n";
     html += " <div style=\"overflow-x:auto;\">\n";
@@ -939,12 +939,21 @@ function refreshHardware(xml) {
     $("Hardware", xml).each(function getMachine(id) {
         machine = $(this).attr("Name");
     });
+    $("Hardware", xml).each(function getVirtualizer(id) {
+        virtualizer = $(this).attr("Virtualizer");
+    });
+
     if ((machine !== undefined) && (machine !== "")) {
         html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(107) + "</span></div></td></tr>\n";
         html += "<tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespan\">" + machine + "</span></div></td></tr>\n";
         tree.push(tree.push(0));
     }
 
+    if ((virtualizer !== undefined) && (virtualizer !== "")) {
+        html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(134) + "</span></div></td></tr>\n";
+        html += "<tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespan\">" + virtualizer + "</span></div></td></tr>\n";
+        tree.push(tree.push(0));
+    }
     if (countCpu(xml)) {
         html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(11) + "</span></div></td></tr>\n";
         html += fillCpu(xml, tree, tree.push(0), closed);

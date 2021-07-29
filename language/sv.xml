@@ -405,4 +405,7 @@ phpSysInfo language file Language: Svenska Created by: Martin Axelsson
   <expression id="133" name="ups_beeper_status">
     <exp>Beeper status</exp>
   </expression>
+  <expression id="134" name="virtualizer">
+    <exp>Virtualizer</exp>
+  </expression>
 </tns:translation>

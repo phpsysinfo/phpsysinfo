@@ -784,11 +784,19 @@ function renderHardware(data) {
 
     var html="";
 
-    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
-        html+="<tr id=\"hardware-Machine\">";
-        html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
-        html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
-        html+="</tr>";
+    if (data.Hardware["@attributes"] !== undefined) { 
+        if (data.Hardware["@attributes"].Name !== undefined) {
+            html+="<tr id=\"hardware-Machine\">";
+            html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
+            html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
+            html+="</tr>";
+        }
+        if (data.Hardware["@attributes"].Virtualizer !== undefined) {
+            html+="<tr id=\"hardware-Virtualizer\">";
+            html+="<th style=\"width:8%;\">"+genlang(134)+"</th>"; //Virtualizer
+            html+="<td colspan=\"2\"><span data-bind=\"Virtualizer\"></span></td>";
+            html+="</tr>";
+        }
     }
 
     var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
@@ -870,8 +878,13 @@ function renderHardware(data) {
     $("#hardware-data").empty().append(html);
 
 
-    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
-        $('#hardware-Machine').render(data.Hardware["@attributes"]);
+    if (data.Hardware["@attributes"] !== undefined) {
+        if (data.Hardware["@attributes"].Name !== undefined) {
+            $('#hardware-Machine').render(data.Hardware["@attributes"]);
+        }
+        if (data.Hardware["@attributes"].Virtualizer !== undefined) {
+            $('#hardware-Virtualizer').render(data.Hardware["@attributes"]);
+        }
     }
 
     try {

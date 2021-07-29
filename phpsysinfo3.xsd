@@ -188,6 +188,7 @@
 
     <complexType name="Hardware">
         <attribute name="Name" type="string" use="optional"></attribute>
+        <attribute name="Virtualizer" type="string" use="optional"></attribute>
         <sequence>
             <element name="CPU" type="tns:CPU" minOccurs="0" maxOccurs="1"></element>
             <element name="MEM" type="tns:MEM" minOccurs="0" maxOccurs="1"></element>

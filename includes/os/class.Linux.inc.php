@@ -37,51 +37,107 @@ class Linux extends OS
     private $_cpu_loads = null;
 
     /**
+     * Bios string.
+     */
+    private $_machine_string = null;
+
+    /**
+     * Version string.
+     */
+    private $_kernel_string = null;
+
+    /**
+     * Get machine string
+     *
+     * @return string
+     */
+    private function _get_machine_string()
+    {
+        if ($this->_machine_string === null) {
+            $this->_machine_string = "";
+            if ((CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
+                  && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
+               ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
+                  && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))) {
+                $this->_machine_string = trim($ar_buf[1]);
+            } else { // data from /sys/devices/virtual/dmi/id/
+                $product = "";
+                $board = "";
+                $bios = "";
+                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                    $this->_machine_string = trim($buf);
+                }
+                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                    $product = trim($buf);
+                }
+                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                    $board = trim($buf);
+                }
+                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_version', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                    $bios = trim($buf);
+                }
+                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_date', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                    $bios = trim($bios." ".trim($buf));
+                }
+                if ($product != "") {
+                    $this->_machine_string .= " ".$product;
+                }
+                if ($board != "") {
+                    $this->_machine_string .= "/".$board;
+                }
+                if ($bios != "") {
+                    $this->_machine_string .= ", BIOS ".$bios;
+                }
+            }
+            if ($this->_machine_string != "") {
+                $this->_machine_string = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified|Default string) ?/i", "", $this->_machine_string)));
+            }
+        }
+
+        return $this->_machine_string;
+    }
+
+    /**
+     * Get kernel string
+     *
+     * @return string
+     */
+    private function _get_kernel_string()
+    {
+        if ($this->_kernel_string === null) {
+            $this->_kernel_string = "";
+            if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
+                CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
+                $this->_kernel_string = $strBuf;
+                if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
+                    if (preg_match('/ SMP /', $strBuf)) {
+                        $this->_kernel_string .= ' (SMP)';
+                    }
+                }
+                if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
+                    $this->_kernel_string .= ' '.$strBuf;
+                }
+            } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
+                if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+                    $this->_kernel_string = $ar_buf[1];
+                    if (preg_match('/ SMP /', $strBuf)) {
+                        $this->_kernel_string .= ' (SMP)';
+                    }
+                }
+            }
+        }
+
+        return $this->_kernel_string;
+    }
+
+    /**
      * Machine
      *
      * @return void
      */
     private function _machine()
     {
-        $machine = "";
-        if ((CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
-              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
-           ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
-              && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))) {
-            $machine = trim($ar_buf[1]);
-        } else { // data from /sys/devices/virtual/dmi/id/
-            $product = "";
-            $board = "";
-            $bios = "";
-            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                $machine = trim($buf);
-            }
-            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                $product = trim($buf);
-            }
-            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                $board = trim($buf);
-            }
-            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_version', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                $bios = trim($buf);
-            }
-            if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_date', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                $bios = trim($bios." ".trim($buf));
-            }
-            if ($product != "") {
-                $machine .= " ".$product;
-            }
-            if ($board != "") {
-                $machine .= "/".$board;
-            }
-            if ($bios != "") {
-                $machine .= ", BIOS ".$bios;
-            }
-        }
-
-        if ($machine != "") {
-            $machine = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified|Default string) ?/i", "", $machine)));
-        }
+        $machine = $this->_get_machine_string();
 
         if (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf") // QNAP detection
            && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
@@ -131,43 +187,71 @@ class Linux extends OS
      */
     private function _kernel()
     {
-        $result = "";
-        if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
-            CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
-            $result = $strBuf;
-            if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
-                if (preg_match('/SMP/', $strBuf)) {
-                    $result .= ' (SMP)';
-                }
-            }
-            if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
-                $result .= ' '.$strBuf;
-            }
-        } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1) && preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
-            $result = $ar_buf[1];
-            if (preg_match('/SMP/', $strBuf)) {
-                $result .= ' (SMP)';
+        if (($verBuf = $this->_get_kernel_string()) != "") {
+            $this->sys->setKernel($verBuf);
+        }
+    }
+
+
+    /**
+     * Virtualizer info
+     *
+     * @return void
+     */
+    private function _virtualizer()
+    {
+//        $result = "";
+
+        if (($machBuf = $this->_get_machine_string()) !== "") {
+            if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
+                $this->sys->setVirtualizer('VirtualBox');
+            } elseif (preg_match('/^Oracle Corporation VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
+                $this->sys->setVirtualizer('VirtualBox');
+            } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                $$this->sys->setVirtualizer('VMware');
+            } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                $this->sys->setVirtualizer('VMware');
+            } elseif (preg_match('/^VMicrosoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
+                $this->sys->setVirtualizer('Hyper-V');
+            } elseif (preg_match('/^QEMU Standard PC \(i440FX + PIIX, 1996\), BIOS /', $machBuf)) {
+                $this->sys->setVirtualizer('QEMU');
+            } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
+                $this->sys->setVirtualizer('Xen');
+            } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
+                $this->sys->setVirtualizer('Bochs');
             }
         }
-        if ($result != "") {
-            if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
-                if (preg_match('/:\/lxc\//m', $strBuf2)) {
-                    $result .= ' [lxc]';
-                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
-                    $result .= ' [docker]';
-                } elseif (preg_match('/:\/system\.slice\/docker\-/m', $strBuf2)) {
-                    $result .= ' [docker]';
-                }
-            }
-            if (CommonFunctions::rfts('/proc/version', $strBuf2, 1, 4096, false)) {
-                if (preg_match('/^Linux version [\d\.-]+-Microsoft/', $strBuf2)) {
-                    $result .= ' [wsl]';
-                } elseif (preg_match('/^Linux version [\d\.-]+-microsoft-standard/', $strBuf2)) {
-                    $result .= ' [wsl2]';
-                }
-            }
-            $this->sys->setKernel($result);
+        $testvirt = $this->sys->getVirtualizer();
+        if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) { // no hardware virtualization defined 
+           $this->sys->setVirtualizer('Unknown');
         }
+
+        if ((count(CommonFunctions::gdc('/proc/vz', false)) == 0) && (count(CommonFunctions::gdc('/proc/bc', false)) > 0)) {
+            $this->sys->setVirtualizer('OpenVZ'); // OpenVZ/Virtuozzo
+        }
+
+        if (($verBuf = $this->_get_kernel_string()) !== "") {
+            if (preg_match('/^[\d\.-]+-Microsoft/', $verBuf)) {
+                $this->sys->setVirtualizer('WSL'); // Windows Subsystem for Linux
+            } elseif (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
+                $this->sys->setVirtualizer('WSL2'); // Windows Subsystem for Linux 2
+            }
+        }
+        
+        if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
+           if (preg_match('/:\/lxc\//m', $strBuf2)) {
+                $this->sys->setVirtualizer('LXC'); // Linux container
+            } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
+                $this->sys->setVirtualizer('Docker');
+            } elseif (preg_match('/:\/system\.slice\/docker\-/m', $strBuf2)) {
+                $this->sys->setVirtualizer('Docker');
+            }
+        }
+
+//        if (trim($result) != "") {
+     //     $this->sys->setMachine($this->sys->getMachine().trim($result));
+//            $this->sys->setVirtualizer(trim($result));
+//        }
     }
 
     /**
@@ -447,6 +531,7 @@ class Linux extends OS
                                 $dev->setVirt("svm");
                             } elseif (preg_match("/ hypervisor/", $arrBuff1)) {
                                 $dev->setVirt("hypervisor");
+                                $this->sys->setVirtualizer("hypervisor");
                             }
                             break;
                         case 'i size':
@@ -471,6 +556,36 @@ class Linux extends OS
                             break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff1);
+                            $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
+                            switch ($shortvendorid) {
+                            case 'bhyvebhyve':
+                                $this->sys->setVirtualizer("cpu");
+                                break;
+                            case 'KVMKVMKVM':
+                                $this->sys->setVirtualizer("KVM");
+                                break;
+                            case 'MicrosoftHv':
+                                $this->sys->setVirtualizer("Hyper-V");
+                                break;
+                            case 'lrpepyhvr':
+                                $this->sys->setVirtualizer("Parallels");
+                                break;
+                            case 'VMwareVMware':
+                                $this->sys->setVirtualizer("VMware");
+                                break;
+                            case 'XenVMMXenVMM':
+                                $this->sys->setVirtualizer("Xen HVM");
+                                break;
+                            case 'ACRNACRNACRN':
+                                $this->sys->setVirtualizer("Project ACRN");
+                                break;
+                            case 'TCGTCGTCGTCG':
+                                $this->sys->setVirtualizer("QEMU");
+                                break;
+                            case 'QNXQVMBSQG':
+                                $this->sys->setVirtualizer("QNX Hypervisor");
+                                break;                               
+                            }
                             break;
                         }
                     }
@@ -511,6 +626,36 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
+                    $shortvendorid = preg_replace('/[\s!]/', '', $_vend);
+                    switch ($shortvendorid) {
+                    case 'bhyvebhyve':
+                        $this->sys->setVirtualizer("bhyve");
+                        break;
+                    case 'KVMKVMKVM':
+                        $this->sys->setVirtualizer("KVM");
+                        break;
+                    case 'MicrosoftHv':
+                        $this->sys->setVirtualizer("Hyper-V");
+                        break;
+                    case 'lrpepyhvr':
+                        $this->sys->setVirtualizer("Parallels");
+                        break;
+                    case 'VMwareVMware':
+                        $this->sys->setVirtualizer("VMware");
+                        break;
+                    case 'XenVMMXenVMM':
+                        $this->sys->setVirtualizer("Xen HVM");
+                        break;
+                    case 'ACRNACRNACRN':
+                        $this->sys->setVirtualizer("Project ACRN");
+                        break;
+                    case 'TCGTCGTCGTCG':
+                        $this->sys->setVirtualizer("QEMU");
+                        break;
+                    case 'QNXQVMBSQG':
+                        $this->sys->setVirtualizer("QNX Hypervisor");
+                        break;                               
+                    }
                 }
 
                 if ($proc !== null) {
@@ -1743,6 +1888,7 @@ class Linux extends OS
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            $this->_virtualizer();
             $this->_pci();
             $this->_ide();
             $this->_scsi();
