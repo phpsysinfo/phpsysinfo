@@ -200,8 +200,6 @@ class Linux extends OS
      */
     private function _virtualizer()
     {
-//        $result = "";
-
         if (($machBuf = $this->_get_machine_string()) !== "") {
             if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
                 $this->sys->setVirtualizer('VirtualBox');
@@ -247,11 +245,6 @@ class Linux extends OS
                 $this->sys->setVirtualizer('Docker');
             }
         }
-
-//        if (trim($result) != "") {
-     //     $this->sys->setMachine($this->sys->getMachine().trim($result));
-//            $this->sys->setVirtualizer(trim($result));
-//        }
     }
 
     /**
@@ -559,7 +552,7 @@ class Linux extends OS
                             $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
                             switch ($shortvendorid) {
                             case 'bhyvebhyve':
-                                $this->sys->setVirtualizer("cpu");
+                                $this->sys->setVirtualizer("bhyve");
                                 break;
                             case 'KVMKVMKVM':
                                 $this->sys->setVirtualizer("KVM");
