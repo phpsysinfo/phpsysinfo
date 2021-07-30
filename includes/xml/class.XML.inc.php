@@ -217,7 +217,7 @@ class XML
         $virt = $this->_sys->getVirtualizer();
         $first = true;
         $virtstring = "";
-        foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if ($virtkey !== "hypervisor") {
+        foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if (($virtkey !== "hypervisor") && !preg_match("/^cpuid:/", $virtkey)) {
             if ($first) {
                 $first = false;
             } else {

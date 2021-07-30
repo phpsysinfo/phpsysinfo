@@ -200,49 +200,89 @@ class Linux extends OS
      */
     private function _virtualizer()
     {
-        if (($machBuf = $this->_get_machine_string()) !== "") {
-            if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
-                $this->sys->setVirtualizer('VirtualBox');
-            } elseif (preg_match('/^Oracle Corporation VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
-                $this->sys->setVirtualizer('VirtualBox');
-            } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                $$this->sys->setVirtualizer('VMware');
-            } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                $this->sys->setVirtualizer('VMware');
-            } elseif (preg_match('/^VMicrosoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
-                $this->sys->setVirtualizer('Hyper-V');
-            } elseif (preg_match('/^QEMU Standard PC \(i440FX + PIIX, 1996\), BIOS /', $machBuf)) {
-                $this->sys->setVirtualizer('QEMU');
-            } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
-                $this->sys->setVirtualizer('Xen');
-            } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
-                $this->sys->setVirtualizer('Bochs');
+        if (CommonFunctions::executeProgram('systemd-detect-virt', '', $result, false) && ($result !== "")) {
+                $this->sys->setVirtualizer($result);
+        } else {
+            if (($machBuf = $this->_get_machine_string()) !== "") {
+                if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
+                    $this->sys->setVirtualizer('oracle'); // VirtualboX
+                } elseif (preg_match('/^Oracle Corporation VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
+                    $this->sys->setVirtualizer('oracle'); // VirtualboX
+                } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                $$this->sys->setVirtualizer('vmware'); // VMware
+                } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('vmware'); // VMware
+                } elseif (preg_match('/^VMicrosoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('microsoft'); // Hyper-V
+                } elseif (preg_match('/^QEMU Standard PC \(i440FX + PIIX, 1996\), BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('qemu'); // QEMU
+                } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('xen'); // Xen
+                } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
+                    $this->sys->setVirtualizer('bochs'); // Bochs
+                }
             }
-        }
-        $testvirt = $this->sys->getVirtualizer();
-        if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) { // no hardware virtualization defined 
-           $this->sys->setVirtualizer('Unknown');
-        }
 
-        if ((count(CommonFunctions::gdc('/proc/vz', false)) == 0) && (count(CommonFunctions::gdc('/proc/bc', false)) > 0)) {
-            $this->sys->setVirtualizer('OpenVZ'); // OpenVZ/Virtuozzo
-        }
-
-        if (($verBuf = $this->_get_kernel_string()) !== "") {
-            if (preg_match('/^[\d\.-]+-Microsoft/', $verBuf)) {
-                $this->sys->setVirtualizer('WSL'); // Windows Subsystem for Linux
-            } elseif (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
-                $this->sys->setVirtualizer('WSL2'); // Windows Subsystem for Linux 2
+            foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) if (preg_match("/^cpuid:/", $virtkey)) switch ($virtkey) {
+                case 'cpuid:bhyvebhyve':
+                    $this->sys->setVirtualizer("bhyve"); // bhyve, FreeBSD hypervisor
+                    break;
+                case 'cpuid:KVMKVMKVM':
+                    $this->sys->setVirtualizer("kvm"); // KVM
+                    break;
+                case 'cpuid:MicrosoftHv':
+                    $this->sys->setVirtualizer("microsoft"); // Hyper-V
+                    break;
+                case 'cpuid:lrpepyhvr':
+                    $this->sys->setVirtualizer("parallels"); // Parallels
+                    break;
+                case 'cpuid:VMwareVMware':
+                    $this->sys->setVirtualizer("vmware"); // VMware
+                    break;
+                case 'cpuid:XenVMMXenVMM':
+                    $this->sys->setVirtualizer("xen"); // Xen HVM
+                    break;
+                case 'cpuid:ACRNACRNACRN':
+                    $this->sys->setVirtualizer("acrn"); // ACRN hypervisor
+                    break;
+                case 'cpuid:TCGTCGTCGTCG':
+                    $this->sys->setVirtualizer("qemu"); // QEMU
+                    break;
+                case 'cpuid:QNXQVMBSQG':
+                    $this->sys->setVirtualizer("qnx"); // QNX Hypervisor
+                    break;                               
+            }          
+            $testvirt = $this->sys->getVirtualizer();
+            if (isset($testvirt["hypervisor"])) {
+                $virtcount = 0;
+                foreach ($testvirt as $virtkey=>$virtvalue) if (($virtkey !== "hypervisor") && !preg_match("/^cpuid:/", $virtkey)) {
+                    $virtcount++;
+                }
+                if ($virtcount == 0) {
+                    $this->sys->setVirtualizer('unknown');
+                }
             }
-        }
+
+            if ((count(CommonFunctions::gdc('/proc/vz', false)) == 0) && (count(CommonFunctions::gdc('/proc/bc', false)) > 0)) {
+                $this->sys->setVirtualizer('openvz'); // OpenVZ/Virtuozzo
+            }
+
+            if (($verBuf = $this->_get_kernel_string()) !== "") {
+                if (preg_match('/^[\d\.-]+-Microsoft/', $verBuf)) {
+                    $this->sys->setVirtualizer('wsl'); // Windows Subsystem for Linux
+                } elseif (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
+                    $this->sys->setVirtualizer('wsl2'); // Windows Subsystem for Linux 2
+                }
+            }
         
-        if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
-           if (preg_match('/:\/lxc\//m', $strBuf2)) {
-                $this->sys->setVirtualizer('LXC'); // Linux container
-            } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
-                $this->sys->setVirtualizer('Docker');
-            } elseif (preg_match('/:\/system\.slice\/docker\-/m', $strBuf2)) {
-                $this->sys->setVirtualizer('Docker');
+            if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
+               if (preg_match('/:\/lxc\//m', $strBuf2)) {
+                    $this->sys->setVirtualizer('lxc'); // Linux container
+                } elseif (preg_match('/:\/docker\//m', $strBuf2)) {
+                    $this->sys->setVirtualizer('docker'); // Docker
+                } elseif (preg_match('/:\/system\.slice\/docker\-/m', $strBuf2)) {
+                    $this->sys->setVirtualizer('docker'); // Docker
+                }
             }
         }
     }
@@ -549,36 +589,7 @@ class Linux extends OS
                             break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff1);
-                            $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
-                            switch ($shortvendorid) {
-                            case 'bhyvebhyve':
-                                $this->sys->setVirtualizer("bhyve");
-                                break;
-                            case 'KVMKVMKVM':
-                                $this->sys->setVirtualizer("KVM");
-                                break;
-                            case 'MicrosoftHv':
-                                $this->sys->setVirtualizer("Hyper-V");
-                                break;
-                            case 'lrpepyhvr':
-                                $this->sys->setVirtualizer("Parallels");
-                                break;
-                            case 'VMwareVMware':
-                                $this->sys->setVirtualizer("VMware");
-                                break;
-                            case 'XenVMMXenVMM':
-                                $this->sys->setVirtualizer("Xen HVM");
-                                break;
-                            case 'ACRNACRNACRN':
-                                $this->sys->setVirtualizer("Project ACRN");
-                                break;
-                            case 'TCGTCGTCGTCG':
-                                $this->sys->setVirtualizer("QEMU");
-                                break;
-                            case 'QNXQVMBSQG':
-                                $this->sys->setVirtualizer("QNX Hypervisor");
-                                break;                               
-                            }
+                            $this->sys->setVirtualizer("cpuid:".preg_replace('/[\s!]/', '', $_vend));
                             break;
                         }
                     }
@@ -619,36 +630,7 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
-                    $shortvendorid = preg_replace('/[\s!]/', '', $_vend);
-                    switch ($shortvendorid) {
-                    case 'bhyvebhyve':
-                        $this->sys->setVirtualizer("bhyve");
-                        break;
-                    case 'KVMKVMKVM':
-                        $this->sys->setVirtualizer("KVM");
-                        break;
-                    case 'MicrosoftHv':
-                        $this->sys->setVirtualizer("Hyper-V");
-                        break;
-                    case 'lrpepyhvr':
-                        $this->sys->setVirtualizer("Parallels");
-                        break;
-                    case 'VMwareVMware':
-                        $this->sys->setVirtualizer("VMware");
-                        break;
-                    case 'XenVMMXenVMM':
-                        $this->sys->setVirtualizer("Xen HVM");
-                        break;
-                    case 'ACRNACRNACRN':
-                        $this->sys->setVirtualizer("Project ACRN");
-                        break;
-                    case 'TCGTCGTCGTCG':
-                        $this->sys->setVirtualizer("QEMU");
-                        break;
-                    case 'QNXQVMBSQG':
-                        $this->sys->setVirtualizer("QNX Hypervisor");
-                        break;                               
-                    }
+                    $this->sys->setVirtualizer("cpuid:".preg_replace('/[\s!]/', '', $_vend));                              
                 }
 
                 if ($proc !== null) {
