@@ -209,10 +209,10 @@ class Linux extends OS
                 } elseif (preg_match('/^Oracle Corporation VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
                     $this->sys->setVirtualizer('oracle'); // VirtualboX
                 } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                $$this->sys->setVirtualizer('vmware'); // VMware
+                    $$this->sys->setVirtualizer('vmware'); // VMware
                 } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('vmware'); // VMware
-                } elseif (preg_match('/^VMicrosoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
+                } elseif (preg_match('/^Microsoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('microsoft'); // Hyper-V
                 } elseif (preg_match('/^QEMU Standard PC \(i440FX + PIIX, 1996\), BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('qemu'); // QEMU

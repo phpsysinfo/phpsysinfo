@@ -748,6 +748,27 @@ class WINNT extends OS
                 $bufferb[0]['ReleaseDate'] = $strBuf;
             }
         }
+        
+        if (isset($buffer[0]['Manufacturer']) && isset($buffer[0]['Model'])) {
+            if (($buffer[0]['Manufacturer'] === 'innotek GmbH') && ($buffer[0]['Model'] === 'VirtualBox')) {
+                $this->sys->setVirtualizer('oracle');
+            } elseif (($buffer[0]['Manufacturer'] === 'Oracle Corporation') && ($buffer[0]['Model'] === 'VirtualBox')) {
+                $this->sys->setVirtualizer('oracle');
+            } elseif (($buffer[0]['Manufacturer'] === 'VMware, Inc.') && ($buffer[0]['Model'] === 'VMware Virtual Platform')) {
+                $this->sys->setVirtualizer('vmware')
+            } elseif (($buffer[0]['Manufacturer'] === 'Intel Corporation') && ($buffer[0]['Model'] === 'VMware Virtual Platform')) {
+                $this->sys->setVirtualizer('vmware')
+            ) elseif (($buffer[0]['Manufacturer'] === 'Microsoft') && ($buffer[0]['Model'] === 'Virtual Machine')) {
+                $this->sys->setVirtualizer('microsoft');
+            ) elseif (($buffer[0]['Manufacturer'] === 'QEMU') && ($buffer[0]['Model'] === 'Standatrd PC')) {
+                $this->sys->setVirtualizer('qemu');
+            } elseif (($buffer[0]['Manufacturer'] === 'Xen') && ($buffer[0]['Model'] === 'HVM domU')) {
+                $this->sys->setVirtualizer('xen');
+            } elseif (($buffer[0]['Manufacturer'] === 'Bochs') && ($buffer[0]['Model'] === 'Bochs')) {
+                $this->sys->setVirtualizer('bochs');
+            }
+        }
+
         $buf = "";
         $model = "";
         if ($buffer && isset($buffer[0])) {
