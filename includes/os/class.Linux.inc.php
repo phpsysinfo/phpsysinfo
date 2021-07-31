@@ -200,9 +200,20 @@ class Linux extends OS
      */
     private function _virtualizer()
     {
-        if (CommonFunctions::executeProgram('systemd-detect-virt', '', $result, false) && ($result !== "")) {
+        $nosdv = true;
+        if (CommonFunctions::executeProgram('systemd-detect-virt', '-v', $result, false) {
+            $nosdv = false;
+            if ($result !== "") {
                 $this->sys->setVirtualizer($result);
-        } else {
+            }
+        }
+        if (CommonFunctions::executeProgram('systemd-detect-virt', '-c', $result, false) {
+            $nosdv = false;
+            if ($result !== "") {
+                $this->sys->setVirtualizer($result);
+            }
+        }
+        if ($nosdv) {
             if (($machBuf = $this->_get_machine_string()) !== "") {
                 if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
                     $this->sys->setVirtualizer('oracle'); // VirtualboX
