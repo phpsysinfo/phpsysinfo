@@ -221,7 +221,7 @@ class XML
             if ($first) {
                 $first = false;
             } else {
-                $virtstring .= " ";
+                $virtstring .= ", ";
             }
             $virtstring .= $virtkey;
         }
