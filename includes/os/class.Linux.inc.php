@@ -201,10 +201,10 @@ class Linux extends OS
     private function _virtualizer()
     {
         if (CommonFunctions::executeProgram('systemd-detect-virt', '-v', $resultv, false)) {
-            if ($resultv !== "") {
+            if (($resultv !== "") && ($resultv !== "none")) {
                 $this->sys->setVirtualizer($resultv);
             }
-            if (CommonFunctions::executeProgram('systemd-detect-virt', '-c', $resultc, false) && ($resultc !== "")) {
+            if (CommonFunctions::executeProgram('systemd-detect-virt', '-c', $resultc, false) && ($resultc !== "") && ($resultc !== "none")) {
                 $this->sys->setVirtualizer($resultc);
             }
         } else {
