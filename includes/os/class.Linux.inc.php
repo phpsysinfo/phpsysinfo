@@ -250,6 +250,7 @@ class Linux extends OS
                 case 'cpuid:ACRNACRNACRN':
                     $this->sys->setVirtualizer("acrn"); // ACRN hypervisor
                     break;
+                case 'cpuid:QEMU':
                 case 'cpuid:TCGTCGTCGTCG':
                     $this->sys->setVirtualizer("qemu"); // QEMU
                     break;
@@ -593,8 +594,9 @@ class Linux extends OS
                             $vari = $arrBuff1;
                             break;
                         case 'vendor_id':
-                            $dev->setVendorId($arrBuff1);
-                            $this->sys->setVirtualizer("cpuid:".preg_replace('/[\s!]/', '', $_vend));
+                            $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
+                            $dev->setVendorId($shortvendorid);
+                            $this->sys->setVirtualizer("cpuid:".$shortvendorid);
                             break;
                         }
                     }
@@ -713,7 +715,11 @@ class Linux extends OS
                         $this->sys->setMachine($_hard);
                     }
 
-                    if ($dev->getModel() === "") {
+                    $cpumodel = $dev->getModel();
+                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+                        this->sys->setVirtualizer("cpuid:QEMU");
+                    }
+                    if ($cpumodel === "") {
                         if (($vendid = $dev->getVendorId()) !== "") {
                             $dev->setModel($vendid);
                         } else {

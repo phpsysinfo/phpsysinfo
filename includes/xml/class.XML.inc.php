@@ -260,7 +260,7 @@ class XML
             }
             if ($oneCpu->getVendorId() !== null) {
                 if ($vendortab === null) $vendortab = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                $shortvendorid = preg_replace('/[\s!]/', '', $oneCpu->getVendorId());
+                $shortvendorid = $oneCpu->getVendorId();
                 if ($vendortab && ($shortvendorid != "") && isset($vendortab['manufacturer'][$shortvendorid])) {
                     $tmp->addAttribute('Manufacturer', $vendortab['manufacturer'][$shortvendorid]);
                 }
