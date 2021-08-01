@@ -717,7 +717,7 @@ class Linux extends OS
 
                     $cpumodel = $dev->getModel();
                     if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
-                        this->sys->setVirtualizer("cpuid:QEMU");
+                        $this->sys->setVirtualizer("cpuid:QEMU");
                     }
                     if ($cpumodel === "") {
                         if (($vendid = $dev->getVendorId()) !== "") {
