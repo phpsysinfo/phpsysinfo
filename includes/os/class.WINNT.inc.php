@@ -762,9 +762,7 @@ class WINNT extends OS
                 $this->sys->setVirtualizer('microsoft');
             } elseif (($buffer[0]['Manufacturer'] === 'Microsoft Corporation') && ($buffer[0]['Model'] === 'Virtual Machine')) {
                 $this->sys->setVirtualizer('microsoft');
-            } elseif (($buffer[0]['Manufacturer'] === 'QEMU') && ($buffer[0]['Model'] === 'Standard PC')) {
-                $this->sys->setVirtualizer('qemu');
-            } elseif (($buffer[0]['Manufacturer'] === 'QEMU') && ($buffer[0]['Model'] === 'Standard PC (i440FX + PIIX, 1996)')) {
+            } elseif (($buffer[0]['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer[0]['Model'])) {
                 $this->sys->setVirtualizer('qemu');
             } elseif (($buffer[0]['Manufacturer'] === 'Xen') && ($buffer[0]['Model'] === 'HVM domU')) {
                 $this->sys->setVirtualizer('xen');

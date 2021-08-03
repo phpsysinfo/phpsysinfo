@@ -219,7 +219,7 @@ class Linux extends OS
                     $this->sys->setVirtualizer('vmware'); // VMware
                 } elseif (preg_match('/^Microsoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('microsoft'); // Hyper-V
-                } elseif (preg_match('/^QEMU Standard PC \(i440FX + PIIX, 1996\), BIOS /', $machBuf)) {
+                } elseif (preg_match('/^QEMU Standard PC/', $machBuf)) {
                     $this->sys->setVirtualizer('qemu'); // QEMU
                 } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('xen'); // Xen
