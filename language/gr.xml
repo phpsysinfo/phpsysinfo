@@ -403,7 +403,7 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>GT/s</exp>
   </expression>
   <expression id="133" name="ups_beeper_status">
-    <exp>Beeper status</exp>
+    <exp>Κατάσταση Βομβητή</exp>
   </expression>
   <expression id="134" name="virtualizer">
     <exp>Virtualizer</exp>
