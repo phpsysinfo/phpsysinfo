@@ -406,6 +406,6 @@ phpSysInfo language file Language: Greek Created by: mojiro
     <exp>Κατάσταση Βομβητή</exp>
   </expression>
   <expression id="134" name="virtualizer">
-    <exp>Σύστημα Virtual</exp>
+    <exp>Virtualizer</exp>
   </expression>
 </tns:translation>
