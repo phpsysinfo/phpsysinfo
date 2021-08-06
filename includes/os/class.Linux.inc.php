@@ -215,6 +215,8 @@ class Linux extends OS
                     $this->sys->setVirtualizer('oracle'); // VirtualboX
                 } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
                     $$this->sys->setVirtualizer('vmware'); // VMware
+                } elseif (preg_match('/^VMware, Inc\. VMware\d+,\d+\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                    $$this->sys->setVirtualizer('vmware'); // VMware
                 } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
                     $this->sys->setVirtualizer('vmware'); // VMware
                 } elseif (preg_match('/^Microsoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
