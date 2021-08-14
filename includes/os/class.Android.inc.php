@@ -257,6 +257,7 @@ class Android extends Linux
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            $this->_virtualizer();
             $this->_pci();
             $this->_usb();
             $this->_i2c();

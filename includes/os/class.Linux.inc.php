@@ -198,7 +198,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _virtualizer()
+    protected function _virtualizer()
     {
         if (CommonFunctions::executeProgram('systemd-detect-virt', '-v', $resultv, false)) {
             if (($resultv !== "") && ($resultv !== "none")) {
