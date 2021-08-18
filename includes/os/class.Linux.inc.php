@@ -224,7 +224,6 @@ class Linux extends OS
         }
     }
 
-
     /**
      * Virtualizer info
      *
@@ -278,7 +277,6 @@ class Linux extends OS
 
             // Second step, the CPUID detection attempt is skipped because the vendor_id in /proc/cpuinfo
             // is overwritten on virtualization
-
 
             // Third, try to detect from DMI
             if ($novm) {
