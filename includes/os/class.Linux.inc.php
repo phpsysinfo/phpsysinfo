@@ -406,6 +406,15 @@ class Linux extends OS
                 }
             }
 
+            // Detect QEMU
+            if ($novm) foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) {
+                if ($virtkey === "cpuid:QEMU") {
+                    $this->sys->setVirtualizer('qemu'); // QEMU
+                    $novm = false;
+                    break;
+                }
+            }
+
             if (isset($testvirt["hypervisor"]) && $novm) {
                 $this->sys->setVirtualizer('unknown');
             }
@@ -858,9 +867,9 @@ class Linux extends OS
                     }
 
                     $cpumodel = $dev->getModel();
-//                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
-//                        $this->sys->setVirtualizer("cpuid:QEMU");
-//                    }
+                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+                        $this->sys->setVirtualizer("cpuid:QEMU");
+                    }
                     if ($cpumodel === "") {
                         if (($vendid = $dev->getVendorId()) !== "") {
                             $dev->setModel($vendid);
