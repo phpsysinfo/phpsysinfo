@@ -770,6 +770,8 @@ class WINNT extends OS
                 $this->sys->setVirtualizer('xen');
             } elseif (($buffer[0]['Manufacturer'] === 'Bochs') && ($buffer[0]['Model'] === 'Bochs')) {
                 $this->sys->setVirtualizer('bochs');
+            } elseif ($buffer[0]['Manufacturer'] === 'Amazon EC2') {
+                $this->sys->setVirtualizer('amazon');
             }
         }
 
