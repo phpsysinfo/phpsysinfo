@@ -47,6 +47,41 @@ class Linux extends OS
     private $_kernel_string = null;
 
     /**
+     * Array of info from dmesg.
+     */
+    private $_dmesg_info = null;
+
+     /**
+      * Get info from dmesg
+      *
+      * @return array
+      */
+     private function _get_dmesg_info()
+     {
+         if ($this->_dmesg_info === null) {
+             $this->__dmesg_info = array();
+             if (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)) {
+                 if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
+                     $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
+                 }
+                 if (preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                     $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
+                 }
+             }
+             if ((count($this->__dmesg_info) < 2) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+                 if (!isset($this->__dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
+                     $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
+                 }
+                 if (!isset($this->__dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                     $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
+                 }
+             }
+         }
+
+         return $this->_dmesg_info;
+     }
+
+    /**
      * Get machine string
      *
      * @return string
@@ -55,11 +90,8 @@ class Linux extends OS
     {
         if ($this->_machine_string === null) {
             $this->_machine_string = "";
-            if ((CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)
-                  && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))
-               ||(CommonFunctions::executeProgram('dmesg', '', $result, false)
-                  && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.*)/m', $result, $ar_buf))) {
-                $this->_machine_string = trim($ar_buf[1]);
+            if ((($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['dmi'])) {
+                $this->_machine_string = $dmesg['dmi'];
             } else { // data from /sys/devices/virtual/dmi/id/
                 $product = "";
                 $board = "";
@@ -208,67 +240,176 @@ class Linux extends OS
                 $this->sys->setVirtualizer($resultc);
             }
         } else {
+            $novm = true;
+            // code based on src/basic/virt.c from systemd-detect-virt source code (https://github.com/systemd/systemd)
+
+            // First, try to detect Oracle Virtualbox and Amazon EC2 Nitro, even if they use KVM, as well as Xen even if
+            // it cloaks as Microsoft Hyper-V. Attempt to detect uml at this stage also since it runs as a user-process
+            // nested inside other VMs.
             if (($machBuf = $this->_get_machine_string()) !== "") {
                 if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
-                    $this->sys->setVirtualizer('oracle'); // VirtualboX
+                    $this->sys->setVirtualizer('oracle'); // Oracle VM VirtualBox
+                    $novm = false;
                 } elseif (preg_match('/^Oracle Corporation VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
-                    $this->sys->setVirtualizer('oracle'); // VirtualboX
-                } elseif (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                    $$this->sys->setVirtualizer('vmware'); // VMware
-                } elseif (preg_match('/^VMware, Inc\. VMware\d+,\d+\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                    $$this->sys->setVirtualizer('vmware'); // VMware
-                } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
-                    $this->sys->setVirtualizer('vmware'); // VMware
-                } elseif (preg_match('/^Microsoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
-                    $this->sys->setVirtualizer('microsoft'); // Hyper-V
-                } elseif (preg_match('/^QEMU Standard PC/', $machBuf)) {
-                    $this->sys->setVirtualizer('qemu'); // QEMU
+                    $this->sys->setVirtualizer('oracle'); // Oracle VM VirtualBox
+                    $novm = false;
+                } elseif (preg_match('/^Amazon EC2 /', $machBuf)) {
+                    $this->sys->setVirtualizer('amazon'); // Amazon EC2 Nitro using Linux KVM
+                    $novm = false;
                 } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
-                    $this->sys->setVirtualizer('xen'); // Xen
-                } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
-                    $this->sys->setVirtualizer('bochs'); // Bochs
+                    // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                    // In order to detect the Dom0 as not virtualization we need to
+                    // double-check it
+                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                        (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                    }
+                    $novm = false;
+                }
+            }
+            // Detect UML
+            if ($novm) foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) {
+                if ($virtkey === "cpuid:UserModeLinux") {
+                    $this->sys->setVirtualizer('uml'); // User-mode Linux
+                    $novm = false;
+                    break;
                 }
             }
 
-            foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) if (preg_match("/^cpuid:/", $virtkey)) switch ($virtkey) {
-                case 'cpuid:bhyvebhyve':
-                    $this->sys->setVirtualizer("bhyve"); // bhyve, FreeBSD hypervisor
-                    break;
-                case 'cpuid:KVMKVMKVM':
-                    $this->sys->setVirtualizer("kvm"); // KVM
-                    break;
-                case 'cpuid:MicrosoftHv':
-                    $this->sys->setVirtualizer("microsoft"); // Hyper-V
-                    break;
-                case 'cpuid:lrpepyhvr':
-                    $this->sys->setVirtualizer("parallels"); // Parallels
-                    break;
-                case 'cpuid:VMwareVMware':
-                    $this->sys->setVirtualizer("vmware"); // VMware
-                    break;
-                case 'cpuid:XenVMMXenVMM':
-                    $this->sys->setVirtualizer("xen"); // Xen HVM
-                    break;
-                case 'cpuid:ACRNACRNACRN':
-                    $this->sys->setVirtualizer("acrn"); // ACRN hypervisor
-                    break;
-                case 'cpuid:QEMU':
-                case 'cpuid:TCGTCGTCGTCG':
-                    $this->sys->setVirtualizer("qemu"); // QEMU
-                    break;
-                case 'cpuid:QNXQVMBSQG':
-                    $this->sys->setVirtualizer("qnx"); // QNX Hypervisor
-                    break;                               
-            }          
-            $testvirt = $this->sys->getVirtualizer();
-            if (isset($testvirt["hypervisor"])) {
-                $virtcount = 0;
-                foreach ($testvirt as $virtkey=>$virtvalue) if (($virtkey !== "hypervisor") && !preg_match("/^cpuid:/", $virtkey)) {
-                    $virtcount++;
+            // Second step, the CPUID detection attempt is skipped because the vendor_id in /proc/cpuinfo
+            // is overwritten on virtualization
+
+
+            // Third, try to detect from DMI
+            if ($novm) {
+                if (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                    $$this->sys->setVirtualizer('vmware'); // VMware
+                    $novm = false;
+                } elseif (preg_match('/^VMware, Inc\. VMware\d+,\d+\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                    $$this->sys->setVirtualizer('vmware'); // VMware
+                    $novm = false;
+                } elseif (preg_match('/^Intel Corporation VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('vmware'); // VMware
+                    $novm = false;
+                } elseif (preg_match('/^Microsoft Corporation Virtual Machine\/Virtual Machine, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('microsoft'); // Hyper-V
+                    $novm = false;
+                } elseif (preg_match('/^QEMU Standard PC/', $machBuf)) {
+                    $this->sys->setVirtualizer('qemu'); // QEMU
+                    $novm = false;
+                } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
+                    $this->sys->setVirtualizer('bochs'); // Bochs
+                    $novm = false;
                 }
-                if ($virtcount == 0) {
-                    $this->sys->setVirtualizer('unknown');
+            }
+
+            // x86 xen will most likely be detected by cpuid. If not (most likely
+            // because we're not an x86 guest), then we should try the /proc/xen
+            // directory next. If that's not found, then we check for the high-level
+            // hypervisor sysfs file.
+            if ($novm && (is_dir('/proc/xen') || (CommonFunctions::rfts('/sys/hypervisor/type', $type, 1, 4096, false) && ($type === "xen")))) {
+                // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                // In order to detect the Dom0 as not virtualization we need to
+                // double-check it
+                if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                    (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                    $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
                 }
+                $novm = false;
+            }
+
+            if ($novm && CommonFunctions::rfts('/proc/device-tree/hypervisor/compatible', $compatible, 1, 4096, false)) {
+                switch ($compatible) {
+                    case 'linux,kvm':
+                        $this->sys->setVirtualizer('kvm'); // KVM
+                        $novm = false;
+                        break;
+                    case 'vmware':
+                        $this->sys->setVirtualizer('vmware'); // VMware
+                        $novm = false;
+                        break;
+                    case 'xen':
+                        // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                        // In order to detect the Dom0 as not virtualization we need to
+                        // double-check it
+                        if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                            (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                            $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                        }
+                        $novm = false;
+                        break;
+                }
+            }
+
+            if ($novm && CommonFunctions::fileexists('/proc/device-tree/ibm,partition-name')
+               && CommonFunctions::fileexists('/proc/device-tree/hmc-managed?')
+               && CommonFunctions::fileexists('/proc/device-tree/chosen/qemu,graphic-width')) {
+                $this->sys->setVirtualizer('powervm'); // IBM PowerVM hypervisor
+                $novm = false;
+            }
+
+            if ($novm) {
+                $names = glob('/proc/device-tree', GLOB_NOSORT);
+                if (is_array($names) && (($total = count($names)) > 0)) {
+                    for ($i = 0; $i < $total; $i++) {
+                        if (preg_match('/fw-cfg/', $names[$i])) {
+                            $this->sys->setVirtualizer('qemu'); // QEMU
+                            $novm = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if ($novm && CommonFunctions::rfts('/proc/sysinfo', $sysinfo, 0, 4096, false) && preg_match('//VM00 Control Program:\s*(\S+)/m', $sysinfo, $vcp)) {
+                if ($vcp[1] === 'z/VM') {
+                    $this->sys->setVirtualizer('zvm'); // s390 z/VM
+                } else {
+                    $this->sys->setVirtualizer('kvm'); // KVM
+                }
+                $novm = false;
+            }
+
+            if ($novm && (($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['hypervisor'])) {
+                switch ($dmesg['hypervisor']) {
+                    case 'VMware':
+                        $this->sys->setVirtualizer('vmware'); // VMware
+                        $novm = false;
+                        break;
+                    case 'KVM':
+                        $this->sys->setVirtualizer('kvm'); // KVM
+                        $novm = false;
+                        break;
+                    case 'Microsoft HyperV':
+                    case 'Microsoft Hyper-V':
+                        $this->sys->setVirtualizer('microsoft'); // Hyper-V
+                        $novm = false;
+                        break;
+                    case 'ACRN':
+                        $this->sys->setVirtualizer('acrn'); // ACRN hypervisor
+                        $novm = false;
+                        break;
+                    case 'Jailhouse':
+                        $this->sys->setVirtualizer('jailhouse'); // Jailhouse
+                        $novm = false;
+                        break;
+                    case 'Xen':
+                    case 'Xen PV':
+                    case 'Xen HVM':
+                        // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                        // In order to detect the Dom0 as not virtualization we need to
+                        // double-check it
+                        if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                            (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                            $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                        }
+                        $novm = false;
+                        break;
+                }
+            }
+
+            if (isset($testvirt["hypervisor"]) && $novm) {
+                $this->sys->setVirtualizer('unknown');
             }
 
             if ((count(CommonFunctions::gdc('/proc/vz', false)) == 0) && (count(CommonFunctions::gdc('/proc/bc', false)) > 0)) {
@@ -282,7 +423,7 @@ class Linux extends OS
                     $this->sys->setVirtualizer('wsl2'); // Windows Subsystem for Linux 2
                 }
             }
-        
+
             if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
                if (preg_match('/:\/lxc\//m', $strBuf2)) {
                     $this->sys->setVirtualizer('lxc'); // Linux container
@@ -425,6 +566,7 @@ class Linux extends OS
     protected function _cpuinfo()
     {
         if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
+
             $cpulist = null;
             $raslist = null;
 
@@ -718,9 +860,9 @@ class Linux extends OS
                     }
 
                     $cpumodel = $dev->getModel();
-                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
-                        $this->sys->setVirtualizer("cpuid:QEMU");
-                    }
+//                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+//                        $this->sys->setVirtualizer("cpuid:QEMU");
+//                    }
                     if ($cpumodel === "") {
                         if (($vendid = $dev->getVendorId()) !== "") {
                             $dev->setModel($vendid);
