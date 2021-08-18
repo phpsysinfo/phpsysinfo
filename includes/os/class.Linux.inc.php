@@ -261,7 +261,7 @@ class Linux extends OS
                     // In order to detect the Dom0 as not virtualization we need to
                     // double-check it
                     if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                        (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
                         $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
                     }
                     $novm = false;
@@ -312,7 +312,7 @@ class Linux extends OS
                 // In order to detect the Dom0 as not virtualization we need to
                 // double-check it
                 if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                    (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                    && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
                     $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
                 }
                 $novm = false;
@@ -333,7 +333,7 @@ class Linux extends OS
                         // In order to detect the Dom0 as not virtualization we need to
                         // double-check it
                         if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                            (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                            && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
                             $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
                         }
                         $novm = false;
@@ -400,7 +400,7 @@ class Linux extends OS
                         // In order to detect the Dom0 as not virtualization we need to
                         // double-check it
                         if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                            (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                            && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
                             $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
                         }
                         $novm = false;
