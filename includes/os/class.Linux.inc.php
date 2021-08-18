@@ -59,7 +59,7 @@ class Linux extends OS
      private function _get_dmesg_info()
      {
          if ($this->_dmesg_info === null) {
-             $this->__dmesg_info = array();
+             $this->_dmesg_info = array();
              if (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)) {
                  if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
@@ -68,11 +68,11 @@ class Linux extends OS
                      $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                  }
              }
-             if ((count($this->__dmesg_info) < 2) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
-                 if (!isset($this->__dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
+             if ((count($this->_dmesg_info) < 2) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+                 if (!isset($this->_dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
                  }
-                 if (!isset($this->__dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                 if (!isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                  }
              }
