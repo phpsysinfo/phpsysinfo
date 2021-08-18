@@ -223,7 +223,17 @@ class XML
             } else {
                 $virtstring .= ", ";
             }
-            $virtstring .= $virtkey;
+            if ($virtkey === 'microsoft') {
+                $virtstring .= 'hyper-v';
+            } elseif ($virtkey === 'kvm') {
+                $virtstring .= 'qemu-kvm';
+            } elseif ($virtkey === 'oracle') {
+                $virtstring .= 'virtualbox';
+            } elseif ($virtkey === 'zvm') {
+                $virtstring .= 'z/vm';
+            } else {
+                $virtstring .= $virtkey;
+            }
         }
         if ($virtstring !== "") {
             $hardware->addAttribute('Virtualizer', $virtstring);
