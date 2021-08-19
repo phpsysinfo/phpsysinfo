@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	EuroLinux
+Description:	EuroLinux release 8.4 (Vaduz) 
+Release:	8.4
+Codename:	Vaduz
+----------/etc/el-release----------
+EuroLinux release 8.4 (Vaduz) 
+----------/etc/os-release----------
+NAME="EuroLinux"
+VERSION="8.4 (Vaduz)"
+ID="eurolinux"
+ID_LIKE="rhel fedora centos"
+VERSION_ID="8.4"
+PLATFORM_ID="platform:el8"
+PRETTY_NAME="EuroLinux 8.4 (Vaduz)"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:eurolinux:eurolinux:8"
+HOME_URL="https://www.euro-linux.com/"
+BUG_REPORT_URL="https://github.com/EuroLinux/eurolinux-distro-bugs-and-rfc/"
+REDHAT_SUPPORT_PRODUCT="EuroLinux"
+REDHAT_SUPPORT_PRODUCT_VERSION="8"
+----------/etc/redhat-release----------
+EuroLinux release 8.4 (Vaduz) 
+----------/etc/system-release----------
+EuroLinux release 8.4 (Vaduz) 
