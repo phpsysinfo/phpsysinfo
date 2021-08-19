@@ -774,7 +774,6 @@ class WINNT extends OS
                 $this->sys->setVirtualizer('amazon');
             }
         }
-        }
 
         $buf = "";
         $model = "";
