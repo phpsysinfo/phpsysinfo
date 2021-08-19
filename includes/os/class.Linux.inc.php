@@ -724,7 +724,9 @@ class Linux extends OS
                                 $dev->setVirt("svm");
                             } elseif (preg_match("/ hypervisor/", $arrBuff1)) {
                                 $dev->setVirt("hypervisor");
-                                $this->sys->setVirtualizer("hypervisor");
+                                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                                    $this->sys->setVirtualizer("hypervisor");
+                                }
                             }
                             break;
                         case 'i size':
