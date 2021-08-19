@@ -64,15 +64,15 @@ class Linux extends OS
                  if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
                  }
-                 if (preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                  }
              }
-             if ((count($this->_dmesg_info) < 2) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+             if ((count($this->_dmesg_info) < ((defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO)?2:1)) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
                  if (!isset($this->_dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
                  }
-                 if (!isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && !isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
                      $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                  }
              }
@@ -231,6 +231,9 @@ class Linux extends OS
      */
     protected function _virtualizer()
     {
+        if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
+            return;
+        }
         if (CommonFunctions::executeProgram('systemd-detect-virt', '-v', $resultv, false)) {
             if (($resultv !== "") && ($resultv !== "none")) {
                 $this->sys->setVirtualizer($resultv);
@@ -643,7 +646,7 @@ class Linux extends OS
                             $_bogo = round($arrBuff1);
                             break;
                         case 'vendor_id':
-                            $_vend = $arrBuff1;
+                            $_vend = preg_replace('/[\s!]/', '', $arrBuff1);
                             break;
                         case 'cpu':
                             $procname = $arrBuff1;
@@ -747,7 +750,9 @@ class Linux extends OS
                         case 'vendor_id':
                             $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
                             $dev->setVendorId($shortvendorid);
-                            $this->sys->setVirtualizer("cpuid:".$shortvendorid);
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                                $this->sys->setVirtualizer("cpuid:".$shortvendorid);
+                            }
                             break;
                         }
                     }
@@ -788,7 +793,9 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
-                    $this->sys->setVirtualizer("cpuid:".preg_replace('/[\s!]/', '', $_vend));                              
+                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                        $this->sys->setVirtualizer("cpuid:".$_vend);
+                    }                              
                 }
 
                 if ($proc !== null) {
@@ -867,7 +874,7 @@ class Linux extends OS
                     }
 
                     $cpumodel = $dev->getModel();
-                    if (preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
                         $this->sys->setVirtualizer("cpuid:QEMU");
                     }
                     if ($cpumodel === "") {

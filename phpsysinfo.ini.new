@@ -162,6 +162,11 @@ SHOW_CPUINFO_EXPANDED=false
 SHOW_MEMORY_INFOS_EXPANDED=false
 
 
+; Show virtualizer info for Linux, Android and WinNT
+;
+SHOW_VIRTUALIZER_INFO=true
+
+
 ; Hide loader for frontend "bootstrap"
 ;
 HIDE_BOOTSTRAP_LOADER=false

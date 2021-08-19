@@ -749,7 +749,7 @@ class WINNT extends OS
             }
         }
 
-        if (isset($buffer[0]['Manufacturer']) && isset($buffer[0]['Model'])) {
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) && isset($buffer[0]['Manufacturer']) && isset($buffer[0]['Model'])) {
             if (($buffer[0]['Manufacturer'] === 'innotek GmbH') && ($buffer[0]['Model'] === 'VirtualBox')) {
                 $this->sys->setVirtualizer('oracle');
             } elseif (($buffer[0]['Manufacturer'] === 'Oracle Corporation') && ($buffer[0]['Model'] === 'VirtualBox')) {
@@ -773,6 +773,7 @@ class WINNT extends OS
             } elseif ($buffer[0]['Manufacturer'] === 'Amazon EC2') {
                 $this->sys->setVirtualizer('amazon');
             }
+        }
         }
 
         $buf = "";
