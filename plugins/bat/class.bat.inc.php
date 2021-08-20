@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * BAT Plugin, which displays battery state
  *
@@ -137,7 +137,7 @@ class BAT extends PSI_Plugin
                         if (isset($bufferWB[$bi]['Caption'])) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_NAME='.$bufferWB[$bi]['Caption']."\n";
                         }
-                        if (isset($bufferWB[$bi]['Name'])) {
+                        if (isset($bufferWB[$bi]['Name']) && ($bufferWB[$bi]['Name'] !== "1?\x0E")) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_MODEL_NAME='.$bufferWB[$bi]['Name']."\n";
                         }
                         if (!isset($bufferWPB[$bi]['FullChargeCapacity']) && isset($bufferBFCC[$bi]['FullChargedCapacity'])) {
