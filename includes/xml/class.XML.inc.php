@@ -213,7 +213,7 @@ class XML
         if ($this->_sys->getMachine() != "") {
             $hardware->addAttribute('Name', $this->_sys->getMachine());
         }
-        
+
         if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             $virt = $this->_sys->getVirtualizer();
             $first = true;

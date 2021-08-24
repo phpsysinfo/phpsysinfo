@@ -797,7 +797,7 @@ class Linux extends OS
                     $dev->setVendorId($_vend);
                     if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                         $this->sys->setVirtualizer("cpuid:".$_vend);
-                    }                              
+                    }
                 }
 
                 if ($proc !== null) {
@@ -1435,7 +1435,7 @@ class Linux extends OS
                                     $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf2[1]));
                                     if (($macaddr === '00-00-00-00-00-00') || ($macaddr === '00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00') || ($macaddr === '--') || ($macaddr === '0.0.0.0')) { // empty
                                         $macaddr = "";
-                                    }                                   
+                                    }
                                 }
                             } elseif (preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2)) {
                                 if ($ar_buf2[1] != $ar_buf2[2]) {

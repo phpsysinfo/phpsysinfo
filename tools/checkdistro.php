@@ -109,6 +109,7 @@ class CommonFunctions
         } else {
             $test = $other;
         }
+
         return $test && file_exists($log_file) && ($contents = @file_get_contents($log_file)) && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents);
     }
 
