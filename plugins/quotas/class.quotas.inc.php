@@ -76,7 +76,7 @@ class Quotas extends PSI_Plugin
                 $params[] = $param;
             }
             if (($paramscount = count($params)) == 6) {
-                $quotas[$i]['user'] = trim($thisline[0]," \t+-");
+                $quotas[$i]['user'] = trim($thisline[0], " \t+-");
                 $quotas[$i]['byte_used'] = $params[0] * 1024;
                 $quotas[$i]['byte_soft'] = $params[1] * 1024;
                 $quotas[$i]['byte_hard'] = $params[2] * 1024;

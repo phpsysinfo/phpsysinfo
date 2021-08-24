@@ -1060,7 +1060,7 @@ class Linux extends OS
                 $device = preg_split("/ /", $buf, 7);
                 if (((isset($device[6]) && trim($device[6]) != "")) ||
                     ((isset($device[5]) && trim($device[5]) != ""))) {
-                    $usbid = intval($device[1]).'-'.intval(trim($device[3],':')).' '.$device[5];
+                    $usbid = intval($device[1]).'-'.intval(trim($device[3], ':')).' '.$device[5];
                     if ((isset($device[6]) && trim($device[6]) != "")) {
                         $usbarray[$usbid]['name'] = trim($device[6]);
                     } else {

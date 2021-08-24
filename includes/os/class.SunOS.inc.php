@@ -44,34 +44,34 @@ class SunOS extends OS
         if ($this->_prtconf === null) {
             $this->_prtconf = array();
             if (CommonFunctions::executeProgram('prtconf', '-v', $buf, PSI_DEBUG) && ($buf!="")) {
-                $blocks = preg_split( '/\n(?=    \S)/', $buf, -1, PREG_SPLIT_NO_EMPTY);
+                $blocks = preg_split('/\n(?=    \S)/', $buf, -1, PREG_SPLIT_NO_EMPTY);
                 if (!empty($blocks) && (count($blocks)>2)) {
                     array_shift($blocks);
                     foreach ($blocks as $block) {
-                        if (preg_match('/^    (\S+) /',$block, $ar_buf)) {
+                        if (preg_match('/^    (\S+) /', $block, $ar_buf)) {
                             $group = trim($ar_buf[1], ',');
                             $grouparr = array();
-                            $blocks1 = preg_split( '/\n(?=        \S)/', $block, -1, PREG_SPLIT_NO_EMPTY);
+                            $blocks1 = preg_split('/\n(?=        \S)/', $block, -1, PREG_SPLIT_NO_EMPTY);
                             if (!empty($blocks1) && count($blocks1)) {
                                 array_shift($blocks1);
                                 foreach ($blocks1 as $block1) {
-                                    if (!preg_match('/^        name=\'([^\']+)\'/',$block1)
-                                       && preg_match('/^        (\S+) /',$block1, $ar_buf)) {
+                                    if (!preg_match('/^        name=\'([^\']+)\'/', $block1)
+                                       && preg_match('/^        (\S+) /', $block1, $ar_buf)) {
                                         $device = trim($ar_buf[1], ',');
                                         $devicearr = array();
-                                        $blocks2 = preg_split( '/\n(?=            \S)/', $block1, -1, PREG_SPLIT_NO_EMPTY);
+                                        $blocks2 = preg_split('/\n(?=            \S)/', $block1, -1, PREG_SPLIT_NO_EMPTY);
                                         if (!empty($blocks2) && count($blocks2)) {
                                             array_shift($blocks2);
                                             foreach ($blocks2 as $block2) {
-                                                if (!preg_match('/^            name=\'([^\']+)\'/',$block2)
-                                                   && preg_match('/^            (\S+) /',$block2, $ar_buf)) {
+                                                if (!preg_match('/^            name=\'([^\']+)\'/', $block2)
+                                                   && preg_match('/^            (\S+) /', $block2, $ar_buf)) {
                                                     $subdev = trim($ar_buf[1], ',');
                                                     $subdevarr = array();
-                                                    $blocks3 = preg_split( '/\n(?=                \S)/', $block2, -1, PREG_SPLIT_NO_EMPTY);
+                                                    $blocks3 = preg_split('/\n(?=                \S)/', $block2, -1, PREG_SPLIT_NO_EMPTY);
                                                     if (!empty($blocks3) && count($blocks3)) {
                                                         array_shift($blocks3);
                                                         foreach ($blocks3 as $block3) {
-                                                            if (preg_match('/^                name=\'([^\']+)\' [\s\S]+ value=\'?([^\']+)\'?/m',$block3, $ar_buf)) {
+                                                            if (preg_match('/^                name=\'([^\']+)\' [\s\S]+ value=\'?([^\']+)\'?/m', $block3, $ar_buf)) {
                                                                 if ($subdev==='Hardware') {
                                                                     $subdevarr[$ar_buf[1]] = $ar_buf[2];
                                                                     $subdevarr['device'] = $device;

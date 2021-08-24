@@ -177,7 +177,7 @@ abstract class OS implements PSI_Interface_OS
             foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
                 $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
                 $mem = array();
-                foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/' ,$line, $params)) {
+                foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/', $line, $params)) {
                     if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
                         $mem[trim($params[1])] = trim($buff[1]);
                     } elseif ($params2 != '') {

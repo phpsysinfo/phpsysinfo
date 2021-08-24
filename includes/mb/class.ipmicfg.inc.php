@@ -60,15 +60,15 @@ class IPMIcfg extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
             if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/",$buffer[2], $valbuff)) {
+               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 if ($valbuff[1]<-128) $valbuff[1]+=256; //+256 correction
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/",$buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[3], $valbuffmin)) {
                     if ($valbuffmin[1]<-128) $valbuffmin[1]+=256; //+256 correction
                 }
-                if (preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/",$buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[4], $valbuffmax)) {
                     if ($valbuffmax[1]<-128) $valbuffmax[1]+=256; //+256 correction
                     $dev->setMax($valbuffmax[1]);
                 }
@@ -96,14 +96,14 @@ class IPMIcfg extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
             if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/",$buffer[2], $valbuff)) {
+               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*([\d\.].+)\sV\s*$/",$buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*([\d\.].+)\sV\s*$/", $buffer[3], $valbuffmin)) {
                     $dev->setMin($valbuffmin[1]);
                 }
-                if (preg_match("/^\s*([\d\.].+)\sV\s*$/",$buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*([\d\.].+)\sV\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
@@ -122,11 +122,11 @@ class IPMIcfg extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
             if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/",$buffer[2], $valbuff)) {
+               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*(\d+)\sRPM\s*$/",$buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[3], $valbuffmin)) {
                     $dev->setMin($valbuffmin[1]);
                 }
                 if ((trim($buffer[0]) != "OK") && isset($valbuffmin[1])) {
@@ -153,11 +153,11 @@ class IPMIcfg extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
             if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sWatts\s*$/",$buffer[2], $valbuff)) {
+               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sWatts\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*(\d+)\sWatts\s*$/",$buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*(\d+)\sWatts\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
@@ -176,14 +176,14 @@ class IPMIcfg extends Sensors
         foreach ($this->_lines as $line) {
             $buffer = preg_split("/\s*\|\s*/", $line);
             if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sAmps\s*$/",$buffer[2], $valbuff)) {
+               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sAmps\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/",$buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[3], $valbuffmin)) {
                     $dev->setMin($valbuffmin[1]);
                 }
-                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/",$buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));

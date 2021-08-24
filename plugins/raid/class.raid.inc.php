@@ -238,7 +238,7 @@ class Raid extends PSI_Plugin
                                 $replace = array("", "");
                                 $dstat = str_replace($search, $replace, trim($partition[5]));
                                 $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = $dstat;
-                                if (($dstat === "F" ) && ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" )) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
+                                if (($dstat === "F") && ($this->_result['devices'][$dev]['items'][0]['status'] === "ok")) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                             } else {
                                 $this->_result['devices'][$dev]['items'][$partition[1]]['status'] = "ok";
                             }
@@ -281,7 +281,7 @@ class Raid extends PSI_Plugin
                                 if (($diskkey!==0) && ($this->_result['devices'][$dev]['items'][$diskkey]['status']!=="S")) {
                                     if (($res[1][$partnr]=='_') && ($this->_result['devices'][$dev]['items'][$diskkey]['status']=="ok")) {
                                         $this->_result['devices'][$dev]['items'][$diskkey]['status']="W";
-                                        if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" ) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
+                                        if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok") $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                                     }
                                     $partnr++;
                                 }
@@ -306,7 +306,7 @@ class Raid extends PSI_Plugin
                                 $this->_result['devices'][$dev]['items']['none']['name']="none";
                                 $this->_result['devices'][$dev]['items']['none']['parentid'] = 1;
                                 $this->_result['devices'][$dev]['items']['none']['type']="disk";
-                                if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok" ) $this->_result['devices'][$dev]['items'][0]['status'] = "W";
+                                if ($this->_result['devices'][$dev]['items'][0]['status'] === "ok") $this->_result['devices'][$dev]['items'][0]['status'] = "W";
                             }
                             asort($this->_result['devices'][$dev]['items']);
                             foreach ($this->_result['devices'][$dev]['items'] as $diskkey=>$disk) {
@@ -729,12 +729,12 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$uname]['stripe_size'] = $strsize[1] * 1024;
                         }
                         $ctype = trim($buffArgs[4]);
-                        if (preg_match("/^NORA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "noReadAhead";
-                        elseif (preg_match("/^RA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "readAhead";
-                        elseif (preg_match("/^ADRA,/", $ctype )) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "adaptiveReadAhead";
-                        if (preg_match("/,WT$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeThrough";
-                        elseif (preg_match("/,WB$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBack";
-                        elseif (preg_match("/,WBF$/", $ctype )) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBackForce";
+                        if (preg_match("/^NORA,/", $ctype)) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "noReadAhead";
+                        elseif (preg_match("/^RA,/", $ctype)) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "readAhead";
+                        elseif (preg_match("/^ADRA,/", $ctype)) $this->_result['devices'][$prefix.$uname]['readpolicy'] = "adaptiveReadAhead";
+                        if (preg_match("/,WT$/", $ctype)) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeThrough";
+                        elseif (preg_match("/,WB$/", $ctype)) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBack";
+                        elseif (preg_match("/,WBF$/", $ctype)) $this->_result['devices'][$prefix.$uname]['writepolicy'] = "writeBackForce";
                     }
                     $this->_result['devices'][$prefix.$uname]['items'][$uname]['parentid'] = 0;
                     $this->_result['devices'][$prefix.$uname]['items'][$uname]['name'] = trim($buffArgs[1]);

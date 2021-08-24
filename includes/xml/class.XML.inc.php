@@ -897,7 +897,7 @@ class XML
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
         $options->addAttribute('datetimeFormat', defined('PSI_DATETIME_FORMAT') ? strtolower(PSI_DATETIME_FORMAT) : 'utc');
         if (defined('PSI_REFRESH')) {
-            $options->addAttribute('refresh',  max(intval(PSI_REFRESH), 0));
+            $options->addAttribute('refresh', max(intval(PSI_REFRESH), 0));
         } else {
             $options->addAttribute('refresh', 60000);
         }

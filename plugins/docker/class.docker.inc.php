@@ -37,8 +37,8 @@ class Docker extends PSI_Plugin
             if ($i > 0) {
                 $buffer = preg_split("/\s\s+/", $line);
                 $result[$i]['Name'] = $buffer[0];
-                $result[$i]['CPUUsage'] = str_replace(',', '.',trim($buffer[1],'%'));
-                preg_match('/([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)\s+\/\s+([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)/', str_replace(',', '.',trim($buffer[2])), $tmpbuf);
+                $result[$i]['CPUUsage'] = str_replace(',', '.', trim($buffer[1], '%'));
+                preg_match('/([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)\s+\/\s+([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)/', str_replace(',', '.', trim($buffer[2])), $tmpbuf);
                 switch ($tmpbuf[2]) {
                     case 'B':
                         $result[$i]['MemoryUsed'] = $tmpbuf[1];
@@ -79,7 +79,7 @@ class Docker extends PSI_Plugin
                         $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*1025*$tmpbuf[3];
                         break;
                 }
-                $result[$i]['MemoryUsage'] = str_replace(',', '.',trim($buffer[3],'%'));
+                $result[$i]['MemoryUsage'] = str_replace(',', '.', trim($buffer[3], '%'));
                 $result[$i]['NetIO'] = trim($buffer[4]);
                 $result[$i]['BlockIO'] = trim($buffer[5]);
                 $result[$i]['PIDs'] = trim($buffer[6]);
