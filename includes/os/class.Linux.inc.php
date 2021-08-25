@@ -238,6 +238,11 @@ class Linux extends OS
             if (($resultv !== "") && ($resultv !== "none")) {
                 $this->sys->setVirtualizer($resultv);
             }
+            if (($verBuf = $this->_get_kernel_string()) !== "") {
+                if (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
+                    $this->sys->setVirtualizer('wsl2'); // Windows Subsystem for Linux 2
+                }
+            }
             if (CommonFunctions::executeProgram('systemd-detect-virt', '-c', $resultc, false) && ($resultc !== "") && ($resultc !== "none")) {
                 $this->sys->setVirtualizer($resultc);
             }
