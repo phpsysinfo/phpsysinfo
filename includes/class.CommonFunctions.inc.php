@@ -787,7 +787,7 @@ class CommonFunctions
                     return false;
                 }
             } else {
-               return false;
+                return false;
             }
         }
 
@@ -846,7 +846,7 @@ class CommonFunctions
                     return false;
                 }
             } else {
-               return false;
+                return false;
             }
         }
 
