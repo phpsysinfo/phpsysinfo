@@ -339,8 +339,10 @@ abstract class BSDCommon extends OS
                     $notwas = false;
                 }
             } else {
-                if (preg_match("/ Origin| Features/", $line, $ar_buf)) {
-                    if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
+                if (preg_match("/^\s+Origin|^\s+Features/", $line, $ar_buf)) {
+                    if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
+                        $dev->setVendorId(preg_replace('/[\s!]/', '', $ar_buf[1])); 
+                    } elseif (preg_match("/^\s+Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {

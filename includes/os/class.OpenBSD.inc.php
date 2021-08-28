@@ -143,6 +143,9 @@ class OpenBSD extends BSDCommon
         $dev = new CpuDevice();
         $dev->setModel($this->grabkey('hw.model'));
         $dev->setCpuSpeed($this->grabkey('hw.cpuspeed'));
+        if ($vendor = $this->grabkey('machdep.cpuvendor')) {
+            $dev->setVendorId(preg_replace('/[\s!]/', '', $vendor));
+        }
         $was = false;
         foreach ($this->readdmesg() as $line) {
             if (preg_match("/^cpu[0-9]+: (.*)/", $line, $ar_buf)) {
