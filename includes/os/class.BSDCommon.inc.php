@@ -369,6 +369,125 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * Machine information
+     *
+     * @return void
+     */
+    private function machine()
+    {
+        if (PSI_OS == 'NetBSD') {
+            $buffer = array();
+            $buffer['Manufacturer'] = $this->grabkey('machdep.dmi.system-vendor');
+            $buffer['Model'] = $this->grabkey('machdep.dmi.system-product');
+            $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
+            $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
+            $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
+
+            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && ($buffer['Manufacturer'] !== "") && ($buffer['Model'] !== "")) {
+                if (($buffer['Manufacturer'] === 'innotek GmbH') && ($buffer['Model'] === 'VirtualBox')) {
+                    $this->sys->setVirtualizer('oracle');
+                } elseif (($buffer['Manufacturer'] === 'Oracle Corporation') && ($buffer['Model'] === 'VirtualBox')) {
+                    $this->sys->setVirtualizer('oracle');
+                } elseif (($buffer['Manufacturer'] === 'VMware, Inc.') && ($buffer['Model'] === 'VMware Virtual Platform')) {
+                    $this->sys->setVirtualizer('vmware');
+                } elseif (($buffer['Manufacturer'] === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $buffer['Model'])) {
+                    $this->sys->setVirtualizer('vmware');
+                } elseif (($buffer['Manufacturer'] === 'Intel Corporation') && ($buffer['Model'] === 'VMware Virtual Platform')) {
+                    $this->sys->setVirtualizer('vmware');
+                } elseif (($buffer['Manufacturer'] === 'Microsoft') && ($buffer['Model'] === 'Virtual Machine')) {
+                    $this->sys->setVirtualizer('microsoft');
+                } elseif (($buffer['Manufacturer'] === 'Microsoft Corporation') && ($buffer['Model'] === 'Virtual Machine')) {
+                    $this->sys->setVirtualizer('microsoft');
+                } elseif (($buffer['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer['Model'])) {
+                    $this->sys->setVirtualizer('qemu');
+                } elseif (($buffer['Manufacturer'] === 'Xen') && ($buffer['Model'] === 'HVM domU')) {
+                    $this->sys->setVirtualizer('xen');
+                } elseif (($buffer['Manufacturer'] === 'Bochs') && ($buffer['Model'] === 'Bochs')) {
+                    $this->sys->setVirtualizer('bochs');
+                } elseif ($buffer['Manufacturer'] === 'Amazon EC2') {
+                    $this->sys->setVirtualizer('amazon');
+                }
+            }
+
+            if (($buffer['Manufacturer'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer['Manufacturer'])) && ($buf2 !== "")) {
+                $buf .= ' '.$buf2;
+            }
+
+            if (($buffer['Model'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=trim($buffer['Model'])) && ($buf2 !== "")) {
+                $model = $buf2;
+                $buf .= ' '.$buf2;
+            }
+            if (($buffer['Product'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$|^Default string$/i", $buf2=trim($buffer['Product'])) && ($buf2 !== "")) {
+                if ($buf2 !== $model) {
+                    $buf .= '/'.$buf2;
+                } elseif (isset($buffer['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=trim($buffer['SystemFamily'])) && ($buf2 !== "")) {
+                    $buf .= '/'.$buf2;
+                }
+            }
+ 
+            $bver = "";
+            $brel = "";
+            if (($buffer['SMBIOSBIOSVersion'] !== "") && (($buf2=trim($buffer['SMBIOSBIOSVersion'])) !== "")) {
+                $bver .= ' '.$buf2;
+            }
+            if ($buffer['ReleaseDate'] !== "") {
+                if (preg_match("/^(\d{4})(\d{2})(\d{2})\d{6}\.\d{6}\+\d{3}$/", $buffer['ReleaseDate'], $dateout)) {
+                    $brel .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
+                } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $buffer['ReleaseDate'])) {
+                    $brel .= ' '.$buffer['ReleaseDate'];
+                }
+            }
+            if ((trim($bver) !== "") || (trim($brel) !== "")) {
+                $buf .= ', BIOS'.$bver.$brel;
+            }
+
+            if (trim($buf) != "") {
+                $this->sys->setMachine(trim($buf));
+            }
+        } elseif (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
+            foreach ($this->readdmesg() as $line) {
+                if (preg_match("/^Hypervisor: Origin = \"(.+)\"", $line, $ar_buf)) {
+                    switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
+                        case 'bhyvebhyve':
+                            $this->sys->setVirtualizer('bhyve');
+                            break;
+                        case 'KVMKVMKVM':
+                            $this->sys->setVirtualizer('kvm');
+                            break;
+                        case 'MicrosoftHv':
+                            $this->sys->setVirtualizer('microsoft');
+                            break;
+                        case 'lrpepyhvr':
+                            $this->sys->setVirtualizer('parallels');
+                            break;
+                        case 'VMwareVMware':
+                            $this->sys->setVirtualizer('vmware');
+                            break;
+                        case 'XenVMMXenVMM':
+                            $this->sys->setVirtualizer('xen');
+                            break;
+                        case 'ACRNACRNACRN':
+                            $this->sys->setVirtualizer('acrn');
+                            break;
+                        case 'TCGTCGTCGTCG':
+                            $this->sys->setVirtualizer('qemu');
+                            break;
+                        case 'QNXQVMBSQG':
+                            $this->sys->setVirtualizer('qnx');
+                            break;
+                        case 'UnisysSpar64':
+                            $this->sys->setVirtualizer('spar');
+                            break;
+                        default:
+                            $this->sys->setVirtualizer('unknown');
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * SCSI devices
      * get the scsi device information out of dmesg
      *
@@ -705,6 +824,7 @@ abstract class BSDCommon extends OS
             $this->loadavg();
         }
         if (!$this->blockname || $this->blockname==='hardware') {
+            $this->machine();
             $this->cpuinfo();
             $this->pci();
             $this->ide();
