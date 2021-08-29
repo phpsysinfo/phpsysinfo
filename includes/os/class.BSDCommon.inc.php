@@ -444,7 +444,7 @@ abstract class BSDCommon extends OS
             if (trim($buf) != "") {
                 $this->sys->setMachine(trim($buf));
             }
-        } elseif (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
+        } elseif ((PSI_OS == 'FreeBSD') && (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO)) {
             foreach ($this->readdmesg() as $line) {
                 if (preg_match("/^Hypervisor: Origin = \"(.+)\"", $line, $ar_buf)) {
                     switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
