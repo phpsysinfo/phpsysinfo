@@ -32,7 +32,7 @@ class DragonFly extends BSDCommon
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz|^CPU: (.*) \((.*)-MHz (.*)\)/");
+        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/|/^CPU: (.*) \((.*)-MHz (.*)\)/"); // multiple regexp separated by |
         $this->setCPURegExp2("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) (pci|legacypci)[0-9]+$/");

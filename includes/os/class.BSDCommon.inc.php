@@ -332,11 +332,15 @@ abstract class BSDCommon extends OS
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
-               if (preg_match($this->_CPURegExp1, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                    if ($dev->getCpuSpeed() === 0) {
-                        $dev->setCpuSpeed(round($ar_buf[2]));
+               $regexps = preg_split("/|/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp
+               foreach ($regexps as $regexp) {            
+                   if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
+                        if ($dev->getCpuSpeed() === 0) {
+                            $dev->setCpuSpeed(round($ar_buf[2]));
+                        }
+                        $notwas = false;
+                        break;
                     }
-                    $notwas = false;
                 }
             } else {
                 if (preg_match("/^\s+Origin|^\s+Features/", $line, $ar_buf)) {
