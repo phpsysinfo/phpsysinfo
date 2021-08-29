@@ -343,10 +343,10 @@ abstract class BSDCommon extends OS
                     }
                 }
             } else {
-                if (preg_match("/^\s+Origin|^\s+Features/", $line, $ar_buf)) {
+                if (preg_match("/^\s+Origin| Features/", $line, $ar_buf)) {
                     if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
                         $dev->setVendorId(preg_replace('/[\s!]/', '', $ar_buf[1]));
-                    } elseif (preg_match("/^\s+Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
+                    } elseif (preg_match("/ Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {
@@ -354,7 +354,6 @@ abstract class BSDCommon extends OS
                                 break 2;
                             }
                         }
-                        break;
                     }
                 } else break;
             }
@@ -386,8 +385,7 @@ abstract class BSDCommon extends OS
             $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
             $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
             $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
-
-            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && ($buffer['Manufacturer'] !== "") && ($buffer['Model'] !== "")) {
+            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($buffer['Manufacturer'] !== "") && ($buffer['Model'] !== "")) {
                 if (($buffer['Manufacturer'] === 'innotek GmbH') && ($buffer['Model'] === 'VirtualBox')) {
                     $this->sys->setVirtualizer('oracle');
                 } elseif (($buffer['Manufacturer'] === 'Oracle Corporation') && ($buffer['Model'] === 'VirtualBox')) {
@@ -428,14 +426,14 @@ abstract class BSDCommon extends OS
                     $buf .= '/'.$buf2;
                 }
             }
- 
+
             $bver = "";
             $brel = "";
-            if (($buffer['SMBIOSBIOSVersion'] !== "") && (($buf2=trim($buffer['SMBIOSBIOSVersion'])) !== "")) {
+            if (($buf2=trim($buffer['SMBIOSBIOSVersion'])) !== "") {
                 $bver .= ' '.$buf2;
             }
             if ($buffer['ReleaseDate'] !== "") {
-                if (preg_match("/^(\d{4})(\d{2})(\d{2})\d{6}\.\d{6}\+\d{3}$/", $buffer['ReleaseDate'], $dateout)) {
+                if (preg_match("/^(\d{4})(\d{2})(\d{2})$/", $buffer['ReleaseDate'], $dateout)) {
                     $brel .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
                 } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $buffer['ReleaseDate'])) {
                     $brel .= ' '.$buffer['ReleaseDate'];
@@ -448,9 +446,9 @@ abstract class BSDCommon extends OS
             if (trim($buf) != "") {
                 $this->sys->setMachine(trim($buf));
             }
-        } elseif ((PSI_OS == 'FreeBSD') && (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO)) {
+        } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             foreach ($this->readdmesg() as $line) {
-                if (preg_match("/^Hypervisor: Origin = \"(.+)\"", $line, $ar_buf)) {
+                if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
                     switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
                         case 'bhyvebhyve':
                             $this->sys->setVirtualizer('bhyve');
