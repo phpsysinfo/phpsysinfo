@@ -8,7 +8,7 @@ phpSysInfo 3.4.0
  - [ADD] Omarine, NethServer, JingOS, KDE neon, Alma, Virtuozzo, EuroLinux and Rocky Linux to detected distros
 
  - [NEW] Ability to read UPS information from a file
- - [NEW] Virtualizer detection on Linux, Android and WinNT
+ - [NEW] Virtualizer detection on Linux, Android, NetBSD, FreeBSD and WinNT
 
  - [UPD] Changed all data file extensions from .txt to .tmp 
 
