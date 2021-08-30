@@ -48,8 +48,9 @@ class OpenBSD extends BSDCommon
      */
     private function _uptime()
     {
-        $a = $this->grabkey('kern.boottime');
-        $this->sys->setUptime(time() - strtotime($a));
+        $kb = $this->grabkey('kern.boottime');
+        $kbt = strtotime($kb);
+        $this->sys->setUptime(time() - (($kbt !== false)? $kbt : $kb));
     }
 
     /**
