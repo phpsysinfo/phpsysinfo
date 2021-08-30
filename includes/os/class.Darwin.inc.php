@@ -137,11 +137,11 @@ class Darwin extends BSDCommon
             $dev->setCpuSpeedMax(round($bufx / 1000000));
         }
         $buf=$this->grabkey('hw.l2cachesize');
-        if (($buf !== null) && (trim($buf) != "")) {
+        if ($buf !== "")) {
             $dev->setCache(round($buf));
         }
         $ncpu = $this->grabkey('hw.ncpu');
-        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1)) {
+        if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
         if (($ncpu == 1) && (PSI_LOAD_BAR)) {
