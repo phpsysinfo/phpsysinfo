@@ -137,7 +137,7 @@ class Darwin extends BSDCommon
             $dev->setCpuSpeedMax(round($bufx / 1000000));
         }
         $buf=$this->grabkey('hw.l2cachesize');
-        if ($buf !== "")) {
+        if ($buf !== "") {
             $dev->setCache(round($buf));
         }
         $ncpu = $this->grabkey('hw.ncpu');
