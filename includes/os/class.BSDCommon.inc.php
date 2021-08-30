@@ -202,7 +202,7 @@ abstract class BSDCommon extends OS
     {
         $buf = "";
         if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, PSI_DEBUG)) {
-            return $buf;
+            return trim($buf);
         } else {
             return '';
         }
@@ -290,7 +290,7 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 $ncpu = $this->grabkey('hw.ncpu');
-                if (($ncpu !== null) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                if (($ncpu !== "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
                     $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
                     if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
                         array_shift($pslines);
@@ -381,7 +381,7 @@ abstract class BSDCommon extends OS
         }
 
         $ncpu = $this->grabkey('hw.ncpu');
-        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1)) {
+        if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
         if (($ncpu == 1) && (PSI_LOAD_BAR)) {

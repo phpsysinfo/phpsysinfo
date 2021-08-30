@@ -179,7 +179,7 @@ class OpenBSD extends BSDCommon
         }
      
         $ncpu = $this->grabkey('hw.ncpu');
-        if (($ncpu === null) || (trim($ncpu) == "") || !($ncpu >= 1)) {
+        if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
         $ncpu = max($ncpu, count($cpuarray));
