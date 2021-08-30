@@ -153,7 +153,9 @@ class OpenBSD extends BSDCommon
                         if (($feat=="vmx") || ($feat=="svm")) {
                             $cpuarray[$ar_buf[1]]['virt'] = $feat;
                         } elseif ($feat=="hv") {
-                            $cpuarray[$ar_buf[1]]['virt'] = 'hypervisor';
+                            if (!isset($cpuarray[$ar_buf[1]]['virt'])) {
+                                $cpuarray[$ar_buf[1]]['virt'] = 'hypervisor';
+                            }
                             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                 $this->sys->setVirtualizer("hypervisor");
                             }
