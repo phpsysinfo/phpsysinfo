@@ -423,6 +423,7 @@ class Linux extends OS
                 }
             }
 
+            $testvirt = $this->sys->getVirtualizer();
             if (isset($testvirt["hypervisor"]) && $novm) {
                 $this->sys->setVirtualizer('unknown');
             }
