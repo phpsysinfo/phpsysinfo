@@ -853,7 +853,7 @@ abstract class BSDCommon extends OS
                 $this->sys->setUptime(time() - $buf[1]);
             } else {
                 $kbt = strtotime($kb);
-                if ($kbt !== false) {
+                if (($kbt !== false) && ($kbt != -1)) {
                     $this->sys->setUptime(time() - $kbt); // format like: Sat Oct 2 10:56:40 2004
                 } else {
                     $this->sys->setUptime(time() - $kb); // format like: 1096732600
