@@ -202,7 +202,7 @@ abstract class BSDCommon extends OS
     {
         $buf = "";
         if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, PSI_DEBUG)) {
-            return trim($buf);
+            return $buf;
         } else {
             return '';
         }
@@ -337,19 +337,8 @@ abstract class BSDCommon extends OS
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
+        $dev->setModel($this->grabkey('hw.model'));
 
-        if (PSI_OS == 'NetBSD') {
-            if ($model = $this->grabkey('machdep.cpu_brand')) {
-               $dev->setModel($model);
-            }
-            if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
-               $dev->setCpuSpeed(round($cpuspeed / 1000000));
-            }
-        }
-
-        if ($dev->getModel() === "") {
-            $dev->setModel($this->grabkey('hw.model'));
-        }
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
