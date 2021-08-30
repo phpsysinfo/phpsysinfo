@@ -153,7 +153,7 @@ class OpenBSD extends BSDCommon
                     if (($speed = trim($ar_buf2[2])) > 0) {
                         $cpuarray[$ar_buf[1]]['speed'] = $speed;
                     }
-                } elseif (preg_match("/(\d+)([KM])B \S+ \S+ (L2|L3) cache$/", $ar_buf[2], $ar_buf2)) {
+                } elseif (preg_match("/(\d+)([KM])B \S+ \S+ L[23] cache$/", $ar_buf[2], $ar_buf2)) {
                     if ($ar_buf2[2]=="M") {
                         $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024*1024;
                     } elseif ($ar_buf2[2]=="K") {
