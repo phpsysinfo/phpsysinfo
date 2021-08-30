@@ -41,19 +41,6 @@ class OpenBSD extends BSDCommon
     }
 
     /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        $kb = $this->grabkey('kern.boottime');
-        $kbt = strtotime($kb);
-        $this->sys->setUptime(time() - (($kbt !== false)? $kbt : $kb));
-    }
-
-    /**
      * get network information
      *
      * @return void
@@ -265,7 +252,6 @@ class OpenBSD extends BSDCommon
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='network') {

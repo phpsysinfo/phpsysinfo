@@ -852,6 +852,28 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * UpTime
+     * time the system is running
+     *
+     * @return void
+     */
+    private function uptime()
+    {
+        if ($kb = $this->grabkey('kern.boottime')) {
+            if (preg_match("/sec = ([0-9]+)/", $kb, $buf)) { // format like: { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004
+                $this->sys->setUptime(time() - $buf[1]);
+            } else {
+                $kbt = strtotime($kb);
+                if ($kbt !== false) {
+                    $this->sys->setUptime(time() - $kbt); // format like: Sat Oct 2 10:56:40 2004
+                } else {
+                    $this->sys->setUptime(time() - $kb); // format like: 1096732600
+                }
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_OS::build()
@@ -866,6 +888,7 @@ abstract class BSDCommon extends OS
             $this->kernel();
             $this->_users();
             $this->loadavg();
+            $this->uptime();
         }
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->machine();

@@ -90,25 +90,6 @@ class Darwin extends BSDCommon
     }
 
     /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        if (CommonFunctions::executeProgram('sysctl', '-n kern.boottime', $a, PSI_DEBUG)) {
-            $tmp = explode(" ", $a);
-            if ($tmp[0]=="{") { /* kern.boottime= { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004 */
-              $data = trim($tmp[3], ",");
-              $this->sys->setUptime(time() - $data);
-            } else { /* kern.boottime= 1096732600 */
-              $this->sys->setUptime(time() - $a);
-            }
-        }
-    }
-
-    /**
      * get CPU information
      *
      * @return void
@@ -495,7 +476,6 @@ class Darwin extends BSDCommon
     {
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='hardware') {

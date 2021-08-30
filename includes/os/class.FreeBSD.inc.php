@@ -42,20 +42,6 @@ class FreeBSD extends BSDCommon
     }
 
     /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        $a = $this->grabkey('kern.boottime');
-        if (preg_match("/sec = ([0-9]+)/", $a, $buf)) {
-            $this->sys->setUptime(time() - $buf[1]);
-        }
-    }
-
-    /**
      * get network information
      *
      * @return void
@@ -203,7 +189,6 @@ class FreeBSD extends BSDCommon
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='memory') {
