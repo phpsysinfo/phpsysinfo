@@ -49,7 +49,7 @@ class NetBSD extends BSDCommon
     private function _uptime()
     {
         $a = $this->grabkey('kern.boottime');
-        $this->sys->setUptime(time() - $a);
+        $this->sys->setUptime(time() - strtotime($a));
     }
 
     /**

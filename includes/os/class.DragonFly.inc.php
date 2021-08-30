@@ -48,8 +48,9 @@ class DragonFly extends BSDCommon
     private function _uptime()
     {
         $a = $this->grabkey('kern.boottime');
-        preg_match("/sec = ([0-9]+)/", $a, $buf);
-        $this->sys->setUptime(time() - $buf[1]);
+        if (preg_match("/sec = ([0-9]+)/", $a, $buf)) {
+            $this->sys->setUptime(time() - $buf[1]);
+        }
     }
 
     /**

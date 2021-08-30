@@ -49,9 +49,10 @@ class FreeBSD extends BSDCommon
      */
     private function _uptime()
     {
-        $s = preg_split('/ /', $this->grabkey('kern.boottime'));
-        $a = preg_replace('/,/', '', $s[3]);
-        $this->sys->setUptime(time() - $a);
+        $a = $this->grabkey('kern.boottime');
+        if (preg_match("/sec = ([0-9]+)/", $a, $buf)) {
+            $this->sys->setUptime(time() - $buf[1]);
+        }
     }
 
     /**
