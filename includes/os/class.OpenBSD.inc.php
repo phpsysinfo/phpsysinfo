@@ -145,21 +145,22 @@ class OpenBSD extends BSDCommon
         foreach ($this->readdmesg() as $line) {
             if (preg_match("/^cpu([0-9])+: (.*)/", $line, $ar_buf)) {
                 $was = true;
-                if (preg_match("/^(.+), ([\d\.]+) MHz/", trim($ar_buf[2]), $ar_buf2)) {
+                $ar_buf[2] = trim($ar_buf[2]);
+                if (preg_match("/^(.+), ([\d\.]+) MHz/", $ar_buf[2], $ar_buf2)) {
                     if (($model = trim($ar_buf2[1])) !== "") {
                         $cpuarray[$ar_buf[1]]['model'] = $model;
                     }
                     if (($speed = trim($ar_buf2[2])) > 0) {
                         $cpuarray[$ar_buf[1]]['speed'] = $speed;
                     }
-                } elseif (preg_match("/(\d+)([KM])B \S+ \S+ (L2|L3) cache$/", trim($ar_buf[2]), $ar_buf2)) {
+                } elseif (preg_match("/(\d+)([KM])B \S+ \S+ (L2|L3) cache$/", $ar_buf[2], $ar_buf2)) {
                     if ($ar_buf2[2]=="M") {
                         $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024*1024;
                     } elseif ($ar_buf2[2]=="K") {
                         $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024;
                     }
                 } else {
-                    $feats = preg_split("/,/", strtolower(trim($ar_buf[2])), -1, PREG_SPLIT_NO_EMPTY);
+                    $feats = preg_split("/,/", strtolower($ar_buf[2]), -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($feats as $feat) {
                         if (($feat=="vmx") || ($feat=="svm")) {
                             $cpuarray[$ar_buf[1]]['virt'] = $feat;
