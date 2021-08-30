@@ -361,13 +361,13 @@ abstract class BSDCommon extends OS
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {
                                 $dev->setVirt($feat);
-                                break 2;
                             } elseif ($feat=="hv") {
-                                $dev->setVirt('hypervisor');
+                                if ($dev->getVirt() === null) {
+                                    $dev->setVirt('hypervisor');
+                                }
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                     $this->sys->setVirtualizer("hypervisor");
                                 }
-                                break 2;
                             }
                         }
                     }
