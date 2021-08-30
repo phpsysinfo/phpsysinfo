@@ -241,6 +241,23 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * Virtualizer info
+     *
+     * @return void
+     */
+    private function virtualizer()
+    {
+        if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
+            return;
+        }
+
+        $testvirt = $this->sys->getVirtualizer();
+        if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) {
+            $this->sys->setVirtualizer('unknown');
+        }
+    }
+
+    /**
      * CPU usage
      *
      * @return void
@@ -263,7 +280,11 @@ abstract class BSDCommon extends OS
                         if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
                             $load2 = $res[2] + $res[3] + $res[4];
                             $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                            $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            if ($total2 != $total) {
+                                $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            } else {
+                                $this->_cpu_loads['cpu'] = 0;
+                            }
                         }
                     }
                 }
@@ -378,39 +399,60 @@ abstract class BSDCommon extends OS
      */
     private function machine()
     {
-        if (PSI_OS == 'NetBSD') {
+        if ((PSI_OS == 'NetBSD') || (PSI_OS == 'OpenBSD')) {
             $buffer = array();
-            $buffer['Manufacturer'] = $this->grabkey('machdep.dmi.system-vendor');
-            $buffer['Model'] = $this->grabkey('machdep.dmi.system-product');
-            $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
-            $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
-            $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
+            if (PSI_OS == 'NetBSD') { // NetBSD
+                $buffer['Manufacturer'] = $this->grabkey('machdep.dmi.system-vendor');
+                $buffer['Model'] = $this->grabkey('machdep.dmi.system-product');
+                $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
+                $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
+                $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
+            } else { // OpenBSD
+                $buffer['Manufacturer'] = $this->grabkey('hw.vendor');
+                $buffer['Model'] = $this->grabkey('hw.product');
+                $buffer['Product'] = "";
+                $buffer['SMBIOSBIOSVersion'] = "";
+                $buffer['ReleaseDate'] = "";
+            }
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($buffer['Manufacturer'] !== "") && ($buffer['Model'] !== "")) {
+                $novm = true;
                 if (($buffer['Manufacturer'] === 'innotek GmbH') && ($buffer['Model'] === 'VirtualBox')) {
                     $this->sys->setVirtualizer('oracle');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Oracle Corporation') && ($buffer['Model'] === 'VirtualBox')) {
                     $this->sys->setVirtualizer('oracle');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'VMware, Inc.') && ($buffer['Model'] === 'VMware Virtual Platform')) {
                     $this->sys->setVirtualizer('vmware');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $buffer['Model'])) {
                     $this->sys->setVirtualizer('vmware');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Intel Corporation') && ($buffer['Model'] === 'VMware Virtual Platform')) {
                     $this->sys->setVirtualizer('vmware');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Microsoft') && ($buffer['Model'] === 'Virtual Machine')) {
                     $this->sys->setVirtualizer('microsoft');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Microsoft Corporation') && ($buffer['Model'] === 'Virtual Machine')) {
                     $this->sys->setVirtualizer('microsoft');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer['Model'])) {
                     $this->sys->setVirtualizer('qemu');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Xen') && ($buffer['Model'] === 'HVM domU')) {
                     $this->sys->setVirtualizer('xen');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Bochs') && ($buffer['Model'] === 'Bochs')) {
                     $this->sys->setVirtualizer('bochs');
+                    $novm = false;
                 } elseif ($buffer['Manufacturer'] === 'Amazon EC2') {
                     $this->sys->setVirtualizer('amazon');
+                    $novm = false;
                 }
             }
-
+            
+            $buf = "";
             if (($buffer['Manufacturer'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer['Manufacturer'])) && ($buf2 !== "")) {
                 $buf .= ' '.$buf2;
             }
@@ -443,7 +485,7 @@ abstract class BSDCommon extends OS
                 $buf .= ', BIOS'.$bver.$brel;
             }
 
-            if (trim($buf) != "") {
+            if (trim($buf) !== "") {
                 $this->sys->setMachine(trim($buf));
             }
         } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
@@ -556,8 +598,8 @@ abstract class BSDCommon extends OS
         }
         /* cleaning */
         foreach ($this->sys->getScsiDevices() as $finddev) {
-                    if (strpos($finddev->getName(), ': ') !== false)
-                        $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
+            if (strpos($finddev->getName(), ': ') !== false)
+                $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
         }
     }
 
@@ -828,6 +870,7 @@ abstract class BSDCommon extends OS
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->machine();
             $this->cpuinfo();
+            $this->virtualizer();
             $this->pci();
             $this->ide();
             $this->scsi();
