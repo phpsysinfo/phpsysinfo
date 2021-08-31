@@ -162,7 +162,7 @@ class OpenBSD extends BSDCommon
                         }
                     }
                 }
-            } elseif (!preg_match("/^mtrr: /", $line) && !preg_match("/^cpu([0-9])+ /", $line) && $was) {
+            } elseif (!preg_match("/^cpu[0-9]+|^mtrr: |^acpitimer[0-9]+: /", $line) && $was) {
                 break;
             }
         }
