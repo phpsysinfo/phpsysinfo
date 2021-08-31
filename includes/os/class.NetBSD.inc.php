@@ -201,7 +201,7 @@ class NetBSD extends BSDCommon
             }
             if (($ncpu == 1) && (PSI_LOAD_BAR)) {
                 $dev->setLoad($this->cpuusage());
-            }           
+            }
             $this->sys->setCpus($dev);
         }
     }
