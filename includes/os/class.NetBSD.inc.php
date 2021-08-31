@@ -162,7 +162,7 @@ class NetBSD extends BSDCommon
                         $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024;
                     }
                 }
-            } elseif (!preg_match("/^cpu([0-9])+ /", $line) && $was) {
+            } elseif (!preg_match("/^cpu[0-9]+ /", $line) && $was) {
                 break;
             }
         }
