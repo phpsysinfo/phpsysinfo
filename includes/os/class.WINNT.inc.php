@@ -534,8 +534,8 @@ class WINNT extends OS
                 $this->sys->setKernel($kernel);
             }
             $distribution = $buffer[0]['Caption'];
-            if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
-                $karray = preg_split('/\./', $kernel);
+            if (version_compare($ver, "10.0", ">=") && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+                $karray = preg_split('/\./', $ver);
                 if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
                     $distribution .= ' ('.$list['win10'][$karray[2]].')';
                 }
@@ -547,8 +547,10 @@ class WINNT extends OS
                 $icon = 'WinXP.png';
             elseif (version_compare($ver, "6.0", ">=") && version_compare($ver, "6.2", "<"))
                 $icon = 'WinVista.png';
-            else
+            elseif (version_compare($ver, "6.2", ">=") && version_compare($ver, "10.0.21996", "<"))
                 $icon = 'Win8.png';
+            else
+                $icon = 'Win11.png';
             $this->sys->setDistributionIcon($icon);
         } elseif ($this->_ver !== "") {
                 if (preg_match("/ReactOS\r?\n\S+\s+(.+)/", $this->_ver, $ar_temp)) {
@@ -560,9 +562,10 @@ class WINNT extends OS
                         $this->sys->setKernel($ar_temp[1]);
                     }
                     $this->sys->setDistributionIcon('ReactOS.png');
-                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*(.+)\]/", $this->_ver, $ar_temp)) {
-                    $kernel = $ar_temp[2];
-                    if (($this->_reg === false) && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) {
+                } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*([\.\d]+)\]/", $this->_ver, $ar_temp)) {
+                    $ver = $ar_temp[2];
+                    $kernel = $ver;
+                    if (($this->_reg === false) && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) { // only if reg query via cmd
                         if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $tmpBuf, false)) {
                             $kernel .= ' (64-bit)';
                         }
@@ -581,21 +584,26 @@ class WINNT extends OS
                         $distribution = $ar_temp[1];
                     }
                     $this->sys->setKernel($kernel);
-                    if ((substr($kernel, 0, 5) == '10.0.') && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
-                        $karray = preg_split('/\./', $kernel);
+                    if (version_compare($ver, "10.0", ">=") && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
+                        if (version_compare($ver, "10.0.21996", ">=") && version_compare($ver, "11.0", "<")) {
+                            $distribution = preg_replace("/Windows 10/" , "Windows 11", $distribution); // fix Windows 11 detection
+                        }
+                        $karray = preg_split('/\./', $ver);
                         if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
                             $distribution .= ' ('.$list['win10'][$karray[2]].')';
                         }
                     }
                     $this->sys->setDistribution($distribution);
-                    if ((($kernel[1] == '.') && ($kernel[0] <5)) || (substr($kernel, 0, 4) == '5.0.'))
+                    if (version_compare($ver, "5.1", "<"))
                         $icon = 'Win2000.png';
-                    elseif ((substr($kernel, 0, 4) == '6.0.') || (substr($kernel, 0, 4) == '6.1.'))
+                    elseif (version_compare($ver, "5.1", ">=") && version_compare($ver, "6.0", "<"))
+                        $icon = 'WinXP.png';
+                    elseif (version_compare($ver, "6.0", ">=") && version_compare($ver, "6.2", "<"))
                         $icon = 'WinVista.png';
-                    elseif ((substr($kernel, 0, 4) == '6.2.') || (substr($kernel, 0, 4) == '6.3.') || (substr($kernel, 0, 4) == '6.4.') || (substr($kernel, 0, 5) == '10.0.'))
+                    elseif (version_compare($ver, "6.2", ">=") && version_compare($ver, "10.0.21996", "<"))
                         $icon = 'Win8.png';
                     else
-                        $icon = 'WinXP.png';
+                        $icon = 'Win11.png';
                     $this->sys->setDistributionIcon($icon);
                 } else {
                     $this->sys->setDistribution("WINNT");
