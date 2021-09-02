@@ -586,7 +586,7 @@ class WINNT extends OS
                     $this->sys->setKernel($kernel);
                     if (version_compare($ver, "10.0", ">=") && !preg_match('/server/i', $this->sys->getDistribution()) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
                         if (version_compare($ver, "10.0.21996", ">=") && version_compare($ver, "11.0", "<")) {
-                            $distribution = preg_replace("/Windows 10/" , "Windows 11", $distribution); // fix Windows 11 detection
+                            $distribution = preg_replace("/Windows 10/" ,"Windows 11", $distribution); // fix Windows 11 detection
                         }
                         $karray = preg_split('/\./', $ver);
                         if (isset($karray[2]) && isset($list['win10'][$karray[2]])) {
