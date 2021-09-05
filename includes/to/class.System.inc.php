@@ -1272,7 +1272,7 @@ class System
     public function setVirtualizer($virtualizer)
     {
         if (!isset($this->_virtualizer[$virtualizer])) {
-            if (($virtkey === "hypervisor") || preg_match("/^cpuid:/", $virtkey)) {
+            if (($virtualizer === "hypervisor") || preg_match("/^cpuid:/", $virtualizer)) {
                 $this->_virtualizer[$virtualizer] = false;
             } else {
                 $this->_virtualizer[$virtualizer] = true;
