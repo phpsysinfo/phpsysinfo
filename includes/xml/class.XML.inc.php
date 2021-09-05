@@ -218,24 +218,22 @@ class XML
             $virt = $this->_sys->getVirtualizer();
             $first = true;
             $virtstring = "";
-            foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if (($virtkey !== "hypervisor") && !preg_match("/^cpuid:/", $virtkey)) {
-                if ($virtvalue) {
-                    if ($first) {
-                        $first = false;
-                    } else {
-                        $virtstring .= ", ";
-                    }
-                    if ($virtkey === 'microsoft') {
-                        $virtstring .= 'hyper-v';
-                    } elseif ($virtkey === 'kvm') {
-                        $virtstring .= 'qemu-kvm';
-                    } elseif ($virtkey === 'oracle') {
-                        $virtstring .= 'virtualbox';
-                    } elseif ($virtkey === 'zvm') {
-                        $virtstring .= 'z/vm';
-                    } else {
-                        $virtstring .= $virtkey;
-                    }
+            foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if ($virtvalue) {
+                if ($first) {
+                    $first = false;
+                } else {
+                    $virtstring .= ", ";
+                }
+                if ($virtkey === 'microsoft') {
+                    $virtstring .= 'hyper-v';
+                } elseif ($virtkey === 'kvm') {
+                    $virtstring .= 'qemu-kvm';
+                } elseif ($virtkey === 'oracle') {
+                    $virtstring .= 'virtualbox';
+                } elseif ($virtkey === 'zvm') {
+                    $virtstring .= 'z/vm';
+                } else {
+                    $virtstring .= $virtkey;
                 }
             }
             if ($virtstring !== "") {

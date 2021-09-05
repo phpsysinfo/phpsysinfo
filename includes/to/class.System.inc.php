@@ -1272,9 +1272,13 @@ class System
     public function setVirtualizer($virtualizer)
     {
         if (!isset($this->_virtualizer[$virtualizer])) {
-            $this->_virtualizer[$virtualizer] = true;
-            if ($virtualizer === "wsl2") { // wsl2 is more precise
-                $this->_virtualizer["wsl"] = false;
+            if (($virtkey === "hypervisor") || preg_match("/^cpuid:/", $virtkey)) {
+                $this->_virtualizer[$virtualizer] = false;
+            } else {
+                $this->_virtualizer[$virtualizer] = true;
+                if ($virtualizer === "wsl2") { // wsl2 is more precise
+                    $this->_virtualizer["wsl"] = false;
+                }
             }
         }
     }
