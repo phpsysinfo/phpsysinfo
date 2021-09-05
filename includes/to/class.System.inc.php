@@ -1271,6 +1271,11 @@ class System
      */
     public function setVirtualizer($virtualizer)
     {
-        $this->_virtualizer[$virtualizer] = true;
+        if (!isset($this->_virtualizer[$virtualizer])) {
+            $this->_virtualizer[$virtualizer] = true;
+            if ($virtualizer === "wsl2") { // wsl2 is more precise
+                $this->_virtualizer["wsl"] = false;
+            }
+        }
     }
 }
