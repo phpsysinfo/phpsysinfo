@@ -157,7 +157,7 @@ class OpenBSD extends BSDCommon
                                 $cpuarray[$ar_buf[1]]['virt'] = 'hypervisor';
                             }
                             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                                $this->sys->setVirtualizer("hypervisor");
+                                $this->sys->setVirtualizer("hypervisor", false);
                             }
                         }
                     }

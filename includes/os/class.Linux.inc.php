@@ -240,7 +240,7 @@ class Linux extends OS
             }
             if (($verBuf = $this->_get_kernel_string()) !== "") {
                 if (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
-                    $this->sys->setVirtualizer('wsl2'); // Windows Subsystem for Linux 2
+                    $this->sys->setVirtualizer('wsl2', 'wsl'); // Windows Subsystem for Linux 2
                 }
             }
             if (CommonFunctions::executeProgram('systemd-detect-virt', '-c', $resultc, false) && ($resultc !== "") && ($resultc !== "none")) {
@@ -731,7 +731,7 @@ class Linux extends OS
                             } elseif (preg_match("/ hypervisor/", $arrBuff1)) {
                                 $dev->setVirt("hypervisor");
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                                    $this->sys->setVirtualizer("hypervisor");
+                                    $this->sys->setVirtualizer("hypervisor", false);
                                 }
                             }
                             break;
@@ -759,7 +759,7 @@ class Linux extends OS
                             $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
                             $dev->setVendorId($shortvendorid);
                             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                                $this->sys->setVirtualizer("cpuid:".$shortvendorid);
+                                $this->sys->setVirtualizer("cpuid:".$shortvendorid, false);
                             }
                             break;
                         }
@@ -802,7 +802,7 @@ class Linux extends OS
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
                     if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                        $this->sys->setVirtualizer("cpuid:".$_vend);
+                        $this->sys->setVirtualizer("cpuid:".$_vend, false);
                     }
                 }
 
@@ -883,7 +883,7 @@ class Linux extends OS
 
                     $cpumodel = $dev->getModel();
                     if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
-                        $this->sys->setVirtualizer("cpuid:QEMU");
+                        $this->sys->setVirtualizer("cpuid:QEMU", false);
                     }
                     if ($cpumodel === "") {
                         if (($vendid = $dev->getVendorId()) !== "") {

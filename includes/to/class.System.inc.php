@@ -1264,21 +1264,20 @@ class System
      * Sets $_virtualizer.
      *
      * @param String $virtualizer virtualizername
+     * @param Bool|String $value true, false or virtualizername to replace
      *
      * @see System::$_virtualizer
      *
      * @return Void
      */
-    public function setVirtualizer($virtualizer)
+    public function setVirtualizer($virtualizer, $value = true)
     {
         if (!isset($this->_virtualizer[$virtualizer])) {
-            if (($virtualizer === "hypervisor") || preg_match("/^cpuid:/", $virtualizer)) {
-                $this->_virtualizer[$virtualizer] = false;
-            } else {
-                $this->_virtualizer[$virtualizer] = true;
-                if ($virtualizer === "wsl2") { // wsl2 is more precise
-                    $this->_virtualizer["wsl"] = false;
-                }
+            if (is_boole($value)) {
+                $this->_virtualizer[$virtualizer] = $value;
+            } else { // replace the virtualizer with another
+                $this->_virtualizer[$virtualizer] = true; 
+                $this->_virtualizer[$value] = false;
             }
         }
     }

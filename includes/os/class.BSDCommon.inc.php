@@ -366,7 +366,7 @@ abstract class BSDCommon extends OS
                                     $dev->setVirt('hypervisor');
                                 }
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                                    $this->sys->setVirtualizer("hypervisor");
+                                    $this->sys->setVirtualizer("hypervisor", false);
                                 }
                             }
                         }
