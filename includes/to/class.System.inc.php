@@ -1273,7 +1273,7 @@ class System
     public function setVirtualizer($virtualizer, $value = true)
     {
         if (!isset($this->_virtualizer[$virtualizer])) {
-            if (is_boole($value)) {
+            if (is_bool($value)) {
                 $this->_virtualizer[$virtualizer] = $value;
             } else { // replace the virtualizer with another
                 $this->_virtualizer[$virtualizer] = true; 
