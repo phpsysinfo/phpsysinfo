@@ -728,8 +728,11 @@ class Linux extends OS
                                 $dev->setVirt("vmx");
                             } elseif (preg_match("/ svm/", $arrBuff1)) {
                                 $dev->setVirt("svm");
-                            } elseif (preg_match("/ hypervisor/", $arrBuff1)) {
-                                $dev->setVirt("hypervisor");
+                            } 
+                            if (preg_match("/ hypervisor/", $arrBuff1)) {
+                                if ($dev->getVirt() === null) {
+                                    $dev->setVirt("hypervisor");
+                                }
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                     $this->sys->setVirtualizer("hypervisor", false);
                                 }
