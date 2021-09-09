@@ -129,7 +129,7 @@ class WINNT extends OS
      */
     private function _get_Win32_ComputerSystem()
     {
-        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily', 'SystemType'));
         return $this->_Win32_ComputerSystem;
     }
 
@@ -527,12 +527,19 @@ class WINNT extends OS
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
             if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
-                $this->sys->setKernel($kernel.' ('.$bits[1].'-bit)');
+                $kernel .= ' ('.$bits[1].'-bit)';
             } elseif (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['AddressWidth'])) {
-                $this->sys->setKernel($kernel.' ('.$allCpus[0]['AddressWidth'].'-bit)');
-            } else {
-                $this->sys->setKernel($kernel);
+                $kernel .= ' ('.$allCpus[0]['AddressWidth'].'-bit)';
             }
+            $buffercs = $this->_get_Win32_ComputerSystem();
+            if (($buffercs) && isset($buffercs[0]['SystemType']) && (($systype = $buffercs[0]['SystemType']) !== '')) {
+                if (preg_match('/^(.+)-based PC$/', $systype, $st_temp) || preg_match('/^(.+) PC$/', $systype, $st_temp)) {
+                    $kernel .= ' '.$st_temp[1];
+                } elseif ($systype !== 'Unknown') {
+                    $kernel .= ' '.$systype;
+                }
+            }
+            $this->sys->setKernel($kernel);
             $distribution = $buffer[0]['Caption'];
             if (version_compare($ver, "10.0", ">=") && !preg_match('/server/i', $buffer[0]['Caption']) && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
                 $karray = preg_split('/\./', $ver);
