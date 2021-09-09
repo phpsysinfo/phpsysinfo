@@ -526,14 +526,17 @@ class WINNT extends OS
             if ($buffer[0]['ServicePackMajorVersion'] > 0) {
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
+            $nbits = '';
             if (isset($buffer[0]['OSArchitecture']) && preg_match("/^(\d+)/", $buffer[0]['OSArchitecture'], $bits)) {
-                $kernel .= ' ('.$bits[1].'-bit)';
+                $nbits = $bits[1];
+                $kernel .= ' ('.$nbits.'-bit)';
             } elseif (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['AddressWidth'])) {
-                $kernel .= ' ('.$allCpus[0]['AddressWidth'].'-bit)';
+                $nbits = $allCpus[0]['AddressWidth'];
+                $kernel .= ' ('.$nbits.'-bit)';
             }
             $buffercs = $this->_get_Win32_ComputerSystem();
             if (($buffercs) && isset($buffercs[0]['SystemType']) && (($systype = $buffercs[0]['SystemType']) !== '')) {
-                if (preg_match('/^(.+)-based PC$/', $systype, $st_temp) || preg_match('/^(.+) PC$/', $systype, $st_temp)) {
+                if (preg_match('/^(.+)-based PC$/', $systype, $st_temp) || preg_match('/^'.$nbits.'-bit (.+) PC$/', $systype, $st_temp) || preg_match('/^(.+) PC$/', $systype, $st_temp)) {
                     $kernel .= ' '.$st_temp[1];
                 } elseif ($systype !== 'Unknown') {
                     $kernel .= ' '.$systype;
