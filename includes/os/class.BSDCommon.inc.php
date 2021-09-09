@@ -435,6 +435,9 @@ abstract class BSDCommon extends OS
                 } elseif (($buffer['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer['Model'])) {
                     $this->sys->setVirtualizer('qemu');
                     $novm = false;
+                } elseif (($buffer['Manufacturer'] === 'QEMU') && ($buffer['Model'] === 'QEMU Virtual Machine')) {
+                    $this->sys->setVirtualizer('qemu');
+                    $novm = false;
                 } elseif (($buffer['Manufacturer'] === 'Xen') && ($buffer['Model'] === 'HVM domU')) {
                     $this->sys->setVirtualizer('xen');
                     $novm = false;

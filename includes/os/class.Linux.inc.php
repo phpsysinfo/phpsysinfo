@@ -303,6 +303,9 @@ class Linux extends OS
                 } elseif (preg_match('/^QEMU Standard PC/', $machBuf)) {
                     $this->sys->setVirtualizer('qemu'); // QEMU
                     $novm = false;
+                } elseif (preg_match('/^QEMU QEMU Virtual Machine, BIOS /', $machBuf)) {
+                    $this->sys->setVirtualizer('qemu'); // QEMU
+                    $novm = false;
                 } elseif (preg_match('/^Bochs Bochs, BIOS Bochs /', $machBuf)) {
                     $this->sys->setVirtualizer('bochs'); // Bochs
                     $novm = false;
