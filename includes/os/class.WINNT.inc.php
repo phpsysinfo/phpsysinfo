@@ -527,8 +527,8 @@ class WINNT extends OS
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
             if ($allCpus = $this->_get_Win32_Processor()) {
-                if (isset($allCpus[0]['AddressWidth'])) {
-                    $kernel .= ' ('.$allCpus[0]['AddressWidth'].'-bit)';
+                if (isset($allCpus[0]['AddressWidth']) && (($addresswidth = $allCpus[0]['AddressWidth']) > 0)) {
+                    $kernel .= ' ('.$addresswidth.'-bit)';
                 }
                 if (isset($allCpus[0]['Architecture'])) {
                     switch ($allCpus[0]['Architecture']) {
