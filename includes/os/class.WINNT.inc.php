@@ -129,7 +129,7 @@ class WINNT extends OS
      */
     private function _get_Win32_ComputerSystem()
     {
-        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily', 'SystemType'));
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
         return $this->_Win32_ComputerSystem;
     }
 
@@ -140,7 +140,7 @@ class WINNT extends OS
      */
     private function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer'));
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture'));
         return $this->_Win32_Processor;
     }
 
@@ -534,12 +534,16 @@ class WINNT extends OS
                 $nbits = $allCpus[0]['AddressWidth'];
                 $kernel .= ' ('.$nbits.'-bit)';
             }
-            $buffercs = $this->_get_Win32_ComputerSystem();
-            if (($buffercs) && isset($buffercs[0]['SystemType']) && (($systype = $buffercs[0]['SystemType']) !== '')) {
-                if (preg_match('/^(.+)-based PC$/', $systype, $st_temp) || preg_match('/^'.$nbits.'-bit (.+) PC$/', $systype, $st_temp) || preg_match('/^(.+) PC$/', $systype, $st_temp)) {
-                    $kernel .= ' '.$st_temp[1];
-                } elseif ($systype !== 'Unknown') {
-                    $kernel .= ' '.$systype;
+            if (($allCpus = $this->_get_Win32_Processor()) && isset($allCpus[0]['Architecture'])) {
+                switch ($allCpus[0]['Architecture']) {
+                    case 0: $kernel .= ' x86'; break;
+                    case 1: $kernel .= ' MIPS'; break;
+                    case 2: $kernel .= ' Alpha'; break;
+                    case 3: $kernel .= ' PowerPC'; break;
+                    case 5: $kernel .= ' ARM'; break;
+                    case 6: $kernel .= ' ia64'; break;
+                    case 9: $kernel .= ' x64'; break;
+                    case 12: $kernel .= ' ARM64'; break;
                 }
             }
             $this->sys->setKernel($kernel);
