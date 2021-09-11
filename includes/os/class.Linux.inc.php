@@ -287,7 +287,7 @@ class Linux extends OS
             // is overwritten on virtualization
 
             // Third, try to detect from DMI
-            if ($novm) {
+            if ($novm && ($machBuf !== "")) {
                 if (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
                     $$this->sys->setVirtualizer('vmware'); // VMware
                     $novm = false;
