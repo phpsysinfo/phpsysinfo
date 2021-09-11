@@ -779,7 +779,7 @@ class WINNT extends OS
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
                 if (isset($oneCpu['Manufacturer'])) {
-                    $cpumanufacturer = $oneCpu['Manufacturer']
+                    $cpumanufacturer = $oneCpu['Manufacturer'];
                     $cpu->setVendorId($cpumanufacturer);
                     if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($cpumanufacturer === "QEMU")) {
                         $this->sys->setVirtualizer("cpuid:QEMU", false);
