@@ -247,6 +247,8 @@ class Linux extends OS
                 $this->sys->setVirtualizer($resultc);
             }
         } else {
+            $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
+
             $novm = true;
             // code based on src/basic/virt.c from systemd-detect-virt source code (https://github.com/systemd/systemd)
 
@@ -275,12 +277,9 @@ class Linux extends OS
                 }
             }
             // Detect UML
-            if ($novm) foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) {
-                if ($virtkey === "cpuid:UserModeLinux") {
-                    $this->sys->setVirtualizer('uml'); // User-mode Linux
-                    $novm = false;
-                    break;
-                }
+            if ($novm && isset($cpuvirt["cpuid:UserModeLinux"])) {
+                $this->sys->setVirtualizer('uml'); // User-mode Linux
+                $novm = false;
             }
 
             // Second step, the CPUID detection attempt is skipped because the vendor_id in /proc/cpuinfo
@@ -417,17 +416,13 @@ class Linux extends OS
                 }
             }
 
-            // Detect QEMU
-            if ($novm) foreach ($this->sys->getVirtualizer() as $virtkey=>$virtvalue) {
-                if ($virtkey === "cpuid:QEMU") {
-                    $this->sys->setVirtualizer('qemu'); // QEMU
-                    $novm = false;
-                    break;
-                }
+            // Detect QEMU cpu
+            if ($novm && isset($cpuvirt["cpuid:QEMU"])) {
+                $this->sys->setVirtualizer('qemu'); // QEMU
+                $novm = false;
             }
 
-            $testvirt = $this->sys->getVirtualizer();
-            if (isset($testvirt["hypervisor"]) && $novm) {
+            if ($novm && isset($cpuvirt["hypervisor"])) {
                 $this->sys->setVirtualizer('unknown');
             }
 
