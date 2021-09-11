@@ -84,6 +84,20 @@ class WINNT extends OS
     private $_ver = "";
 
     /**
+     * holds system manufacturer
+     *
+     * @var string
+     */
+    private $_Manufacturer = "";
+
+    /**
+     * holds system model
+     *
+     * @var string
+     */
+    private $_Model = "";
+
+    /**
      * holds all devices, which are in the system
      *
      * @var array
@@ -437,6 +451,51 @@ class WINNT extends OS
     }
 
     /**
+     * Virtualizer info
+     *
+     * @return void
+     */
+    protected function _virtualizer()
+    {
+        if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
+            return;
+        }
+        $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
+
+        if (($this->_Manufacturer === 'innotek GmbH') && ($this->_Model === 'VirtualBox')) {
+            $this->sys->setVirtualizer('oracle');
+        } elseif (($this->_Manufacturer === 'Oracle Corporation') && ($this->_Model === 'VirtualBox')) {
+            $this->sys->setVirtualizer('oracle');
+        } elseif (($this->_Manufacturer === 'VMware, Inc.') && ($this->_Model === 'VMware Virtual Platform')) {
+            $this->sys->setVirtualizer('vmware');
+        } elseif (($this->_Manufacturer === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $this->_Model)) {
+            $this->sys->setVirtualizer('vmware');
+        } elseif (($this->_Manufacturer === 'Intel Corporation') && ($this->_Model === 'VMware Virtual Platform')) {
+            $this->sys->setVirtualizer('vmware');
+        } elseif (($this->_Manufacturer === 'Microsoft') && ($this->_Model === 'Virtual Machine')) {
+            $this->sys->setVirtualizer('microsoft');
+        } elseif (($this->_Manufacturer === 'Microsoft Corporation') && ($this->_Model === 'Virtual Machine')) {
+            $this->sys->setVirtualizer('microsoft');
+        } elseif (($this->_Manufacturer === 'QEMU') && preg_match('/^Standard PC/', $this->_Model)) {
+            $this->sys->setVirtualizer('qemu');
+        } elseif (($this->_Manufacturer === 'QEMU') && ($this->_Model === 'QEMU Virtual Machine')) {
+            $this->sys->setVirtualizer('qemu');
+        } elseif (($this->_Manufacturer === 'Xen') && ($this->_Model === 'HVM domU')) {
+            $this->sys->setVirtualizer('xen');
+        } elseif (($this->_Manufacturer === 'Bochs') && ($this->_Model === 'Bochs')) {
+            $this->sys->setVirtualizer('bochs');
+        } elseif ($this->_Manufacturer === 'Amazon EC2') {
+            $this->sys->setVirtualizer('amazon');
+        } else {
+            // Detect QEMU cpu
+            if (isset($cpuvirt["cpuid:QEMU"])) {
+                $this->sys->setVirtualizer('qemu'); // QEMU
+                $novm = false;
+            }
+        }
+    }
+
+    /**
      * UpTime
      * time the system is running
      *
@@ -719,7 +778,13 @@ class WINNT extends OS
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
-                if (isset($oneCpu['Manufacturer'])) $cpu->setVendorId($oneCpu['Manufacturer']);
+                if (isset($oneCpu['Manufacturer'])) {
+                    $cpumanufacturer = $oneCpu['Manufacturer']
+                    $cpu->setVendorId($cpumanufacturer);
+                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($cpumanufacturer === "QEMU")) {
+                        $this->sys->setVirtualizer("cpuid:QEMU", false);
+                    }
+                }
                 if (PSI_LOAD_BAR) {
                     if (($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($globalcpus+1)) && isset($cpubuffer['cpu'.$i])) {
                            $cpu->setLoad($cpubuffer['cpu'.$i]);
@@ -768,31 +833,12 @@ class WINNT extends OS
             }
         }
 
-        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && isset($buffer[0]['Manufacturer']) && isset($buffer[0]['Model'])) {
-            if (($buffer[0]['Manufacturer'] === 'innotek GmbH') && ($buffer[0]['Model'] === 'VirtualBox')) {
-                $this->sys->setVirtualizer('oracle');
-            } elseif (($buffer[0]['Manufacturer'] === 'Oracle Corporation') && ($buffer[0]['Model'] === 'VirtualBox')) {
-                $this->sys->setVirtualizer('oracle');
-            } elseif (($buffer[0]['Manufacturer'] === 'VMware, Inc.') && ($buffer[0]['Model'] === 'VMware Virtual Platform')) {
-                $this->sys->setVirtualizer('vmware');
-            } elseif (($buffer[0]['Manufacturer'] === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $buffer[0]['Model'])) {
-                $this->sys->setVirtualizer('vmware');
-            } elseif (($buffer[0]['Manufacturer'] === 'Intel Corporation') && ($buffer[0]['Model'] === 'VMware Virtual Platform')) {
-                $this->sys->setVirtualizer('vmware');
-            } elseif (($buffer[0]['Manufacturer'] === 'Microsoft') && ($buffer[0]['Model'] === 'Virtual Machine')) {
-                $this->sys->setVirtualizer('microsoft');
-            } elseif (($buffer[0]['Manufacturer'] === 'Microsoft Corporation') && ($buffer[0]['Model'] === 'Virtual Machine')) {
-                $this->sys->setVirtualizer('microsoft');
-            } elseif (($buffer[0]['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer[0]['Model'])) {
-                $this->sys->setVirtualizer('qemu');
-            } elseif (($buffer[0]['Manufacturer'] === 'QEMU') && ($buffer[0]['Model'] === 'QEMU Virtual Machine')) {
-                $this->sys->setVirtualizer('qemu');
-            } elseif (($buffer[0]['Manufacturer'] === 'Xen') && ($buffer[0]['Model'] === 'HVM domU')) {
-                $this->sys->setVirtualizer('xen');
-            } elseif (($buffer[0]['Manufacturer'] === 'Bochs') && ($buffer[0]['Model'] === 'Bochs')) {
-                $this->sys->setVirtualizer('bochs');
-            } elseif ($buffer[0]['Manufacturer'] === 'Amazon EC2') {
-                $this->sys->setVirtualizer('amazon');
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            if (isset($buffer[0]['Manufacturer'])) {
+                $this->_Manufacturer = $buffer[0]['Manufacturer'];
+            }
+            if (isset($buffer[0]['Model'])) {
+                $this->_Model = $buffer[0]['Model'];
             }
         }
 
@@ -1396,6 +1442,7 @@ class WINNT extends OS
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            $this->_virtualizer();
             $this->_meminfo();
             $this->_hardware();
         }
