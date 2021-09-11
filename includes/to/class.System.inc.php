@@ -1276,7 +1276,7 @@ class System
             if (is_bool($value)) {
                 $this->_virtualizer[$virtualizer] = $value;
             } else { // replace the virtualizer with another
-                $this->_virtualizer[$virtualizer] = true; 
+                $this->_virtualizer[$virtualizer] = true;
                 $this->_virtualizer[$value] = false;
             }
         }
