@@ -154,7 +154,7 @@ class WINNT extends OS
      */
     private function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture'));
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture', 'Caption'));
         return $this->_Win32_Processor;
     }
 
@@ -743,6 +743,9 @@ class WINNT extends OS
                     if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\VendorIdentifier", $strBuf, false)) {
                         $allCpus[$coreCount]['Manufacturer'] = $strBuf;
                     }
+                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\Identifier", $strBuf, false)) {
+                        $allCpus[$coreCount]['Caption'] = $strBuf;
+                    }
                 }
             }
         }
@@ -758,6 +761,7 @@ class WINNT extends OS
             $globalcpus+=$cpuCount;
         }
 
+        $cpulist = null;
         foreach ($allCpus as $oneCpu) {
             $cpuCount = 1;
             if (isset($oneCpu['NumberOfLogicalProcessors'])) {
@@ -781,8 +785,21 @@ class WINNT extends OS
                 if (isset($oneCpu['Manufacturer'])) {
                     $cpumanufacturer = $oneCpu['Manufacturer'];
                     $cpu->setVendorId($cpumanufacturer);
-                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($cpumanufacturer === "QEMU")) {
-                        $this->sys->setVirtualizer("cpuid:QEMU", false);
+                    if ($cpumanufacturer === "QEMU") {
+                        if (isset($oneCpu['Caption']) && preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
+                            if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
+                            if ($cpulist && ((isset($cpulist['cpu'][$cpufromlist = strtolower('0x41,0x'.$partvar[1].',0x'.$partvar[2])]))
+                               || isset($cpulist['cpu'][$cpufromlist = strtolower('0x41,0x'.$partvar[1])]))) {
+                                if (($cpumodel = $cpu->getModel()) !== '') {
+                                    $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
+                                } else {
+                                    $cpu->setModel($cpulist['cpu'][$cpufromlist]);
+                                }
+                            }
+                        }
+                        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                            $this->sys->setVirtualizer("cpuid:QEMU", false);
+                        }
                     }
                 }
                 if (PSI_LOAD_BAR) {
