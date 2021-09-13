@@ -795,7 +795,7 @@ class WINNT extends OS
                                     $impl = '0x41'; // ARM Limited
                                 }
                                 if ((isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1].',0x'.$partvar[2])]))
-                                   || isset($cpulist['cpu'][$cpufromlist = strtolower($impl',0x'.$partvar[1])])) {
+                                   || isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1])])) {
                                     if (($cpumodel = $cpu->getModel()) !== '') {
                                         $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
                                     } else {
