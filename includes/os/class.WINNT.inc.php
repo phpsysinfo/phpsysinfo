@@ -788,12 +788,19 @@ class WINNT extends OS
                     if ($cpumanufacturer === "QEMU") {
                         if (isset($oneCpu['Caption']) && preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
                             if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                            if ($cpulist && ((isset($cpulist['cpu'][$cpufromlist = strtolower('0x41,0x'.$partvar[1].',0x'.$partvar[2])]))
-                               || isset($cpulist['cpu'][$cpufromlist = strtolower('0x41,0x'.$partvar[1])]))) {
-                                if (($cpumodel = $cpu->getModel()) !== '') {
-                                    $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
+                            if ($cpulist) {
+                                if ($partvar[1] === '51') {
+                                    $impl = '0x0'; // Qemu
                                 } else {
-                                    $cpu->setModel($cpulist['cpu'][$cpufromlist]);
+                                    $impl = '0x41'; // ARM Limited
+                                }
+                                if ((isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1].',0x'.$partvar[2])]))
+                                   || isset($cpulist['cpu'][$cpufromlist = strtolower($impl',0x'.$partvar[1])])) {
+                                    if (($cpumodel = $cpu->getModel()) !== '') {
+                                        $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
+                                    } else {
+                                        $cpu->setModel($cpulist['cpu'][$cpufromlist]);
+                                    }
                                 }
                             }
                         }
