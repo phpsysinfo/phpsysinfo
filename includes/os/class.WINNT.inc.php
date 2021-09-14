@@ -787,19 +787,28 @@ class WINNT extends OS
                     $cpu->setVendorId($cpumanufacturer);
                     if ($cpumanufacturer === "QEMU") {
                         if (isset($oneCpu['Caption']) && preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
-                            if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                            if ($cpulist) {
-                                if ($partvar[1] === '51') {
-                                    $impl = '0x0'; // Qemu
-                                } else {
-                                    $impl = '0x41'; // ARM Limited
-                                }
-                                if ((isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1].',0x'.$partvar[2])]))
-                                   || isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1])])) {
-                                    if (($cpumodel = $cpu->getModel()) !== '') {
-                                        $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
-                                    } else {
-                                        $cpu->setModel($cpulist['cpu'][$cpufromlist]);
+                            switch (strtolower($partvar[1])) {
+                                case '51':
+                                    $impl = '0x0'; break; // Qemu
+                                case 'd03':
+                                case 'd07':
+                                case 'd08':
+                                    $impl = '0x41'; break; // ARM Limited
+                                case '1':
+                                    $impl = '0x46'; break; // Fujitsu Ltd.
+                                default:
+                                    $impl = '';
+                            }
+                            if ($impl !== '') {
+                                if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
+                                if ($cpulist) {
+                                    if ((isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1].',0x'.$partvar[2])]))
+                                       || isset($cpulist['cpu'][$cpufromlist = strtolower($impl.',0x'.$partvar[1])])) {
+                                        if (($cpumodel = $cpu->getModel()) !== '') {
+                                            $cpu->setModel($cpumodel.' - '.$cpulist['cpu'][$cpufromlist]);
+                                        } else {
+                                            $cpu->setModel($cpulist['cpu'][$cpufromlist]);
+                                        }
                                     }
                                 }
                             }
