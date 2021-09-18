@@ -786,18 +786,25 @@ class WINNT extends OS
                     $cpumanufacturer = $oneCpu['Manufacturer'];
                     $cpu->setVendorId($cpumanufacturer);
                     if ($cpumanufacturer === "QEMU") {
-                        if (isset($oneCpu['Caption']) && preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
-                            switch (strtolower($partvar[1])) {
-                                case '51':
-                                    $impl = '0x0'; break; // Qemu
-                                case 'd03':
-                                case 'd07':
-                                case 'd08':
-                                    $impl = '0x41'; break; // ARM Limited
-                                case '1':
-                                    $impl = '0x46'; break; // Fujitsu Ltd.
-                                default:
-                                    $impl = '';
+                        if (isset($oneCpu['Caption'])) {
+                            $impl = '';
+                            if (preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
+                                switch (strtolower($partvar[1])) {
+                                    case '51':
+                                        $impl = '0x0'; break; // Qemu
+                                    case 'd03':
+                                    case 'd07':
+                                    case 'd08':
+                                        $impl = '0x41'; break; // ARM Limited
+                                    case '1':
+                                        $impl = '0x46'; break; // Fujitsu Ltd.
+                                }
+                            } elseif (preg_match('/^ARM Family 7 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
+                                switch (strtolower($partvar[1])) {
+                                    case 'c07':
+                                    case 'c0f':
+                                        $impl = '0x41'; break; // ARM Limited
+                                }
                             }
                             if ($impl !== '') {
                                 if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
