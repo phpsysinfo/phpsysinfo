@@ -28,7 +28,7 @@ class CommonFunctions
     /**
      * holds codepage for chcp
      *
-     * @var integer
+     * @var int
      */
     private static $_cp = null;
 
@@ -195,7 +195,7 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
-     * @param integer $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
+     * @param int $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
      *
      * @return boolean command successfull or not
      */
@@ -382,8 +382,8 @@ class CommonFunctions
      *
      * @param string  $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
-     * @param integer $intLines    control how many lines should be read
-     * @param integer $intBytes    control how many bytes of each line should be read
+     * @param int $intLines    control how many lines should be read
+     * @param int $intBytes    control how many bytes of each line should be read
      * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
@@ -568,7 +568,7 @@ class CommonFunctions
      * @param array   $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
      * @param string  &$out    target string for the output message (reference)
      * @param string  &$err    target string for the error message (reference)
-     * @param integer $timeout timeout value in seconds
+     * @param int $timeout timeout value in seconds
      *
      * @return boolean timeout expired or not
      */

@@ -167,7 +167,7 @@ class SNMPups extends UPS
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return Void
+     * @return void
      */
     private function _info()
     {
@@ -302,7 +302,7 @@ class SNMPups extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

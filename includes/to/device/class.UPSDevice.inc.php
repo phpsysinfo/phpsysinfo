@@ -28,119 +28,119 @@ class UPSDevice
     /**
      * name of the ups
      *
-     * @var String
+     * @var string
      */
     private $_name = "";
 
     /**
      * model of the ups
      *
-     * @var String
+     * @var string
      */
     private $_model = "";
 
     /**
      * mode of the ups
      *
-     * @var String
+     * @var string
      */
     private $_mode = "";
 
     /**
      * last start time
      *
-     * @var String
+     * @var string
      */
     private $_startTime = "";
 
     /**
      * status of the ups
      *
-     * @var String
+     * @var string
      */
     private $_status = "";
 
     /**
      * temperature of the ups
      *
-     * @var Integer
+     * @var int
      */
     private $_temperatur = null;
 
     /**
      * outages count
      *
-     * @var Integer
+     * @var int
      */
     private $_outages = null;
 
     /**
      * date of last outtage
      *
-     * @var String
+     * @var string
      */
     private $_lastOutage = null;
 
     /**
      * date of last outage finish
      *
-     * @var String
+     * @var string
      */
     private $_lastOutageFinish = null;
 
     /**
      * line volt
      *
-     * @var Integer
+     * @var int
      */
     private $_lineVoltage = null;
 
     /**
      * line freq
      *
-     * @var Integer
+     * @var int
      */
     private $_lineFrequency = null;
 
     /**
      * current load of the ups in percent
      *
-     * @var Integer
+     * @var int
      */
     private $_load = null;
 
     /**
      * battery installation date
      *
-     * @var String
+     * @var string
      */
     private $_batteryDate = null;
 
     /**
      * current battery volt
      *
-     * @var Integer
+     * @var int
      */
     private $_batteryVoltage = null;
 
     /**
      * current charge in percent of the battery
      *
-     * @var Integer
+     * @var int
      */
     private $_batterCharge = null;
 
     /**
      * time left
      *
-     * @var String
+     * @var string
      */
     private $_timeLeft = null;
 
     /**
      * beeper enabled or disabled
      *
-     * @var String
+     * @var string
      */
     private $_beeperStatus = null;
 
@@ -159,7 +159,7 @@ class UPSDevice
     /**
      * Sets $_batterCharge.
      *
-     * @param Integer $batterCharge battery charge
+     * @param int $batterCharge battery charge
      *
      * @see UPSDevice::$_batterCharge
      *
@@ -189,7 +189,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_batteryDate
      *
-     * @return Void
+     * @return void
      */
     public function setBatteryDate($batteryDate)
     {
@@ -201,7 +201,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_batteryVoltage
      *
-     * @return Integer
+     * @return int
      */
     public function getBatteryVoltage()
     {
@@ -211,11 +211,11 @@ class UPSDevice
     /**
      * Sets $_batteryVoltage.
      *
-     * @param Integer $batteryVoltage battery volt
+     * @param int $batteryVoltage battery volt
      *
      * @see UPSDevice::$_batteryVoltage
      *
-     * @return Void
+     * @return void
      */
     public function setBatteryVoltage($batteryVoltage)
     {
@@ -241,7 +241,7 @@ class UPSDevice
      *
      * @see UPSDevice::$lastOutage
      *
-     * @return Void
+     * @return void
      */
     public function setLastOutage($lastOutage)
     {
@@ -267,7 +267,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_lastOutageFinish
      *
-     * @return Void
+     * @return void
      */
     public function setLastOutageFinish($lastOutageFinish)
     {
@@ -279,7 +279,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_lineVoltage
      *
-     * @return Integer
+     * @return int
      */
     public function getLineVoltage()
     {
@@ -289,11 +289,11 @@ class UPSDevice
     /**
      * Sets $_lineVoltage.
      *
-     * @param Integer $lineVoltage line voltage
+     * @param int $lineVoltage line voltage
      *
      * @see UPSDevice::$_lineVoltage
      *
-     * @return Void
+     * @return void
      */
     public function setLineVoltage($lineVoltage)
     {
@@ -305,7 +305,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_lineFrequency
      *
-     * @return Integer
+     * @return int
      */
     public function getLineFrequency()
     {
@@ -315,11 +315,11 @@ class UPSDevice
     /**
      * Sets $_lineFrequency.
      *
-     * @param Integer $lineFrequency line frequency
+     * @param int $lineFrequency line frequency
      *
      * @see UPSDevice::$_lineFrequency
      *
-     * @return Void
+     * @return void
      */
     public function setLineFrequency($lineFrequency)
     {
@@ -331,7 +331,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_load
      *
-     * @return Integer
+     * @return int
      */
     public function getLoad()
     {
@@ -341,11 +341,11 @@ class UPSDevice
     /**
      * Sets $_load.
      *
-     * @param Integer $load current load
+     * @param int $load current load
      *
      * @see UPSDevice::$_load
      *
-     * @return Void
+     * @return void
      */
     public function setLoad($load)
     {
@@ -371,7 +371,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_mode
      *
-     * @return Void
+     * @return void
      */
     public function setMode($mode)
     {
@@ -397,7 +397,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_model
      *
-     * @return Void
+     * @return void
      */
     public function setModel($model)
     {
@@ -423,7 +423,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_name
      *
-     * @return Void
+     * @return void
      */
     public function setName($name)
     {
@@ -435,7 +435,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_outages
      *
-     * @return Integer
+     * @return int
      */
     public function getOutages()
     {
@@ -445,11 +445,11 @@ class UPSDevice
     /**
      * Sets $_outages.
      *
-     * @param Integer $outages outages count
+     * @param int $outages outages count
      *
      * @see UPSDevice::$_outages
      *
-     * @return Void
+     * @return void
      */
     public function setOutages($outages)
     {
@@ -475,7 +475,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_startTime
      *
-     * @return Void
+     * @return void
      */
     public function setStartTime($startTime)
     {
@@ -501,7 +501,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_status
      *
-     * @return Void
+     * @return void
      */
     public function setStatus($status)
     {
@@ -513,7 +513,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_temperatur
      *
-     * @return Integer
+     * @return int
      */
     public function getTemperatur()
     {
@@ -523,11 +523,11 @@ class UPSDevice
     /**
      * Sets $_temperatur.
      *
-     * @param Integer $temperatur temperature
+     * @param int $temperatur temperature
      *
      * @see UPSDevice::$_temperatur
      *
-     * @return Void
+     * @return void
      */
     public function setTemperatur($temperatur)
     {
@@ -553,7 +553,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_timeLeft
      *
-     * @return Void
+     * @return void
      */
     public function setTimeLeft($timeLeft)
     {
@@ -579,7 +579,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_beeperStatus
      *
-     * @return Void
+     * @return void
      */
     public function setBeeperStatus($beeperStatus)
     {

@@ -1464,7 +1464,7 @@ class WINNT extends OS
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

@@ -92,7 +92,7 @@ class Pmset extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

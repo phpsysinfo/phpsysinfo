@@ -205,7 +205,7 @@ class QNX extends OS
     /**
      * get the information
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

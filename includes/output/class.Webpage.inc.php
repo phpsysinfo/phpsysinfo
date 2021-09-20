@@ -28,21 +28,21 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * configured indexname
      *
-     * @var String
+     * @var string
      */
     private $_indexname;
 
     /**
      * configured language
      *
-     * @var String
+     * @var string
      */
     private $_language;
 
     /**
      * configured template
      *
-     * @var String
+     * @var string
      */
     private $_template;
 
@@ -56,7 +56,7 @@ class Webpage extends Output implements PSI_Interface_Output
     /**
      * configured bootstrap template
      *
-     * @var String
+     * @var string
      */
     private $_bootstrap_template;
 

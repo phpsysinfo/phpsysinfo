@@ -127,7 +127,7 @@ class DragonFly extends BSDCommon
      *
      * @see BSDCommon::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

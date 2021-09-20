@@ -58,7 +58,7 @@ class NvidiaSMI extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
