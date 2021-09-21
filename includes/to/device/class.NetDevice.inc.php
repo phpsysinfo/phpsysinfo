@@ -28,42 +28,42 @@ class NetDevice
     /**
      * name of the device
      *
-     * @var String
+     * @var string
      */
     private $_name = "";
 
     /**
      * transmitted bytes
      *
-     * @var Integer
+     * @var int
      */
     private $_txBytes = 0;
 
     /**
      * received bytes
      *
-     * @var Integer
+     * @var int
      */
     private $_rxBytes = 0;
 
     /**
      * counted error packages
      *
-     * @var Integer
+     * @var int
      */
     private $_errors = 0;
 
     /**
      * counted droped packages
      *
-     * @var Integer
+     * @var int
      */
     private $_drops = 0;
 
     /**
      * string with info
      *
-     * @var String
+     * @var string
      */
     private $_info = null;
 
@@ -72,7 +72,7 @@ class NetDevice
      *
      * @see NetDevice::$_drops
      *
-     * @return Integer
+     * @return int
      */
     public function getDrops()
     {
@@ -82,11 +82,11 @@ class NetDevice
     /**
      * Sets $_drops.
      *
-     * @param Integer $drops dropped packages
+     * @param int $drops dropped packages
      *
      * @see NetDevice::$_drops
      *
-     * @return Void
+     * @return void
      */
     public function setDrops($drops)
     {
@@ -98,7 +98,7 @@ class NetDevice
      *
      * @see NetDevice::$_errors
      *
-     * @return Integer
+     * @return int
      */
     public function getErrors()
     {
@@ -108,11 +108,11 @@ class NetDevice
     /**
      * Sets $_errors.
      *
-     * @param Integer $errors error packages
+     * @param int $errors error packages
      *
      * @see NetDevice::$_errors
      *
-     * @return Void
+     * @return void
      */
     public function setErrors($errors)
     {
@@ -138,7 +138,7 @@ class NetDevice
      *
      * @see NetDevice::$_name
      *
-     * @return Void
+     * @return void
      */
     public function setName($name)
     {
@@ -150,7 +150,7 @@ class NetDevice
      *
      * @see NetDevice::$_rxBytes
      *
-     * @return Integer
+     * @return int
      */
     public function getRxBytes()
     {
@@ -160,11 +160,11 @@ class NetDevice
     /**
      * Sets $_rxBytes.
      *
-     * @param Integer $rxBytes received bytes
+     * @param int $rxBytes received bytes
      *
      * @see NetDevice::$_rxBytes
      *
-     * @return Void
+     * @return void
      */
     public function setRxBytes($rxBytes)
     {
@@ -176,7 +176,7 @@ class NetDevice
      *
      * @see NetDevice::$_txBytes
      *
-     * @return Integer
+     * @return int
      */
     public function getTxBytes()
     {
@@ -186,11 +186,11 @@ class NetDevice
     /**
      * Sets $_txBytes.
      *
-     * @param Integer $txBytes transmitted bytes
+     * @param int $txBytes transmitted bytes
      *
      * @see NetDevice::$_txBytes
      *
-     * @return Void
+     * @return void
      */
     public function setTxBytes($txBytes)
     {
@@ -216,7 +216,7 @@ class NetDevice
      *
      * @see NetDevice::$_info
      *
-     * @return Void
+     * @return void
      */
     public function setInfo($info)
     {

@@ -470,9 +470,9 @@ class XML
      *
      * @param SimpleXmlExtended $mount Xml-Element
      * @param DiskDevice        $dev   DiskDevice
-     * @param Integer           $i     counter
+     * @param int           $i     counter
      *
-     * @return Void
+     * @return void
      */
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {

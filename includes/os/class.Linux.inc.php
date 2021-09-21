@@ -508,7 +508,7 @@ class Linux extends OS
      *
      * @param String $cpuline cpu for which load should be meassured
      *
-     * @return Integer
+     * @return int
      */
     protected function _parseProcStat($cpuline)
     {
@@ -2025,7 +2025,7 @@ class Linux extends OS
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
