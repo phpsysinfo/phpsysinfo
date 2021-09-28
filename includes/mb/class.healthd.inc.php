@@ -46,7 +46,6 @@ class Healthd extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_healthd] ACCESS');
-            break;
         }
     }
 

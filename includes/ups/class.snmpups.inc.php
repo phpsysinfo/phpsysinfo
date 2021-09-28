@@ -160,7 +160,6 @@ class SNMPups extends UPS
                 break;
             default:
                 $this->error->addError("switch(PSI_UPS_SNMPUPS_ACCESS)", "Bad SNMPups configuration in phpsysinfo.ini");
-                break;
         }
     }
 
@@ -188,44 +187,28 @@ class SNMPups extends UPS
             }
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 switch (trim($data[1])) {
-                    case 1: $status = "Unknown";
-                            break;
-                    case 2: $status = "On Line";
-                            break;
-                    case 3: $status = "On Battery";
-                            break;
-                    case 4: $status = "On Smart Boost";
-                            break;
-                    case 5: $status = "Timed Sleeping";
-                            break;
-                    case 6: $status = "Software Bypass";
-                            break;
-                    case 7: $status = "Off";
-                            break;
-                    case 8: $status = "Rebooting";
-                            break;
-                    case 9: $status = "Switched Bypass";
-                            break;
-                    case 10:$status = "Hardware Failure Bypass";
-                            break;
-                    case 11:$status = "Sleeping Until Power Returns";
-                            break;
-                    case 12:$status = "On Smart Trim";
-                            break;
-                   default: $status = "Unknown state (".trim($data[1]).")";
-                            break;
+                case 1: $status = "Unknown"; break;
+                case 2: $status = "On Line"; break;
+                case 3: $status = "On Battery"; break;
+                case 4: $status = "On Smart Boost"; break;
+                case 5: $status = "Timed Sleeping"; break;
+                case 6: $status = "Software Bypass"; break;
+                case 7: $status = "Off"; break;
+                case 8: $status = "Rebooting"; break;
+                case 9: $status = "Switched Bypass"; break;
+                case 10:$status = "Hardware Failure Bypass"; break;
+                case 11:$status = "Sleeping Until Power Returns"; break;
+                case 12:$status = "On Smart Trim"; break;
+                default: $status = "Unknown state (".trim($data[1]).")";
                 }
             }
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 $batstat = "";
                 switch (trim($data[1])) {
-                    case 1: $batstat = "Battery Unknown";
-                            break;
-                    case 2: break;
-                    case 3: $batstat = "Battery Low";
-                            break;
-                   default: $batstat = "Battery Unknown (".trim($data[1]).")";
-                            break;
+                case 1: $batstat = "Battery Unknown"; break;
+                case 2: break;
+                case 3: $batstat = "Battery Low"; break;
+                default: $batstat = "Battery Unknown (".trim($data[1]).")";
                 }
                 if ($batstat !== "") {
                     if ($status !== "") {
@@ -238,11 +221,9 @@ class SNMPups extends UPS
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.4\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 $batstat = "";
                 switch (trim($data[1])) {
-                    case 1: break;
-                    case 2: $batstat = "Replace Battery";
-                            break;
-                   default: $batstat = "Replace Battery (".trim($data[1]).")";
-                            break;
+                case 1: break;
+                case 2: $batstat = "Replace Battery"; break;
+                default: $batstat = "Replace Battery (".trim($data[1]).")";
                 }
                 if ($batstat !== "") {
                     if ($status !== "") {

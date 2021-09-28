@@ -99,7 +99,6 @@ class Minix extends OS
                             break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff[1]);
-                            break;
                         }
                     }
                 }

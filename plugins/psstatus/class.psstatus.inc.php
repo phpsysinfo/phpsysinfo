@@ -122,7 +122,6 @@ class PSStatus extends PSI_Plugin
                 break;
             default:
                 $this->global_error->addConfigError("__construct()", "[psstatus] ACCESS");
-                break;
             }
         }
     }

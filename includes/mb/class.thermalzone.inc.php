@@ -54,7 +54,6 @@ class ThermalZone extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_thermalzone] ACCESS');
-            break;
         }
     }
 

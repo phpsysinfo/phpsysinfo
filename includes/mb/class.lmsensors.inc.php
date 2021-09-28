@@ -37,7 +37,6 @@ class LMSensors extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');
-            break;
         }
 
         if (trim($lines) !== "") {

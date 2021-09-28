@@ -49,7 +49,6 @@ class NvidiaSMI extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_nvidiasmi] ACCESS');
-            break;
         }
     }
 
@@ -64,75 +63,74 @@ class NvidiaSMI extends Sensors
     {
         $gpuc=count($this->_gpus);
         switch ($gpuc) {
-            case 0:
-                $this->error->addError("nvidia-smi", "No values");
-                break;
-            case 1:
-                $this->error->addError("nvidia-smi", "Error: ".$this->_gpus[0]);
-                break;
-            default:
-                for ($c = 0; $c < $gpuc; $c++) {
-                    if (preg_match("/^\s+GPU Current Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        if (preg_match("/^\s+GPU Shutdown Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
-                            $dev->setMax($out[1]);
-                        }
-                        $this->mbinfo->setMbTemp($dev);
+        case 0:
+            $this->error->addError("nvidia-smi", "No values");
+            break;
+        case 1:
+            $this->error->addError("nvidia-smi", "Error: ".$this->_gpus[0]);
+            break;
+        default:
+            for ($c = 0; $c < $gpuc; $c++) {
+                if (preg_match("/^\s+GPU Current Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    if (preg_match("/^\s+GPU Shutdown Temp\s+:\s*(\d+)\s*C\s*$/m", $this->_gpus[$c], $out)) {
+                        $dev->setMax($out[1]);
                     }
-                    if (preg_match("/^\s+Power Draw\s+:\s*([\d\.]+)\s*W\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        if (preg_match("/^\s+Power Limit\s+:\s*([\d\.]+)\s*W\s*$/m", $this->_gpus[$c], $out)) {
-                            $dev->setMax($out[1]);
-                        }
-                        $this->mbinfo->setMbPower($dev);
-                    }
-                    if (preg_match("/^\s+Fan Speed\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $dev->setUnit("%");
-                        $this->mbinfo->setMbFan($dev);
-                    }
-                    if (preg_match("/^\s+Performance State\s+:\s*(\S+)\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." Performance State (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $this->mbinfo->setMbOther($dev);
-                    }
-                    if (preg_match("/^\s+Gpu\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $dev->setUnit("%");
-                        $this->mbinfo->setMbOther($dev);
-                    }
-                    if (preg_match("/^\s+Memory\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." Memory Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $dev->setUnit("%");
-                        $this->mbinfo->setMbOther($dev);
-                    }
-                    if (preg_match("/^\s+Encoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." Encoder Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $dev->setUnit("%");
-                        $this->mbinfo->setMbOther($dev);
-                    }
-                    if (preg_match("/^\s+Decoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
-                        $dev = new SensorDevice();
-                        $dev->setName("GPU ".($c)." Decoder Utilization (nvidiasmi)");
-                        $dev->setValue($out[1]);
-                        $dev->setUnit("%");
-                        $this->mbinfo->setMbOther($dev);
-                    }
+                    $this->mbinfo->setMbTemp($dev);
                 }
-                break;
+                if (preg_match("/^\s+Power Draw\s+:\s*([\d\.]+)\s*W\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    if (preg_match("/^\s+Power Limit\s+:\s*([\d\.]+)\s*W\s*$/m", $this->_gpus[$c], $out)) {
+                        $dev->setMax($out[1]);
+                    }
+                    $this->mbinfo->setMbPower($dev);
+                }
+                if (preg_match("/^\s+Fan Speed\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $dev->setUnit("%");
+                    $this->mbinfo->setMbFan($dev);
+                }
+                if (preg_match("/^\s+Performance State\s+:\s*(\S+)\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." Performance State (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $this->mbinfo->setMbOther($dev);
+                }
+                if (preg_match("/^\s+Gpu\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." Utilization (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $dev->setUnit("%");
+                    $this->mbinfo->setMbOther($dev);
+                }
+                if (preg_match("/^\s+Memory\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." Memory Utilization (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $dev->setUnit("%");
+                    $this->mbinfo->setMbOther($dev);
+                }
+                if (preg_match("/^\s+Encoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." Encoder Utilization (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $dev->setUnit("%");
+                    $this->mbinfo->setMbOther($dev);
+                }
+                if (preg_match("/^\s+Decoder\s+:\s*(\d+)\s*%\s*$/m", $this->_gpus[$c], $out)) {
+                    $dev = new SensorDevice();
+                    $dev->setName("GPU ".($c)." Decoder Utilization (nvidiasmi)");
+                    $dev->setValue($out[1]);
+                    $dev->setUnit("%");
+                    $this->mbinfo->setMbOther($dev);
+                }
+            }
         }
     }
 }

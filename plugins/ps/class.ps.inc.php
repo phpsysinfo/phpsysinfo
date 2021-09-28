@@ -147,7 +147,6 @@ class PS extends PSI_Plugin
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
-            break;
         }
         if (trim($buffer) != "") {
             $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);

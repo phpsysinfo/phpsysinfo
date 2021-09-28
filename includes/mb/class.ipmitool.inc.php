@@ -37,7 +37,6 @@ class IPMItool extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');
-            break;
         }
         if (trim($lines) !== "") {
             if (preg_match("/^Sensor ID\s+/", $lines)) { //new data format ('ipmitool sensor -v')
@@ -126,7 +125,6 @@ class IPMItool extends Sensors
                                         $sens['Sensor Type (Discrete)'] = '';
                                         $sens['State'] = $buffer[1];
                                     }
-                                    break;
                                 }
                                 $this->_buf[] = $sens;
                             }

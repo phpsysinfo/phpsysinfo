@@ -89,7 +89,5 @@ default:
     default:
         $tpl = new Template("/templates/html/index_all.html");
         echo $tpl->fetch();
-        break;
     }
-    break;
 }

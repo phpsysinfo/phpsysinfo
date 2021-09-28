@@ -46,7 +46,6 @@ class IPMIcfg extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmicfg] ACCESS');
-            break;
         }
     }
 

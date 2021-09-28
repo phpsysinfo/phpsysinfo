@@ -45,158 +45,156 @@ class SMART extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
-            case 'wmi':
-            case 'command':
-            case 'data':
-                if (defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_DEVICES)) {
-                        $disks = eval(PSI_PLUGIN_SMART_DEVICES);
+        case 'wmi':
+        case 'command':
+        case 'data':
+            if (defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES)) {
+                if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_DEVICES)) {
+                    $disks = eval(PSI_PLUGIN_SMART_DEVICES);
+                } else {
+                    $disks = array(PSI_PLUGIN_SMART_DEVICES);
+                }
+                if (defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS)) {
+                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_IDS)) {
+                        $fullIds = eval(PSI_PLUGIN_SMART_IDS);
                     } else {
-                        $disks = array(PSI_PLUGIN_SMART_DEVICES);
+                        $fullIds = array(PSI_PLUGIN_SMART_IDS);
                     }
-                    if (defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS)) {
-                        if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_IDS)) {
-                            $fullIds = eval(PSI_PLUGIN_SMART_IDS);
-                        } else {
-                            $fullIds = array(PSI_PLUGIN_SMART_IDS);
-                        }
-                        foreach ($fullIds as $fullId) {
-                            $arrFullId = preg_split('/-/', $fullId);
-                            $this->_ids[intval($arrFullId[0])] = strtolower($arrFullId[1]);
-                            if (!empty($arrFullId[2]))
-                                $this->_ids[intval($arrFullId[2])] = "#replace-".intval($arrFullId[0]);
+                    foreach ($fullIds as $fullId) {
+                        $arrFullId = preg_split('/-/', $fullId);
+                        $this->_ids[intval($arrFullId[0])] = strtolower($arrFullId[1]);
+                        if (!empty($arrFullId[2])) {
+                            $this->_ids[intval($arrFullId[2])] = "#replace-".intval($arrFullId[0]);
                         }
                     }
                 }
-                break;
-            default:
-                $this->global_error->addConfigError("__construct()", "[smart] ACCESS");
-                break;
+            }
+            break;
+        default:
+            $this->global_error->addConfigError("__construct()", "[smart] ACCESS");
         }
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
-            case 'wmi':
-                if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-                    if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !CommonFunctions::isAdmin()) {
-                        $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
-                    } else {
-                        $asd_wmi = null;
-                        try {
-                            $wmi = CommonFunctions::initWMI('root\wmi');
-                            $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
-                        } catch (Exception $e) {
-                        }
-                        foreach ($asd_wmi as $_nr=>$asd) {
-                            $_name = "/dev/sd".chr(97+$_nr);
-                            if (array_search($_name, $disks) !== false) {
-                                $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
-                                $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
-                                $asdvs = $asd['VendorSpecific'];
-                                for ($c = 2; $c < count($asdvs); $c += 12) {
-                                    //Attribute values 0x00, 0xff are invalid
-                                    $id = $asdvs[$c];
-                                    if (($id != 0) && ($id != 255)) {
-                                        switch ($id) {
-                                            case 3:
-                                                //raw16(avg16)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            case 5:
-                                            case 196:
-                                                //raw16(raw16)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            case 9:
-                                            case 240:
-                                                //raw24(raw8)
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
-                                                break;
-                                            case 190:
-                                            case 194:
-                                                //tempminmax
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                                break;
-                                            default:
-                                                //raw48
-                                                $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
-                                                break;
-                                        }
-                                    }
-                                }
-                                $this->_filecontent[$_name] .= "SMART Error Log Version";
-                            }
-                        }
+        case 'wmi':
+            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !CommonFunctions::isAdmin()) {
+                    $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
+                } else {
+                    $asd_wmi = null;
+                    try {
+                        $wmi = CommonFunctions::initWMI('root\wmi');
+                        $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
+                    } catch (Exception $e) {
                     }
-                }
-                break;
-            case 'command':
-                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
-                    if (trim($disk) != "") {
-                        $diskdev = "";
-                        if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {
-                            $diskname = trim($devdisk[2]);
-                            if (trim($devdisk[1]) != "") {
-                                $diskdev = "--device ".preg_replace('/\./', ',', trim($devdisk[1]));
-                            }
-                        } else {
-                            $diskname = trim($disk);
-                        }
-                        $buffer = "";
-                        if (trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
-                            $this->_filecontent[trim($disk)] = $buffer;
-                        }
-                    }
-                }
-                break;
-            case 'data':
-                $dn=0;
-                if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
-                    $buffer="";
-                    if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.tmp", $buffer) && !empty($buffer)) {
-                        if (preg_match("/^.+\n.{(.+)}/", $buffer, $out)) { //wmic format
-                            $line = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $out[1]));
-                            $this->_filecontent[$disk] = "\nVendor Specific SMART Attributes with Thresholds\n";
-                            $this->_filecontent[$disk] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
-                            $asdvs = preg_split('/\s*,\s*/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($asd_wmi as $_nr=>$asd) {
+                        $_name = "/dev/sd".chr(97+$_nr);
+                        if (array_search($_name, $disks) !== false) {
+                            $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
+                            $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
+                            $asdvs = $asd['VendorSpecific'];
                             for ($c = 2; $c < count($asdvs); $c += 12) {
                                 //Attribute values 0x00, 0xff are invalid
                                 $id = $asdvs[$c];
                                 if (($id != 0) && ($id != 255)) {
                                     switch ($id) {
-                                        case 3:
-                                            //raw16(avg16)
-                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        case 5:
-                                        case 196:
-                                            //raw16(raw16)
-                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        case 9:
-                                        case 240:
-                                            //raw24(raw8)
-                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
-                                            break;
-                                        case 190:
-                                        case 194:
-                                            //tempminmax
-                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
-                                            break;
-                                        default:
-                                            //raw48
-                                            $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
-                                            break;
+                                    case 3:
+                                        //raw16(avg16)
+                                        $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                        break;
+                                    case 5:
+                                    case 196:
+                                        //raw16(raw16)
+                                        $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                        break;
+                                    case 9:
+                                    case 240:
+                                        //raw24(raw8)
+                                        $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
+                                        break;
+                                    case 190:
+                                    case 194:
+                                        //tempminmax
+                                        $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                        break;
+                                    default:
+                                        //raw48
+                                        $this->_filecontent[$_name] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
                                     }
                                 }
                             }
-                            $this->_filecontent[$disk] .= "SMART Error Log Version";
-                        } else {
-                            $this->_filecontent[$disk] = $buffer;
+                            $this->_filecontent[$_name] .= "SMART Error Log Version";
                         }
                     }
-                    $dn++;
                 }
-                break;
+            }
+            break;
+        case 'command':
+            if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
+                if (trim($disk) != "") {
+                    $diskdev = "";
+                    if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {
+                        $diskname = trim($devdisk[2]);
+                        if (trim($devdisk[1]) != "") {
+                            $diskdev = "--device ".preg_replace('/\./', ',', trim($devdisk[1]));
+                        }
+                    } else {
+                        $diskname = trim($disk);
+                    }
+                    $buffer = "";
+                    if (trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
+                        $this->_filecontent[trim($disk)] = $buffer;
+                    }
+                }
+            }
+            break;
+        case 'data':
+            $dn=0;
+            if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
+                $buffer="";
+                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.tmp", $buffer) && !empty($buffer)) {
+                    if (preg_match("/^.+\n.{(.+)}/", $buffer, $out)) { //wmic format
+                        $line = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $out[1]));
+                        $this->_filecontent[$disk] = "\nVendor Specific SMART Attributes with Thresholds\n";
+                        $this->_filecontent[$disk] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
+                        $asdvs = preg_split('/\s*,\s*/', trim($line), -1, PREG_SPLIT_NO_EMPTY);
+                        for ($c = 2; $c < count($asdvs); $c += 12) {
+                            //Attribute values 0x00, 0xff are invalid
+                            $id = $asdvs[$c];
+                            if (($id != 0) && ($id != 255)) {
+                                switch ($id) {
+                                case 3:
+                                    //raw16(avg16)
+                                    $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                    break;
+                                case 5:
+                                case 196:
+                                    //raw16(raw16)
+                                    $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                    break;
+                                case 9:
+                                case 240:
+                                    //raw24(raw8)
+                                    $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7])."\n";
+                                    break;
+                                case 190:
+                                case 194:
+                                    //tempminmax
+                                    $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6])."\n";
+                                     break;
+                                default:
+                                    //raw48
+                                    $this->_filecontent[$disk] .= $id." ID".$id." 0x".substr("0".dechex($asdvs[$c+2]), -2).substr("0".dechex($asdvs[$c+1]), -2)." ".substr("00".$asdvs[$c+3], -3)." ".substr("00".$asdvs[$c+4], -3)." ".($asdvs[$c+5]+256*$asdvs[$c+6]+65536*$asdvs[$c+7]+16777216*$asdvs[$c+8])."\n";
+                                }
+                            }
+                         }
+                        $this->_filecontent[$disk] .= "SMART Error Log Version";
+                    } else {
+                        $this->_filecontent[$disk] = $buffer;
+                    }
+                }
+                $dn++;
+            }
+            break;
         }
     }
 

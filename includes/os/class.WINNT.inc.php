@@ -591,14 +591,14 @@ class WINNT extends OS
                 }
                 if (isset($allCpus[0]['Architecture'])) {
                     switch ($allCpus[0]['Architecture']) {
-                        case 0: $kernel .= ' x86'; break;
-                        case 1: $kernel .= ' MIPS'; break;
-                        case 2: $kernel .= ' Alpha'; break;
-                        case 3: $kernel .= ' PowerPC'; break;
-                        case 5: $kernel .= ' ARM'; break;
-                        case 6: $kernel .= ' ia64'; break;
-                        case 9: $kernel .= ' x64'; break;
-                        case 12: $kernel .= ' ARM64'; break;
+                    case 0: $kernel .= ' x86'; break;
+                    case 1: $kernel .= ' MIPS'; break;
+                    case 2: $kernel .= ' Alpha'; break;
+                    case 3: $kernel .= ' PowerPC'; break;
+                    case 5: $kernel .= ' ARM'; break;
+                    case 6: $kernel .= ' ia64'; break;
+                    case 9: $kernel .= ' x64'; break;
+                    case 12: $kernel .= ' ARM64';
                     }
                 }
             }
@@ -790,20 +790,20 @@ class WINNT extends OS
                             $impl = '';
                             if (preg_match('/^ARMv8 \(64-bit\) Family 8 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
                                 switch (strtolower($partvar[1])) {
-                                    case '51':
-                                        $impl = '0x0'; break; // Qemu
-                                    case 'd03':
-                                    case 'd07':
-                                    case 'd08':
-                                        $impl = '0x41'; break; // ARM Limited
-                                    case '1':
-                                        $impl = '0x46'; break; // Fujitsu Ltd.
+                                case '51':
+                                    $impl = '0x0'; break; // Qemu
+                                case 'd03':
+                                case 'd07':
+                                case 'd08':
+                                    $impl = '0x41'; break; // ARM Limited
+                                case '1':
+                                    $impl = '0x46'; // Fujitsu Ltd.
                                 }
                             } elseif (preg_match('/^ARM Family 7 Model ([0-9a-fA-F]+) Revision[ ]+([0-9a-fA-F]+)$/', $oneCpu['Caption'], $partvar)) {
                                 switch (strtolower($partvar[1])) {
-                                    case 'c07':
-                                    case 'c0f':
-                                        $impl = '0x41'; break; // ARM Limited
+                                case 'c07':
+                                case 'c0f':
+                                        $impl = '0x41'; // ARM Limited
                                 }
                             }
                             if ($impl !== '') {
@@ -1330,68 +1330,68 @@ class WINNT extends OS
                     $memtype = '';
                     if (isset($mem['MemoryType']) && (($memval = $mem['MemoryType']) != 0)) {
                         switch ($memval) {
-//                            case 0: $memtype = 'Unknown'; break;
-//                            case 1: $memtype = 'Other'; break;
-                            case 2: $memtype = 'DRAM'; break;
-                            case 3: $memtype = 'Synchronous DRAM'; break;
-                            case 4: $memtype = 'Cache DRAM'; break;
-                            case 5: $memtype = 'EDO'; break;
-                            case 6: $memtype = 'EDRAM'; break;
-                            case 7: $memtype = 'VRAM'; break;
-                            case 8: $memtype = 'SRAM'; break;
-                            case 9: $memtype = 'RAM'; break;
-                            case 10: $memtype = 'ROM'; break;
-                            case 11: $memtype = 'Flash'; break;
-                            case 12: $memtype = 'EEPROM'; break;
-                            case 13: $memtype = 'FEPROM'; break;
-                            case 14: $memtype = 'EPROM'; break;
-                            case 15: $memtype = 'CDRAM'; break;
-                            case 16: $memtype = '3DRAM'; break;
-                            case 17: $memtype = 'SDRAM'; break;
-                            case 18: $memtype = 'SGRAM'; break;
-                            case 19: $memtype = 'RDRAM'; break;
-                            case 20: $memtype = 'DDR'; break;
-                            case 21: $memtype = 'DDR2'; break;
-                            case 22: $memtype = 'DDR2 FB-DIMM'; break;
-                            case 24: $memtype = 'DDR3'; break;
-                            case 25: $memtype = 'FBD2'; break;
-                            case 26: $memtype = 'DDR4'; break;
+//                        case 0: $memtype = 'Unknown'; break;
+//                        case 1: $memtype = 'Other'; break;
+                        case 2: $memtype = 'DRAM'; break;
+                        case 3: $memtype = 'Synchronous DRAM'; break;
+                        case 4: $memtype = 'Cache DRAM'; break;
+                        case 5: $memtype = 'EDO'; break;
+                        case 6: $memtype = 'EDRAM'; break;
+                        case 7: $memtype = 'VRAM'; break;
+                        case 8: $memtype = 'SRAM'; break;
+                        case 9: $memtype = 'RAM'; break;
+                        case 10: $memtype = 'ROM'; break;
+                        case 11: $memtype = 'Flash'; break;
+                        case 12: $memtype = 'EEPROM'; break;
+                        case 13: $memtype = 'FEPROM'; break;
+                        case 14: $memtype = 'EPROM'; break;
+                        case 15: $memtype = 'CDRAM'; break;
+                        case 16: $memtype = '3DRAM'; break;
+                        case 17: $memtype = 'SDRAM'; break;
+                        case 18: $memtype = 'SGRAM'; break;
+                        case 19: $memtype = 'RDRAM'; break;
+                        case 20: $memtype = 'DDR'; break;
+                        case 21: $memtype = 'DDR2'; break;
+                        case 22: $memtype = 'DDR2 FB-DIMM'; break;
+                        case 24: $memtype = 'DDR3'; break;
+                        case 25: $memtype = 'FBD2'; break;
+                        case 26: $memtype = 'DDR4';
                         }
                     } elseif (isset($mem['SMBIOSMemoryType'])) {
                         switch ($mem['SMBIOSMemoryType']) {
-//                            case 0: $memtype = 'Invalid'; break;
-//                            case 1: $memtype = 'Other'; break;
-//                            case 2: $memtype = 'Unknown'; break;
-                            case 3: $memtype = 'DRAM'; break;
-                            case 4: $memtype = 'EDRAM'; break;
-                            case 5: $memtype = 'VRAM'; break;
-                            case 6: $memtype = 'SRAM'; break;
-                            case 7: $memtype = 'RAM'; break;
-                            case 8: $memtype = 'ROM'; break;
-                            case 9: $memtype = 'FLASH'; break;
-                            case 10: $memtype = 'EEPROM'; break;
-                            case 11: $memtype = 'FEPROM'; break;
-                            case 12: $memtype = 'EPROM'; break;
-                            case 13: $memtype = 'CDRAM'; break;
-                            case 14: $memtype = '3DRAM'; break;
-                            case 15: $memtype = 'SDRAM'; break;
-                            case 16: $memtype = 'SGRAM'; break;
-                            case 17: $memtype = 'RDRAM'; break;
-                            case 18: $memtype = 'DDR'; break;
-                            case 19: $memtype = 'DDR2'; break;
-                            case 20: $memtype = 'DDR2 FB-DIMM'; break;
-                            case 24: $memtype = 'DDR3'; break;
-                            case 25: $memtype = 'FBD2'; break;
-                            case 26: $memtype = 'DDR4'; break;
-                            case 27: $memtype = 'LPDDR'; break;
-                            case 28: $memtype = 'LPDDR2'; break;
-                            case 29: $memtype = 'LPDDR3'; break;
-                            case 30: $memtype = 'DDR3'; break;
-                            case 31: $memtype = 'FBD2'; break;
-                            case 32: $memtype = 'Logical non-volatile device'; break;
-                            case 33: $memtype = 'HBM2'; break;
-                            case 34: $memtype = 'DDR5'; break;
-                            case 35: $memtype = 'LPDDR5'; break;
+//                        case 0: $memtype = 'Invalid'; break;
+//                        case 1: $memtype = 'Other'; break;
+//                        case 2: $memtype = 'Unknown'; break;
+                        case 3: $memtype = 'DRAM'; break;
+                        case 4: $memtype = 'EDRAM'; break;
+                        case 5: $memtype = 'VRAM'; break;
+                        case 6: $memtype = 'SRAM'; break;
+                        case 7: $memtype = 'RAM'; break;
+                        case 8: $memtype = 'ROM'; break;
+                        case 9: $memtype = 'FLASH'; break;
+                        case 10: $memtype = 'EEPROM'; break;
+                        case 11: $memtype = 'FEPROM'; break;
+                        case 12: $memtype = 'EPROM'; break;
+                        case 13: $memtype = 'CDRAM'; break;
+                        case 14: $memtype = '3DRAM'; break;
+                        case 15: $memtype = 'SDRAM'; break;
+                        case 16: $memtype = 'SGRAM'; break;
+                        case 17: $memtype = 'RDRAM'; break;
+                        case 18: $memtype = 'DDR'; break;
+                        case 19: $memtype = 'DDR2'; break;
+                        case 20: $memtype = 'DDR2 FB-DIMM'; break;
+                        case 24: $memtype = 'DDR3'; break;
+                        case 25: $memtype = 'FBD2'; break;
+                        case 26: $memtype = 'DDR4'; break;
+                        case 27: $memtype = 'LPDDR'; break;
+                        case 28: $memtype = 'LPDDR2'; break;
+                        case 29: $memtype = 'LPDDR3'; break;
+                        case 30: $memtype = 'DDR3'; break;
+                        case 31: $memtype = 'FBD2'; break;
+                        case 32: $memtype = 'Logical non-volatile device'; break;
+                        case 33: $memtype = 'HBM2'; break;
+                        case 34: $memtype = 'DDR5'; break;
+                        case 35: $memtype = 'LPDDR5';
                         }
                     }
                     if (isset($mem['Speed']) && (($speed = $mem['Speed']) > 0) && (preg_match('/^(DDR\d*)(.*)/', $memtype, $dr) || preg_match('/^(SDR)AM(.*)/', $memtype, $dr))) {
@@ -1408,30 +1408,30 @@ class WINNT extends OS
                     }
                     if (isset($mem['FormFactor'])) {
                         switch ($mem['FormFactor']) {
-//                                case 0: $memtype .= ' Unknown'; break;
-//                                case 1: $memtype .= ' Other'; break;
-                            case 2: $memtype .= ' SIP'; break;
-                            case 3: $memtype .= ' DIP'; break;
-                            case 4: $memtype .= ' ZIP'; break;
-                            case 5: $memtype .= ' SOJ'; break;
-                            case 6: $memtype .= ' Proprietary'; break;
-                            case 7: $memtype .= ' SIMM'; break;
-                            case 8: $memtype .= ' DIMM'; break;
-                            case 9: $memtype .= ' TSOPO'; break;
-                            case 10: $memtype .= ' PGA'; break;
-                            case 11: $memtype .= ' RIM'; break;
-                            case 12: $memtype .= ' SODIMM'; break;
-                            case 13: $memtype .= ' SRIMM'; break;
-                            case 14: $memtype .= ' SMD'; break;
-                            case 15: $memtype .= ' SSMP'; break;
-                            case 16: $memtype .= ' QFP'; break;
-                            case 17: $memtype .= ' TQFP'; break;
-                            case 18: $memtype .= ' SOIC'; break;
-                            case 19: $memtype .= ' LCC'; break;
-                            case 20: $memtype .= ' PLCC'; break;
-                            case 21: $memtype .= ' BGA'; break;
-                            case 22: $memtype .= ' FPBGA'; break;
-                            case 23: $memtype .= ' LGA'; break;
+//                        case 0: $memtype .= ' Unknown'; break;
+//                        case 1: $memtype .= ' Other'; break;
+                        case 2: $memtype .= ' SIP'; break;
+                        case 3: $memtype .= ' DIP'; break;
+                        case 4: $memtype .= ' ZIP'; break;
+                        case 5: $memtype .= ' SOJ'; break;
+                        case 6: $memtype .= ' Proprietary'; break;
+                        case 7: $memtype .= ' SIMM'; break;
+                        case 8: $memtype .= ' DIMM'; break;
+                        case 9: $memtype .= ' TSOPO'; break;
+                        case 10: $memtype .= ' PGA'; break;
+                        case 11: $memtype .= ' RIM'; break;
+                        case 12: $memtype .= ' SODIMM'; break;
+                        case 13: $memtype .= ' SRIMM'; break;
+                        case 14: $memtype .= ' SMD'; break;
+                        case 15: $memtype .= ' SSMP'; break;
+                        case 16: $memtype .= ' QFP'; break;
+                        case 17: $memtype .= ' TQFP'; break;
+                        case 18: $memtype .= ' SOIC'; break;
+                        case 19: $memtype .= ' LCC'; break;
+                        case 20: $memtype .= ' PLCC'; break;
+                        case 21: $memtype .= ' BGA'; break;
+                        case 22: $memtype .= ' FPBGA'; break;
+                        case 23: $memtype .= ' LGA';
                         }
                     }
                     if (isset($mem['DataWidth']) && isset($mem['TotalWidth']) && (($dataw = $mem['DataWidth']) > 0) && (($totalw = $mem['TotalWidth']) > 0) && ($dataw < $totalw)) {

@@ -51,7 +51,6 @@ class MBMon extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_mbmon] ACCESS');
-            break;
         }
     }
 

@@ -328,24 +328,23 @@ class Linux extends OS
 
             if ($novm && CommonFunctions::rfts('/proc/device-tree/hypervisor/compatible', $compatible, 1, 4096, false)) {
                 switch ($compatible) {
-                    case 'linux,kvm':
-                        $this->sys->setVirtualizer('kvm'); // KVM
-                        $novm = false;
-                        break;
-                    case 'vmware':
-                        $this->sys->setVirtualizer('vmware'); // VMware
-                        $novm = false;
-                        break;
-                    case 'xen':
-                        // xen Dom0 is detected as XEN in hypervisor and maybe others.
-                        // In order to detect the Dom0 as not virtualization we need to
-                        // double-check it
-                        if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                            && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
-                            $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
-                        }
-                        $novm = false;
-                        break;
+                case 'linux,kvm':
+                    $this->sys->setVirtualizer('kvm'); // KVM
+                    $novm = false;
+                    break;
+                case 'vmware':
+                    $this->sys->setVirtualizer('vmware'); // VMware
+                    $novm = false;
+                    break;
+                case 'xen':
+                    // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                    // In order to detect the Dom0 as not virtualization we need to
+                    // double-check it
+                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                    }
+                    $novm = false;
                 }
             }
 
@@ -380,39 +379,38 @@ class Linux extends OS
 
             if ($novm && (($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['hypervisor'])) {
                 switch ($dmesg['hypervisor']) {
-                    case 'VMware':
-                        $this->sys->setVirtualizer('vmware'); // VMware
-                        $novm = false;
-                        break;
-                    case 'KVM':
-                        $this->sys->setVirtualizer('kvm'); // KVM
-                        $novm = false;
-                        break;
-                    case 'Microsoft HyperV':
-                    case 'Microsoft Hyper-V':
-                        $this->sys->setVirtualizer('microsoft'); // Hyper-V
-                        $novm = false;
-                        break;
-                    case 'ACRN':
-                        $this->sys->setVirtualizer('acrn'); // ACRN hypervisor
-                        $novm = false;
-                        break;
-                    case 'Jailhouse':
-                        $this->sys->setVirtualizer('jailhouse'); // Jailhouse
-                        $novm = false;
-                        break;
-                    case 'Xen':
-                    case 'Xen PV':
-                    case 'Xen HVM':
-                        // xen Dom0 is detected as XEN in hypervisor and maybe others.
-                        // In order to detect the Dom0 as not virtualization we need to
-                        // double-check it
-                        if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                            && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
-                            $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
-                        }
-                        $novm = false;
-                        break;
+                case 'VMware':
+                    $this->sys->setVirtualizer('vmware'); // VMware
+                    $novm = false;
+                    break;
+                case 'KVM':
+                    $this->sys->setVirtualizer('kvm'); // KVM
+                    $novm = false;
+                    break;
+                case 'Microsoft HyperV':
+                case 'Microsoft Hyper-V':
+                    $this->sys->setVirtualizer('microsoft'); // Hyper-V
+                    $novm = false;
+                    break;
+                case 'ACRN':
+                    $this->sys->setVirtualizer('acrn'); // ACRN hypervisor
+                    $novm = false;
+                    break;
+                case 'Jailhouse':
+                    $this->sys->setVirtualizer('jailhouse'); // Jailhouse
+                    $novm = false;
+                    break;
+                case 'Xen':
+                case 'Xen PV':
+                case 'Xen HVM':
+                    // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                    // In order to detect the Dom0 as not virtualization we need to
+                    // double-check it
+                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
+                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                    }
+                    $novm = false;
                 }
             }
 
@@ -654,7 +652,6 @@ class Linux extends OS
                             break;
                         case 'cpu':
                             $procname = $arrBuff1;
-                            break;
                         }
                     }
                 }
@@ -762,7 +759,6 @@ class Linux extends OS
                             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                 $this->sys->setVirtualizer("cpuid:".$shortvendorid, false);
                             }
-                            break;
                         }
                     }
                 }
@@ -1135,8 +1131,7 @@ class Linux extends OS
                            && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
                            && !preg_match('/\W/', trim($value2))) {
                             $usbarray[$devnum]['serial'] = trim($value2);
-                         }
-                         break;
+                        }
                     }
                 }
             }
@@ -1275,24 +1270,23 @@ class Linux extends OS
                             if (isset($nlocate[4]) && isset($nsize[4])) {
                                 if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
                                     switch ($tmpbuf[2]) {
-                                        case 'B':
-                                            $dev->setCapacity($tmpbuf[1]);
-                                            break;
-                                        case 'KB':
-                                            $dev->setCapacity(1000*$tmpbuf[1]);
-                                            break;
-                                        case 'MB':
-                                            $dev->setCapacity(1000*1000*$tmpbuf[1]);
-                                            break;
-                                        case 'GB':
-                                            $dev->setCapacity(1000*1000*1000*$tmpbuf[1]);
-                                            break;
-                                        case 'TB':
-                                            $dev->setCapacity(1000*1000*1000*1000*$tmpbuf[1]);
-                                            break;
-                                        case 'PB':
-                                            $dev->setCapacity(1000*1000*1000*1000*1000*$tmpbuf[1]);
-                                            break;
+                                    case 'B':
+                                        $dev->setCapacity($tmpbuf[1]);
+                                        break;
+                                    case 'KB':
+                                        $dev->setCapacity(1000*$tmpbuf[1]);
+                                        break;
+                                    case 'MB':
+                                        $dev->setCapacity(1000*1000*$tmpbuf[1]);
+                                        break;
+                                    case 'GB':
+                                        $dev->setCapacity(1000*1000*1000*$tmpbuf[1]);
+                                        break;
+                                    case 'TB':
+                                        $dev->setCapacity(1000*1000*1000*1000*$tmpbuf[1]);
+                                        break;
+                                    case 'PB':
+                                        $dev->setCapacity(1000*1000*1000*1000*1000*$tmpbuf[1]);
                                     }
                                 }
                             }

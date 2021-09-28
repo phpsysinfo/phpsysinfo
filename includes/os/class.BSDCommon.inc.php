@@ -488,42 +488,39 @@ abstract class BSDCommon extends OS
             }
         } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             foreach ($this->readdmesg() as $line) {
-                if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
-                    switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
-                        case 'bhyvebhyve':
-                            $this->sys->setVirtualizer('bhyve');
-                            break;
-                        case 'KVMKVMKVM':
-                            $this->sys->setVirtualizer('kvm');
-                            break;
-                        case 'MicrosoftHv':
-                            $this->sys->setVirtualizer('microsoft');
-                            break;
-                        case 'lrpepyhvr':
-                            $this->sys->setVirtualizer('parallels');
-                            break;
-                        case 'VMwareVMware':
-                            $this->sys->setVirtualizer('vmware');
-                            break;
-                        case 'XenVMMXenVMM':
-                            $this->sys->setVirtualizer('xen');
-                            break;
-                        case 'ACRNACRNACRN':
-                            $this->sys->setVirtualizer('acrn');
-                            break;
-                        case 'TCGTCGTCGTCG':
-                            $this->sys->setVirtualizer('qemu');
-                            break;
-                        case 'QNXQVMBSQG':
-                            $this->sys->setVirtualizer('qnx');
-                            break;
-                        case 'UnisysSpar64':
-                            $this->sys->setVirtualizer('spar');
-                            break;
-                        default:
-                            $this->sys->setVirtualizer('unknown');
-                    }
+                if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
+                case 'bhyvebhyve':
+                    $this->sys->setVirtualizer('bhyve');
                     break;
+                case 'KVMKVMKVM':
+                    $this->sys->setVirtualizer('kvm');
+                    break;
+                case 'MicrosoftHv':
+                    $this->sys->setVirtualizer('microsoft');
+                    break;
+                case 'lrpepyhvr':
+                    $this->sys->setVirtualizer('parallels');
+                    break;
+                case 'VMwareVMware':
+                    $this->sys->setVirtualizer('vmware');
+                    break;
+                case 'XenVMMXenVMM':
+                    $this->sys->setVirtualizer('xen');
+                    break;
+                case 'ACRNACRNACRN':
+                    $this->sys->setVirtualizer('acrn');
+                    break;
+                case 'TCGTCGTCGTCG':
+                    $this->sys->setVirtualizer('qemu');
+                    break;
+                case 'QNXQVMBSQG':
+                    $this->sys->setVirtualizer('qnx');
+                    break;
+                case 'UnisysSpar64':
+                    $this->sys->setVirtualizer('spar');
+                    break;
+                default:
+                    $this->sys->setVirtualizer('unknown');
                 }
             }
         }

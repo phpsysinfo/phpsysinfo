@@ -39,7 +39,6 @@ class IPMIutil extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmiutil] ACCESS');
-            break;
         }
     }
 

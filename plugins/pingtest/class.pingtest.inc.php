@@ -82,7 +82,6 @@ class PingTest extends PSI_Plugin
                 break;
             default:
                 $this->global_error->addConfigError("__construct()", "[pingtest] ACCESS");
-                break;
             }
         }
     }

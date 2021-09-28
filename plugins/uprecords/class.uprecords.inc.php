@@ -70,27 +70,26 @@ class uprecords extends PSI_Plugin
     {
         $this->_lines = array();
         if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
-            case 'command':
-                $lines = "";
-                $options = "";
-                if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
-                    if (($ment = max(intval(PSI_PLUGIN_UPRECORDS_MAX_ENTRIES), 0)) != 10) {
-                        $options=" -m ".$ment;
-                    }
+        case 'command':
+            $lines = "";
+            $options = "";
+            if (defined('PSI_PLUGIN_UPRECORDS_MAX_ENTRIES')) {
+                if (($ment = max(intval(PSI_PLUGIN_UPRECORDS_MAX_ENTRIES), 0)) != 10) {
+                    $options=" -m ".$ment;
                 }
-                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {
-                    $options .= " -s";
-                }
-                if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
-                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                break;
-            case 'data':
-                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/uprecords.tmp", $lines) && !empty($lines))
-                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                break;
-            default:
-                $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");
-                break;
+            }
+            if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {
+                $options .= " -s";
+            }
+            if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))
+                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            break;
+        case 'data':
+            if (CommonFunctions::rfts(PSI_APP_ROOT."/data/uprecords.tmp", $lines) && !empty($lines))
+                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            break;
+        default:
+            $this->global_error->addConfigError("execute()", "[uprecords] ACCESS");
         }
     }
 

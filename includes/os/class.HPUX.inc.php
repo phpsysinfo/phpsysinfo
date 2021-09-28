@@ -130,7 +130,6 @@ class HPUX extends OS
                         case 'bogomips':
                         case 'cpu0bogo':
                             $dev->setBogomips($arrBuff[1]);
-                            break;
                         }
                     }
                 }

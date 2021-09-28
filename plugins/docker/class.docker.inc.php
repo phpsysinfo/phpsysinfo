@@ -40,44 +40,42 @@ class Docker extends PSI_Plugin
                 $result[$i]['CPUUsage'] = str_replace(',', '.', trim($buffer[1], '%'));
                 preg_match('/([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)\s+\/\s+([\d\.]+)(B|KiB|MiB|GiB|TiB|PiB)/', str_replace(',', '.', trim($buffer[2])), $tmpbuf);
                 switch ($tmpbuf[2]) {
-                    case 'B':
-                        $result[$i]['MemoryUsed'] = $tmpbuf[1];
-                        break;
-                    case 'KiB':
-                        $result[$i]['MemoryUsed'] = 1024*$tmpbuf[1];
-                        break;
-                    case 'MiB':
-                        $result[$i]['MemoryUsed'] = 1024*1024*$tmpbuf[1];
-                        break;
-                    case 'GiB':
-                        $result[$i]['MemoryUsed'] = 1024*1024*1024*$tmpbuf[1];
-                        break;
-                    case 'TiB':
-                        $result[$i]['MemoryUsed'] = 1024*1024*1024*1024*$tmpbuf[1];
-                        break;
-                    case 'PiB':
-                        $result[$i]['MemoryUsed'] = 1024*1024*1024*1024*1025*$tmpbuf[1];
-                        break;
+                case 'B':
+                    $result[$i]['MemoryUsed'] = $tmpbuf[1];
+                    break;
+                case 'KiB':
+                    $result[$i]['MemoryUsed'] = 1024*$tmpbuf[1];
+                    break;
+                case 'MiB':
+                    $result[$i]['MemoryUsed'] = 1024*1024*$tmpbuf[1];
+                    break;
+                case 'GiB':
+                    $result[$i]['MemoryUsed'] = 1024*1024*1024*$tmpbuf[1];
+                    break;
+                case 'TiB':
+                    $result[$i]['MemoryUsed'] = 1024*1024*1024*1024*$tmpbuf[1];
+                    break;
+                case 'PiB':
+                    $result[$i]['MemoryUsed'] = 1024*1024*1024*1024*1025*$tmpbuf[1];
                 }
                 switch ($tmpbuf[4]) {
-                    case 'B':
-                        $result[$i]['MemoryLimit'] = $tmpbuf[3];
-                        break;
-                    case 'KiB':
-                        $result[$i]['MemoryLimit'] = 1024*$tmpbuf[3];
-                        break;
-                    case 'MiB':
-                        $result[$i]['MemoryLimit'] = 1024*1024*$tmpbuf[3];
-                        break;
-                    case 'GiB':
-                        $result[$i]['MemoryLimit'] = 1024*1024*1024*$tmpbuf[3];
-                        break;
-                    case 'TiB':
-                        $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*$tmpbuf[3];
-                        break;
-                    case 'PiB':
-                        $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*1025*$tmpbuf[3];
-                        break;
+                case 'B':
+                    $result[$i]['MemoryLimit'] = $tmpbuf[3];
+                    break;
+                case 'KiB':
+                    $result[$i]['MemoryLimit'] = 1024*$tmpbuf[3];
+                    break;
+                case 'MiB':
+                    $result[$i]['MemoryLimit'] = 1024*1024*$tmpbuf[3];
+                    break;
+                case 'GiB':
+                    $result[$i]['MemoryLimit'] = 1024*1024*1024*$tmpbuf[3];
+                    break;
+                case 'TiB':
+                    $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*$tmpbuf[3];
+                    break;
+                case 'PiB':
+                    $result[$i]['MemoryLimit'] = 1024*1024*1024*1024*1025*$tmpbuf[3];
                 }
                 $result[$i]['MemoryUsage'] = str_replace(',', '.', trim($buffer[3], '%'));
                 $result[$i]['NetIO'] = trim($buffer[4]);
@@ -93,7 +91,8 @@ class Docker extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+            switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
             case 'command':
                 $lines = "";
                 if (CommonFunctions::executeProgram('docker', 'stats --no-stream --format \'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}\'', $lines) && !empty($lines))
@@ -105,7 +104,7 @@ class Docker extends PSI_Plugin
                 break;
             default:
                 $this->global_error->addConfigError("execute()", "[docker] ACCESS");
-                break;
+            }
         }
     }
 

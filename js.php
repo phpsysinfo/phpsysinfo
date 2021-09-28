@@ -52,34 +52,27 @@ if ($script != null) {
         $compression = strtolower(PSI_JS_COMPRESSION);
     }
     switch ($compression) {
-        case "normal":
-            if (file_exists($scriptmin) && is_readable($scriptmin)) {
-                $filecontent = file_get_contents($scriptmin);
-                echo $filecontent;
-            } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
-                $filecontent = file_get_contents($scriptjs);
-                $packer = new JavaScriptPacker($filecontent);
-                echo $packer->pack();
-            }
-            break;
-        case "none":
-            if (file_exists($scriptjs) && is_readable($scriptjs)) {
-                $filecontent = file_get_contents($scriptjs);
-                $packer = new JavaScriptPacker($filecontent, 0);
-                echo $packer->pack();
-            } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
-                $filecontent = file_get_contents($scriptmin);
-                echo $filecontent;
-            }
-            break;
-        default:
-            if (file_exists($scriptjs) && is_readable($scriptjs)) {
-                $filecontent = file_get_contents($scriptjs);
-            } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
-                $filecontent = file_get_contents($scriptmin);
-            } else break;
-
-            echo $filecontent;
-            break;
+    case "normal":
+        if (file_exists($scriptmin) && is_readable($scriptmin)) {
+            echo file_get_contents($scriptmin);
+        } elseif (file_exists($scriptjs) && is_readable($scriptjs)) {
+            $packer = new JavaScriptPacker(file_get_contents($scriptjs));
+            echo $packer->pack();
+        }
+        break;
+    case "none":
+        if (file_exists($scriptjs) && is_readable($scriptjs)) {
+           $packer = new JavaScriptPacker(file_get_contents($scriptjs), 0);
+            echo $packer->pack();
+        } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
+           echo file_get_contents($scriptmin);
+        }
+        break;
+    default:
+        if (file_exists($scriptjs) && is_readable($scriptjs)) {
+            echo file_get_contents($scriptjs);
+        } elseif (file_exists($scriptmin) && is_readable($scriptmin)) {
+            echo file_get_contents($scriptmin);
+        }
     }
 }

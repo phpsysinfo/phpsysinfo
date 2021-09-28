@@ -68,32 +68,32 @@ class BAT extends PSI_Plugin
                         }
                         if (isset($bufferWB[$bi]['BatteryStatus'])) {
                             switch ($bufferWB[$bi]['BatteryStatus']) {
-                                case  1: $batstat = 'Discharging'; break;
-                                case  2: $batstat = 'AC connected'; break;
-                                case  3: $batstat = 'Fully Charged'; break;
-                                case  4: $batstat = 'Low'; break;
-                                case  5: $batstat = 'Critical'; break;
-                                case  6: $batstat = 'Charging'; break;
-                                case  7: $batstat = 'Charging and High'; break;
-                                case  8: $batstat = 'Charging and Low'; break;
-                                case  9: $batstat = 'Charging and Critical'; break;
-                                case 10: $batstat = 'Undefined'; break;
-                                case 11: $batstat = 'Partially Charged'; break;
-                                default: $batstat = '';
+                            case  1: $batstat = 'Discharging'; break;
+                            case  2: $batstat = 'AC connected'; break;
+                            case  3: $batstat = 'Fully Charged'; break;
+                            case  4: $batstat = 'Low'; break;
+                            case  5: $batstat = 'Critical'; break;
+                            case  6: $batstat = 'Charging'; break;
+                            case  7: $batstat = 'Charging and High'; break;
+                            case  8: $batstat = 'Charging and Low'; break;
+                            case  9: $batstat = 'Charging and Critical'; break;
+                            case 10: $batstat = 'Undefined'; break;
+                            case 11: $batstat = 'Partially Charged'; break;
+                            default: $batstat = '';
                             }
                             if ($batstat != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_STATUS='.$batstat."\n";
                         }
                         $techn = '';
                         if (isset($bufferWB[$bi]['Chemistry'])) {
                             switch ($bufferWB[$bi]['Chemistry']) {
-                                case 1: $techn = 'Other'; break;
-                                case 2: $techn = 'Unknown'; break;
-                                case 3: $techn = 'PbAc'; break;
-                                case 4: $techn = 'NiCd'; break;
-                                case 5: $techn = 'NiMH'; break;
-                                case 6: $techn = 'Li-ion'; break;
-                                case 7: $techn = 'Zinc-air'; break;
-                                case 8: $techn = 'Li-poly'; break;
+                            case 1: $techn = 'Other'; break;
+                            case 2: $techn = 'Unknown'; break;
+                            case 3: $techn = 'PbAc'; break;
+                            case 4: $techn = 'NiCd'; break;
+                            case 5: $techn = 'NiMH'; break;
+                            case 6: $techn = 'Li-ion'; break;
+                            case 7: $techn = 'Zinc-air'; break;
+                            case 8: $techn = 'Li-poly';
                             }
                         }
                         if (isset($bufferWPB[$bi]['DesignVoltage'])) {
@@ -106,14 +106,14 @@ class BAT extends PSI_Plugin
                         // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
                         if ((($techn == '') || ($techn == 'Unknown')) && isset($bufferWPB[$bi]['Chemistry'])) {
                             switch ($bufferWPB[$bi]['Chemistry']) {
-                                case 1: $techn = 'Other'; break;
-                                case 2: $techn = 'Unknown'; break;
-                                case 3: $techn = 'PbAc'; break;
-                                case 4: $techn = 'NiCd'; break;
-                                case 5: $techn = 'NiMH'; break;
-                                case 6: $techn = 'Li-ion'; break;
-                                case 7: $techn = 'Zinc-air'; break;
-                                case 8: $techn = 'Li-poly'; break;
+                            case 1: $techn = 'Other'; break;
+                            case 2: $techn = 'Unknown'; break;
+                            case 3: $techn = 'PbAc'; break;
+                            case 4: $techn = 'NiCd'; break;
+                            case 5: $techn = 'NiMH'; break;
+                            case 6: $techn = 'Li-ion'; break;
+                            case 7: $techn = 'Zinc-air'; break;
+                            case 8: $techn = 'Li-poly';
                             }
                         }
                         if ($techn != '') $buffer[$bi]['info'] .= 'POWER_SUPPLY_TECHNOLOGY='.$techn."\n";
@@ -319,7 +319,6 @@ class BAT extends PSI_Plugin
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[bat] ACCESS");
-            break;
         }
         for ($bi = 0; $bi < sizeof($buffer); $bi++) {
             if (isset($buffer[$bi]['info'])) {
