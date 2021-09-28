@@ -46,7 +46,7 @@ if ($script != null) {
     $scriptmin = $script.'.min.js';
     $compression = false;
 
-    header("content-type: application/x-javascript");
+    header("content-type: application/x-javascript\n\n");
 
     if ((!defined("PSI_DEBUG") || (PSI_DEBUG !== true)) && defined("PSI_JS_COMPRESSION")) {
         $compression = strtolower(PSI_JS_COMPRESSION);
