@@ -556,7 +556,7 @@ class CommonFunctions
         $text .= "  </Error>\n";
         $text .= "</phpsysinfo>";
         if ($error) {
-            header("Content-Type: text/xml\n\n");
+            header('Content-Type: text/xml');
             echo $text;
             die();
         }

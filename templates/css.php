@@ -19,7 +19,7 @@ $increase = isset($_GET['increase']) ? (($_GET['increase']>0)? $_GET['increase']
 if ($file != null) {
     $css = $file.'.css';
 
-    header("content-type: text/css");
+    header('content-type: text/css');
 
     if (file_exists($css) && is_readable($css)) {
         $filecontent = file_get_contents($css);

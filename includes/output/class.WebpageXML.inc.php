@@ -174,8 +174,8 @@ class WebpageXML extends Output implements PSI_Interface_Output
      */
     public function run()
     {
-        header("Cache-Control: no-cache, must-revalidate\n");
-        header("Content-Type: text/xml\n\n");
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Content-Type: text/xml');
         $xml = $this->_xml->getXml();
         echo $xml->asXML();
     }

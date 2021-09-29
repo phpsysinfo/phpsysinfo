@@ -55,8 +55,8 @@ case "xml":
 case "json":
     $webpage = new WebpageXML("complete");
     $json = $webpage->getJsonString();
-    header("Cache-Control: no-cache, must-revalidate\n");
-    header("Content-Type: application/json\n\n");
+    header('Cache-Control: no-cache, must-revalidate');
+    header('Content-Type: application/json');
     echo $json;
     break;
 case "bootstrap":

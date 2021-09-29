@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/plain");
+header('Content-Type: text/plain');
 $filemaskarray=array("/etc/*-release",
                      "/etc/*_release",
                      "/etc/*-version",
