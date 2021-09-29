@@ -232,7 +232,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
             if ($plugin === "complete") {
                 $this->_completeXML = true;
             } else {
-                $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
+                $validblocks = array(' ', 'vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups'); // ' ' for masked wrong plugin name
                 if (in_array($plugin, $validblocks)) {
                     $this->_blockName = $plugin;
                 } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
