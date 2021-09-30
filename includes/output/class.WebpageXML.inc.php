@@ -228,7 +228,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
         parent::__construct();
 
         if (is_string($plugin) && ($plugin !== "")) {
-            if (preg_match('/[^A-Za-z]/', $plugin) {
+            if (preg_match('/[^A-Za-z]/', $plugin)) {
                 $this->_blockName = ' '; // mask wrong plugin name
             } elseif (($plugin = strtolower($plugin)) === "complete") {
                 $this->_completeXML = true;
