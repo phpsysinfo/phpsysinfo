@@ -29,9 +29,6 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
 } else {
     // check what xml part should be generated
     if (isset($_GET['plugin'])) {
-        if (preg_match('/[^A-Za-z]/', $plugin = $_GET['plugin'])) {
-            $plugin = ' '; // mask wrong plugin name
-        }
         $output = new WebpageXML($plugin);
     } else {
         $output = new WebpageXML();
