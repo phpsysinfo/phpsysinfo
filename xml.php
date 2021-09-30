@@ -29,7 +29,7 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
 } else {
     // check what xml part should be generated
     if (isset($_GET['plugin'])) {
-        $output = new WebpageXML($plugin);
+        $output = new WebpageXML($_GET['plugin']);
     } else {
         $output = new WebpageXML();
     }
