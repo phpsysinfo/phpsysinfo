@@ -154,7 +154,7 @@ class WINNT extends OS
      */
     private function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture', 'Caption'));
+        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture', 'Caption', 'CurrentVoltage'));
         return $this->_Win32_Processor;
     }
 
@@ -776,6 +776,9 @@ class WINNT extends OS
                     $cpu->setCache($oneCpu['L3CacheSize'] * 1024);
                 } elseif (isset($oneCpu['L2CacheSize'])) {
                     $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
+                }
+                if (isset($oneCpu['CurrentVoltage'])) {
+                    $cpu->setVoltage($oneCpu['CurrentVoltage']/10);
                 }
                 if (isset($oneCpu['CurrentClockSpeed'])) {
                     $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);

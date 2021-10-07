@@ -247,13 +247,18 @@ class XML
             if ($cpu === null) $cpu = $hardware->addChild('CPU');
             $tmp = $cpu->addChild('CpuCore');
             $tmp->addAttribute('Model', $oneCpu->getModel());
-            if ($oneCpu->getCpuSpeed() !== 0) {
-                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
+            if ($oneCpu->getVoltage() > 0) {
+                $tmp->addAttribute('Voltage', $oneCpu->getVoltage());
             }
-            if ($oneCpu->getCpuSpeedMax() !== 0) {
+            if ($oneCpu->getCpuSpeed() > 0) {
+                $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
+            } elseif ($oneCpu->getCpuSpeed() == -1) {
+                $tmp->addAttribute('CpuSpeed', 0); // core stopped
+            }
+            if ($oneCpu->getCpuSpeedMax() > 0) {
                 $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
             }
-            if ($oneCpu->getCpuSpeedMin() !== 0) {
+            if ($oneCpu->getCpuSpeedMin() > 0) {
                 $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
             }
 /*

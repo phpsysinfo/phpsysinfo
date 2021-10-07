@@ -33,6 +33,13 @@ class CpuDevice
     private $_model = "";
 
     /**
+     * cpu voltage
+     *
+     * @var Float
+     */
+    private $_voltage = 0;
+
+    /**
      * speed of the cpu in hertz
      *
      * @var int
@@ -126,6 +133,32 @@ class CpuDevice
     public function setModel($model)
     {
         $this->_model = $model;
+    }
+
+    /**
+     * Returns $_Voltage.
+     *
+     * @see Cpu::$_Voltage
+     *
+     * @return Float
+     */
+    public function getVoltage()
+    {
+        return $this->_Voltage;
+    }
+
+    /**
+     * Sets $_Voltage.
+     *
+     * @param int $Voltage voltage
+     *
+     * @see Cpu::$_Voltage
+     *
+     * @return void
+     */
+    public function setVoltage($Voltage)
+    {
+        $this->_Voltage = $Voltage;
     }
 
     /**

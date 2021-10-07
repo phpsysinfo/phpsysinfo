@@ -769,9 +769,10 @@ function refreshVitals(xml) {
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
-        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "", manufacturer = "";
+        var model = "", speed = 0, voltage = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "", manufacturer = "";
         cpucount++;
         model = $(this).attr("Model");
+        voltage = $(this).attr("Voltage");
         speed = parseInt($(this).attr("CpuSpeed"), 10);
         speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
         speedmin = parseInt($(this).attr("CpuSpeedMin"), 10);
@@ -817,6 +818,10 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         }
         if (!isNaN(bus)) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(14) + ":</span></div></td><td>" + formatHertz(bus) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+        if (!isNaN(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {

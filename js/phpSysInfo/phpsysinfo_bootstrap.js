@@ -720,6 +720,11 @@ function renderHardware(data) {
                 return formatTemp(this.Cputemp, data.Options["@attributes"].tempFormat);
             }
         },
+        Voltage: {
+            html: function() {
+                return round(this.Voltage, 2) + ' V';
+            }
+        },
         Bogomips: {
             text: function () {
                 return parseInt(this.Bogomips, 10);
@@ -799,7 +804,7 @@ function renderHardware(data) {
         }
     }
 
-    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
+    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Voltage:52,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
     try {
         datas = items(data.Hardware.CPU.CpuCore);
         for (i = 0; i < datas.length; i++) {
