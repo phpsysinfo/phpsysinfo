@@ -652,9 +652,9 @@ class CommonFunctions
                     $arrData[] = $arrInstance;
                 }
             } catch (Exception $e) {
-                if (PSI_DEBUG) {
+                if (PSI_DEBUG && (($message = $e->getMessage()) !== "<b>Source:</b> SWbemServicesEx<br/><b>Description:</b> Not found ")) {
                     $error = PSI_Error::singleton();
-                    $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
+                    $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $message)));
                 }
             }
         } elseif ((gettype($wmi) === "string") && (PSI_OS == 'Linux')) {
