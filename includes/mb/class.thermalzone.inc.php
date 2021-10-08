@@ -36,7 +36,13 @@ class ThermalZone extends Sensors
                         $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
                     }
                 } else {
-                    $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
+                    $_wmi = CommonFunctions::initWMI('root\CIMv2');
+                    if ($_wmi) {
+                        $this->_buf = CommonFunctions::getWMI($_wmi, 'Win32_PerfFormattedData_Counters_ThermalZoneInformation', array('Name', 'HighPrecisionTemperature', 'Temperature'));
+                    }
+                    if (!$this->_buf || PSI_DEBUG) {
+                        $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
+                    }
                 }
             }
             break;
@@ -80,6 +86,18 @@ class ThermalZone extends Sensors
                         $dev->setMax($maxvalue);
                     }
                     $this->mbinfo->setMbTemp($dev);
+                } else {
+                    if ((isset($buffer['HighPrecisionTemperature']) && (($value = ($buffer['HighPrecisionTemperature'] - 2732)/10) > -100))
+                       || (isset($buffer['Temperature']) && (($value = ($buffer['Temperature'] - 273)) > -100))) {
+                        $dev = new SensorDevice();
+                        if (isset($buffer['Name']) && preg_match("/([^\\\\\. ]+)$/", $buffer['Name'], $outbuf)) {
+                            $dev->setName('ThermalZone '.$outbuf[1]);
+                        } else {
+                            $dev->setName('ThermalZone THM0');
+                        }
+                        $dev->setValue($value);
+                        $this->mbinfo->setMbTemp($dev);
+                    }
                 }
             }
         } elseif (($mode == 'command') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
