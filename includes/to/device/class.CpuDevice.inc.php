@@ -136,29 +136,29 @@ class CpuDevice
     }
 
     /**
-     * Returns $_Voltage.
+     * Returns $_voltage.
      *
-     * @see Cpu::$_Voltage
+     * @see Cpu::$_voltage
      *
      * @return Float
      */
     public function getVoltage()
     {
-        return $this->_Voltage;
+        return $this->_voltage;
     }
 
     /**
-     * Sets $_Voltage.
+     * Sets $_voltage.
      *
-     * @param int $Voltage voltage
+     * @param int $voltage voltage
      *
-     * @see Cpu::$_Voltage
+     * @see Cpu::$_voltage
      *
      * @return void
      */
-    public function setVoltage($Voltage)
+    public function setVoltage($voltage)
     {
-        $this->_Voltage = $Voltage;
+        $this->_voltage = $voltage;
     }
 
     /**
