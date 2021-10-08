@@ -652,7 +652,7 @@ class CommonFunctions
                     $arrData[] = $arrInstance;
                 }
             } catch (Exception $e) {
-                if (PSI_DEBUG && (($message = $e->getMessage()) !== "<b>Source:</b> SWbemServicesEx<br/><b>Description:</b> Not found ")) {
+                if (PSI_DEBUG && (($message = trim($e->getMessage())) !== "<b>Source:</b> SWbemServicesEx<br/><b>Description:</b> Not found")) {
                     $error = PSI_Error::singleton();
                     $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $message)));
                 }
