@@ -1473,7 +1473,7 @@ class WINNT extends OS
     {
         $this->_distro(); // share getDistribution()
         if (substr($this->sys->getDistribution(), 0, 7)=="ReactOS") {
-            $this->error->addError("WARN", "The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
+            $this->error->addWarning("The ReactOS version of phpSysInfo is a work in progress, some things currently don't work");
         }
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_hostname();

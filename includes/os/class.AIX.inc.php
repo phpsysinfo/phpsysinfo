@@ -340,7 +340,7 @@ class AIX extends OS
      */
     public function build()
     {
-        $this->error->addError("WARN", "The AIX version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The AIX version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();

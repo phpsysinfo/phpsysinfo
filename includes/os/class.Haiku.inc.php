@@ -372,7 +372,7 @@ class Haiku extends OS
      */
     public function build()
     {
-        $this->error->addError("WARN", "The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
