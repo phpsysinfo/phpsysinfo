@@ -264,7 +264,7 @@ DATETIME_FORMAT="UTC"
 ; - HWSensors      http://www.openbsd.org/ (OpenBSD)
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
-; - Coretemp       No addon tool neded (FreeBSD/Linux)
+; - Coretemp       No addon tool neded (FreeBSD/Linux/WinNT)
 ; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
