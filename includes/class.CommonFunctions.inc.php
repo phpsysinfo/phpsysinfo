@@ -177,7 +177,7 @@ class CommonFunctions
                 continue;
             }
             $strProgrammpath = $strPathS.$strProgram;
-            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
+            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py') && is_file($strProgrammpath))) {
                 return $strProgrammpath;
             }
         }
