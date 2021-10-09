@@ -56,7 +56,7 @@ class Coretemp extends Hwmon
             if ($_wmi) {
                 $allCpus = CommonFunctions::getWMI($_wmi, 'Win32_Processor', array('CurrentVoltage'));
                 $i = 0;
-                if ($allCpus) foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage'])){
+                if ($allCpus) foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)){
                     $dev = new SensorDevice();
                     $dev->setName("CPU ".($i++));
                     $dev->setValue($oneCpu['CurrentVoltage']/10);

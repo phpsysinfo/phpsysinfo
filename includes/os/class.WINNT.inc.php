@@ -774,17 +774,19 @@ class WINNT extends OS
                 if (isset($oneCpu['Name'])) $cpu->setModel($oneCpu['Name']);
                 if (isset($oneCpu['L3CacheSize']) && ($oneCpu['L3CacheSize'] > 0)) {
                     $cpu->setCache($oneCpu['L3CacheSize'] * 1024);
-                } elseif (isset($oneCpu['L2CacheSize'])) {
+                } elseif (isset($oneCpu['L2CacheSize']) && ($oneCpu['L2CacheSize'] > 0)) {
                     $cpu->setCache($oneCpu['L2CacheSize'] * 1024);
                 }
-                if (isset($oneCpu['CurrentVoltage'])) {
+                if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)) {
                     $cpu->setVoltage($oneCpu['CurrentVoltage']/10);
                 }
-                if (isset($oneCpu['CurrentClockSpeed'])) {
+                if (isset($oneCpu['CurrentClockSpeed']) && ($oneCpu['CurrentClockSpeed'] > 0)) {
                     $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
                     if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
-                if (isset($oneCpu['ExtClock'])) $cpu->setBusSpeed($oneCpu['ExtClock']);
+                if (isset($oneCpu['ExtClock']) && ($oneCpu['ExtClock'] > 0)) {
+                    $cpu->setBusSpeed($oneCpu['ExtClock']);
+                }
                 if (isset($oneCpu['Manufacturer'])) {
                     $cpumanufacturer = $oneCpu['Manufacturer'];
                     $cpu->setVendorId($cpumanufacturer);
