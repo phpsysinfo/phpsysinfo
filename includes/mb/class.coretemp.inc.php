@@ -54,11 +54,10 @@ class Coretemp extends Hwmon
         } elseif ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
             $_wmi = CommonFunctions::initWMI('root\CIMv2', true);
             if ($_wmi) {
-                $allCpus = CommonFunctions::getWMI($_wmi, 'Win32_Processor', array('CurrentVoltage'));
-                $i = 0;
+                $allCpus = CommonFunctions::getWMI($_wmi, 'Win32_Processor', array('DeviceID', 'CurrentVoltage'));
                 if ($allCpus) foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)){
                     $dev = new SensorDevice();
-                    $dev->setName("CPU ".($i++));
+                    $dev->setName($oneCpu['DeviceID']);
                     $dev->setValue($oneCpu['CurrentVoltage']/10);
                     $this->mbinfo->setMbVolt($dev);
                 }
