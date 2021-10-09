@@ -799,7 +799,7 @@ class XML
                 if (PSI_DEBUG === true) {
                     // unstable version check
                     if (!is_numeric(substr(PSI_VERSION, -1))) {
-                        $this->_errors->addError("WARN", "This is an unstable version of phpSysInfo, some things may not work correctly");
+                        $this->_errors->addWarning("This is an unstable version of phpSysInfo, some things may not work correctly");
                     }
 
                     // Safe mode check
