@@ -165,7 +165,6 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _dmimeminfo()
     {
-        $banks = array();
         $buffer = '';
         if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
             CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
@@ -221,7 +220,7 @@ abstract class OS implements PSI_Interface_OS
                         $memtype = '';
                         if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
-                               if (isset($mem['Minimum Voltage']) && isset($mem['Total Width']) &&
+                               if (isset($mem['Minimum Voltage']) && isset($mem['Maximum Voltage']) &&
                                   preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
                                   ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
                                     $lv = 'L';
