@@ -10,7 +10,8 @@ phpSysInfo 3.4.0
  - [NEW] Ability to read UPS information from a file
  - [NEW] Virtualizer detection on Linux, Android, NetBSD, FreeBSD and WinNT
 
- - [UPD] Changed all data file extensions from .txt to .tmp 
+ - [UPD] Changed all data file extensions from .txt to .tmp
+ - [UPD] Sensor CoreTemp renamed to CpuMem and extended to read the CPU and memory supply voltages
 
 phpSysInfo 3.3.4
 ----------------

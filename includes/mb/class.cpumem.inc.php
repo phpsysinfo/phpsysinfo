@@ -1,7 +1,6 @@
 <?php
 /**
- * coretemp sensor class, getting hardware temperature information through sysctl on FreeBSD
- * or from /sys/devices/platform/coretemp. on Linux
+ * cpumem sensor class, getting hardware sensors information of CPU and memory
  *
  * PHP version 5
  *
@@ -14,7 +13,7 @@
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class Coretemp extends Hwmon
+class CpuMem extends Hwmon
 {
     /**
      * get the information
