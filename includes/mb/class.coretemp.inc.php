@@ -77,5 +77,41 @@ class Coretemp extends Hwmon
                 } 
             }
         }
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+            $buffer = '';
+            if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
+                CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
+            } elseif (CommonFunctions::_findProgram('dmidecode')) {
+                CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
+            }
+            if (!empty($buffer)) {
+                $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                $counter = 0;
+                foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
+                    $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
+                    $mem = array();
+                    foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/', $line, $params)) {
+                        if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
+                            $mem[trim($params[1])] = trim($buff[1]);
+                        } elseif ($params2 != '') {
+                            $mem[trim($params[1])] = $params2;
+                        }
+                    }
+                    if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)
+                        && isset($mem['Configured Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Configured Voltage'], $voltage) && ($voltage[1] > 0)) {
+                        $dev = new SensorDevice();
+                        $dev->setName('Mem'.($counter++));
+                        $dev->setValue($voltage[1]);
+                        if (isset($mem['Minimum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && ($minv[1]  > 0)) {
+                            $dev->setMin($minv[1]);
+                        }
+                        if (isset($mem['Maximum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) && ($maxv[1]  > 0)) {
+                            $dev->setMax($maxv[1]);
+                        }
+                        $this->mbinfo->setMbVolt($dev);
+                    }
+                }
+            }
+        }
     }
 }
