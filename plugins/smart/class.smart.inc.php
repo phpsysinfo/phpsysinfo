@@ -92,9 +92,16 @@ class SMART extends PSI_Plugin
                             $this->_filecontent[$_name] = "\nVendor Specific SMART Attributes with Thresholds\n";
                             $this->_filecontent[$_name] .= "ID# _ATTRIBUTE_NAME_ FLAG VALUE WORST RAW_VALUE\n";
                             $asdvs = $asd['VendorSpecific'];
-                            for ($c = 2; $c < count($asdvs); $c += 12) {
+                            if (gettype($asdvs) === "string") { // WMIC on Linux
+                                if (preg_match("/^\(([\d\,]+)\)$/", $asdvs, $buffer)) {
+                                    $asdvs = preg_split("/\,/", $buffer[1], -1, PREG_SPLIT_NO_EMPTY);
+                                } else {
+                                    $asdvs = array();
+                                }
+                            }
+                            if (count($asdvs) >= 12) for ($c = 2; $c < count($asdvs); $c += 12) {
                                 //Attribute values 0x00, 0xff are invalid
-                                $id = $asdvs[$c];
+                                $id = intval($asdvs[$c]);
                                 if (($id != 0) && ($id != 255)) {
                                     switch ($id) {
                                     case 3:
