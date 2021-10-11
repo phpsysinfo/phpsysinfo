@@ -61,6 +61,20 @@ class Coretemp extends Hwmon
                     $dev->setValue($oneCpu['CurrentVoltage']/10);
                     $this->mbinfo->setMbVolt($dev);
                 }
+                $allMems = CommonFunctions::getWMI($_wmi, 'Win32_PhysicalMemory', array('ConfiguredVoltage', 'MinVoltage', 'MaxVoltage'));
+                $counter = 0;
+                if ($allMems) foreach ($allMems as $oneMem) if (isset($oneMem['ConfiguredVoltage']) && ($oneMem['ConfiguredVoltage'] > 0)) {
+                    $dev = new SensorDevice();
+                    $dev->setName('Mem'.($counter++));
+                    $dev->setValue($oneMem['ConfiguredVoltage']/1000);
+                    if (isset($oneMem['MaxVoltage']) && ($oneMem['MaxVoltage'] > 0)) {
+                        $dev->setMax($oneMem['MaxVoltage']/1000);
+                    }
+                    if (isset($oneMem['MinVoltage']) && ($oneMem['MinVoltage'] > 0)) {
+                        $dev->setMin($oneMem['MinVoltage']/1000);
+                    }
+                    $this->mbinfo->setMbVolt($dev);
+                } 
             }
         }
     }
