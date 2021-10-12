@@ -73,7 +73,7 @@ class CpuMem extends Hwmon
                         $dev->setMin($oneMem['MinVoltage']/1000);
                     }
                     $this->mbinfo->setMbVolt($dev);
-                } 
+                }
             }
         }
         if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
