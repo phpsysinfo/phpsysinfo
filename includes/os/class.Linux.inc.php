@@ -254,7 +254,8 @@ class Linux extends OS
 
             // First, try to detect Oracle Virtualbox and Amazon EC2 Nitro, even if they use KVM, as well as Xen even if
             // it cloaks as Microsoft Hyper-V. Attempt to detect uml at this stage also since it runs as a user-process
-            // nested inside other VMs.
+            // nested inside other VMs. Also check for Xen now, because Xen PV mode does not override CPUID when nested
+            // inside another hypervisor.
             if (($machBuf = $this->_get_machine_string()) !== "") {
                 if (preg_match('/^innotek GmbH VirtualBox\/VirtualBox, BIOS VirtualBox /', $machBuf)) {
                     $this->sys->setVirtualizer('oracle'); // Oracle VM VirtualBox
@@ -266,13 +267,7 @@ class Linux extends OS
                     $this->sys->setVirtualizer('amazon'); // Amazon EC2 Nitro using Linux KVM
                     $novm = false;
                 } elseif (preg_match('/^Xen HVM domU, BIOS /', $machBuf)) {
-                    // xen Dom0 is detected as XEN in hypervisor and maybe others.
-                    // In order to detect the Dom0 as not virtualization we need to
-                    // double-check it
-                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
-                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
-                    }
+                    $this->sys->setVirtualizer('xen');
                     $novm = false;
                 }
             }
@@ -282,10 +277,71 @@ class Linux extends OS
                 $novm = false;
             }
 
-            // Second step, the CPUID detection attempt is skipped because the vendor_id in /proc/cpuinfo
-            // is overwritten on virtualization
+            // Detect Xen
+            if ($novm && is_dir('/proc/xen')) {
+                // xen Dom0 is detected as XEN in hypervisor and maybe others.
+                // In order to detect the Dom0 as not virtualization we need to
+                // double-check it
+                if (CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false)) {
+                    if ((hexdec($features) & 2048) == 0) { // XENFEAT_dom0 is not set
+                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                        $novm = false;
+                    }
+                } elseif (CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) && !preg_match('/control_d/', $capabilities)) { // control_d not in capabilities
+                    $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                    $novm = false;
+                }
+            }
 
-            // Third, try to detect from DMI
+            // Second, try to detect from CPUID, this will report KVM for whatever software is used even if info in DMI is overwritten.
+            // Since the vendor_id in /proc/cpuinfo is overwritten on virtualization we use values from msr-cpuid.
+            if ($novm && CommonFunctions::executeProgram('msr-cpuid', '', $bufr, false) 
+               && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m' , $bufr, $cpuid))) {              
+                $shortvendorid = preg_replace('/[\s!\.]/', '', $cpuid[1].$cpuid[2].$cpuid[3]);
+                switch ($shortvendorid) {
+                    case 'bhyvebhyve':
+                        $this->sys->setVirtualizer('bhyve'); // bhyve
+                        $novm = false;
+                        break;
+                    case 'KVMKVMKVM':
+                        $this->sys->setVirtualizer('kvm'); //KVM
+                        $novm = false;
+                        break;
+                    case 'MicrosoftHv':
+                        $this->sys->setVirtualizer('microsoft'); // Hyper-V
+                        $novm = false;
+                        break;
+                    /*case 'lrpepyhvr':
+                        $this->sys->setVirtualizer('parallels'); //Parallels
+                        $novm = false;
+                        break;
+                    case 'UnisysSpar64':
+                        $this->sys->setVirtualizer('spar'); // Unisys sPar
+                        $novm = false;
+                        break;*/
+                    case 'VMwareVMware':
+                        $this->sys->setVirtualizer('vmware'); //VMware
+                        $novm = false;
+                        break;
+                    case 'XenVMMXenVMM':
+                        $this->sys->setVirtualizer('xen'); //Xen hypervisor
+                        $novm = false;
+                        break;
+                    case 'ACRNACRNACRN':
+                        $this->sys->setVirtualizer('acrn'); // ACRN hypervisor
+                        $novm = false;
+                        break;
+                    case 'TCGTCGTCGTCG':
+                        $this->sys->setVirtualizer('qemu'); //QEMU
+                        $novm = false;
+                        break;
+                    case 'QNXQVMBSQG':
+                        $this->sys->setVirtualizer('qnx'); //QNX hypervisor
+                        $novm = false;
+                }
+            }
+
+            // Third, try to detect from DMI.
             if ($novm && ($machBuf !== "")) {
                 if (preg_match('/^VMware, Inc\. VMware Virtual Platform\/440BX Desktop Reference Platform, BIOS /', $machBuf)) {
                     $$this->sys->setVirtualizer('vmware'); // VMware
@@ -311,58 +367,43 @@ class Linux extends OS
                 }
             }
 
-            // x86 xen will most likely be detected by cpuid. If not (most likely
-            // because we're not an x86 guest), then we should try the /proc/xen
-            // directory next. If that's not found, then we check for the high-level
-            // hypervisor sysfs file.
-            if ($novm && (is_dir('/proc/xen') || (CommonFunctions::rfts('/sys/hypervisor/type', $type, 1, 4096, false) && ($type === "xen")))) {
-                // xen Dom0 is detected as XEN in hypervisor and maybe others.
-                // In order to detect the Dom0 as not virtualization we need to
-                // double-check it
-                if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                    && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
-                    $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
-                }
-                $novm = false;
-            }
-
-            if ($novm && CommonFunctions::rfts('/proc/device-tree/hypervisor/compatible', $compatible, 1, 4096, false)) {
-                switch ($compatible) {
-                case 'linux,kvm':
-                    $this->sys->setVirtualizer('kvm'); // KVM
-                    $novm = false;
-                    break;
-                case 'vmware':
-                    $this->sys->setVirtualizer('vmware'); // VMware
-                    $novm = false;
-                    break;
-                case 'xen':
-                    // xen Dom0 is detected as XEN in hypervisor and maybe others.
-                    // In order to detect the Dom0 as not virtualization we need to
-                    // double-check it
-                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
-                        $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
-                    }
-                    $novm = false;
-                }
-            }
-
-            if ($novm && CommonFunctions::fileexists('/proc/device-tree/ibm,partition-name')
-               && CommonFunctions::fileexists('/proc/device-tree/hmc-managed?')
-               && CommonFunctions::fileexists('/proc/device-tree/chosen/qemu,graphic-width')) {
-                $this->sys->setVirtualizer('powervm'); // IBM PowerVM hypervisor
+            // Check high-level hypervisor sysfs file
+            if ($novm && CommonFunctions::rfts('/sys/hypervisor/type', $type, 1, 4096, false) && ($type === "xen")) {
+                $this->sys->setVirtualizer('xen'); // Xen hypervisor
                 $novm = false;
             }
 
             if ($novm) {
-                $names = glob('/proc/device-tree', GLOB_NOSORT);
-                if (is_array($names) && (($total = count($names)) > 0)) {
-                    for ($i = 0; $i < $total; $i++) {
-                        if (preg_match('/fw-cfg/', $names[$i])) {
-                            $this->sys->setVirtualizer('qemu'); // QEMU
-                            $novm = false;
-                            break;
+                if (CommonFunctions::rfts('/proc/device-tree/hypervisor/compatible', $compatible, 1, 4096, false)) {
+                    switch ($compatible) {
+                    case 'linux,kvm':
+                        $this->sys->setVirtualizer('kvm'); // KVM
+                        $novm = false;
+                        break;
+                    case 'vmware':
+                        $this->sys->setVirtualizer('vmware'); // VMware
+                        $novm = false;
+                        break;
+                    case 'xen':
+                        $this->sys->setVirtualizer('xen'); // Xen hypervisor
+                        $novm = false;
+                    }
+                } else {
+                    if (CommonFunctions::fileexists('/proc/device-tree/ibm,partition-name')
+                       && CommonFunctions::fileexists('/proc/device-tree/hmc-managed?')
+                       && CommonFunctions::fileexists('/proc/device-tree/chosen/qemu,graphic-width')) {
+                        $this->sys->setVirtualizer('powervm'); // IBM PowerVM hypervisor
+                        $novm = false;
+                    } else {
+                        $names = glob('/proc/device-tree', GLOB_NOSORT);
+                        if (is_array($names) && (($total = count($names)) > 0)) {
+                            for ($i = 0; $i < $total; $i++) {
+                                if (preg_match('/fw-cfg/', $names[$i])) {
+                                    $this->sys->setVirtualizer('qemu'); // QEMU
+                                    $novm = false;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -377,6 +418,7 @@ class Linux extends OS
                 $novm = false;
             }
 
+            // Additional tests outside of the systemd-detect-virt source code
             if ($novm && (($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['hypervisor'])) {
                 switch ($dmesg['hypervisor']) {
                 case 'VMware':
@@ -406,11 +448,15 @@ class Linux extends OS
                     // xen Dom0 is detected as XEN in hypervisor and maybe others.
                     // In order to detect the Dom0 as not virtualization we need to
                     // double-check it
-                    if ((!CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false) || ((hexdec($features) & 2048) == 0)) // XENFEAT_dom0 is not set
-                        && (!CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) || !preg_match('/control_d/', $capabilities))) { // control_d not in capabilities
+                    if (CommonFunctions::rfts('/sys/hypervisor/properties/features', $features, 1, 4096, false)) {
+                        if ((hexdec($features) & 2048) == 0) { // XENFEAT_dom0 is not set
+                            $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                            $novm = false;
+                        }
+                    } elseif (CommonFunctions::rfts('/proc/xen/capabilities', $capabilities, 1, 4096, false) && !preg_match('/control_d/', $capabilities)) { // control_d not in capabilities
                         $this->sys->setVirtualizer('xen'); // Xen hypervisor (only domU, not dom0)
+                        $novm = false;
                     }
-                    $novm = false;
                 }
             }
 
