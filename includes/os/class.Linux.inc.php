@@ -296,7 +296,7 @@ class Linux extends OS
             // Second, try to detect from CPUID, this will report KVM for whatever software is used even if info in DMI is overwritten.
             // Since the vendor_id in /proc/cpuinfo is overwritten on virtualization we use values from msr-cpuid.
             if ($novm && CommonFunctions::executeProgram('msr-cpuid', '', $bufr, false)
-               && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m' , $bufr, $cpuid))) {
+               && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m', $bufr, $cpuid))) {
                 $shortvendorid = preg_replace('/[\s!\.]/', '', $cpuid[1].$cpuid[2].$cpuid[3]);
                 switch ($shortvendorid) {
                     case 'bhyvebhyve':
