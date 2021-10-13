@@ -298,46 +298,21 @@ class Linux extends OS
             if ($novm && CommonFunctions::executeProgram('msr-cpuid', '', $bufr, false)
                && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m', $bufr, $cpuid))) {
                 $shortvendorid = preg_replace('/[\s!\.]/', '', $cpuid[1].$cpuid[2].$cpuid[3]);
-                switch ($shortvendorid) {
-                    case 'bhyvebhyve':
-                        $this->sys->setVirtualizer('bhyve'); // bhyve
-                        $novm = false;
-                        break;
-                    case 'KVMKVMKVM':
-                        $this->sys->setVirtualizer('kvm'); //KVM
-                        $novm = false;
-                        break;
-                    case 'MicrosoftHv':
-                        $this->sys->setVirtualizer('microsoft'); // Hyper-V
-                        $novm = false;
-                        break;
-                    /*case 'lrpepyhvr':
-                        $this->sys->setVirtualizer('parallels'); //Parallels
-                        $novm = false;
-                        break;
-                    case 'UnisysSpar64':
-                        $this->sys->setVirtualizer('spar'); // Unisys sPar
-                        $novm = false;
-                        break;*/
-                    case 'VMwareVMware':
-                        $this->sys->setVirtualizer('vmware'); //VMware
-                        $novm = false;
-                        break;
-                    case 'XenVMMXenVMM':
-                        $this->sys->setVirtualizer('xen'); //Xen hypervisor
-                        $novm = false;
-                        break;
-                    case 'ACRNACRNACRN':
-                        $this->sys->setVirtualizer('acrn'); // ACRN hypervisor
-                        $novm = false;
-                        break;
-                    case 'TCGTCGTCGTCG':
-                        $this->sys->setVirtualizer('qemu'); //QEMU
-                        $novm = false;
-                        break;
-                    case 'QNXQVMBSQG':
-                        $this->sys->setVirtualizer('qnx'); //QNX hypervisor
-                        $novm = false;
+                $vidarray = array(
+                    'bhyvebhyve' => 'bhyve', // bhyve
+                    'KVMKVMKVM' => 'kvm', //KVM
+                    'MicrosoftHv' => 'microsoft', // Hyper-V
+                    //'lrpepyhvr' => 'parallels', //Parallels
+                    //'UnisysSpar64' => 'spar', // Unisys sPar
+                    'VMwareVMware' => 'vmware', //VMware
+                    'XenVMMXenVMM' => 'xen', //Xen hypervisor
+                    'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
+                    'TCGTCGTCGTCG' => 'qemu', //QEMU
+                    'QNXQVMBSQG' => 'qnx' //QNX hypervisor
+                );
+                if (isset($vidarray[$shortvendorid])) {
+                    $this->sys->setVirtualizer($vidarray[$shortvendorid]);
+                    $novm = false;
                 }
             }
 
