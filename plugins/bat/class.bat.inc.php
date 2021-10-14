@@ -100,11 +100,11 @@ class BAT extends PSI_Plugin
                             case 8: $techn = 'Li-poly';
                             }
                         }
-                        if (isset($bufferWPB[$bi]['DesignVoltage'])) {
+                        if (isset($bufferWPB[$bi]['DesignVoltage']) && ($bufferWPB[$bi]['DesignVoltage'] > 0)) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.($bufferWPB[$bi]['DesignVoltage']*1000)."\n";
                         }
 
-                        if (isset($bufferWPB[$bi]['Manufacturer'])) {
+                        if (isset($bufferWPB[$bi]['Manufacturer']) && ($bufferWPB[$bi]['Manufacturer'] !== '')) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_MANUFACTURER='.$bufferWPB[$bi]['Manufacturer']."\n";
                         }
                         // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
@@ -138,28 +138,28 @@ class BAT extends PSI_Plugin
                             }
                         }
 
-                        if (isset($bufferWB[$bi]['Caption'])) {
+                        if (isset($bufferWB[$bi]['Caption']) && ($bufferWB[$bi]['Caption'] !== '')) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_NAME='.$bufferWB[$bi]['Caption']."\n";
                         }
-                        if (isset($bufferWB[$bi]['Name']) && ($bufferWB[$bi]['Name'] !== "1?\x0E")) {
+                        if (isset($bufferWB[$bi]['Name']) && ($bufferWB[$bi]['Name'] !== '') && ($bufferWB[$bi]['Name'] !== "1?\x0E")) {
                                 $buffer[$bi]['state'] .= 'POWER_SUPPLY_MODEL_NAME='.$bufferWB[$bi]['Name']."\n";
                         }
-                        if (!isset($bufferWPB[$bi]['FullChargeCapacity']) && isset($bufferBFCC[$bi]['FullChargedCapacity'])) {
+                        if ((!isset($bufferWPB[$bi]['FullChargeCapacity']) || ($bufferWPB[$bi]['FullChargeCapacity'] == 0)) && isset($bufferBFCC[$bi]['FullChargedCapacity']) && ($bufferBFCC[$bi]['FullChargedCapacity'] > 0)) {
                             $bufferWPB[$bi]['FullChargeCapacity'] = $bufferBFCC[$bi]['FullChargedCapacity'];
                         }
-                        if (isset($bufferWPB[$bi]['FullChargeCapacity'])) {
+                        if (isset($bufferWPB[$bi]['FullChargeCapacity']) && ($bufferWPB[$bi]['FullChargeCapacity'] > 0)) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_ENERGY_FULL='.($bufferWPB[$bi]['FullChargeCapacity']*1000)."\n";
                             if ($capacity != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[$bi]['FullChargeCapacity']*10)."\n");
-                            if (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity']>0))
+                            if (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity'] > 0))
                                 $buffer[$bi]['info'] .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[$bi]['DesignCapacity']*1000)."\n";
-                        } elseif (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity']>0)) {
+                        } elseif (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity'] >0 )) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[$bi]['DesignCapacity']*1000)."\n";
                             if ($capacity != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[$bi]['DesignCapacity']*10)."\n");
                         } else {
                             if ($capacity != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_CAPACITY='.$capacity."\n";
                         }
 
-                        if (isset($bufferBCC[$bi]['CycleCount']) && ($bufferBCC[$bi]['CycleCount']>0)) {
+                        if (isset($bufferBCC[$bi]['CycleCount']) && ($bufferBCC[$bi]['CycleCount'] > 0)) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_CYCLE_COUNT='.$bufferBCC[$bi]['CycleCount']."\n";
                         }
                     }
