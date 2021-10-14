@@ -61,7 +61,7 @@ class HyperV extends PSI_Plugin
                     break;
                 }
                 $result = WINNT::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
-                if (is_array($result)) foreach ($result as $machine) {
+                foreach ($result as $machine) {
                     if ($machine['InstallDate'] !== null) {
                         $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
                     }
