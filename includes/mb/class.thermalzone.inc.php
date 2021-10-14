@@ -30,15 +30,15 @@ class ThermalZone extends Sensors
         switch (defined('PSI_SENSOR_THERMALZONE_ACCESS')?strtolower(PSI_SENSOR_THERMALZONE_ACCESS):'command') {
         case 'command':
             if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-                if (defined('PSI_EMU_HOSTNAME') || CommonFunctions::isAdmin()) {
-                    $_wmi = CommonFunctions::initWMI('root\WMI', true);
+                if (defined('PSI_EMU_HOSTNAME') || WINNT::isAdmin()) {
+                    $_wmi = WINNT::initWMI('root\WMI', true);
                     if ($_wmi) {
-                        $this->_buf = CommonFunctions::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
+                        $this->_buf = WINNT::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
                     }
                 } else {
-                    $_wmi = CommonFunctions::initWMI('root\CIMv2');
+                    $_wmi = WINNT::initWMI('root\CIMv2');
                     if ($_wmi) {
-                        $this->_buf = CommonFunctions::getWMI($_wmi, 'Win32_PerfFormattedData_Counters_ThermalZoneInformation', array('Name', 'HighPrecisionTemperature', 'Temperature'));
+                        $this->_buf = WINNT::getWMI($_wmi, 'Win32_PerfFormattedData_Counters_ThermalZoneInformation', array('Name', 'HighPrecisionTemperature', 'Temperature'));
                     }
                     if (!$this->_buf || PSI_DEBUG) {
                         $this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");

@@ -77,13 +77,13 @@ class SMART extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
         case 'wmi':
             if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-                if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !CommonFunctions::isAdmin()) {
+                if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !WINNT::isAdmin()) {
                     $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                 } else {
                     $asd_wmi = null;
                     try {
-                        $wmi = CommonFunctions::initWMI('root\wmi');
-                        $asd_wmi = CommonFunctions::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
+                        $wmi = WINNT::initWMI('root\wmi');
+                        $asd_wmi = WINNT::getWMI($wmi, 'MSStorageDriver_ATAPISmartData', array('VendorSpecific'));
                     } catch (Exception $e) {
                     }
                     foreach ($asd_wmi as $_nr=>$asd) {

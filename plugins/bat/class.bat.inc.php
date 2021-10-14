@@ -36,16 +36,20 @@ class BAT extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
             if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-                $_cim = CommonFunctions::initWMI('root\CIMv2', true);
-                $_wmi = CommonFunctions::initWMI('root\WMI');
+                if (defined('PSI_PLUGIN_BAT_WMI_HOSTNAME')) {
+                    $_cim = WINNT::initWMI('root\CIMv2', true);
+                } else {
+                    $_cim = WINNT::getcimv2wmi();
+                }
+                $_wmi = WINNT::initWMI('root\WMI');
                 $bufferWB = array();
 
-                if ($_cim !== false) $bufferWB = CommonFunctions::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
+                if ($_cim !== false) $bufferWB = WINNT::getWMI($_cim, 'Win32_Battery', array('Caption', 'Name', 'EstimatedChargeRemaining', 'DesignVoltage', 'BatteryStatus', 'Chemistry'));
                 if (sizeof($bufferWB)>0) {
-                    $bufferWPB = CommonFunctions::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
-                    $bufferBS = CommonFunctions::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));
-                    $bufferBCC = CommonFunctions::getWMI($_wmi, 'BatteryCycleCount', array('CycleCount'));
-                    $bufferBFCC = CommonFunctions::getWMI($_wmi, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
+                    $bufferWPB = WINNT::getWMI($_cim, 'Win32_PortableBattery', array('DesignVoltage', 'Chemistry', 'DesignCapacity', 'FullChargeCapacity', 'Manufacturer'));
+                    $bufferBS = WINNT::getWMI($_wmi, 'BatteryStatus', array('RemainingCapacity', 'Voltage'));
+                    $bufferBCC = WINNT::getWMI($_wmi, 'BatteryCycleCount', array('CycleCount'));
+                    $bufferBFCC = WINNT::getWMI($_wmi, 'BatteryFullChargedCapacity', array('FullChargedCapacity'));
                     $sobWB = sizeof($bufferWB);
                     if (sizeof($bufferWPB) != $sobWB) {
                         $bufferWPB = array();

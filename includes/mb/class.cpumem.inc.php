@@ -51,64 +51,44 @@ class CpuMem extends Hwmon
                 }
             }
         } elseif ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-            $_wmi = CommonFunctions::initWMI('root\CIMv2', true);
-            if ($_wmi) {
-                $allCpus = CommonFunctions::getWMI($_wmi, 'Win32_Processor', array('DeviceID', 'CurrentVoltage'));
-                if ($allCpus) foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)){
-                    $dev = new SensorDevice();
-                    $dev->setName($oneCpu['DeviceID']);
-                    $dev->setValue($oneCpu['CurrentVoltage']/10);
-                    $this->mbinfo->setMbVolt($dev);
+            $allCpus = WINNT::_get_Win32_Processor();
+            foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)){
+                $dev = new SensorDevice();
+                $dev->setName($oneCpu['DeviceID']);
+                $dev->setValue($oneCpu['CurrentVoltage']/10);
+                $this->mbinfo->setMbVolt($dev);
+            }
+            $allMems = WINNT::_get_Win32_PhysicalMemory();
+            $counter = 0;
+            foreach ($allMems as $oneMem) if (isset($oneMem['ConfiguredVoltage']) && ($oneMem['ConfiguredVoltage'] > 0)) {
+                $dev = new SensorDevice();
+                $dev->setName('Mem'.($counter++));
+                $dev->setValue($oneMem['ConfiguredVoltage']/1000);
+                if (isset($oneMem['MaxVoltage']) && ($oneMem['MaxVoltage'] > 0)) {
+                    $dev->setMax($oneMem['MaxVoltage']/1000);
                 }
-                $allMems = CommonFunctions::getWMI($_wmi, 'Win32_PhysicalMemory', array('ConfiguredVoltage', 'MinVoltage', 'MaxVoltage'));
-                $counter = 0;
-                if ($allMems) foreach ($allMems as $oneMem) if (isset($oneMem['ConfiguredVoltage']) && ($oneMem['ConfiguredVoltage'] > 0)) {
-                    $dev = new SensorDevice();
-                    $dev->setName('Mem'.($counter++));
-                    $dev->setValue($oneMem['ConfiguredVoltage']/1000);
-                    if (isset($oneMem['MaxVoltage']) && ($oneMem['MaxVoltage'] > 0)) {
-                        $dev->setMax($oneMem['MaxVoltage']/1000);
-                    }
-                    if (isset($oneMem['MinVoltage']) && ($oneMem['MinVoltage'] > 0)) {
-                        $dev->setMin($oneMem['MinVoltage']/1000);
-                    }
-                    $this->mbinfo->setMbVolt($dev);
+                if (isset($oneMem['MinVoltage']) && ($oneMem['MinVoltage'] > 0)) {
+                    $dev->setMin($oneMem['MinVoltage']/1000);
                 }
+                $this->mbinfo->setMbVolt($dev);
             }
         }
         if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
-            $buffer = '';
-            if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
-                CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
-            } elseif (CommonFunctions::_findProgram('dmidecode')) {
-                CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
-            }
-            if (!empty($buffer)) {
-                $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
-                $counter = 0;
-                foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
-                    $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
-                    $mem = array();
-                    foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/', $line, $params)) {
-                        if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
-                            $mem[trim($params[1])] = trim($buff[1]);
-                        } elseif ($params2 != '') {
-                            $mem[trim($params[1])] = $params2;
-                        }
+            $dmimd = CommonFunctions::readdmimemdata();
+            $counter = 0;
+            foreach ($dmimd as $mem) {
+                if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)
+                    && isset($mem['Configured Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Configured Voltage'], $voltage) && ($voltage[1] > 0)) {
+                    $dev = new SensorDevice();
+                    $dev->setName('Mem'.($counter++));
+                    $dev->setValue($voltage[1]);
+                    if (isset($mem['Minimum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && ($minv[1]  > 0)) {
+                        $dev->setMin($minv[1]);
                     }
-                    if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)
-                        && isset($mem['Configured Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Configured Voltage'], $voltage) && ($voltage[1] > 0)) {
-                        $dev = new SensorDevice();
-                        $dev->setName('Mem'.($counter++));
-                        $dev->setValue($voltage[1]);
-                        if (isset($mem['Minimum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && ($minv[1]  > 0)) {
-                            $dev->setMin($minv[1]);
-                        }
-                        if (isset($mem['Maximum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) && ($maxv[1]  > 0)) {
-                            $dev->setMax($maxv[1]);
-                        }
-                        $this->mbinfo->setMbVolt($dev);
+                    if (isset($mem['Maximum Voltage']) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) && ($maxv[1]  > 0)) {
+                        $dev->setMax($maxv[1]);
                     }
+                    $this->mbinfo->setMbVolt($dev);
                 }
             }
         }

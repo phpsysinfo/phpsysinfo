@@ -28,6 +28,13 @@
 class WINNT extends OS
 {
     /**
+     * holds codepage for chcp
+     *
+     * @var int
+     */
+    private static $_cp = null;
+
+    /**
      * holds the data from WMI Win32_OperatingSystem
      *
      * @var array
@@ -46,7 +53,14 @@ class WINNT extends OS
      *
      * @var array
      */
-    private $_Win32_Processor = null;
+    private static $_Win32_Processor = null;
+
+    /**
+     * holds the data from WMI Win32_PhysicalMemory
+     *
+     * @var array
+     */
+    private static $_Win32_PhysicalMemory = null;
 
      /**
      * holds the data from WMI Win32_PerfFormattedData_PerfOS_Processor
@@ -67,7 +81,7 @@ class WINNT extends OS
      *
      * @var Object
      */
-    private $_wmi = null;
+    private static $_wmi = null;
 
     /**
      * holds the COM object that we pull all the EnumKey and RegRead data from
@@ -126,13 +140,40 @@ class WINNT extends OS
     private $_syslang = null;
 
     /**
+     * value of checking run as administrator
+     *
+     * @var boolean
+     */
+    private static $_asadmin = null;
+
+    /**
+     * returns codepage for chcp
+     *
+     * @return int
+     */
+    public static function getcp()
+    {
+        return self::$_cp;
+    }
+
+    /**
+     * returns the COM object that we pull WMI root\CIMv2 data from
+     *
+     * @return Object
+     */
+    public static function getcimv2wmi()
+    {
+        return self::$_wmi;
+    }
+
+    /**
      * reads the data from WMI Win32_OperatingSystem
      *
      * @return array
      */
     private function _get_Win32_OperatingSystem()
     {
-        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = self::getWMI(self::$_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
         return $this->_Win32_OperatingSystem;
     }
 
@@ -143,7 +184,7 @@ class WINNT extends OS
      */
     private function _get_Win32_ComputerSystem()
     {
-        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = CommonFunctions::getWMI($this->_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
+        if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = self::getWMI(self::$_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
         return $this->_Win32_ComputerSystem;
     }
 
@@ -152,10 +193,21 @@ class WINNT extends OS
      *
      * @return array
      */
-    private function _get_Win32_Processor()
+    public static function _get_Win32_Processor()
     {
-        if ($this->_Win32_Processor === null) $this->_Win32_Processor = CommonFunctions::getWMI($this->_wmi, 'Win32_Processor', array('LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture', 'Caption', 'CurrentVoltage'));
-        return $this->_Win32_Processor;
+        if (self::$_Win32_Processor === null) self::$_Win32_Processor = self::getWMI(self::$_wmi, 'Win32_Processor', array('DeviceID', 'LoadPercentage', 'AddressWidth', 'Name', 'L2CacheSize', 'L3CacheSize', 'CurrentClockSpeed', 'ExtClock', 'NumberOfCores', 'NumberOfLogicalProcessors', 'MaxClockSpeed', 'Manufacturer', 'Architecture', 'Caption', 'CurrentVoltage'));
+        return self::$_Win32_Processor;
+    }
+
+    /**
+     * reads the data from WMI Win32_PhysicalMemory
+     *
+     * @return array
+     */
+    public static function _get_Win32_PhysicalMemory()
+    {
+        if (self::$_Win32_PhysicalMemory === null) self::$_Win32_PhysicalMemory = self::getWMI(self::$_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel', 'MinVoltage', 'MaxVoltage'));
+        return self::$_Win32_PhysicalMemory;
     }
 
     /**
@@ -169,8 +221,8 @@ class WINNT extends OS
             $this->_Win32_PerfFormattedData_PerfOS_Processor = array();
             $buffer = $this->_get_Win32_OperatingSystem();
             if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && version_compare($buffer[0]['Version'], "5.1", ">=")) { // minimal windows 2003 or windows XP
-                $cpubuffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfFormattedData_PerfOS_Processor', array('Name', 'PercentProcessorTime'));
-                if ($cpubuffer) foreach ($cpubuffer as $cpu) {
+                $cpubuffer = self::getWMI(self::$_wmi, 'Win32_PerfFormattedData_PerfOS_Processor', array('Name', 'PercentProcessorTime'));
+                foreach ($cpubuffer as $cpu) {
                     if (isset($cpu['Name']) && isset($cpu['PercentProcessorTime'])) {
                         $this->_Win32_PerfFormattedData_PerfOS_Processor['cpu'.$cpu['Name']] = $cpu['PercentProcessorTime'];
                     }
@@ -197,6 +249,299 @@ class WINNT extends OS
     }
 
     /**
+     * checks WINNT and 'run as Administrator' mode
+     *
+     * @return boolean
+     */
+    public static function isAdmin()
+    {
+        if (self::$_asadmin == null) {
+            if (PSI_OS == 'WINNT') {
+                $strBuf = '';
+                CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false); // 'net session' for detection does not work if "Server" (LanmanServer) service is stopped
+                if (preg_match('/^\/SCANNOW\s/m', preg_replace('/(\x00)/', '', $strBuf))) { // SCANNOW checking - also if Unicode
+                    self::$_asadmin = true;
+                } else {
+                    self::$_asadmin = false;
+                }
+            } else {
+                self::$_asadmin = false;
+            }
+        }
+
+        return self::$_asadmin;
+    }
+
+    /**
+     * function for getting a list of values in the specified context
+     * optionally filter this list, based on the list from third parameter
+     *
+     * @param $wmi object holds the COM object that we pull the WMI data from
+     * @param string $strClass name of the class where the values are stored
+     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
+     *
+     * @return array content of the class stored in an array
+     */
+    public static function getWMI($wmi, $strClass, $strValue = array())
+    {
+        $arrData = array();
+        if (gettype($wmi) === "object") {
+            $value = "";
+            try {
+                $objWEBM = $wmi->Get($strClass);
+                $arrProp = $objWEBM->Properties_;
+                $arrWEBMCol = $objWEBM->Instances_();
+                foreach ($arrWEBMCol as $objItem) {
+                    if (is_array($arrProp)) {
+                        reset($arrProp);
+                    }
+                    $arrInstance = array();
+                    foreach ($arrProp as $propItem) {
+                        $value = $objItem->{$propItem->Name}; //instead exploitable eval("\$value = \$objItem->".$propItem->Name.";");
+                        if (empty($strValue)) {
+                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                            else $arrInstance[$propItem->Name] = $value;
+                        } else {
+                            if (in_array($propItem->Name, $strValue)) {
+                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                                else $arrInstance[$propItem->Name] = $value;
+                            }
+                        }
+                    }
+                    $arrData[] = $arrInstance;
+                }
+            } catch (Exception $e) {
+                if (PSI_DEBUG && (($message = trim($e->getMessage())) !== "<b>Source:</b> SWbemServicesEx<br/><b>Description:</b> Not found")) {
+                    $error = PSI_Error::singleton();
+                    $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $message)));
+                }
+            }
+        } elseif ((gettype($wmi) === "string") && (PSI_OS == 'Linux')) {
+            $delimeter = '@@@DELIM@@@';
+            if (CommonFunctions::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
+                if (self::$_cp) {
+                    if (self::$_cp == 932) {
+                        $codename = ' (SJIS)';
+                    } elseif (self::$_cp == 949) {
+                        $codename = ' (EUC-KR)';
+                    } elseif (self::$_cp == 950) {
+                        $codename = ' (BIG-5)';
+                    } else {
+                        $codename = '';
+                    }
+                    self::convertCP($strBuf, 'windows-'.self::$_cp.$codename);
+                }
+                $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines) >=3) {
+                    unset($lines[0]);
+                    $names = preg_split('/'.$delimeter.'/', $lines[1], -1, PREG_SPLIT_NO_EMPTY);
+                    $namesc = count($names);
+                    unset($lines[1]);
+                    foreach ($lines as $line) {
+                        $arrInstance = array();
+                        $values = preg_split('/'.$delimeter.'/', $line, -1);
+                        if (count($values) == $namesc) {
+                            foreach ($values as $id=>$value) {
+                                if (empty($strValue)) {
+                                    if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
+                                    else $arrInstance[$names[$id]] = null;
+                                } else {
+                                    if (in_array($names[$id], $strValue)) {
+                                        if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
+                                        else $arrInstance[$names[$id]] = null;
+                                    }
+                                }
+                            }
+                            $arrData[] = $arrInstance;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $arrData;
+    }
+
+    /**
+     * readReg function
+     *
+     * @return boolean command successfull or not
+     */
+    public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true, $bits64 = false)
+    {
+        $arrBuffer = array();
+        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
+
+        if ($reg === false) {
+            if (defined('PSI_EMU_HOSTNAME')) {
+                return false;
+            }
+            $last = strrpos($strName, "\\");
+            $keyname = substr($strName, $last + 1);
+            if ($bits64) {
+                $param = ' /reg:64';
+            } else {
+                $param = '';
+            }
+            if (self::$_cp) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    $strBuffer = $buffer2[1];
+                } else {
+                    return false;
+                }
+            } else {
+                if (CommonFunctions::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    $strBuffer = $buffer2[1];
+                } else {
+                    return false;
+                }
+            }
+        } elseif (gettype($reg) === "object") {
+            $first = strpos($strName, "\\");
+            $last = strrpos($strName, "\\");
+            $hkey = substr($strName, 0, $first);
+            if (isset($_hkey[$hkey])) {
+                $sub_keys = new VARIANT();
+                try {
+                    $reg->Get("StdRegProv")->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                } catch (Exception $e) {
+                    if ($booErrorRep) {
+                        $error = PSI_Error::singleton();
+                        $error->addError("GetStringValue()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
+                    }
+
+                    return false;
+                }
+                if (variant_get_type($sub_keys) !== VT_NULL) {
+                    $strBuffer = strval($sub_keys);
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * enumKey function
+     *
+     * @return boolean command successfull or not
+     */
+    public static function enumKey($reg, $strName, &$arrBuffer, $booErrorRep = true)
+    {
+        $arrBuffer = array();
+        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
+
+        if ($reg === false) {
+            if (defined('PSI_EMU_HOSTNAME')) {
+                return false;
+            }
+            if (self::$_cp) {
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                    foreach ($buffer2[1] as $sub_key) {
+                        $arrBuffer[] = trim($sub_key);
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (CommonFunctions::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
+                    foreach ($buffer2[1] as $sub_key) {
+                        $arrBuffer[] = trim($sub_key);
+                    }
+                } else {
+                    return false;
+                }
+            }
+        } elseif (gettype($reg) === "object") {
+            $first = strpos($strName, "\\");
+            $hkey = substr($strName, 0, $first);
+            if (isset($_hkey[$hkey])) {
+                $sub_keys = new VARIANT();
+                try {
+                   $reg->Get("StdRegProv")->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
+                } catch (Exception $e) {
+                    if ($booErrorRep) {
+                        $error = PSI_Error::singleton();
+                        $error->addError("enumKey()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));;
+                    }
+
+                    return false;
+                }
+                if (variant_get_type($sub_keys) !== VT_NULL) foreach ($sub_keys as $sub_key) {
+                    $arrBuffer[] = $sub_key;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * initWMI function
+     *
+     * @return string, object or false
+     */
+    public static function initWMI($namespace, $booErrorRep = false)
+    {
+        $wmi = false;
+        try {
+            if (PSI_OS == 'Linux') {
+                if (defined('PSI_EMU_HOSTNAME'))
+                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
+            } elseif (PSI_OS == 'WINNT') {
+                $objLocator = new COM('WbemScripting.SWbemLocator');
+                if (defined('PSI_EMU_HOSTNAME'))
+                    $wmi = $objLocator->ConnectServer(PSI_EMU_HOSTNAME, $namespace, PSI_EMU_USER, PSI_EMU_PASSWORD);
+                else
+                    $wmi = $objLocator->ConnectServer('', $namespace);
+            }
+        } catch (Exception $e) {
+            if ($booErrorRep) {
+                $error = PSI_Error::singleton();
+                $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+            }
+        }
+
+        return $wmi;
+    }
+
+    /**
+     * convertCP function
+     *
+     * @return void
+     */
+    public static function convertCP(&$strBuf, $encoding)
+    {
+        if (defined('PSI_SYSTEM_CODEPAGE') && ($encoding != null) && ($encoding != PSI_SYSTEM_CODEPAGE)) {
+            $systemcp = PSI_SYSTEM_CODEPAGE;
+            if (preg_match("/^windows-\d+ \((.+)\)$/", $systemcp, $buf)) {
+                $systemcp = $buf[1];
+            }
+            if (preg_match("/^windows-\d+ \((.+)\)$/", $encoding, $buf)) {
+                $encoding = $buf[1];
+            }
+            $enclist = mb_list_encodings();
+            if (in_array($encoding, $enclist) && in_array($systemcp, $enclist)) {
+                $strBuf = mb_convert_encoding($strBuf, $encoding, $systemcp);
+            } elseif (function_exists("iconv")) {
+                if (($iconvout=iconv($systemcp, $encoding.'//IGNORE', $strBuf))!==false) {
+                    $strBuf = $iconvout;
+                }
+            } elseif (function_exists("libiconv") && (($iconvout=libiconv($systemcp, $encoding, $strBuf))!==false)) {
+                $strBuf = $iconvout;
+            }
+        }
+    }
+
+    /**
      * build the global Error object and create the WMI connection
      */
     public function __construct($blockname = false)
@@ -206,7 +551,7 @@ class WINNT extends OS
             $this->_ver = $ver_value;
         }
         if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
-            $this->_wmi = false; // No WMI info on ReactOS yet
+            self::$_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
             if (PSI_OS == 'WINNT') {
@@ -214,10 +559,10 @@ class WINNT extends OS
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
                         $wmi = $objLocator->ConnectServer('', 'root\CIMv2');
-                        $buffer = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('CodeSet'));
+                        $buffer = self::getWMI($wmi, 'Win32_OperatingSystem', array('CodeSet'));
                         if (!$buffer) {
                             $reg = $objLocator->ConnectServer('', 'root\default');
-                            if (CommonFunctions::readReg($reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
+                            if (self::readReg($reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
                                 $buffer[0]['CodeSet'] = $strBuf;
                             }
                         }
@@ -246,9 +591,9 @@ class WINNT extends OS
                     define('PSI_SYSTEM_CODEPAGE', null);
                 }
             }
-            $this->_wmi = CommonFunctions::initWMI('root\CIMv2', true);
+            self::$_wmi = self::initWMI('root\CIMv2', true);
             if (PSI_OS == 'WINNT') {
-                $this->_reg = CommonFunctions::initWMI('root\default', PSI_DEBUG);
+                $this->_reg = self::initWMI('root\default', PSI_DEBUG);
                 if (gettype($this->_reg) === "object") {
                     $this->_reg->Security_->ImpersonationLevel = 3;
                 }
@@ -269,10 +614,10 @@ class WINNT extends OS
     {
         $buffer = $this->_get_Win32_OperatingSystem();
         if (!$buffer) {
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage\\ACP", $strBuf, false)) {
                 $buffer[0]['CodeSet'] = $strBuf;
             }
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language\\Default", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Nls\\Language\\Default", $strBuf, false)) {
                 $buffer[0]['Locale'] = $strBuf;
             }
         }
@@ -288,7 +633,7 @@ class WINNT extends OS
                 } else {
                     $codename = '';
                 }
-                CommonFunctions::setcp($codeset);
+                self::$_cp = $codeset;
                 $this->_codepage = 'windows-'.$codeset.$codename;
             }
             if (isset($buffer[0]['Locale']) && (($locale = hexdec($buffer[0]['Locale']))>0)) {
@@ -317,35 +662,35 @@ class WINNT extends OS
     {
         if (empty($this->_wmidevices)) {
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
+                $this->_wmidevices = self::getWMI(self::$_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size', 'SerialNumber'));
+                    $this->_wmidisks = self::getWMI(self::$_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size', 'SerialNumber'));
                 } else {
-                    $this->_wmidisks = CommonFunctions::getWMI($this->_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size'));
+                    $this->_wmidisks = self::getWMI(self::$_wmi, 'Win32_DiskDrive', array('PNPDeviceID', 'Size'));
                 }
             } else {
-                $this->_wmidevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
+                $this->_wmidevices = self::getWMI(self::$_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID'));
             }
 
             if (empty($this->_wmidevices)) {
                 $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
                 $id = 0;
-                if (CommonFunctions::enumKey($this->_reg, $hkey, $portBuf, false)) {
+                if (self::enumKey($this->_reg, $hkey, $portBuf, false)) {
                     foreach ($portBuf as $scsiport) {
-                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport, $busBuf, false)) {
+                        if (self::enumKey($this->_reg, $hkey."\\".$scsiport, $busBuf, false)) {
                             foreach ($busBuf as $scsibus) {
-                                if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
+                                if (self::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus, $tarBuf, false)) {
                                     foreach ($tarBuf as $scsitar) if (!strncasecmp($scsitar, "Target Id ", strlen("Target Id "))) {
-                                        if (CommonFunctions::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
+                                        if (self::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
                                             foreach ($logBuf as $scsilog) if (!strncasecmp($scsilog, "Logical Unit Id ", strlen("Logical Unit Id "))) {
                                                $hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
-                                               if ((CommonFunctions::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || CommonFunctions::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
+                                               if ((self::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || self::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
                                                   && (($typeBuf=strtolower(trim($typeBuf))) !== "")) {
                                                   if ((($typeBuf == 'diskperipheral') || ($typeBuf == 'cdromperipheral'))
-                                                     && CommonFunctions::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
+                                                     && self::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
                                                       $this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
                                                       if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                                                         && (CommonFunctions::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false))
+                                                         && (self::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false))
                                                          && (($serBuf=trim($serBuf)) !== "")) {
                                                           $this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
                                                       }
@@ -418,7 +763,7 @@ class WINNT extends OS
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();
-            if (!$buffer && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName\\ComputerName", $strBuf, false) && (strlen($strBuf) > 0)) {
+            if (!$buffer && self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName\\ComputerName", $strBuf, false) && (strlen($strBuf) > 0)) {
                     $buffer[0]['Name'] = $strBuf;
             }
             if ($buffer) {
@@ -557,7 +902,7 @@ class WINNT extends OS
                 $users = count($lines)-1;
         } else {
             $users = 0;
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
             foreach ($buffer as $process) {
                 if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
                     $users++;
@@ -635,8 +980,8 @@ class WINNT extends OS
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*([\.\d]+)\]/", $this->_ver, $ar_temp)) {
                     $ver = $ar_temp[2];
                     $kernel = $ver;
-                    if (($this->_reg === false) && CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) { // only if reg query via cmd
-                        if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $tmpBuf, false)) {
+                    if (($this->_reg === false) && self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) { // only if reg query via cmd
+                        if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $tmpBuf, false)) {
                             $kernel .= ' (64-bit)';
                         }
                         if (preg_match("/^Microsoft /", $strBuf)) {
@@ -644,7 +989,7 @@ class WINNT extends OS
                         } else {
                             $distribution = "Microsoft ".$strBuf;
                         }
-                    } elseif (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
+                    } elseif (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false) && (strlen($strBuf) > 0)) {
                         if (preg_match("/^Microsoft /", $strBuf)) {
                             $distribution = $strBuf;
                         } else {
@@ -728,22 +1073,22 @@ class WINNT extends OS
     private function _cpuinfo()
     {
         $allCpus = $this->_get_Win32_Processor();
-        if (!$allCpus) {
+        if (empty($allCpus)) {
             $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor";
-            if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
+            if (self::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                 foreach ($arrBuf as $coreCount) {
-                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\ProcessorNameString", $strBuf, false)) {
+                    if (self::readReg($this->_reg, $hkey."\\".$coreCount."\\ProcessorNameString", $strBuf, false)) {
                         $allCpus[$coreCount]['Name'] = $strBuf;
                     }
-                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\~MHz", $strBuf, false)) {
+                    if (self::readReg($this->_reg, $hkey."\\".$coreCount."\\~MHz", $strBuf, false)) {
                         if (preg_match("/^0x([0-9a-f]+)$/i", $strBuf, $hexvalue)) {
                             $allCpus[$coreCount]['CurrentClockSpeed'] = hexdec($hexvalue[1]);
                         }
                     }
-                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\VendorIdentifier", $strBuf, false)) {
+                    if (self::readReg($this->_reg, $hkey."\\".$coreCount."\\VendorIdentifier", $strBuf, false)) {
                         $allCpus[$coreCount]['Manufacturer'] = $strBuf;
                     }
-                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$coreCount."\\Identifier", $strBuf, false)) {
+                    if (self::readReg($this->_reg, $hkey."\\".$coreCount."\\Identifier", $strBuf, false)) {
                         $allCpus[$coreCount]['Caption'] = $strBuf;
                     }
                 }
@@ -850,30 +1195,30 @@ class WINNT extends OS
     private function _machine()
     {
         $buffer = $this->_get_Win32_ComputerSystem();
-        $bufferp = CommonFunctions::getWMI($this->_wmi, 'Win32_BaseBoard', array('Product'));
-        $bufferb = CommonFunctions::getWMI($this->_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
+        $bufferp = self::getWMI(self::$_wmi, 'Win32_BaseBoard', array('Product'));
+        $bufferb = self::getWMI(self::$_wmi, 'Win32_BIOS', array('SMBIOSBIOSVersion', 'ReleaseDate'));
 
         if (!$buffer) {
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\systemManufacturer", $strBuf, false)) {
                 $buffer[0]['Manufacturer'] = $strBuf;
             }
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", $strBuf, false)) {
                 $buffer[0]['Model'] = $strBuf;
             }
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemFamily", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemFamily", $strBuf, false)) {
                 $buffer[0]['SystemFamily'] = $strBuf;
             }
         }
         if (!$bufferp) {
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BaseBoardProduct", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BaseBoardProduct", $strBuf, false)) {
                 $bufferp[0]['Product'] = $strBuf;
             }
         }
         if (!$bufferb) {
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSVersion", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSVersion", $strBuf, false)) {
                 $bufferb[0]['SMBIOSBIOSVersion'] = $strBuf;
             }
-            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSReleaseDate", $strBuf, false)) {
+            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\BIOSReleaseDate", $strBuf, false)) {
                 $bufferb[0]['ReleaseDate'] = $strBuf;
             }
         }
@@ -997,25 +1342,25 @@ class WINNT extends OS
      */
     private function _network()
     {
-        if ($this->_wmi) {
+        if (self::$_wmi) {
             $buffer = $this->_get_Win32_OperatingSystem();
             if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkAdapter', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
+                $allDevices = self::getWMI(self::$_wmi, 'Win32_PerfRawData_Tcpip_NetworkAdapter', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
             } else {
-                $allDevices = CommonFunctions::getWMI($this->_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
+                $allDevices = self::getWMI(self::$_wmi, 'Win32_PerfRawData_Tcpip_NetworkInterface', array('Name', 'BytesSentPersec', 'BytesTotalPersec', 'BytesReceivedPersec', 'PacketsReceivedErrors', 'PacketsReceivedDiscarded', 'CurrentBandwidth'));
             }
             if ($allDevices) {
                 $aliases = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}";
-                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
+                if (self::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netID) {
-                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) {
-                            if (CommonFunctions::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
+                        if (self::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\PnPInstanceId", $strInstanceID, false)) {
+                            if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$strInstanceID."\\FriendlyName", $strName, false)) {
                                 $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                                 if (!isset($aliases[$cname])) { // duplicate checking
                                     $aliases[$cname]['id'] = $netID;
                                     $aliases[$cname]['name'] = $strName;
-                                    if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, false)
+                                    if (self::readReg($this->_reg, $hkey."\\".$netID."\\Connection\\Name", $strCName, false)
                                        && (str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strCName) !== $cname)) {
                                         $aliases[$cname]['netname'] = $strCName;
                                     }
@@ -1029,10 +1374,10 @@ class WINNT extends OS
 
                 $aliases2 = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkCards";
-                if (CommonFunctions::enumKey($this->_reg, $hkey, $arrBuf, false)) {
+                if (self::enumKey($this->_reg, $hkey, $arrBuf, false)) {
                     foreach ($arrBuf as $netCount) {
-                        if (CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
-                            && CommonFunctions::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
+                        if (self::readReg($this->_reg, $hkey."\\".$netCount."\\Description", $strName, false)
+                            && self::readReg($this->_reg, $hkey."\\".$netCount."\\ServiceName", $strGUID, false)) {
                             $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
                             if (!isset($aliases2[$cname])) { // duplicate checking
                                 $aliases2[$cname]['id'] = $strGUID;
@@ -1044,7 +1389,7 @@ class WINNT extends OS
                     }
                 }
 
-                $allNetworkAdapterConfigurations = CommonFunctions::getWMI($this->_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
+                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
                 foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
@@ -1170,14 +1515,14 @@ class WINNT extends OS
      */
     private function _memory()
     {
-        if ($this->_wmi) {
+        if (self::$_wmi) {
             $buffer = $this->_get_Win32_OperatingSystem();
             if ($buffer) {
                 $this->sys->setMemTotal($buffer[0]['TotalVisibleMemorySize'] * 1024);
                 $this->sys->setMemFree($buffer[0]['FreePhysicalMemory'] * 1024);
                 $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
             }
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_PageFileUsage');
+            $buffer = self::getWMI(self::$_wmi, 'Win32_PageFileUsage');
             foreach ($buffer as $swapdevice) {
                 $dev = new DiskDevice();
                 $dev->setName("SWAP");
@@ -1205,7 +1550,7 @@ class WINNT extends OS
     {
         $typearray = array('Unknown', 'No Root Directory', 'Removable Disk', 'Local Disk', 'Network Drive', 'Compact Disc', 'RAM Disk');
         $floppyarray = array('Unknown', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', '5 1/4 in.', 'Other', 'HD', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '5 1/4 in.', '3 1/2 in.', '3 1/2 in.', '8 in.');
-        $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_LogicalDisk', array('Name', 'Size', 'FreeSpace', 'FileSystem', 'DriveType', 'MediaType'));
+        $buffer = self::getWMI(self::$_wmi, 'Win32_LogicalDisk', array('Name', 'Size', 'FreeSpace', 'FileSystem', 'DriveType', 'MediaType'));
         foreach ($buffer as $filesystem) {
             $dev = new DiskDevice();
             $dev->setMountPoint($filesystem['Name']);
@@ -1279,7 +1624,7 @@ class WINNT extends OS
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
         if ($processes['*'] <= 0) {
-            $buffer = CommonFunctions::getWMI($this->_wmi, 'Win32_Process', array('Caption'));
+            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
             $processes['*'] = count($buffer);
         }
         $processes[' '] = $processes['*'];
@@ -1293,11 +1638,11 @@ class WINNT extends OS
      */
     private function _meminfo()
     {
-        $allMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemory', array('PartNumber', 'DeviceLocator', 'Capacity', 'Manufacturer', 'SerialNumber', 'Speed', 'ConfiguredClockSpeed', 'ConfiguredVoltage', 'MemoryType', 'SMBIOSMemoryType', 'FormFactor', 'DataWidth', 'TotalWidth', 'BankLabel', 'MinVoltage', 'MaxVoltage'));
+        $allMems = self::_get_Win32_PhysicalMemory();
         if ($allMems) {
             $reg = false;
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                $arrMems = CommonFunctions::getWMI($this->_wmi, 'Win32_PhysicalMemoryArray', array('MemoryErrorCorrection'));
+                $arrMems = self::getWMI(self::$_wmi, 'Win32_PhysicalMemoryArray', array('MemoryErrorCorrection'));
                 $reg = (count($arrMems) == 1) && isset($arrMems[0]['MemoryErrorCorrection']) && ($arrMems[0]['MemoryErrorCorrection'] == 6);
             }
             foreach ($allMems as $mem) {

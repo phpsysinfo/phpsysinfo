@@ -74,7 +74,7 @@ class Raid extends PSI_Plugin
                 }
                 if (in_array('megaclisas-status', $RaidProgs)) {
                     if (PSI_OS == 'WINNT') {
-                        if (!CommonFunctions::isAdmin()) {
+                        if (!WINNT::isAdmin()) {
                             $this->global_error->addError("RAID megaclisas-status.py error", "Program allowed for users with administrator privileges (run as administrator)");
                         } else {
                             CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);

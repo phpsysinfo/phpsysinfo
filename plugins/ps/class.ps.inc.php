@@ -40,21 +40,25 @@ class PS extends PSI_Plugin
         case 'command':
             if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
                 try {
-                    $wmi = CommonFunctions::initWMI('root\CIMv2');
-                    $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
+                    if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME')) {
+                        $wmi = WINNT::initWMI('root\CIMv2');
+                    } else {
+                        $wmi = WINNT::getcimv2wmi();
+                    }
+                    $os_wmi = WINNT::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {
                         $memtotal = $os['TotalVisibleMemorySize'] * 1024;
                         break;
                     }
 
-                    $perf_wmi = CommonFunctions::getWMI($wmi, 'Win32_PerfFormattedData_PerfProc_Process', array('IDProcess', 'CreatingProcessID', 'PercentProcessorTime'));
+                    $perf_wmi = WINNT::getWMI($wmi, 'Win32_PerfFormattedData_PerfProc_Process', array('IDProcess', 'CreatingProcessID', 'PercentProcessorTime'));
                     $proccpu = array();
                     foreach ($perf_wmi as $perf) {
                         $proccpu[trim($perf['IDProcess'])] = array('ParentProcessId'=>trim($perf['CreatingProcessID']), 'PercentProcessorTime'=>trim($perf['PercentProcessorTime']));
                     }
 
-                    $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
+                    $process_wmi = WINNT::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
                         if (strlen(trim($process['CommandLine'])) > 0) {
                             $ps = trim($process['CommandLine']);

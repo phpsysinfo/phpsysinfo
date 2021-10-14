@@ -42,8 +42,8 @@ class StableBit extends PSI_Plugin
     {
         if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
             try {
-                $wmi = CommonFunctions::initWMI('root\StableBit\Scanner');
-                $this->_result = CommonFunctions::getWMI($wmi, 'Disks', $this->stablebit_items);
+                $wmi = WINNT::initWMI('root\StableBit\Scanner');
+                $this->_result = WINNT::getWMI($wmi, 'Disks', $this->stablebit_items);
             } catch (Exception $e) {
             }
         }
