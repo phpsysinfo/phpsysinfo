@@ -492,21 +492,23 @@ class WINNT extends OS
     public static function initWMI($namespace, $booErrorRep = false)
     {
         $wmi = false;
-        try {
-            if (PSI_OS == 'Linux') {
-                if (defined('PSI_EMU_HOSTNAME'))
-                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
-            } elseif (PSI_OS == 'WINNT') {
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (defined('PSI_EMU_HOSTNAME'))
-                    $wmi = $objLocator->ConnectServer(PSI_EMU_HOSTNAME, $namespace, PSI_EMU_USER, PSI_EMU_PASSWORD);
-                else
-                    $wmi = $objLocator->ConnectServer('', $namespace);
-            }
-        } catch (Exception $e) {
-            if ($booErrorRep) {
-                $error = PSI_Error::singleton();
-                $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+        if (self::$_wmi !== false) { // WMI not disabled
+            try {
+                if (PSI_OS == 'Linux') {
+                    if (defined('PSI_EMU_HOSTNAME'))
+                        $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
+                } elseif (PSI_OS == 'WINNT') {
+                    $objLocator = new COM('WbemScripting.SWbemLocator');
+                    if (defined('PSI_EMU_HOSTNAME'))
+                        $wmi = $objLocator->ConnectServer(PSI_EMU_HOSTNAME, $namespace, PSI_EMU_USER, PSI_EMU_PASSWORD);
+                    else
+                        $wmi = $objLocator->ConnectServer('', $namespace);
+                }
+            } catch (Exception $e) {
+                if ($booErrorRep) {
+                    $error = PSI_Error::singleton();
+                    $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
+                }
             }
         }
 
