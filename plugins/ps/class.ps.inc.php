@@ -60,7 +60,7 @@ class PS extends PSI_Plugin
 
                     $process_wmi = WINNT::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
-                        if (strlen(trim($process['CommandLine'])) > 0) {
+                        if (isset($process['CommandLine']) && strlen(trim($process['CommandLine'])) > 0) {
                             $ps = trim($process['CommandLine']);
                         } else {
                             $ps = trim($process['Caption']);
