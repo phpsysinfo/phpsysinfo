@@ -36,7 +36,7 @@ class ThermalZone extends Sensors
                         $this->_buf = WINNT::getWMI($_wmi, 'MSAcpi_ThermalZoneTemperature', array('InstanceName', 'CriticalTripPoint', 'CurrentTemperature'));
                     }
                 } else {
-                    $_wmi = WINNT::initWMI('root\CIMv2');
+                    $_wmi = WINNT::getcimv2wmi();
                     if ($_wmi) {
                         $this->_buf = WINNT::getWMI($_wmi, 'Win32_PerfFormattedData_Counters_ThermalZoneInformation', array('Name', 'HighPrecisionTemperature', 'Temperature'));
                     }

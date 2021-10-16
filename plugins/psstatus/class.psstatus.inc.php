@@ -82,11 +82,7 @@ class PSStatus extends PSI_Plugin
 
                     if (!$short || (count($this->_filecontent) == 0)) {
                         try {
-                            if (defined('PSI_PLUGIN_PS_WMI_HOSTNAME')) {
-                                $wmi = WINNT::initWMI('root\CIMv2');
-                            } else {
-                                $wmi = WINNT::getcimv2wmi();
-                            }
+                            $wmi = WINNT::getcimv2wmi();
                             $process_wmi = WINNT::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
                             foreach ($process_wmi as $process) {
                                 $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
