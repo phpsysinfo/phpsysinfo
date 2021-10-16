@@ -39,7 +39,7 @@ class WINNT extends OS
      *
      * @var array
      */
-    private $_Win32_OperatingSystem = null;
+    private static $_Win32_OperatingSystem = null;
 
     /**
      * holds the data from WMI Win32_ComputerSystem
@@ -171,10 +171,10 @@ class WINNT extends OS
      *
      * @return array
      */
-    private function _get_Win32_OperatingSystem()
+    public static function _get_Win32_OperatingSystem()
     {
-        if ($this->_Win32_OperatingSystem === null) $this->_Win32_OperatingSystem = self::getWMI(self::$_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
-        return $this->_Win32_OperatingSystem;
+        if (self::$_Win32_OperatingSystem === null) self::$_Win32_OperatingSystem = self::getWMI(self::$_wmi, 'Win32_OperatingSystem', array('CodeSet', 'Locale', 'LastBootUpTime', 'LocalDateTime', 'Version', 'ServicePackMajorVersion', 'Caption', 'TotalVisibleMemorySize', 'FreePhysicalMemory'));
+        return self::$_Win32_OperatingSystem;
     }
 
     /**

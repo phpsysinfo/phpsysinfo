@@ -41,12 +41,7 @@ class HyperV extends PSI_Plugin
         if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
-                if (defined('PSI_PLUGIN_HYPERV_WMI_HOSTNAME')) {
-                    $cim = WINNT::initWMI('root\CIMv2');
-                } else {
-                    $cim = WINNT::getcimv2wmi();
-                }
-                $buffer = WINNT::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
+                $buffer = WINNT::_get_Win32_OperatingSystem();
                 if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                     if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
                         $wmi = WINNT::initWMI('root\virtualization\v2');
