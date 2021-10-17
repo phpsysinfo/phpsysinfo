@@ -7,14 +7,11 @@ echo "</head>";
 echo "<body>";
 
 define('PSI_APP_ROOT', dirname(__FILE__).'/..');
+define('PSI_DEBUG', false);
 require_once PSI_APP_ROOT.'/includes/interface/class.PSI_Interface_OS.inc.php';
 require_once PSI_APP_ROOT.'/includes/os/class.OS.inc.php';
 require_once PSI_APP_ROOT.'/includes/to/class.System.inc.php';
 require_once PSI_APP_ROOT.'/includes/os/class.Linux.inc.php';
-define('PSI_USE_VHOST', false);
-define('PSI_DEBUG', false);
-define('PSI_LOAD_BAR', false);
-define('PSI_OS', 'Linux');
 
 $log_file = "";
 $lsb = true; //enable detection lsb_release -a
