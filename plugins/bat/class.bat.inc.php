@@ -694,6 +694,25 @@ class BAT extends PSI_Plugin
             if (isset($bat_item['manufacturer']) && ($bat_item['manufacturer'] !== '') && ($bat_item['manufacturer'] !== '-Virtual Battery 0-')) {
                 $xmlbat->addAttribute("Manufacturer", $bat_item['manufacturer']);
             }
+            if (isset($bat_item['capacity_unit']) && ((($tmp_capacity_unit = $bat_item['capacity_unit']) === "Wh") || ($tmp_capacity_unit === "Ah"))
+               && ((isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] != round($bat_item['full_capacity'])))
+               || (isset($bat_item['remaining_capacity']) && ($bat_item['remaining_capacity'] != round($bat_item['remaining_capacity'])))
+               || (isset($bat_item['design_capacity']) && ($bat_item['design_capacity'] != round($bat_item['design_capacity']))))) {
+                if (isset($bat_item['full_capacity'])) {
+                    $bat_item['full_capacity'] = $bat_item['full_capacity'] * 1000;
+                }
+                if (isset($bat_item['remaining_capacity'])) {
+                    $bat_item['remaining_capacity'] = $bat_item['remaining_capacity'] * 1000;
+                }
+                if (isset($bat_item['design_capacity'])) {
+                    $bat_item['design_capacity'] = $bat_item['design_capacity'] * 1000;
+                }
+                if ($tmp_capacity_unit === "Wh") {
+                    $bat_item['capacity_unit'] = "mWh";
+                } else {
+                    $bat_item['capacity_unit'] = "mAh";
+                }
+            }
             if ((!isset($bat_item['remaining_capacity']) || (isset($bat_item['full_capacity']) && ($bat_item['full_capacity'] == 0))) &&
                 isset($bat_item['capacity']) && ($bat_item['capacity']>=0)) {
                 if (isset($bat_item['capacity_unit']) && ($bat_item['capacity_unit'] !== "???")
