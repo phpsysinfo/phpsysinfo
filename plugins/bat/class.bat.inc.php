@@ -148,7 +148,7 @@ class BAT extends PSI_Plugin
                             if ($capacity != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[$bi]['FullChargeCapacity']*10)."\n");
                             if (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity'] > 0))
                                 $buffer[$bi]['info'] .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[$bi]['DesignCapacity']*1000)."\n";
-                        } elseif (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity'] >0 )) {
+                        } elseif (isset($bufferWPB[$bi]['DesignCapacity']) && ($bufferWPB[$bi]['DesignCapacity'] > 0)) {
                             $buffer[$bi]['info'] .= 'POWER_SUPPLY_ENERGY_FULL_DESIGN='.($bufferWPB[$bi]['DesignCapacity']*1000)."\n";
                             if ($capacity != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_ENERGY_NOW='.(round($capacity*$bufferWPB[$bi]['DesignCapacity']*10)."\n");
                         } else {
