@@ -28,18 +28,6 @@ class PSI_Error
     }
 }
 
-class Parser
-{
-    public static function lspci()
-    {
-        return array();
-    }
-    public static function df()
-    {
-        return array();
-    }
-}
-
 class CommonFunctions
 {
     private static function _parse_log_file($string)
@@ -112,26 +100,6 @@ class CommonFunctions
 
         return $test && file_exists($log_file) && ($contents = @file_get_contents($log_file)) && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents);
     }
-
-    public static function readenv($strElem, &$strBuffer)
-    {
-        return false;
-    }
-
-    public static function gdc()
-    {
-        return array();
-    }
-
-    public static function _findProgram($strProgram)
-    {
-        return false;
-    }
-
-    public static function readdmimemdata()
-    {
-        return null;
-    }
 }
 
 class _Linux extends Linux
@@ -142,7 +110,7 @@ class _Linux extends Linux
     }
 }
 
-$system = new _Linux();
+$system = new _Linux('none');
 if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
     echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\">";
     echo "<tr>";
