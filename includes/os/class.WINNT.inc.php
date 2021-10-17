@@ -1129,7 +1129,7 @@ class WINNT extends OS
                 }
                 if (isset($oneCpu['CurrentClockSpeed']) && ($oneCpu['CurrentClockSpeed'] > 0)) {
                     $cpu->setCpuSpeed($oneCpu['CurrentClockSpeed']);
-                    if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] < $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
+                    if (isset($oneCpu['MaxClockSpeed']) && ($oneCpu['CurrentClockSpeed'] <= $oneCpu['MaxClockSpeed'])) $cpu->setCpuSpeedMax($oneCpu['MaxClockSpeed']);
                 }
                 if (isset($oneCpu['ExtClock']) && ($oneCpu['ExtClock'] > 0)) {
                     $cpu->setBusSpeed($oneCpu['ExtClock']);
