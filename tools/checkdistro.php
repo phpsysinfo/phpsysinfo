@@ -127,6 +127,11 @@ class CommonFunctions
     {
         return false;
     }
+
+    public static function readdmimemdata()
+    {
+        return null;
+    }
 }
 
 class _Linux extends Linux
