@@ -178,7 +178,7 @@ class Linux extends OS
                 );
                 for ($i = 0; $i < 4; $i++) {
                     if (isset($vendor_array['file'.$i])) foreach ($vendarray as $vend=>$virt) {
-                        if (preg_match('/^'.$vendarray.'/', $vendor_array['file'.$i])) {
+                        if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
                             $this->_machine_info['hypervisor'] = $virt;
                             break 2;
                         }
