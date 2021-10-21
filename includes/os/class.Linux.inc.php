@@ -123,7 +123,7 @@ class Linux extends OS
             } else { // data from /sys/devices/virtual/dmi/id/
                 $bios = "";
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {
-                    /* Test this before sys_vendor to detect KVM over QEMU */
+                    // Test this before sys_vendor to detect KVM over QEMU
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array['file0'] = trim($buf);
                     }
@@ -171,8 +171,8 @@ class Linux extends OS
                     'Oracle Corporation' => 'oracle',
                     'Xen' => 'xen', // Xen hypervisor
                     'Bochs' => 'bochs', // Bochs
-                    'Parallels' => 'parallels', //Parallels
-                    /* https://wiki.freebsd.org/bhyve */
+                    'Parallels' => 'parallels', // Parallels
+                    // https://wiki.freebsd.org/bhyve
                     'BHYVE' => 'bhyve', // bhyve
                     'Microsoft' => 'microsoft' // Hyper-V
                 );
@@ -362,15 +362,15 @@ class Linux extends OS
                 $shortvendorid = preg_replace('/[\s!\.]/', '', $cpuid[1].$cpuid[2].$cpuid[3]);
                 $vidarray = array(
                     'bhyvebhyve' => 'bhyve', // bhyve
-                    'KVMKVMKVM' => 'kvm', //KVM
+                    'KVMKVMKVM' => 'kvm', // KVM
                     'MicrosoftHv' => 'microsoft', // Hyper-V
-                    //'lrpepyhvr' => 'parallels', //Parallels
+                    //'lrpepyhvr' => 'parallels', // Parallels
                     //'UnisysSpar64' => 'spar', // Unisys sPar
-                    'VMwareVMware' => 'vmware', //VMware
-                    'XenVMMXenVMM' => 'xen', //Xen hypervisor
+                    'VMwareVMware' => 'vmware', // VMware
+                    'XenVMMXenVMM' => 'xen', // Xen hypervisor
                     'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
-                    'TCGTCGTCGTCG' => 'qemu', //QEMU
-                    'QNXQVMBSQG' => 'qnx' //QNX hypervisor
+                    'TCGTCGTCGTCG' => 'qemu', // QEMU
+                    'QNXQVMBSQG' => 'qnx' // QNX hypervisor
                 );
                 if (isset($vidarray[$shortvendorid])) {
                     $this->sys->setVirtualizer($vidarray[$shortvendorid]);
@@ -754,13 +754,13 @@ class Linux extends OS
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            if ($arrBuff1 > 0) { //openSUSE fix
+                            if ($arrBuff1 > 0) { // openSUSE fix
                                 $dev->setCpuSpeed($arrBuff1);
                                 $speedset = true;
                             }
                             break;
                         case 'cpu mhz static':
-                            if ($arrBuff1 > 0) { //openSUSE fix
+                            if ($arrBuff1 > 0) { // openSUSE fix
                                 $dev->setCpuSpeedMax($arrBuff1);
                             }
                             break;
@@ -844,7 +844,7 @@ class Linux extends OS
 
                 // XScale detection code
                 if (($arch === "5TE") && ($dev->getBogomips() !== null)) {
-                    $dev->setCpuSpeed($dev->getBogomips()); //BogoMIPS are not BogoMIPS on this CPU, it's the speed
+                    $dev->setCpuSpeed($dev->getBogomips()); // BogoMIPS are not BogoMIPS on this CPU, it's the speed
                     $speedset = true;
                     $dev->setBogomips(null); // no BogoMIPS available, unset previously set BogoMIPS
                 }
@@ -1139,7 +1139,7 @@ class Linux extends OS
         $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
         if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
             for ($i = 0; $i < $total; $i++) {
-                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { //is readable
+                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
                     $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
                     $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
                     $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
@@ -1169,7 +1169,7 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) { //usb-devices
+        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) { // usb-devices
             $devnum = -1;
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
@@ -1712,7 +1712,7 @@ class Linux extends OS
             $df_args .= "-x $Fstype ";
         }
         if ($df_args !== "") {
-            $df_args = trim($df_args); //trim spaces
+            $df_args = trim($df_args); // trim spaces
             $arrResult = Parser::df("-P $df_args 2>/dev/null");
         } else {
             $arrResult = Parser::df("-P 2>/dev/null");
@@ -1985,7 +1985,7 @@ class Linux extends OS
                         $this->sys->setDistributionIcon($list['Tails']['Image']);
                     } else {
                         if (preg_match('/^PRETTY_NAME="?([^"\n]+)"?/m', $buf, $desc_buf)
-                           && !preg_match('/\$/', $desc_buf[1])) { //if is not defined by variable
+                           && !preg_match('/\$/', $desc_buf[1])) { // if is not defined by variable
                             $this->sys->setDistribution(trim($desc_buf[1]));
                         } else {
                             if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -2060,7 +2060,7 @@ class Linux extends OS
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($process[$i], $buf, 0, 4096, false)) {
-                    $processes['*']++; //current total
+                    $processes['*']++; // current total
                     if (preg_match('/^State:\s+(\w)/m', $buf, $state)) {
                         if (isset($processes[$state[1]])) {
                             $processes[$state[1]]++;
@@ -2071,7 +2071,7 @@ class Linux extends OS
                 }
             }
             if (!($processes['*'] > 0)) {
-                $processes['*'] = $processes[' '] = $total; //all unknown
+                $processes['*'] = $processes[' '] = $total; // all unknown
             }
             $this->sys->setProcesses($processes);
         }
