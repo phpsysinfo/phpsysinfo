@@ -69,15 +69,15 @@ class Linux extends OS
                 if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                     $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
                 }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
                     $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                 }
             }
-            if ((count($this->_dmesg_info) < ((defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null))?2:1)) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+            if ((count($this->_dmesg_info) < ((defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null))?2:1)) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
                 if (!isset($this->_dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
                     $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
                 }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null) && !isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && !isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
                     $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
                 }
             }
@@ -97,13 +97,13 @@ class Linux extends OS
             $this->_machine_info = array();
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                 if (CommonFunctions::executeProgram('systemd-detect-virt', '-v', $resultv, false)) {
-                    $system_detect_virt = $resultv;
+                    $this->system_detect_virt = $resultv;
                 }
             }
             $vendor_array = array();
             if ((($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['dmi'])) {
                 $this->_machine_info['machine'] = $dmesg['dmi'];
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {                  
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {                  
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array['file0'] = trim($buf);
@@ -122,7 +122,7 @@ class Linux extends OS
                 }
             } else { // data from /sys/devices/virtual/dmi/id/
                 $bios = "";
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     // Test this before sys_vendor to detect KVM over QEMU
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array['file0'] = trim($buf);
@@ -159,8 +159,8 @@ class Linux extends OS
             if (isset($this->_machine_info['machine'])) {
                 $this->_machine_info['machine'] = trim(preg_replace("/^\/,?/", "", preg_replace("/ ?(To be filled by O\.E\.M\.|System manufacturer|System Product Name|Not Specified|Default string) ?/i", "", $this->_machine_info['machine'])));
             }
-     
-            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null) && count($vendor_array)>0) {
+
+            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && count($vendor_array)>0) {
                 $vendarray = array(
                     'KVM' => 'kvm', // KVM
                     'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
@@ -186,7 +186,6 @@ class Linux extends OS
                 }
             }
         }
-        
 
         return $this->_machine_info;
     }
@@ -301,9 +300,9 @@ class Linux extends OS
         if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
             return;
         }
-        if ($system_detect_virt !== null) {
-            if (($system_detect_virt !== "") && ($system_detect_virt !== "none")) {
-                $this->sys->setVirtualizer($system_detect_virt);
+        if ($this->system_detect_virt !== null) {
+            if (($this->system_detect_virt !== "") && ($this->system_detect_virt !== "none")) {
+                $this->sys->setVirtualizer($this->system_detect_virt);
             }
             if (($verBuf = $this->_get_kernel_string()) !== "") {
                 if (preg_match('/^[\d\.-]+-microsoft-standard/', $verBuf)) {
@@ -791,7 +790,7 @@ class Linux extends OS
                                 if ($dev->getVirt() === null) {
                                     $dev->setVirt("hypervisor");
                                 }
-                                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {
+                                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                                     $this->sys->setVirtualizer("hypervisor", false);
                                 }
                             }
@@ -819,7 +818,7 @@ class Linux extends OS
                         case 'vendor_id':
                             $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
                             $dev->setVendorId($shortvendorid);
-                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                                 $this->sys->setVirtualizer("cpuid:".$shortvendorid, false);
                             }
                         }
@@ -861,7 +860,7 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
-                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null)) {
+                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                         $this->sys->setVirtualizer("cpuid:".$_vend, false);
                     }
                 }
@@ -942,7 +941,7 @@ class Linux extends OS
                     }
 
                     $cpumodel = $dev->getModel();
-                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($system_detect_virt === null) && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
                         $this->sys->setVirtualizer("cpuid:QEMU", false);
                     }
                     if ($cpumodel === "") {
