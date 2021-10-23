@@ -606,6 +606,40 @@ class CommonFunctions
     }
 
     /**
+     * get virtualizer from dmi data
+     *
+     * @return string|null
+     */
+    public static function getdmivirtualizer($vendor_array);
+    {
+        $vendarray = array(
+            'KVM' => 'kvm', // KVM
+            'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
+            'QEMU' => 'qemu', // QEMU
+            'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
+            'VMW' => 'vmware',
+            'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
+            'Oracle Corporation' => 'oracle',
+            'Xen' => 'xen', // Xen hypervisor
+            'Bochs' => 'bochs', // Bochs
+            'Parallels' => 'parallels', // Parallels
+            // https://wiki.freebsd.org/bhyve
+            'BHYVE' => 'bhyve', // bhyve
+            'Microsoft' => 'microsoft' // Hyper-V
+        );
+        for ($i = 0; $i < count($vendor_array); $i++) {
+            if (isset($vendor_array['data'.$i])) foreach ($vendarray as $vend=>$virt) {
+                if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
+                    return $virt;
+                }
+            }
+        }
+        
+        return null;
+    }
+
+
+    /**
      * readdmimemdata function
      *
      * @return array

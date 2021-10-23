@@ -106,36 +106,36 @@ class Linux extends OS
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {                  
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file0'] = trim($buf);
+                        $vendor_array['data0'] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/sys_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file1'] = trim($buf);
+                        $vendor_array['data1'] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file2'] = trim($buf);
+                        $vendor_array['data2'] = trim($buf);
                     } else {
-                        $vendor_array['file2'] = $dmesg['dmi'];
+                        $vendor_array['data2'] = $dmesg['dmi'];
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file3'] = trim($buf);
+                        $vendor_array['data3'] = trim($buf);
                     }
                 }
             } else { // 'machine' data from /sys/devices/virtual/dmi/id/
                 $bios = "";
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/sys_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file1'] = trim($buf);
+                        $vendor_array['data1'] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $this->_machine_info['machine'] = trim($buf);
-                        $vendor_array['file2'] = trim($buf);
+                        $vendor_array['data2'] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file3'] = trim($buf);
+                        $vendor_array['data3'] = trim($buf);
                     }
                     // Test this before sys_vendor to detect KVM over QEMU
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file0'] = trim($buf);
+                        $vendor_array['data0'] = trim($buf);
                         $this->_machine_info['machine'] .= " ".trim($buf);
                     }
                 } else {
@@ -164,28 +164,9 @@ class Linux extends OS
             }
 
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && count($vendor_array)>0) {
-                $vendarray = array(
-                    'KVM' => 'kvm', // KVM
-                    'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
-                    'QEMU' => 'qemu', // QEMU
-                    'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
-                    'VMW' => 'vmware',
-                    'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
-                    'Oracle Corporation' => 'oracle',
-                    'Xen' => 'xen', // Xen hypervisor
-                    'Bochs' => 'bochs', // Bochs
-                    'Parallels' => 'parallels', // Parallels
-                    // https://wiki.freebsd.org/bhyve
-                    'BHYVE' => 'bhyve', // bhyve
-                    'Microsoft' => 'microsoft' // Hyper-V
-                );
-                for ($i = 0; $i < 4; $i++) {
-                    if (isset($vendor_array['file'.$i])) foreach ($vendarray as $vend=>$virt) {
-                        if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
-                            $this->_machine_info['hypervisor'] = $virt;
-                            break 2;
-                        }
-                    }
+                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                if ($virt !== null) {
+                    $this->_machine_info['hypervisor'] = $virt;
                 }
             }
         }

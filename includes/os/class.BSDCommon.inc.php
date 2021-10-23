@@ -403,8 +403,8 @@ abstract class BSDCommon extends OS
                 $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
                 $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                    $vendor_array['file2'] = $this->grabkey('machdep.dmi.board-vendor');
-                    $vendor_array['file3'] = $this->grabkey('machdep.dmi.bios-vendor');
+                    $vendor_array['data2'] = $this->grabkey('machdep.dmi.board-vendor');
+                    $vendor_array['data3'] = $this->grabkey('machdep.dmi.bios-vendor');
                 }
             } else { // OpenBSD
                 $buffer['Manufacturer'] = $this->grabkey('hw.vendor');
@@ -414,30 +414,11 @@ abstract class BSDCommon extends OS
                 $buffer['ReleaseDate'] = "";
             }
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                $vendor_array['file0'] = $buffer['Model'];
-                $vendor_array['file1'] = $buffer['Manufacturer'];
-                $vendarray = array(
-                    'KVM' => 'kvm', // KVM
-                    'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
-                    'QEMU' => 'qemu', // QEMU
-                    'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
-                    'VMW' => 'vmware',
-                    'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
-                    'Oracle Corporation' => 'oracle',
-                    'Xen' => 'xen', // Xen hypervisor
-                    'Bochs' => 'bochs', // Bochs
-                    'Parallels' => 'parallels', // Parallels
-                    // https://wiki.freebsd.org/bhyve
-                    'BHYVE' => 'bhyve', // bhyve
-                    'Microsoft' => 'microsoft' // Hyper-V
-                );
-                for ($i = 0; $i < 4; $i++) {
-                    if (isset($vendor_array['file'.$i])) foreach ($vendarray as $vend=>$virt) {
-                        if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
-                            $this->sys->setVirtualizer($virt);
-                            break 2;
-                        }
-                    }
+                $vendor_array['data0'] = $buffer['Model'];
+                $vendor_array['data1'] = $buffer['Manufacturer'];
+                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                if ($virt !== null) {
+                    $this->sys->setVirtualizer($virt);
                 }
             }
             
