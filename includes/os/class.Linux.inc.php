@@ -141,7 +141,7 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array[] = trim($buf);
                     }
-                    if ($product_name!="")) {
+                    if ($product_name != "") {
                         $this->_machine_info['machine'] .= " ".$product_name;
                     }
                 } else {
