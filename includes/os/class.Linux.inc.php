@@ -123,10 +123,6 @@ class Linux extends OS
             } else { // 'machine' data from /sys/devices/virtual/dmi/id/
                 $bios = "";
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
-                    // Test this before sys_vendor to detect KVM over QEMU
-                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['file0'] = trim($buf);
-                    }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/sys_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array['file1'] = trim($buf);
                     }
@@ -137,11 +133,18 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array['file3'] = trim($buf);
                     }
-                } elseif (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                    $this->_machine_info['machine'] = trim($buf);
-                }
-                if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                    $this->_machine_info['machine'] .= " ".trim($buf);
+                    // Test this before sys_vendor to detect KVM over QEMU
+                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        $vendor_array['file0'] = trim($buf);
+                        $this->_machine_info['machine'] .= " ".trim($buf);
+                    }
+                } else {
+                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        $this->_machine_info['machine'] = trim($buf);
+                    }
+                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        $this->_machine_info['machine'] .= " ".trim($buf);
+                    }
                 }
                 if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
                     $this->_machine_info['machine'] .= "/".trim($buf);
