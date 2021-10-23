@@ -88,23 +88,9 @@ class QNX extends OS
         if (CommonFunctions::executeProgram('pidin', 'info', $buf)
            && preg_match('/^.* BootTime:(.*)/', $buf, $bstart)
            && CommonFunctions::executeProgram('date', '', $bstop)) {
-            /* default error handler */
-            if (function_exists('errorHandlerPsi')) {
-                restore_error_handler();
-            }
-            /* fatal errors only */
-            $old_err_rep = error_reporting();
-            error_reporting(E_ERROR);
-
+            date_default_timezone_set('UTC');
             $uptime = strtotime($bstop)-strtotime($bstart[1]);
             if ($uptime > 0) $this->sys->setUptime($uptime);
-
-            /* restore error level */
-            error_reporting($old_err_rep);
-            /* restore error handler */
-            if (function_exists('errorHandlerPsi')) {
-                set_error_handler('errorHandlerPsi');
-            }
         }
     }
 
