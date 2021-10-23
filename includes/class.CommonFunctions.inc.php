@@ -610,7 +610,7 @@ class CommonFunctions
      *
      * @return string|null
      */
-    public static function getdmivirtualizer($vendor_array);
+    public static function getdmivirtualizer($vendor_array)
     {
         $vendarray = array(
             'KVM' => 'kvm', // KVM
