@@ -629,7 +629,7 @@ class CommonFunctions
         );
         for ($i = 0; $i < count($vendor_array); $i++) {
             if (isset($vendor_array['data'.$i])) foreach ($vendarray as $vend=>$virt) {
-                if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
+                if (preg_match('/^'.$vend.'/', $vendor_array['data'.$i])) {
                     return $virt;
                 }
             }
