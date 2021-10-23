@@ -402,6 +402,10 @@ abstract class BSDCommon extends OS
                 $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
                 $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
                 $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                    $vendor_array['file2'] = $this->grabkey('machdep.dmi.board-vendor');
+                    $vendor_array['file3'] = $this->grabkey('machdep.dmi.bios-vendor');
+                }
             } else { // OpenBSD
                 $buffer['Manufacturer'] = $this->grabkey('hw.vendor');
                 $buffer['Model'] = $this->grabkey('hw.product');
@@ -409,44 +413,31 @@ abstract class BSDCommon extends OS
                 $buffer['SMBIOSBIOSVersion'] = "";
                 $buffer['ReleaseDate'] = "";
             }
-            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($buffer['Manufacturer'] !== "") && ($buffer['Model'] !== "")) {
-                $novm = true;
-                if (($buffer['Manufacturer'] === 'innotek GmbH') && ($buffer['Model'] === 'VirtualBox')) {
-                    $this->sys->setVirtualizer('oracle');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Oracle Corporation') && ($buffer['Model'] === 'VirtualBox')) {
-                    $this->sys->setVirtualizer('oracle');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'VMware, Inc.') && ($buffer['Model'] === 'VMware Virtual Platform')) {
-                    $this->sys->setVirtualizer('vmware');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $buffer['Model'])) {
-                    $this->sys->setVirtualizer('vmware');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Intel Corporation') && ($buffer['Model'] === 'VMware Virtual Platform')) {
-                    $this->sys->setVirtualizer('vmware');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Microsoft') && ($buffer['Model'] === 'Virtual Machine')) {
-                    $this->sys->setVirtualizer('microsoft');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Microsoft Corporation') && ($buffer['Model'] === 'Virtual Machine')) {
-                    $this->sys->setVirtualizer('microsoft');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'QEMU') && preg_match('/^Standard PC/', $buffer['Model'])) {
-                    $this->sys->setVirtualizer('qemu');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'QEMU') && ($buffer['Model'] === 'QEMU Virtual Machine')) {
-                    $this->sys->setVirtualizer('qemu');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Xen') && ($buffer['Model'] === 'HVM domU')) {
-                    $this->sys->setVirtualizer('xen');
-                    $novm = false;
-                } elseif (($buffer['Manufacturer'] === 'Bochs') && ($buffer['Model'] === 'Bochs')) {
-                    $this->sys->setVirtualizer('bochs');
-                    $novm = false;
-                } elseif ($buffer['Manufacturer'] === 'Amazon EC2') {
-                    $this->sys->setVirtualizer('amazon');
-                    $novm = false;
+            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                $vendor_array['file0'] = $buffer['Model'];
+                $vendor_array['file1'] = $buffer['Manufacturer'];
+                $vendarray = array(
+                    'KVM' => 'kvm', // KVM
+                    'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
+                    'QEMU' => 'qemu', // QEMU
+                    'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
+                    'VMW' => 'vmware',
+                    'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
+                    'Oracle Corporation' => 'oracle',
+                    'Xen' => 'xen', // Xen hypervisor
+                    'Bochs' => 'bochs', // Bochs
+                    'Parallels' => 'parallels', // Parallels
+                    // https://wiki.freebsd.org/bhyve
+                    'BHYVE' => 'bhyve', // bhyve
+                    'Microsoft' => 'microsoft' // Hyper-V
+                );
+                for ($i = 0; $i < 4; $i++) {
+                    if (isset($vendor_array['file'.$i])) foreach ($vendarray as $vend=>$virt) {
+                        if (preg_match('/^'.$vend.'/', $vendor_array['file'.$i])) {
+                            $this->sys->setVirtualizer($virt);
+                            break 2;
+                        }
+                    }
                 }
             }
             
@@ -858,6 +849,7 @@ abstract class BSDCommon extends OS
             if (preg_match("/sec = ([0-9]+)/", $kb, $buf)) { // format like: { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004
                 $this->sys->setUptime(time() - $buf[1]);
             } else {
+                date_default_timezone_set('UTC');
                 $kbt = strtotime($kb);
                 if (($kbt !== false) && ($kbt != -1)) {
                     $this->sys->setUptime(time() - $kbt); // format like: Sat Oct 2 10:56:40 2004
