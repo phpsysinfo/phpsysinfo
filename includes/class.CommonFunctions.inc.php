@@ -628,8 +628,8 @@ class CommonFunctions
             'Microsoft' => 'microsoft' // Hyper-V
         );
         for ($i = 0; $i < count($vendor_array); $i++) {
-            if (isset($vendor_array['data'.$i])) foreach ($vendarray as $vend=>$virt) {
-                if (preg_match('/^'.$vend.'/', $vendor_array['data'.$i])) {
+            foreach ($vendarray as $vend=>$virt) {
+                if (preg_match('/^'.$vend.'/', $vendor_array[$i])) {
                     return $virt;
                 }
             }

@@ -247,13 +247,11 @@ abstract class BSDCommon extends OS
      */
     private function virtualizer()
     {
-        if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
-            return;
-        }
-
-        $testvirt = $this->sys->getVirtualizer();
-        if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) {
-            $this->sys->setVirtualizer('unknown');
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            $testvirt = $this->sys->getVirtualizer();
+            if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) {
+                $this->sys->setVirtualizer('unknown');
+            }
         }
     }
 
@@ -402,10 +400,6 @@ abstract class BSDCommon extends OS
                 $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
                 $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
                 $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                    $vendor_array['data2'] = $this->grabkey('machdep.dmi.board-vendor');
-                    $vendor_array['data3'] = $this->grabkey('machdep.dmi.bios-vendor');
-                }
             } else { // OpenBSD
                 $buffer['Manufacturer'] = $this->grabkey('hw.vendor');
                 $buffer['Model'] = $this->grabkey('hw.product');
@@ -414,8 +408,13 @@ abstract class BSDCommon extends OS
                 $buffer['ReleaseDate'] = "";
             }
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-                $vendor_array['data0'] = $buffer['Model'];
-                $vendor_array['data1'] = $buffer['Manufacturer'];
+                $vendor_array = array();
+                $vendor_array[] = $buffer['Model'];
+                $vendor_array[] = $buffer['Manufacturer'];
+                if (PSI_OS == 'NetBSD') { // NetBSD
+                    $vendor_array[] = $this->grabkey('machdep.dmi.board-vendor');
+                    $vendor_array[] = $this->grabkey('machdep.dmi.bios-vendor');
+                }
                 $virt = CommonFunctions::getdmivirtualizer($vendor_array);
                 if ($virt !== null) {
                     $this->sys->setVirtualizer($virt);

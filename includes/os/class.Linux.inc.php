@@ -106,37 +106,43 @@ class Linux extends OS
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {                  
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data0'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/sys_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data1'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data2'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     } else {
-                        $vendor_array['data2'] = $dmesg['dmi'];
+                        $vendor_array[] = $dmesg['dmi'];
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data3'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
                 }
             } else { // 'machine' data from /sys/devices/virtual/dmi/id/
                 $bios = "";
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
+                    // Test this before sys_vendor to detect KVM over QEMU
+                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        $vendor_array[] = trim($buf);
+                        $product_name = trim($buf);
+                    } else {
+                        $product_name = '';
+                    }
+
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/sys_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data1'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $this->_machine_info['machine'] = trim($buf);
-                        $vendor_array['data2'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data3'] = trim($buf);
+                        $vendor_array[] = trim($buf);
                     }
-                    // Test this before sys_vendor to detect KVM over QEMU
-                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $vendor_array['data0'] = trim($buf);
-                        $this->_machine_info['machine'] .= " ".trim($buf);
+                    if ($product_name!="")) {
+                        $this->_machine_info['machine'] .= " ".$product_name;
                     }
                 } else {
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {

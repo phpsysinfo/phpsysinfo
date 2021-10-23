@@ -804,40 +804,29 @@ class WINNT extends OS
      */
     protected function _virtualizer()
     {
-        if (!defined('PSI_SHOW_VIRTUALIZER_INFO') || !PSI_SHOW_VIRTUALIZER_INFO) {
-            return;
-        }
-        $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
 
-        if (($this->_Manufacturer === 'innotek GmbH') && ($this->_Model === 'VirtualBox')) {
-            $this->sys->setVirtualizer('oracle');
-        } elseif (($this->_Manufacturer === 'Oracle Corporation') && ($this->_Model === 'VirtualBox')) {
-            $this->sys->setVirtualizer('oracle');
-        } elseif (($this->_Manufacturer === 'VMware, Inc.') && ($this->_Model === 'VMware Virtual Platform')) {
-            $this->sys->setVirtualizer('vmware');
-        } elseif (($this->_Manufacturer === 'VMware, Inc.')  && preg_match('/^VMware\d+,\d+$/', $this->_Model)) {
-            $this->sys->setVirtualizer('vmware');
-        } elseif (($this->_Manufacturer === 'Intel Corporation') && ($this->_Model === 'VMware Virtual Platform')) {
-            $this->sys->setVirtualizer('vmware');
-        } elseif (($this->_Manufacturer === 'Microsoft') && ($this->_Model === 'Virtual Machine')) {
-            $this->sys->setVirtualizer('microsoft');
-        } elseif (($this->_Manufacturer === 'Microsoft Corporation') && ($this->_Model === 'Virtual Machine')) {
-            $this->sys->setVirtualizer('microsoft');
-        } elseif (($this->_Manufacturer === 'QEMU') && preg_match('/^Standard PC/', $this->_Model)) {
-            $this->sys->setVirtualizer('qemu');
-        } elseif (($this->_Manufacturer === 'QEMU') && ($this->_Model === 'QEMU Virtual Machine')) {
-            $this->sys->setVirtualizer('qemu');
-        } elseif (($this->_Manufacturer === 'Xen') && ($this->_Model === 'HVM domU')) {
-            $this->sys->setVirtualizer('xen');
-        } elseif (($this->_Manufacturer === 'Bochs') && ($this->_Model === 'Bochs')) {
-            $this->sys->setVirtualizer('bochs');
-        } elseif ($this->_Manufacturer === 'Amazon EC2') {
-            $this->sys->setVirtualizer('amazon');
-        } else {
-            // Detect QEMU cpu
-            if (isset($cpuvirt["cpuid:QEMU"])) {
-                $this->sys->setVirtualizer('qemu'); // QEMU
-                $novm = false;
+            $vendor_array = array();
+            if ($this->_Model != "") {
+                $vendor_array[] = $this->_Model;
+            }
+            if ($this->_Manufacturer != "") {
+                $vendor_array[] = $this->_Manufacturer;
+            }
+            $novm = true;
+            if (count($vendor_array)>0) {
+                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                if ($virt !== null) {
+                    $this->sys->setVirtualizer($virt);
+                    $novm = false;
+                }
+            }
+            if ($novm) {
+                // Detect QEMU cpu
+                if (isset($cpuvirt["cpuid:QEMU"])) {
+                    $this->sys->setVirtualizer('qemu'); // QEMU
+                }
             }
         }
     }
