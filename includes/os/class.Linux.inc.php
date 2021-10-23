@@ -120,7 +120,7 @@ class Linux extends OS
                         $vendor_array['file3'] = trim($buf);
                     }
                 }
-            } else { // data from /sys/devices/virtual/dmi/id/
+            } else { // 'machine' data from /sys/devices/virtual/dmi/id/
                 $bios = "";
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     // Test this before sys_vendor to detect KVM over QEMU
