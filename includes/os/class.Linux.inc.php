@@ -313,6 +313,8 @@ class Linux extends OS
                 $this->sys->setVirtualizer($resultc);
             }
         } else {
+            $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
+
             $novm = true;
             // code based on src/basic/virt.c from systemd-detect-virt source code (https://github.com/systemd/systemd)
 
@@ -331,7 +333,6 @@ class Linux extends OS
 
             // Detect UML
             if ($novm) {
-                $cpuvirt = $this->sys->getVirtualizer(); // previous info from _cpuinfo()
                 if (isset($cpuvirt["cpuid:UserModeLinux"])) {
                     $this->sys->setVirtualizer('uml'); // User-mode Linux
                     $novm = false;
