@@ -218,7 +218,7 @@ class XML
             $virt = $this->_sys->getVirtualizer();
             $first = true;
             $virtstring = "";
-            foreach ($this->_sys->getVirtualizer() as $virtkey=>$virtvalue) if ($virtvalue) {
+            foreach ($virt as $virtkey=>$virtvalue) if ($virtvalue) {
                 if ($first) {
                     $first = false;
                 } else {
