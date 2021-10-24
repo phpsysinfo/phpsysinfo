@@ -400,6 +400,7 @@ HIDE_TOTALS=false
 ;
 HIDE_NETWORK_INTERFACE=""
 
+
 ; Use a regular expression in the name of a hidden network interface (e.g. HIDE_NETWORK_INTERFACE="docker.*")
 ; - true : use a regular expression
 ; - false : do not use a regular expression
