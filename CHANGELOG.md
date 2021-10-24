@@ -7,6 +7,7 @@ phpSysInfo 3.4.0
 ----------------
  - [ADD] Omarine, NethServer, JingOS, KDE neon, Alma, Virtuozzo, EuroLinux and Rocky Linux to detected distros
 
+ - [NEW] HIDE_NETWORK_INTERFACE_REGEX option to use a regular expression in the name of a hidden network interface
  - [NEW] Ability to read UPS information from a file
  - [NEW] Virtualizer detection on Linux, Android, FreeBSD, NetBSD, OpenBSD and WinNT
 

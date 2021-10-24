@@ -189,7 +189,18 @@ class XML
             }
         }
         foreach ($this->_sys->getNetDevices() as $dev) {
-            if (!in_array(trim($dev->getName()), $hideDevices)) {
+            if (defined('PSI_HIDE_NETWORK_INTERFACE_REGEX') && PSI_HIDE_NETWORK_INTERFACE_REGEX === true) {
+                $hide = false;
+                foreach($hideDevices as $hidedev) {
+                    if (preg_match('/^'.$hidedev.'$/', trim($dev->getName()))) {
+                        $hide = true;
+                        break;
+                    }
+                }
+            } else {
+                $hide =in_array(trim($dev->getName()), $hideDevices);
+            }
+            if (!$hide) {
                 $device = $network->addChild('NetDevice');
                 $device->addAttribute('Name', $dev->getName());
                 $device->addAttribute('RxBytes', $dev->getRxBytes());

@@ -400,6 +400,12 @@ HIDE_TOTALS=false
 ;
 HIDE_NETWORK_INTERFACE=""
 
+; Use a regular expression in the name of a hidden network interface (e.g. HIDE_NETWORK_INTERFACE="docker.*")
+; - true : use a regular expression
+; - false : do not use a regular expression
+;
+HIDE_NETWORK_INTERFACE_REGEX=false
+
 
 ; Show network interfaces infos for Linux, Android, FreeBSD, NetBSD, OpenBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
