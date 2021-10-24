@@ -249,7 +249,18 @@ abstract class BSDCommon extends OS
     {
         if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             $testvirt = $this->sys->getVirtualizer();
-            if (isset($testvirt["hypervisor"]) && (count($testvirt) == 1)) {
+            $novm = true;
+            foreach ($testvirt as $virtkey=>$virtvalue) if ($virtvalue) {
+                $novm = false;
+                break;
+            }
+            // Detect QEMU cpu
+            if ($novm && isset($testvirt["cpuid:QEMU"])) {
+                $this->sys->setVirtualizer('qemu'); // QEMU
+                $novm = false;
+            }
+
+            if ($novm && isset($testvirt["hypervisor"])) {
                 $this->sys->setVirtualizer('unknown');
             }
         }
@@ -335,7 +346,11 @@ abstract class BSDCommon extends OS
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
-        $dev->setModel($this->grabkey('hw.model'));
+        $cpumodel = $this->grabkey('hw.model');
+        $dev->setModel($cpumodel);
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+            $this->sys->setVirtualizer("cpuid:QEMU", false);
+        }            
 
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
