@@ -473,40 +473,36 @@ abstract class BSDCommon extends OS
                 $this->sys->setMachine(trim($buf));
             }
         } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-            foreach ($this->readdmesg() as $line) {
-                if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) switch (preg_replace('/[\s!]/', '', $ar_buf[1])) {
-                case 'bhyvebhyve':
-                    $this->sys->setVirtualizer('bhyve');
-                    break;
-                case 'KVMKVMKVM':
-                    $this->sys->setVirtualizer('kvm');
-                    break;
-                case 'MicrosoftHv':
-                    $this->sys->setVirtualizer('microsoft');
-                    break;
-                case 'lrpepyhvr':
-                    $this->sys->setVirtualizer('parallels');
-                    break;
-                case 'VMwareVMware':
-                    $this->sys->setVirtualizer('vmware');
-                    break;
-                case 'XenVMMXenVMM':
-                    $this->sys->setVirtualizer('xen');
-                    break;
-                case 'ACRNACRNACRN':
-                    $this->sys->setVirtualizer('acrn');
-                    break;
-                case 'TCGTCGTCGTCG':
-                    $this->sys->setVirtualizer('qemu');
-                    break;
-                case 'QNXQVMBSQG':
-                    $this->sys->setVirtualizer('qnx');
-                    break;
-                case 'UnisysSpar64':
-                    $this->sys->setVirtualizer('spar');
-                    break;
-                default:
+            $vidarray = array(
+                'bhyvebhyve' => 'bhyve', // bhyve
+                'KVMKVMKVM' => 'kvm', // KVM
+                'MicrosoftHv' => 'microsoft', // Hyper-V
+                'lrpepyhvr' => 'parallels', // Parallels
+                'UnisysSpar64' => 'spar', // Unisys sPar
+                'VMwareVMware' => 'vmware', // VMware
+                'XenVMMXenVMM' => 'xen', // Xen hypervisor
+                'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
+                'TCGTCGTCGTCG' => 'qemu', // QEMU
+                'QNXQVMBSQG' => 'qnx' // QNX hypervisor
+            );
+            $shortvendorid = preg_replace('/[\s!]/', '', $this->grabkey('hw.hv_vendor'));
+            if ($shortvendorid !== "") {
+                if (isset($vidarray[$shortvendorid])) {
+                    $this->sys->setVirtualizer($vidarray[$shortvendorid]);
+                } else {
                     $this->sys->setVirtualizer('unknown');
+                }
+            } else {
+                foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
+                    $shortvendorid = preg_replace('/[\s!]/', '', $$ar_buf[1]);
+                    if ($shortvendorid !== "") {
+                        if (isset($vidarray[$shortvendorid])) {
+                            $this->sys->setVirtualizer($vidarray[$shortvendorid]);
+                        } else {
+                            $this->sys->setVirtualizer('unknown');
+                        }
+                    }
+                    break;
                 }
             }
         }
