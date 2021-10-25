@@ -610,31 +610,50 @@ class CommonFunctions
      *
      * @return string|null
      */
-    public static function getdmivirtualizer($vendor_array)
+    public static function decodevirtualizer($vendor_data)
     {
-        $vendarray = array(
-            'KVM' => 'kvm', // KVM
-            'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
-            'QEMU' => 'qemu', // QEMU
-            'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
-            'VMW' => 'vmware',
-            'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
-            'Oracle Corporation' => 'oracle',
-            'Xen' => 'xen', // Xen hypervisor
-            'Bochs' => 'bochs', // Bochs
-            'Parallels' => 'parallels', // Parallels
-            // https://wiki.freebsd.org/bhyve
-            'BHYVE' => 'bhyve', // bhyve
-            'Microsoft' => 'microsoft' // Hyper-V
-        );
-        for ($i = 0; $i < count($vendor_array); $i++) {
-            foreach ($vendarray as $vend=>$virt) {
-                if (preg_match('/^'.$vend.'/', $vendor_array[$i])) {
-                    return $virt;
+        if (gettype($vendor_data) === "array") {
+            $vendarray = array(
+                'KVM' => 'kvm', // KVM
+                'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
+                'QEMU' => 'qemu', // QEMU
+                'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
+                'VMW' => 'vmware',
+                'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
+                'Oracle Corporation' => 'oracle',
+                'Xen' => 'xen', // Xen hypervisor
+                'Bochs' => 'bochs', // Bochs
+                'Parallels' => 'parallels', // Parallels
+                // https://wiki.freebsd.org/bhyve
+                'BHYVE' => 'bhyve', // bhyve
+                'Microsoft' => 'microsoft' // Hyper-V
+            );
+            for ($i = 0; $i < count($vendor_data); $i++) {
+                foreach ($vendarray as $vend=>$virt) {
+                    if (preg_match('/^'.$vend.'/', $vendor_data[$i])) {
+                        return $virt;
+                    }
                 }
             }
+        } elseif (gettype($vendor_data) === "string") {
+            $vidarray = array(
+                'bhyvebhyve' => 'bhyve', // bhyve
+                'KVMKVMKVM' => 'kvm', // KVM
+                'MicrosoftHv' => 'microsoft', // Hyper-V
+                'lrpepyhvr' => 'parallels', // Parallels
+                'UnisysSpar64' => 'spar', // Unisys sPar
+                'VMwareVMware' => 'vmware', // VMware
+                'XenVMMXenVMM' => 'xen', // Xen hypervisor
+                'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
+                'TCGTCGTCGTCG' => 'qemu', // QEMU
+                'QNXQVMBSQG' => 'qnx' // QNX hypervisor
+            );
+            $shortvendorid = trim(preg_replace('/[\s!\.]/', '', $vendor_data));
+            if (($shortvendorid !== "") && isset($vidarray[$shortvendorid])) {
+                $return $vidarray[$shortvendorid];
+            }
         }
-        
+   
         return null;
     }
 

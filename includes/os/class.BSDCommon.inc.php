@@ -430,7 +430,7 @@ abstract class BSDCommon extends OS
                     $vendor_array[] = $this->grabkey('machdep.dmi.board-vendor');
                     $vendor_array[] = $this->grabkey('machdep.dmi.bios-vendor');
                 }
-                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                $virt = CommonFunctions::decodevirtualizer($vendor_array);
                 if ($virt !== null) {
                     $this->sys->setVirtualizer($virt);
                 }
@@ -473,31 +473,20 @@ abstract class BSDCommon extends OS
                 $this->sys->setMachine(trim($buf));
             }
         } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
-            $vidarray = array(
-                'bhyvebhyve' => 'bhyve', // bhyve
-                'KVMKVMKVM' => 'kvm', // KVM
-                'MicrosoftHv' => 'microsoft', // Hyper-V
-                'lrpepyhvr' => 'parallels', // Parallels
-                'UnisysSpar64' => 'spar', // Unisys sPar
-                'VMwareVMware' => 'vmware', // VMware
-                'XenVMMXenVMM' => 'xen', // Xen hypervisor
-                'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
-                'TCGTCGTCGTCG' => 'qemu', // QEMU
-                'QNXQVMBSQG' => 'qnx' // QNX hypervisor
-            );
-            $shortvendorid = preg_replace('/[\s!]/', '', $this->grabkey('hw.hv_vendor'));
-            if ($shortvendorid !== "") {
-                if (isset($vidarray[$shortvendorid])) {
-                    $this->sys->setVirtualizer($vidarray[$shortvendorid]);
+            $vendorid = $this->grabkey('hw.hv_vendor'));
+            if (trim($vendorid) !== "") {
+                $virt = CommonFunctions::decodevirtualizer($vendorid);
+                if ($virt !== null) {
+                    this->sys->setVirtualizer($virt);
                 } else {
                     $this->sys->setVirtualizer('unknown');
                 }
             } else {
                 foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
-                    $shortvendorid = preg_replace('/[\s!]/', '', $ar_buf[1]);
-                    if ($shortvendorid !== "") {
-                        if (isset($vidarray[$shortvendorid])) {
-                            $this->sys->setVirtualizer($vidarray[$shortvendorid]);
+                    if (trim($ar_buf[1]) !== "") {
+                        $virt = CommonFunctions::decodevirtualizer($ar_buf[1]);
+                        if ($virt !== null) {
+                            this->sys->setVirtualizer($virt);
                         } else {
                             $this->sys->setVirtualizer('unknown');
                         }

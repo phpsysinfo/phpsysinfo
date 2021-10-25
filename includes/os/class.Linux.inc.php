@@ -170,7 +170,7 @@ class Linux extends OS
             }
 
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && count($vendor_array)>0) {
-                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                $virt = CommonFunctions::decodevirtualizer($vendor_array);
                 if ($virt !== null) {
                     $this->_machine_info['hypervisor'] = $virt;
                 }
@@ -349,22 +349,9 @@ class Linux extends OS
             // Since the vendor_id in /proc/cpuinfo is overwritten on virtualization we use values from msr-cpuid.
             if ($novm && CommonFunctions::executeProgram('msr-cpuid', '', $bufr, false)
                && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m', $bufr, $cpuid))) {
-                $shortvendorid = preg_replace('/[\s!\.]/', '', $cpuid[1].$cpuid[2].$cpuid[3]);
-                $vidarray = array(
-                    'bhyvebhyve' => 'bhyve', // bhyve
-                    'KVMKVMKVM' => 'kvm', // KVM
-                    'MicrosoftHv' => 'microsoft', // Hyper-V
-                    //'lrpepyhvr' => 'parallels', // Parallels
-                    //'UnisysSpar64' => 'spar', // Unisys sPar
-                    'VMwareVMware' => 'vmware', // VMware
-                    'XenVMMXenVMM' => 'xen', // Xen hypervisor
-                    'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
-                    'TCGTCGTCGTCG' => 'qemu', // QEMU
-                    'QNXQVMBSQG' => 'qnx' // QNX hypervisor
-                );
-                if (isset($vidarray[$shortvendorid])) {
-                    $this->sys->setVirtualizer($vidarray[$shortvendorid]);
-                    $novm = false;
+                $virt = CommonFunctions::decodevirtualizer($cpuid[1].$cpuid[2].$cpuid[3]);
+                if ($virt !== null) {
+                    this->sys->setVirtualizer($virt);
                 }
             }
 

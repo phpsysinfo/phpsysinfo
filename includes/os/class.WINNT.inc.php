@@ -816,7 +816,7 @@ class WINNT extends OS
             }
             $novm = true;
             if (count($vendor_array)>0) {
-                $virt = CommonFunctions::getdmivirtualizer($vendor_array);
+                $virt = CommonFunctions::decodevirtualizer($vendor_array);
                 if ($virt !== null) {
                     $this->sys->setVirtualizer($virt);
                     $novm = false;
