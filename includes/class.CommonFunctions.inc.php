@@ -650,7 +650,7 @@ class CommonFunctions
             );
             $shortvendorid = trim(preg_replace('/[\s!\.]/', '', $vendor_data));
             if (($shortvendorid !== "") && isset($vidarray[$shortvendorid])) {
-                $return $vidarray[$shortvendorid];
+                return $vidarray[$shortvendorid];
             }
         }
    

@@ -351,7 +351,7 @@ class Linux extends OS
                && (preg_match('/^40000000 00000000:  [0-9a-f]{8} \S{4}  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})  [0-9a-f]{8} ([A-Za-z0-9\.]{4})/m', $bufr, $cpuid))) {
                 $virt = CommonFunctions::decodevirtualizer($cpuid[1].$cpuid[2].$cpuid[3]);
                 if ($virt !== null) {
-                    this->sys->setVirtualizer($virt);
+                    $this->sys->setVirtualizer($virt);
                 }
             }
 
