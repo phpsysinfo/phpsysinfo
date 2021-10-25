@@ -477,7 +477,7 @@ abstract class BSDCommon extends OS
             if (trim($vendorid) !== "") {
                 $virt = CommonFunctions::decodevirtualizer($vendorid);
                 if ($virt !== null) {
-                    this->sys->setVirtualizer($virt);
+                    $this->sys->setVirtualizer($virt);
                 } else {
                     $this->sys->setVirtualizer('unknown');
                 }
@@ -486,7 +486,7 @@ abstract class BSDCommon extends OS
                     if (trim($ar_buf[1]) !== "") {
                         $virt = CommonFunctions::decodevirtualizer($ar_buf[1]);
                         if ($virt !== null) {
-                            this->sys->setVirtualizer($virt);
+                            $this->sys->setVirtualizer($virt);
                         } else {
                             $this->sys->setVirtualizer('unknown');
                         }
