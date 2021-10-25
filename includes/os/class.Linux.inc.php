@@ -688,7 +688,7 @@ class Linux extends OS
                             $_bogo = round($arrBuff1);
                             break;
                         case 'vendor_id':
-                            $_vend = preg_replace('/[\s!]/', '', $arrBuff1);
+                            $_vend = $arrBuff1;
                             break;
                         case 'cpu':
                             $procname = $arrBuff1;
@@ -794,11 +794,7 @@ class Linux extends OS
                             $vari = $arrBuff1;
                             break;
                         case 'vendor_id':
-                            $shortvendorid = preg_replace('/[\s!]/', '', $arrBuff1);
-                            $dev->setVendorId($shortvendorid);
-                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
-                                $this->sys->setVirtualizer("cpuid:".$shortvendorid, false);
-                            }
+                            $dev->setVendorId($arrBuff1);
                         }
                     }
                 }
@@ -838,9 +834,6 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
-                    if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
-                        $this->sys->setVirtualizer("cpuid:".$_vend, false);
-                    }
                 }
 
                 if ($proc !== null) {

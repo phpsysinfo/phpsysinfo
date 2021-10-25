@@ -368,7 +368,7 @@ abstract class BSDCommon extends OS
             } else {
                 if (preg_match("/^\s+Origin| Features/", $line, $ar_buf)) {
                     if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
-                        $dev->setVendorId(preg_replace('/[\s!]/', '', $ar_buf[1]));
+                        $dev->setVendorId($ar_buf[1]);
                     } elseif (preg_match("/ Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {

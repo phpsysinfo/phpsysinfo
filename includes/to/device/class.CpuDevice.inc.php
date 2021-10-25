@@ -396,7 +396,7 @@ class CpuDevice
      */
     public function setVendorId($vendorid)
     {
-        $this->_vendorid = $vendorid;
+        $this->_vendorid = trim(preg_replace('/[\s!]/', '', $vendorid));
     }
 
     /**
