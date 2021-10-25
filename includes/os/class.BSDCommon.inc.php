@@ -350,7 +350,7 @@ abstract class BSDCommon extends OS
         $dev->setModel($cpumodel);
         if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
             $this->sys->setVirtualizer("cpuid:QEMU", false);
-        }            
+        }
 
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
@@ -435,7 +435,7 @@ abstract class BSDCommon extends OS
                     $this->sys->setVirtualizer($virt);
                 }
             }
-            
+
             $buf = "";
             if (($buffer['Manufacturer'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer['Manufacturer'])) && ($buf2 !== "")) {
                 $buf .= ' '.$buf2;
@@ -494,7 +494,7 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
-                    $shortvendorid = preg_replace('/[\s!]/', '', $$ar_buf[1]);
+                    $shortvendorid = preg_replace('/[\s!]/', '', $ar_buf[1]);
                     if ($shortvendorid !== "") {
                         if (isset($vidarray[$shortvendorid])) {
                             $this->sys->setVirtualizer($vidarray[$shortvendorid]);
