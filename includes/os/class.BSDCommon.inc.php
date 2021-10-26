@@ -474,24 +474,20 @@ abstract class BSDCommon extends OS
             }
         } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             $vendorid = $this->grabkey('hw.hv_vendor');
+            if (trim($vendorid) === "") {
+                foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
+                    if (trim($ar_buf[1]) !== "") {
+                        $vendorid = $ar_buf[1];
+                    }
+                    break;
+                }
+            }
             if (trim($vendorid) !== "") {
                 $virt = CommonFunctions::decodevirtualizer($vendorid);
                 if ($virt !== null) {
                     $this->sys->setVirtualizer($virt);
                 } else {
                     $this->sys->setVirtualizer('unknown');
-                }
-            } else {
-                foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
-                    if (trim($ar_buf[1]) !== "") {
-                        $virt = CommonFunctions::decodevirtualizer($ar_buf[1]);
-                        if ($virt !== null) {
-                            $this->sys->setVirtualizer($virt);
-                        } else {
-                            $this->sys->setVirtualizer('unknown');
-                        }
-                    }
-                    break;
                 }
             }
         }
