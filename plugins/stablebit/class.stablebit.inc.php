@@ -61,7 +61,7 @@ class StableBit extends PSI_Plugin
                 $xmlstablebit_disk = $this->xml->addChild("Disk");
                 foreach ($this->stablebit_items as $item) {
                     if (isset($disk_items[$item]) && (($itemvalue=$disk_items[$item]) !== '') &&
-                    (($item !== 'SerialNumber') || (defined('PSI_PLUGIN_STABLEBIT_SHOW_SERIAL') && (PSI_PLUGIN_STABLEBIT_SHOW_SERIAL === true)))) {
+                    (($item !== 'SerialNumber') || (defined('PSI_PLUGIN_STABLEBIT_SHOW_SERIAL') && PSI_PLUGIN_STABLEBIT_SHOW_SERIAL))) {
                         $xmlstablebit_disk ->addAttribute($item, $itemvalue);
                     }
                 }

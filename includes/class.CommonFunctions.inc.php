@@ -245,7 +245,7 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
@@ -256,7 +256,7 @@ class CommonFunctions
         }
         if (is_resource($process)) {
             $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
-            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                 $return_value = pclose($pipes[1]);
             } else {
                 fclose($pipes[0]);
@@ -542,7 +542,7 @@ class CommonFunctions
         $e = null;
         $te = false;
 
-        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             $pipe2 = false;
         } else {
             $pipe2 = true;

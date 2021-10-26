@@ -761,7 +761,7 @@ class WINNT extends OS
      */
     private function _hostname()
     {
-        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             $buffer = $this->_get_Win32_ComputerSystem();

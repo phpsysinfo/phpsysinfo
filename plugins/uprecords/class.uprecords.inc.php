@@ -36,14 +36,12 @@ class uprecords extends PSI_Plugin
         foreach ($this->_lines as $line) {
             if (($i > 1) and (strpos($line, '---') === false)) {
                 $buffer = preg_split("/\s*[ |]\s+/", ltrim(ltrim($line, '->'), ' '));
-                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') &&
-                   (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true) &&
-                   !is_numeric($buffer[0])) {
+                if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && PSI_PLUGIN_UPRECORDS_SHORT_MODE && !is_numeric($buffer[0])) {
                     break;
                 }
 
                 if (strpos($line, '->') !== false) {
-                   if (defined('PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK') && (PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK === true)) {
+                   if (defined('PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK') && PSI_PLUGIN_UPRECORDS_DENOTE_BY_ASTERISK) {
                         $buffer[0] .= ' *';
                     } else {
                         $buffer[0] = '-> '.$buffer[0];
@@ -78,7 +76,7 @@ class uprecords extends PSI_Plugin
                     $options=" -m ".$ment;
                 }
             }
-            if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && (PSI_PLUGIN_UPRECORDS_SHORT_MODE === true)) {
+            if (defined('PSI_PLUGIN_UPRECORDS_SHORT_MODE') && PSI_PLUGIN_UPRECORDS_SHORT_MODE) {
                 $options .= " -s";
             }
             if (CommonFunctions::executeProgram('TZ=GMT uprecords', '-a -w'.$options, $lines) && !empty($lines))

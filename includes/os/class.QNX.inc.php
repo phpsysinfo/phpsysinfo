@@ -111,7 +111,7 @@ class QNX extends OS
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {

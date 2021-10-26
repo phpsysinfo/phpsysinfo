@@ -189,7 +189,7 @@ class XML
             }
         }
         foreach ($this->_sys->getNetDevices() as $dev) {
-            if (defined('PSI_HIDE_NETWORK_INTERFACE_REGEX') && PSI_HIDE_NETWORK_INTERFACE_REGEX === true) {
+            if (defined('PSI_HIDE_NETWORK_INTERFACE_REGEX') && PSI_HIDE_NETWORK_INTERFACE_REGEX) {
                 $hide = false;
                 foreach($hideDevices as $hidedev) {
                     if (preg_match('/^'.$hidedev.'$/', trim($dev->getName()))) {
@@ -506,12 +506,12 @@ class XML
             $mount->addAttribute('Inodes', $dev->getPercentInodesUsed());
         }
         if ($dev->getIgnore() > 0) $mount->addAttribute('Ignore', $dev->getIgnore());
-        if (PSI_SHOW_MOUNT_OPTION === true) {
+        if (PSI_SHOW_MOUNT_OPTION) {
             if ($dev->getOptions() !== null) {
                 $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
             }
         }
-        if (PSI_SHOW_MOUNT_POINT === true) {
+        if (PSI_SHOW_MOUNT_POINT) {
             $mount->addAttribute('MountPoint', $dev->getMountPoint());
         }
     }
@@ -807,7 +807,7 @@ class XML
     {
         if (($this->_plugin == '') || $this->_complete_request) {
             if ($this->_sys === null) {
-                if (PSI_DEBUG === true) {
+                if (PSI_DEBUG) {
                     // unstable version check
                     if (!is_numeric(substr(PSI_VERSION, -1))) {
                         $this->_errors->addWarning("This is an unstable version of phpSysInfo, some things may not work correctly");
@@ -830,7 +830,7 @@ class XML
                         $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
                     }
                     // popen mode check
-                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                         $this->_errors->addError("WARN", "Installed version of PHP does not support proc_open() function, popen() is used");
                     }
                 }

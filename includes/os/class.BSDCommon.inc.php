@@ -215,7 +215,7 @@ abstract class BSDCommon extends OS
      */
     protected function hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('hostname', '', $buf, PSI_DEBUG)) {
@@ -392,7 +392,7 @@ abstract class BSDCommon extends OS
         if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
-        if (($ncpu == 1) && (PSI_LOAD_BAR)) {
+        if (($ncpu == 1) && PSI_LOAD_BAR) {
             $dev->setLoad($this->cpuusage());
         }
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {

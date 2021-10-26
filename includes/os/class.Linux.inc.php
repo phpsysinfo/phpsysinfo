@@ -252,7 +252,7 @@ class Linux extends OS
      */
     protected function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {

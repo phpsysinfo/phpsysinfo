@@ -199,7 +199,7 @@ class NetBSD extends BSDCommon
             if (isset($cpuarray[$cpu]['cache'])) {
                 $dev->setCache($cpuarray[$cpu]['cache']);
             }
-            if (($ncpu == 1) && (PSI_LOAD_BAR)) {
+            if (($ncpu == 1) && PSI_LOAD_BAR) {
                 $dev->setLoad($this->cpuusage());
             }
             $this->sys->setCpus($dev);

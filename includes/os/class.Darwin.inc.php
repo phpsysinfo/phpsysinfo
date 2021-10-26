@@ -144,7 +144,7 @@ class Darwin extends BSDCommon
         if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
-        if (($ncpu == 1) && (PSI_LOAD_BAR)) {
+        if (($ncpu == 1) && PSI_LOAD_BAR) {
             $dev->setLoad($this->cpuusage());
         }
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {

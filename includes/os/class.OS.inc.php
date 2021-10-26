@@ -132,7 +132,7 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _ip()
     {
-        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME')) {
            if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);

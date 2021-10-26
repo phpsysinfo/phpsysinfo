@@ -91,7 +91,7 @@ class PSStatus extends PSI_Plugin
                         }
                     }
                 } else {
-                    if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
+                    if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
