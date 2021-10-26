@@ -646,7 +646,8 @@ class CommonFunctions
                 'XenVMMXenVMM' => 'xen', // Xen hypervisor
                 'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
                 'TCGTCGTCGTCG' => 'qemu', // QEMU
-                'QNXQVMBSQG' => 'qnx' // QNX hypervisor
+                 'QNXQVMBSQG' => 'qnx', // QNX hypervisor
+                'VBoxVBoxVBox' = > 'oracle' // Oracle VM VirtualBox
             );
             $shortvendorid = trim(preg_replace('/[\s!\.]/', '', $vendor_data));
             if (($shortvendorid !== "") && isset($vidarray[$shortvendorid])) {
