@@ -795,6 +795,9 @@ class Linux extends OS
                             break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff1);
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $arrBuff1)) {
+                                $this->sys->setVirtualizer("cpuid:UserModeLinux", false);
+                            }
                         }
                     }
                 }
@@ -834,6 +837,9 @@ class Linux extends OS
                 }
                 if (($dev->getVendorId() === null) && ($_vend !== null)) {
                     $dev->setVendorId($_vend);
+                     if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $_vend)) {
+                        $this->sys->setVirtualizer("cpuid:UserModeLinux", false);
+                    }
                 }
 
                 if ($proc !== null) {
