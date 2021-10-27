@@ -1272,6 +1272,9 @@ function refreshFilesystems(xml) {
         if (!isNaN(inodes)) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
+        if (type === undefined) {
+            type = "";
+        }
 
         if (!isNaN(ignore) && (ignore > 0) && showTotals) {
             if (ignore >= 3) {

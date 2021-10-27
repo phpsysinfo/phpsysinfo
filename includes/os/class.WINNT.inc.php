@@ -1397,6 +1397,7 @@ class WINNT extends OS
                     $macexist = false;
                     if (((($ali=$aliases) && isset($ali[$name])) || (($ali=$aliases2) && isset($ali[$name]))) && isset($ali[$name]['id']) && ($ali[$name]['id'] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                        //var_dump($NetworkAdapterConfiguration);
                             if ($ali[$name]['id']==$NetworkAdapterConfiguration['SettingID']) {
                                 $mininame = $ali[$name]['name'];
                                 if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $mininame))
@@ -1404,11 +1405,11 @@ class WINNT extends OS
                                 elseif (preg_match('/\s-\s([^-]*)$/', $mininame, $ar_name))
                                     $name=substr($mininame, 0, strlen($mininame)-strlen($ar_name[0]));
                                 $dev->setName($mininame);
-                                if (trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
+                                if (isset($NetworkAdapterConfiguration['MACAddress']) && trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
                                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
                                     if (isset($ali[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $ali[$name]['netname']));
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
-                                       && (trim($NetworkAdapterConfiguration['MACAddress']) !== "")) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper($NetworkAdapterConfiguration['MACAddress'])));
+                                       && $macexist) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
                                         foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
@@ -1545,7 +1546,9 @@ class WINNT extends OS
         foreach ($buffer as $filesystem) {
             $dev = new DiskDevice();
             $dev->setMountPoint($filesystem['Name']);
-            $dev->setFsType($filesystem['FileSystem']);
+            if (isset($filesystem['FileSystem'])) {
+                $dev->setFsType($filesystem['FileSystem']);
+            }
             if ($filesystem['Size'] > 0) {
                 $dev->setTotal($filesystem['Size']);
                 $dev->setFree($filesystem['FreeSpace']);
