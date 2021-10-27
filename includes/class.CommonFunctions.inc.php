@@ -620,7 +620,7 @@ class CommonFunctions
                 'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
                 'VMW' => 'vmware',
                 'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
-                '"VirtualBox' => 'oracle',
+                'VirtualBox' => 'oracle',
                 'Xen' => 'xen', // Xen hypervisor
                 'Bochs' => 'bochs', // Bochs
                 'Parallels' => 'parallels', // Parallels
