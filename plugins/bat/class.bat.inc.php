@@ -83,6 +83,15 @@ class BAT extends PSI_Plugin
                             }
                             if ($batstat != '') $buffer[$bi]['state'] .= 'POWER_SUPPLY_STATUS='.$batstat."\n";
                         }
+
+                        if (isset($bufferWPB[$bi]['DesignVoltage']) && ($bufferWPB[$bi]['DesignVoltage'] > 0)) {
+                            $buffer[$bi]['info'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.($bufferWPB[$bi]['DesignVoltage']*1000)."\n";
+                        }
+
+                        if (isset($bufferWPB[$bi]['Manufacturer']) && ($bufferWPB[$bi]['Manufacturer'] !== '')) {
+                            $buffer[$bi]['info'] .= 'POWER_SUPPLY_MANUFACTURER='.$bufferWPB[$bi]['Manufacturer']."\n";
+                        }
+
                         $techn = '';
                         if (isset($bufferWB[$bi]['Chemistry'])) {
                             switch ($bufferWB[$bi]['Chemistry']) {
@@ -95,13 +104,6 @@ class BAT extends PSI_Plugin
                             case 7: $techn = 'Zinc-air'; break;
                             case 8: $techn = 'Li-poly';
                             }
-                        }
-                        if (isset($bufferWPB[$bi]['DesignVoltage']) && ($bufferWPB[$bi]['DesignVoltage'] > 0)) {
-                            $buffer[$bi]['info'] .= 'POWER_SUPPLY_VOLTAGE_MIN_DESIGN='.($bufferWPB[$bi]['DesignVoltage']*1000)."\n";
-                        }
-
-                        if (isset($bufferWPB[$bi]['Manufacturer']) && ($bufferWPB[$bi]['Manufacturer'] !== '')) {
-                            $buffer[$bi]['info'] .= 'POWER_SUPPLY_MANUFACTURER='.$bufferWPB[$bi]['Manufacturer']."\n";
                         }
                         // sometimes Chemistry from Win32_Battery returns 2 but Win32_PortableBattery returns e.g. 6
                         if ((($techn == '') || ($techn == 'Unknown')) && isset($bufferWPB[$bi]['Chemistry'])) {
