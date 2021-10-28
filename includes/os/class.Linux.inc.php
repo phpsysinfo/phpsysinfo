@@ -103,7 +103,7 @@ class Linux extends OS
             $vendor_array = array();
             if ((($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['dmi'])) {
                 $this->_machine_info['machine'] = $dmesg['dmi'];
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {                  
+                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array[] = trim($buf);
