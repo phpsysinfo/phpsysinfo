@@ -345,7 +345,7 @@
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="FSType" type="string"></attribute>
+        <attribute name="FSType" type="string" use="optional"></attribute>
         <attribute name="Name" type="string" use="required"></attribute>
         <attribute name="Free" use="required">
             <simpleType>
