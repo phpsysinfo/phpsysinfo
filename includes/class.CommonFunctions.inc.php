@@ -670,9 +670,9 @@ class CommonFunctions
             self::$_dmimd = array();
             $buffer = '';
             if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
-                CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
-            } elseif (CommonFunctions::_findProgram('dmidecode')) {
-                CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
+                self::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
+            } elseif (self::_findProgram('dmidecode')) {
+                self::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
             }
             if (!empty($buffer)) {
                 $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
