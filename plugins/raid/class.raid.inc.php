@@ -75,7 +75,11 @@ class Raid extends PSI_Plugin
                 if (in_array('megaclisas-status', $RaidProgs)) {
                     if (PSI_OS == 'WINNT') {
                         if (!WINNT::isAdmin()) {
-                            $this->global_error->addError("RAID megaclisas-status.py error", "Program allowed for users with administrator privileges (run as administrator)");
+                             if (CommonFunctions::_findProgram("megaclisas-status.py")) {
+                                 $this->global_error->addError("RAID megaclisas-status.py error", "Program allowed for users with administrator privileges (run as administrator)");
+                             } elseif (PSI_DEBUG) {
+                                 $this->global_error->addError('find_program("megaclisas-status.py")', "program not found on the machine");
+                             }
                         } else {
                             CommonFunctions::executeProgram("megaclisas-status.py", "", $this->_filecontent['megaclisas-status'], PSI_DEBUG);
                         }
@@ -85,8 +89,15 @@ class Raid extends PSI_Plugin
                     $notwas = false;
                 }
                 if (in_array('3ware-status', $RaidProgs)) {
-                    if (PSI_OS == 'WINNT') {
-                        CommonFunctions::executeProgram("3ware-status.py", "", $this->_filecontent['3ware-status'], PSI_DEBUG);
+                        if (!WINNT::isAdmin()) {
+                             if (CommonFunctions::_findProgram("3ware-status.py")) {
+                                 $this->global_error->addError("RAID 3ware-status.py error", "Program allowed for users with administrator privileges (run as administrator)");
+                             } elseif (PSI_DEBUG) {
+                                 $this->global_error->addError('find_program("3ware-status.py")', "program not found on the machine");
+                             }
+                        } else {
+                            CommonFunctions::executeProgram("3ware-status.py", "", $this->_filecontent['3ware-status'], PSI_DEBUG);
+                        }
                     } else {
                         CommonFunctions::executeProgram("3ware-status", "", $this->_filecontent['3ware-status'], PSI_DEBUG);
                     }
