@@ -89,6 +89,7 @@ class Raid extends PSI_Plugin
                     $notwas = false;
                 }
                 if (in_array('3ware-status', $RaidProgs)) {
+                    if (PSI_OS == 'WINNT') {
                         if (!WINNT::isAdmin()) {
                              if (CommonFunctions::_findProgram("3ware-status.py")) {
                                  $this->global_error->addError("RAID 3ware-status.py error", "Program allowed for users with administrator privileges (run as administrator)");
