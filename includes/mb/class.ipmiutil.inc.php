@@ -229,11 +229,15 @@ class IPMIutil extends Sensors
 
                 $buffer5s = preg_split("/\s+/", $buffer5 = $buffer[5]);
                 if (isset($buffer5s[1])) {
-                    $value = hexdec($buffer5s[0]) & 0xff;
-                    if ($buffer5s[1] === 'DiscreteEvt') {
-                        $dev->setValue('0x'.dechex($value));
-                    } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0)) {
-                        $dev->setValue('0x'.dechex($value - 1));
+                    if (preg_match('/^[0-9A-Fa-f]+$/', $buffer5s[0])) {
+                        $value = hexdec($buffer5s[0]) & 0xff;
+                        if ($buffer5s[1] === 'DiscreteEvt') {
+                            $dev->setValue('0x'.dechex($value));
+                        } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0)) {
+                            $dev->setValue('0x'.dechex($value - 1));
+                        } else {
+                            $dev->setValue($buffer5);
+                        }
                     } else {
                         $dev->setValue($buffer5);
                     }
