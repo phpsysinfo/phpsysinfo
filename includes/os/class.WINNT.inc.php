@@ -934,13 +934,13 @@ class WINNT extends OS
                     case 3: $kernel .= ' PowerPC'; break;
                     case 5: $kernel .= ' ARM'; break;
                     case 6: $kernel .= ' ia64'; break;
-                    case 9: if ($addresswidth == 32) { 
+                    case 9: if ($addresswidth == 32) {
                                 $kernel .= ' x86';
                             } else {
                                 $kernel .= ' x64';
                             }
                             break;
-                    case 12: if ($addresswidth == 32) { 
+                    case 12: if ($addresswidth == 32) {
                                  $kernel .= ' ARM';
                              } else {
                                  $kernel .= ' ARM64';
