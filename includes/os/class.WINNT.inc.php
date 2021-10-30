@@ -922,6 +922,7 @@ class WINNT extends OS
                 $kernel .= ' SP'.$buffer[0]['ServicePackMajorVersion'];
             }
             if ($allCpus = $this->_get_Win32_Processor()) {
+                $addresswidth = 0;
                 if (isset($allCpus[0]['AddressWidth']) && (($addresswidth = $allCpus[0]['AddressWidth']) > 0)) {
                     $kernel .= ' ('.$addresswidth.'-bit)';
                 }
@@ -933,8 +934,17 @@ class WINNT extends OS
                     case 3: $kernel .= ' PowerPC'; break;
                     case 5: $kernel .= ' ARM'; break;
                     case 6: $kernel .= ' ia64'; break;
-                    case 9: $kernel .= ' x64'; break;
-                    case 12: $kernel .= ' ARM64';
+                    case 9: if ($addresswidth == 32) { 
+                                $kernel .= ' x86';
+                            } else {
+                                $kernel .= ' x64';
+                            }
+                            break;
+                    case 12: if ($addresswidth == 32) { 
+                                 $kernel .= ' ARM';
+                             } else {
+                                 $kernel .= ' ARM64';
+                             }
                     }
                 }
             }
