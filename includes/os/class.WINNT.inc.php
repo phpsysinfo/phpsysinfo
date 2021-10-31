@@ -116,7 +116,7 @@ class WINNT extends OS
      *
      * @var array
      */
-    private $_wmidevices = array();
+    private $_wmidevices = null;
 
     /**
      * holds all disks, which are in the system
@@ -662,7 +662,8 @@ class WINNT extends OS
      */
     private function _devicelist($strType)
     {
-        if (empty($this->_wmidevices)) {
+        if ($this->_wmidevices === null) {
+            $this->_wmidevices = array();
             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                 $this->_wmidevices = self::getWMI(self::$_wmi, 'Win32_PnPEntity', array('Name', 'PNPDeviceID', 'Manufacturer', 'PNPClass'));
                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
@@ -675,6 +676,22 @@ class WINNT extends OS
             }
 
             if (empty($this->_wmidevices)) {
+                foreach (array('PCI', 'USB') as $type) {
+                    $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$type;
+                    if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
+                        foreach ($vendevs as $vendev) {
+                            if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false) && self::readReg($this->_reg, $hkey."\\".$vendev."\\".$ids[0]."\\DeviceDesc", $nameBuf, false)) {
+                                $namesplit = preg_split('/;/', $nameBuf, -1, PREG_SPLIT_NO_EMPTY);
+                                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && self::readReg($this->_reg, $hkey."\\".$vendev."\\".$ids[0]."\\Mfg", $mfgBuf, false)) {
+                                    $mfgsplit = preg_split('/;/', $mfgBuf, -1, PREG_SPLIT_NO_EMPTY);
+                                    $this->_wmidevices[] = array('Name'=>$nameBuf, 'PNPDeviceID'=>$type.'\\'.$namesplit[count($namesplit)-1], 'Manufacturer'=>$mfgsplit[count($mfgsplit)-1]);
+                                } else {
+                                   $this->_wmidevices[] = array('Name'=>$nameBuf, 'PNPDeviceID'=>$type.'\\'.$namesplit[count($namesplit)-1]);
+                                }
+                            }
+                        }
+                    }
+                }
                 $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
                 $id = 0;
                 if (self::enumKey($this->_reg, $hkey, $portBuf, false)) {
