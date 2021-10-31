@@ -1407,7 +1407,6 @@ class WINNT extends OS
                     $macexist = false;
                     if (((($ali=$aliases) && isset($ali[$name])) || (($ali=$aliases2) && isset($ali[$name]))) && isset($ali[$name]['id']) && ($ali[$name]['id'] !== "")) {
                         foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-                        //var_dump($NetworkAdapterConfiguration);
                             if ($ali[$name]['id']==$NetworkAdapterConfiguration['SettingID']) {
                                 $mininame = $ali[$name]['name'];
                                 if (preg_match('/^isatap\.({[A-Fa-f0-9\-]*})/', $mininame))
