@@ -684,9 +684,9 @@ class WINNT extends OS
                                 $namesplit = preg_split('/;/', $nameBuf, -1, PREG_SPLIT_NO_EMPTY);
                                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Mfg", $mfgBuf, false)) {
                                     $mfgsplit = preg_split('/;/', $mfgBuf, -1, PREG_SPLIT_NO_EMPTY);
-                                    $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev, 'Manufacturer'=>$mfgsplit[count($mfgsplit)-1]);
+                                    $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev.'\\'.$id, 'Manufacturer'=>$mfgsplit[count($mfgsplit)-1]);
                                 } else {
-                                  $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev);
+                                  $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev.'\\'.$id);
                                 }
                             }
                         }
@@ -749,7 +749,7 @@ class WINNT extends OS
                     $device['Serial'] = null;
                     if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                         if ($strType==='USB') {
-                            if (preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
+                            if (preg_match('/\\\\([^\\\\][^&\\\\][^\\\\]+)$/', $device['PNPDeviceID'], $buf)) { // second character !== &
                                 $device['Serial'] = $buf[1];
                             }
                         } elseif (($strType==='IDE')||($strType==='SCSI')) {
