@@ -367,7 +367,7 @@ class WINNT extends OS
      *
      * @return boolean command successfull or not
      */
-    public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true, $bits64 = false)
+    public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true, $dword = false, $bits64 = false)
     {
         $arrBuffer = array();
         $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
@@ -383,15 +383,28 @@ class WINNT extends OS
             } else {
                 $param = '';
             }
+            if ($dword) {
+                $valtype = "DWORD";
+            } else {
+                $valtype = "SZ|EXPAND_SZ";
+            }
             if (self::$_cp) {
-                if (CommonFunctions::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
-                    $strBuffer = $buffer2[1];
+                if (CommonFunctions::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_(".$valtype.")\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    if ($dword) {
+                        $strBuffer = strval(hexdec($buffer2[2]));
+                    } else {
+                        $strBuffer = $buffer2[2];
+                    }
                 } else {
                     return false;
                 }
             } else {
-                if (CommonFunctions::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
-                    $strBuffer = $buffer2[1];
+                if (CommonFunctions::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.$param.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_(".$valtype.")\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
+                    if ($dword) {
+                        $strBuffer = strval(hexdec($buffer2[2]));
+                    } else {
+                        $strBuffer = $buffer2[2];
+                    }
                 } else {
                     return false;
                 }
@@ -403,7 +416,11 @@ class WINNT extends OS
             if (isset($_hkey[$hkey])) {
                 $sub_keys = new VARIANT();
                 try {
-                    $reg->Get("StdRegProv")->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                    if ($dword) {
+                        $reg->Get("StdRegProv")->GetDWORDValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                    } else {
+                        $reg->Get("StdRegProv")->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
+                    }
                 } catch (Exception $e) {
                     if ($booErrorRep) {
                         $error = PSI_Error::singleton();
@@ -676,22 +693,29 @@ class WINNT extends OS
             }
 
             if (empty($this->_wmidevices)) {
-                foreach (array('PCI', 'USB') as $type) {
-                    $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$type;
-                    if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
-                        foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
-                            foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\DeviceDesc", $nameBuf, false)) {
-                                $namesplit = preg_split('/;/', $nameBuf, -1, PREG_SPLIT_NO_EMPTY);
-                                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Mfg", $mfgBuf, false)) {
-                                    $mfgsplit = preg_split('/;/', $mfgBuf, -1, PREG_SPLIT_NO_EMPTY);
-                                    $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev.'\\'.$id, 'Manufacturer'=>$mfgsplit[count($mfgsplit)-1]);
-                                } else {
-                                  $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$type.'\\'.$vendev.'\\'.$id);
-                                }
-                            }
+                $lstdevs = array();
+                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services";
+                if (self::enumKey($this->_reg, $hkey, $services, false)) {
+                    foreach ($services as $service) if (($service[0] !== '{') && ($service[0] !== '.') && self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\Count", $count, false, true) && ($count > 0)) {
+                        for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^USB|PCI/", $id)) {
+                            $lstdevs[$id] = true;
                         }
                     }
                 }
+
+                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\";
+                foreach ($lstdevs as $lstdev=>$tmp) {
+                    if (self::readReg($this->_reg, $hkey.$lstdev."\\DeviceDesc", $nameBuf, false)) {
+                        $namesplit = preg_split('/;/', $nameBuf, -1, PREG_SPLIT_NO_EMPTY);
+                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && self::readReg($this->_reg, $hkey.$lstdev."\\Mfg", $mfgBuf, false)) {
+                            $mfgsplit = preg_split('/;/', $mfgBuf, -1, PREG_SPLIT_NO_EMPTY);
+                            $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$lstdev, 'Manufacturer'=>$mfgsplit[count($mfgsplit)-1]);
+                        } else {
+                            $this->_wmidevices[] = array('Name'=>$namesplit[count($namesplit)-1], 'PNPDeviceID'=>$lstdev);
+                        }
+                    }
+                }
+
                 $hkey = "HKEY_LOCAL_MACHINE\\HARDWARE\\DEVICEMAP\\Scsi";
                 $id = 0;
                 if (self::enumKey($this->_reg, $hkey, $portBuf, false)) {
@@ -998,7 +1022,7 @@ class WINNT extends OS
                 } elseif (preg_match("/^(Microsoft [^\[]*)\s*\[\D*\s*([\.\d]+)\]/", $this->_ver, $ar_temp)) {
                     $ver = $ar_temp[2];
                     $kernel = $ver;
-                    if (($this->_reg === false) && self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, true) && (strlen($strBuf) > 0)) { // only if reg query via cmd
+                    if (($this->_reg === false) && self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $strBuf, false, false, true) && (strlen($strBuf) > 0)) { // only if reg query via cmd
                         if (self::readReg($this->_reg, "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\ProductName", $tmpBuf, false)) {
                             $kernel .= ' (64-bit)';
                         }
