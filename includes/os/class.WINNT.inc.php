@@ -695,13 +695,23 @@ class WINNT extends OS
             }
 
             if (empty($this->_wmidevices)) {
+                $services = array();
+                foreach (array('PCI', 'USB') as $type) {
+                    $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$type;
+                    if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
+                        foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
+                            foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
+                                $services[$service] = true; // used services
+                            }
+                        }
+                    }
+                }
+
                 $lstdevs = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services";
-                if (self::enumKey($this->_reg, $hkey, $services, false)) {
-                    foreach ($services as $service) if (($service[0] !== '{') && ($service[0] !== '.') && self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\Count", $count, false, true) && ($count > 0)) {
-                        for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^USB|^PCI/", $id)) {
-                            $lstdevs[$id] = true;
-                        }
+                foreach ($services as $service=>$tmp) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\Count", $count, false, true) && ($count > 0)) {
+                    for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^USB|^PCI/", $id)) {
+                        $lstdevs[$id]=true; // used devices
                     }
                 }
 
@@ -775,7 +785,8 @@ class WINNT extends OS
                     $device['Serial'] = null;
                     if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                         if ($strType==='USB') {
-                            if (preg_match('/\\\\([^\\\\][^&\\\\][^\\\\]+)$/', $device['PNPDeviceID'], $buf)) { // second character !== &
+//                            if (preg_match('/\\\\([^\\\\][^&\\\\][^\\\\]+)$/', $device['PNPDeviceID'], $buf)) { // second character !== &
+                            if (preg_match('/\\\\(\w+)$/', $device['PNPDeviceID'], $buf)) {
                                 $device['Serial'] = $buf[1];
                             }
                         } elseif (($strType==='IDE')||($strType==='SCSI')) {
