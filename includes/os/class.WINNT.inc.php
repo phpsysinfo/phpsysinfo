@@ -701,7 +701,8 @@ class WINNT extends OS
                     if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
                         foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
                             foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
-                                $services[$service] = true; // used services
+                                $services[$service] = true; // ever used services
+                                break;
                             }
                         }
                     }
