@@ -710,7 +710,7 @@ class WINNT extends OS
                 $lstdevs = array();
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services";
                 foreach ($services as $service=>$tmp) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\Count", $count, false, true) && ($count > 0)) {
-                    for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^USB|^PCI/", $id)) {
+                    for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^PCI|^USB/", $id)) {
                         $lstdevs[$id] = true; // used devices
                     }
                 }
