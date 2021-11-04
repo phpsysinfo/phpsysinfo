@@ -696,22 +696,19 @@ class WINNT extends OS
 
             if (empty($this->_wmidevices)) {
                 $lstdevs = array();
-                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\PCI";
-                if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
-                    foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
-                        foreach ($ids as $id) { // enumerate all PCI devices
-                            $lstdevs["PCI\\".$vendev."\\".$id] = true;
-                        }
-                    }
-                }
-
                 $services = array();
-                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\USB";
-                if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
-                    foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
-                        foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
-                            $services[$service] = true; // ever used USB services
-                            break;
+                foreach (array('PCI', 'USB') as $type) {
+                    $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$type;
+                    if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
+                        foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
+                            foreach ($ids as $id) {
+                                if ($type === 'PCI') { // enumerate all PCI devices
+                                    $lstdevs[$type."\\".$vendev."\\".$id] = true;
+                                } elseif (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
+                                    $services[$service] = true; // ever used USB services
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
