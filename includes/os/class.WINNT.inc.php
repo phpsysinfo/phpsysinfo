@@ -695,24 +695,31 @@ class WINNT extends OS
             }
 
             if (empty($this->_wmidevices)) {
-                $services = array();
-                foreach (array('PCI', 'USB') as $type) {
-                    $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\".$type;
-                    if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
-                        foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
-                            foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
-                                $services[$service] = true; // ever used services
-                                break;
-                            }
+                $lstdevs = array();
+                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\PCI";
+                if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
+                    foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
+                        foreach ($ids as $id) { // enumerate all PCI devices
+                            $lstdevs["PCI\\".$vendev."\\".$id] = true;
                         }
                     }
                 }
 
-                $lstdevs = array();
+                $services = array();
+                $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\USB";
+                if (self::enumKey($this->_reg, $hkey, $vendevs, false)) {
+                    foreach ($vendevs as $vendev) if (self::enumKey($this->_reg, $hkey."\\".$vendev, $ids, false)) {
+                        foreach ($ids as $id) if (self::readReg($this->_reg, $hkey."\\".$vendev."\\".$id."\\Service", $service, false)) {
+                            $services[$service] = true; // ever used USB services
+                            break;
+                        }
+                    }
+                }
+
                 $hkey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services";
                 foreach ($services as $service=>$tmp) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\Count", $count, false, true) && ($count > 0)) {
-                    for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^PCI|^USB/", $id)) {
-                        $lstdevs[$id] = true; // used devices
+                    for ($i = 0; $i < $count; $i++) if (self::readReg($this->_reg, $hkey."\\".$service."\\Enum\\".$i, $id, false) && preg_match("/^USB/", $id)) {
+                        $lstdevs[$id] = true; // used USB devices
                     }
                 }
 
