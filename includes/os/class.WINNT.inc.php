@@ -931,7 +931,7 @@ class WINNT extends OS
             $result = $localtime - $boottime;
 
             $this->sys->setUptime($result);
-        } elseif ((substr($this->sys->getDistribution(), 0, 7)=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
+        } elseif (!defined('PSI_EMU_HOSTNAME') && (substr($this->sys->getDistribution(), 0, 7)=="ReactOS") && CommonFunctions::executeProgram('uptime', '', $strBuf, false) && (strlen($strBuf) > 0) && preg_match("/^System Up Time:\s+(\d+) days, (\d+) Hours, (\d+) Minutes, (\d+) Seconds/", $strBuf, $ar_buf)) {
             $sec = $ar_buf[4];
             $min = $ar_buf[3];
             $hours = $ar_buf[2];
@@ -1629,7 +1629,7 @@ class WINNT extends OS
             }
             $this->sys->setDiskDevices($dev);
         }
-        if (!$buffer && (substr($this->sys->getDistribution(), 0, 7)=="ReactOS")) {
+        if (!$buffer && !defined('PSI_EMU_HOSTNAME')) {
             $letters = array();
             if (CommonFunctions::executeProgram('fsutil', 'fsinfo drives 2>nul', $out_value, false) && ($out_value !== '') && preg_match('/^Drives:\s*(.+)$/i', $out_value, $disks)) {
                 $diskarr = preg_split('/ /', $disks[1], -1, PREG_SPLIT_NO_EMPTY);
@@ -1640,7 +1640,7 @@ class WINNT extends OS
             if (count($letters) == 0) for ($letter='A'; $letter!='AA'; $letter++) {
                 $letters[] = $letter;
             }
-            if (CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, false)) {
+            if ((substr($this->sys->getDistribution(), 0, 7)=="ReactOS") && CommonFunctions::executeProgram('cmd', '/c free 2>nul', $out_value, false)) {
                 foreach ($letters as $letter) if (CommonFunctions::executeProgram('cmd', '/c free '.$letter.': 2>nul', $out_value, false)) {
                     $values = preg_replace('/[^\d\n]/', '', $out_value);
                     if (preg_match('/\n(\d+)\n(\d+)\n(\d+)$/', $values, $out_dig)) {
@@ -1664,13 +1664,18 @@ class WINNT extends OS
                     }
                 }
             } else {
-                foreach ($letters as $letter) {                    
+                if (substr($this->sys->getDistribution(), 0, 7)=="ReactOS") {
+                    $disksep = ':\\';
+                } else {
+                    $disksep = ':';
+                }
+                foreach ($letters as $letter) {
                     $size = disk_total_space($letter.':\\');
                     $free = disk_free_space($letter.':\\');
                     if (($size !== false) && ($free !== false) && ($size >= 0) && ($free >= 0) && ($size >= $free)) {
                         $dev = new DiskDevice();
                         $dev->setMountPoint($letter.":");
-                        if (CommonFunctions::executeProgram('fsutil', 'fsinfo volumeinfo '.$letter.':\ 2>nul', $out_value, false) && ($out_value !== '') && preg_match('/\nFile System Name\s*:\s*(\S+)/im', $out_value, $fsname)) {
+                        if (CommonFunctions::executeProgram('fsutil', 'fsinfo volumeinfo '.$letter.$disksep.' 2>nul', $out_value, false) && ($out_value !== '') && preg_match('/\nFile System Name\s*:\s*(\S+)/im', $out_value, $fsname)) {
                             $dev->setFsType($fsname[1]);
                         } else {
                             $dev->setFsType('Unknown');
