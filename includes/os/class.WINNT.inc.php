@@ -750,7 +750,7 @@ class WINNT extends OS
                                                      && self::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
                                                       $this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
                                                       if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-                                                         && (self::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false))
+                                                         && self::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false)
                                                          && (($serBuf=trim($serBuf)) !== "")) {
                                                           $this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
                                                       }
