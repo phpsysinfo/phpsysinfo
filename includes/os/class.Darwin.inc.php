@@ -102,7 +102,7 @@ class Darwin extends BSDCommon
             $buf=$this->grabkey('hw.model');
             if (($buf !== null) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
-                if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/ModelTranslation.txt', $buffer)) {
+                if (CommonFunctions::rftsdata('ModelTranslation.txt', $buffer)) {
                     $buffer = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($buffer as $line) {
                         $ar_buf = preg_split("/:/", $line, 3);

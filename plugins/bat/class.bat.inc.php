@@ -303,7 +303,7 @@ class BAT extends PSI_Plugin
             break;
         case 'data':
             if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_info.tmp", $info);
+                CommonFunctions::rftsdata("bat_info.tmp", $info);
                 $itemcount = 0;
                 $infoarray = preg_split("/(?=^Device:|^Daemon:)/m", $info);
                 foreach ($infoarray as $infoitem) { //upower detection
@@ -316,7 +316,7 @@ class BAT extends PSI_Plugin
                 if ($itemcount == 0) {
                     $buffer[0]['info'] = $info;
                 }
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/bat_state.tmp", $buffer[0]['state']);
+                CommonFunctions::rftsdata("bat_state.tmp", $buffer[0]['state']);
             }
             break;
         default:

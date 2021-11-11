@@ -38,7 +38,7 @@ class SpeedFan extends Sensors
             }
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/speedfan.tmp', $buffer) && (strlen($buffer) > 0)) {
+            if (CommonFunctions::rftsdata('speedfan.tmp', $buffer) && (strlen($buffer) > 0)) {
                 if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
                     $this->_filecontent["temp"] = $out[1];
                 }

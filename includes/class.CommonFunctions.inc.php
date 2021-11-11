@@ -180,6 +180,10 @@ class CommonFunctions
             }
         }
 
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
+            return false;
+        }
+
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
             $strSet = $strmatch[1].' ';
             $strProgramname = $strmatch[2];
@@ -371,10 +375,15 @@ class CommonFunctions
 
         $strFile = "";
         $intCurLine = 1;
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
+            $rfsstrFileName =  PSI_ROOTFS.$strFileName;
+        } else {
+            $rfsstrFileName =  $strFileName;
+        }
         $error = PSI_Error::singleton();
-        if (file_exists($strFileName)) {
-            if (is_readable($strFileName)) {
-                if ($fd = fopen($strFileName, 'r')) {
+        if (file_exists($rfsstrFileName)) {
+            if (is_readable($rfsstrFileName)) {
+                if ($fd = fopen($rfsstrFileName, 'r')) {
                     while (!feof($fd)) {
                         $strFile .= fgets($fd, $intBytes);
                         if ($intLines <= $intCurLine && $intLines != 0) {
@@ -392,6 +401,61 @@ class CommonFunctions
                             error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\n".$strRet, 3, PSI_LOG);
                         }
                     }
+                } else {
+                    if ($booErrorRep) {
+                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+                    }
+
+                    return false;
+                }
+            } else {
+                if ($booErrorRep) {
+                    $error->addError('fopen('.$strFileName.')', 'file permission error');
+                }
+
+                return false;
+            }
+        } else {
+            if ($booErrorRep) {
+                $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * read a data file and return the content as a string
+     *
+     * @param string  $strDataFileName name of the data file which should be read
+     * @param string  &$strRet     content of the file (reference)
+     * @param int $intLines    control how many lines should be read
+     * @param int $intBytes    control how many bytes of each line should be read
+     * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
+     *
+     * @return boolean command successfull or not
+     */
+    public static function rftsdata($strDataFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
+    {
+        $strFile = "";
+        $intCurLine = 1;
+        $strFileName = PSI_APP_ROOT."/data/".$strDataFileName;
+        $error = PSI_Error::singleton();
+        if (file_exists($strFileName)) {
+            if (is_readable($strFileName)) {
+                if ($fd = fopen($strFileName, 'r')) {
+                    while (!feof($fd)) {
+                        $strFile .= fgets($fd, $intBytes);
+                        if ($intLines <= $intCurLine && $intLines != 0) {
+                            break;
+                        } else {
+                            $intCurLine++;
+                        }
+                    }
+                    fclose($fd);
+                    $strRet = $strFile;
                 } else {
                     if ($booErrorRep) {
                         $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
@@ -439,7 +503,12 @@ class CommonFunctions
             }
         }
 
-        $exists =  file_exists($strFileName);
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
+            $exists =  file_exists(PSI_ROOTFS.$strFileName);
+        } else {
+            $exists =  file_exists($strFileName);
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             if ((substr($strFileName, 0, 5) === "/dev/") && $exists) {
                 error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\ndevice exists\n", 3, PSI_LOG);
@@ -670,7 +739,7 @@ class CommonFunctions
             self::$_dmimd = array();
             $buffer = '';
             if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
-                self::rfts(PSI_APP_ROOT.'/data/dmidecode.tmp', $buffer);
+                self::rftsdata('dmidecode.tmp', $buffer);
             } elseif (self::_findProgram('dmidecode')) {
                 self::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
             }

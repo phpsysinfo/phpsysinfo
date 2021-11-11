@@ -75,6 +75,11 @@ BLOCKS=true
 ;
 ;SNMP_RETRY=0
 
+; Root path of the system
+; Example : ROOTFS="/rootfs"
+;
+;ROOTFS="/"
+
 ; External WinNT server connection parameters
 ; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
 ; These settings can also be entered for a specific plug-in so that only it connects to an external server

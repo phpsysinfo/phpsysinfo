@@ -57,7 +57,7 @@ class Nut extends UPS
             $un = 0;
             foreach ($upss as $ups) {
                 $temp = "";
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/upsnut{$un}.tmp", $temp);
+                CommonFunctions::rftsdata("upsnut{$un}.tmp", $temp);
                 if (! empty($temp)) {
                     $this->_output[$ups] = $temp;
                 }

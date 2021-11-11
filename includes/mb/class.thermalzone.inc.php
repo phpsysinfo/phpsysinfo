@@ -47,7 +47,7 @@ class ThermalZone extends Sensors
             }
             break;
         case 'data':
-            if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rfts(PSI_APP_ROOT.'/data/thermalzone.tmp', $lines, 0, 4096, false)) { //output of "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName"
+            if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rftsdata('thermalzone.tmp', $lines, 0, 4096, false)) { //output of "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName"
                 $lines = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $lines));
                 $lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 if ((($clines=count($lines)) > 1) && preg_match("/CriticalTripPoint\s+CurrentTemperature\s+InstanceName/i", $lines[0])) for ($i = 1; $i < $clines; $i++) {

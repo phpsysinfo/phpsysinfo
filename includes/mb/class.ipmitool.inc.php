@@ -33,7 +33,7 @@ class IPMItool extends Sensors
             CommonFunctions::executeProgram('ipmitool', 'sensor -v', $lines);
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT.'/data/ipmitool.tmp', $lines);
+            CommonFunctions::rftsdata('ipmitool.tmp', $lines);
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');

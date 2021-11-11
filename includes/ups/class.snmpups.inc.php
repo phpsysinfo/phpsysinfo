@@ -56,7 +56,7 @@ class SNMPups extends UPS
                 $un = 0;
                 foreach ($upss as $ups) {
                     $temp = "";
-                    CommonFunctions::rfts(PSI_APP_ROOT."/data/upssnmpups{$un}.tmp", $temp);
+                    CommonFunctions::rftsdata("upssnmpups{$un}.tmp", $temp);
                     if (! empty($temp)) {
                         $this->_output[] = $temp;
                     }

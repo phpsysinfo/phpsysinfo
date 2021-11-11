@@ -39,7 +39,7 @@ class Pmset extends UPS
     {
         parent::__construct();
         if (defined('PSI_UPS_PMSET_ACCESS') && (strtolower(trim(PSI_UPS_PMSET_ACCESS))==='data')) {
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/upspmset.tmp', $temp)) {
+            if (CommonFunctions::rftsdata('upspmset.tmp', $temp)) {
                 $this->_output[] = $temp;
             }
         } elseif (PSI_OS == 'Darwin') {

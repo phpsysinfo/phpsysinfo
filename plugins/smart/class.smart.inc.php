@@ -158,7 +158,7 @@ class SMART extends PSI_Plugin
             $dn=0;
             if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
                 $buffer="";
-                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/smart{$dn}.tmp", $buffer) && !empty($buffer)) {
+                if (CommonFunctions::rftsdata("smart{$dn}.tmp", $buffer) && !empty($buffer)) {
                     if (preg_match("/^.+\n.{(.+)}/", $buffer, $out)) { //wmic format
                         $line = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', '', $out[1]));
                         $this->_filecontent[$disk] = "\nVendor Specific SMART Attributes with Thresholds\n";

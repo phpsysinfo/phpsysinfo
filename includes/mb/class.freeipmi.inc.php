@@ -33,7 +33,7 @@ class FreeIPMI extends Sensors
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/freeipmi.tmp', $lines)) {
+            if (CommonFunctions::rftsdata('freeipmi.tmp', $lines)) {
                 $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

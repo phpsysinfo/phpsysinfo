@@ -56,7 +56,7 @@ class Apcupsd extends UPS
             $un = 0;
             foreach ($upss as $ups) {
                 $temp = "";
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/upsapcupsd{$un}.tmp", $temp);
+                CommonFunctions::rftsdata("upsapcupsd{$un}.tmp", $temp);
                 if (! empty($temp)) {
                     $this->_output[] = $temp;
                 }

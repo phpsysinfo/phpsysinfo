@@ -164,7 +164,7 @@ class Raid extends PSI_Plugin
             if (!defined('PSI_EMU_HOSTNAME')) foreach ($this->prog_items as $item) {
                 if (in_array($item, $RaidProgs)) {
                     if ($item !== 'idrac') {
-                        CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.".tmp", $this->_filecontent[$item], 0, 4096, false);
+                        CommonFunctions::rftsdata("raid".$item.".tmp", $this->_filecontent[$item], 0, 4096, false);
                     } elseif (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
                         if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
                             $devices = eval(PSI_PLUGIN_RAID_IDRAC_DEVICES);
@@ -174,7 +174,7 @@ class Raid extends PSI_Plugin
                         $pn=0;
                         foreach ($devices as $device) {
                             $buffer="";
-                            if (CommonFunctions::rfts(PSI_APP_ROOT."/data/raid".$item.$pn.".tmp", $buffer) && !empty($buffer)) {
+                            if (CommonFunctions::rftsdata("raid".$item.$pn.".tmp", $buffer) && !empty($buffer)) {
                                 $this->_filecontent['idrac'][$device] = $buffer;
                             }
                             $pn++;
