@@ -180,8 +180,11 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
-            return false;
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') {
+            $rootfs = PSI_ROOTFS;
+            if ($rootfs[0] === '/') {
+                return false;
+            }
         }
 
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
@@ -375,8 +378,13 @@ class CommonFunctions
 
         $strFile = "";
         $intCurLine = 1;
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
-            $rfsstrFileName =  PSI_ROOTFS.$strFileName;
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
+            $rootfs = PSI_ROOTFS;
+            if ($rootfs[0] === '/') {
+                $rfsstrFileName =  PSI_ROOTFS.$strFileName;
+            } else {
+                $rfsstrFileName =  $strFileName;
+            }
         } else {
             $rfsstrFileName =  $strFileName;
         }
@@ -503,8 +511,13 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') && (PSI_ROOTFS[0] === '/')) {
-            $exists =  file_exists(PSI_ROOTFS.$strFileName);
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
+            $rootfs = PSI_ROOTFS;
+            if ($rootfs[0] === '/') {
+                $exists =  file_exists(PSI_ROOTFS.$strFileName);
+            } else {
+                $exists =  file_exists($strFileName);
+            }
         } else {
             $exists =  file_exists($strFileName);
         }
