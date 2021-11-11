@@ -180,7 +180,7 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/') {
+        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
             $rootfs = PSI_ROOTFS;
             if ($rootfs[0] === '/') {
                 return false;
