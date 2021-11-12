@@ -376,9 +376,6 @@ class CommonFunctions
             }
         }
 
-        $strFile = "";
-        $intCurLine = 1;
-        $rfs = "";
         if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
             $rootfs = PSI_ROOTFS;
             if ($rootfs[0] === '/') {
@@ -386,10 +383,14 @@ class CommonFunctions
                 $rfs = "[".PSI_ROOTFS."]"
             } else {
                 $rfsstrFileName =  $strFileName;
+                $rfs = "";
             }
         } else {
             $rfsstrFileName =  $strFileName;
+            $rfs = "";
         }
+        $strFile = "";
+        $intCurLine = 1;
         $error = PSI_Error::singleton();
         if (file_exists($rfsstrFileName)) {
             if (is_readable($rfsstrFileName)) {
