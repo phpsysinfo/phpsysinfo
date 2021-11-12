@@ -380,7 +380,7 @@ class CommonFunctions
             $rootfs = PSI_ROOTFS;
             if ($rootfs[0] === '/') {
                 $rfsstrFileName =  PSI_ROOTFS.$strFileName;
-                $rfs = "[".PSI_ROOTFS."]"
+                $rfs = "[".PSI_ROOTFS."]";
             } else {
                 $rfsstrFileName =  $strFileName;
                 $rfs = "";
