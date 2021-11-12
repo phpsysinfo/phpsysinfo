@@ -378,10 +378,12 @@ class CommonFunctions
 
         $strFile = "";
         $intCurLine = 1;
+        $rfs = "";
         if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
             $rootfs = PSI_ROOTFS;
             if ($rootfs[0] === '/') {
                 $rfsstrFileName =  PSI_ROOTFS.$strFileName;
+                $rfs = "[".PSI_ROOTFS."]"
             } else {
                 $rfsstrFileName =  $strFileName;
             }
@@ -411,21 +413,21 @@ class CommonFunctions
                     }
                 } else {
                     if ($booErrorRep) {
-                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+                        $error->addError('fopen('.$rfs.$strFileName.')', 'file can not read by phpsysinfo');
                     }
 
                     return false;
                 }
             } else {
                 if ($booErrorRep) {
-                    $error->addError('fopen('.$strFileName.')', 'file permission error');
+                    $error->addError('fopen('.$rfs.$strFileName.')', 'file permission error');
                 }
 
                 return false;
             }
         } else {
             if ($booErrorRep) {
-                $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+                $error->addError('file_exists('.$rfs.$strFileName.')', 'the file does not exist on your machine');
             }
 
             return false;
