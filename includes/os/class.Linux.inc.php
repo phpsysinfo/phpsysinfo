@@ -264,7 +264,6 @@ class Linux extends OS
             } elseif (CommonFunctions::executeProgram('hostname', '', $ret)) {
                 $this->sys->setHostname($ret);
             }
-
         }
     }
 
