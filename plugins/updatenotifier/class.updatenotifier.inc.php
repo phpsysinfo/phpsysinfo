@@ -111,7 +111,7 @@ class UpdateNotifier extends PSI_Plugin
             if (isset($this->_result[1]) && is_numeric($this->_result[1])) {
                 $xmluu->addChild("security", $this->_result[1]);
             } else {
-                $xmluu->addChild("security", 0);
+                $xmluu->addChild("security", '0');
             }
         }
 
