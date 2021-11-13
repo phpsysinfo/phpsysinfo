@@ -197,7 +197,7 @@ class BAT extends PSI_Plugin
                     }
                 }
                 if ($itemcount == 0) {
-                    $batdevices = glob('/proc/acpi/battery/BAT*/info', GLOB_NOSORT);
+                    $batdevices = CommonFunctions::findglob('/proc/acpi/battery/BAT*/info', GLOB_NOSORT);
                     if (is_array($batdevices) && (($total = count($batdevices)) > 0)) {
                         for ($i = 0; $i < $total; $i++) {
                             $infoitem = '';
@@ -224,7 +224,7 @@ class BAT extends PSI_Plugin
                     }
                 }
                 if ($itemcount == 0) {
-                    $batdevices = glob('/sys/class/power_supply/[Bb][Aa][Tt]*/present', GLOB_NOSORT);
+                    $batdevices = CommonFunctions::findglob('/sys/class/power_supply/[Bb][Aa][Tt]*/present', GLOB_NOSORT);
                     if (is_array($batdevices) && (($total = count($batdevices)) > 0)) {
                         for ($i = 0; $i < $total; $i++) {
                             $pbuffer = '';

@@ -389,7 +389,7 @@ class Linux extends OS
                         $this->sys->setVirtualizer('powervm'); // IBM PowerVM hypervisor
                         $novm = false;
                     } else {
-                        $names = glob('/proc/device-tree', GLOB_NOSORT);
+                        $names = CommonFunctions::findglob('/proc/device-tree', GLOB_NOSORT);
                         if (is_array($names) && (($total = count($names)) > 0)) {
                             for ($i = 0; $i < $total; $i++) {
                                 if (preg_match('/fw-cfg/', $names[$i])) {
@@ -933,7 +933,7 @@ class Linux extends OS
                 }
             }
 
-            $cpudevices = glob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
+            $cpudevices = CommonFunctions::findglob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
             if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
                 for (; $cpustopped > 0; $cpustopped--) {
                     $dev = new CpuDevice();
@@ -982,7 +982,7 @@ class Linux extends OS
                 }
             }
         } else {
-            $pcidevices = glob('/sys/bus/pci/devices/*/uevent', GLOB_NOSORT);
+            $pcidevices = CommonFunctions::findglob('/sys/bus/pci/devices/*/uevent', GLOB_NOSORT);
             if (is_array($pcidevices) && (($total = count($pcidevices)) > 0)) {
                 $buf = "";
                 for ($i = 0; $i < $total; $i++) {
@@ -1070,7 +1070,7 @@ class Linux extends OS
 
                     if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && ($dev_type[1]==='Direct-Access')) {
-                       $sizelist = glob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
+                       $sizelist = CommonFunctions::findglob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
                        if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
                            $buf = "";
                            for ($i = 0; $i < $total; $i++) {
@@ -1112,7 +1112,7 @@ class Linux extends OS
             }
         }
 
-        $usbdevices = glob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+        $usbdevices = CommonFunctions::findglob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
         if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
@@ -1253,7 +1253,7 @@ class Linux extends OS
      */
     protected function _i2c()
     {
-        $i2cdevices = glob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
+        $i2cdevices = CommonFunctions::findglob('/sys/bus/i2c/devices/*/name', GLOB_NOSORT);
         if (is_array($i2cdevices) && (($total = count($i2cdevices)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) {
@@ -2030,7 +2030,7 @@ class Linux extends OS
      */
     protected function _processes()
     {
-        $process = glob('/proc/*/status', GLOB_NOSORT);
+        $process = CommonFunctions::findglob('/proc/*/status', GLOB_NOSORT);
         if (is_array($process) && (($total = count($process)) > 0)) {
             $processes['*'] = 0;
             $buf = "";

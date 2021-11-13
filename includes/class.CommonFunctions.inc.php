@@ -180,11 +180,8 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
-            $rootfs = PSI_ROOTFS;
-            if ($rootfs[0] === '/') {
-                return false;
-            }
+        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+           return false;
         }
 
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
@@ -375,26 +372,19 @@ class CommonFunctions
                 return true;
             }
         }
-
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
-            $rootfs = PSI_ROOTFS;
-            if ($rootfs[0] === '/') {
-                $rfsstrFileName =  PSI_ROOTFS.$strFileName;
-                $rfs = "[".PSI_ROOTFS."]";
-            } else {
-                $rfsstrFileName =  $strFileName;
-                $rfs = "";
-            }
+        
+        if (PSI_ROOT_FILESYSTEM !== '') {
+            $rfsinfo = "[".PSI_ROOT_FILESYSTEM."]";
         } else {
-            $rfsstrFileName =  $strFileName;
-            $rfs = "";
+            $rfsinfo = '';
         }
+
         $strFile = "";
         $intCurLine = 1;
         $error = PSI_Error::singleton();
-        if (file_exists($rfsstrFileName)) {
-            if (is_readable($rfsstrFileName)) {
-                if ($fd = fopen($rfsstrFileName, 'r')) {
+        if (file_exists(PSI_ROOT_FILESYSTEM.$strFileName)) {
+            if (is_readable(PSI_ROOT_FILESYSTEM.$strFileName)) {
+                if ($fd = fopen(PSI_ROOT_FILESYSTEM.$strFileName, 'r')) {
                     while (!feof($fd)) {
                         $strFile .= fgets($fd, $intBytes);
                         if ($intLines <= $intCurLine && $intLines != 0) {
@@ -414,21 +404,21 @@ class CommonFunctions
                     }
                 } else {
                     if ($booErrorRep) {
-                        $error->addError('fopen('.$rfs.$strFileName.')', 'file can not read by phpsysinfo');
+                        $error->addError('fopen('.$rfsinfo.$strFileName.')', 'file can not read by phpsysinfo');
                     }
 
                     return false;
                 }
             } else {
                 if ($booErrorRep) {
-                    $error->addError('fopen('.$rfs.$strFileName.')', 'file permission error');
+                    $error->addError('fopen('.$rfsinfo.$strFileName.')', 'file permission error');
                 }
 
                 return false;
             }
         } else {
             if ($booErrorRep) {
-                $error->addError('file_exists('.$rfs.$strFileName.')', 'the file does not exist on your machine');
+                $error->addError('file_exists('.$rfsinfo.$strFileName.')', 'the file does not exist on your machine');
             }
 
             return false;
@@ -478,6 +468,31 @@ class CommonFunctions
     }
 
     /**
+     * Find pathnames matching a pattern
+     *
+     * @param string $pattern the pattern. No tilde expansion or parameter substitution is done.
+     * @param int $flags
+     *
+     * @return an array containing the matched files/directories, an empty array if no file matched or false on error
+     */
+    public static function findglob($pattern, $flags = 0)
+    {
+        $outarr = glob(PSI_ROOT_FILESYSTEM.$pattern, $flags);
+        if (PSI_ROOT_FILESYSTEM == '') {
+            return $outarr;
+        } elseif ($outarr === false) {
+           return false; 
+        } else {
+            $len = strlen(PSI_ROOT_FILESYSTEM);
+            $newoutarr = array();
+            foreach ($outarr as $out) {
+                $newoutarr[] = substr($out, $len); // path without ROOTFS
+            }
+            return $newoutarr;
+        }
+    }
+
+    /**
      * file exists
      *
      * @param string $strFileName name of the file which should be check
@@ -499,17 +514,7 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
-            $rootfs = PSI_ROOTFS;
-            if ($rootfs[0] === '/') {
-                $exists =  file_exists(PSI_ROOTFS.$strFileName);
-            } else {
-                $exists =  file_exists($strFileName);
-            }
-        } else {
-            $exists =  file_exists($strFileName);
-        }
-
+        $exists =  file_exists(PSI_ROOT_FILESYSTEM.$strFileName);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             if ((substr($strFileName, 0, 5) === "/dev/") && $exists) {
                 error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\ndevice exists\n", 3, PSI_LOG);

@@ -22,7 +22,7 @@ class Hwmon extends Sensors
      */
     protected function _temperature($hwpath)
     {
-       $sensor = glob($hwpath."temp*_input", GLOB_NOSORT);
+       $sensor = CommonFunctions::findglob($hwpath."temp*_input", GLOB_NOSORT);
        if (is_array($sensor) && (($total = count($sensor)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (($buf = CommonFunctions::rolv($sensor[$i]))!==null) {
@@ -71,7 +71,7 @@ class Hwmon extends Sensors
      */
     private function _voltage($hwpath)
     {
-       $sensor = glob($hwpath."in*_input", GLOB_NOSORT);
+       $sensor = CommonFunctions::findglob($hwpath."in*_input", GLOB_NOSORT);
        if (is_array($sensor) && (($total = count($sensor)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (($buf = CommonFunctions::rolv($sensor[$i]))!==null) {
@@ -114,7 +114,7 @@ class Hwmon extends Sensors
      */
     protected function _fans($hwpath)
     {
-       $sensor = glob($hwpath."fan*_input", GLOB_NOSORT);
+       $sensor = CommonFunctions::findglob($hwpath."fan*_input", GLOB_NOSORT);
        if (is_array($sensor) && (($total = count($sensor)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (($buf = CommonFunctions::rolv($sensor[$i]))!==null) {
@@ -159,7 +159,7 @@ class Hwmon extends Sensors
      */
     private function _power($hwpath)
     {
-       $sensor = glob($hwpath."power*_input", GLOB_NOSORT);
+       $sensor = CommonFunctions::findglob($hwpath."power*_input", GLOB_NOSORT);
        if (is_array($sensor) && (($total = count($sensor)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (($buf = CommonFunctions::rolv($sensor[$i]))!==null) {
@@ -202,7 +202,7 @@ class Hwmon extends Sensors
      */
     private function _current($hwpath)
     {
-       $sensor = glob($hwpath."curr*_input", GLOB_NOSORT);
+       $sensor = CommonFunctions::findglob($hwpath."curr*_input", GLOB_NOSORT);
        if (is_array($sensor) && (($total = count($sensor)) > 0)) {
             $buf = "";
             for ($i = 0; $i < $total; $i++) if (($buf = CommonFunctions::rolv($sensor[$i]))!==null) {
@@ -247,9 +247,9 @@ class Hwmon extends Sensors
     public function build()
     {
         if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
-            $hwpaths = glob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
+            $hwpaths = CommonFunctions::findglob("/sys/class/hwmon/hwmon*/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) > 0)) {
-                $hwpaths2 = glob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
+                $hwpaths2 = CommonFunctions::findglob("/sys/class/hwmon/hwmon*/device/", GLOB_NOSORT);
                 if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
                     $hwpaths = array_merge($hwpaths, $hwpaths2);
                 }

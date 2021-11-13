@@ -102,7 +102,7 @@ class ThermalZone extends Sensors
             }
         } elseif (($mode == 'command') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
             $notwas = true;
-            $thermalzones = glob('/sys/class/thermal/thermal_zone*/');
+            $thermalzones = CommonFunctions::findglob('/sys/class/thermal/thermal_zone*/');
             if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                 $thermalzonetemp = $thermalzone.'temp';
                 $temp = null;
@@ -142,7 +142,7 @@ class ThermalZone extends Sensors
                 }
             }
             if ($notwas) {
-                $thermalzones = glob('/proc/acpi/thermal_zone/TH*/temperature');
+                $thermalzones = (PSI_ROOT_FILESYSTEM.'/proc/acpi/thermal_zone/TH*/temperature');
                 if (is_array($thermalzones) && (count($thermalzones) > 0)) foreach ($thermalzones as $thermalzone) {
                     $temp = null;
                     if (CommonFunctions::rfts($thermalzone, $temp, 1, 4096, false) && ($temp !== null) && (($temp = trim($temp)) != "")) {

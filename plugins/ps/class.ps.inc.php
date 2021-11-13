@@ -94,7 +94,7 @@ class PS extends PSI_Plugin
                         }
                         $buffer = "  PID  PPID %MEM %CPU COMMAND\n";
 
-                        $processlist = glob('/proc/*/status', GLOB_NOSORT);
+                        $processlist = CommonFunctions::findglob('/proc/*/status', GLOB_NOSORT);
                         if (is_array($processlist) && (($total = count($processlist)) > 0)) {
                             natsort($processlist); //first sort
                             $process = array();

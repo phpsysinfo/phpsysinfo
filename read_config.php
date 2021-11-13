@@ -100,35 +100,37 @@ if (!defined('PSI_CONFIG_FILE')) {
         define('PSI_VERSION_STRING', PSI_VERSION);
     }
 
-    if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
-        if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
-            $rootfs = PSI_ROOTFS;
-            if ($rootfs[0] !== '/') {
-                $rootfs = '';
-            }
+    if (defined('PSI_ROOTFS') && is_string(PSI_ROOTFS) && (PSI_ROOTFS !== '') && (PSI_ROOTFS !== '/')) {
+        $rootfs = PSI_ROOTFS;
+        if ($rootfs[0] === '/') {
+            define('PSI_ROOT_FILESYSTEM', $rootfs);
         } else {
-            $rootfs = '';
+            define('PSI_ROOT_FILESYSTEM', '');
         }
+    } else {
+        define('PSI_ROOT_FILESYSTEM', '');
+    }
 
+    if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
         if (PHP_OS == 'Linux') {
-            if (file_exists($fname = '/etc/sysconfig/i18n')
-               || file_exists($fname = '/etc/default/locale')
-               || file_exists($fname = '/etc/locale.conf')
-               || file_exists($fname = '/etc/sysconfig/language')
-               || file_exists($fname = '/etc/profile.d/lang.sh')
-               || file_exists($fname = '/etc/profile.d/i18n.sh')
-               || file_exists($fname = '/etc/profile')) {
-                $contents = @file_get_contents($rootfs.$fname);
+            if (file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/sysconfig/i18n')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/default/locale')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/locale.conf')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/sysconfig/language')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/profile.d/lang.sh')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/profile.d/i18n.sh')
+               || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/profile')) {
+                $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
-                if (file_exists('/system/build.prop')) { //Android
+                if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
-                    if (($rootfs === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
+                    if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
                         define('PSI_UNAMEO', $unameo0); // is Android on Termux
                     }
-                    if (($rootfs === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
-                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' command
+                    if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
+                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' bbbmand
                             define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
                         } else {
                             $out = '';
@@ -179,10 +181,10 @@ if (!defined('PSI_CONFIG_FILE')) {
                || preg_match('/^RC_(LANG="?[^"\n]*"?)/m', $contents, $matches)
                || preg_match('/^\s*export (LANG="?[^"\n]*"?)/m', $contents, $matches))) {
                 if (!defined('PSI_SYSTEM_CODEPAGE')) {
-                    if (file_exists($vtfname = '/sys/module/vt/parameters/default_utf8')
-                       && (trim(@file_get_contents($rootfs.$vtfname)) === "1")) {
+                    if (file_exists($vtfname = PSI_ROOT_FILESYSTEM.'/sys/module/vt/parameters/default_utf8')
+                       && (trim(@file_get_contents($vtfname)) === "1")) {
                             define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
-                    } elseif (($rootfs === '') && function_exists('exec') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
+                    } elseif ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                         foreach ($lines as $line) {
                             if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
                                 define('PSI_SYSTEM_CODEPAGE', $matches2[1]);
@@ -191,7 +193,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                         }
                     }
                 }
-                if (($rootfs === '') && !defined('PSI_SYSTEM_LANG') && function_exists('exec') && @exec($matches[1].' locale 2>/dev/null', $lines2)) { //also if not overloaded in phpsysinfo.ini
+                if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_SYSTEM_LANG') && function_exists('exec') && @exec($matches[1].' locale 2>/dev/null', $lines2)) { //also if not overloaded in phpsysinfo.ini
                     foreach ($lines2 as $line) {
                         if (preg_match('/^LC_MESSAGES="?([^\."@]*)/', $line, $matches2)) {
                             $lang = "";
@@ -211,7 +213,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         } elseif (PHP_OS == 'Haiku') {
             if (!(defined('PSI_SYSTEM_CODEPAGE') && defined('PSI_SYSTEM_LANG')) //also if both not overloaded in phpsysinfo.ini
-                && ($rootfs === '') && function_exists('exec') && @exec('locale --message 2>/dev/null', $lines)) {
+                && (PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('locale --message 2>/dev/null', $lines)) {
                 foreach ($lines as $line) {
                     if (preg_match('/^"?([^\."]*)\.?([^"]*)/', $line, $matches2)) {
 
@@ -237,7 +239,7 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         } elseif (PHP_OS == 'Darwin') {
             if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
-                && ($rootfs === '') && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
+                && (PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
                 $lang = "";
                 if (is_readable(PSI_APP_ROOT.'/data/languages.ini') && ($langdata = @parse_ini_file(PSI_APP_ROOT.'/data/languages.ini', true))) {
                     if (isset($langdata['Linux']['_'.$lines[0]])) {

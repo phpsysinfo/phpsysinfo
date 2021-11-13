@@ -25,9 +25,9 @@ class CpuMem extends Hwmon
     public function build()
     {
         if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
-            $hwpaths = glob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
+            $hwpaths = CommonFunctions::findglob("/sys/devices/platform/coretemp.*/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) > 0)) {
-                $hwpaths2 = glob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT);
+                $hwpaths2 = CommonFunctions::findglob("/sys/devices/platform/coretemp.*/hwmon/hwmon*/", GLOB_NOSORT);
                 if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
                     $hwpaths = array_merge($hwpaths, $hwpaths2);
                 }

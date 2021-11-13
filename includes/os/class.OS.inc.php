@@ -106,7 +106,7 @@ abstract class OS implements PSI_Interface_OS
         //} elseif (CommonFunctions::executeProgram('uptime', '', $buf) && preg_match("/,\s+(\d+)\s+user[s]?,\s+load average[s]?:\s+(.*),\s+(.*),\s+(.*)$/", $buf, $ar_buf)) {
             $this->sys->setUsers($ar_buf[1]);
         } else {
-            $processlist = glob('/proc/*/cmdline', GLOB_NOSORT);
+            $processlist = CommonFunctions::findglob('/proc/*/cmdline', GLOB_NOSORT);
             if (is_array($processlist) && (($total = count($processlist)) > 0)) {
                 $count = 0;
                 $buf = "";

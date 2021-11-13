@@ -24,9 +24,9 @@ class Thinkpad extends Hwmon
     public function build()
     {
         if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) {
-            $hwpaths = glob("/sys/devices/platform/thinkpad_hwmon/", GLOB_NOSORT);
+            $hwpaths = CommonFunctions::findglob("/sys/devices/platform/thinkpad_hwmon/", GLOB_NOSORT);
             if (is_array($hwpaths) && (count($hwpaths) == 1)) {
-                $hwpaths2 = glob("/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon*/", GLOB_NOSORT);
+                $hwpaths2 = CommonFunctions::findglob("/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon*/", GLOB_NOSORT);
                 if (is_array($hwpaths2) && (count($hwpaths2) > 0)) {
                     $hwpaths = array_merge($hwpaths, $hwpaths2);
                 }
