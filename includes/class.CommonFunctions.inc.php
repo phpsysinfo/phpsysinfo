@@ -441,50 +441,35 @@ class CommonFunctions
      * read a data file and return the content as a string
      *
      * @param string  $strDataFileName name of the data file which should be read
-     * @param string  &$strRet     content of the file (reference)
-     * @param int $intLines    control how many lines should be read
-     * @param int $intBytes    control how many bytes of each line should be read
-     * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
+     * @param string  &$strRet     content of the data file (reference)
      *
      * @return boolean command successfull or not
      */
-    public static function rftsdata($strDataFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
+    public static function rftsdata($strDataFileName, &$strRet)
     {
         $strFile = "";
-        $intCurLine = 1;
         $strFileName = PSI_APP_ROOT."/data/".$strDataFileName;
         $error = PSI_Error::singleton();
         if (file_exists($strFileName)) {
             if (is_readable($strFileName)) {
                 if ($fd = fopen($strFileName, 'r')) {
                     while (!feof($fd)) {
-                        $strFile .= fgets($fd, $intBytes);
-                        if ($intLines <= $intCurLine && $intLines != 0) {
-                            break;
-                        } else {
-                            $intCurLine++;
-                        }
+                        $strFile .= fgets($fd, 4096);
                     }
                     fclose($fd);
                     $strRet = $strFile;
                 } else {
-                    if ($booErrorRep) {
-                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
-                    }
+                    $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
 
                     return false;
                 }
             } else {
-                if ($booErrorRep) {
-                    $error->addError('fopen('.$strFileName.')', 'file permission error');
-                }
+                $error->addError('fopen('.$strFileName.')', 'file permission error');
 
                 return false;
             }
         } else {
-            if ($booErrorRep) {
-                $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
-            }
+            $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
 
             return false;
         }
