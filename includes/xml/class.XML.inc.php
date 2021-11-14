@@ -191,7 +191,7 @@ class XML
         foreach ($this->_sys->getNetDevices() as $dev) {
             if (defined('PSI_HIDE_NETWORK_INTERFACE_REGEX') && PSI_HIDE_NETWORK_INTERFACE_REGEX) {
                 $hide = false;
-                foreach($hideDevices as $hidedev) {
+                foreach ($hideDevices as $hidedev) {
                     if (preg_match('/^'.$hidedev.'$/', trim($dev->getName()))) {
                         $hide = true;
                         break;
@@ -486,7 +486,7 @@ class XML
      *
      * @param SimpleXmlExtended $mount Xml-Element
      * @param DiskDevice        $dev   DiskDevice
-     * @param int           $i     counter
+     * @param int               $i     counter
      *
      * @return void
      */

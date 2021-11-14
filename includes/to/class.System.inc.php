@@ -1263,8 +1263,8 @@ class System
     /**
      * Sets $_virtualizer.
      *
-     * @param String $virtualizer virtualizername
-     * @param Bool|String $value true, false or virtualizername to replace
+     * @param String      $virtualizer virtualizername
+     * @param Bool|String $value       true, false or virtualizername to replace
      *
      * @see System::$_virtualizer
      *

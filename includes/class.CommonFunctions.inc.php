@@ -159,7 +159,7 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
-     * @param int $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
+     * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
      *
      * @return boolean command successfull or not
      */
@@ -181,6 +181,7 @@ class CommonFunctions
         }
 
         if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+
             return false;
         }
 
@@ -350,8 +351,8 @@ class CommonFunctions
      *
      * @param string  $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
-     * @param int $intLines    control how many lines should be read
-     * @param int $intBytes    control how many bytes of each line should be read
+     * @param int     $intLines    control how many lines should be read
+     * @param int     $intBytes    control how many bytes of each line should be read
      * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
@@ -372,7 +373,7 @@ class CommonFunctions
                 return true;
             }
         }
-        
+
         if (PSI_ROOT_FILESYSTEM !== '') {
             $rfsinfo = "[".PSI_ROOT_FILESYSTEM."]";
         } else {
@@ -430,8 +431,8 @@ class CommonFunctions
     /**
      * read a data file and return the content as a string
      *
-     * @param string  $strDataFileName name of the data file which should be read
-     * @param string  &$strRet     content of the data file (reference)
+     * @param string $strDataFileName name of the data file which should be read
+     * @param string &$strRet         content of the data file (reference)
      *
      * @return boolean command successfull or not
      */
@@ -471,7 +472,7 @@ class CommonFunctions
      * Find pathnames matching a pattern
      *
      * @param string $pattern the pattern. No tilde expansion or parameter substitution is done.
-     * @param int $flags
+     * @param int    $flags
      *
      * @return an array containing the matched files/directories, an empty array if no file matched or false on error
      */
@@ -488,6 +489,7 @@ class CommonFunctions
             foreach ($outarr as $out) {
                 $newoutarr[] = substr($out, $len); // path without ROOTFS
             }
+
             return $newoutarr;
         }
     }
@@ -604,10 +606,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array   $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
-     * @param string  &$out    target string for the output message (reference)
-     * @param string  &$err    target string for the error message (reference)
-     * @param int $timeout timeout value in seconds
+     * @param array  $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param string &$out    target string for the output message (reference)
+     * @param string &$err    target string for the error message (reference)
+     * @param int    $timeout timeout value in seconds
      *
      * @return boolean timeout expired or not
      */
@@ -767,6 +769,7 @@ class CommonFunctions
                 }
             }
         }
+
         return self::$_dmimd;
     }
 }

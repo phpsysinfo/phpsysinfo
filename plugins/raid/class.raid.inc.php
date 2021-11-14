@@ -45,6 +45,7 @@ class Raid extends PSI_Plugin
                 }
             } else {
                 $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
+
                 return;
             }
         } else {
@@ -805,7 +806,6 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$uname]['action']['name'] = trim($progarr[1]);
                             $this->_result['devices'][$prefix.$uname]['action']['percent'] = trim($progarr[2]);
                         }
-                        
                     }
                     if ($dskstat !== "OK") $this->_result['devices'][$prefix.$uname]['items'][$pname]['info'] = $dskstat;
                 }

@@ -52,7 +52,7 @@ class CpuMem extends Hwmon
             }
         } elseif ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
             $allCpus = WINNT::_get_Win32_Processor();
-            foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)){
+            foreach ($allCpus as $oneCpu) if (isset($oneCpu['CurrentVoltage']) && ($oneCpu['CurrentVoltage'] > 0)) {
                 $dev = new SensorDevice();
                 $dev->setName($oneCpu['DeviceID']);
                 $dev->setValue($oneCpu['CurrentVoltage']/10);

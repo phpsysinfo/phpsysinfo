@@ -166,7 +166,7 @@ class NetBSD extends BSDCommon
                 break;
             }
         }
-     
+
         $ncpu = $this->grabkey('hw.ncpu');
         if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
