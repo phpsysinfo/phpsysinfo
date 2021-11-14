@@ -49,6 +49,21 @@
   <expression id="plugin_smart_112" name="smart_power_cycle_count">
     <exp>Power Cycle Count</exp>
   </expression>
+  <expression id="plugin_smart_277" name="smart_wear_range_delta">
+    <exp>Wear Range Delta</exp>
+  </expression>
+  <expression id="plugin_smart_279" name="smart_used_reserved_block_count_total">
+    <exp>Used Reserved Block Count Total</exp>
+  </expression>
+  <expression id="plugin_smart_281" name="smart_program_fail_count_total">
+    <exp>Program Fail Count Total</exp>
+  </expression>
+  <expression id="plugin_smart_282" name="smart_erase_fail_count">
+    <exp>Erase Fail Count</exp>
+  </expression>
+  <expression id="plugin_smart_283" name="smart_sata_downshift_error_count">
+    <exp>SATA Downshift Error Count</exp>
+  </expression>
   <expression id="plugin_smart_287" name="smart_reported_uncorrectable_errors">
     <exp>Reported Uncorr. Errors</exp>
   </expression>
@@ -96,6 +111,12 @@
   </expression>
   <expression id="plugin_smart_325" name="smart_load_cycle_count_alt">
     <exp>Load Cycle Count</exp>
+  </expression>
+  <expression id="plugin_smart_335" name="smart_good_block_count">
+    <exp>Good Block Count</exp>
+  </expression>
+  <expression id="plugin_smart_341" name="smart_total_lbas_written">
+    <exp>Total LBAs Written</exp>
   </expression>
   <expression id="plugin_smart_355" name="smart_non-medium_error_count">
     <exp>Non-medium error count</exp>
