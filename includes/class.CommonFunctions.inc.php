@@ -181,7 +181,7 @@ class CommonFunctions
         }
 
         if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
-           return false;
+            return false;
         }
 
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
@@ -481,7 +481,7 @@ class CommonFunctions
         if (PSI_ROOT_FILESYSTEM == '') {
             return $outarr;
         } elseif ($outarr === false) {
-           return false;
+            return false;
         } else {
             $len = strlen(PSI_ROOT_FILESYSTEM);
             $newoutarr = array();
