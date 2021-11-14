@@ -1921,7 +1921,7 @@ function full_addr(ip_string) {
         ip_string = ipv4[1];
         ipv4 = ipv4[2].match(/[0-9]+/g);
         for (var i = 0;i < 4;i ++) {
-            var byte = parseInt(ipv4[i],10);
+            var byte = parseInt(ipv4[i], 10);
             if (byte<256) {
                 ipv4[i] = ("0" + byte.toString(16)).substr(-2);
             } else {

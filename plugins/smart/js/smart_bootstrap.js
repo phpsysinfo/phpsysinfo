@@ -9,7 +9,7 @@ function renderPlugin_smart(data) {
             3:  "plugin_smart_103",   // "Spin Up Time",
             4:  "plugin_smart_104",   // "Start Stop Count",
             5:  "plugin_smart_105",   // "Reallocated Sector Ct",
-            7:  "plugin_smart_106",   // "Seek Error Rate",
+            7:  "plugin_smart_107",   // "Seek Error Rate",
             8:  "plugin_smart_108",   // "Seek Time Performance",
             9:  "plugin_smart_109",   // "Power On Hours",
             10: "plugin_smart_110",   // "Spin Retry Count",
@@ -31,7 +31,7 @@ function renderPlugin_smart(data) {
             202:"plugin_smart_302",   // "Data Address Mark Errors",
             223:"plugin_smart_323",   // "Load Retry Count",
             225:"plugin_smart_325",   // "Load Cycle Count"
-            255:"plugin_smart_355",}; // "Non-medium error count"
+            255:"plugin_smart_355"};  // "Non-medium error count"
 
         var html = '';
         var i,j;
@@ -43,7 +43,7 @@ function renderPlugin_smart(data) {
         for (i = 0; i < smartitems.length ; i++) {
             smartid = smartitems[i]["@attributes"].id;
             if (smartnames[smartid] !== undefined) {
-                html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid), 'smart') + "</th>";
+                html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid, 10), 'smart') + "</th>";
             } else {
                 html+="<th class=\"sorttable_numeric rightCell\">"+ smartid + "</th>";
             }
