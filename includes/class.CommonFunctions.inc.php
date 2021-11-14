@@ -481,7 +481,7 @@ class CommonFunctions
         if (PSI_ROOT_FILESYSTEM == '') {
             return $outarr;
         } elseif ($outarr === false) {
-           return false; 
+           return false;
         } else {
             $len = strlen(PSI_ROOT_FILESYSTEM);
             $newoutarr = array();
