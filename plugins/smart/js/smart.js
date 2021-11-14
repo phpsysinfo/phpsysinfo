@@ -34,6 +34,37 @@ var smart_show = false, smart_table;
  */
 function smart_buildTable(xml) {
     var html = "", hostname = "";
+    var smartid;
+    var smartnames = {
+        0:  "plugin_smart_100",   // "ATA Error Count",
+        1:  "plugin_smart_101",   // "Raw Read Error Rate",
+        2:  "plugin_smart_102",   // "Throughput Performance",
+        3:  "plugin_smart_103",   // "Spin Up Time",
+        4:  "plugin_smart_104",   // "Start Stop Count",
+        5:  "plugin_smart_105",   // "Reallocated Sector Ct",
+        7:  "plugin_smart_107",   // "Seek Error Rate",
+        8:  "plugin_smart_108",   // "Seek Time Performance",
+        9:  "plugin_smart_109",   // "Power On Hours",
+        10: "plugin_smart_110",   // "Spin Retry Count",
+        11: "plugin_smart_111",   // "Calibration Retry Count",
+        12: "plugin_smart_112",   // "Power Cycle Count",
+        187:"plugin_smart_287",   // "Reported Uncorrectable Errors",
+        190:"plugin_smart_290",   // "Airflow Temperature",
+        191:"plugin_smart_291",   // "G-sense Error Rate",
+        192:"plugin_smart_292",   // "Power-Off Retract Count",
+        193:"plugin_smart_293",   // "Load Cycle Count",
+        194:"plugin_smart_294",   // "Temperature",
+        195:"plugin_smart_295",   // "Hardware ECC Recovered",
+        196:"plugin_smart_296",   // "Reallocated Event Count",
+        197:"plugin_smart_297",   // "Current Pending Sector",
+        198:"plugin_smart_298",   // "Offline Uncorr.",
+        199:"plugin_smart_299",   // "UDMA CRC Error Count",
+        200:"plugin_smart_300",   // "Multi Zone Error Rate",
+        201:"plugin_smart_301",   // "Soft Read Error Rate",
+        202:"plugin_smart_302",   // "Data Address Mark Errors",
+        223:"plugin_smart_323",   // "Load Retry Count",
+        225:"plugin_smart_325",   // "Load Cycle Count"
+        255:"plugin_smart_355"};  // "Non-medium error count"
 
     hostname = $("Plugins Plugin_SMART", xml).attr('Hostname');
     if (hostname !== undefined) {
@@ -46,7 +77,12 @@ function smart_buildTable(xml) {
     html += "      <tr>\n";
     html += "        <th class=\"right\">" + genlang(2, "SMART") + "</th>\n";
     $("Plugins Plugin_SMART columns column", xml).each(function smart_table_header() {
-        html += "        <th class=\"right\">" + genlang(100 + parseInt($(this).attr("id"), 10), "SMART") + "</th>\n";
+        smartid = $(this).attr("id");
+        if (smartnames[smartid] !== undefined) {
+            html += "        <th class=\"right\">" + genlang(100 + parseInt(smartid, 10), "SMART") + "</th>\n";
+        } else {
+            html += "        <th class=\"right\">" + smartid + "</th>\n";
+        }
     });
     html += "      </tr>\n";
     html += "    </thead>\n";
