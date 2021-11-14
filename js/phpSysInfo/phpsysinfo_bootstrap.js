@@ -106,9 +106,10 @@ function getLanguage(plugin, langarrId) {
  * generate a span tag
  * @param {Number} id translation id in the xml file
  * @param {String} [plugin] name of the plugin for which the tag should be generated
+ * @param {String} [defaultvalue] default value
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, plugin) {
+function genlang(id, plugin, defaultvalue) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -137,6 +138,8 @@ function genlang(id, plugin) {
 
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
+    } else if (defaultvalue !== undefined) {
+        html += defaultvalue;
     }
 
     html += "</span>";
