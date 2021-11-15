@@ -381,7 +381,7 @@ class LMSensors extends Sensors
             }
             $data = array();
             preg_match("/^(.+):\s*([^\-\+\d\s].+)$/", $line, $data);
-            if ((count($data)>2) && ($data[1]!=="Adapter")) {
+            if ((count($data)>2) && ($data[1]!=="Adapter") && !preg_match("/^FAULT/", $data[2])) {
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);
                 if (preg_match("/(.*\s*)ALARM\s*$/", $data[2], $aldata)) {
