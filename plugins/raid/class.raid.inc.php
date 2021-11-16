@@ -248,7 +248,7 @@ class Raid extends PSI_Plugin
                     for ($cnt_details = count($details); $i < $cnt_details; $i++) {
                         preg_match('/(([a-z0-9])+)(\[([0-9]+)\])(\([SF ]\))?/', trim($details[$i]), $partition);
                         if (count($partition) == 5 || count($partition) == 6) {
-                            $this->_result['devices'][$dev]['items'][$partition[1]]['raid_index'] = 0+substr(trim($partition[3]), 1, -1);
+                            $this->_result['devices'][$dev]['items'][$partition[1]]['raid_index'] = intval(substr(trim($partition[3]), 1, -1));
                             if (isset($partition[5])) {
                                 $search = array("(", ")");
                                 $replace = array("", "");

@@ -81,7 +81,7 @@ class LMSensors extends Sensors
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = 0+trim($newvalue[1]);
+                        $data[$key] = intval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -178,7 +178,7 @@ class LMSensors extends Sensors
             if (count($data)>2) {
                  foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = 0+trim($newvalue[1]);
+                        $data[$key] = intval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -228,7 +228,7 @@ class LMSensors extends Sensors
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
-                        $data[$key] = 0+trim($newvalue[1]);
+                        $data[$key] = intval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -285,7 +285,7 @@ class LMSensors extends Sensors
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = 0+trim($newvalue[1]);
+                        $data[$key] = intval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
