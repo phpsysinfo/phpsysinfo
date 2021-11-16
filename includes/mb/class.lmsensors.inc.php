@@ -73,6 +73,12 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
+                ;
             } elseif (preg_match("/^(.+):(.+).C\s*\(/", $line, $data)) {
                 ;
             } else {
@@ -170,6 +176,12 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) RPM\s*\((.+)=(.+) RPM\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) RPM,(.+)=(.+)\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) RPM,(.+)=(.+)\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) RPM\)(.*)/", $line, $data)) {
+                ;
             } elseif (preg_match("/^(.+):(.+) RPM\s*\(/", $line, $data)) {
                 ;
             } else {
@@ -218,6 +230,10 @@ class LMSensors extends Sensors
             if (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) V\s*\(/", $line, $data)) {
                 ;
@@ -273,9 +289,15 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) W,(.+)=(.+) W\)(.*)/", $line, $data)) {
+                ;
             } else
 */
             if (preg_match("/^(.+):(.+) W\s*\((.+)=(.+) W\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) W\)(.*)/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) W\s*\(/", $line, $data)) {
                 ;
@@ -331,6 +353,10 @@ class LMSensors extends Sensors
             if (preg_match("/^(.+):(.+) A\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)\)/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) A\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)\)/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) A,(.+)=(.+) A\)(.*)/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) A\s*\(/", $line, $data)) {
                 ;
