@@ -144,8 +144,8 @@ class LMSensors extends Sensors
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line) || preg_match("/\sALARM\s+sensor\s+=/", $line) || ($dev->getValue() === 'FAULT')) {
-                    $dev->setEvent("Alarm");
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || preg_match("/\s(ALARM)\s+sensor\s+=/", $line, $evbuf) ||  (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
                 }
                 $this->mbinfo->setMbTemp($dev);
             }
@@ -201,8 +201,8 @@ class LMSensors extends Sensors
                 if (isset($data[4])) {
                     $dev->setMin(trim($data[4]));
                 }
-                if (preg_match("/\sALARM\s*$/", $line) || ($dev->getValue() === 'FAULT')) {
-                    $dev->setEvent("Alarm");
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
                 }
                 $this->mbinfo->setMbFan($dev);
             }
@@ -258,8 +258,8 @@ class LMSensors extends Sensors
                 if (isset($data[6])) {
                     $dev->setMax($data[6]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line) || ($dev->getValue() === 'FAULT')) {
-                    $dev->setEvent("Alarm");
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
                 }
                 $this->mbinfo->setMbVolt($dev);
             }
@@ -324,8 +324,8 @@ class LMSensors extends Sensors
                 if (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line) || ($dev->getValue() === 'FAULT')) {
-                    $dev->setEvent("Alarm");
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
                 }
                 $this->mbinfo->setMbPower($dev);
             }
@@ -380,8 +380,8 @@ class LMSensors extends Sensors
                 if (isset($data[6])) {
                     $dev->setMax($data[6]);
                 }
-                if (preg_match("/\sALARM\s*$/", $line) || ($dev->getValue() === 'FAULT')) {
-                    $dev->setEvent("Alarm");
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
                 }
                 $this->mbinfo->setMbCurrent($dev);
             }
