@@ -145,7 +145,7 @@ class LMSensors extends Sensors
                     $dev->setMax($data[4]);
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || preg_match("/\s(ALARM)\s+sensor\s+=/", $line, $evbuf) ||  (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
-                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
+                    $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbTemp($dev);
             }
@@ -202,7 +202,7 @@ class LMSensors extends Sensors
                     $dev->setMin(trim($data[4]));
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
-                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
+                    $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbFan($dev);
             }
@@ -259,7 +259,7 @@ class LMSensors extends Sensors
                     $dev->setMax($data[6]);
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
-                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
+                    $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbVolt($dev);
             }
@@ -325,7 +325,7 @@ class LMSensors extends Sensors
                     $dev->setMax($data[4]);
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
-                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
+                    $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbPower($dev);
             }
@@ -381,7 +381,7 @@ class LMSensors extends Sensors
                     $dev->setMax($data[6]);
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
-                    $dev->setEvent(ucfirst(strtolower($evbuf[1])));
+                    $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbCurrent($dev);
             }
