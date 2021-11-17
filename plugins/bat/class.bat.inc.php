@@ -228,7 +228,7 @@ class BAT extends PSI_Plugin
                     if (is_array($batdevices) && (($total = count($batdevices)) > 0)) {
                         for ($i = 0; $i < $total; $i++) {
                             $pbuffer = '';
-                            if (CommonFunctions::rfts($batdevices[$i], $pbuffer, 1, 4096, false) && trim($pbuffer[0]==="1")) {
+                            if (CommonFunctions::rfts($batdevices[$i], $pbuffer, 1, 4096, false) && (trim($pbuffer) === '1')) {
                                 $infoitem = '';
                                 $stateitem = '';
                                 CommonFunctions::rfts(preg_replace('/\/present$/', '/uevent', $batdevices[$i]), $infoitem, 0, 4096, false);
