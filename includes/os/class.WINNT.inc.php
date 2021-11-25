@@ -872,9 +872,9 @@ class WINNT extends OS
             }
             if ($this->_Manufacturer != "") {
                 if ($this->_Model != "") {
-                    $vendor_array[] = $this->_Manufacturer;
-                } else {
                     $vendor_array[] = $this->_Manufacturer." ".$this->_Model;
+                } else {
+                    $vendor_array[] = $this->_Manufacturer;
                 }
             }
             $novm = true;
