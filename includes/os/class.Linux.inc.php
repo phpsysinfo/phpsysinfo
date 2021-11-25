@@ -119,6 +119,9 @@ class Linux extends OS
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array[] = trim($buf);
                     }
+                    if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_version', $buf, 1, 4096, false) && (trim($buf)!="")) {
+                        $vendor_array[] = trim($buf);
+                    }
                 }
             } else { // 'machine' data from /sys/devices/virtual/dmi/id/
                 $bios = "";
