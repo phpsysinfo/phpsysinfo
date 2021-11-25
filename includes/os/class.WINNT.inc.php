@@ -871,7 +871,11 @@ class WINNT extends OS
                 $vendor_array[] = $this->_Model;
             }
             if ($this->_Manufacturer != "") {
-                $vendor_array[] = $this->_Manufacturer;
+                if ($this->_Model != "") {
+                    $vendor_array[] = $this->_Manufacturer;
+                } else {
+                    $vendor_array[] = $this->_Manufacturer." ".$this->_Model;
+                }
             }
             $novm = true;
             if (count($vendor_array)>0) {
