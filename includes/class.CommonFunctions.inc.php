@@ -703,7 +703,7 @@ class CommonFunctions
                 'Parallels' => 'parallels', // Parallels
                 // https://wiki.freebsd.org/bhyve
                 'BHYVE' => 'bhyve', // bhyve
-                'Microsoft' => 'microsoft' // Hyper-V
+                'Hyper-V' => 'microsoft' // Hyper-V
             );
             for ($i = 0; $i < count($vendor_data); $i++) {
                 foreach ($vendarray as $vend=>$virt) {
