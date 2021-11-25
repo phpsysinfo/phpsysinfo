@@ -425,7 +425,7 @@ abstract class BSDCommon extends OS
             if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                 $vendor_array = array();
                 $vendor_array[] = $buffer['Model'];
-                $vendor_array[] = $buffer['Manufacturer'];
+                $vendor_array[] = trim($buffer['Manufacturer']." ".$buffer['Model']);
                 if (PSI_OS == 'NetBSD') { // NetBSD
                     $vendor_array[] = $this->grabkey('machdep.dmi.board-vendor');
                     $vendor_array[] = $this->grabkey('machdep.dmi.bios-vendor');
