@@ -106,8 +106,7 @@ class Linux extends OS
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $product_name = trim($buf);
-                        $vendor_array[] = $product_name;
+                        $vendor_array[] = $product_name = trim($buf);
                     } else {
                         $product_name = '';
                     }
@@ -135,8 +134,7 @@ class Linux extends OS
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     // Test this before sys_vendor to detect KVM over QEMU
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $product_name = trim($buf);
-                        $vendor_array[] = $product_name;
+                        $vendor_array[] = $product_name = trim($buf);
                     } else {
                         $product_name = '';
                     }

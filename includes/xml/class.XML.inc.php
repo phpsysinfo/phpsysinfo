@@ -524,7 +524,6 @@ class XML
     private function _buildFilesystems()
     {
         $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreTotal = $ignoreUsage = $ignoreThreshold = array();
-        $i = 1;
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
                 $hideMounts = eval(PSI_HIDE_MOUNTS);
@@ -579,6 +578,7 @@ class XML
             }
         }
         $fs = $this->_xml->addChild('FileSystem');
+        $i = 1;
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) && !in_array($disk->getFsType(), $hideFstypes, true) && !in_array($disk->getName(), $hideDisks, true)) {
                 $mount = $fs->addChild('Mount');
