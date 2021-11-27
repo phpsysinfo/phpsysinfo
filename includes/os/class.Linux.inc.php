@@ -1687,7 +1687,6 @@ class Linux extends OS
                 }
             } elseif (($swaptotal !== null) && ($swapfree !== null) && ($swaptotal > 0)) {
                     $dev = new DiskDevice();
-                    $dev->setMountPoint("");
                     $dev->setName("SWAP");
                     $dev->setTotal($swaptotal);
                     $dev->setFree($swapfree);
