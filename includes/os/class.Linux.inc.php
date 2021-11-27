@@ -166,11 +166,19 @@ class Linux extends OS
                         $this->_machine_info['machine'] = trim($buf);
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                        $this->_machine_info['machine'] .= " ".trim($buf);
+                        if (isset($this->_machine_info['machine'])) {
+                            $this->_machine_info['machine'] .= " ".trim($buf);
+                        } else {
+                            $this->_machine_info['machine'] = trim($buf);
+                        }
                     }
                 }
                 if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/board_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
-                    $this->_machine_info['machine'] .= "/".trim($buf);
+                    if (isset($this->_machine_info['machine'])) {
+                        $this->_machine_info['machine'] .= "/".trim($buf);
+                    } else {
+                        $this->_machine_info['machine'] = trim($buf);
+                    }
                 }
                 if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_version', $buf, 1, 4096, false) && (trim($buf)!="")) {
                     $bios = trim($buf);
@@ -179,7 +187,11 @@ class Linux extends OS
                     $bios = trim($bios." ".trim($buf));
                 }
                 if ($bios != "") {
-                    $this->_machine_info['machine'] .= ", BIOS ".$bios;
+                    if (isset($this->_machine_info['machine'])) {
+                        $this->_machine_info['machine'] .= ", BIOS ".$bios;
+                    } else {
+                        $this->_machine_info['machine'] = "BIOS ".$bios;
+                    }
                 }
             }
             if (isset($this->_machine_info['machine'])) {
