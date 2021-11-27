@@ -743,7 +743,7 @@ class Linux extends OS
                         case 'processor':
                             $proc = $arrBuff1;
                             if (is_numeric($proc)) {
-                                if (strlen($procname)>0) {
+                                if (($procname !== null) && (strlen($procname)>0)) {
                                     $dev->setModel($procname);
                                 }
                             } else {

@@ -512,7 +512,11 @@ class XML
             }
         }
         if (PSI_SHOW_MOUNT_POINT) {
-            $mount->addAttribute('MountPoint', $dev->getMountPoint());
+            if ($dev->getMountPoint() !== null) {
+                $mount->addAttribute('MountPoint', $dev->getMountPoint());
+            } else {
+                $mount->addAttribute('MountPoint', '');
+            }
         }
     }
 
