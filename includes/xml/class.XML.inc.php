@@ -221,8 +221,12 @@ class XML
     private function _buildHardware()
     {
         $hardware = $this->_xml->addChild('Hardware');
-        if ($this->_sys->getMachine() != "") {
-            $hardware->addAttribute('Name', $this->_sys->getMachine());
+        if (($machine = $this->_sys->getMachine()) != "") {
+            if (preg_match('/\/(.+), BIOS/', $machine, $tmpbuf) && preg_match('/^(.*'.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS.*)$/', $machine, $mbuf)) { // find duplicates
+                $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
+            } else {
+                $hardware->addAttribute('Name', $machine);
+            }
         }
 
         if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
