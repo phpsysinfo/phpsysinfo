@@ -76,7 +76,7 @@ class UpdateNotifier extends PSI_Plugin
              - line 1: packages to update
              - line 2: security packages to update
              */
-            if (count($this->_filecontent) == 2) {
+            if ((count($this->_filecontent) == 2) || (count($this->_filecontent) == 1)) {
                 foreach ($this->_filecontent as $line) {
                     list($num, $text) = explode(" ", $line, 2);
                     $this->_result[] = $num;
