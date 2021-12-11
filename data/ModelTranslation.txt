@@ -106,6 +106,8 @@ MacBookPro16,4:MacBook Pro Core i7/i9:Intel Core I7-9750H/I9-9880H/I9-9980HK
 MacBookPro17,1:MacBook Pro M1:Apple M1
 MacBookPro18,1:MacBook Pro M1 Pro:Apple M1 Pro
 MacBookPro18,2:MacBook Pro M1 Max:Apple M1 Max
+MacBookPro18,3:MacBook Pro M1 Pro:Apple M1 Pro
+MacBookPro18,4:MacBook Pro M1 Max:Apple M1 Max
 Macmini1,1:Mac mini Core Solo/Duo:Intel Core Duo T2300/T2400 Solo T1200
 Macmini2,1:Mac mini Core 2 Duo:Intel Core 2 Duo T5600/T7200
 Macmini3,1:Mac mini Core 2 Duo:Intel Core 2 Duo P7350/P8400/P7550/P8700/P8800
