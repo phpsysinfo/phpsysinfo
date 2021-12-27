@@ -402,4 +402,10 @@ phpSysInfo language file Language: Dansk Created by: Jens F. O. Pedersen
   <expression id="132" name="gtps">
     <exp>GT/s</exp>
   </expression>
+  <expression id="133" name="ups_beeper_status">
+    <exp>Beeper status</exp>
+  </expression>
+  <expression id="134" name="virtualizer">
+    <exp>Virtualizer</exp>
+  </expression>
 </tns:translation>

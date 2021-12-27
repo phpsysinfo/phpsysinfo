@@ -56,7 +56,7 @@ function ps_buildTable(xml) {
 
     $("Plugins Plugin_PS Process", xml).each(function ps_getprocess(id) {
         var close = 0, pid = 0, ppid = 0, name = "", percent = 0, parentId = 0, expanded = 0, cpu = 0;
-        name = $(this).attr("Name").replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>").replace(/\./g, ".<wbr>").replace(/-/g, "<wbr>-").replace(/\//g, "<wbr>/"); /* split long name */
+        name = $(this).attr("Name").replace(/AAAAAAAA/g, "A<wbr>A<wbr>A<wbr>A<wbr>A<wbr>A<wbr>A<wbr>A<wbr>").replace(/,/g, ",<wbr>").replace(/\s/g, " <wbr>").replace(/\./g, ".<wbr>").replace(/-/g, "<wbr>-").replace(/\//g, "<wbr>/"); /* split long name */
         parentId = parseInt($(this).attr("ParentID"), 10);
         pid = parseInt($(this).attr("PID"), 10);
         ppid = parseInt($(this).attr("PPID"), 10);

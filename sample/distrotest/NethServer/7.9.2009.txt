@@ -1,0 +1,40 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	CentOS
+Description:	CentOS Linux release 7.9.2009 (Core)
+Release:	7.9.2009
+Codename:	Core
+----------/etc/centos-release----------
+CentOS Linux release 7.9.2009 (Core)
+----------/etc/nethserver-release----------
+NethServer release 7.9.2009 (final)
+----------/etc/os-release----------
+# ================= DO NOT MODIFY THIS FILE =================
+# 
+# Manual changes will be lost when this file is regenerated.
+#
+# Please read the developer's guide, which is available
+# at NethServer official site: https://www.nethserver.org
+#
+# 
+NAME="NethServer"
+VERSION="7.9.2009"
+VERSION_ID="7"
+PRETTY_NAME="NethServer 7.9.2009"
+ID="nethserver"
+HOME_URL="http://www.nethserver.org"
+
+ID_LIKE="rhel fedora centos"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+BUG_REPORT_URL="https://community.nethserver.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+----------/etc/redhat-release----------
+CentOS Linux release 7.9.2009 (Core)
+----------/etc/system-release----------
+CentOS Linux release 7.9.2009 (Core)

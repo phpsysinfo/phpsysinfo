@@ -35,7 +35,7 @@ class UpdateNotifier extends PSI_Plugin
         $buffer_info = "";
         if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_UPDATENOTIFIER_ACCESS)) {
         case 'command':
-            if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
+            if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT) {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "--human-readable", $buffer_info);
             } else {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "2>&1", $buffer_info);
@@ -50,7 +50,6 @@ class UpdateNotifier extends PSI_Plugin
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[updatenotifier] ACCESS");
-            break;
         }
 
         if (trim($buffer_info) != "") {
@@ -71,13 +70,13 @@ class UpdateNotifier extends PSI_Plugin
             return;
         }
 
-        if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && (PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT === true)) {
+        if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT) {
             /*
              Ubuntu Landscape format:
              - line 1: packages to update
              - line 2: security packages to update
              */
-            if (count($this->_filecontent) == 2) {
+            if ((count($this->_filecontent) == 2) || (count($this->_filecontent) == 1)) {
                 foreach ($this->_filecontent as $line) {
                     list($num, $text) = explode(" ", $line, 2);
                     $this->_result[] = $num;
@@ -106,10 +105,14 @@ class UpdateNotifier extends PSI_Plugin
      */
     public function xml()
     {
-        if (!empty($this->_result)) {
+        if (!empty($this->_result) && is_numeric($this->_result[0])) {
             $xmluu = $this->xml->addChild("UpdateNotifier");
             $xmluu->addChild("packages", $this->_result[0]);
-            $xmluu->addChild("security", $this->_result[1]);
+            if (isset($this->_result[1]) && is_numeric($this->_result[1])) {
+                $xmluu->addChild("security", $this->_result[1]);
+            } else {
+                $xmluu->addChild("security", '0');
+            }
         }
 
         return $this->xml->getSimpleXmlElement();

@@ -33,13 +33,12 @@ class FreeIPMI extends Sensors
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/freeipmi.txt', $lines)) {
+            if (CommonFunctions::rftsdata('freeipmi.tmp', $lines)) {
                 $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_freeipmi] ACCESS');
-            break;
         }
     }
 
@@ -173,7 +172,7 @@ class FreeIPMI extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

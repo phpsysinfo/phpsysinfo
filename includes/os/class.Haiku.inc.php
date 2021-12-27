@@ -217,7 +217,7 @@ class Haiku extends OS
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {
@@ -368,11 +368,11 @@ class Haiku extends OS
     /**
      * get the information
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
-        $this->error->addError("WARN", "The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The Haiku version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
@@ -387,14 +387,14 @@ class Haiku extends OS
            $this->_pci();
            $this->_usb();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

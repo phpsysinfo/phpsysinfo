@@ -179,7 +179,7 @@ class Android extends Linux
         if (($lines = $this->_get_buildprop()) && preg_match('/^ro\.build\.version\.release=([^\n]+)/m', $lines, $ar_buf)) {
                 $buf = trim($ar_buf[1]);
         }
-        if (is_null($buf) || ($buf == "")) {
+        if (($buf === null) || ($buf == "")) {
             $this->sys->setDistribution('Android');
         } else {
             if (preg_match('/^(\d+\.\d+)/', $buf, $ver)
@@ -241,7 +241,7 @@ class Android extends Linux
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
@@ -257,18 +257,19 @@ class Android extends Linux
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            $this->_virtualizer();
             $this->_pci();
             $this->_usb();
             $this->_i2c();
-        }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
         }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

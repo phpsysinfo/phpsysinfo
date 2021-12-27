@@ -90,7 +90,6 @@ class HDDTemp extends Sensors
             break;
         default:
             $this->error->addConfigError("temperature()", "[sensor_hddtemp] ACCESS");
-            break;
         }
         // Timo van Roermund: parse the info from the hddtemp daemon.
         foreach ($ar_buf as $line) {
@@ -115,7 +114,7 @@ class HDDTemp extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

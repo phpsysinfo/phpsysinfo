@@ -1,0 +1,28 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	Springdale
+Description:	Springdale Linux release 7.3 (Verona)
+Release:	7.3
+Codename:	Verona
+----------/etc/os-release----------
+NAME="Springdale Linux"
+VERSION="7.3 (Verona)"
+ID="rhel"
+ID_LIKE="fedora"
+VERSION_ID="7.3"
+PRETTY_NAME="Springdale Linux release 7.3 (Verona)"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:springdale:linux:7.3:GA"
+HOME_URL="http://springdale.princeton.edu/"
+BUG_REPORT_URL="https://springdale.math.ias.edu/"
+
+REDHAT_BUGZILLA_PRODUCT="Springdale Linux 7"
+REDHAT_BUGZILLA_PRODUCT_VERSION=7.3
+REDHAT_SUPPORT_PRODUCT="Springdale Linux"
+REDHAT_SUPPORT_PRODUCT_VERSION=7.3
+----------/etc/redhat-release----------
+Springdale Linux release 7.3 (Verona)
+----------/etc/springdale-release----------
+Springdale Linux  release 7.3 (Verona)
+----------/etc/system-release----------
+Springdale Linux release 7.3 (Verona)

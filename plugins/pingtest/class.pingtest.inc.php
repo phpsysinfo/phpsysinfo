@@ -71,7 +71,7 @@ class PingTest extends PSI_Plugin
                 }
                 break;
             case 'data':
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/pingtest.txt", $buffer);
+                CommonFunctions::rftsdata("pingtest.tmp", $buffer);
                 $addresses = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($addresses as $address) {
                     $pt = preg_split("/[\s]?\|[\s]?/", $address, -1, PREG_SPLIT_NO_EMPTY);
@@ -82,7 +82,6 @@ class PingTest extends PSI_Plugin
                 break;
             default:
                 $this->global_error->addConfigError("__construct()", "[pingtest] ACCESS");
-                break;
             }
         }
     }

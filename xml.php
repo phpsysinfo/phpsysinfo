@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 /**
  * generate the xml
  *
@@ -13,6 +12,8 @@ header('Access-Control-Allow-Origin: *');
  * @version   SVN: $Id: xml.php 614 2012-07-28 09:02:59Z jacky672 $
  * @link      http://phpsysinfo.sourceforge.net
  */
+
+header('Access-Control-Allow-Origin: *');
 
  /**
  * application root path
@@ -28,28 +29,22 @@ if ((isset($_GET['json']) || isset($_GET['jsonp'])) && !extension_loaded("json")
 } else {
     // check what xml part should be generated
     if (isset($_GET['plugin'])) {
-        if (($_GET['plugin'] !== "") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
-            $output = new WebpageXML($_GET['plugin']);
-        } else {
-            unset($output);
-        }
+        $output = new WebpageXML($_GET['plugin']);
     } else {
         $output = new WebpageXML();
     }
-    // if $output is correct generate output in proper type
-    if (isset($output) && is_object($output)) {
-        if (isset($_GET['json']) || isset($_GET['jsonp'])) {
-            header("Cache-Control: no-cache, must-revalidate\n");
-            $json = $output->getJsonString();
-            if (isset($_GET['jsonp'])) {
-                header("Content-Type: application/javascript\n\n");
-                echo (!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')';
-            } else {
-                header("Content-Type: application/json\n\n");
-                echo $json;
-            }
+    // generate output in proper type
+    if (isset($_GET['json']) || isset($_GET['jsonp'])) {
+        header('Cache-Control: no-cache, must-revalidate');
+        $json = $output->getJsonString();
+        if (isset($_GET['jsonp'])) {
+            header('Content-Type: application/javascript');
+            echo(!preg_match('/[^\w\?]/', $_GET['callback'])?$_GET['callback']:'') . '('.$json.')';
         } else {
-            $output->run();
+            header('Content-Type: application/json');
+            echo $json;
         }
+    } else {
+        $output->run();
     }
 }

@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.0
+----------------
+ - [ADD] Omarine, NethServer, JingOS, KDE neon, Alma, Virtuozzo, EuroLinux and Rocky Linux to detected distros
+
+ - [NEW] HIDE_NETWORK_INTERFACE_REGEX option to use a regular expression in the name of a hidden network interface
+ - [NEW] Ability to read UPS information from a file
+ - [NEW] Virtualizer detection on Linux, Android, FreeBSD, NetBSD, OpenBSD and WinNT
+ - [NEW] ROOTFS option to set root path of the system
+
+ - [UPD] Changed all data file extensions from .txt to .tmp
+ - [UPD] Sensor CoreTemp renamed to CpuMem and extended to read the CPU and memory supply voltages
+
 phpSysInfo 3.3.4
 ----------------
 

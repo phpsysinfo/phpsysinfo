@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+phpSysInfo language file Language: Czech Created by: Ashus
+-->
+<tns:translationPlugin language="czech" charset="utf-8"
+ xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+  <expression id="plugin_pingtest_001" name="pingtest_title">
+    <exp>Ping</exp>
+  </expression>
+  <expression id="plugin_pingtest_002" name="pingtest_address">
+    <exp>Adresa</exp>
+  </expression>
+  <expression id="plugin_pingtest_003" name="pingtest_pingtime">
+    <exp>Odezva</exp>
+  </expression>
+  <expression id="plugin_pingtest_004" name="pingtest_lost">
+    <exp>ztráta</exp>
+  </expression>
+</tns:translationPlugin>

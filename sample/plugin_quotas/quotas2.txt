@@ -1,0 +1,8 @@
+*** Report for user quotas on device /dev/sda8
+Block grace time: 7days; Inode grace time: 7days
+                        Block limits                File limits
+User            used    soft    hard  grace    used  soft  hard  grace
+----------------------------------------------------------------------
+user1     -- 1742260 3072000 4096000           3067     0     0
+user2      +- 3585440 3072000 4096000  6days    7565     0     0
+user3      --  114852 3072000 4096000           2645     0     0

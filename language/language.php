@@ -16,7 +16,7 @@
  */
 
 // Set the correct content-type header.
-header("Content-Type: text/xml\n\n");
+header('Content-Type: text/xml');
 
 /**
  * default language

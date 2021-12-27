@@ -159,8 +159,9 @@ class JavaScriptPacker
     {
         $parser = new ParseMaster();
         // replace: $name -> n, $$name -> na
-        $parser->add('/((\\x24+)([a-zA-Z$_]+))(\\d*)/',
-                     array('fn' => '_replace_name')
+        $parser->add(
+            '/((\\x24+)([a-zA-Z$_]+))(\\d*)/',
+            array('fn' => '_replace_name')
         );
         // replace: _name -> _0, double-underscore (__name) is ignored
         $regexp = '/\\b_[A-Za-z\\d]\\w*/';
@@ -169,7 +170,8 @@ class JavaScriptPacker
         // quick ref
         $encoded = $keywords['encoded'];
 
-        $parser->add($regexp,
+        $parser->add(
+            $regexp,
             array(
                 'fn' => '_replace_encoded',
                 'data' => $encoded
@@ -194,7 +196,8 @@ class JavaScriptPacker
         $encoded = $keywords['encoded'];
 
         // encode
-        $parser->add($regexp,
+        $parser->add(
+            $regexp,
             array(
                 'fn' => '_replace_encoded',
                 'data' => $encoded

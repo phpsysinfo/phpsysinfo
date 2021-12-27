@@ -37,7 +37,7 @@ class Healthd extends Sensors
             }
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/healthd.txt', $lines)) {
+            if (CommonFunctions::rftsdata('healthd.tmp', $lines)) {
                 $lines0 = preg_split("/\n/", $lines, 1, PREG_SPLIT_NO_EMPTY);
                 if (count($lines0) == 1) {
                     $this->_values = preg_split("/\t+/", $lines0[0]);
@@ -46,7 +46,6 @@ class Healthd extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_healthd] ACCESS');
-            break;
         }
     }
 
@@ -146,7 +145,7 @@ class Healthd extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

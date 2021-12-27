@@ -40,23 +40,22 @@ class PS extends PSI_Plugin
         case 'command':
             if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
                 try {
-                    $wmi = CommonFunctions::initWMI('root\CIMv2');
-                    $os_wmi = CommonFunctions::getWMI($wmi, 'Win32_OperatingSystem', array('TotalVisibleMemorySize'));
+                    $os_wmi = WINNT::_get_Win32_OperatingSystem();
                     $memtotal = 0;
                     foreach ($os_wmi as $os) {
                         $memtotal = $os['TotalVisibleMemorySize'] * 1024;
                         break;
                     }
-
-                    $perf_wmi = CommonFunctions::getWMI($wmi, 'Win32_PerfFormattedData_PerfProc_Process', array('IDProcess', 'CreatingProcessID', 'PercentProcessorTime'));
+                    $wmi = WINNT::getcimv2wmi();
+                    $perf_wmi = WINNT::getWMI($wmi, 'Win32_PerfFormattedData_PerfProc_Process', array('IDProcess', 'CreatingProcessID', 'PercentProcessorTime'));
                     $proccpu = array();
                     foreach ($perf_wmi as $perf) {
                         $proccpu[trim($perf['IDProcess'])] = array('ParentProcessId'=>trim($perf['CreatingProcessID']), 'PercentProcessorTime'=>trim($perf['PercentProcessorTime']));
                     }
 
-                    $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
+                    $process_wmi = WINNT::getWMI($wmi, 'Win32_Process', array('Caption', 'CommandLine', 'ProcessId', 'ParentProcessId', 'WorkingSetSize'));
                     foreach ($process_wmi as $process) {
-                        if (strlen(trim($process['CommandLine'])) > 0) {
+                        if (isset($process['CommandLine']) && strlen(trim($process['CommandLine'])) > 0) {
                             $ps = trim($process['CommandLine']);
                         } else {
                             $ps = trim($process['Caption']);
@@ -95,7 +94,7 @@ class PS extends PSI_Plugin
                         }
                         $buffer = "  PID  PPID %MEM %CPU COMMAND\n";
 
-                        $processlist = glob('/proc/*/status', GLOB_NOSORT);
+                        $processlist = CommonFunctions::findglob('/proc/*/status', GLOB_NOSORT);
                         if (is_array($processlist) && (($total = count($processlist)) > 0)) {
                             natsort($processlist); //first sort
                             $process = array();
@@ -142,12 +141,11 @@ class PS extends PSI_Plugin
             break;
         case 'data':
             if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/ps.txt", $buffer);
+                CommonFunctions::rftsdata("ps.tmp", $buffer);
             }
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[ps] ACCESS");
-            break;
         }
         if (trim($buffer) != "") {
             $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);

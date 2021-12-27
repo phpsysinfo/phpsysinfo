@@ -27,13 +27,18 @@
 class HPUX extends OS
 {
     /**
+     * uptime command result.
+     */
+    private $_uptime = null;
+
+    /**
      * Virtual Host Name
      *
      * @return void
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('hostname', '', $ret)) {
@@ -62,8 +67,8 @@ class HPUX extends OS
      */
     private function _uptime()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) days,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/up (\d+) days,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
@@ -80,8 +85,8 @@ class HPUX extends OS
      */
     private function _loadavg()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/average: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
             }
         }
@@ -125,7 +130,6 @@ class HPUX extends OS
                         case 'bogomips':
                         case 'cpu0bogo':
                             $dev->setBogomips($arrBuff[1]);
-                            break;
                         }
                     }
                 }
@@ -358,7 +362,7 @@ class HPUX extends OS
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
@@ -377,14 +381,14 @@ class HPUX extends OS
             $this->_scsi();
             $this->_usb();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

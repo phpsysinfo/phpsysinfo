@@ -41,13 +41,12 @@ class HyperV extends PSI_Plugin
         if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
-                $cim = CommonFunctions::initWMI('root\CIMv2');
-                $buffer = CommonFunctions::getWMI($cim, 'Win32_OperatingSystem', array('Version'));
+                $buffer = WINNT::_get_Win32_OperatingSystem();
                 if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version'])) {
                     if (version_compare($buffer[0]['Version'], "6.2", ">=")) { // minimal windows 2012 or windows 8
-                        $wmi = CommonFunctions::initWMI('root\virtualization\v2');
+                        $wmi = WINNT::initWMI('root\virtualization\v2');
                     } elseif (version_compare($buffer[0]['Version'], "6.0", ">=")) { // minimal windows 2008
-                        $wmi = CommonFunctions::initWMI('root\virtualization');
+                        $wmi = WINNT::initWMI('root\virtualization');
                     } else {
                        $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
                        break;
@@ -56,8 +55,8 @@ class HyperV extends PSI_Plugin
                     $this->global_error->addError("HyperV plugin", "Unsupported Windows version");
                     break;
                 }
-                $result = CommonFunctions::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
-                if (is_array($result)) foreach ($result as $machine) {
+                $result = WINNT::getWMI($wmi, 'MSVM_ComputerSystem', array('InstallDate', 'EnabledState', 'ElementName'));
+                foreach ($result as $machine) {
                     if ($machine['InstallDate'] !== null) {
                         $this->_filecontent[] = array($machine['ElementName'], $machine['EnabledState']);
                     }
@@ -67,7 +66,7 @@ class HyperV extends PSI_Plugin
             break;
         case 'data':
             if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::rfts(PSI_APP_ROOT."/data/hyperv.txt", $buffer);
+                CommonFunctions::rftsdata("hyperv.tmp", $buffer);
                 $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($processes as $process) {
                     $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
@@ -79,7 +78,6 @@ class HyperV extends PSI_Plugin
             break;
         default:
             $this->global_error->addConfigError("execute()", "[hyperv] ACCESS");
-            break;
         }
     }
 

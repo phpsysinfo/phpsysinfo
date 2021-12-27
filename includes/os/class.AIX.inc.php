@@ -26,7 +26,14 @@
 */
 class AIX extends OS
 {
+    /**
+     * uptime command result.
+     */
+    private $_uptime = null;
 
+    /**
+     * prtconf command result.
+     */
     private $_aixdata = array();
 
     /**
@@ -35,7 +42,7 @@ class AIX extends OS
      */
     private function _hostname()
     {
-        /*   if (PSI_USE_VHOST === true) {
+        /*   if (PSI_USE_VHOST) {
                if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
            } else {
                if (CommonFunctions::executeProgram('hostname', '', $ret)) {
@@ -64,8 +71,8 @@ class AIX extends OS
      */
     private function _uptime()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
@@ -81,8 +88,8 @@ class AIX extends OS
      */
     private function _loadavg()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/average: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
             }
         }
@@ -329,11 +336,11 @@ class AIX extends OS
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
-        $this->error->addError("WARN", "The AIX version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The AIX version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
@@ -349,14 +356,14 @@ class AIX extends OS
             $this->_scsi();
             $this->_usb();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

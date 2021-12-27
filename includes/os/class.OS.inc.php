@@ -106,7 +106,7 @@ abstract class OS implements PSI_Interface_OS
         //} elseif (CommonFunctions::executeProgram('uptime', '', $buf) && preg_match("/,\s+(\d+)\s+user[s]?,\s+load average[s]?:\s+(.*),\s+(.*),\s+(.*)$/", $buf, $ar_buf)) {
             $this->sys->setUsers($ar_buf[1]);
         } else {
-            $processlist = glob('/proc/*/cmdline', GLOB_NOSORT);
+            $processlist = CommonFunctions::findglob('/proc/*/cmdline', GLOB_NOSORT);
             if (is_array($processlist) && (($total = count($processlist)) > 0)) {
                 $count = 0;
                 $buf = "";
@@ -132,7 +132,7 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _ip()
     {
-        if ((PSI_USE_VHOST === true) && !defined('PSI_EMU_HOSTNAME')) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME')) {
            if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
@@ -165,25 +165,9 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _dmimeminfo()
     {
-        $banks = array();
-        $buffer = '';
-        if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)=="data")) {
-            CommonFunctions::rfts(PSI_APP_ROOT.'/data/dmidecode.txt', $buffer);
-        } elseif (CommonFunctions::_findProgram('dmidecode')) {
-            CommonFunctions::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
-        }
-        if (!empty($buffer)) {
-            $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
-                $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
-                $mem = array();
-                foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/' ,$line, $params)) {
-                    if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
-                        $mem[trim($params[1])] = trim($buff[1]);
-                    } elseif ($params2 != '') {
-                        $mem[trim($params[1])] = $params2;
-                    }
-                }
+        $dmimd = CommonFunctions::readdmimemdata();
+        if (!empty($dmimd)) {
+            foreach ($dmimd as $mem) {
                 if (isset($mem['Size']) && preg_match('/^(\d+)\s(M|G)B$/', $mem['Size'], $size) && ($size[1] > 0)) {
                     $dev = new HWDevice();
                     $name = '';
@@ -221,7 +205,7 @@ abstract class OS implements PSI_Interface_OS
                         $memtype = '';
                         if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
                             if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
-                               if (isset($mem['Minimum Voltage']) && isset($mem['Total Width']) &&
+                               if (isset($mem['Minimum Voltage']) && isset($mem['Maximum Voltage']) &&
                                   preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
                                   ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
                                     $lv = 'L';

@@ -75,6 +75,11 @@ BLOCKS=true
 ;
 ;SNMP_RETRY=0
 
+; Root path of the system
+; Example : ROOTFS="/rootfs"
+;
+;ROOTFS="/"
+
 ; External WinNT server connection parameters
 ; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
 ; These settings can also be entered for a specific plug-in so that only it connects to an external server
@@ -103,7 +108,7 @@ BLOCKS=true
 ; - StableBit      - show StableBit Scanner info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
 ; - Docker         - show docker stats
-; - Viewer         - show output of any command or file viewer.txt contents
+; - Viewer         - show output of any command or file viewer.tmp contents
 ;
 PLUGINS=false
 
@@ -162,6 +167,11 @@ SHOW_CPUINFO_EXPANDED=false
 SHOW_MEMORY_INFOS_EXPANDED=false
 
 
+; Show virtualizer info for Linux, Android and WinNT
+;
+SHOW_VIRTUALIZER_INFO=true
+
+
 ; Hide loader for frontend "bootstrap"
 ;
 HIDE_BOOTSTRAP_LOADER=false
@@ -186,9 +196,9 @@ REFRESH=60000
 ; Show a graph for current cpuload
 ; - true : displayed, but it's a performance hit (because we have to wait to get a value, 1 second)
 ; - "compact" : displayed like above but in compact mode
-; - false : will not be displayed
+; - false : will not be displayed (also in Load Averages field)
 ;
-LOAD_BAR=true
+LOAD_BAR="compact"
 
 
 ; Display the virtual host name and address
@@ -259,7 +269,7 @@ DATETIME_FORMAT="UTC"
 ; - HWSensors      http://www.openbsd.org/ (OpenBSD)
 ; - MBMon          http://www.nt.phys.kyushu-u.ac.jp/shimizu/download/download.html (FreeBSD/Linux/NetBSD/OpenBSD)
 ; - MBM5           http://mbm.livewiredev.com/ (data from file data/MBM5.csv - WinNT)
-; - Coretemp       No addon tool neded (FreeBSD/Linux)
+; - CpuMem         No addon tool neded (FreeBSD/Linux/WinNT or others but with the dmidecode utility installed)
 ; - IPMItool       http://ipmitool.sourceforge.net/ (Linux)
 ; - FreeIPMI       http://www.gnu.org/software/freeipmi/ (FreeBSD/Linux/OpenBSD/SunOS)
 ; - IPMIutil       http://ipmiutil.sourceforge.net/ (Darwin/FreeBSD/Linux/SunOS/WinNT)
@@ -396,6 +406,13 @@ HIDE_TOTALS=false
 HIDE_NETWORK_INTERFACE=""
 
 
+; Use a regular expression in the name of a hidden network interface (e.g. HIDE_NETWORK_INTERFACE="docker.*")
+; - true : use a regular expression
+; - false : do not use a regular expression
+;
+HIDE_NETWORK_INTERFACE_REGEX=false
+
+
 ; Show network interfaces infos for Linux, Android, FreeBSD, NetBSD, OpenBSD, Haiku, Darwin, SunOS, Minix, QNX and WinNT
 ; Example : SHOW_NETWORK_INFOS=true
 ;
@@ -434,9 +451,9 @@ SHOW_NETWORK_ACTIVE_SPEED=false
 ; We support the following programs so far
 ; - Apcupsd        http://www.apcupsd.com/
 ; - Nut            http://www.networkupstools.org/
+; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
 ; - PowerSoftPlus  http://ever.eu/
 ; - pmset          based on the result of the command "pmset -g batt" on Darwin system
-; - SNMPups        monitoring via Simple Network Management Protocol (SNMP)
 ;
 ; Example: If you want to use Apcupsd : UPS_PROGRAM="Apcupsd"
 ;          If you want to use Apcupsd and Nut : UPS_PROGRAM="Apcupsd,Nut"
@@ -445,11 +462,19 @@ UPS_PROGRAM=false
 
 
 ; Apcupsd supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3551
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3551"
 ; See the following parameters in apcupsd.conf: NETSERVER, NISIP, NISPORT
 ; It uses the defaults if not specified.
 ;
 UPS_APCUPSD_LIST=false
+
+
+; define how to access the Apcupsd data
+; - "command" execute apcaccess command
+; - "data" for reading data from file data/upsapcupsd{ups_number}.tmp
+;    content is the output from "apcaccess status"
+;
+UPS_APCUPSD_ACCESS="command"
 
 
 ; Apcupsd has a CGI monitoring utility called apcupsd-cgi
@@ -459,11 +484,19 @@ UPS_APCUPSD_CGI_ENABLE=false
 
 
 ; Nut supports multiple UPSes
-; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: 127.0.0.1:3493
+; You can specify comma delimited list in the form <hostname>:<port> or <ip>:<port>. The defaults are: "127.0.0.1:3493"
 ; See the following parameters in upsd.conf: LISTEN
 ; It uses the defaults if not specified.
 ;
 UPS_NUT_LIST=false
+
+
+; define how to access the Nut data
+; - "command" execute upsc command
+; - "data" for reading data from file data/upsnut{ups_number}.tmp
+;    content is the output from "upsc {upsname}"
+;
+UPS_NUT_ACCESS="command"
 
 
 ; SNMPups supports multiple UPSes
@@ -476,8 +509,30 @@ UPS_SNMPUPS_LIST=false
 ; define how to access the SNMP data
 ; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
 ; - "command" execute snmpwalk command
+; - "data" for reading data from file data/upssnmpups{ups_number}.tmp
+;    content is the output from:
+;     "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.1>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.2>>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.3>>upssnmpups{ups_number}.tmp
+;      snmpwalk -Ona -c public -v 1 -r 0 -t 3 {upsaddress} .1.3.6.1.4.1.318.1.1.1.4>>upssnmpups{ups_number}.tmp"
 ;
 UPS_SNMPUPS_ACCESS="php-snmp"
+
+
+; define how to access the PowerSoftPlus data
+; - "command" execute powersoftplus command
+; - "data" for reading data from file data/upspowersoftplus.tmp
+;    content is the output from "powersoftplus -p"
+;
+UPS_POWERSOFTPLUS_ACCESS="command"
+
+
+; define how to access the pmset data
+; - "command" execute pmset command
+; - "data" for reading data from file data/upspmset.tmp
+;    content is the output from "pmset -g batt"
+;
+UPS_PMSET_ACCESS="command"
 
 
 ; ********************************
@@ -486,7 +541,7 @@ UPS_SNMPUPS_ACCESS="php-snmp"
 
 
 ; define how to access the dmidecode data
-; - "data" read data from file data/dmidecode.txt
+; - "data" read data from file data/dmidecode.tmp; content is the output from "dmidecode -t 17")
 ; - "command" execute command: dmidecode -t 17
 ;   If access error try execute first: chmod 4755 /usr/sbin/dmidecode
 ;   This method is not recommended for safety reasons!
@@ -513,7 +568,7 @@ ACCESS="command"
 ; LMSensors motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'sensors' command
-; - ACCESS="data"  //read data from file data/lmsensors.txt
+; - ACCESS="data"  //read data from file data/lmsensors.tmp
 ;
 ACCESS="command"
 
@@ -521,7 +576,7 @@ ACCESS="command"
 ; Healthd motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'healthdc' command
-; - ACCESS="data"  //read data from file data/healthd.txt
+; - ACCESS="data"  //read data from file data/healthd.tmp
 ;
 ACCESS="command"
 
@@ -529,7 +584,7 @@ ACCESS="command"
 ; MBMon motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'mbmon -c 1 -r' command
-; - ACCESS="data"  //read data from file data/mbmon.txt
+; - ACCESS="data"  //read data from file data/mbmon.tmp
 ; - ACCESS="tcp"  //read data from mbmon deamon (localhost:411)
 ;
 ACCESS="command"
@@ -539,7 +594,7 @@ ACCESS="command"
 ;
 ; - ACCESS="command"  //read data from 'ipmitool sensor -v' command
 ;                     //if access error execute first: chmod 666 /dev/ipmi0
-; - ACCESS="data"  //read data from file data/ipmitool.txt
+; - ACCESS="data"  //read data from file data/ipmitool.tmp
 ;
 ACCESS="command"
 
@@ -547,7 +602,7 @@ ACCESS="command"
 ; FreeIPMI motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmi-sensors --output-sensor-thresholds' program
-; - ACCESS="data"  //read data from file data/freeipmi.txt
+; - ACCESS="data"  //read data from file data/freeipmi.tmp
 ;
 ACCESS="command"
 
@@ -556,7 +611,7 @@ ACCESS="command"
 ;
 ; - ACCESS="command"  //read data from 'ipmiutil sensor -stw' command
 ;                     //if access error execute first: chmod 666 /dev/ipmi0
-; - ACCESS="data"  //read data from file data/ipmiutil.txt
+; - ACCESS="data"  //read data from file data/ipmiutil.tmp
 ;
 ACCESS="command"
 
@@ -564,7 +619,7 @@ ACCESS="command"
 ; IPMIcfg motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' command
-; - ACCESS="data"  //read data from file data/ipmicfg.txt (output from: ipmicfg -sdr>ipmicfg.txt; ipmicfg -psfruinfo>>ipmicfg.txt)
+; - ACCESS="data"  //read data from file data/ipmicfg.tmp (output from: "ipmicfg -sdr>ipmicfg.tmp; ipmicfg -psfruinfo>>ipmicfg.tmp")
 ;
 ACCESS="command"
 
@@ -579,15 +634,15 @@ PSFRUINFO=true
 ; K8Temp motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'k8temp' command
-; - ACCESS="data"  //read data from file data/k8temp.txt
+; - ACCESS="data"  //read data from file data/k8temp.tmp
 ;
 ACCESS="command"
 
 [sensor_thermalzone]
 ; ThermalZone motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WINNT information is retrieved everytime through WMI
-; - ACCESS="data"  //read data from file data/thermalzone.txt (output of WinNT command "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName")
+; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WinNT information is retrieved everytime through WMI
+; - ACCESS="data"  //read data from file data/thermalzone.tmp (output of WinNT command "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName")
 ;
 ACCESS="command"
 
@@ -595,7 +650,7 @@ ACCESS="command"
 ; SpeedFan motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'speedfanget' command
-; - ACCESS="data"  //read data from file data/speedfan.txt
+; - ACCESS="data"  //read data from file data/speedfan.tmp
 ;
 ACCESS="command"
 
@@ -603,7 +658,7 @@ ACCESS="command"
 ; NvidiaSMI motherboard monitoring program configuration
 ;
 ; - ACCESS="command"  //read data from 'nvidia-smi -q' command
-; - ACCESS="data"  //read data from file data/nvidiasmi.txt
+; - ACCESS="data"  //read data from file data/nvidiasmi.tmp
 ;
 ACCESS="command"
 
@@ -629,7 +684,7 @@ EXE_PATH="c:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe"
 ;             on FreeBSD read data from 'acpiconf -i batt' command
 ;             on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "bat_info.txt" and "bat_state.txt"; content is the output
+;          with the filename "bat_info.tmp" and "bat_state.tmp"; content is the output
 ;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
 ;
 ACCESS="command"
@@ -657,9 +712,9 @@ SHOW_SERIAL=false
 ;             - megasasctl:        command "megasasctl" (on Linux only)
 ;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
-;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WINNT)
+;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid (Python 2) or https://github.com/ElCoyote27/hwraid (Python 3)
-;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WINNT)
+;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid
 ;             - graid:             command "graid list" is run (on FreeBSD only)
 ;             - zpool:             command "zpool status" is run
@@ -667,8 +722,8 @@ SHOW_SERIAL=false
 ; - "php-snmp"- idrac:             execute php snmprealwalk function (php-snmp module must be installed)
 ;             - for others the option is inactive (uses "command" instead)
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;         with the filename "raidmdstat.txt" or "raiddmraid.txt" or "raidmegactl.txt" or "raidmegasasctl.txt" 
-;         or "raidmegaclisas-status.txt" or "raidgraid.txt" or "raidzpool.txt" or "raididrac{device_number}.txt")
+;         with the filename "raidmdstat.tmp" or "raiddmraid.tmp" or "raidmegactl.tmp" or "raidmegasasctl.tmp" 
+;         or "raidmegaclisas-status.tmp" or "raidgraid.tmp" or "raidzpool.tmp" or "raididrac{device_number}.tmp")
 ;
 ACCESS="command"
 
@@ -690,10 +745,10 @@ IDRAC_DEVICES=""
 ; PS Plugin configuration
 
 ; define how to access the ps statistic data
-; - "command" ps command is run everytime the block gets refreshed or build / on WINNT
+; - "command" ps command is run everytime the block gets refreshed or build / on WinNT
 ;             information is retrieved everytime through WMI
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "ps.txt"; content is the output from "ps -axo pid,ppid,pmem,pcpu,args")
+;          with the filename "ps.tmp"; content is the output from "ps -axo pid,ppid,pmem,pcpu,args")
 ;
 ACCESS="command"
 
@@ -719,14 +774,14 @@ SHOW_PID1CHILD_EXPANDED=false
 
 ; define how to access the psstatus statistic data
 ; - "command" pidof command is run everytime the block gets refreshed or build 
-;             / on WINNT information is retrieved everytime through WMI
+;             / on WinNT information is retrieved everytime through WMI
 ; - "data" a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "psstatus.txt"; content is the output from
+;          with the filename "psstatus.tmp"; content is the output from
 ;   <code>for ps in "apache2" "mysqld" "sshd"; do echo $ps "|" `pidof -s -x "$ps"`; done</code>
 ;
 ACCESS="command"
 
-; Regular expression search in the process name (e.g. "ddclient.*")
+; Regular expression search in the process name (e.g. "ddclient.*") for non-WinNT systems 
 ; - true : Regular expression search (used pgrep command)
 ; - false : Normal search (used pidof command)
 ;
@@ -734,7 +789,7 @@ USE_REGEX=false
 
 ; controls which processes are checked if they are running
 ;
-; string contains a list of process names that are checked, names are seperated by a comma (on WINNT names must end with '.exe')
+; string contains a list of process names that are checked, names are seperated by a comma (on WinNT names must end with '.exe')
 ;
 PROCESSES="mysqld, sshd, explorer.exe"
 
@@ -744,7 +799,7 @@ PROCESSES="mysqld, sshd, explorer.exe"
 
 ; define how to access the repquota statistic data
 ; - "command" repquota command is run everytime the block gets refreshed or build
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "quotas.txt"; content is the output from "repquota -au")
+; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "quotas.tmp"; content is the output from "repquota -au")
 ;
 ACCESS="command"
 
@@ -761,7 +816,7 @@ ACCESS="command"
 ;      Second method:
 ;            try to set: SUDO_COMMANDS="smartctl" and add to file /etc/sudoers line: apache ALL = (ALL) NOPASSWD: /usr/sbin/smartctl
 ; - "data" (a file must be available in the data directory of the
-;          phpsysinfo installation with the filename "smart{disk_number}.txt";
+;          phpsysinfo installation with the filename "smart{disk_number}.tmp";
 ;          content is the output from "smartctl --all device"
 ;          or on WinNT only from "wmic /namespace:\\root\wmi path MSStorageDriver_ATAPISmartData get VendorSpecific | more +{disk_number}")
 ; - "wmi" information is retrieved everytime through WMI (WinNT only)
@@ -797,12 +852,12 @@ IDS="005-RAW_VALUE,194-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW_VALUE-225,0
 ; - "php-snmp" execute php snmprealwalk function (php-snmp module must be installed)
 ; - "command" execute snmpwalk command
 ; - "data" a file must be available in the data directory of the
-;          phpsysinfo installation with the filename "snmppinfo{printer_number}.txt";
+;          phpsysinfo installation with the filename "snmppinfo{printer_number}.tmp";
 ; content is the output from:
-;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.1.5 > snmppinfo{printer_number}.txt
-;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.4.1.367.3.2.1.2.24.1.1 >> snmppinfo{printer_number}.txt
-;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.43.11.1.1 >> snmppinfo{printer_number}.txt
-;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.43.18.1.1 >> snmppinfo{printer_number}.txt
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.1.5 > snmppinfo{printer_number}.tmp
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.4.1.367.3.2.1.2.24.1.1 >> snmppinfo{printer_number}.tmp
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.43.11.1.1 >> snmppinfo{printer_number}.tmp
+;    LANG=C LC_ALL=C snmpwalk -On -c public -v 1 -r 0 -t 3 {printer_address} .1.3.6.1.2.1.43.18.1.1 >> snmppinfo{printer_number}.tmp
 ;
 ACCESS="php-snmp"
 
@@ -843,7 +898,7 @@ FILE="/var/lib/update-notifier/updates-available"
 ;             if access error try execute first: chmod 4755 /usr/bin/uprecords
 ;             This method is not recommended for safety reasons!
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "uprecords.txt"; content is the output from "TZ=GMT uprecords -a -w")
+;          with the filename "uprecords.tmp"; content is the output from "TZ=GMT uprecords -a -w")
 ;
 ACCESS="command"
 
@@ -868,7 +923,7 @@ DENOTE_BY_ASTERISK = false
 
 ; define how to access the data
 ; - "command" COMMAND command is run everytime the block gets refreshed or build
-; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "viewer.txt")
+; - "data" (a file must be available in the data directory of the phpsysinfo installation with the filename "viewer.tmp")
 ;
 ACCESS="command"
 
@@ -891,7 +946,7 @@ PARAMS=""
 ; define how to access the psstatus statistic data
 ; - "command" ping command is run everytime the block gets refreshed or build 
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "pingtest.txt")
+;          with the filename "pingtest.tmp")
 ;
 ACCESS="command"
 
@@ -922,7 +977,7 @@ SHOW_SERIAL=false
 ; define how to access the ps statistic data
 ; - "command" information is retrieved through WMI
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "hyperv.txt")
+;          with the filename "hyperv.tmp")
 ;
 ACCESS="command"
 
@@ -932,6 +987,6 @@ ACCESS="command"
 ; define how to access the docker statistic data
 ; - "command" docker command is run everytime the block gets refreshed or build
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
-;          with the filename "docker.txt"; content is the output from "docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}'")
+;          with the filename "docker.tmp"; content is the output from "docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}\t{{.NetIO}}\t{{.BlockIO}}\t{{.PIDs}}'")
 ;
 ACCESS="command"

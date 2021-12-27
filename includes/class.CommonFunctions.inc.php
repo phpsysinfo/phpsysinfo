@@ -26,47 +26,11 @@
 class CommonFunctions
 {
     /**
-     * holds codepage for chcp
+     * holds dmi memory data
      *
-     * @var integer
+     * @var array
      */
-    private static $_cp = null;
-
-    /**
-     * value of checking run as administrator
-     *
-     * @var boolean
-     */
-    private static $_asadmin = null;
-
-    public static function setcp($cp)
-    {
-        self::$_cp = $cp;
-    }
-
-    public static function getcp()
-    {
-        return self::$_cp;
-    }
-
-    public static function isAdmin()
-    {
-        if (self::$_asadmin == null) {
-            if (PSI_OS == 'WINNT') {
-                $strBuf = '';
-                self::executeProgram('sfc', '2>&1', $strBuf, false); // 'net session' for detection does not work if "Server" (LanmanServer) service is stopped
-                if (preg_match('/^\/SCANNOW\s/m', preg_replace('/(\x00)/', '', $strBuf))) { // SCANNOW checking - also if Unicode
-                    self::$_asadmin = true;
-                } else {
-                    self::$_asadmin = false;
-                }
-            } else {
-                self::$_asadmin = false;
-            }
-        }
-
-        return self::$_asadmin;
-    }
+    private static $_dmimd = null;
 
     private static function _parse_log_file($string)
     {
@@ -177,7 +141,7 @@ class CommonFunctions
                 continue;
             }
             $strProgrammpath = $strPathS.$strProgram;
-            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py'))) {
+            if (is_executable($strProgrammpath) || ((PSI_OS == 'WINNT') && (strtolower($path_parts['extension']) == 'py') && is_file($strProgrammpath))) {
                 return $strProgrammpath;
             }
         }
@@ -195,7 +159,7 @@ class CommonFunctions
      * @param string  $strArgs        arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
-     * @param integer $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
+     * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
      *
      * @return boolean command successfull or not
      */
@@ -214,6 +178,11 @@ class CommonFunctions
 
                 return true;
             }
+        }
+
+        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+
+            return false;
         }
 
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
@@ -281,7 +250,7 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
@@ -292,7 +261,7 @@ class CommonFunctions
         }
         if (is_resource($process)) {
             $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
-            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+            if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                 $return_value = pclose($pipes[1]);
             } else {
                 fclose($pipes[0]);
@@ -382,8 +351,8 @@ class CommonFunctions
      *
      * @param string  $strFileName name of the file which should be read
      * @param string  &$strRet     content of the file (reference)
-     * @param integer $intLines    control how many lines should be read
-     * @param integer $intBytes    control how many bytes of each line should be read
+     * @param int     $intLines    control how many lines should be read
+     * @param int     $intBytes    control how many bytes of each line should be read
      * @param boolean $booErrorRep en- or disables the reporting of errors which should be logged
      *
      * @return boolean command successfull or not
@@ -405,12 +374,18 @@ class CommonFunctions
             }
         }
 
+        if (PSI_ROOT_FILESYSTEM !== '') {
+            $rfsinfo = "[".PSI_ROOT_FILESYSTEM."]";
+        } else {
+            $rfsinfo = '';
+        }
+
         $strFile = "";
         $intCurLine = 1;
         $error = PSI_Error::singleton();
-        if (file_exists($strFileName)) {
-            if (is_readable($strFileName)) {
-                if ($fd = fopen($strFileName, 'r')) {
+        if (file_exists(PSI_ROOT_FILESYSTEM.$strFileName)) {
+            if (is_readable(PSI_ROOT_FILESYSTEM.$strFileName)) {
+                if ($fd = fopen(PSI_ROOT_FILESYSTEM.$strFileName, 'r')) {
                     while (!feof($fd)) {
                         $strFile .= fgets($fd, $intBytes);
                         if ($intLines <= $intCurLine && $intLines != 0) {
@@ -430,27 +405,93 @@ class CommonFunctions
                     }
                 } else {
                     if ($booErrorRep) {
-                        $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+                        $error->addError('fopen('.$rfsinfo.$strFileName.')', 'file can not read by phpsysinfo');
                     }
 
                     return false;
                 }
             } else {
                 if ($booErrorRep) {
-                    $error->addError('fopen('.$strFileName.')', 'file permission error');
+                    $error->addError('fopen('.$rfsinfo.$strFileName.')', 'file permission error');
                 }
 
                 return false;
             }
         } else {
             if ($booErrorRep) {
-                $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+                $error->addError('file_exists('.$rfsinfo.$strFileName.')', 'the file does not exist on your machine');
             }
 
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * read a data file and return the content as a string
+     *
+     * @param string $strDataFileName name of the data file which should be read
+     * @param string &$strRet         content of the data file (reference)
+     *
+     * @return boolean command successfull or not
+     */
+    public static function rftsdata($strDataFileName, &$strRet)
+    {
+        $strFile = "";
+        $strFileName = PSI_APP_ROOT."/data/".$strDataFileName;
+        $error = PSI_Error::singleton();
+        if (file_exists($strFileName)) {
+            if (is_readable($strFileName)) {
+                if ($fd = fopen($strFileName, 'r')) {
+                    while (!feof($fd)) {
+                        $strFile .= fgets($fd, 4096);
+                    }
+                    fclose($fd);
+                    $strRet = $strFile;
+                } else {
+                    $error->addError('fopen('.$strFileName.')', 'file can not read by phpsysinfo');
+
+                    return false;
+                }
+            } else {
+                $error->addError('fopen('.$strFileName.')', 'file permission error');
+
+                return false;
+            }
+        } else {
+            $error->addError('file_exists('.$strFileName.')', 'the file does not exist on your machine');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Find pathnames matching a pattern
+     *
+     * @param string $pattern the pattern. No tilde expansion or parameter substitution is done.
+     * @param int    $flags
+     *
+     * @return an array containing the matched files/directories, an empty array if no file matched or false on error
+     */
+    public static function findglob($pattern, $flags = 0)
+    {
+        $outarr = glob(PSI_ROOT_FILESYSTEM.$pattern, $flags);
+        if (PSI_ROOT_FILESYSTEM == '') {
+            return $outarr;
+        } elseif ($outarr === false) {
+            return false;
+        } else {
+            $len = strlen(PSI_ROOT_FILESYSTEM);
+            $newoutarr = array();
+            foreach ($outarr as $out) {
+                $newoutarr[] = substr($out, $len); // path without ROOTFS
+            }
+
+            return $newoutarr;
+        }
     }
 
     /**
@@ -475,7 +516,7 @@ class CommonFunctions
             }
         }
 
-        $exists =  file_exists($strFileName);
+        $exists =  file_exists(PSI_ROOT_FILESYSTEM.$strFileName);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             if ((substr($strFileName, 0, 5) === "/dev/") && $exists) {
                 error_log("---".gmdate('r T')."--- Reading: ".$strFileName."\ndevice exists\n", 3, PSI_LOG);
@@ -556,7 +597,7 @@ class CommonFunctions
         $text .= "  </Error>\n";
         $text .= "</phpsysinfo>";
         if ($error) {
-            header("Content-Type: text/xml\n\n");
+            header('Content-Type: text/xml');
             echo $text;
             die();
         }
@@ -565,10 +606,10 @@ class CommonFunctions
     /**
      * get the content of stdout/stderr with the option to set a timeout for reading
      *
-     * @param array   $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
-     * @param string  &$out    target string for the output message (reference)
-     * @param string  &$err    target string for the error message (reference)
-     * @param integer $timeout timeout value in seconds
+     * @param array  $pipes   array of file pointers for stdin, stdout, stderr (proc_open())
+     * @param string &$out    target string for the output message (reference)
+     * @param string &$err    target string for the error message (reference)
+     * @param int    $timeout timeout value in seconds
      *
      * @return boolean timeout expired or not
      */
@@ -578,7 +619,7 @@ class CommonFunctions
         $e = null;
         $te = false;
 
-        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+        if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             $pipe2 = false;
         } else {
             $pipe2 = true;
@@ -614,96 +655,6 @@ class CommonFunctions
     }
 
     /**
-     * function for getting a list of values in the specified context
-     * optionally filter this list, based on the list from third parameter
-     *
-     * @param $wmi object holds the COM object that we pull the WMI data from
-     * @param string $strClass name of the class where the values are stored
-     * @param array  $strValue filter out only needed values, if not set all values of the class are returned
-     *
-     * @return array content of the class stored in an array
-     */
-    public static function getWMI($wmi, $strClass, $strValue = array())
-    {
-        $arrData = array();
-        if (gettype($wmi) === "object") {
-            $value = "";
-            try {
-                $objWEBM = $wmi->Get($strClass);
-                $arrProp = $objWEBM->Properties_;
-                $arrWEBMCol = $objWEBM->Instances_();
-                foreach ($arrWEBMCol as $objItem) {
-                    if (is_array($arrProp)) {
-                        reset($arrProp);
-                    }
-                    $arrInstance = array();
-                    foreach ($arrProp as $propItem) {
-                        $value = $objItem->{$propItem->Name}; //instead exploitable eval("\$value = \$objItem->".$propItem->Name.";");
-                        if (empty($strValue)) {
-                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                            else $arrInstance[$propItem->Name] = $value;
-                        } else {
-                            if (in_array($propItem->Name, $strValue)) {
-                                if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                                else $arrInstance[$propItem->Name] = $value;
-                            }
-                        }
-                    }
-                    $arrData[] = $arrInstance;
-                }
-            } catch (Exception $e) {
-                if (PSI_DEBUG) {
-                    $error = PSI_Error::singleton();
-                    $error->addError("getWMI()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
-                }
-            }
-        } elseif ((gettype($wmi) === "string") && (PSI_OS == 'Linux')) {
-            $delimeter = '@@@DELIM@@@';
-            if (self::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
-                if (self::$_cp) {
-                    if (self::$_cp == 932) {
-                        $codename = ' (SJIS)';
-                    } elseif (self::$_cp == 949) {
-                        $codename = ' (EUC-KR)';
-                    } elseif (self::$_cp == 950) {
-                        $codename = ' (BIG-5)';
-                    } else {
-                        $codename = '';
-                    }
-                    self::convertCP($strBuf, 'windows-'.self::$_cp.$codename);
-                }
-                $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($lines) >=3) {
-                    unset($lines[0]);
-                    $names = preg_split('/'.$delimeter.'/', $lines[1], -1, PREG_SPLIT_NO_EMPTY);
-                    $namesc = count($names);
-                    unset($lines[1]);
-                    foreach ($lines as $line) {
-                        $arrInstance = array();
-                        $values = preg_split('/'.$delimeter.'/', $line, -1);
-                        if (count($values) == $namesc) {
-                            foreach ($values as $id=>$value) {
-                                if (empty($strValue)) {
-                                    if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
-                                    else $arrInstance[$names[$id]] = null;
-                                } else {
-                                    if (in_array($names[$id], $strValue)) {
-                                        if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
-                                        else $arrInstance[$names[$id]] = null;
-                                    }
-                                }
-                            }
-                            $arrData[] = $arrInstance;
-                        }
-                    }
-                }
-            }
-        }
-
-        return $arrData;
-    }
-
-    /**
      * get all configured plugins from phpsysinfo.ini (file must be included and processed before calling this function)
      *
      * @return array
@@ -732,177 +683,94 @@ class CommonFunctions
     }
 
     /**
-     * readReg function
+     * get virtualizer from dmi data
      *
-     * @return boolean command successfull or not
+     * @return string|null
      */
-    public static function readReg($reg, $strName, &$strBuffer, $booErrorRep = true)
+    public static function decodevirtualizer($vendor_data)
     {
-        $arrBuffer = array();
-        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
-
-        if ($reg === false) {
-            if (defined('PSI_EMU_HOSTNAME')) {
-                return false;
-            }
-            $last = strrpos($strName, "\\");
-            $keyname = substr($strName, $last + 1);
-            if (self::$_cp) {
-                if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
-                    $strBuffer = $buffer2[1];
-                } else {
-                    return false;
-                }
-            } else {
-                if (self::executeProgram('reg', 'query "'.substr($strName, 0, $last).'" /v '.$keyname.' 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match("/^\s*".$keyname."\s+REG_\S+\s+(.+)\s*$/mi", $strBuf, $buffer2)) {
-                    $strBuffer = $buffer2[1];
-                } else {
-                    return false;
-                }
-            }
-        } elseif (gettype($reg) === "object") {
-            $first = strpos($strName, "\\");
-            $last = strrpos($strName, "\\");
-            $hkey = substr($strName, 0, $first);
-            if (isset($_hkey[$hkey])) {
-                $sub_keys = new VARIANT();
-                try {
-                    $reg->Get("StdRegProv")->GetStringValue(strval($_hkey[$hkey]), substr($strName, $first+1, $last-$first-1), substr($strName, $last+1), $sub_keys);
-                } catch (Exception $e) {
-                    if ($booErrorRep) {
-                        $error = PSI_Error::singleton();
-                        $error->addError("GetStringValue()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));
+        if (gettype($vendor_data) === "array") {
+            $vendarray = array(
+                'KVM' => 'kvm', // KVM
+                'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
+                'QEMU' => 'qemu', // QEMU
+                'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
+                'VMW' => 'vmware',
+                'innotek GmbH' => 'oracle', // Oracle VM VirtualBox
+                'VirtualBox' => 'oracle',
+                'Xen' => 'xen', // Xen hypervisor
+                'Bochs' => 'bochs', // Bochs
+                'Parallels' => 'parallels', // Parallels
+                // https://wiki.freebsd.org/bhyve
+                'BHYVE' => 'bhyve', // bhyve
+                'Hyper-V' => 'microsoft', // Hyper-V
+                'Microsoft Corporation Virtual Machine' => 'microsoft' // Hyper-V
+            );
+            for ($i = 0; $i < count($vendor_data); $i++) {
+                foreach ($vendarray as $vend=>$virt) {
+                    if (preg_match('/^'.$vend.'/', $vendor_data[$i])) {
+                        return $virt;
                     }
-
-                    return false;
                 }
-                if (variant_get_type($sub_keys) !== VT_NULL) {
-                    $strBuffer = strval($sub_keys);
-                } else {
-                    return false;
-                }
-            } else {
-               return false;
+            }
+        } elseif (gettype($vendor_data) === "string") {
+            $vidarray = array(
+                'bhyvebhyve' => 'bhyve', // bhyve
+                'KVMKVMKVM' => 'kvm', // KVM
+                'MicrosoftHv' => 'microsoft', // Hyper-V
+                'lrpepyhvr' => 'parallels', // Parallels
+                'UnisysSpar64' => 'spar', // Unisys sPar
+                'VMwareVMware' => 'vmware', // VMware
+                'XenVMMXenVMM' => 'xen', // Xen hypervisor
+                'ACRNACRNACRN' => 'acrn', // ACRN hypervisor
+                'TCGTCGTCGTCG' => 'qemu', // QEMU
+                'QNXQVMBSQG' => 'qnx', // QNX hypervisor
+                'VBoxVBoxVBox' => 'oracle' // Oracle VM VirtualBox
+            );
+            $shortvendorid = trim(preg_replace('/[\s!\.]/', '', $vendor_data));
+            if (($shortvendorid !== "") && isset($vidarray[$shortvendorid])) {
+                return $vidarray[$shortvendorid];
             }
         }
 
-        return true;
-    }
-
-    /**
-     * enumKey function
-     *
-     * @return boolean command successfull or not
-     */
-    public static function enumKey($reg, $strName, &$arrBuffer, $booErrorRep = true)
-    {
-        $arrBuffer = array();
-        $_hkey = array('HKEY_CLASSES_ROOT'=>0x80000000, 'HKEY_CURRENT_USER'=>0x80000001, 'HKEY_LOCAL_MACHINE'=>0x80000002, 'HKEY_USERS'=>0x80000003, 'HKEY_PERFORMANCE_DATA'=>0x80000004, 'HKEY_PERFORMANCE_TEXT'=>0x80000050, 'HKEY_PERFORMANCE_NLSTEXT'=>0x80000060, 'HKEY_CURRENT_CONFIG'=>0x80000005, 'HKEY_DYN_DATA'=>0x80000006);
-
-        if ($reg === false) {
-            if (defined('PSI_EMU_HOSTNAME')) {
-                return false;
-            }
-            if (self::$_cp) {
-                if (self::executeProgram('cmd', '/c chcp '.self::$_cp.' >nul & reg query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
-                    foreach ($buffer2[1] as $sub_key) {
-                        $arrBuffer[] = trim($sub_key);
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                if (self::executeProgram('reg', 'query "'.$strName.'" 2>&1', $strBuf, $booErrorRep) && (strlen($strBuf) > 0) && preg_match_all("/^".preg_replace("/\\\\/", "\\\\\\\\", $strName)."\\\\(.*)/mi", $strBuf, $buffer2)) {
-                    foreach ($buffer2[1] as $sub_key) {
-                        $arrBuffer[] = trim($sub_key);
-                    }
-                } else {
-                    return false;
-                }
-            }
-        } elseif (gettype($reg) === "object") {
-            $first = strpos($strName, "\\");
-            $hkey = substr($strName, 0, $first);
-            if (isset($_hkey[$hkey])) {
-                $sub_keys = new VARIANT();
-                try {
-                   $reg->Get("StdRegProv")->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
-                } catch (Exception $e) {
-                    if ($booErrorRep) {
-                        $error = PSI_Error::singleton();
-                        $error->addError("enumKey()", preg_replace('/<br\/>/', "\n", preg_replace('/<b>|<\/b>/', '', $e->getMessage())));;
-                    }
-
-                    return false;
-                }
-                if (variant_get_type($sub_keys) !== VT_NULL) foreach ($sub_keys as $sub_key) {
-                    $arrBuffer[] = $sub_key;
-                } else {
-                    return false;
-                }
-            } else {
-               return false;
-            }
-        }
-
-        return true;
+        return null;
     }
 
 
     /**
-     * initWMI function
+     * readdmimemdata function
      *
-     * @return string, object or false
+     * @return array
      */
-    public static function initWMI($namespace, $booErrorRep = false)
+    public static function readdmimemdata()
     {
-        $wmi = false;
-        try {
-            if (PSI_OS == 'Linux') {
-                if (defined('PSI_EMU_HOSTNAME'))
-                    $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
-            } elseif (PSI_OS == 'WINNT') {
-                $objLocator = new COM('WbemScripting.SWbemLocator');
-                if (defined('PSI_EMU_HOSTNAME'))
-                    $wmi = $objLocator->ConnectServer(PSI_EMU_HOSTNAME, $namespace, PSI_EMU_USER, PSI_EMU_PASSWORD);
-                else
-                    $wmi = $objLocator->ConnectServer('', $namespace);
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && (self::$_dmimd === null)) {
+            self::$_dmimd = array();
+            $buffer = '';
+            if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {
+                self::rftsdata('dmidecode.tmp', $buffer);
+            } elseif (self::_findProgram('dmidecode')) {
+                self::executeProgram('dmidecode', '-t 17', $buffer, PSI_DEBUG);
             }
-        } catch (Exception $e) {
-            if ($booErrorRep) {
-                $error = PSI_Error::singleton();
-                $error->addError("WMI connect ".$namespace." error", "PhpSysInfo can not connect to the WMI interface for security reasons.\nCheck an authentication mechanism for the directory where phpSysInfo is installed or credentials.");
-            }
-        }
-
-        return $wmi;
-    }
-
-    /**
-     * convertCP function
-     *
-     * @return void
-     */
-    public static function convertCP(&$strBuf, $encoding)
-    {
-        if (defined('PSI_SYSTEM_CODEPAGE') && ($encoding != null) && ($encoding != PSI_SYSTEM_CODEPAGE)) {
-            $systemcp = PSI_SYSTEM_CODEPAGE;
-            if (preg_match("/^windows-\d+ \((.+)\)$/", $systemcp, $buf)) {
-                $systemcp = $buf[1];
-            }
-            if (preg_match("/^windows-\d+ \((.+)\)$/", $encoding, $buf)) {
-                $encoding = $buf[1];
-            }
-            $enclist = mb_list_encodings();
-            if (in_array($encoding, $enclist) && in_array($systemcp, $enclist)) {
-                $strBuf = mb_convert_encoding($strBuf, $encoding, $systemcp);
-            } elseif (function_exists("iconv")) {
-                if (($iconvout=iconv($systemcp, $encoding.'//IGNORE', $strBuf))!==false) {
-                    $strBuf = $iconvout;
+            if (!empty($buffer)) {
+                $banks = preg_split('/^(?=Handle\s)/m', $buffer, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($banks as $bank) if (preg_match('/^Handle\s/', $bank)) {
+                    $lines = preg_split("/\n/", $bank, -1, PREG_SPLIT_NO_EMPTY);
+                    $mem = array();
+                    foreach ($lines as $line) if (preg_match('/^\s+([^:]+):(.+)/', $line, $params)) {
+                        if (preg_match('/^0x([A-F\d]+)/', $params2 = trim($params[2]), $buff)) {
+                            $mem[trim($params[1])] = trim($buff[1]);
+                        } elseif ($params2 != '') {
+                            $mem[trim($params[1])] = $params2;
+                        }
+                    }
+                    if (!empty($mem)) {
+                        self::$_dmimd[] = $mem;
+                    }
                 }
-            } elseif (function_exists("libiconv") && (($iconvout=libiconv($systemcp, $encoding, $strBuf))!==false)) {
-                $strBuf = $iconvout;
             }
         }
+
+        return self::$_dmimd;
     }
 }

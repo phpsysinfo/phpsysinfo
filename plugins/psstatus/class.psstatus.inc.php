@@ -82,8 +82,8 @@ class PSStatus extends PSI_Plugin
 
                     if (!$short || (count($this->_filecontent) == 0)) {
                         try {
-                            $wmi = CommonFunctions::initWMI('root\CIMv2');
-                            $process_wmi = CommonFunctions::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
+                            $wmi = WINNT::getcimv2wmi();
+                            $process_wmi = WINNT::getWMI($wmi, 'Win32_Process', array('Caption', 'ProcessId'));
                             foreach ($process_wmi as $process) {
                                 $this->_filecontent[] = array(strtolower(trim($process['Caption'])), trim($process['ProcessId']));
                             }
@@ -91,7 +91,7 @@ class PSStatus extends PSI_Plugin
                         }
                     }
                 } else {
-                    if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX === true) {
+                    if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
                             if (strlen($buffer) > 0) {
@@ -110,7 +110,7 @@ class PSStatus extends PSI_Plugin
                 break;
             case 'data':
                 if (!defined('PSI_EMU_HOSTNAME')) {
-                    CommonFunctions::rfts(PSI_APP_ROOT."/data/psstatus.txt", $buffer);
+                    CommonFunctions::rftsdata("psstatus.tmp", $buffer);
                     $processes = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($processes as $process) {
                         $ps = preg_split("/[\s]?\|[\s]?/", $process, -1, PREG_SPLIT_NO_EMPTY);
@@ -122,7 +122,6 @@ class PSStatus extends PSI_Plugin
                 break;
             default:
                 $this->global_error->addConfigError("__construct()", "[psstatus] ACCESS");
-                break;
             }
         }
     }

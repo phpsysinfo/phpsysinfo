@@ -39,7 +39,30 @@ class SNMPups extends UPS
     public function __construct()
     {
         parent::__construct();
+        if (!defined('PSI_UPS_SNMPUPS_ACCESS')) {
+             define('PSI_UPS_SNMPUPS_ACCESS', 'php-snmp');
+        }
         switch (strtolower(PSI_UPS_SNMPUPS_ACCESS)) {
+        case 'data':
+                if (defined('PSI_UPS_SNMPUPS_LIST') && is_string(PSI_UPS_SNMPUPS_LIST)) {
+                    if (preg_match(ARRAY_EXP, PSI_UPS_SNMPUPS_LIST)) {
+                        $upss = eval(PSI_UPS_SNMPUPS_LIST);
+                    } else {
+                        $upss = array(PSI_UPS_SNMPUPS_LIST);
+                    }
+                } else {
+                   $upss = array('UPS');
+                }
+                $un = 0;
+                foreach ($upss as $ups) {
+                    $temp = "";
+                    CommonFunctions::rftsdata("upssnmpups{$un}.tmp", $temp);
+                    if (! empty($temp)) {
+                        $this->_output[] = $temp;
+                    }
+                    $un++;
+                }
+                break;
         case 'command':
                 if (defined('PSI_UPS_SNMPUPS_LIST') && is_string(PSI_UPS_SNMPUPS_LIST)) {
                     if (preg_match(ARRAY_EXP, PSI_UPS_SNMPUPS_LIST)) {
@@ -48,6 +71,7 @@ class SNMPups extends UPS
                         $upss = array(PSI_UPS_SNMPUPS_LIST);
                     }
                     foreach ($upss as $ups) {
+                        $buffer = "";
                         CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.1", $buffer, PSI_DEBUG);
                         if (strlen($buffer) > 0) {
                             $this->_output[$ups] = $buffer;
@@ -116,11 +140,12 @@ class SNMPups extends UPS
                                 foreach ($bufferarr2 as $id=>$string) {
                                     $buffer .= $id." = ".$string."\n";
                                 }
+                            }
                             if (! empty($bufferarr3)) {
                                 foreach ($bufferarr3 as $id=>$string) {
                                     $buffer .= $id." = ".$string."\n";
                                 }
-                            }                            }
+                            }
                             if (! empty($bufferarr4)) {
                                 foreach ($bufferarr4 as $id=>$string) {
                                     $buffer .= $id." = ".$string."\n";
@@ -135,14 +160,13 @@ class SNMPups extends UPS
                 break;
             default:
                 $this->error->addError("switch(PSI_UPS_SNMPUPS_ACCESS)", "Bad SNMPups configuration in phpsysinfo.ini");
-                break;
         }
     }
 
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return Void
+     * @return void
      */
     private function _info()
     {
@@ -163,44 +187,28 @@ class SNMPups extends UPS
             }
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.4\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 switch (trim($data[1])) {
-                    case 1: $status = "Unknown";
-                            break;
-                    case 2: $status = "On Line";
-                            break;
-                    case 3: $status = "On Battery";
-                            break;
-                    case 4: $status = "On Smart Boost";
-                            break;
-                    case 5: $status = "Timed Sleeping";
-                            break;
-                    case 6: $status = "Software Bypass";
-                            break;
-                    case 7: $status = "Off";
-                            break;
-                    case 8: $status = "Rebooting";
-                            break;
-                    case 9: $status = "Switched Bypass";
-                            break;
-                    case 10:$status = "Hardware Failure Bypass";
-                            break;
-                    case 11:$status = "Sleeping Until Power Returns";
-                            break;
-                    case 12:$status = "On Smart Trim";
-                            break;
-                   default: $status = "Unknown state (".trim($data[1]).")";
-                            break;
+                case 1: $status = "Unknown"; break;
+                case 2: $status = "On Line"; break;
+                case 3: $status = "On Battery"; break;
+                case 4: $status = "On Smart Boost"; break;
+                case 5: $status = "Timed Sleeping"; break;
+                case 6: $status = "Software Bypass"; break;
+                case 7: $status = "Off"; break;
+                case 8: $status = "Rebooting"; break;
+                case 9: $status = "Switched Bypass"; break;
+                case 10:$status = "Hardware Failure Bypass"; break;
+                case 11:$status = "Sleeping Until Power Returns"; break;
+                case 12:$status = "On Smart Trim"; break;
+                default: $status = "Unknown state (".trim($data[1]).")";
                 }
             }
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.1\.1\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 $batstat = "";
                 switch (trim($data[1])) {
-                    case 1: $batstat = "Battery Unknown";
-                            break;
-                    case 2: break;
-                    case 3: $batstat = "Battery Low";
-                            break;
-                   default: $batstat = "Battery Unknown (".trim($data[1]).")";
-                            break;
+                case 1: $batstat = "Battery Unknown"; break;
+                case 2: break;
+                case 3: $batstat = "Battery Low"; break;
+                default: $batstat = "Battery Unknown (".trim($data[1]).")";
                 }
                 if ($batstat !== "") {
                     if ($status !== "") {
@@ -213,11 +221,9 @@ class SNMPups extends UPS
             if (preg_match('/^\.1\.3\.6\.1\.4\.1\.318\.1\.1\.1\.2\.2\.4\.0 = INTEGER:\s(.*)/m', $result, $data)) {
                 $batstat = "";
                 switch (trim($data[1])) {
-                    case 1: break;
-                    case 2: $batstat = "Replace Battery";
-                            break;
-                   default: $batstat = "Replace Battery (".trim($data[1]).")";
-                            break;
+                case 1: break;
+                case 2: $batstat = "Replace Battery"; break;
+                default: $batstat = "Replace Battery (".trim($data[1]).")";
                 }
                 if ($batstat !== "") {
                     if ($status !== "") {
@@ -277,7 +283,7 @@ class SNMPups extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

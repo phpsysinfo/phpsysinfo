@@ -1,0 +1,14 @@
+----------/etc/lsb-release----------
+DISTRIB_ID=Omarine
+DISTRIB_RELEASE=7.0
+DISTRIB_CODENAME=precise
+DISTRIB_DESCRIPTION="Omarine 7.0"
+----------/etc/os-release----------
+NAME="Omarine"
+VERSION="7.0"
+ID=omarine
+VERSION_ID=7.0
+PRETTY_NAME="Omarine 7.0"
+ANSI_COLOR="0;34"
+
+HOME_URL="https://omarine.org"

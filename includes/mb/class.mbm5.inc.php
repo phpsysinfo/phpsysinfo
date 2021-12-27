@@ -36,7 +36,7 @@ class MBM5 extends Sensors
         parent::__construct();
         if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
             $delim = "/;/";
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/MBM5.csv", $buffer);
+            CommonFunctions::rftsdata("MBM5.csv", $buffer);
             if (strpos($buffer, ";") === false) {
                 $delim = "/,/";
             }
@@ -110,7 +110,7 @@ class MBM5 extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

@@ -28,35 +28,35 @@ class HWDevice
     /**
      * name of the device
      *
-     * @var String
+     * @var string
      */
     private $_name = "";
 
     /**
      * capacity of the device, if not available it will be null
      *
-     * @var Integer
+     * @var int
      */
     private $_capacity = null;
 
     /**
      * manufacturer of the device, if not available it will be null
      *
-     * @var Integer
+     * @var int
      */
     private $_manufacturer = null;
 
     /**
      * product of the device, if not available it will be null
      *
-     * @var Integer
+     * @var int
      */
     private $_product = null;
 
     /**
      * serial number of the device, if not available it will be null
      *
-     * @var String
+     * @var string
      */
     private $_serial = null;
 
@@ -77,7 +77,7 @@ class HWDevice
     /**
      * count of the device
      *
-     * @var Integer
+     * @var int
      */
     private $_count = 1;
 
@@ -121,7 +121,7 @@ class HWDevice
      *
      * @see HWDevice::$_name
      *
-     * @return Void
+     * @return void
      */
     public function setName($name)
     {
@@ -147,7 +147,7 @@ class HWDevice
      *
      * @see HWDevice::$_manufacturer
      *
-     * @return Void
+     * @return void
      */
     public function setManufacturer($manufacturer)
     {
@@ -173,7 +173,7 @@ class HWDevice
      *
      * @see HWDevice::$_product
      *
-     * @return Void
+     * @return void
      */
     public function setProduct($product)
     {
@@ -199,7 +199,7 @@ class HWDevice
      *
      * @see HWDevice::$_serial
      *
-     * @return Void
+     * @return void
      */
     public function setSerial($serial)
     {
@@ -225,7 +225,7 @@ class HWDevice
      *
      * @see HWDevice::$_speed
      *
-     * @return Void
+     * @return void
      */
     public function setSpeed($speed)
     {
@@ -251,7 +251,7 @@ class HWDevice
      *
      * @see HWDevice::$_voltage
      *
-     * @return Void
+     * @return void
      */
     public function setVoltage($voltage)
     {
@@ -263,7 +263,7 @@ class HWDevice
      *
      * @see HWDevice::$_capacity
      *
-     * @return Integer
+     * @return int
      */
     public function getCapacity()
     {
@@ -273,11 +273,11 @@ class HWDevice
     /**
      * Sets $_capacity.
      *
-     * @param Integer $capacity device capacity
+     * @param int $capacity device capacity
      *
      * @see HWDevice::$_capacity
      *
-     * @return Void
+     * @return void
      */
     public function setCapacity($capacity)
     {
@@ -289,7 +289,7 @@ class HWDevice
      *
      * @see HWDevice::$_count
      *
-     * @return Integer
+     * @return int
      */
     public function getCount()
     {
@@ -299,11 +299,11 @@ class HWDevice
     /**
      * Sets $_count.
      *
-     * @param Integer $count device count
+     * @param int $count device count
      *
      * @see HWDevice::$_count
      *
-     * @return Void
+     * @return void
      */
     public function setCount($count)
     {

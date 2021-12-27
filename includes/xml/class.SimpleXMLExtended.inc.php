@@ -28,7 +28,7 @@ class SimpleXMLExtended
     /**
      * store the encoding that is used for conversation to utf8
      *
-     * @var String base encoding
+     * @var string base encoding
      */
     private $_encoding = null;
 
@@ -139,7 +139,7 @@ class SimpleXMLExtended
      * @param String $name  name of the attribute
      * @param String $value value of the attribute
      *
-     * @return Void
+     * @return void
      */
     public function addAttribute($name, $value)
     {
@@ -157,7 +157,7 @@ class SimpleXMLExtended
      *
      * @param SimpleXMLElement $new_child child that should be appended
      *
-     * @return Void
+     * @return void
      */
     public function combinexml(SimpleXMLElement $new_child)
     {
@@ -176,7 +176,7 @@ class SimpleXMLExtended
      */
     private function _toUTF8($str)
     {
-        $str = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', ' ', $str)); //remove nonprintable characters
+        $str = trim(preg_replace('/[\x00-\x09\x0b-\x1F]/', ' ', strval($str))); //remove nonprintable characters
         if ($this->_encoding != null) {
             if (strcasecmp($this->_encoding, "UTF-8") == 0) {
                 return $str;

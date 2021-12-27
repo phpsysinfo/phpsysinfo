@@ -41,18 +41,6 @@ class OpenBSD extends BSDCommon
     }
 
     /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        $a = $this->grabkey('kern.boottime');
-        $this->sys->setUptime(time() - $a);
-    }
-
-    /**
      * get network information
      *
      * @return void
@@ -140,35 +128,81 @@ class OpenBSD extends BSDCommon
      */
     protected function cpuinfo()
     {
-        $dev = new CpuDevice();
-        $dev->setModel($this->grabkey('hw.model'));
-        $dev->setCpuSpeed($this->grabkey('hw.cpuspeed'));
         $was = false;
+        $cpuarray = array();
         foreach ($this->readdmesg() as $line) {
-            if (preg_match("/^cpu[0-9]+: (.*)/", $line, $ar_buf)) {
+            if (preg_match("/^cpu([0-9])+: (.*)/", $line, $ar_buf)) {
                 $was = true;
-                if (preg_match("/^cpu[0-9]+: (\d+)([KM])B (.*) L2 cache/", $line, $ar_buf2)) {
+                $ar_buf[2] = trim($ar_buf[2]);
+                if (preg_match("/^(.+), ([\d\.]+) MHz/", $ar_buf[2], $ar_buf2)) {
+                    if (($model = trim($ar_buf2[1])) !== "") {
+                        $cpuarray[$ar_buf[1]]['model'] = $model;
+                    }
+                    if (($speed = trim($ar_buf2[2])) > 0) {
+                        $cpuarray[$ar_buf[1]]['speed'] = $speed;
+                    }
+                } elseif (preg_match("/(\d+)([KM])B \S+ \S+ L[23] cache$/", $ar_buf[2], $ar_buf2)) {
                     if ($ar_buf2[2]=="M") {
-                        $dev->setCache($ar_buf2[1]*1024*1024);
+                        $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024*1024;
                     } elseif ($ar_buf2[2]=="K") {
-                        $dev->setCache($ar_buf2[1]*1024);
+                        $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024;
                     }
                 } else {
-                    $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
+                    $feats = preg_split("/,/", strtolower($ar_buf[2]), -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($feats as $feat) {
                         if (($feat=="vmx") || ($feat=="svm")) {
-                            $dev->setVirt($feat);
+                            $cpuarray[$ar_buf[1]]['virt'] = $feat;
+                        } elseif ($feat=="hv") {
+                            if (!isset($cpuarray[$ar_buf[1]]['virt'])) {
+                                $cpuarray[$ar_buf[1]]['virt'] = 'hypervisor';
+                            }
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                                $this->sys->setVirtualizer("hypervisor", false);
+                            }
                         }
                     }
                 }
-            } elseif ($was) {
+            } elseif (!preg_match("/^cpu[0-9]+|^mtrr: |^acpitimer[0-9]+: /", $line) && $was) {
                 break;
             }
         }
+
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
+        if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
-        for ($ncpu ; $ncpu > 0 ; $ncpu--) {
+        }
+        $ncpu = max($ncpu, count($cpuarray));
+
+        $model = $this->grabkey('hw.model');
+        $speed = $this->grabkey('hw.cpuspeed');
+        $vendor = $this->grabkey('machdep.cpuvendor');
+
+        for ($cpu = 0 ; $cpu < $ncpu ; $cpu++) {
+            $dev = new CpuDevice();
+
+            if (isset($cpuarray[$cpu]['model'])) {
+                $dev->setModel($cpuarray[$cpu]['model']);
+            } elseif ($model !== "") {
+                $dev->setModel($model);
+            }
+            if (isset($cpuarray[$cpu]['speed'])) {
+                $dev->setCpuSpeed($cpuarray[$cpu]['speed']);
+            } elseif ($speed !== "") {
+                $dev->setCpuSpeed($speed);
+            }
+            if (isset($cpuarray[$cpu]['cache'])) {
+                $dev->setCache($cpuarray[$cpu]['cache']);
+            }
+            if (isset($cpuarray[$cpu]['virt'])) {
+                $dev->setVirt($cpuarray[$cpu]['virt']);
+            }
+            if ($vendor !== "") {
+                $dev->setVendorId($vendor);
+            }
+            if (($ncpu == 1) && PSI_LOAD_BAR) {
+                $dev->setLoad($this->cpuusage());
+            }
+
             $this->sys->setCpus($dev);
         }
     }
@@ -216,14 +250,13 @@ class OpenBSD extends BSDCommon
      *
      * @see BSDCommon::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='network') {

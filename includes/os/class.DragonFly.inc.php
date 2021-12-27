@@ -32,24 +32,11 @@ class DragonFly extends BSDCommon
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
+        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/\n/^CPU: (.*) \((.*)-MHz (.*)\)/"); // multiple regexp separated by \n
         $this->setCPURegExp2("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(da[0-9]+): (.*)MB /");
         $this->setPCIRegExp1("/(.*): <(.*)>(.*) (pci|legacypci)[0-9]+$/");
         $this->setPCIRegExp2("/(.*): <(.*)>.* at [0-9\.]+$/");
-    }
-
-    /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        $a = $this->grabkey('kern.boottime');
-        preg_match("/sec = ([0-9]+)/", $a, $buf);
-        $this->sys->setUptime(time() - $buf[1]);
     }
 
     /**
@@ -140,14 +127,13 @@ class DragonFly extends BSDCommon
      *
      * @see BSDCommon::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='network') {

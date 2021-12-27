@@ -33,11 +33,10 @@ class IPMItool extends Sensors
             CommonFunctions::executeProgram('ipmitool', 'sensor -v', $lines);
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT.'/data/ipmitool.txt', $lines);
+            CommonFunctions::rftsdata('ipmitool.tmp', $lines);
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');
-            break;
         }
         if (trim($lines) !== "") {
             if (preg_match("/^Sensor ID\s+/", $lines)) { //new data format ('ipmitool sensor -v')
@@ -126,7 +125,6 @@ class IPMItool extends Sensors
                                         $sens['Sensor Type (Discrete)'] = '';
                                         $sens['State'] = $buffer[1];
                                     }
-                                    break;
                                 }
                                 $this->_buf[] = $sens;
                             }
@@ -306,7 +304,7 @@ class IPMItool extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

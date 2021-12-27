@@ -30,7 +30,7 @@ CURRENT TESTED PLATFORMS
 - DragonFly
 - HP-UX
 - Darwin / Mac OS / OS X
-- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 2016 / 2019
+- Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 10 IoT / 2016 / 2019 / 2022 / 11
 - Android
 
 #### Platforms currently in progress:
@@ -69,7 +69,7 @@ That's it.  Restart your webserver (if you changed php.ini), and voila.
 
 #### Docker container installation
 
-- `sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo`
+- `sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo#main`
 - `sudo docker run -i -p 8080:80 -t phpsysinfo`
 - go to http://localhost:8080/phpsysinfo/
 

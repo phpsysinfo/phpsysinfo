@@ -33,13 +33,12 @@ class IPMIutil extends Sensors
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/ipmiutil.txt', $lines)) {
+            if (CommonFunctions::rftsdata('ipmiutil.tmp', $lines)) {
                 $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmiutil] ACCESS');
-            break;
         }
     }
 
@@ -230,11 +229,15 @@ class IPMIutil extends Sensors
 
                 $buffer5s = preg_split("/\s+/", $buffer5 = $buffer[5]);
                 if (isset($buffer5s[1])) {
-                    $value = hexdec($buffer5s[0]) & 0xff;
-                    if ($buffer5s[1] === 'DiscreteEvt') {
-                        $dev->setValue('0x'.dechex($value));
-                    } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0)) {
-                        $dev->setValue('0x'.dechex($value - 1));
+                    if (preg_match('/^[0-9A-Fa-f]+$/', $buffer5s[0])) {
+                        $value = hexdec($buffer5s[0]) & 0xff;
+                        if ($buffer5s[1] === 'DiscreteEvt') {
+                            $dev->setValue('0x'.dechex($value));
+                        } elseif (($buffer5s[1] === 'DiscreteUnit') && ($value > 0)) {
+                            $dev->setValue('0x'.dechex($value - 1));
+                        } else {
+                            $dev->setValue($buffer5);
+                        }
                     } else {
                         $dev->setValue($buffer5);
                     }
@@ -251,7 +254,7 @@ class IPMIutil extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

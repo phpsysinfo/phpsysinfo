@@ -49,7 +49,7 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
         $domxsl->load($xslfile);
         $xsltproc = new XSLTProcessor;
         $xsltproc->importStyleSheet($domxsl);
-        header("Cache-Control: no-cache, must-revalidate\n");
+        header('Cache-Control: no-cache, must-revalidate');
         echo $xsltproc->transformToXML($domxml);
     }
 }

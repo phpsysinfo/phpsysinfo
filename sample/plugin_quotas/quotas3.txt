@@ -1,0 +1,11 @@
+  Block  limits  File  limits
+User  used  soft  hard  grace  used  soft  hard  grace
+root  -- 1049344  0  0  -  18003  0  0  -
+daemon  --  12  0  0  -  3  0  0  -
+operator  --  8  0  0  -  2  0  0  -
+man  --  500  0  0  -  125  0  0  -
+smmsp  --  8  0  0  -  2  0  0  -
+unbound  --  4  0  0  -  1  0  0  -
+uucp  --  4  0  0  -  1  0  0  -
+auditdistd  --  8  0  0  -  2  0  0  -
+nobody  --  0  0  0  -  1  0  0  -

@@ -38,7 +38,12 @@ class PowerSoftPlus extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (PSI_OS == 'Linux') {
+        if (defined('PSI_UPS_POWERSOFTPLUS_ACCESS') && (strtolower(trim(PSI_UPS_POWERSOFTPLUS_ACCESS))==='data')) {
+            CommonFunctions::rftsdata('upspowersoftplus.tmp', $temp);
+            if (! empty($temp)) {
+                $this->_output[] = $temp;
+            }
+        } elseif (PSI_OS == 'Linux') {
             CommonFunctions::executeProgram('powersoftplus', '-p', $temp);
             if (! empty($temp)) {
                 $this->_output[] = $temp;
@@ -49,7 +54,7 @@ class PowerSoftPlus extends UPS
     /**
      * parse the input and store data in resultset for xml generation
      *
-     * @return Void
+     * @return void
      */
     private function _info()
     {
@@ -71,18 +76,18 @@ class PowerSoftPlus extends UPS
             if (preg_match('/^Current UPS state\s*:\s*(.*)$/m', $ups, $data)) {
                 $dev->setStatus(trim($data[1]));
             }
-            if (preg_match('/^Output load\s*:\s*(.*)\s\[\%\]$/m', $ups, $data)) {
+            if (preg_match('/^Output load\s*:\s*(.*)\s\[\%\]\r?$/m', $ups, $data)) {
                $load = trim($data[1]);
             }
             //wrong Output load issue
-            if (($load == 0) && ($maxpwr != 0) && preg_match('/^Effective power\s*:\s*(.*)\s\[W\]$/m', $ups, $data)) {
+            if (($load == 0) && ($maxpwr != 0) && preg_match('/^Effective power\s*:\s*(.*)\s\[W\]\r?$/m', $ups, $data)) {
                 $load = 100.0*trim($data[1])/$maxpwr;
             }
             if ($load != null) {
                 $dev->setLoad($load);
             }
             // Battery
-            if (preg_match('/^Battery voltage\s*:\s*(.*)\s\[Volt\]$/m', $ups, $data)) {
+            if (preg_match('/^Battery voltage\s*:\s*(.*)\s\[Volt\]\r?$/m', $ups, $data)) {
                 $dev->setBatteryVoltage(trim($data[1]));
             }
             if (preg_match('/^Battery state\s*:\s*(.*)$/m', $ups, $data)) {
@@ -93,10 +98,10 @@ class PowerSoftPlus extends UPS
                 }
             }
             // Line
-            if (preg_match('/^Input voltage\s*:\s*(.*)\s\[Volt\]$/m', $ups, $data)) {
+            if (preg_match('/^Input voltage\s*:\s*(.*)\s\[Volt\]\r?$/m', $ups, $data)) {
                 $dev->setLineVoltage(trim($data[1]));
             }
-            if (preg_match('/^Input frequency\s*:\s*(.*)\s\[Hz\]$/m', $ups, $data)) {
+            if (preg_match('/^Input frequency\s*:\s*(.*)\s\[Hz\]\r?$/m', $ups, $data)) {
                 $dev->setLineFrequency(trim($data[1]));
             }
             $this->upsinfo->setUpsDevices($dev);
@@ -108,7 +113,7 @@ class PowerSoftPlus extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

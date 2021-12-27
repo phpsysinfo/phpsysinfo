@@ -32,24 +32,12 @@ class NetBSD extends BSDCommon
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        $this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
+        //$this->setCPURegExp1("/^cpu(.*)\, (.*) MHz/");
         $this->setCPURegExp2("/user = (.*), nice = (.*), sys = (.*), intr = (.*), idle = (.*)/");
         $this->setSCSIRegExp1("/^(.*) at scsibus.*: <(.*)> .*/");
         $this->setSCSIRegExp2("/^(sd[0-9]+): (.*)([MG])B,/");
         $this->setPCIRegExp1("/(.*) at pci[0-9]+ dev [0-9]* function [0-9]*: (.*)$/");
         $this->setPCIRegExp2("/\"(.*)\" (.*).* at [.0-9]+ irq/");
-    }
-
-    /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        $a = $this->grabkey('kern.boottime');
-        $this->sys->setUptime(time() - $a);
     }
 
     /**
@@ -148,6 +136,77 @@ class NetBSD extends BSDCommon
     }
 
     /**
+     * CPU information
+     *
+     * @return void
+     */
+    protected function cpuinfo()
+    {
+        $was = false;
+        $cpuarray = array();
+        foreach ($this->readdmesg() as $line) {
+            if (preg_match("/^cpu([0-9])+: (.*)/", $line, $ar_buf)) {
+                $was = true;
+                $ar_buf[2] = trim($ar_buf[2]);
+                if (preg_match("/^(.+), ([\d\.]+) MHz/", $ar_buf[2], $ar_buf2)) {
+                    if (($model = trim($ar_buf2[1])) !== "") {
+                        $cpuarray[$ar_buf[1]]['model'] = $model;
+                    }
+                    if (($speed = trim($ar_buf2[2])) > 0) {
+                        $cpuarray[$ar_buf[1]]['speed'] = $speed;
+                    }
+                } elseif (preg_match("/^L2 cache (\d+) ([KM])B /", $ar_buf[2], $ar_buf2)) {
+                    if ($ar_buf2[2]=="M") {
+                        $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024*1024;
+                    } elseif ($ar_buf2[2]=="K") {
+                        $cpuarray[$ar_buf[1]]['cache'] = $ar_buf2[1]*1024;
+                    }
+                }
+            } elseif (!preg_match("/^cpu[0-9]+ /", $line) && $was) {
+                break;
+            }
+        }
+
+        $ncpu = $this->grabkey('hw.ncpu');
+        if (($ncpu === "") || !($ncpu >= 1)) {
+            $ncpu = 1;
+        }
+        $ncpu = max($ncpu, count($cpuarray));
+
+        $model = $this->grabkey('machdep.cpu_brand');
+        $model2 = $this->grabkey('hw.model');
+        if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
+            $speed = round($cpuspeed / 1000000);
+        } else {
+            $speed = "";
+        }
+
+        for ($cpu = 0 ; $cpu < $ncpu ; $cpu++) {
+            $dev = new CpuDevice();
+
+            if (isset($cpuarray[$cpu]['model'])) {
+                $dev->setModel($cpuarray[$cpu]['model']);
+            } elseif ($model !== "") {
+                $dev->setModel($model);
+            } elseif ($model2 !== "") {
+                $dev->setModel($model2);
+            }
+            if (isset($cpuarray[$cpu]['speed'])) {
+                $dev->setCpuSpeed($cpuarray[$cpu]['speed']);
+            } elseif ($speed !== "") {
+                $dev->setCpuSpeed($speed);
+            }
+            if (isset($cpuarray[$cpu]['cache'])) {
+                $dev->setCache($cpuarray[$cpu]['cache']);
+            }
+            if (($ncpu == 1) && PSI_LOAD_BAR) {
+                $dev->setLoad($this->cpuusage());
+            }
+            $this->sys->setCpus($dev);
+        }
+    }
+
+    /**
      * get icon name
      *
      * @return void
@@ -191,14 +250,13 @@ class NetBSD extends BSDCommon
      *
      * @see BSDCommon::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
         parent::build();
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distroicon();
-            $this->_uptime();
             $this->_processes();
         }
         if (!$this->blockname || $this->blockname==='network') {

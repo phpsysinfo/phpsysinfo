@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	Rocky
+Description:	Rocky Linux release 8.3
+Release:	8.3
+Codename:	n/a
+----------/etc/os-release----------
+NAME="Rocky Linux"
+VERSION="8"
+ID="rocky"
+ID_LIKE="rhel fedora"
+VERSION_ID="8"
+PLATFORM_ID="platform:el8"
+PRETTY_NAME="Rocky Linux 8"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:rocky:rocky:8"
+HOME_URL="https://rockylinux.org/"
+BUG_REPORT_URL="https://bugs.rockylinux.org/"
+CENTOS_MANTISBT_PROJECT="Rocky-8"
+CENTOS_MANTISBT_PROJECT_VERSION="8"
+----------/etc/redhat-release----------
+Rocky Linux release 8.3 
+----------/etc/rocky-release----------
+Rocky Linux release 8.3
+----------/etc/system-release----------
+Rocky Linux release 8.3 

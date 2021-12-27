@@ -38,7 +38,7 @@ class SpeedFan extends Sensors
             }
             break;
         case 'data':
-            if (CommonFunctions::rfts(PSI_APP_ROOT.'/data/speedfan.txt', $buffer) && (strlen($buffer) > 0)) {
+            if (CommonFunctions::rftsdata('speedfan.tmp', $buffer) && (strlen($buffer) > 0)) {
                 if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
                     $this->_filecontent["temp"] = $out[1];
                 }
@@ -52,7 +52,6 @@ class SpeedFan extends Sensors
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_speedfan] ACCESS');
-            break;
         }
     }
 
@@ -115,7 +114,7 @@ class SpeedFan extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

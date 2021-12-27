@@ -171,8 +171,8 @@ class PSI_Error
             $error->addAttribute('Message', $arrLine['message']);
             $error->addAttribute('Function', $arrLine['command']);
         }
-        header("Cache-Control: no-cache, must-revalidate\n");
-        header("Content-Type: text/xml\n\n");
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Content-Type: text/xml');
         echo $xml->getSimpleXmlElement()->asXML();
         exit();
     }

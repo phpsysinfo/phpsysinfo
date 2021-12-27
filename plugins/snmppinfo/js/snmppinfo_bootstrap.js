@@ -9,8 +9,8 @@ function renderPlugin_snmppinfo(data) {
         },
         Percent: {
             html: function () {
-                var max = parseInt(this.MaxCapacity);
-                var level = parseInt(this.Level);
+                var max = parseInt(this.MaxCapacity, 10);
+                var level = parseInt(this.Level, 10);
                 var percent = 0;
 
                 if (max>0 && (level>=0) && (level<=max) ) {
@@ -26,8 +26,8 @@ function renderPlugin_snmppinfo(data) {
         },
         Units: {
             html: function () {
-                var max = parseInt(this.MaxCapacity);
-                var level = parseInt(this.Level);
+                var max = parseInt(this.MaxCapacity, 10);
+                var level = parseInt(this.Level, 10);
 
                 if (max>0 && (level>=0) && (level<=max) ) {
                     return level+" / "+max;
@@ -42,7 +42,7 @@ function renderPlugin_snmppinfo(data) {
         },
         SUnits: {
             html: function () {
-                var supply = parseInt(this.SupplyUnit);
+                var supply = parseInt(this.SupplyUnit, 10);
                 if (isNaN(supply)) {
                     return "";
                 } else {

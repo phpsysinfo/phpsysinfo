@@ -28,9 +28,9 @@ class OHM extends Sensors
     {
         parent::__construct();
         if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
-            $_wmi = CommonFunctions::initWMI('root\OpenHardwareMonitor', true);
+            $_wmi = WINNT::initWMI('root\OpenHardwareMonitor', true);
             if ($_wmi) {
-                $tmpbuf = CommonFunctions::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
+                $tmpbuf = WINNT::getWMI($_wmi, 'Sensor', array('Parent', 'Name', 'SensorType', 'Value'));
                 if ($tmpbuf) foreach ($tmpbuf as $buffer) {
                     if (!isset($this->_buf[$buffer['SensorType']]) || !isset($this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']])) { // avoid duplicates
                         $this->_buf[$buffer['SensorType']][$buffer['Parent'].' '.$buffer['Name']] = $buffer['Value'];
@@ -105,7 +105,7 @@ class OHM extends Sensors
      *
      * @see PSI_Interface_Sensor::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

@@ -402,4 +402,10 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
   <expression id="132" name="gtps">
     <exp>GT/s</exp>
   </expression>
+  <expression id="133" name="ups_beeper_status">
+    <exp>Status brzęczka</exp>
+  </expression>
+  <expression id="134" name="virtualizer">
+    <exp>Wirtualizer</exp>
+  </expression>
 </tns:translation>

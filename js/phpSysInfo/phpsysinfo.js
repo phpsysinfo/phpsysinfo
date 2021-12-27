@@ -176,9 +176,10 @@ function getLanguage(plugin, langarrId) {
  * generate a span tag
  * @param {Number} id translation id in the xml file
  * @param {String} [plugin] name of the plugin for which the tag should be generated
+ * @param {String} [defaultvalue] default value
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, plugin) {
+function genlang(id, plugin, defaultvalue) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -206,7 +207,9 @@ function genlang(id, plugin) {
 
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
-    }    
+    } else if (defaultvalue !== undefined) {
+        html += defaultvalue;
+    }
 
     html += "</span>";
 
@@ -630,7 +633,23 @@ function createBar(size, barclass) {
  * @param {jQuery} xml phpSysInfo-XML
  */
 function refreshVitals(xml) {
-    var hostname = "", ip = "";
+    var hostname = "", ip = "", stripid = 0;
+
+    function setAndStrip(id, value) {
+       if (value !== "") {
+           $(id).html(value);
+           if (stripid%2 === 1) {
+               $(id).closest('tr').addClass('even');
+           } else {
+               $(id).closest('tr').removeClass('even');
+           }
+           $(id).closest('tr').css("display", "");
+           stripid++;
+       } else {
+          $(id).closest('tr').css("display", "none");
+       }
+    }
+
     if ((blocks.length <= 0) || ((blocks[0] !== "true") && ($.inArray('vitals', blocks) < 0))) {
         $("#vitals").remove();
         $("Vitals", xml).each(function getVitals(id) {
@@ -672,27 +691,15 @@ function refreshVitals(xml) {
         }
         if ($(this).attr("SysLang") !== undefined) {
             syslang = $(this).attr("SysLang");
-            document.getElementById("s_syslang_tr").style.display='';
         }
 
         if ($(this).attr("CodePage") !== undefined) {
             codepage = $(this).attr("CodePage");
-            if ($(this).attr("SysLang") !== undefined) {
-                document.getElementById("s_codepage_tr1").style.display='';
-            } else {
-                document.getElementById("s_codepage_tr2").style.display='';
-            }
         }
 
         //processes
         if ($(this).attr("Processes") !== undefined) {
             processes = parseInt($(this).attr("Processes"), 10);
-            if ((($(this).attr("CodePage") !== undefined) && ($(this).attr("SysLang") === undefined)) ||
-                (($(this).attr("CodePage") === undefined) && ($(this).attr("SysLang") !== undefined))) {
-                document.getElementById("s_processes_tr1").style.display='';
-            } else {
-                document.getElementById("s_processes_tr2").style.display='';
-            }
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
             prunning = parseInt($(this).attr("ProcessesRunning"), 10);
@@ -715,47 +722,41 @@ function refreshVitals(xml) {
 
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
-        $("#s_ip_title").html(ip);
-        $("#s_hostname").html(hostname);
-        $("#s_ip").html(ip);
-        $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
-        $("#s_os").html("<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
-        $("#s_uptime").html(uptime);
+        $("#s_ip_title").html(ip);      
+        setAndStrip("#s_hostname", hostname);
+        setAndStrip("#s_ip", ip);
+        setAndStrip("#s_kernel", kernel);
+        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
+        setAndStrip("#s_uptime", uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
-            $("#s_lastboot").html(lastboot.toLocaleString());
+            setAndStrip("#s_lastboot", lastboot.toLocaleString());
         } else {
             if (typeof(lastboot.toUTCString)==="function") {
-                $("#s_lastboot").html(lastboot.toUTCString());
+                setAndStrip("#s_lastboot", lastboot.toUTCString());
             } else {
                 //deprecated
-                $("#s_lastboot").html(lastboot.toGMTString());
+                setAndStrip("#s_lastboot", lastboot.toGMTString());
             }
         }
-        $("#s_users").html(users);
-        $("#s_loadavg").html(loadavg);
-        $("#s_syslang").html(syslang);
-        $("#s_codepage_1").html(codepage);
-        $("#s_codepage_2").html(codepage);
-        $("#s_processes_1").html(processes);
-        $("#s_processes_2").html(processes);
-        if (prunning || psleeping || pstopped || pzombie || pwaiting || pother) {
-            $("#s_processes_1").append(" (");
-            $("#s_processes_2").append(" (");
+        setAndStrip("#s_users", users);
+        setAndStrip("#s_loadavg", loadavg);
+        setAndStrip("#s_syslang", syslang);
+        setAndStrip("#s_codepage", codepage);
+        setAndStrip("#s_processes", processes);
+        if ((processes > 0) && (prunning || psleeping || pstopped || pzombie || pwaiting || pother)) {
+            $("#s_processes").append(" (");
             var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
             for (var proc_type in typelist) {
                 if (eval("p" + proc_type)) {
                     if (not_first) {
-                        $("#s_processes_1").append(", ");
-                        $("#s_processes_2").append(", ");
+                        $("#s_processes").append(", ");
                     }
-                    $("#s_processes_1").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
-                    $("#s_processes_2").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
+                    $("#s_processes").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
                     not_first = true;
                 }
             }
-            $("#s_processes_1").append(") ");
-            $("#s_processes_2").append(") ");
+            $("#s_processes").append(") ");
         }
     });
 }
@@ -771,9 +772,10 @@ function refreshVitals(xml) {
 function fillCpu(xml, tree, rootposition, collapsed) {
     var cpucount = 0, html = "";
     $("Hardware CPU CpuCore", xml).each(function getCpuCore(cpuCoreId) {
-        var model = "", speed = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "", manufacturer = "";
+        var model = "", speed = 0, voltage = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "", manufacturer = "";
         cpucount++;
         model = $(this).attr("Model");
+        voltage = $(this).attr("Voltage");
         speed = parseInt($(this).attr("CpuSpeed"), 10);
         speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
         speedmin = parseInt($(this).attr("CpuSpeedMin"), 10);
@@ -819,6 +821,10 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         }
         if (!isNaN(bus)) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(14) + ":</span></div></td><td>" + formatHertz(bus) + "</td></tr>\n";
+            tree.push(cpucoreposition);
+        }
+        if (!isNaN(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
@@ -931,7 +937,7 @@ function refreshHardware(xml) {
         return;
     }
 
-    var html = "", tree = [], closed = [], index = 0, machine = "";
+    var html = "", tree = [], closed = [], index = 0, machine = "", virtualizer = "";
     $("#hardware").empty();
     html += "<h2>" + genlang(10) + "</h2>\n";
     html += " <div style=\"overflow-x:auto;\">\n";
@@ -941,12 +947,21 @@ function refreshHardware(xml) {
     $("Hardware", xml).each(function getMachine(id) {
         machine = $(this).attr("Name");
     });
+    $("Hardware", xml).each(function getVirtualizer(id) {
+        virtualizer = $(this).attr("Virtualizer");
+    });
+
     if ((machine !== undefined) && (machine !== "")) {
         html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(107) + "</span></div></td></tr>\n";
         html += "<tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespan\">" + machine + "</span></div></td></tr>\n";
         tree.push(tree.push(0));
     }
 
+    if ((virtualizer !== undefined) && (virtualizer !== "")) {
+        html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(134) + "</span></div></td></tr>\n";
+        html += "<tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespan\">" + virtualizer + "</span></div></td></tr>\n";
+        tree.push(tree.push(0));
+    }
     if (countCpu(xml)) {
         html += "    <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + genlang(11) + "</span></div></td></tr>\n";
         html += fillCpu(xml, tree, tree.push(0), closed);
@@ -1260,6 +1275,9 @@ function refreshFilesystems(xml) {
         if (!isNaN(inodes)) {
             inodes_text = "<span style=\"font-style:italic\">&nbsp;(" + inodes.toString() + "%)</span>";
         }
+        if (type === undefined) {
+            type = "";
+        }
 
         if (!isNaN(ignore) && (ignore > 0) && showTotals) {
             if (ignore >= 3) {
@@ -1552,12 +1570,13 @@ function refreshUps(xml) {
 
     $("#ups").empty();
     $("UPSInfo UPS", xml).each(function getUps(id) {
-        var name = "", model = "", mode = "", start_time = "", upsstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", line_frequency = "", load_percent = "", battery_date = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
+        var name = "", model = "", mode = "", start_time = "", upsstatus = "", beeperstatus = "", temperature = "", outages_count = "", last_outage = "", last_outage_finish = "", line_voltage = "", line_frequency = "", load_percent = "", battery_date = "", battery_voltage = "", battery_charge_percent = "", time_left_minutes = "";
         name = $(this).attr("Name");
         model = $(this).attr("Model");
         mode = $(this).attr("Mode");
         start_time = $(this).attr("StartTime");
         upsstatus = $(this).attr("Status");
+        beeperstatus = $(this).attr("BeeperStatus");
 
         temperature = $(this).attr("Temperature");
         outages_count = $(this).attr("OutagesCount");
@@ -1587,6 +1606,10 @@ function refreshUps(xml) {
         }
         if (upsstatus !== undefined) {
             html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(73) + "</span></div></td><td>" + upsstatus + "</td></tr>\n";
+            tree.push(index);
+        }
+        if (beeperstatus !== undefined) {
+            html += "<tr><td style=\"width:36%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(133) + "</span></div></td><td>" + beeperstatus + "</td></tr>\n";
             tree.push(index);
         }
         if (temperature !== undefined) {
@@ -1901,7 +1924,7 @@ function full_addr(ip_string) {
         ip_string = ipv4[1];
         ipv4 = ipv4[2].match(/[0-9]+/g);
         for (var i = 0;i < 4;i ++) {
-            var byte = parseInt(ipv4[i],10);
+            var byte = parseInt(ipv4[i], 10);
             if (byte<256) {
                 ipv4[i] = ("0" + byte.toString(16)).substr(-2);
             } else {

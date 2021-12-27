@@ -43,11 +43,10 @@ class Quotas extends PSI_Plugin
             CommonFunctions::executeProgram("repquota", "-au", $buffer, PSI_DEBUG);
             break;
         case 'data':
-            CommonFunctions::rfts(PSI_APP_ROOT."/data/quotas.txt", $buffer);
+            CommonFunctions::rftsdata("quotas.tmp", $buffer);
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[quotas] ACCESS");
-            break;
         }
         if (trim($buffer) != "") {
             $this->_filecontent = preg_split("/\n/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
@@ -69,22 +68,26 @@ class Quotas extends PSI_Plugin
         $i = 0;
         $quotas = array();
         foreach ($this->_filecontent as $thisline) {
-            $thisline = preg_replace("/([\s]--)/", "", $thisline);
+            $thisline = preg_replace("/([\s][-+][-+])/", "", $thisline);
             $thisline = preg_split("/(\s)/", $thisline, -1, PREG_SPLIT_NO_EMPTY);
-            if (count($thisline) == 7) {
-                $quotas[$i]['user'] = str_replace("--", "", $thisline[0]);
-                $quotas[$i]['byte_used'] = $thisline[1] * 1024;
-                $quotas[$i]['byte_soft'] = $thisline[2] * 1024;
-                $quotas[$i]['byte_hard'] = $thisline[3] * 1024;
-                if ($thisline[3] != 0) {
+            $params = array();
+            foreach ($thisline as $param) if (is_numeric($param)) {
+                $params[] = $param;
+            }
+            if (($paramscount = count($params)) == 6) {
+                $quotas[$i]['user'] = trim($thisline[0], " \t+-");
+                $quotas[$i]['byte_used'] = $params[0] * 1024;
+                $quotas[$i]['byte_soft'] = $params[1] * 1024;
+                $quotas[$i]['byte_hard'] = $params[2] * 1024;
+                if ($quotas[$i]['byte_hard'] != 0) {
                     $quotas[$i]['byte_percent_used'] = round((($quotas[$i]['byte_used'] / $quotas[$i]['byte_hard']) * 100), 1);
                 } else {
                     $quotas[$i]['byte_percent_used'] = 0;
                 }
-                $quotas[$i]['file_used'] = $thisline[4];
-                $quotas[$i]['file_soft'] = $thisline[5];
-                $quotas[$i]['file_hard'] = $thisline[6];
-                if ($thisline[6] != 0) {
+                $quotas[$i]['file_used'] = $params[3];
+                $quotas[$i]['file_soft'] = $params[4];
+                $quotas[$i]['file_hard'] = $params[5];
+                if ($quotas[$i]['file_hard'] != 0) {
                     $quotas[$i]['file_percent_used'] = round((($quotas[$i]['file_used'] / $quotas[$i]['file_hard']) * 100), 1);
                 } else {
                     $quotas[$i]['file_percent_used'] = 0;

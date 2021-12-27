@@ -28,77 +28,84 @@ class CpuDevice
     /**
      * model of the cpu
      *
-     * @var String
+     * @var string
      */
     private $_model = "";
 
     /**
+     * cpu voltage
+     *
+     * @var Float
+     */
+    private $_voltage = 0;
+
+    /**
      * speed of the cpu in hertz
      *
-     * @var Integer
+     * @var int
      */
     private $_cpuSpeed = 0;
 
     /**
      * max speed of the cpu in hertz
      *
-     * @var Integer
+     * @var int
      */
     private $_cpuSpeedMax = 0;
 
     /**
      * min speed of the cpu in hertz
      *
-     * @var Integer
+     * @var int
      */
     private $_cpuSpeedMin = 0;
 
     /**
      * cache size in bytes, if available
      *
-     * @var Integer
+     * @var int
      */
     private $_cache = null;
 
     /**
      * virtualization, if available
      *
-     * @var String
+     * @var string
      */
     private $_virt = null;
 
     /**
      * busspeed in hertz, if available
      *
-     * @var Integer
+     * @var int
      */
     private $_busSpeed = null;
 
     /**
      * bogomips of the cpu, if available
      *
-     * @var Integer
+     * @var int
      */
     private $_bogomips = null;
 
     /**
      * temperature of the cpu, if available
      *
-     * @var Integer
+     * @var int
      */
     private $_temp = null;
 
     /**
      * vendorid, if available
      *
-     * @var String
+     * @var string
      */
     private $_vendorid = null;
 
     /**
      * current load in percent of the cpu, if available
      *
-     * @var Integer
+     * @var int
      */
     private $_load = null;
 
@@ -121,7 +128,7 @@ class CpuDevice
      *
      * @see Cpu::$_model
      *
-     * @return Void
+     * @return void
      */
     public function setModel($model)
     {
@@ -129,11 +136,37 @@ class CpuDevice
     }
 
     /**
+     * Returns $_voltage.
+     *
+     * @see Cpu::$_voltage
+     *
+     * @return Float
+     */
+    public function getVoltage()
+    {
+        return $this->_voltage;
+    }
+
+    /**
+     * Sets $_voltage.
+     *
+     * @param int $voltage voltage
+     *
+     * @see Cpu::$_voltage
+     *
+     * @return void
+     */
+    public function setVoltage($voltage)
+    {
+        $this->_voltage = $voltage;
+    }
+
+    /**
      * Returns $_cpuSpeed.
      *
      * @see Cpu::$_cpuSpeed
      *
-     * @return Integer
+     * @return int
      */
     public function getCpuSpeed()
     {
@@ -143,11 +176,11 @@ class CpuDevice
     /**
      * Sets $_cpuSpeed.
      *
-     * @param Integer $cpuSpeed cpuspeed
+     * @param int $cpuSpeed cpuspeed
      *
      * @see Cpu::$_cpuSpeed
      *
-     * @return Void
+     * @return void
      */
     public function setCpuSpeed($cpuSpeed)
     {
@@ -159,7 +192,7 @@ class CpuDevice
      *
      * @see Cpu::$_cpuSpeedMAx
      *
-     * @return Integer
+     * @return int
      */
     public function getCpuSpeedMax()
     {
@@ -169,11 +202,11 @@ class CpuDevice
     /**
      * Sets $_cpuSpeedMax.
      *
-     * @param Integer $cpuSpeedMax cpuspeedmax
+     * @param int $cpuSpeedMax cpuspeedmax
      *
      * @see Cpu::$_cpuSpeedMax
      *
-     * @return Void
+     * @return void
      */
     public function setCpuSpeedMax($cpuSpeedMax)
     {
@@ -185,7 +218,7 @@ class CpuDevice
      *
      * @see Cpu::$_cpuSpeedMin
      *
-     * @return Integer
+     * @return int
      */
     public function getCpuSpeedMin()
     {
@@ -195,11 +228,11 @@ class CpuDevice
     /**
      * Sets $_cpuSpeedMin.
      *
-     * @param Integer $cpuSpeedMin cpuspeedmin
+     * @param int $cpuSpeedMin cpuspeedmin
      *
      * @see Cpu::$_cpuSpeedMin
      *
-     * @return Void
+     * @return void
      */
     public function setCpuSpeedMin($cpuSpeedMin)
     {
@@ -211,7 +244,7 @@ class CpuDevice
      *
      * @see Cpu::$_cache
      *
-     * @return Integer
+     * @return int
      */
     public function getCache()
     {
@@ -221,11 +254,11 @@ class CpuDevice
     /**
      * Sets $_cache.
      *
-     * @param Integer $cache cache size
+     * @param int $cache cache size
      *
      * @see Cpu::$_cache
      *
-     * @return Void
+     * @return void
      */
     public function setCache($cache)
     {
@@ -251,7 +284,7 @@ class CpuDevice
      *
      * @see Cpu::$_virt
      *
-     * @return Void
+     * @return void
      */
     public function setVirt($virt)
     {
@@ -263,7 +296,7 @@ class CpuDevice
      *
      * @see Cpu::$_busSpeed
      *
-     * @return Integer
+     * @return int
      */
     public function getBusSpeed()
     {
@@ -273,11 +306,11 @@ class CpuDevice
     /**
      * Sets $_busSpeed.
      *
-     * @param Integer $busSpeed busspeed
+     * @param int $busSpeed busspeed
      *
      * @see Cpu::$_busSpeed
      *
-     * @return Void
+     * @return void
      */
     public function setBusSpeed($busSpeed)
     {
@@ -289,7 +322,7 @@ class CpuDevice
      *
      * @see Cpu::$_bogomips
      *
-     * @return Integer
+     * @return int
      */
     public function getBogomips()
     {
@@ -299,11 +332,11 @@ class CpuDevice
     /**
      * Sets $_bogomips.
      *
-     * @param Integer $bogomips bogompis
+     * @param int $bogomips bogompis
      *
      * @see Cpu::$_bogomips
      *
-     * @return Void
+     * @return void
      */
     public function setBogomips($bogomips)
     {
@@ -315,7 +348,7 @@ class CpuDevice
      *
      * @see Cpu::$_temp
      *
-     * @return Integer
+     * @return int
      */
 /*
     public function getTemp()
@@ -327,11 +360,11 @@ class CpuDevice
     /**
      * Sets $_temp.
      *
-     * @param Integer $temp temperature
+     * @param int $temp temperature
      *
      * @see Cpu::$_temp
      *
-     * @return Void
+     * @return void
      */
 /*
     public function setTemp($temp)
@@ -359,11 +392,11 @@ class CpuDevice
      *
      * @see Cpu::$_vendorid
      *
-     * @return Void
+     * @return void
      */
     public function setVendorId($vendorid)
     {
-        $this->_vendorid = $vendorid;
+        $this->_vendorid = trim(preg_replace('/[\s!]/', '', $vendorid));
     }
 
     /**
@@ -371,7 +404,7 @@ class CpuDevice
      *
      * @see CpuDevice::$_load
      *
-     * @return Integer
+     * @return int
      */
     public function getLoad()
     {
@@ -381,11 +414,11 @@ class CpuDevice
     /**
      * Sets $_load.
      *
-     * @param Integer $load load percent
+     * @param int $load load percent
      *
      * @see CpuDevice::$_load
      *
-     * @return Void
+     * @return void
      */
     public function setLoad($load)
     {

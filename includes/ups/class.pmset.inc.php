@@ -38,8 +38,11 @@ class Pmset extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (PSI_OS == 'Darwin') {
-            $temp = "";
+        if (defined('PSI_UPS_PMSET_ACCESS') && (strtolower(trim(PSI_UPS_PMSET_ACCESS))==='data')) {
+            if (CommonFunctions::rftsdata('upspmset.tmp', $temp)) {
+                $this->_output[] = $temp;
+            }
+        } elseif (PSI_OS == 'Darwin') {
             if (CommonFunctions::executeProgram('pmset', '-g batt', $temp) && !empty($temp)) {
                 $this->_output[] = $temp;
             }
@@ -89,7 +92,7 @@ class Pmset extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

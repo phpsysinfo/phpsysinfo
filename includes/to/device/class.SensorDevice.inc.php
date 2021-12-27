@@ -28,42 +28,42 @@ class SensorDevice
     /**
      * name of the sensor
      *
-     * @var String
+     * @var string
      */
     private $_name = "";
 
     /**
      * current value of the sensor
      *
-     * @var Integer
+     * @var int
      */
     private $_value = 0;
 
     /**
      * maximum value of the sensor
      *
-     * @var Integer
+     * @var int
      */
     private $_max = null;
 
     /**
      * minimum value of the sensor
      *
-     * @var Integer
+     * @var int
      */
     private $_min = null;
 
     /**
      * event of the sensor
      *
-     * @var String
+     * @var string
      */
     private $_event = "";
 
     /**
      * unit of values of the sensor
      *
-     * @var String
+     * @var string
      */
     private $_unit = "";
 
@@ -72,7 +72,7 @@ class SensorDevice
      *
      * @see Sensor::$_max
      *
-     * @return Integer
+     * @return int
      */
     public function getMax()
     {
@@ -82,11 +82,11 @@ class SensorDevice
     /**
      * Sets $_max.
      *
-     * @param Integer $max maximum value
+     * @param int $max maximum value
      *
      * @see Sensor::$_max
      *
-     * @return Void
+     * @return void
      */
     public function setMax($max)
     {
@@ -98,7 +98,7 @@ class SensorDevice
      *
      * @see Sensor::$_min
      *
-     * @return Integer
+     * @return int
      */
     public function getMin()
     {
@@ -108,11 +108,11 @@ class SensorDevice
     /**
      * Sets $_min.
      *
-     * @param Integer $min minimum value
+     * @param int $min minimum value
      *
      * @see Sensor::$_min
      *
-     * @return Void
+     * @return void
      */
     public function setMin($min)
     {
@@ -138,7 +138,7 @@ class SensorDevice
      *
      * @see Sensor::$_name
      *
-     * @return Void
+     * @return void
      */
     public function setName($name)
     {
@@ -150,7 +150,7 @@ class SensorDevice
      *
      * @see Sensor::$_value
      *
-     * @return Integer
+     * @return int
      */
     public function getValue()
     {
@@ -160,11 +160,11 @@ class SensorDevice
     /**
      * Sets $_value.
      *
-     * @param Integer $value current value
+     * @param int $value current value
      *
      * @see Sensor::$_value
      *
-     * @return Void
+     * @return void
      */
     public function setValue($value)
     {
@@ -190,7 +190,7 @@ class SensorDevice
      *
      * @see Sensor::$_event
      *
-     * @return Void
+     * @return void
      */
     public function setEvent($event)
     {
@@ -216,7 +216,7 @@ class SensorDevice
      *
      * @see Sensor::$_unit
      *
-     * @return Void
+     * @return void
      */
     public function setUnit($unit)
     {

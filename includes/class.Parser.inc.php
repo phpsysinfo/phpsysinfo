@@ -40,7 +40,7 @@ class Parser
                 $dev = new HWDevice();
                 $arrParams = preg_split('/(\"? ")|(\" (?=-))/', trim($strLine));
                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($cp = count($arrParams)) >= 6) {
-                    $arrParams[$cp-1] = trim($arrParams[$cp-1],'"'); // remove last "
+                    $arrParams[$cp-1] = trim($arrParams[$cp-1], '"'); // remove last "
                     $dev->setName($arrParams[1].': '.$arrParams[2].' '.$arrParams[3]);
                     if (preg_match('/^-/', $arrParams[4])) {
                         if (($arrParams[5] !== "") && !preg_match('/^Unknown vendor/', $arrParams[5])) {
@@ -117,7 +117,7 @@ class Parser
                     $mount_parm[] = $parm;
                 }
             }
-        } elseif (CommonFunctions::rfts("/etc/mtab", $mount)) {
+        } elseif (CommonFunctions::rfts(((PSI_ROOT_FILESYSTEM === '')||(PHP_OS !== 'Linux'))?"/etc/mtab":"/proc/1/mounts", $mount)) {
             $mount = preg_split("/\n/", $mount, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($mount as $mount_line) {
                 if (preg_match("/(\S+) (\S+) (\S+) (\S+) ([0-9]+) ([0-9]+)/", $mount_line, $mount_buf)) {

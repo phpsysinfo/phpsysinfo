@@ -106,9 +106,10 @@ function getLanguage(plugin, langarrId) {
  * generate a span tag
  * @param {Number} id translation id in the xml file
  * @param {String} [plugin] name of the plugin for which the tag should be generated
+ * @param {String} [defaultvalue] default value
  * @return {String} string which contains generated span tag for translation string
  */
-function genlang(id, plugin) {
+function genlang(id, plugin, defaultvalue) {
     var html = "", idString = "", plugname = "",
         langarrId = current_language + "_";
 
@@ -137,6 +138,8 @@ function genlang(id, plugin) {
 
     if ((langxml[langarrId] !== undefined) && (langarr[langarrId] !== undefined)) {
         html += langarr[langarrId][idString];
+    } else if (defaultvalue !== undefined) {
+        html += defaultvalue;
     }
 
     html += "</span>";
@@ -620,36 +623,38 @@ function renderVitals(data) {
                 var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
                 var not_first = false;
                 processes = parseInt(this.Processes, 10);
-                if (this.ProcessesRunning !== undefined) {
-                    p111 = parseInt(this.ProcessesRunning, 10);
-                }
-                if (this.ProcessesSleeping !== undefined) {
-                    p112 = parseInt(this.ProcessesSleeping, 10);
-                }
-                if (this.ProcessesStopped !== undefined) {
-                    p113 = parseInt(this.ProcessesStopped, 10);
-                }
-                if (this.ProcessesZombie !== undefined) {
-                    p114 = parseInt(this.ProcessesZombie, 10);
-                }
-                if (this.ProcessesWaiting !== undefined) {
-                    p115 = parseInt(this.ProcessesWaiting, 10);
-                }
-                if (this.ProcessesOther !== undefined) {
-                    p116 = parseInt(this.ProcessesOther, 10);
-                }
-                if (p111 || p112 || p113 || p114 || p115 || p116) {
-                    processes += " (";
-                    for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
-                        if (eval("p" + proc_type)) {
-                            if (not_first) {
-                                processes += ", ";
-                            }
-                            processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
-                            not_first = true;
-                        }
+                if (processes > 0) {
+                    if (this.ProcessesRunning !== undefined) {
+                        p111 = parseInt(this.ProcessesRunning, 10);
                     }
-                    processes += ")";
+                    if (this.ProcessesSleeping !== undefined) {
+                        p112 = parseInt(this.ProcessesSleeping, 10);
+                    }
+                    if (this.ProcessesStopped !== undefined) {
+                        p113 = parseInt(this.ProcessesStopped, 10);
+                    }
+                    if (this.ProcessesZombie !== undefined) {
+                        p114 = parseInt(this.ProcessesZombie, 10);
+                    }
+                    if (this.ProcessesWaiting !== undefined) {
+                        p115 = parseInt(this.ProcessesWaiting, 10);
+                    }
+                    if (this.ProcessesOther !== undefined) {
+                        p116 = parseInt(this.ProcessesOther, 10);
+                    }
+                    if (p111 || p112 || p113 || p114 || p115 || p116) {
+                        processes += " (";
+                        for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
+                            if (eval("p" + proc_type)) {
+                                if (not_first) {
+                                    processes += ", ";
+                                }
+                                processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
+                                not_first = true;
+                            }
+                        }
+                        processes += ")";
+                    }
                 }
                 return processes;
             }
@@ -718,6 +723,11 @@ function renderHardware(data) {
                 return formatTemp(this.Cputemp, data.Options["@attributes"].tempFormat);
             }
         },
+        Voltage: {
+            html: function() {
+                return round(this.Voltage, 2) + ' V';
+            }
+        },
         Bogomips: {
             text: function () {
                 return parseInt(this.Bogomips, 10);
@@ -782,14 +792,22 @@ function renderHardware(data) {
 
     var html="";
 
-    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
-        html+="<tr id=\"hardware-Machine\">";
-        html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
-        html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
-        html+="</tr>";
+    if (data.Hardware["@attributes"] !== undefined) { 
+        if (data.Hardware["@attributes"].Name !== undefined) {
+            html+="<tr id=\"hardware-Machine\">";
+            html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
+            html+="<td colspan=\"2\"><span data-bind=\"Name\"></span></td>";
+            html+="</tr>";
+        }
+        if (data.Hardware["@attributes"].Virtualizer !== undefined) {
+            html+="<tr id=\"hardware-Virtualizer\">";
+            html+="<th style=\"width:8%;\">"+genlang(134)+"</th>"; //Virtualizer
+            html+="<td colspan=\"2\"><span data-bind=\"Virtualizer\"></span></td>";
+            html+="</tr>";
+        }
     }
 
-    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
+    var paramlist = {CpuSpeed:13,CpuSpeedMax:100,CpuSpeedMin:101,Cache:15,Virt:94,BusSpeed:14,Voltage:52,Bogomips:16,Cputemp:51,Manufacturer:122,Load:9};
     try {
         datas = items(data.Hardware.CPU.CpuCore);
         for (i = 0; i < datas.length; i++) {
@@ -868,8 +886,13 @@ function renderHardware(data) {
     $("#hardware-data").empty().append(html);
 
 
-    if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
-        $('#hardware-Machine').render(data.Hardware["@attributes"]);
+    if (data.Hardware["@attributes"] !== undefined) {
+        if (data.Hardware["@attributes"].Name !== undefined) {
+            $('#hardware-Machine').render(data.Hardware["@attributes"]);
+        }
+        if (data.Hardware["@attributes"].Virtualizer !== undefined) {
+            $('#hardware-Virtualizer').render(data.Hardware["@attributes"]);
+        }
     }
 
     try {
@@ -1598,7 +1621,7 @@ function renderUPS(data) {
 
     if ((data.UPSInfo !== undefined) && (items(data.UPSInfo.UPS).length > 0)) {
         var html="";
-        var paramlist = {Model:70,StartTime:72,Status:73,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
+        var paramlist = {Model:70,StartTime:72,Status:73,BeeperStatus:133,Temperature:84,OutagesCount:74,LastOutage:75,LastOutageFinish:76,LineVoltage:77,LineFrequency:108,LoadPercent:78,BatteryDate:104,BatteryVoltage:79,BatteryChargePercent:80,TimeLeftMinutes:81};
 
         try {
             datas = items(data.UPSInfo.UPS);

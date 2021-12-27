@@ -28,6 +28,11 @@
 abstract class BSDCommon extends OS
 {
     /**
+     * Assoc array of all CPUs loads.
+     */
+    private $_cpu_loads = null;
+
+    /**
      * content of the syslog
      *
      * @var array
@@ -210,7 +215,7 @@ abstract class BSDCommon extends OS
      */
     protected function hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('hostname', '', $buf, PSI_DEBUG)) {
@@ -236,18 +241,40 @@ abstract class BSDCommon extends OS
     }
 
     /**
-     * Processor Load
-     * optionally create a loadbar
+     * Virtualizer info
      *
      * @return void
      */
-    protected function loadavg()
+    private function virtualizer()
     {
-        $s = $this->grabkey('vm.loadavg');
-        $s = preg_replace('/{ /', '', $s);
-        $s = preg_replace('/ }/', '', $s);
-        $this->sys->setLoad($s);
-        if (PSI_LOAD_BAR) {
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            $testvirt = $this->sys->getVirtualizer();
+            $novm = true;
+            foreach ($testvirt as $virtkey=>$virtvalue) if ($virtvalue) {
+                $novm = false;
+                break;
+            }
+            // Detect QEMU cpu
+            if ($novm && isset($testvirt["cpuid:QEMU"])) {
+                $this->sys->setVirtualizer('qemu'); // QEMU
+                $novm = false;
+            }
+
+            if ($novm && isset($testvirt["hypervisor"])) {
+                $this->sys->setVirtualizer('unknown');
+            }
+        }
+    }
+
+    /**
+     * CPU usage
+     *
+     * @return void
+     */
+    protected function cpuusage()
+    {
+        if (($this->_cpu_loads === null)) {
+            $this->_cpu_loads = array();
             if (PSI_OS != 'Darwin') {
                 if ($fd = $this->grabkey('kern.cp_time')) {
                     // Find out the CPU load
@@ -262,13 +289,17 @@ abstract class BSDCommon extends OS
                         if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
                             $load2 = $res[2] + $res[3] + $res[4];
                             $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                            $this->sys->setLoadPercent((100 * ($load2 - $load)) / ($total2 - $total));
+                            if ($total2 != $total) {
+                                $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            } else {
+                                $this->_cpu_loads['cpu'] = 0;
+                            }
                         }
                     }
                 }
             } else {
                 $ncpu = $this->grabkey('hw.ncpu');
-                if (!is_null($ncpu) && (trim($ncpu) != "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                if (($ncpu !== "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
                     $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
                     if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
                         array_shift($pslines);
@@ -276,10 +307,34 @@ abstract class BSDCommon extends OS
                         foreach ($pslines as $psline) {
                             $sum+=trim($psline);
                         }
-                        $this->sys->setLoadPercent(min($sum/$ncpu, 100));
+                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
                     }
                 }
             }
+        }
+
+        if (isset($this->_cpu_loads['cpu'])) {
+            return $this->_cpu_loads['cpu'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Processor Load
+     * optionally create a loadbar
+     *
+     * @return void
+     */
+    protected function loadavg()
+    {
+        $s = $this->grabkey('vm.loadavg');
+        $s = preg_replace('/{ /', '', $s);
+        $s = preg_replace('/ }/', '', $s);
+        $this->sys->setLoad($s);
+
+        if (PSI_LOAD_BAR) {
+            $this->sys->setLoadPercent($this->cpuusage());
         }
     }
 
@@ -291,49 +346,150 @@ abstract class BSDCommon extends OS
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
-
-        if (PSI_OS == 'NetBSD') {
-            if ($model = $this->grabkey('machdep.cpu_brand')) {
-               $dev->setModel($model);
-            }
-            if ($cpuspeed = $this->grabkey('machdep.tsc_freq')) {
-               $dev->setCpuSpeed(round($cpuspeed / 1000000));
-            }
+        $cpumodel = $this->grabkey('hw.model');
+        $dev->setModel($cpumodel);
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+            $this->sys->setVirtualizer("cpuid:QEMU", false);
         }
 
-        if ($dev->getModel() === "") {
-            $dev->setModel($this->grabkey('hw.model'));
-        }
         $notwas = true;
         foreach ($this->readdmesg() as $line) {
             if ($notwas) {
-               if (preg_match($this->_CPURegExp1, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                    if ($dev->getCpuSpeed() === 0) {
-                        $dev->setCpuSpeed(round($ar_buf[2]));
+               $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
+               foreach ($regexps as $regexp) {
+                   if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
+                        if ($dev->getCpuSpeed() === 0) {
+                            $dev->setCpuSpeed(round($ar_buf[2]));
+                        }
+                        $notwas = false;
+                        break;
                     }
-                    $notwas = false;
                 }
             } else {
-                if (preg_match("/ Origin| Features/", $line, $ar_buf)) {
-                    if (preg_match("/ Features2[ ]*=.*<(.*)>/", $line, $ar_buf)) {
+                if (preg_match("/^\s+Origin| Features/", $line, $ar_buf)) {
+                    if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
+                        $dev->setVendorId($ar_buf[1]);
+                    } elseif (preg_match("/ Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {
                                 $dev->setVirt($feat);
-                                break 2;
+                            } elseif ($feat=="hv") {
+                                if ($dev->getVirt() === null) {
+                                    $dev->setVirt('hypervisor');
+                                }
+                                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                                    $this->sys->setVirtualizer("hypervisor", false);
+                                }
                             }
                         }
-                        break;
                     }
                 } else break;
             }
         }
 
         $ncpu = $this->grabkey('hw.ncpu');
-        if (is_null($ncpu) || (trim($ncpu) == "") || (!($ncpu >= 1)))
+        if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
+        }
+        if (($ncpu == 1) && PSI_LOAD_BAR) {
+            $dev->setLoad($this->cpuusage());
+        }
         for ($ncpu ; $ncpu > 0 ; $ncpu--) {
             $this->sys->setCpus($dev);
+        }
+    }
+
+    /**
+     * Machine information
+     *
+     * @return void
+     */
+    private function machine()
+    {
+        if ((PSI_OS == 'NetBSD') || (PSI_OS == 'OpenBSD')) {
+            $buffer = array();
+            if (PSI_OS == 'NetBSD') { // NetBSD
+                $buffer['Manufacturer'] = $this->grabkey('machdep.dmi.system-vendor');
+                $buffer['Model'] = $this->grabkey('machdep.dmi.system-product');
+                $buffer['Product'] = $this->grabkey('machdep.dmi.board-product');
+                $buffer['SMBIOSBIOSVersion'] = $this->grabkey('machdep.dmi.bios-version');
+                $buffer['ReleaseDate'] = $this->grabkey('machdep.dmi.bios-date');
+            } else { // OpenBSD
+                $buffer['Manufacturer'] = $this->grabkey('hw.vendor');
+                $buffer['Model'] = $this->grabkey('hw.product');
+                $buffer['Product'] = "";
+                $buffer['SMBIOSBIOSVersion'] = "";
+                $buffer['ReleaseDate'] = "";
+            }
+            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+                $vendor_array = array();
+                $vendor_array[] = $buffer['Model'];
+                $vendor_array[] = trim($buffer['Manufacturer']." ".$buffer['Model']);
+                if (PSI_OS == 'NetBSD') { // NetBSD
+                    $vendor_array[] = $this->grabkey('machdep.dmi.board-vendor');
+                    $vendor_array[] = $this->grabkey('machdep.dmi.bios-vendor');
+                }
+                $virt = CommonFunctions::decodevirtualizer($vendor_array);
+                if ($virt !== null) {
+                    $this->sys->setVirtualizer($virt);
+                }
+            }
+
+            $buf = "";
+            if (($buffer['Manufacturer'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System manufacturer$|^Not Specified$/i", $buf2=trim($buffer['Manufacturer'])) && ($buf2 !== "")) {
+                $buf .= ' '.$buf2;
+            }
+
+            if (($buffer['Model'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^System Product Name$|^Not Specified$/i", $buf2=trim($buffer['Model'])) && ($buf2 !== "")) {
+                $model = $buf2;
+                $buf .= ' '.$buf2;
+            }
+            if (($buffer['Product'] !== "") && !preg_match("/^To be filled by O\.E\.M\.$|^BaseBoard Product Name$|^Not Specified$|^Default string$/i", $buf2=trim($buffer['Product'])) && ($buf2 !== "")) {
+                if ($buf2 !== $model) {
+                    $buf .= '/'.$buf2;
+                } elseif (isset($buffer['SystemFamily']) && !preg_match("/^To be filled by O\.E\.M\.$|^System Family$|^Not Specified$/i", $buf2=trim($buffer['SystemFamily'])) && ($buf2 !== "")) {
+                    $buf .= '/'.$buf2;
+                }
+            }
+
+            $bver = "";
+            $brel = "";
+            if (($buf2=trim($buffer['SMBIOSBIOSVersion'])) !== "") {
+                $bver .= ' '.$buf2;
+            }
+            if ($buffer['ReleaseDate'] !== "") {
+                if (preg_match("/^(\d{4})(\d{2})(\d{2})$/", $buffer['ReleaseDate'], $dateout)) {
+                    $brel .= ' '.$dateout[2].'/'.$dateout[3].'/'.$dateout[1];
+                } elseif (preg_match("/^\d{2}\/\d{2}\/\d{4}$/", $buffer['ReleaseDate'])) {
+                    $brel .= ' '.$buffer['ReleaseDate'];
+                }
+            }
+            if ((trim($bver) !== "") || (trim($brel) !== "")) {
+                $buf .= ', BIOS'.$bver.$brel;
+            }
+
+            if (trim($buf) !== "") {
+                $this->sys->setMachine(trim($buf));
+            }
+        } elseif ((PSI_OS == 'FreeBSD') && defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            $vendorid = $this->grabkey('hw.hv_vendor');
+            if (trim($vendorid) === "") {
+                foreach ($this->readdmesg() as $line) if (preg_match("/^Hypervisor: Origin = \"(.+)\"/", $line, $ar_buf)) {
+                    if (trim($ar_buf[1]) !== "") {
+                        $vendorid = $ar_buf[1];
+                    }
+                    break;
+                }
+            }
+            if (trim($vendorid) !== "") {
+                $virt = CommonFunctions::decodevirtualizer($vendorid);
+                if ($virt !== null) {
+                    $this->sys->setVirtualizer($virt);
+                } else {
+                    $this->sys->setVirtualizer('unknown');
+                }
+            }
         }
     }
 
@@ -404,8 +560,8 @@ abstract class BSDCommon extends OS
         }
         /* cleaning */
         foreach ($this->sys->getScsiDevices() as $finddev) {
-                    if (strpos($finddev->getName(), ': ') !== false)
-                        $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
+            if (strpos($finddev->getName(), ': ') !== false)
+                $finddev->setName(substr(strstr($finddev->getName(), ': '), 2));
         }
     }
 
@@ -658,11 +814,34 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * UpTime
+     * time the system is running
+     *
+     * @return void
+     */
+    private function uptime()
+    {
+        if ($kb = $this->grabkey('kern.boottime')) {
+            if (preg_match("/sec = ([0-9]+)/", $kb, $buf)) { // format like: { sec = 1096732600, usec = 885425 } Sat Oct 2 10:56:40 2004
+                $this->sys->setUptime(time() - $buf[1]);
+            } else {
+                date_default_timezone_set('UTC');
+                $kbt = strtotime($kb);
+                if (($kbt !== false) && ($kbt != -1)) {
+                    $this->sys->setUptime(time() - $kbt); // format like: Sat Oct 2 10:56:40 2004
+                } else {
+                    $this->sys->setUptime(time() - $kb); // format like: 1096732600
+                }
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @see PSI_Interface_OS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
@@ -672,9 +851,12 @@ abstract class BSDCommon extends OS
             $this->kernel();
             $this->_users();
             $this->loadavg();
+            $this->uptime();
         }
         if (!$this->blockname || $this->blockname==='hardware') {
+            $this->machine();
             $this->cpuinfo();
+            $this->virtualizer();
             $this->pci();
             $this->ide();
             $this->scsi();

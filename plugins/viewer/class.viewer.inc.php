@@ -47,33 +47,32 @@ class Viewer extends PSI_Plugin
     {
         $this->_lines = array();
         if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_VIEWER_ACCESS)) {
-            case 'command':
-                if (defined('PSI_PLUGIN_VIEWER_COMMAND') && is_string(PSI_PLUGIN_VIEWER_COMMAND)) {
-                    if (defined('PSI_PLUGIN_VIEWER_PARAMS') && is_string(PSI_PLUGIN_VIEWER_PARAMS)) {
-                        $params = PSI_PLUGIN_VIEWER_PARAMS;
-                    } else {
-                        $params = "";
-                    }
-                    $this->name = trim(PSI_PLUGIN_VIEWER_COMMAND." ".$params);
-                    $lines = "";
-                    if ((PSI_OS == 'WINNT') && ($cp = CommonFunctions::getcp())) {
-                        if (CommonFunctions::executeProgram('cmd', '/c chcp '.$cp.' >nul & '.$this->name, $lines) && !empty($lines))
-                            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                    } else {
-                        if (CommonFunctions::executeProgram(PSI_PLUGIN_VIEWER_COMMAND, $params, $lines) && !empty($lines))
-                            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                    }
+        case 'command':
+            if (defined('PSI_PLUGIN_VIEWER_COMMAND') && is_string(PSI_PLUGIN_VIEWER_COMMAND)) {
+                if (defined('PSI_PLUGIN_VIEWER_PARAMS') && is_string(PSI_PLUGIN_VIEWER_PARAMS)) {
+                    $params = PSI_PLUGIN_VIEWER_PARAMS;
                 } else {
-                    $this->global_error->addConfigError("execute()", "[viewer] COMMAND");
+                    $params = "";
                 }
-                break;
-            case 'data':
-                if (CommonFunctions::rfts(PSI_APP_ROOT."/data/viewer.txt", $lines) && !empty($lines))
-                    $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-                break;
-            default:
-                $this->global_error->addConfigError("execute()", "[viewer] ACCESS");
-                break;
+                $this->name = trim(PSI_PLUGIN_VIEWER_COMMAND." ".$params);
+                $lines = "";
+                if ((PSI_OS == 'WINNT') && ($cp = CommonFunctions::getcp())) {
+                    if (CommonFunctions::executeProgram('cmd', '/c chcp '.$cp.' >nul & '.$this->name, $lines) && !empty($lines))
+                        $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                } else {
+                    if (CommonFunctions::executeProgram(PSI_PLUGIN_VIEWER_COMMAND, $params, $lines) && !empty($lines))
+                        $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+                }
+            } else {
+                $this->global_error->addConfigError("execute()", "[viewer] COMMAND");
+            }
+            break;
+        case 'data':
+            if (CommonFunctions::rftsdata("viewer.tmp", $lines) && !empty($lines))
+                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            break;
+        default:
+            $this->global_error->addConfigError("execute()", "[viewer] ACCESS");
         }
     }
 

@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/plain");
+header('Content-Type: text/plain');
 $filename = '/proc/cpuinfo';
 $contents=file_get_contents($filename);
 echo "----------".$filename."----------\n";

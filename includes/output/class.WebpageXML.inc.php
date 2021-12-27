@@ -174,8 +174,8 @@ class WebpageXML extends Output implements PSI_Interface_Output
      */
     public function run()
     {
-        header("Cache-Control: no-cache, must-revalidate\n");
-        header("Content-Type: text/xml\n\n");
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Content-Type: text/xml');
         $xml = $this->_xml->getXml();
         echo $xml->asXML();
     }
@@ -228,18 +228,16 @@ class WebpageXML extends Output implements PSI_Interface_Output
         parent::__construct();
 
         if (is_string($plugin) && ($plugin !== "")) {
-            $plugin = strtolower($plugin);
-            if ($plugin === "complete") {
+            if (preg_match('/[^A-Za-z]/', $plugin)) {
+                $this->_blockName = ' '; // mask wrong plugin name
+            } elseif (($plugin = strtolower($plugin)) === "complete") {
                 $this->_completeXML = true;
+            } elseif (in_array($plugin, array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups'))) {
+                $this->_blockName = $plugin;
+            } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
+                $this->_pluginName = $plugin;
             } else {
-                $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
-                if (in_array($plugin, $validblocks)) {
-                    $this->_blockName = $plugin;
-                } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
-                    $this->_pluginName = $plugin;
-                } else {
-                    $this->_blockName = ' '; //disable all blocks
-                }
+                $this->_blockName = ' '; // disable all blocks
             }
         }
         $this->_prepare();

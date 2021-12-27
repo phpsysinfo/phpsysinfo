@@ -27,6 +27,11 @@
 class Minix extends OS
 {
     /**
+     * uptime command result.
+     */
+    private $_uptime = null;
+
+    /**
      * content of the syslog
      *
      * @var array
@@ -94,7 +99,6 @@ class Minix extends OS
                             break;
                         case 'vendor_id':
                             $dev->setVendorId($arrBuff[1]);
-                            break;
                         }
                     }
                 }
@@ -194,13 +198,13 @@ class Minix extends OS
      */
     private function _uptime()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
                 $days = $ar_buf[1];
                 $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
-            } elseif (preg_match("/up (\d+):(\d+),/", $buf, $ar_buf)) {
+            } elseif (preg_match("/up (\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[2];
                 $hours = $ar_buf[1];
                 $this->sys->setUptime($hours * 3600 + $min * 60);
@@ -216,8 +220,8 @@ class Minix extends OS
      */
     private function _loadavg()
     {
-        if (CommonFunctions::executeProgram('uptime', '', $buf)) {
-            if (preg_match("/load averages: (.*), (.*), (.*)$/", $buf, $ar_buf)) {
+        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+            if (preg_match("/load averages: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
                 $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
             }
         }
@@ -230,7 +234,7 @@ class Minix extends OS
      */
     private function _hostname()
     {
-        if (PSI_USE_VHOST === true) {
+        if (PSI_USE_VHOST) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {
@@ -328,11 +332,11 @@ class Minix extends OS
     /**
      * get the information
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {
-        $this->error->addError("WARN", "The Minix version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The Minix version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
@@ -346,14 +350,14 @@ class Minix extends OS
             $this->_pci();
             $this->_cpuinfo();
         }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
         if (!$this->blockname || $this->blockname==='memory') {
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
             $this->_filesystems();
+        }
+        if (!$this->blockname || $this->blockname==='network') {
+            $this->_network();
         }
     }
 }

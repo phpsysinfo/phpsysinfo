@@ -40,33 +40,62 @@ class Nut extends UPS
     public function __construct()
     {
         parent::__construct();
-        if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-            if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
-                $upses = eval(PSI_UPS_NUT_LIST);
+        if (!defined('PSI_UPS_NUT_ACCESS')) {
+             define('PSI_UPS_NUT_ACCESS', false);
+        }
+        switch (strtolower(PSI_UPS_NUT_ACCESS)) {
+        case 'data':
+            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
+                    $upss = eval(PSI_UPS_NUT_LIST);
+                } else {
+                    $upss = array(PSI_UPS_NUT_LIST);
+                }
             } else {
-                $upses = array(PSI_UPS_NUT_LIST);
+               $upss = array('UPS');
             }
-            foreach ($upses as $ups) {
-                CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
-                $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($ups_names as $ups_name) {
-                    CommonFunctions::executeProgram('upsc', trim($ups_name).'@'.trim($ups), $temp, PSI_DEBUG);
-                    if (! empty($temp)) {
-                        $this->_output[trim($ups_name).'@'.trim($ups)] = $temp;
+            $un = 0;
+            foreach ($upss as $ups) {
+                $temp = "";
+                CommonFunctions::rftsdata("upsnut{$un}.tmp", $temp);
+                if (! empty($temp)) {
+                    $this->_output[$ups] = $temp;
+                }
+                $un++;
+            }
+            break;
+        default:
+            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
+                    $upses = eval(PSI_UPS_NUT_LIST);
+                } else {
+                    $upses = array(PSI_UPS_NUT_LIST);
+                }
+                foreach ($upses as $ups) {
+                    CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
+                    $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                    foreach ($ups_names as $ups_name) {
+                        $upsname = trim($ups_name).'@'.trim($ups);
+                        $temp = "";
+                        CommonFunctions::executeProgram('upsc', $upsname, $temp, PSI_DEBUG);
+                        if (! empty($temp)) {
+                            $this->_output[$upsname] = $temp;
+                        }
                     }
                 }
-            }
-        } else { //use default if address and port not defined
-            if (!defined('PSI_EMU_HOSTNAME')) {
-                CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
-            } else {
-                CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
-            }
-            $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($ups_names as $ups_name) {
-                CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
-                if (! empty($temp)) {
-                    $this->_output[trim($ups_name)] = $temp;
+            } else { //use default if address and port not defined
+                if (!defined('PSI_EMU_HOSTNAME')) {
+                    CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
+                } else {
+                    CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
+                }
+                $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($ups_names as $ups_name) {
+                    $temp = "";
+                    CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
+                    if (! empty($temp)) {
+                        $this->_output[trim($ups_name)] = $temp;
+                    }
                 }
             }
         }
@@ -98,6 +127,9 @@ class Nut extends UPS
                 }
                 if (isset($ups_data['ups.status'])) {
                     $dev->setStatus($ups_data['ups.status']);
+                }
+                if (isset($ups_data['ups.beeper.status'])) {
+                    $dev->setBeeperStatus($ups_data['ups.beeper.status']);
                 }
 
                 //Line
@@ -137,7 +169,7 @@ class Nut extends UPS
      *
      * @see PSI_Interface_UPS::build()
      *
-     * @return Void
+     * @return void
      */
     public function build()
     {

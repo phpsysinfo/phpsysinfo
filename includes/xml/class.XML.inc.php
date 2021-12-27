@@ -189,7 +189,18 @@ class XML
             }
         }
         foreach ($this->_sys->getNetDevices() as $dev) {
-            if (!in_array(trim($dev->getName()), $hideDevices)) {
+            if (defined('PSI_HIDE_NETWORK_INTERFACE_REGEX') && PSI_HIDE_NETWORK_INTERFACE_REGEX) {
+                $hide = false;
+                foreach ($hideDevices as $hidedev) {
+                    if (preg_match('/^'.$hidedev.'$/', trim($dev->getName()))) {
+                        $hide = true;
+                        break;
+                    }
+                }
+            } else {
+                $hide =in_array(trim($dev->getName()), $hideDevices);
+            }
+            if (!$hide) {
                 $device = $network->addChild('NetDevice');
                 $device->addAttribute('Name', $dev->getName());
                 $device->addAttribute('RxBytes', $dev->getRxBytes());
@@ -210,22 +221,61 @@ class XML
     private function _buildHardware()
     {
         $hardware = $this->_xml->addChild('Hardware');
-        if ($this->_sys->getMachine() != "") {
-            $hardware->addAttribute('Name', $this->_sys->getMachine());
+        if (($machine = $this->_sys->getMachine()) != "") {
+            if (preg_match('/\/(.*), BIOS /', $machine, $tmpbuf) &&
+               (preg_match('/^(.* '.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^('.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf))) { // find duplicates
+                $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
+            } else {
+                $hardware->addAttribute('Name', $machine);
+            }
         }
+
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
+            $virt = $this->_sys->getVirtualizer();
+            $first = true;
+            $virtstring = "";
+            foreach ($virt as $virtkey=>$virtvalue) if ($virtvalue) {
+                if ($first) {
+                    $first = false;
+                } else {
+                    $virtstring .= ", ";
+                }
+                if ($virtkey === 'microsoft') {
+                    $virtstring .= 'hyper-v';
+                } elseif ($virtkey === 'kvm') {
+                    $virtstring .= 'qemu-kvm';
+                } elseif ($virtkey === 'oracle') {
+                    $virtstring .= 'virtualbox';
+                } elseif ($virtkey === 'zvm') {
+                    $virtstring .= 'z/vm';
+                } else {
+                    $virtstring .= $virtkey;
+                }
+            }
+            if ($virtstring !== "") {
+                $hardware->addAttribute('Virtualizer', $virtstring);
+            }
+        }
+
         $cpu = null;
         $vendortab = null;
         foreach ($this->_sys->getCpus() as $oneCpu) {
             if ($cpu === null) $cpu = $hardware->addChild('CPU');
             $tmp = $cpu->addChild('CpuCore');
             $tmp->addAttribute('Model', $oneCpu->getModel());
-            if ($oneCpu->getCpuSpeed() !== 0) {
-                $tmp->addAttribute('CpuSpeed', max($oneCpu->getCpuSpeed(), 0));
+            if ($oneCpu->getVoltage() > 0) {
+                $tmp->addAttribute('Voltage', $oneCpu->getVoltage());
             }
-            if ($oneCpu->getCpuSpeedMax() !== 0) {
+            if ($oneCpu->getCpuSpeed() > 0) {
+                $tmp->addAttribute('CpuSpeed', $oneCpu->getCpuSpeed());
+            } elseif ($oneCpu->getCpuSpeed() == -1) {
+                $tmp->addAttribute('CpuSpeed', 0); // core stopped
+            }
+            if ($oneCpu->getCpuSpeedMax() > 0) {
                 $tmp->addAttribute('CpuSpeedMax', $oneCpu->getCpuSpeedMax());
             }
-            if ($oneCpu->getCpuSpeedMin() !== 0) {
+            if ($oneCpu->getCpuSpeedMin() > 0) {
                 $tmp->addAttribute('CpuSpeedMin', $oneCpu->getCpuSpeedMin());
             }
 /*
@@ -244,7 +294,7 @@ class XML
             }
             if ($oneCpu->getVendorId() !== null) {
                 if ($vendortab === null) $vendortab = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
-                $shortvendorid = preg_replace('/[\s!]/', '', $oneCpu->getVendorId());
+                $shortvendorid = $oneCpu->getVendorId();
                 if ($vendortab && ($shortvendorid != "") && isset($vendortab['manufacturer'][$shortvendorid])) {
                     $tmp->addAttribute('Manufacturer', $vendortab['manufacturer'][$shortvendorid]);
                 }
@@ -442,9 +492,9 @@ class XML
      *
      * @param SimpleXmlExtended $mount Xml-Element
      * @param DiskDevice        $dev   DiskDevice
-     * @param Integer           $i     counter
+     * @param int               $i     counter
      *
-     * @return Void
+     * @return void
      */
     private function _fillDevice(SimpleXMLExtended $mount, DiskDevice $dev, $i)
     {
@@ -462,12 +512,12 @@ class XML
             $mount->addAttribute('Inodes', $dev->getPercentInodesUsed());
         }
         if ($dev->getIgnore() > 0) $mount->addAttribute('Ignore', $dev->getIgnore());
-        if (PSI_SHOW_MOUNT_OPTION === true) {
+        if (PSI_SHOW_MOUNT_OPTION) {
             if ($dev->getOptions() !== null) {
                 $mount->addAttribute('MountOptions', preg_replace("/,/", ", ", $dev->getOptions()));
             }
         }
-        if (PSI_SHOW_MOUNT_POINT === true) {
+        if (PSI_SHOW_MOUNT_POINT && ($dev->getMountPoint() !== null)) {
             $mount->addAttribute('MountPoint', $dev->getMountPoint());
         }
     }
@@ -480,7 +530,6 @@ class XML
     private function _buildFilesystems()
     {
         $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreTotal = $ignoreUsage = $ignoreThreshold = array();
-        $i = 1;
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
             if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
                 $hideMounts = eval(PSI_HIDE_MOUNTS);
@@ -535,6 +584,7 @@ class XML
             }
         }
         $fs = $this->_xml->addChild('FileSystem');
+        $i = 1;
         foreach ($this->_sys->getDiskDevices() as $disk) {
             if (!in_array($disk->getMountPoint(), $hideMounts, true) && !in_array($disk->getFsType(), $hideFstypes, true) && !in_array($disk->getName(), $hideDisks, true)) {
                 $mount = $fs->addChild('Mount');
@@ -574,10 +624,12 @@ class XML
                     $item = $temp->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    $alarm = false;
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
+                        $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -589,13 +641,15 @@ class XML
                     $item = $fan->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    $alarm = false;
                     if ($dev->getMin() !== null) {
                         $item->addAttribute('Min', $dev->getMin());
+                        $alarm = true;
                     }
                     if ($dev->getUnit() !== "") {
                         $item->addAttribute('Unit', $dev->getUnit());
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -607,15 +661,18 @@ class XML
                     $item = $volt->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    $alarm = false;
                     if (($dev->getMin() === null) || ($dev->getMin() != 0) || ($dev->getMax() === null) || ($dev->getMax() != 0)) {
                         if ($dev->getMin() !== null) {
                             $item->addAttribute('Min', $dev->getMin());
+                            $alarm = true;
                         }
                         if ($dev->getMax() !== null) {
                             $item->addAttribute('Max', $dev->getMax());
+                            $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -627,10 +684,12 @@ class XML
                     $item = $power->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    $alarm = false;
                     if ($dev->getMax() !== null) {
                         $item->addAttribute('Max', $dev->getMax());
+                        $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -642,15 +701,18 @@ class XML
                     $item = $current->addChild('Item');
                     $item->addAttribute('Label', $dev->getName());
                     $item->addAttribute('Value', $dev->getValue());
+                    $alarm = false;
                     if (($dev->getMin() === null) || ($dev->getMin() != 0) || ($dev->getMax() === null) || ($dev->getMax() != 0)) {
                         if ($dev->getMin() !== null) {
                             $item->addAttribute('Min', $dev->getMin());
+                            $alarm = true;
                         }
                         if ($dev->getMax() !== null) {
                             $item->addAttribute('Max', $dev->getMax());
+                            $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
                         $item->addAttribute('Event', $dev->getEvent());
                     }
                 }
@@ -681,7 +743,7 @@ class XML
     private function _buildUpsinfo()
     {
         $upsinfo = $this->_xml->addChild('UPSInfo');
-        if (defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
+        if (!defined('PSI_EMU_HOSTNAME') && defined('PSI_UPS_APCUPSD_CGI_ENABLE') && PSI_UPS_APCUPSD_CGI_ENABLE) {
             $upsinfo->addAttribute('ApcupsdCgiLinks', true);
         }
         if (sizeof(unserialize(PSI_UPSINFO))>0) {
@@ -701,6 +763,9 @@ class XML
                         $item->addAttribute('StartTime', $ups->getStartTime());
                     }
                     $item->addAttribute('Status', $ups->getStatus());
+                    if ($ups->getBeeperStatus() !== null) {
+                        $item->addAttribute('BeeperStatus', $ups->getBeeperStatus());
+                    }
                     if ($ups->getTemperatur() !== null) {
                         $item->addAttribute('Temperature', $ups->getTemperatur());
                     }
@@ -748,10 +813,10 @@ class XML
     {
         if (($this->_plugin == '') || $this->_complete_request) {
             if ($this->_sys === null) {
-                if (PSI_DEBUG === true) {
+                if (PSI_DEBUG) {
                     // unstable version check
                     if (!is_numeric(substr(PSI_VERSION, -1))) {
-                        $this->_errors->addError("WARN", "This is an unstable version of phpSysInfo, some things may not work correctly");
+                        $this->_errors->addWarning("This is an unstable version of phpSysInfo, some things may not work correctly");
                     }
 
                     // Safe mode check
@@ -771,7 +836,7 @@ class XML
                         $this->_errors->addError("WARN", "PhpSysInfo requires '.' inside the 'include_path' in php.ini");
                     }
                     // popen mode check
-                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN === true) {
+                    if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                         $this->_errors->addError("WARN", "Installed version of PHP does not support proc_open() function, popen() is used");
                     }
                 }
@@ -854,7 +919,7 @@ class XML
         $options->addAttribute('byteFormat', defined('PSI_BYTE_FORMAT') ? strtolower(PSI_BYTE_FORMAT) : 'auto_binary');
         $options->addAttribute('datetimeFormat', defined('PSI_DATETIME_FORMAT') ? strtolower(PSI_DATETIME_FORMAT) : 'utc');
         if (defined('PSI_REFRESH')) {
-            $options->addAttribute('refresh',  max(intval(PSI_REFRESH), 0));
+            $options->addAttribute('refresh', max(intval(PSI_REFRESH), 0));
         } else {
             $options->addAttribute('refresh', 60000);
         }

@@ -188,6 +188,7 @@
 
     <complexType name="Hardware">
         <attribute name="Name" type="string" use="optional"></attribute>
+        <attribute name="Virtualizer" type="string" use="optional"></attribute>
         <sequence>
             <element name="CPU" type="tns:CPU" minOccurs="0" maxOccurs="1"></element>
             <element name="MEM" type="tns:MEM" minOccurs="0" maxOccurs="1"></element>
@@ -344,7 +345,7 @@
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="FSType" type="string"></attribute>
+        <attribute name="FSType" type="string" use="optional"></attribute>
         <attribute name="Name" type="string" use="required"></attribute>
         <attribute name="Free" use="required">
             <simpleType>
@@ -448,6 +449,7 @@
         <attribute name="Mode" type="string" use="required"></attribute>
         <attribute name="StartTime" type="string" use="optional"></attribute>
         <attribute name="Status" type="string" use="required"></attribute>
+        <attribute name="BeeperStatus" type="string" use="optional"></attribute>
         <attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
         <attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>
         <attribute name="LastOutage" type="string" use="optional"></attribute>

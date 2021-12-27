@@ -112,7 +112,7 @@ if ($picklanguage) {
       <div id="vitals" class="halfsize">
         <h2><span class="lang_002">System vitals</span></h2>
         <div style="overflow-x:auto;">
-          <table class="stripeMe" id="vitalsTable" style="border-collapse:collapse;">
+          <table id="vitalsTable" style="border-collapse:collapse;">
             <tr>
               <td style="width:160px;"><span class="lang_003">Hostname</span></td>
               <td><span id="s_hostname"></span></td>
@@ -149,25 +149,17 @@ if ($picklanguage) {
               <td style="width:160px;"><span class="lang_009">Load Averages</span></td>
               <td><span id="s_loadavg"></span></td>
             </tr>
-            <tr style="display:none;" id="s_syslang_tr">
+            <tr>
               <td style="width:160px;"><span class="lang_097">System Language</span></td>
               <td><span id="s_syslang"></span></td>
             </tr>
-            <tr style="display:none;" id="s_codepage_tr1">
+            <tr>
               <td style="width:160px;"><span class="lang_098">Code Page</span></td>
-              <td><span id="s_codepage_1"></span></td>
+              <td><span id="s_codepage"></span></td>
             </tr>
-            <tr style="display:none;" id="s_codepage_tr2">
-              <td style="width:160px;"><span class="lang_098">Code Page</span></td>
-              <td><span id="s_codepage_2"></span></td>
-            </tr>
-            <tr style="display:none;" id="s_processes_tr1">
+            <tr>
               <td style="width:160px;"><span class="lang_110">Processes</span></td>
-              <td><span id="s_processes_1"></span></td>
-            </tr>
-            <tr style="display:none;" id="s_processes_tr2">
-              <td style="width:160px;"><span class="lang_110">Processes</span></td>
-              <td><span id="s_processes_2"></span></td>
+              <td><span id="s_processes"></span></td>
             </tr>
           </table>
         </div>

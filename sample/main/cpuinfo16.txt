@@ -1,0 +1,6 @@
+processor : 0
+vendor_id : User Mode Linux
+model name : UML
+mode : skas
+host : Linux kytes 3.11.0-rc1-00009-ge5fd680
+bogomips : 7007.43
