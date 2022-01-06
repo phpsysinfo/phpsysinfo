@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.1
+----------------
+ - [ADD] Garuda Linux to detected distros
+
 phpSysInfo 3.4.0
 ----------------
  - [ADD] Omarine, NethServer, JingOS, KDE neon, Alma, Virtuozzo, EuroLinux and Rocky Linux to detected distros
