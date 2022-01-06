@@ -21,4 +21,3 @@ SUPPORT_URL="https://forum.manjaro.org/c/arm/"
 LOGO=manjarolinux
 ----------/etc/manjaro-arm-version----------
 rpi4 - xfce - 21.12
-
