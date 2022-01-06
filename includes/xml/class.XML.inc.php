@@ -222,10 +222,14 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            if (preg_match('/\/(.*),\s*BIOS /', $machine, $tmpbuf) &&
-               (preg_match('/^(.* '.$tmpbuf[1].')\/'.$tmpbuf[1].'(,\s*BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^('.$tmpbuf[1].')\/'.$tmpbuf[1].'(,\s*BIOS .*)$/', $machine, $mbuf))) { // find duplicates
-                $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
+            if (preg_match('/\/(.*), BIOS /', $machine, $tmpbuf)) {
+                $tmpbuf = preg_replace('/([\+\*\$\(\)\[\]\\\\])/', '\\\\$1', $tmpbuf); // mask special chars
+                if (preg_match('/^(.* '.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)
+                   || preg_match('/^('.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)) { // find duplicates
+                    $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
+                } else {
+                    $hardware->addAttribute('Name', $machine);
+                }
             } else {
                 $hardware->addAttribute('Name', $machine);
             }
