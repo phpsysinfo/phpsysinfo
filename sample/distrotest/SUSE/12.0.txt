@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	SUSE LINUX
+Description:	SUSE Linux Enterprise Server 12
+Release:	12
+Codename:	12
+----------/etc/os-release----------
+NAME="SLES"
+VERSION="12"
+VERSION_ID="12"
+PRETTY_NAME="SUSE Linux Enterprise Server 12"
+ID="sles"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:suse:sles:12"
+----------/etc/SuSE-release----------
+SUSE Linux Enterprise Server 12 (x86_64)
+VERSION = 12
+PATCHLEVEL = 0
+# This file is deprecated and will be removed in a future service pack or release.
+# Please check /etc/os-release for details about this release.
