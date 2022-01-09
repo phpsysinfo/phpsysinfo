@@ -2,12 +2,12 @@ amdgpu-pci-3800
 Adapter: PCI adapter
 vddgfx:           N/A
 vddnb:            N/A
-temp1:        +29.0째C  (crit = +80.0째C, hyst =  +0.0째C)
+temp1:        +29.0캜  (crit = +80.0캜, hyst =  +0.0캜)
 
 k10temp-pci-00c3
 Adapter: PCI adapter
-Tdie:         +29.8째C  (high = +70.0째C)
-Tctl:         +29.8째C
+Tdie:         +29.8캜  (high = +70.0캜)
+Tctl:         +29.8캜
 
 nct6795-isa-0a20
 Adapter: ISA adapter
@@ -31,20 +31,20 @@ fan2:                     0 RPM  (min =    0 RPM)
 fan3:                     0 RPM  (min =    0 RPM)
 fan4:                     0 RPM  (min =    0 RPM)
 fan5:                     0 RPM  (min =    0 RPM)
-SYSTIN:                 +40.0째C  (high =  +0.0째C, hyst =  +0.0째C)  ALARM  sensor = CPU diode
-CPUTIN:                 +32.0째C  (high = +115.0째C, hyst = +90.0째C)  sensor = thermistor
-AUXTIN0:                +33.5째C  (high = +115.0째C, hyst = +90.0째C)  sensor = thermistor
-AUXTIN1:                +31.0째C    sensor = thermistor
-AUXTIN2:                +50.0째C    sensor = thermistor
-AUXTIN3:                 -2.0째C    sensor = thermistor
-SMBUSMASTER 0:          +29.5째C
-PCH_CHIP_CPU_MAX_TEMP:   +0.0째C
-PCH_CHIP_TEMP:           +0.0째C
-PCH_CPU_TEMP:            +0.0째C
+SYSTIN:                 +40.0캜  (high =  +0.0캜, hyst =  +0.0캜)  ALARM  sensor = CPU diode
+CPUTIN:                 +32.0캜  (high = +115.0캜, hyst = +90.0캜)  sensor = thermistor
+AUXTIN0:                +33.5캜  (high = +115.0캜, hyst = +90.0캜)  sensor = thermistor
+AUXTIN1:                +31.0캜    sensor = thermistor
+AUXTIN2:                +50.0캜    sensor = thermistor
+AUXTIN3:                 -2.0캜    sensor = thermistor
+SMBUSMASTER 0:          +29.5캜
+PCH_CHIP_CPU_MAX_TEMP:   +0.0캜
+PCH_CHIP_TEMP:           +0.0캜
+PCH_CPU_TEMP:            +0.0캜
 intrusion0:            ALARM
 intrusion1:            ALARM
 beep_enable:           disabled
 
 iwlwifi-virtual-0
 Adapter: Virtual device
-temp1:        +33.0째C
+temp1:        +33.0캜
