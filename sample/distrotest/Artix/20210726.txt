@@ -1,0 +1,28 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	Artix
+Description:	Artix Linux
+Release:    rolling
+Codename:	n/a
+----------/etc/artix-release----------
+Artix Linux release
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=Artix
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="Artix Linux"
+VERSION_ID=20210726
+VARIANT=xfce-openrc
+----------/etc/os-release----------
+NAME="Artix Linux"
+PRETTY_NAME="Artix Linux"
+ID=artix
+BUILD_ID=rolling
+ANSI_COLOR="0;36"
+HOME_URL="https://artixlinux.org/"
+DOCUMENTATION_URL="https://wiki.artixlinux.org/"
+SUPPORT_URL="https://forum.artixlinux.org/"
+BUG_REPORT_URL="https://bugs.artixlinux.org/"
+LOGO=artixlinux
+VERSION_ID=20210726
+VARIANT=xfce-openrc

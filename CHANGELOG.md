@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.1
 ----------------
- - [ADD] Garuda and Arco Linux to detected distros
+ - [ADD] Garuda, Arco and Artix Linux to detected distros
 
 phpSysInfo 3.4.0
 ----------------
