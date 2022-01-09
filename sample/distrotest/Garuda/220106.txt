@@ -1,6 +1,6 @@
 ----------lsb_release -a----------
 LSB Version:	1.4
-Distributor ID:	Gaduda
+Distributor ID:	Garuda
 Description:	Garuda Linux
 Release:    Soaring
 Codename:	White-tailed-eagle

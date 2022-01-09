@@ -1791,7 +1791,7 @@ class Linux extends OS
                 }
                 if (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a") && isset($list[$distro['Distributor ID']]['Image'])) {
                     $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
-                } elseif (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
+                } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] == "n/a") && isset($distro['Description']) && ($distro['Description'] != "n/a")) {
                     $this->sys->setDistribution($distro['Description']);
                     if (isset($list[$distro['Description']]['Image'])) {
                         $this->sys->setDistributionIcon($list[$distro['Description']]['Image']);
