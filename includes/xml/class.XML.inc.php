@@ -633,8 +633,8 @@ class XML
                         $item->addAttribute('Max', $dev->getMax());
                         $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -653,8 +653,8 @@ class XML
                     if ($dev->getUnit() !== "") {
                         $item->addAttribute('Unit', $dev->getUnit());
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -676,8 +676,8 @@ class XML
                             $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -693,8 +693,8 @@ class XML
                         $item->addAttribute('Max', $dev->getMax());
                         $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -716,8 +716,8 @@ class XML
                             $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -732,7 +732,7 @@ class XML
                         $item->addAttribute('Unit', $dev->getUnit());
                     }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
-                        $item->addAttribute('Event', $dev->getEvent());
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
             }
