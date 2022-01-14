@@ -73,15 +73,14 @@ class UpdateNotifier extends PSI_Plugin
         if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT) {
             /*
              Ubuntu Landscape format:
-             - line 1: number of packages to update
-             - line 2: number of security packages to update or additional information
-             optional:
-             - line 3: additional information
+             - line 1: packages to update
+             - line 2: security packages to update
              */
             if ((count($this->_filecontent) >= 1) || (count($this->_filecontent) <= 3)) {
                 foreach ($this->_filecontent as $line) {
-                    list($num, $text) = explode(" ", $line, 2);
-                    $this->_result[] = $num;
+                   if (preg_match("/^(\d+)\s/", $line, $num) && !preg_match("/UA Infra/", $line)) {
+                       $this->_result[] = $num[1];
+                   }
                 }
             } else {
                 $this->global_error->addWarning("Unable to parse UpdateNotifier file");
@@ -89,8 +88,8 @@ class UpdateNotifier extends PSI_Plugin
         } else {
             /*
              Universal format: A;B
-             - A: number of packages to update
-             - B: number of security packages to update
+             - A: packages to update
+             - B: security packages to update
              */
             if (count($this->_filecontent) == 1 && strpos($this->_filecontent[0], ";") !== false) {
                 $this->_result = explode(";", $this->_filecontent[0]);
