@@ -139,7 +139,7 @@ class PSStatus extends PSI_Plugin
             if (((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) &&
                (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 $strBuf = PSI_PLUGIN_PSSTATUS_PROCESSES;
-                CommonFunctions::convertCP($strBuf, $this->_enc);
+                WINNT::convertCP($strBuf, $this->_enc);
                 if (preg_match(ARRAY_EXP, $strBuf)) {
                     $processes = eval($strBuf);
                 } else {
