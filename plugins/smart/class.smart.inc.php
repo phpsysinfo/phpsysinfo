@@ -217,6 +217,11 @@ class SMART extends PSI_Plugin
             return;
         }
         foreach ($this->_filecontent as $disk=>$result) {
+            if (preg_match('/\n(Smartctl open device:.+ failed:[^\r\n]+)/', $result, $error)) {
+                $this->global_error->addError("SMART plugin error", trim($error[1]));
+                continue;
+            }
+
             // set the start and end offset in the result string at the beginning and end respectively
             // just in case we don't find the two strings, so that it still works as expected.
             $startIndex = 0;

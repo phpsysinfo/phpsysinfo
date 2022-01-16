@@ -825,13 +825,13 @@ ACCESS="command"
 
 ; Smartctl devices to monitor
 ; If the smartctl support is enabled, those disks information will be displayed
-; - DEVICES="/dev/hda,/dev/hdb"  //Will display those two disks informations
+; - DEVICES="/dev/sda, /dev/sdb"  //Will display those two disks informations
 ; You also can specify --device option value  for smartctl command surrounded by parentheses eg:
 ; - DEVICES="(marvell)/dev/sda"
 ; or
 ; - DEVICES="(megaraid.0)/dev/sda" //comma in --device option value is replaced by a dot
 ;
-DEVICES="/dev/sda, /dev/sdb"
+DEVICES="/dev/sda"
 
 ; Smartctl ID# and column name from "Vendor Specific SMART Attributes with Thresholds" table
 ; If the smartctl support is enabled, enter the ID#-COLUMN_NAME from "Vendor Specific SMART Attributes with Thresholds" table from smartctl output.
