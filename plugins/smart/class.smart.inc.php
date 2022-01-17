@@ -217,8 +217,8 @@ class SMART extends PSI_Plugin
             return;
         }
         foreach ($this->_filecontent as $disk=>$result) {
-            if (preg_match('/\n(Smartctl open device:.+ failed:[^\r\n]+)/', $result, $error)) {
-                $this->global_error->addError("SMART plugin error", trim($error[1]));
+            if (preg_match('/\n(Smartctl open device:.+ failed:[^\r\n]+)/', $result, $error) || preg_match('/\n(Device does not support SMART)/', $result, $error)) {
+                $this->global_error->addError("SMART plugin ".$disk." error", trim($error[1]));
                 continue;
             }
 
