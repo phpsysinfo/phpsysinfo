@@ -587,19 +587,22 @@ class WINNT extends OS
                                 $buffer[0]['CodeSet'] = $strBuf;
                             }
                         }
-                        if ($buffer && isset($buffer[0])) {
-                            if (isset($buffer[0]['CodeSet'])) {
-                                $codeset = $buffer[0]['CodeSet'];
-                                if ($codeset == 932) {
-                                    $codename = ' (SJIS)';
-                                } elseif ($codeset == 949) {
-                                    $codename = ' (EUC-KR)';
-                                } elseif ($codeset == 950) {
-                                    $codename = ' (BIG-5)';
-                                } else {
-                                    $codename = '';
-                                }
-                                define('PSI_SYSTEM_CODEPAGE', 'windows-'.$codeset.$codename);
+                        if ($buffer && isset($buffer[0]) && isset($buffer[0]['CodeSet'])) {
+                            $codeset = $buffer[0]['CodeSet'];
+                            if ($codeset == 932) {
+                                 $codename = ' (SJIS)';
+                            } elseif ($codeset == 949) {
+                                 $codename = ' (EUC-KR)';
+                            } elseif ($codeset == 950) {
+                                $codename = ' (BIG-5)';
+                            } else {
+                                $codename = '';
+                            }
+                            define('PSI_SYSTEM_CODEPAGE', 'windows-'.$codeset.$codename);
+                        } else {
+                            define('PSI_SYSTEM_CODEPAGE', null);
+                            if (PSI_DEBUG) {
+                                $this->error->addError("__construct()", "PhpSysInfo can not detect PSI_SYSTEM_CODEPAGE");
                             }
                         }
                     } catch (Exception $e) {
