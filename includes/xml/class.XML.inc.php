@@ -222,15 +222,18 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            if (preg_match('/\/(.*), BIOS /', $machine, $tmpbuf)) {
-                $tmpbuf = preg_replace('/([\+\*\$\(\)\[\]\\\\])/', '\\\\$1', $tmpbuf); // mask special chars
-                if (preg_match('/^(.* '.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)
-                   || preg_match('/^('.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)) { // find duplicates
-                    $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
-                } else {
-                    $hardware->addAttribute('Name', $machine);
-                }
-            } else {
+            if ((preg_match('/^(.* (.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^(.* (.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^(.* (.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)) 
+               && ($mbuf[2] === $mbuf[3])) { // find duplicates
+                $machine = $mbuf[1].$mbuf[4]; // minimized machine name
+            }
+            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma 
+
+            if ($machine != "") {
                 $hardware->addAttribute('Name', $machine);
             }
         }
