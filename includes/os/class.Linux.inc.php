@@ -1780,21 +1780,35 @@ class Linux extends OS
                             $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
                         }
                     }
-                } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
-                    $this->sys->setDistribution($distro['Distributor ID']);
-                    if (isset($distro['Release']) && ($distro['Release'] != "n/a")) {
-                        $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
-                    }
-                    if (isset($distro['Codename']) && ($distro['Codename'] != "n/a")) {
-                        $this->sys->setDistribution($this->sys->getDistribution()." (".$distro['Codename'].")");
+                } elseif (isset($distro['Distributor ID'])) {
+                    if ($distro['Distributor ID'] != "n/a") {
+                        $this->sys->setDistribution($distro['Distributor ID']);
+                        if (isset($distro['Release']) && ($distro['Release'] != "n/a")) {
+                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                        }
+                        if (isset($distro['Codename']) && ($distro['Codename'] != "n/a")) {
+                            $this->sys->setDistribution($this->sys->getDistribution()." (".$distro['Codename'].")");
+                        }
+                    } else if (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
+                        $this->sys->setDistribution($distro['Description']);
                     }
                 }
-                if (isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a") && isset($list[$distro['Distributor ID']]['Image'])) {
-                    $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
-                } elseif (isset($distro['Distributor ID']) && ($distro['Distributor ID'] == "n/a") && isset($distro['Description']) && ($distro['Description'] != "n/a")) {
-                    $this->sys->setDistribution($distro['Description']);
-                    if (isset($list[$distro['Description']]['Image'])) {
-                        $this->sys->setDistributionIcon($list[$distro['Description']]['Image']);
+                if (isset($distro['Distributor ID'])) {
+                    $distrib = $distro['Distributor ID'];
+                    if (isset($distro['Description']))  {
+                        $distarr = preg_split("/\s/", $distro['Description'], -1, PREG_SPLIT_NO_EMPTY);
+                        if (isset($distarr[0])) {
+                            if ($distrib != "n/a") {
+                                $distrib .= ' '.$distarr[0];
+                            } else { 
+                                $distrib = $distarr[0];
+                            }
+                        } 
+                    }
+                    if (isset($list[$distrib]['Image'])) {
+                        $this->sys->setDistributionIcon($list[$distrib]['Image']);
+                    } elseif (($distro['Distributor ID'] != "n/a") && isset($list[$distro['Distributor ID']]['Image'])) {
+                        $this->sys->setDistributionIcon($list[$distro['Distributor ID']]['Image']);
                     }
                 }
             }
