@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Linuxfx 11
+Release:	11
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=Linuxfx
+DISTRIB_RELEASE=11
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION="Linuxfx 11"
+----------/etc/os-release----------
+NAME="Linuxfx"
+VERSION="11"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Linuxfx 11"
+VERSION_ID="11"
+HOME_URL="https://www.linuxfx.org/"
+SUPPORT_URL="https://www.linuxfx.org/"
+BUG_REPORT_URL="https://www.linuxfx.org/"
+PRIVACY_POLICY_URL="https://www.linuxfx.org/"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+bullseya/sid
+----------/etc/fx.version----------
+11.1
