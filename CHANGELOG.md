@@ -7,6 +7,8 @@ phpSysInfo 3.4.1
 ----------------
  - [ADD] Linuxfx, EndeavourOS, Garuda, Arco and Artix Linux to detected distros
 
+ - [FIX] Fixed sensors voltages
+
 phpSysInfo 3.4.0
 ----------------
  - [ADD] Omarine, NethServer, JingOS, KDE neon, Alma, Virtuozzo, EuroLinux and Rocky Linux to detected distros
