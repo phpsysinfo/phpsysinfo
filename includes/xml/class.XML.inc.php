@@ -229,7 +229,7 @@ class XML
                 $offset = 0;
                 while (($offset < $comapos)
                      && (($slashpos = strpos($machine, "/", $offset)) !== false)
-                     && ($slashpos  < $comapos)) {
+                     && ($slashpos < $comapos)) {
                     $len1 = $comapos - $slashpos - 1;
                     $str1 = substr($machine , $slashpos + 1, $len1);
                     $begstr  = substr($machine, 0, $slashpos);
