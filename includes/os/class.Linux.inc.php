@@ -1789,21 +1789,21 @@ class Linux extends OS
                         if (isset($distro['Codename']) && ($distro['Codename'] != "n/a")) {
                             $this->sys->setDistribution($this->sys->getDistribution()." (".$distro['Codename'].")");
                         }
-                    } else if (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
+                    } elseif (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
                         $this->sys->setDistribution($distro['Description']);
                     }
                 }
                 if (isset($distro['Distributor ID'])) {
                     $distrib = $distro['Distributor ID'];
-                    if (isset($distro['Description']))  {
+                    if (isset($distro['Description'])) {
                         $distarr = preg_split("/\s/", $distro['Description'], -1, PREG_SPLIT_NO_EMPTY);
                         if (isset($distarr[0])) {
                             if ($distrib != "n/a") {
                                 $distrib .= ' '.$distarr[0];
-                            } else { 
+                            } else {
                                 $distrib = $distarr[0];
                             }
-                        } 
+                        }
                     }
                     if (isset($list[$distrib]['Image'])) {
                         $this->sys->setDistributionIcon($list[$distrib]['Image']);

@@ -227,11 +227,11 @@ class XML
                || preg_match('/^(.* (.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)
                || preg_match('/^((.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
                || preg_match('/^((.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)) 
+               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf))
                && ($mbuf[2] === $mbuf[3])) { // find duplicates
                 $machine = $mbuf[1].$mbuf[4]; // minimized machine name
             }
-            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma 
+            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma
 
             if ($machine != "") {
                 $hardware->addAttribute('Name', $machine);
