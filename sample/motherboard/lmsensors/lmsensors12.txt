@@ -1,0 +1,50 @@
+amdgpu-pci-3800
+Adapter: PCI adapter
+vddgfx:           N/A
+vddnb:            N/A
+temp1:        +29.0°C  (crit = +80.0°C, hyst =  +0.0°C)
+
+k10temp-pci-00c3
+Adapter: PCI adapter
+Tdie:         +29.8°C  (high = +70.0°C)
+Tctl:         +29.8°C
+
+nct6795-isa-0a20
+Adapter: ISA adapter
+Vcore:                  +0.67 V  (min =  +0.00 V, max =  +1.74 V)
+in1:                    +1.02 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+AVCC:                   +3.36 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
++3.3V:                  +3.34 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in4:                    +1.01 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in5:                    +0.15 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in6:                    +0.86 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+3VSB:                   +3.34 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+Vbat:                   +3.23 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in9:                    +1.85 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in10:                   +0.90 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in11:                   +0.60 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in12:                   +1.13 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in13:                   +0.68 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+in14:                   +1.53 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+fan1:                     0 RPM  (min =    0 RPM)
+fan2:                     0 RPM  (min =    0 RPM)
+fan3:                     0 RPM  (min =    0 RPM)
+fan4:                     0 RPM  (min =    0 RPM)
+fan5:                     0 RPM  (min =    0 RPM)
+SYSTIN:                 +40.0°C  (high =  +0.0°C, hyst =  +0.0°C)  ALARM  sensor = CPU diode
+CPUTIN:                 +32.0°C  (high = +115.0°C, hyst = +90.0°C)  sensor = thermistor
+AUXTIN0:                +33.5°C  (high = +115.0°C, hyst = +90.0°C)  sensor = thermistor
+AUXTIN1:                +31.0°C    sensor = thermistor
+AUXTIN2:                +50.0°C    sensor = thermistor
+AUXTIN3:                 -2.0°C    sensor = thermistor
+SMBUSMASTER 0:          +29.5°C
+PCH_CHIP_CPU_MAX_TEMP:   +0.0°C
+PCH_CHIP_TEMP:           +0.0°C
+PCH_CPU_TEMP:            +0.0°C
+intrusion0:            ALARM
+intrusion1:            ALARM
+beep_enable:           disabled
+
+iwlwifi-virtual-0
+Adapter: Virtual device
+temp1:        +33.0°C

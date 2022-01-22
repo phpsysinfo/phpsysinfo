@@ -575,7 +575,7 @@ class CommonFunctions
      */
     public static function checkForExtensions($arrExt = array())
     {
-        if (defined('PSI_SYSTEM_CODEPAGE') && ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)))
+        if (defined('PSI_SYSTEM_CODEPAGE') && (PSI_SYSTEM_CODEPAGE !== null) && ((strcasecmp(PSI_SYSTEM_CODEPAGE, "UTF-8") == 0) || (strcasecmp(PSI_SYSTEM_CODEPAGE, "CP437") == 0)))
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom');
         elseif (PSI_OS == 'WINNT')
             $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet');

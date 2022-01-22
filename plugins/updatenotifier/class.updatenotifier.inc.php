@@ -76,10 +76,11 @@ class UpdateNotifier extends PSI_Plugin
              - line 1: packages to update
              - line 2: security packages to update
              */
-            if ((count($this->_filecontent) == 2) || (count($this->_filecontent) == 1)) {
+            if ((count($this->_filecontent) >= 1) || (count($this->_filecontent) <= 3)) {
                 foreach ($this->_filecontent as $line) {
-                    list($num, $text) = explode(" ", $line, 2);
-                    $this->_result[] = $num;
+                   if (preg_match("/^(\d+)\s/", $line, $num) && !preg_match("/UA Infra/", $line)) {
+                       $this->_result[] = $num[1];
+                   }
                 }
             } else {
                 $this->global_error->addWarning("Unable to parse UpdateNotifier file");

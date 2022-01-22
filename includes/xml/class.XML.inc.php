@@ -222,11 +222,18 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            if (preg_match('/\/(.*), BIOS /', $machine, $tmpbuf) &&
-               (preg_match('/^(.* '.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^('.$tmpbuf[1].')\/'.$tmpbuf[1].'(, BIOS .*)$/', $machine, $mbuf))) { // find duplicates
-                $hardware->addAttribute('Name', $mbuf[1].$mbuf[2]); // minimized machine name
-            } else {
+            if ((preg_match('/^(.* (.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^(.* (.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^(.* (.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
+               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf))
+               && ($mbuf[2] === $mbuf[3])) { // find duplicates
+                $machine = $mbuf[1].$mbuf[4]; // minimized machine name
+            }
+            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma
+
+            if ($machine != "") {
                 $hardware->addAttribute('Name', $machine);
             }
         }
@@ -629,8 +636,8 @@ class XML
                         $item->addAttribute('Max', $dev->getMax());
                         $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -649,8 +656,8 @@ class XML
                     if ($dev->getUnit() !== "") {
                         $item->addAttribute('Unit', $dev->getUnit());
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -672,8 +679,8 @@ class XML
                             $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -689,8 +696,8 @@ class XML
                         $item->addAttribute('Max', $dev->getMax());
                         $alarm = true;
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -712,8 +719,8 @@ class XML
                             $alarm = true;
                         }
                     }
-                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (($dev->getEvent() !== "Alarm") || $alarm || ($dev->getValue() == 0))) {
-                        $item->addAttribute('Event', $dev->getEvent());
+                    if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && ($dev->getEvent() !== "") && (((strtolower($dev->getEvent())) !== "alarm") || $alarm || ($dev->getValue() == 0))) {
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
 
@@ -728,7 +735,7 @@ class XML
                         $item->addAttribute('Unit', $dev->getUnit());
                     }
                     if (defined('PSI_SENSOR_EVENTS') && PSI_SENSOR_EVENTS && $dev->getEvent() !== "") {
-                        $item->addAttribute('Event', $dev->getEvent());
+                        $item->addAttribute('Event', ucfirst(strtolower($dev->getEvent())));
                     }
                 }
             }

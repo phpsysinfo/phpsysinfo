@@ -81,13 +81,15 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+).C\s*\(/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):(.+).C\s+\D+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/^(.+):(.+).C$/", $line, $data);
+                preg_match("/^(.+):(.+).C\r?$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = intval($newvalue[1]);
+                        $data[$key] = floatval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -184,13 +186,15 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) RPM\s*\(/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):(.+) RPM\s+\D+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/^(.+):(.+) RPM$/", $line, $data);
+                preg_match("/^(.+):(.+) RPM\r?$/", $line, $data);
             }
             if (count($data)>2) {
                  foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = intval($newvalue[1]);
+                        $data[$key] = floatval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -237,14 +241,16 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) V\s*\(/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):(.+) V\s+\D+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/^(.+):(.+) V$/", $line, $data);
+                preg_match("/^(.+):(.+) V\r?$/", $line, $data);
             }
 
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+)$/", trim($value), $newvalue)) {
-                        $data[$key] = intval($newvalue[1]);
+                        $data[$key] = floatval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -301,13 +307,15 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) W\s*\(/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):(.+) W\s+\D+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/^(.+):(.+) W$/", $line, $data);
+                preg_match("/^(.+):(.+) W\r?$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
                     if (preg_match("/^\+?(-?[0-9\.]+).?$/", trim($value), $newvalue)) {
-                        $data[$key] = intval($newvalue[1]);
+                        $data[$key] = floatval($newvalue[1]);
                     } else {
                         $data[$key] = trim($value);
                     }
@@ -360,8 +368,10 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):(.+) A\s*\(/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):(.+) A\s+\D+/", $line, $data)) {
+                ;
             } else {
-                preg_match("/^(.+):(.+) A$/", $line, $data);
+                preg_match("/^(.+):(.+) A\r?$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
@@ -406,7 +416,7 @@ class LMSensors extends Sensors
                 }
             }
             $data = array();
-            preg_match("/^(.+):\s*([^\-\+\d\s].+)$/", $line, $data);
+            preg_match("/^(.+):\s*([^\-\+\d\s].+)\r?$/", $line, $data);
             if ((count($data)>2) && ($data[1]!=="Adapter") && !preg_match("/^FAULT/", $data[2])) {
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);

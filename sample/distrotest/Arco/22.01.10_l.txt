@@ -1,0 +1,30 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	ArcoLinux
+Description:	ArcoLinux
+Release:    rolling
+Codename:	n/a
+----------/etc/arch-release----------
+Arch Linux release
+----------/etc/arcolinux-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=ArcoLinux
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="ArcoLinux"
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=ArcoLinux
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="ArcoLinux"
+----------/etc/os-release----------
+NAME=ArcoLinux
+ID=arcolinux
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="0;36"
+HOME_URL="https://arcolinux.info/"
+SUPPORT_URL="https://arcolinuxforum.com/"
+BUG_REPORT_URL="https://github.com/arcolinux/"
+LOGO=arcolinux-hello
+IMAGE_ID=arcolinuxl
+IMAGE_VERSION=v22.01.10

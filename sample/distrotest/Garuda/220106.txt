@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	Garuda
+Description:	Garuda Linux
+Release:    Soaring
+Codename:	White-tailed-eagle
+----------/etc/arch-release----------
+Arch Linux release
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=Garuda
+DISTRIB_RELEASE=Soaring
+DISTRIB_DESCRIPTION="Garuda Linux"
+DISTRIB_CODENAME="White-tailed-eagle"
+----------/etc/os-release----------
+NAME="Garuda Linux"
+PRETTY_NAME="Garuda Linux"
+ID=garuda
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;32;23;147;209"
+HOME_URL="https://www.garudalinux.org/"
+DOCUMENTATION_URL="https://wiki.garudalinux.org/"
+SUPPORT_URL="https://forum.garudalinux.org/"
+BUG_REPORT_URL="https://gitlab.com/groups/garuda-linux/"
+LOGO=garudalinux
