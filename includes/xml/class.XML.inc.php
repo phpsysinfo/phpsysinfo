@@ -222,7 +222,7 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            $machine = trim(preg_replace("/\s+/", " ", preg_replace("/\/\s+,/", "/,", preg_replace("/^\s*[\/,]*/", "", $machine)))); // remove leading slash or comma and unnecessary spaces
+            $machine = trim(preg_replace("/\s+/", " ", preg_replace("/^\s*[\/,]*/", "", preg_replace("/\/\s+,/", "/,", $machine)))); // remove leading slash or comma and unnecessary spaces
             if (preg_match('/, BIOS .*$/', $machine, $mbuf, PREG_OFFSET_CAPTURE)) {
                 $comapos = $mbuf[0][1];
                 $endstr = $mbuf[0][0];
