@@ -222,16 +222,29 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            if ((preg_match('/^(.* (.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^(.* (.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^(.* (.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf))
-               && ($mbuf[2] === $mbuf[3])) { // find duplicates
-                $machine = $mbuf[1].$mbuf[4]; // minimized machine name
+            $machine = trim(preg_replace("/^\s*[\/,]*/", "", $machine)); // remove leading slash or comma
+            if (preg_match('/, BIOS .*$/', $machine, $mbuf, PREG_OFFSET_CAPTURE)) {
+                $comapos = $mbuf[0][1];
+                $endstr = $mbuf[0][0];
+                $offset = 0;
+                while (($offset < $comapos)
+                     && (($slashpos = strpos($machine, "/", $offset)) !== false)
+                     && ($slashpos  < $comapos)) {
+                    $len1 = $comapos - $slashpos - 1;
+                    $str1 = substr($machine , $slashpos + 1, $len1);
+                    $begstr  = substr($machine, 0, $slashpos);
+                    if ($len1 > 0) { // no empty
+                        $str2 = substr($begstr, -$len1);
+                    } else {
+                        $str2 = "";
+                    }
+                    if ($str1 === $str2) { // duplicates
+                        $machine = $begstr.$endstr;
+                        break;
+                    }
+                    $offset = $slashpos + 1;
+                }
             }
-            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma
 
             if ($machine != "") {
                 $hardware->addAttribute('Name', $machine);
