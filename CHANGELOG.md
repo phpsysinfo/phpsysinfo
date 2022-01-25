@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.2
+----------------
+ - [ADD] PopOS to detected distros
+
 phpSysInfo 3.4.1
 ----------------
  - [ADD] Linuxfx, EndeavourOS, Garuda, Arco and Artix Linux to detected distros
