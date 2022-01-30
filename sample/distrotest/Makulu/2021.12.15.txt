@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	MakuluLinux Shift Build: 2021.12.15
+Release:	Build: 2021.12.15
+Codename:	Shift
+----------/etc/lsb-release----------
+DISTRIB_ID=MakuluLinux
+DISTRIB_RELEASE=Build: 2021.12.15
+DISTRIB_CODENAME=MakuluLinux
+DISTRIB_DESCRIPTION="MakuluLinux Shift Build: 2021.12.15"
+----------/etc/os-release----------
+NAME="MakuluLinux"
+VERSION="Shift"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="MakuluLinux Shift Build: 2021.12.15"
+VERSION_ID="Build: 2021.12.15"
+HOME_URL="http://www.makululinux.com/"
+SUPPORT_URL="http://www.makululinux.com/"
+BUG_REPORT_URL="http://www.makululinux.com/"
+PRIVACY_POLICY_URL="http://www.makululinux.com/"
+VERSION_CODENAME=Shift
+UBUNTU_CODENAME=Shift
+----------/etc/debian_version----------
+bullseye/sid
+
