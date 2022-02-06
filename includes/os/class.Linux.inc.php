@@ -2039,6 +2039,26 @@ class Linux extends OS
                             $this->sys->setDistribution(trim($buf));
                         }
                     }
+                } elseif (CommonFunctions::fileexists($filename="/etc/slackware-version")) {
+                    if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
+                        $buf = "";
+                    }
+                    if (isset($list['Slackware']['Image'])) {
+                        $this->sys->setDistributionIcon($list['Slackware']['Image']);
+                    }
+                    if (isset($list['Slackware']['Name'])) {
+                        if (($buf === null) || (trim($buf) == "")) {
+                            $this->sys->setDistribution($list['Slackware']['Name']);
+                        } else {
+                            $this->sys->setDistribution($list['Slackware']['Name']." ".trim($buf));
+                        }
+                    } else {
+                        if (($buf === null) || (trim($buf) == "")) {
+                            $this->sys->setDistribution('Slackware');
+                        } else {
+                            $this->sys->setDistribution(trim($buf));
+                        }
+                    }
                 } elseif (CommonFunctions::fileexists($filename="/etc/config/uLinux.conf")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match("/^Rsync\sModel\s*=\s*QNAP/m", $buf)
