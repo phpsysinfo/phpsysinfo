@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.4.2
 ----------------
  - [ADD] Pop!_OS, Nitrux, Makulu and Absolute Linux to detected distros
+ - [ADD] schabau_bootstrap template
 
 phpSysInfo 3.4.1
 ----------------
