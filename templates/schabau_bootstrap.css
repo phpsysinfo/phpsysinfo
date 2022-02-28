@@ -3,7 +3,7 @@
 */
 
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: Verdana, "Bitstream Vera Sans";
     font-size: 13px;
     padding-top: 80px;
     color: #666;
@@ -28,6 +28,7 @@ wbr {
 }
 
 .navbar {
+    font-family: Georgia, serif;
     background-color: #f2f2df;
     border-color: #bcbbb1;
 }
@@ -138,6 +139,9 @@ select {
 }
 
 .card-header {
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 130%;
     background-color: #326ea1!important;
     border-color: #326ea1!important;
     color: #f2f2df!important;
