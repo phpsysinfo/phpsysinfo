@@ -1026,17 +1026,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"].Percent + '% ' + '<i>(';
                     var not_first = false;
                     if (this.Details["@attributes"].AppPercent !== undefined) {
-                        html += genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
+                        html += '<span class="progress-bar-info">&emsp;</span>&nbsp;' + genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this.Details["@attributes"].CachedPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
+                        html += '<span class="progress-bar-warning">&emsp;</span>&nbsp;' + genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
                         not_first = true;
                     }
                     if (this.Details["@attributes"].BuffersPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
+                        html += '<span class="progress-bar-danger">&emsp;</span>&nbsp;' + genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
