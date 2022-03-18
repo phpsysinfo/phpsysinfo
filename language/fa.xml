@@ -388,13 +388,13 @@ phpSysInfo language file Language: Persian Created by: Milad Abooali
     <exp>پونه سیستم عامل</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
+    <exp>تعداد چیپ‌های حافظه</exp>
   </expression>
   <expression id="129" name="speed">
-    <exp>Speed</exp>
+    <exp>سرعت</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
+    <exp>چیپ‌های حافظه</exp>
   </expression>
   <expression id="131" name="mtps">
     <exp>MT/s</exp>
@@ -403,9 +403,9 @@ phpSysInfo language file Language: Persian Created by: Milad Abooali
     <exp>GT/s</exp>
   </expression>
   <expression id="133" name="ups_beeper_status">
-    <exp>Beeper status</exp>
+    <exp>وضعیت آلارم</exp>
   </expression>
   <expression id="134" name="virtualizer">
-    <exp>Virtualizer</exp>
+    <exp>مجازی‌ساز</exp>
   </expression>
 </tns:translation>
