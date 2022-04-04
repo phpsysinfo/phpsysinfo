@@ -717,6 +717,7 @@ class CommonFunctions
             $vidarray = array(
                 'bhyvebhyve' => 'bhyve', // bhyve
                 'KVMKVMKVM' => 'kvm', // KVM
+                'LinuxKVMHv' => 'hv-kvm', // KVM (KVM + HyperV Enlightenments)
                 'MicrosoftHv' => 'microsoft', // Hyper-V
                 'lrpepyhvr' => 'parallels', // Parallels
                 'UnisysSpar64' => 'spar', // Unisys sPar
