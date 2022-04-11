@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	1.4
+Distributor ID:	RebornOS
+Description:	RebornOS Linux
+Release:	rolling
+Codename:	n/a
+----------/etc/arch-release----------
+RebornOS Linux release
+----------/etc/lsb-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=RebornOS
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="RebornOS Linux"
+----------/etc/os-release----------
+NAME="RebornOS Linux"
+PRETTY_NAME="RebornOS Linux"
+ID=rebornos
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://rebornos.org/"
+DOCUMENTATION_URL="https://osdn.net/projects/rebornos/wiki/TitleIndex"
+SUPPORT_URL="https://discord.com/channels/805020018537660416/805020018848169987"
+BUG_REPORT_URL="https://discord.com/channels/805020018537660416/805020018848169992"
+LOGO=rebornos
+ID_LIKE=arch
+
