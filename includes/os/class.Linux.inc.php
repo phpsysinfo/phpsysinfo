@@ -755,6 +755,11 @@ class Linux extends OS
                         case 'cpu':
                             $dev->setModel($arrBuff1);
                             break;
+                        case 'cpu frequency':
+                            if (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2) && ($bufr2[1] > 0)) { // openSUSE fix
+                                $dev->setCpuSpeed($bufr2[1]);
+                            }
+                            break;
                         case 'cpu mhz':
                         case 'clock':
                             if ($arrBuff1 > 0) { // openSUSE fix
