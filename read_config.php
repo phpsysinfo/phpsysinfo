@@ -183,7 +183,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 if (!defined('PSI_SYSTEM_CODEPAGE')) {
                     if (file_exists($vtfname = PSI_ROOT_FILESYSTEM.'/sys/module/vt/parameters/default_utf8')
                        && (trim(@file_get_contents($vtfname)) === "1")) {
-                            define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+                        define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
                     } elseif ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                         foreach ($lines as $line) {
                             if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
