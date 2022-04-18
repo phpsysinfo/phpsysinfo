@@ -358,7 +358,7 @@ abstract class BSDCommon extends OS
                $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
                foreach ($regexps as $regexp) {
                    if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                        if ($dev->getCpuSpeed() === 0) {
+                        if ($dev->getCpuSpeed() == 0) {
                             $dev->setCpuSpeed(round($ar_buf[2]));
                         }
                         $notwas = false;
