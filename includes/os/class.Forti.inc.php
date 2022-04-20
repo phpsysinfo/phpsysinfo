@@ -308,7 +308,7 @@ class Forti extends Linux
      */
     public function build()
     {
-        $this->error->addWarning("The FGT version of phpSysInfo is a work in progress, some things currently don't work");
+        $this->error->addWarning("The Forti OS version of phpSysInfo is a work in progress, some things currently don't work");
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
