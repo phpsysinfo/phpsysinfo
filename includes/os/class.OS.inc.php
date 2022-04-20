@@ -132,7 +132,7 @@ abstract class OS implements PSI_Interface_OS
      */
     protected function _ip()
     {
-        if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME')) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME') &&  !defined('PSI_FGT_HOSTNAME')) {
            if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
               && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
                 $dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
@@ -144,13 +144,15 @@ abstract class OS implements PSI_Interface_OS
             } else {
                 $this->sys->setIp(gethostbyname($this->sys->getHostname())); //IPv4 only
             }
-        } elseif (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
+        } elseif (((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !defined('PSI_FGT_HOSTNAME')) && (CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result))) {
             $this->sys->setIp(preg_replace('/^::ffff:/i', '', $result));
         } else {
             //$this->sys->setIp(gethostbyname($this->sys->getHostname()));
             $hn = $this->sys->getHostname();
             $ghbn = gethostbyname($hn);
-            if (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
+            if (defined('PSI_FGT_HOSTNAME') && ($hn === $ghbn)) {
+                $this->sys->setIp(PSI_FGT_HOSTNAME);
+            } elseif (defined('PSI_EMU_HOSTNAME') && ($hn === $ghbn)) {
                 $this->sys->setIp(PSI_EMU_HOSTNAME);
             } else {
                 $this->sys->setIp($ghbn);
@@ -265,7 +267,7 @@ abstract class OS implements PSI_Interface_OS
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_ip();
         }
-        if ((!$this->blockname || $this->blockname==='hardware') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+        if ((!$this->blockname || $this->blockname==='hardware') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !defined('PSI_FGT_HOSTNAME')) {
             $this->_dmimeminfo();
         }
 

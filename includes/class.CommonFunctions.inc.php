@@ -306,6 +306,10 @@ class CommonFunctions
      */
     public static function rolv($similarFileName, $match = "//", $replace = "")
     {
+        if (defined('PSI_FGT_HOSTNAME')) {
+            return null;
+        }
+
         $filename = preg_replace($match, $replace, $similarFileName);
         if (self::fileexists($filename) && self::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
             return $buf;
@@ -359,6 +363,10 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
+        if (defined('PSI_FGT_HOSTNAME')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Reading: ".$strFileName);
             if ($out == false) {
@@ -478,6 +486,10 @@ class CommonFunctions
      */
     public static function findglob($pattern, $flags = 0)
     {
+        if (defined('PSI_FGT_HOSTNAME')) {
+            return false;
+        }
+
         $outarr = glob(PSI_ROOT_FILESYSTEM.$pattern, $flags);
         if (PSI_ROOT_FILESYSTEM == '') {
             return $outarr;
@@ -503,6 +515,10 @@ class CommonFunctions
      */
     public static function fileexists($strFileName)
     {
+        if (defined('PSI_FGT_HOSTNAME')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $log_file = substr(PSI_LOG, 1);
             if (file_exists($log_file)

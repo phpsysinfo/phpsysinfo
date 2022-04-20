@@ -34,7 +34,7 @@ class Linux extends OS
     /**
      * Assoc array of all CPUs loads.
      */
-    private $_cpu_loads = null;
+    protected $_cpu_loads = null;
 
     /**
      * Version string.
@@ -520,12 +520,15 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _uptime()
+    protected function _uptime($bufu = null)
     {
         if (CommonFunctions::rfts('/proc/uptime', $buf, 1, 4096, PSI_OS != 'Android')) {
             $ar_buf = preg_split('/ /', $buf);
             $this->sys->setUptime(trim($ar_buf[0]));
-        } elseif (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+        } elseif (($this->_uptime !== null) || ($bufu !== null) || CommonFunctions::executeProgram('uptime', '', $bufu)) {
+            if (($this->_uptime === null) && ($bufu !== null)) {
+                $this->_uptime = $bufu;
+            }
             if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
@@ -646,10 +649,10 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _cpuinfo()
+    protected function _cpuinfo($bufr = null)
     {
-        if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
-
+        $dorfts = true;
+        if (($bufr !== null) || CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $cpulist = null;
             $raslist = null;
 
@@ -1670,9 +1673,9 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _memory()
+    protected function _memory($mbuf = null)
     {
-        if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
+        if (($mbuf !== null) || CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
             $swaptotal = null;
             $swapfree = null;
             $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
