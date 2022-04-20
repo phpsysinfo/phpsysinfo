@@ -163,6 +163,17 @@ class WebpageXML extends Output implements PSI_Interface_Output
                         define('PSI_EMU_USER', null);
                         define('PSI_EMU_PASSWORD', null);
                     }
+                } elseif (defined('PSI_FORTI_HOSTNAME') && defined('PSI_FORTI_USER') && defined('PSI_FORTI_PASSWORD')) {
+                    $fgthost = preg_split("/:/", PSI_FORTI_HOSTNAME, -1, PREG_SPLIT_NO_EMPTY);
+                    define('PSI_EMU_HOSTNAME', trim($fgthost[0]));
+                    if (isset($fgthost[1]) && (trim($fgthost[1] !== ''))) {
+                        define('PSI_EMU_PORT', trim($fgthost[1]));
+                    } else {
+                        define('PSI_EMU_PORT', 22);
+                    }
+                    define('PSI_EMU_USER', PSI_FORTI_USER);
+                    define('PSI_EMU_PASSWORD', PSI_FORTI_PASSWORD);
+                    define('PSI_EMU_PORT', '22');
                 } elseif (defined('PSI_WMI_HOSTNAME')) {
                     define('PSI_EMU_HOSTNAME', PSI_WMI_HOSTNAME);
                     if (defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD')) {
