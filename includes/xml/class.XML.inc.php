@@ -92,7 +92,7 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        if (defined('PSI_FGT_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
             $os = 'Forti';
         } elseif (defined('PSI_EMU_HOSTNAME')) {
             $os = 'WINNT';

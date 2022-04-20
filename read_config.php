@@ -113,14 +113,14 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     if (defined('PSI_FORTI_HOSTNAME') && defined('PSI_FORTI_USER') && defined('PSI_FORTI_PASSWORD')) {
         $fgthost = preg_split("/:/", PSI_FORTI_HOSTNAME, -1, PREG_SPLIT_NO_EMPTY);
-        define('PSI_FGT_HOSTNAME', trim($fgthost[0]));
+        define('PSI_EMU_HOSTNAME', trim($fgthost[0]));
         if (isset($fgthost[1]) && (trim($fgthost[1] !== ''))) {
-            define('PSI_FGT_PORT', trim($fgthost[1]));
+            define('PSI_EMU_PORT', trim($fgthost[1]));
         } else {
-            define('PSI_FGT_PORT', 22);
+            define('PSI_EMU_PORT', 22);
         }
-        define('PSI_FGT_USER', PSI_FORTI_USER);
-        define('PSI_FGT_PASSWORD', PSI_FORTI_PASSWORD);
+        define('PSI_EMU_USER', PSI_FORTI_USER);
+        define('PSI_EMU_PASSWORD', PSI_FORTI_PASSWORD);
     }
 
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini

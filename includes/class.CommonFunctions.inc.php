@@ -306,7 +306,7 @@ class CommonFunctions
      */
     public static function rolv($similarFileName, $match = "//", $replace = "")
     {
-        if (defined('PSI_FGT_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
             return null;
         }
 
@@ -363,7 +363,7 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
-        if (defined('PSI_FGT_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
             return false;
         }
 
@@ -486,7 +486,7 @@ class CommonFunctions
      */
     public static function findglob($pattern, $flags = 0)
     {
-        if (defined('PSI_FGT_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
             return false;
         }
 
@@ -515,7 +515,7 @@ class CommonFunctions
      */
     public static function fileexists($strFileName)
     {
-        if (defined('PSI_FGT_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
             return false;
         }
 
