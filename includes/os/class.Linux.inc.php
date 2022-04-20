@@ -1404,9 +1404,9 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _network()
+    public function _network($bufr = null)
     {
-        if (CommonFunctions::rfts('/proc/net/dev', $bufr, 0, 4096, PSI_DEBUG)) {
+        if (($bufr === null) && CommonFunctions::rfts('/proc/net/dev', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/:/', $buf)) {
@@ -1477,7 +1477,7 @@ class Linux extends OS
                     $this->sys->setNetDevices($dev);
                 }
             }
-        } elseif (CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && ($bufr!="")) {
+        } elseif (($bufr === null) && CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && ($bufr!="")) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             $macaddr = "";
@@ -1556,7 +1556,7 @@ class Linux extends OS
                 }
                 $this->sys->setNetDevices($dev);
             }
-        } elseif (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
+        } elseif (($bufr !== null) || CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             $errors = 0;
