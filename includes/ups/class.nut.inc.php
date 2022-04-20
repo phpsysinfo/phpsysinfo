@@ -86,7 +86,7 @@ class Nut extends UPS
             } else { //use default if address and port not defined
                 if (!defined('PSI_EMU_HOSTNAME')) {
                     CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
-                } elseif (!defined('PSI_EMU_PORT')) { {
+                } elseif (!defined('PSI_EMU_PORT')) {
                     CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
                 } else {
                     $output = '';
