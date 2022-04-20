@@ -38,7 +38,7 @@ class PS extends PSI_Plugin
         $buffer = "";
         switch (strtolower(PSI_PLUGIN_PS_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+            if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                 try {
                     $os_wmi = WINNT::_get_Win32_OperatingSystem();
                     $memtotal = 0;
