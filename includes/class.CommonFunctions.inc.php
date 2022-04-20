@@ -692,6 +692,7 @@ class CommonFunctions
         if (gettype($vendor_data) === "array") {
             $vendarray = array(
                 'KVM' => 'kvm', // KVM
+                'OpenStack' => 'kvm', // KVM
                 'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
                 'QEMU' => 'qemu', // QEMU
                 'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
