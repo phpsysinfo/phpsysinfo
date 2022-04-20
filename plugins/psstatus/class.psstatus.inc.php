@@ -90,7 +90,7 @@ class PSStatus extends PSI_Plugin
                         } catch (Exception $e) {
                         }
                     }
-                } else {
+                } elseif (!defined('PSI_EMU_PORT')) {
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
