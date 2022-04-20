@@ -61,7 +61,20 @@ class WebpageXML extends Output implements PSI_Interface_Output
     private function _prepare()
     {
         if ($this->_pluginName === null) {
-            if (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && defined('PSI_WMI_HOSTNAME')) {
+            if ((PSI_OS == 'Linux') && defined('PSI_FORTI_HOSTNAME') && defined('PSI_FORTI_USER') && defined('PSI_FORTI_PASSWORD')) {
+                $fgthost = preg_split("/:/", PSI_FORTI_HOSTNAME, -1, PREG_SPLIT_NO_EMPTY);
+                define('PSI_EMU_HOSTNAME', trim($fgthost[0]));
+                if (isset($fgthost[1]) && (trim($fgthost[1] !== ''))) {
+                    define('PSI_EMU_PORT', trim($fgthost[1]));
+                } else {
+                    define('PSI_EMU_PORT', 22);
+                }
+                define('PSI_EMU_USER', PSI_FORTI_USER);
+                define('PSI_EMU_PASSWORD', PSI_FORTI_PASSWORD);
+                if (!file_exists(PSI_APP_ROOT.'/includes/os/class.Linux.inc.php')) {
+                    $this->error->addError("file_exists(class.Linux.inc.php)", "Linux is not currently supported");
+                }
+            } elseif (((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) && defined('PSI_WMI_HOSTNAME')) {
                 define('PSI_EMU_HOSTNAME', PSI_WMI_HOSTNAME);
                 if (defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD')) {
                     define('PSI_EMU_USER', PSI_WMI_USER);
