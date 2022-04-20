@@ -300,6 +300,26 @@ class Forti extends Linux
     }
 
     /**
+     * Kernel Version
+     *
+     * @return void
+     */
+    private function _kernel()
+    {
+        if (CommonFunctions::executeProgram('echo', 'fnsysctl cat /proc/version | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+           && preg_match('/[\$#] (.+)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+            $strBuf = substr($resulte, $resulto[1][1]);
+            if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+                $verBuf = $ar_buf[1];
+                if (preg_match('/ SMP /', $strBuf)) {
+                    $verBuf .= ' (SMP)';
+                }
+                $this->sys->setKernel($verBuf);
+            }
+        }
+    }
+
+    /**
      * get the information
      *
      * @return void
@@ -310,7 +330,7 @@ class Forti extends Linux
         if (!$this->blockname || $this->blockname==='vitals') {
             $this->_distro();
             $this->_hostname();
-//            $this->_kernel();
+            $this->_kernel();
             $this->_uptime();
 //            $this->_users();
 //            $this->_parseProcStat2();
