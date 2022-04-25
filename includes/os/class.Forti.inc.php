@@ -115,7 +115,7 @@ class Forti extends Linux
      */
     public function _network($bufr = null)
     {
-        $burf = '';
+        $bufr = '';
         if (CommonFunctions::executeProgram('echo', 'fnsysctl ifconfig | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
            && preg_match('/[\$#] (.+)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $resulti = substr($resulte, $resulto[1][1]);
@@ -235,6 +235,47 @@ class Forti extends Linux
     }
 
     /**
+     * filesystem information
+     *
+     * @return void
+     */
+    private function _filesystems()
+    {
+        if (CommonFunctions::executeProgram('echo', 'fnsysctl df -k | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+           && preg_match('/[\$#] (.+)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+            $resulti = substr($resulte, $resulto[1][1]);
+            $df = preg_split("/\n/", $resulti, -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($df as $df_line) {
+                $df_buf1 = preg_split("/(\%\s)/", $df_line, 3);
+                if (count($df_buf1) != 2) {
+                    continue;
+                }
+                if (preg_match("/(.*)(\s+)(([0-9]+)(\s+)([0-9]+)(\s+)([\-0-9]+)(\s+)([0-9]+)$)/", $df_buf1[0], $df_buf2)) {
+                    $df_buf = array($df_buf2[1], $df_buf2[4], $df_buf2[6], $df_buf2[8], $df_buf2[10], $df_buf1[1]);
+                    if (count($df_buf) == 6) {
+                        $df_buf[5] = trim($df_buf[5]);
+                        $dev = new DiskDevice();
+                        $dev->setName(trim($df_buf[0]));
+                        if ($df_buf[2] < 0) {
+                            $dev->setTotal($df_buf[3] * 1024);
+                            $dev->setUsed($df_buf[3] * 1024);
+                        } else {
+                            $dev->setTotal($df_buf[1] * 1024);
+                            $dev->setUsed($df_buf[2] * 1024);
+                            if ($df_buf[3]>0) {
+                                $dev->setFree($df_buf[3] * 1024);
+                            }
+                        }
+                        if (PSI_SHOW_MOUNT_POINT) $dev->setMountPoint($df_buf[5]);
+                        $dev->setFsType('unknown');
+                        $this->sys->setDiskDevices($dev);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Distribution
      *
      * @return void
@@ -333,7 +374,6 @@ class Forti extends Linux
             $this->_kernel();
             $this->_uptime();
 //            $this->_users();
-//            $this->_parseProcStat2();
             $this->_loadavg();
 //            $this->_processes();
         }
@@ -349,7 +389,7 @@ class Forti extends Linux
             $this->_memory();
         }
         if (!$this->blockname || $this->blockname==='filesystem') {
-//            $this->_filesystems();
+            $this->_filesystems();
         }
         if (!$this->blockname || $this->blockname==='network') {
             $this->_network();
