@@ -165,7 +165,7 @@ class Forti extends Linux
             }
             if (CommonFunctions::executeProgram('echo', 'diagnose ipv6 address list | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
-                $strBuf = substr($resulte, strlne($resulto[1][0]));
+                $strBuf = substr($resulte, strlen($resulto[1][0]));
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) if (preg_match('/ devname=(\S+) .+ addr=(\S+)/', $line, $buf)) {
                     if (!preg_match('/^fe80::/i', $buf[2])) {
@@ -340,10 +340,11 @@ class Forti extends Linux
      *
      * @return void
      */
-    protected function _loadavg()
+    public function _loadavg($bufr = null)
     {
-        if (PSI_LOAD_BAR) {
-            $this->sys->setLoadPercent($this->_parseProcStat('cpu'));
+        if (CommonFunctions::executeProgram('echo', 'fnsysctl cat /proc/loadavg | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+           && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+            parent::_loadavg(substr($resulte, strlen($resulto[1][0])));
         }
     }
 
