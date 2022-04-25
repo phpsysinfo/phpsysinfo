@@ -562,7 +562,7 @@ class Linux extends OS
      */
     public function _loadavg($buf = null)
     {
-        if (($buf !== null) || CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) {
+        if ((($buf !== null) || CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) && preg_match("/^\d/", trim($buf))) {
             $result = preg_split("/\s/", $buf, 4);
             // don't need the extra values, only first three
             unset($result[3]);
