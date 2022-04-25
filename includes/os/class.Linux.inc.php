@@ -1148,51 +1148,53 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _usb()
+    public function _usb($bufu = null)
     {
         $usbarray = array();
-        if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($bufe as $buf) {
-                $device = preg_split("/ /", $buf, 7);
-                if (((isset($device[6]) && trim($device[6]) != "")) ||
-                    ((isset($device[5]) && trim($device[5]) != ""))) {
-                    $usbid = intval($device[1]).'-'.intval(trim($device[3], ':')).' '.$device[5];
-                    if ((isset($device[6]) && trim($device[6]) != "")) {
-                        $usbarray[$usbid]['name'] = trim($device[6]);
-                    } else {
-                        $usbarray[$usbid]['name'] = 'unknown';
+        if ($nobufu = ($bufu === null)) {
+            if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
+                $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($bufe as $buf) {
+                    $device = preg_split("/ /", $buf, 7);
+                    if (((isset($device[6]) && trim($device[6]) != "")) ||
+                        ((isset($device[5]) && trim($device[5]) != ""))) {
+                        $usbid = intval($device[1]).'-'.intval(trim($device[3], ':')).' '.$device[5];
+                        if ((isset($device[6]) && trim($device[6]) != "")) {
+                            $usbarray[$usbid]['name'] = trim($device[6]);
+                        } else {
+                            $usbarray[$usbid]['name'] = 'unknown';
+                        }
                     }
                 }
             }
-        }
 
-        $usbdevices = CommonFunctions::findglob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
-        if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
-            for ($i = 0; $i < $total; $i++) {
-                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
-                    $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
-                    $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
-                    $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
-                    if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
-                        $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
-                        $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
-                        if ($manufacturer!==null) {
-                            $usbarray[$usbid]['manufacturer'] = $manufacturer;
-                        }
-                        $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
-                        if ($product!==null) {
-                            $usbarray[$usbid]['product'] = $product;
-                        }
-                        $speed = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/speed');
-                        if ($product!==null) {
-                            $usbarray[$usbid]['speed'] = $speed;
-                        }
-                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
-                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                            $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
-                            if (($serial!==null) && !preg_match('/\W/', $serial)) {
-                                $usbarray[$usbid]['serial'] = $serial;
+            $usbdevices = CommonFunctions::findglob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+            if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
+                for ($i = 0; $i < $total; $i++) {
+                    if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
+                        $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
+                        $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
+                        $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
+                        if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
+                            $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
+                            $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
+                            if ($manufacturer!==null) {
+                                $usbarray[$usbid]['manufacturer'] = $manufacturer;
+                            }
+                            $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
+                            if ($product!==null) {
+                                $usbarray[$usbid]['product'] = $product;
+                            }
+                            $speed = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/speed');
+                            if ($product!==null) {
+                                $usbarray[$usbid]['speed'] = $speed;
+                            }
+                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                               && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
+                                if (($serial!==null) && !preg_match('/\W/', $serial)) {
+                                    $usbarray[$usbid]['serial'] = $serial;
+                                }
                             }
                         }
                     }
@@ -1200,9 +1202,9 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) { // usb-devices
+        if (!$nobufu || ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufu, 0, 4096, false))) { // usb-devices
             $devnum = -1;
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $bufe = preg_split("/\n/", $bufu, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
                     $devnum++;
@@ -1231,7 +1233,7 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
+        if ($nobufu && (count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
             $devnam = "unknown";
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
