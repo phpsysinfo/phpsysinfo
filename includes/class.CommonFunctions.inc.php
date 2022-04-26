@@ -287,7 +287,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.' '.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {
