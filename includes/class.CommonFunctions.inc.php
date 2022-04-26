@@ -156,17 +156,17 @@ class CommonFunctions
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
      * @param string  $strProgramname name of the program
-     * @param string  $strArgs        arguments to the program
+     * @param string  $strArguments   arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT)
+    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT)
     {
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
-            $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArgs));
+            $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArguments));
             if ($out == false) {
                 if (substr(PSI_LOG, 0, 1)=="-") {
                     $strBuffer = '';
@@ -229,6 +229,7 @@ class CommonFunctions
             }
         }
 
+        $strArgs = $strArguments;
         // see if we've gotten a | or &, if we have we need to do path checking on the cmd
         if ($strArgs) {
             $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
@@ -286,7 +287,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {
