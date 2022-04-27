@@ -1447,7 +1447,7 @@ class Linux extends OS
                                    || preg_match('/^\s+inet6\saddr:\s([^\/\s]+)(.+)\s+Scope:[GH]/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6\s+(\S+)\s+prefixlen(.+)((<global>)|(<host>))/i', $buf2, $ar_buf2)
                                    || preg_match('/^\s+inet6?\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)
-                                   || preg_match('/^\s+inet\saddr6:\s+(\S+)\s+prefixlen(.+)/i', $line, $ar_buf2))
+                                   || preg_match('/^\s+inet\saddr6:\s+(\S+)\s+prefixlen(.+)/i', $buf2, $ar_buf2))
                                    && ($ar_buf2[1]!="::") && !preg_match('/^fe80::/i', $ar_buf2[1])) {
                                     $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ar_buf2[1]));
                                 }
