@@ -80,6 +80,15 @@ BLOCKS=true
 ;
 ;ROOTFS="/"
 
+
+; External Forti OS connection parameters
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+;
+;FORTI_HOSTNAME="hostname:22"
+;FORTI_USER="username"
+;FORTI_PASSWORD="password"
+
+
 ; External WinNT server connection parameters
 ; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
 ; These settings can also be entered for a specific plug-in so that only it connects to an external server
@@ -283,6 +292,7 @@ DATETIME_FORMAT="UTC"
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
 ; - NvidiaSMI      Nvidia GPU drivers (FreeBSD/Linux/SunOS/WinNT)
+; - FortiSensor    No addon tool neded (Fortinet devices - Forti OS)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
