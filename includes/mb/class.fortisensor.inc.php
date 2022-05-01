@@ -54,10 +54,61 @@ class FortiSensor extends Sensors
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
                 $this->mbinfo->setMbTemp($dev);
+            } elseif (preg_match('/^\s*\d+\s(.+)\s+alarm=(\d)\s+value=(\d+)\s/', $line, $data)
+               && !preg_match('/fan| vin/i', $data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($data[1]));
+                $dev->setValue($data[3]);
+                if ($data[2] != 0){
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbTemp($dev);
             }
         }
     }
 
+    /**
+     * get voltage information
+     *
+     * @return void
+     */
+    private function _voltage()
+    {
+        foreach ($this->_lines as $line) {
+            if (preg_match('/^\s*\d+\s(.+)\s+alarm=(\d)\s+value=([\d\.]+)\s/', $line, $data)
+               && preg_match('/\./i', $data[3])
+               && !preg_match('/fan|temp/i', $data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($data[1]));
+                $dev->setValue($data[3]);
+                if ($data[2] != 0){
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbVolt($dev);
+            }
+        }
+    }
+
+    /**
+     * get fan information
+     *
+     * @return void
+     */
+    private function _fans()
+    {
+        foreach ($this->_lines as $line) {
+            if (preg_match('/^\s*\d+\s(.+)\s+alarm=(\d)\s+value=(\d+)\s/', $line, $data)
+               && preg_match('/fan/i', $data[1])) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($data[1]));
+                $dev->setValue($data[3]);
+                if ($data[2] != 0){
+                    $dev->setEvent("Alarm");
+                }
+                $this->mbinfo->setMbFan($dev);
+            }
+        }
+    }
     /**
      * get the information
      *
@@ -68,5 +119,7 @@ class FortiSensor extends Sensors
     public function build()
     {
         $this->_temperature();
+        $this->_voltage();
+        $this->_fans();
     }
 }
