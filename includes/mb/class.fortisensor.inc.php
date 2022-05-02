@@ -33,9 +33,6 @@ class FortiSensor extends Sensors
             $resulti = substr($resulte, strlen($resulto[1][0]));
             if (preg_match('/(\n.*[\$#])$/', $resulti, $resulto, PREG_OFFSET_CAPTURE)) {
                 $lines = substr($resulti, 0, $resulto[1][1]);
-                if (count(preg_split('/\n/', $lines, -1, PREG_SPLIT_NO_EMPTY)) < 2) {
-                    $lines = "";
-                }
             }
         }
         $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
@@ -76,7 +73,7 @@ class FortiSensor extends Sensors
     {
         foreach ($this->_lines as $line) {
             if (preg_match('/^\s*\d+\s(.+)\s+alarm=(\d)\s+value=([\d\.]+)\s/', $line, $data)
-               && preg_match('/\./i', $data[3])
+               && preg_match('/\./', $data[3])
                && !preg_match('/fan|temp/i', $data[1])) {
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
@@ -102,7 +99,7 @@ class FortiSensor extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
                 $dev->setValue($data[3]);
-                if ($data[2] != 0){
+                if ($data[2] != 0) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbFan($dev);
