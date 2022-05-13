@@ -240,6 +240,13 @@ class CommonFunctions
                 if (($arrArgs[$i] == '|') || ($arrArgs[$i] == '&')) {
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
+                    if (!$strNewcmd) {
+                        if ($booErrorRep) {
+                            $error->addError('find_program("'.$strCmd.'")', 'program not found on the machine');
+                        }
+
+                        return false;
+                    }
                     if ($arrArgs[$i] == '|') {
                         $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
                     } else {
