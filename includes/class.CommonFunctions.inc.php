@@ -165,6 +165,11 @@ class CommonFunctions
      */
     public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT)
     {
+        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArguments));
             if ($out == false) {
@@ -178,11 +183,6 @@ class CommonFunctions
 
                 return true;
             }
-        }
-
-        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
-
-            return false;
         }
 
         if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
