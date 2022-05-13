@@ -651,7 +651,6 @@ class Linux extends OS
      */
     protected function _cpuinfo($bufr = null)
     {
-        $dorfts = true;
         if (($bufr !== null) || CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $cpulist = null;
             $raslist = null;
