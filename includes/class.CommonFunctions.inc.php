@@ -170,11 +170,16 @@ class CommonFunctions
             return false;
         }
 
+        if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+            $strSet = $strmatch[1].' ';
+            $strProgramname = $strmatch[2];
+        } else {
+            $strSet = '';
+        }
+        $strAll = trim($strSet.$strProgramname.' '.$strArguments);
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
-            if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
-                $strProgramname = $strmatch[1].' '.$strmatch[2];
-            }
-            $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArguments));
+            $out = self::_parse_log_file("Executing: ".$strAll);
             if ($out == false) {
                 if (substr(PSI_LOG, 0, 1)=="-") {
                     $strBuffer = '';
@@ -188,12 +193,6 @@ class CommonFunctions
             }
         }
 
-        if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
-            $strSet = $strmatch[1].' ';
-            $strProgramname = $strmatch[2];
-        } else {
-            $strSet = '';
-        }
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
@@ -297,7 +296,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strSet.$strProgramname.' '.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".$strAll."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {
