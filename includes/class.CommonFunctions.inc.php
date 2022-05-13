@@ -171,6 +171,9 @@ class CommonFunctions
         }
 
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
+            if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+                $strProgramname = $strmatch[1].' '.$strmatch[2];
+            }
             $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArguments));
             if ($out == false) {
                 if (substr(PSI_LOG, 0, 1)=="-") {
@@ -287,7 +290,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.' '.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".trim($strSet.$strProgramname.' '.$strArguments)."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {
