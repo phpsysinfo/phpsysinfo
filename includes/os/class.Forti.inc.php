@@ -69,7 +69,7 @@ class Forti extends Linux
     private function getSystemStatus()
     {
         if ($this->_sysstatus === null) {
-            if (CommonFunctions::executeProgram('echo', 'get system status | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+            if (CommonFunctions::executeProgram('get' ,'system status', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $this->_sysstatus = substr($resulte, strlen($resulto[1][0]));
             } else {
@@ -83,7 +83,7 @@ class Forti extends Linux
     private function getSystemPerformance()
     {
         if ($this->_sysperformance === null) {
-            if (CommonFunctions::executeProgram('echo', 'get system performance status | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+            if (CommonFunctions::executeProgram('get', 'system performance status', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $this->_sysperformance = substr($resulte, strlen($resulto[1][0]));
             } else {
@@ -101,7 +101,7 @@ class Forti extends Linux
      */
     protected function _memory($mbuf = null)
     {
-        if (CommonFunctions::executeProgram('echo', 'get hardware memory | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('get', 'hardware memory', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             parent::_memory(substr($resulte, strlen($resulto[1][0])));
         }
@@ -115,7 +115,7 @@ class Forti extends Linux
     public function _usb($bufu = null)
     {
         $bufr = '';
-        if (CommonFunctions::executeProgram('echo', 'fnsysctl cat /proc/bus/usb/devices | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/bus/usb/devices', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $resulti = substr($resulte, strlen($resulto[1][0]));
             if (preg_match('/(\n.*[\$#])$/', $resulti, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -136,7 +136,7 @@ class Forti extends Linux
     public function _network($bufr = null)
     {
         $bufr = '';
-        if (CommonFunctions::executeProgram('echo', 'fnsysctl ifconfig | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('fnsysctl', 'ifconfig', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $resulti = substr($resulte, strlen($resulto[1][0]));
             if (preg_match('/(\n.*[\$#])$/', $resulti, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -151,7 +151,7 @@ class Forti extends Linux
             parent::_network($bufr);
         } else {
             $netdevs = array();
-            if (CommonFunctions::executeProgram('echo', 'diagnose ip address list | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+            if (CommonFunctions::executeProgram('diagnose', 'ip address list', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $strBuf = substr($resulte, strlen($resulto[1][0]));
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
@@ -163,7 +163,7 @@ class Forti extends Linux
                     }
                 }
             }
-            if (CommonFunctions::executeProgram('echo', 'diagnose ipv6 address list | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+            if (CommonFunctions::executeProgram('diagnose', 'ipv6 address list', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $strBuf = substr($resulte, strlen($resulto[1][0]));
                 $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
@@ -201,7 +201,7 @@ class Forti extends Linux
      */
     protected function _cpuinfo($bufr = null)
     {
-        if (CommonFunctions::executeProgram('echo', 'get hardware cpu | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('get', 'hardware cpu', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             parent::_cpuinfo(substr($resulte, strlen($resulto[1][0])));
         }
@@ -261,7 +261,7 @@ class Forti extends Linux
      */
     private function _filesystems()
     {
-        if (CommonFunctions::executeProgram('echo', 'fnsysctl df -k | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('fnsysctl', 'df -k', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $resulti = substr($resulte, $resulto[1][1]);
             $df = preg_split("/\n/", $resulti, -1, PREG_SPLIT_NO_EMPTY);
@@ -342,7 +342,7 @@ class Forti extends Linux
      */
     public function _loadavg($bufr = null)
     {
-        if (CommonFunctions::executeProgram('echo', 'fnsysctl cat /proc/loadavg | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/loadavg', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             parent::_loadavg(substr($resulte, strlen($resulto[1][0])));
         }
@@ -368,7 +368,7 @@ class Forti extends Linux
      */
     private function _kernel()
     {
-        if (CommonFunctions::executeProgram('echo', 'fnsysctl cat /proc/version | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/version', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $strBuf = substr($resulte, $resulto[1][1]);
             if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {

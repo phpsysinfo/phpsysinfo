@@ -193,6 +193,12 @@ class CommonFunctions
             }
         }
 
+        if (defined('PSI_EMU_PORT')) {
+            $strSet = '';
+            $strProgramname = 'echo';
+            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+        }
+        
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {

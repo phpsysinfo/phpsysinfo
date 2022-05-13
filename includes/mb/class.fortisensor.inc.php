@@ -28,7 +28,7 @@ class FortiSensor extends Sensors
     {
         parent::__construct();
         $lines = "";
-        if (defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('echo', 'execute sensor list | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT, $resulte, false) && ($resulte !== "")
+        if (defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('execute', 'sensor list', $resulte, false) && ($resulte !== "")
            && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
             $resulti = substr($resulte, strlen($resulto[1][0]));
             if (preg_match('/(\n.*[\$#])$/', $resulti, $resulto, PREG_OFFSET_CAPTURE)) {
