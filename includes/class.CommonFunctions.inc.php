@@ -202,7 +202,7 @@ class CommonFunctions
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
-            if ($booErrorRep) {
+            if ($booErrorRep || defined('PSI_EMU_PORT')) {
                 $error->addError('find_program("'.$strProgramname.'")', 'program not found on the machine');
             }
 
@@ -244,7 +244,7 @@ class CommonFunctions
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
                     if (!$strNewcmd) {
-                        if ($booErrorRep) {
+                        if ($booErrorRep || defined('PSI_EMU_PORT')) {
                             $error->addError('find_program("'.$strCmd.'")', 'program not found on the machine');
                         }
 
