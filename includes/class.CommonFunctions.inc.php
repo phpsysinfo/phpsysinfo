@@ -216,9 +216,7 @@ class CommonFunctions
             if (in_array($strProgramname, $sudocommands)) {
                 $sudoProgram = self::_findProgram("sudo");
                 if (!$sudoProgram) {
-                    if ($booErrorRep) {
-                        $error->addError('find_program("sudo")', 'program not found on the machine');
-                    }
+                    $error->addError('find_program("sudo")', 'program not found on the machine');
 
                     return false;
                 } else {
