@@ -193,16 +193,19 @@ class CommonFunctions
             }
         }
 
-        if (defined('PSI_EMU_PORT')) {
+        if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
             $strSet = '';
             $strProgramname = 'echo';
             $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+            $externally = true;
+        } else {
+            $externally = false;
         }
         
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
-            if ($booErrorRep || defined('PSI_EMU_PORT')) {
+            if ($booErrorRep || $externally) {
                 $error->addError('find_program("'.$strProgramname.'")', 'program not found on the machine');
             }
 
@@ -244,7 +247,7 @@ class CommonFunctions
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
                     if (!$strNewcmd) {
-                        if ($booErrorRep || defined('PSI_EMU_PORT')) {
+                        if ($booErrorRep || $externally) {
                             $error->addError('find_program("'.$strCmd.'")', 'program not found on the machine');
                         }
 
