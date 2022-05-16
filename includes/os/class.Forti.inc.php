@@ -243,15 +243,16 @@ class Forti extends Linux
         $hostname = PSI_EMU_HOSTNAME;
 
         if (preg_match("/\nHostname: ([^\n]+)\n/", $this->getSystemStatus(), $buf)) {
-            $hostname = trim($buf[1]);
+            $this->sys->setHostname(trim($buf[1]));
+//            $hostname = trim($buf[1]);
         }
 
-        $ip = gethostbyname($hostname);
-        if ($ip != $hostname) {
-            $this->sys->setHostname(gethostbyaddr($ip));
-        } else {
-            $this->sys->setHostname($hostname);
-        }
+//        $ip = gethostbyname($hostname);
+//        if ($ip != $hostname) {
+//            $this->sys->setHostname(gethostbyaddr($ip));
+//        } else {
+//            $this->sys->setHostname($hostname);
+//        }
     }
 
     /**
