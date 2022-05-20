@@ -389,7 +389,7 @@ class SSH extends Linux
             if (preg_match("/^Version: \S+ (v[^\n]+)\n/", $this->getSystemStatus(), $buf)) {
                 $this->sys->setDistribution('FortiOS '.trim($buf[1]));
             }
-            $this->sys->setDistributionIcon($this->_ostype);
+            $this->sys->setDistributionIcon('FortiOS.png');
             break;
         case 'Linux':
             parent::_distro();
