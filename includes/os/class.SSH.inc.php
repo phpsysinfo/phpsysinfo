@@ -130,7 +130,7 @@ class SSH extends Linux
     protected function _memory($mbuf = null, $sbuf = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (CommonFunctions::executeProgram('get', 'hardware memory', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_memory(substr($resulte, strlen($resulto[1][0])));
@@ -158,7 +158,7 @@ class SSH extends Linux
     protected function _usb($bufu = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             $bufr = '';
             if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/bus/usb/devices', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -185,7 +185,7 @@ class SSH extends Linux
     protected function _network($bufr = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             $bufr = '';
             if (CommonFunctions::executeProgram('fnsysctl', 'ifconfig', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -257,7 +257,7 @@ class SSH extends Linux
     protected function _cpuinfo($bufr = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (CommonFunctions::executeProgram('get', 'hardware cpu', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_cpuinfo(substr($resulte, strlen($resulto[1][0])));
@@ -278,7 +278,7 @@ class SSH extends Linux
     protected function _machine()
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (($sysstat = $this->getSystemStatus()) !== '') {
                 $machine= '';
                 if (preg_match("/^Version: (\S+) v/", $sysstat, $buf)) {
@@ -310,7 +310,7 @@ class SSH extends Linux
     protected function _hostname()
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
 //            $hostname = PSI_EMU_HOSTNAME;
             if (preg_match("/\nHostname: ([^\n]+)\n/", $this->getSystemStatus(), $buf)) {
                 $this->sys->setHostname(trim($buf[1]));
@@ -338,7 +338,7 @@ class SSH extends Linux
     protected function _filesystems()
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (CommonFunctions::executeProgram('fnsysctl', 'df -k', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $resulti = substr($resulte, $resulto[1][1]);
@@ -385,7 +385,7 @@ class SSH extends Linux
     protected function _distro()
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (preg_match("/^Version: \S+ (v[^\n]+)\n/", $this->getSystemStatus(), $buf)) {
                 $this->sys->setDistribution('FortiOS '.trim($buf[1]));
             }
@@ -436,7 +436,7 @@ class SSH extends Linux
     protected function _loadavg($bufr = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/loadavg', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_loadavg(substr($resulte, strlen($resulto[1][0])));
@@ -456,7 +456,7 @@ class SSH extends Linux
     protected function _uptime($bufu = null)
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (preg_match("/\nUptime: ([^\n]+)\n/", $this->getSystemPerformance(), $buf)) {
                 parent::_uptime('up '.trim($buf[1]));
             }
@@ -474,7 +474,7 @@ class SSH extends Linux
     protected function _kernel()
     {
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/version', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $strBuf = substr($resulte, $resulto[1][1]);
@@ -501,7 +501,7 @@ class SSH extends Linux
     {
         $this->error->addWarning("The SSH version of phpSysInfo is a work in progress, some things currently don't work");
         switch ($this->_ostype) {
-        case 'Fortios':
+        case 'FortiOS':
             if (!$this->blockname || $this->blockname==='vitals') {
                 $this->_distro();
                 $this->_hostname();
