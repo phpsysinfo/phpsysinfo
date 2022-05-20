@@ -81,12 +81,12 @@ BLOCKS=true
 ;ROOTFS="/"
 
 
-; External Forti OS connection parameters
+; External Linux or Forti OS connection parameters via SSH
 ; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
 ;
-;FORTI_HOSTNAME="hostname:22"
-;FORTI_USER="username"
-;FORTI_PASSWORD="password"
+;SSH_HOSTNAME="hostname:22"
+;SSH_USER="username"
+;SSH_PASSWORD="password"
 
 
 ; External WinNT server connection parameters

@@ -245,7 +245,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _machine()
+    protected function _machine()
     {
         $machine_info = $this->_get_machine_info();
         if (isset($machine_info['machine'])) {
@@ -279,7 +279,7 @@ class Linux extends OS
      */
     protected function _hostname()
     {
-        if (PSI_USE_VHOST) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_PORT')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {
@@ -299,7 +299,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _kernel()
+    protected function _kernel()
     {
         if (($verBuf = $this->_get_kernel_string()) != "") {
             $this->sys->setKernel($verBuf);
@@ -560,15 +560,15 @@ class Linux extends OS
      *
      * @return void
      */
-    public function _loadavg($buf = null)
+    protected function _loadavg($buf = null)
     {
         if ((($buf !== null) || CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) && preg_match("/^\d/", trim($buf))) {
             $result = preg_split("/\s/", $buf, 4);
             // don't need the extra values, only first three
             unset($result[3]);
             $this->sys->setLoad(implode(' ', $result));
-        } elseif (($buf !== null) && ((($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf))) {
-            $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
+        } elseif (($buf === null) && ((($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf))) {
+              $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
         }
         if (PSI_LOAD_BAR) {
             $this->sys->setLoadPercent($this->_parseProcStat('cpu'));
@@ -1147,7 +1147,7 @@ class Linux extends OS
      *
      * @return void
      */
-    public function _usb($bufu = null)
+    protected function _usb($bufu = null)
     {
         $usbarray = array();
         if ($nobufu = ($bufu === null)) {
@@ -1405,7 +1405,7 @@ class Linux extends OS
      *
      * @return void
      */
-    public function _network($bufr = null)
+    protected function _network($bufr = null)
     {
         if (($bufr === null) && CommonFunctions::rfts('/proc/net/dev', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
@@ -1676,7 +1676,7 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _memory($mbuf = null)
+    protected function _memory($mbuf = null, $sbuf = null)
     {
         if (($mbuf !== null) || CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
             $swaptotal = null;
@@ -1702,7 +1702,7 @@ class Linux extends OS
             if (($this->sys->getMemCache() !== null) && ($this->sys->getMemBuffer() !== null)) {
                 $this->sys->setMemApplication($this->sys->getMemUsed() - $this->sys->getMemCache() - $this->sys->getMemBuffer());
             }
-            if (CommonFunctions::rfts('/proc/swaps', $sbuf, 0, 4096, false)) {
+            if (($sbuf !== null) || CommonFunctions::rfts('/proc/swaps', $sbuf, 0, 4096, false)) {
                 $swaps = preg_split("/\n/", $sbuf, -1, PREG_SPLIT_NO_EMPTY);
                 unset($swaps[0]);
                 foreach ($swaps as $swap) {
@@ -1731,7 +1731,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _filesystems()
+    protected function _filesystems()
     {
         $df_args = "";
         $hideFstypes = array();
