@@ -27,7 +27,7 @@ class IPMIcfg extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_IPMICFG_ACCESS')?strtolower(PSI_SENSOR_IPMICFG_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (defined('PSI_SENSOR_IPMICFG_ACCESS')?strtolower(PSI_SENSOR_IPMICFG_ACCESS):'command') {
         case 'command':
             if (!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) {
                 CommonFunctions::executeProgram('ipmicfg', '-sdr', $lines);

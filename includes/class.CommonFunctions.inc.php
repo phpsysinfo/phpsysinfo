@@ -779,7 +779,7 @@ class CommonFunctions
      */
     public static function readdmimemdata()
     {
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && (self::$_dmimd === null)) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) && (self::$_dmimd === null)) {
             self::$_dmimd = array();
             $buffer = '';
             if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {

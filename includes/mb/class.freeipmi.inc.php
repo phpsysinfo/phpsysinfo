@@ -27,7 +27,7 @@ class FreeIPMI extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_FREEIPMI_ACCESS')?strtolower(PSI_SENSOR_FREEIPMI_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmi-sensors', '--output-sensor-thresholds', $lines);
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
