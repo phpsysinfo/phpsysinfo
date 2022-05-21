@@ -1,0 +1,33 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	Ultramarine
+Description:	Ultramarine Linux release 36 (rhode)
+Release:	36
+Codename:	rhode
+----------/etc/os-release----------
+NAME="Ultramarine Linux"
+ID=ultramarine
+VERSION=36
+VERSION_CODENAME=rhode
+ID_LIKE=fedora
+PLATFORM_ID="platform:um36"
+VERSION_ID=36
+PRETTY_NAME="Ultramarine Linux 36"
+ANSI_COLOR="0;34"
+LOGO=ultramarine
+CPE_NAME="cpe:/o:ultramarine:um:36"
+HOME_URL="http://ultramarine-linux.org"
+SUPPORT_URL="https://discord.com/invite/bUuQasHdrF"
+BUG_REPORT_URL="https://youtu.be/HxkmXnRQblE"
+DOCUMENTATION_URL="https://wiki.ultramarine-linux.org"
+REDHAT_BUGZILLA_PRODUCT="Fedora Linux"
+REDHAT_BUGZILLA_PRODUCT_VERSION=36
+REDHAT_SUPPORT_PRODUCT="Fedora Linux"
+REDHAT_SUPPORT_PRODUCT_VERSION=36
+PRIVACY_POLICY_URL="https://youtu.be/dQw4w9WgXcQ"
+----------/etc/redhat-release----------
+Ultramarine Linux release 36 (rhode)
+----------/etc/system-release----------
+Ultramarine Linux release 36 (rhode)
+----------/etc/ultramarine-release----------
+Ultramarine Linux release 36 (rhode)
