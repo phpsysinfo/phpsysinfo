@@ -196,7 +196,8 @@ class CommonFunctions
         if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
             $strSet = '';
             $strProgramname = 'echo';
-            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -T -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' 2>/dev/null';
+//            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+            $strArguments = $strAll.' | sshpass -e  ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
             $externally = true;
         } else {
             $externally = false;
@@ -267,6 +268,9 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+        if ($externally) {
+            putenv('SSHPASS='.PSI_EMU_PASSWORD);
+        }
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
@@ -275,6 +279,9 @@ class CommonFunctions
             }
         } else {
             $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
+        }
+        if ($externally) {
+            putenv('SSHPASS');
         }
         if (is_resource($process)) {
             $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
