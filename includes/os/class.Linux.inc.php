@@ -34,7 +34,7 @@ class Linux extends OS
     /**
      * Assoc array of all CPUs loads.
      */
-    private $_cpu_loads = null;
+    protected $_cpu_loads = null;
 
     /**
      * Version string.
@@ -245,7 +245,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _machine()
+    protected function _machine()
     {
         $machine_info = $this->_get_machine_info();
         if (isset($machine_info['machine'])) {
@@ -279,7 +279,7 @@ class Linux extends OS
      */
     protected function _hostname()
     {
-        if (PSI_USE_VHOST) {
+        if (PSI_USE_VHOST && !defined('PSI_EMU_PORT')) {
             if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
         } else {
             if (CommonFunctions::rfts('/proc/sys/kernel/hostname', $result, 1, 4096, PSI_DEBUG && (PSI_OS != 'Android'))) {
@@ -299,7 +299,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _kernel()
+    protected function _kernel()
     {
         if (($verBuf = $this->_get_kernel_string()) != "") {
             $this->sys->setKernel($verBuf);
@@ -520,12 +520,15 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _uptime()
+    protected function _uptime($bufu = null)
     {
         if (CommonFunctions::rfts('/proc/uptime', $buf, 1, 4096, PSI_OS != 'Android')) {
             $ar_buf = preg_split('/ /', $buf);
             $this->sys->setUptime(trim($ar_buf[0]));
-        } elseif (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+        } elseif (($this->_uptime !== null) || ($bufu !== null) || CommonFunctions::executeProgram('uptime', '', $bufu)) {
+            if (($this->_uptime === null) && ($bufu !== null)) {
+                $this->_uptime = $bufu;
+            }
             if (preg_match("/up (\d+) day[s]?,[ ]+(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[3];
                 $hours = $ar_buf[2];
@@ -557,15 +560,15 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _loadavg()
+    protected function _loadavg($buf = null)
     {
-        if (CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) {
+        if ((($buf !== null) || CommonFunctions::rfts('/proc/loadavg', $buf, 1, 4096, PSI_OS != 'Android')) && preg_match("/^\d/", trim($buf))) {
             $result = preg_split("/\s/", $buf, 4);
             // don't need the extra values, only first three
             unset($result[3]);
             $this->sys->setLoad(implode(' ', $result));
-        } elseif ((($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
-            $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
+        } elseif (($buf === null) && ((($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf))) {
+              $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
         }
         if (PSI_LOAD_BAR) {
             $this->sys->setLoadPercent($this->_parseProcStat('cpu'));
@@ -646,10 +649,9 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _cpuinfo()
+    protected function _cpuinfo($bufr = null)
     {
-        if (CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
-
+        if (($bufr !== null) || CommonFunctions::rfts('/proc/cpuinfo', $bufr)) {
             $cpulist = null;
             $raslist = null;
 
@@ -1145,51 +1147,53 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _usb()
+    protected function _usb($bufu = null)
     {
         $usbarray = array();
-        if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($bufe as $buf) {
-                $device = preg_split("/ /", $buf, 7);
-                if (((isset($device[6]) && trim($device[6]) != "")) ||
-                    ((isset($device[5]) && trim($device[5]) != ""))) {
-                    $usbid = intval($device[1]).'-'.intval(trim($device[3], ':')).' '.$device[5];
-                    if ((isset($device[6]) && trim($device[6]) != "")) {
-                        $usbarray[$usbid]['name'] = trim($device[6]);
-                    } else {
-                        $usbarray[$usbid]['name'] = 'unknown';
+        if ($nobufu = ($bufu === null)) {
+            if (CommonFunctions::executeProgram('lsusb', (PSI_OS != 'Android')?'':'2>/dev/null', $bufr, PSI_DEBUG && (PSI_OS != 'Android'), 5) && ($bufr !== "")) {
+                $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($bufe as $buf) {
+                    $device = preg_split("/ /", $buf, 7);
+                    if (((isset($device[6]) && trim($device[6]) != "")) ||
+                        ((isset($device[5]) && trim($device[5]) != ""))) {
+                        $usbid = intval($device[1]).'-'.intval(trim($device[3], ':')).' '.$device[5];
+                        if ((isset($device[6]) && trim($device[6]) != "")) {
+                            $usbarray[$usbid]['name'] = trim($device[6]);
+                        } else {
+                            $usbarray[$usbid]['name'] = 'unknown';
+                        }
                     }
                 }
             }
-        }
 
-        $usbdevices = CommonFunctions::findglob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
-        if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
-            for ($i = 0; $i < $total; $i++) {
-                if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
-                    $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
-                    $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
-                    $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
-                    if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
-                        $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
-                        $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
-                        if ($manufacturer!==null) {
-                            $usbarray[$usbid]['manufacturer'] = $manufacturer;
-                        }
-                        $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
-                        if ($product!==null) {
-                            $usbarray[$usbid]['product'] = $product;
-                        }
-                        $speed = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/speed');
-                        if ($product!==null) {
-                            $usbarray[$usbid]['speed'] = $speed;
-                        }
-                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
-                           && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                            $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
-                            if (($serial!==null) && !preg_match('/\W/', $serial)) {
-                                $usbarray[$usbid]['serial'] = $serial;
+            $usbdevices = CommonFunctions::findglob('/sys/bus/usb/devices/*/idProduct', GLOB_NOSORT);
+            if (is_array($usbdevices) && (($total = count($usbdevices)) > 0)) {
+                for ($i = 0; $i < $total; $i++) {
+                    if (CommonFunctions::rfts($usbdevices[$i], $idproduct, 1, 4096, false) && (($idproduct=trim($idproduct)) != "")) { // is readable
+                        $busnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/busnum');
+                        $devnum = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/devnum');
+                        $idvendor = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/idVendor');
+                        if (($busnum!==null) && ($devnum!==null) && ($idvendor!==null)) {
+                            $usbid = intval($busnum).'-'.intval($devnum).' '.$idvendor.':'.$idproduct;
+                            $manufacturer = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/manufacturer');
+                            if ($manufacturer!==null) {
+                                $usbarray[$usbid]['manufacturer'] = $manufacturer;
+                            }
+                            $product = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/product');
+                            if ($product!==null) {
+                                $usbarray[$usbid]['product'] = $product;
+                            }
+                            $speed = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/speed');
+                            if ($product!==null) {
+                                $usbarray[$usbid]['speed'] = $speed;
+                            }
+                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
+                               && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                $serial = CommonFunctions::rolv($usbdevices[$i], '/\/idProduct$/', '/serial');
+                                if (($serial!==null) && !preg_match('/\W/', $serial)) {
+                                    $usbarray[$usbid]['serial'] = $serial;
+                                }
                             }
                         }
                     }
@@ -1197,9 +1201,9 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufr, 0, 4096, false)) { // usb-devices
+        if (!$nobufu || ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/usb/devices', $bufu, 0, 4096, false))) { // usb-devices
             $devnum = -1;
-            $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+            $bufe = preg_split("/\n/", $bufu, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/^T/', $buf)) {
                     $devnum++;
@@ -1228,7 +1232,7 @@ class Linux extends OS
             }
         }
 
-        if ((count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
+        if ($nobufu && (count($usbarray) == 0) && CommonFunctions::rfts('/proc/bus/input/devices', $bufr, 0, 4096, false)) {
             $devnam = "unknown";
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
@@ -1401,9 +1405,9 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _network()
+    protected function _network($bufr = null)
     {
-        if (CommonFunctions::rfts('/proc/net/dev', $bufr, 0, 4096, PSI_DEBUG)) {
+        if (($bufr === null) && CommonFunctions::rfts('/proc/net/dev', $bufr, 0, 4096, PSI_DEBUG)) {
             $bufe = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             foreach ($bufe as $buf) {
                 if (preg_match('/:/', $buf)) {
@@ -1474,7 +1478,7 @@ class Linux extends OS
                     $this->sys->setNetDevices($dev);
                 }
             }
-        } elseif (CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && ($bufr!="")) {
+        } elseif (($bufr === null) && CommonFunctions::executeProgram('ip', 'addr show', $bufr, PSI_DEBUG) && ($bufr!="")) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             $macaddr = "";
@@ -1553,7 +1557,7 @@ class Linux extends OS
                 }
                 $this->sys->setNetDevices($dev);
             }
-        } elseif (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
+        } elseif (($bufr !== null) || CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
             $was = false;
             $errors = 0;
@@ -1672,9 +1676,9 @@ class Linux extends OS
      *
      * @return void
      */
-    protected function _memory()
+    protected function _memory($mbuf = null, $sbuf = null)
     {
-        if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
+        if (($mbuf !== null) || CommonFunctions::rfts('/proc/meminfo', $mbuf)) {
             $swaptotal = null;
             $swapfree = null;
             $bufe = preg_split("/\n/", $mbuf, -1, PREG_SPLIT_NO_EMPTY);
@@ -1698,7 +1702,7 @@ class Linux extends OS
             if (($this->sys->getMemCache() !== null) && ($this->sys->getMemBuffer() !== null)) {
                 $this->sys->setMemApplication($this->sys->getMemUsed() - $this->sys->getMemCache() - $this->sys->getMemBuffer());
             }
-            if (CommonFunctions::rfts('/proc/swaps', $sbuf, 0, 4096, false)) {
+            if (($sbuf !== null) || CommonFunctions::rfts('/proc/swaps', $sbuf, 0, 4096, false)) {
                 $swaps = preg_split("/\n/", $sbuf, -1, PREG_SPLIT_NO_EMPTY);
                 unset($swaps[0]);
                 foreach ($swaps as $swap) {
@@ -1727,7 +1731,7 @@ class Linux extends OS
      *
      * @return void
      */
-    private function _filesystems()
+    protected function _filesystems()
     {
         $df_args = "";
         $hideFstypes = array();

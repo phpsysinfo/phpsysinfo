@@ -28,7 +28,7 @@ class IPMItool extends Sensors
     {
         parent::__construct();
         $lines = "";
-        if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_IPMITOOL_ACCESS')?strtolower(PSI_SENSOR_IPMITOOL_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (defined('PSI_SENSOR_IPMITOOL_ACCESS')?strtolower(PSI_SENSOR_IPMITOOL_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmitool', 'sensor -v', $lines);
             break;

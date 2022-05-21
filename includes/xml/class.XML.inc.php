@@ -92,7 +92,9 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        if (defined('PSI_EMU_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
+            $os = 'SSH';
+        } elseif (defined('PSI_EMU_HOSTNAME')) {
             $os = 'WINNT';
         } else {
             $os = PSI_OS;
@@ -161,7 +163,9 @@ class XML
             }
         }
 
-        if (defined('PSI_EMU_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
+            $vitals->addAttribute('OS', 'Linux');
+        } elseif (defined('PSI_EMU_HOSTNAME')) {
             $vitals->addAttribute('OS', 'WINNT');
         } else {
             $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);

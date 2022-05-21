@@ -1,0 +1,4 @@
+ 1 CPU ON-DIE Temperature            61.43 °C
+ 2 B50182 Temperature                56.19 °C
+ 3 B50210_1 Temperature              47.97 °C
+ 4 B50210_2 Temperature              46.86 °C

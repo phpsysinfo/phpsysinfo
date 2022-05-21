@@ -53,7 +53,7 @@ class PSStatus extends PSI_Plugin
                 } else {
                     $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 }
-                if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+                if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {
                         foreach ($processes as $process) {
@@ -90,7 +90,7 @@ class PSStatus extends PSI_Plugin
                         } catch (Exception $e) {
                         }
                     }
-                } else {
+                } elseif (!defined('PSI_EMU_PORT')) {
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
@@ -136,7 +136,7 @@ class PSStatus extends PSI_Plugin
     public function execute()
     {
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-            if (((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) &&
+            if (((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) &&
                (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS) == 'command')) {
                 $strBuf = PSI_PLUGIN_PSSTATUS_PROCESSES;
                 if (defined('PSI_EMU_HOSTNAME')) {

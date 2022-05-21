@@ -193,10 +193,20 @@ class CommonFunctions
             }
         }
 
+        if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
+            $strSet = '';
+            $strProgramname = 'echo';
+//            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+            $strArguments = $strAll.' | sshpass -e  ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+            $externally = true;
+        } else {
+            $externally = false;
+        }
+        
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
-            if ($booErrorRep) {
+            if ($booErrorRep || $externally) {
                 $error->addError('find_program("'.$strProgramname.'")', 'program not found on the machine');
             }
 
@@ -238,7 +248,7 @@ class CommonFunctions
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
                     if (!$strNewcmd) {
-                        if ($booErrorRep) {
+                        if ($booErrorRep || $externally) {
                             $error->addError('find_program("'.$strCmd.'")', 'program not found on the machine');
                         }
 
@@ -258,6 +268,9 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+        if ($externally) {
+            putenv('SSHPASS='.PSI_EMU_PASSWORD);
+        }
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
@@ -266,6 +279,9 @@ class CommonFunctions
             }
         } else {
             $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
+        }
+        if ($externally) {
+            putenv('SSHPASS');
         }
         if (is_resource($process)) {
             $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
@@ -314,6 +330,10 @@ class CommonFunctions
      */
     public static function rolv($similarFileName, $match = "//", $replace = "")
     {
+        if (defined('PSI_EMU_PORT')) {
+            return null;
+        }
+
         $filename = preg_replace($match, $replace, $similarFileName);
         if (self::fileexists($filename) && self::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
             return $buf;
@@ -367,6 +387,10 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Reading: ".$strFileName);
             if ($out == false) {
@@ -486,6 +510,10 @@ class CommonFunctions
      */
     public static function findglob($pattern, $flags = 0)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         $outarr = glob(PSI_ROOT_FILESYSTEM.$pattern, $flags);
         if (PSI_ROOT_FILESYSTEM == '') {
             return $outarr;
@@ -511,6 +539,10 @@ class CommonFunctions
      */
     public static function fileexists($strFileName)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $log_file = substr(PSI_LOG, 1);
             if (file_exists($log_file)
@@ -754,7 +786,7 @@ class CommonFunctions
      */
     public static function readdmimemdata()
     {
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && (self::$_dmimd === null)) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) && (self::$_dmimd === null)) {
             self::$_dmimd = array();
             $buffer = '';
             if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {

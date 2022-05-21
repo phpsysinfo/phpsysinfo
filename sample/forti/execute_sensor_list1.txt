@@ -1,0 +1,55 @@
+ 1 +VCC3             alarm=0  value=3.3186  threshold_status=0
+ 2 +VCC5             alarm=0  value=5.097  threshold_status=0
+ 3 +12V              alarm=0  value=12.018  threshold_status=0
+ 4 +3VSB             alarm=0  value=3.3024  threshold_status=0
+ 5 P1V0 Core         alarm=0  value=0.9998  threshold_status=0
+ 6 P1V0 Analog       alarm=0  value=0.9998  threshold_status=0
+ 7 NP6_2V5_1         alarm=0  value=2.5415  threshold_status=0
+ 8 NP6_1V15_1        alarm=0  value=1.1385  threshold_status=0
+ 9 CPU DTS           alarm=0  value=51  threshold_status=0
+10 CPU Core 0        alarm=0  value=50  threshold_status=0
+11 CPU Core 1        alarm=0  value=48  threshold_status=0
+12 CPU Core 2        alarm=0  value=52  threshold_status=0
+13 CPU Core 3        alarm=0  value=50  threshold_status=0
+14 CPU Core 4        alarm=0  value=49  threshold_status=0
+15 CPU Core 5        alarm=0  value=47  threshold_status=0
+16 PVTT              alarm=0  value=0.592  threshold_status=0
+17 PVCCIN            alarm=0  value=1.792  threshold_status=0
+18 PVDDQ             alarm=0  value=1.184  threshold_status=0
+19 PVCCIO            alarm=0  value=1.04  threshold_status=0
+20 P1V5_PCH          alarm=0  value=1.488  threshold_status=0
+21 NCT MAC_1V        alarm=0  value=0.992  threshold_status=0
+22 NCT MAC_AVS_1V    alarm=0  value=0.992  threshold_status=0
+23 NCT +VCC3         alarm=0  value=3.312  threshold_status=0
+24 +3.3VSB_SMC       alarm=0  value=3.312  threshold_status=0
+25 TD1               alarm=0  value=30  threshold_status=0
+26 TD2               alarm=0  value=39  threshold_status=0
+27 TD3               alarm=0  value=30  threshold_status=0
+28 FAN1              alarm=0  value=3400  threshold_status=0
+29 FAN2              alarm=0  value=2900  threshold_status=0
+30 FAN3              alarm=0  value=3300  threshold_status=0
+31 FAN4              alarm=0  value=2900  threshold_status=0
+32 FAN5              alarm=0  value=3300  threshold_status=0
+33 FAN6              alarm=0  value=2900  threshold_status=0
+34 TS1               alarm=0  value=30  threshold_status=0
+35 TS2               alarm=0  value=31  threshold_status=0
+36 TS3               alarm=0  value=30  threshold_status=0
+37 TS4               alarm=0  value=28  threshold_status=0
+38 TS5               alarm=0  value=29  threshold_status=0
+39 TS6               alarm=0  value=33  threshold_status=0
+40 TS7               alarm=0  value=29  threshold_status=0
+41 PS1 Temp 1        alarm=0  value=28  threshold_status=0
+42 PS1 Temp 2        alarm=0  value=37  threshold_status=0
+43 PS1 Temp 3        alarm=0  value=38  threshold_status=0
+44 PS1 Fan 1         alarm=0  value=10496  threshold_status=0
+45 PS1 VIN           alarm=0  value=118  threshold_status=0
+46 PS1 VOUT_12V      alarm=0  value=12.032  threshold_status=0
+47 PS1 Status        alarm=0
+48 PS2 Temp 1        alarm=0  value=32  threshold_status=0
+49 PS2 Temp 2        alarm=0  value=0  threshold_status=0
+50 PS2 Temp 3        alarm=0  value=29  threshold_status=0
+51 PS2 Fan 1         alarm=1  value=0  threshold_status=0x7
+52 PS2 VIN           alarm=1  value=0  threshold_status=0x7
+53 PS2 VOUT_12V      alarm=1  value=1.511  threshold_status=0x7
+54 PS2 Status        alarm=1
+55 FB TS1            alarm=0  (reading unavailable)

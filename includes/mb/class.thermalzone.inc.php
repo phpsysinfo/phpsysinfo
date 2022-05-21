@@ -29,7 +29,7 @@ class ThermalZone extends Sensors
         parent::__construct();
         switch (defined('PSI_SENSOR_THERMALZONE_ACCESS')?strtolower(PSI_SENSOR_THERMALZONE_ACCESS):'command') {
         case 'command':
-            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+            if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                 if (defined('PSI_EMU_HOSTNAME') || WINNT::isAdmin()) {
                     $_wmi = WINNT::initWMI('root\WMI', true);
                     if ($_wmi) {

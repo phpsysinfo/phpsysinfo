@@ -38,7 +38,7 @@ class HyperV extends PSI_Plugin
      */
     public function execute()
     {
-        if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
+        if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) switch (strtolower(PSI_PLUGIN_HYPERV_ACCESS)) {
         case 'command':
             try {
                 $buffer = WINNT::_get_Win32_OperatingSystem();

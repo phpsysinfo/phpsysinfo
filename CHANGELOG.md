@@ -7,6 +7,9 @@ phpSysInfo 3.4.2
 ----------------
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute and Bluestar Linux to detected distros
  - [ADD] schabau_bootstrap template
+ 
+ - [NEW] Ability to retrieve Linux system information via SSH
+ - [NEW] Ability to retrieve FortiOS system information via SSH
 
 phpSysInfo 3.4.1
 ----------------
