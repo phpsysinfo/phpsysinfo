@@ -81,7 +81,7 @@ BLOCKS=true
 ;ROOTFS="/"
 
 
-; External Linux or Forti OS connection parameters via SSH
+; External Linux or FortiOS connection parameters via SSH
 ; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
 ;
 ;SSH_HOSTNAME="hostname:22"
@@ -292,7 +292,7 @@ DATETIME_FORMAT="UTC"
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
 ; - NvidiaSMI      Nvidia GPU drivers (FreeBSD/Linux/SunOS/WinNT)
-; - FortiSensor    No addon tool neded (Fortinet devices - Forti OS)
+; - FortiSensor    No addon tool neded (Fortinet devices - FortiOS)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
