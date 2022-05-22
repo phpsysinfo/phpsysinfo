@@ -136,7 +136,7 @@ class SMART extends PSI_Plugin
             }
             break;
         case 'command':
-            if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
+            if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) foreach ($disks as $disk) {
                 if (trim($disk) != "") {
                     $diskdev = "";
                     if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {

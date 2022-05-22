@@ -90,7 +90,7 @@ class PSStatus extends PSI_Plugin
                         } catch (Exception $e) {
                         }
                     }
-                } elseif (!defined('PSI_EMU_PORT')) {
+                } elseif ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) {
                     if (defined('PSI_PLUGIN_PSSTATUS_USE_REGEX') && PSI_PLUGIN_PSSTATUS_USE_REGEX) {
                         foreach ($processes as $process) {
                             CommonFunctions::executeProgram("pgrep", "-n -x \"".$process."\"", $buffer, PSI_DEBUG);
@@ -172,7 +172,7 @@ class PSStatus extends PSI_Plugin
      */
     public function xml()
     {
-        if (!defined('PSI_EMU_HOSTNAME') || !empty($this->_filecontent)) foreach ($this->_result as $ps) {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT') || !empty($this->_filecontent)) foreach ($this->_result as $ps) {
             $xmlps = $this->xml->addChild("Process");
             $xmlps->addAttribute("Name", $ps[0]);
             $xmlps->addAttribute("Status", $ps[1] ? 1 : 0);

@@ -56,7 +56,7 @@ class Raid extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_RAID_ACCESS)) {
         case 'command':
         case 'php-snmp':
-            if (!defined('PSI_EMU_HOSTNAME')) {
+            if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) {
                 if ((PSI_OS == 'Linux') && in_array('mdstat', $RaidProgs)) {
                     CommonFunctions::rfts("/proc/mdstat", $this->_filecontent['mdstat'], 0, 4096, PSI_DEBUG);
                     $notwas = false;

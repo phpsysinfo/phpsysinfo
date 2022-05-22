@@ -80,7 +80,7 @@ class PS extends PSI_Plugin
                     }
                 } catch (Exception $e) {
                 }
-            } elseif (!defined('PSI_EMU_PORT')) {
+            } elseif ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) {
                 CommonFunctions::executeProgram("ps", "axo pid,ppid,pmem,pcpu,args", $buffer, PSI_DEBUG);
                 if (((PSI_OS == 'Linux') || (PSI_OS == 'Android')) && (!preg_match("/^[^\n]+\n\s*\d+\s+\d+\s+[\d\.]+\s+[\d\.]+\s+.+/", $buffer))) { //alternative method if no data
                     if (CommonFunctions::rfts('/proc/meminfo', $mbuf)) {

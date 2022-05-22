@@ -180,7 +180,7 @@ class BAT extends PSI_Plugin
                 if ($buffer[0]['info'] !== '') {
                     $buffer[0]['info'] .= "POWER_SUPPLY_NAME=acpibat0\n";
                 }
-            } elseif (!defined('PSI_EMU_PORT')) {
+            } elseif ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) {
                 $itemcount = 0;
                 if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_BAT_UPOWER') && PSI_PLUGIN_BAT_UPOWER) {
                     $info = '';

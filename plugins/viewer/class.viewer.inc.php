@@ -46,7 +46,7 @@ class Viewer extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_VIEWER_ACCESS)) {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (strtolower(PSI_PLUGIN_VIEWER_ACCESS)) {
         case 'command':
             if (defined('PSI_PLUGIN_VIEWER_COMMAND') && is_string(PSI_PLUGIN_VIEWER_COMMAND)) {
                 if (defined('PSI_PLUGIN_VIEWER_PARAMS') && is_string(PSI_PLUGIN_VIEWER_PARAMS)) {
@@ -68,7 +68,7 @@ class Viewer extends PSI_Plugin
             }
             break;
         case 'data':
-            if (CommonFunctions::rftsdata("viewer.tmp", $lines) && !empty($lines))
+            if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rftsdata("viewer.tmp", $lines) && !empty($lines))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         default:
