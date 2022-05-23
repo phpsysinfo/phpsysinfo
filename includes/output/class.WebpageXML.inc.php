@@ -163,7 +163,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                         define('PSI_EMU_USER', null);
                         define('PSI_EMU_PASSWORD', null);
                     }
-                } elseif (defined('PSI_SSH_HOSTNAME') && defined('PSI_SSH_USER') && defined('PSI_SSH_PASSWORD')) {
+                } elseif ((PSI_OS == 'Linux') && defined('PSI_SSH_HOSTNAME') && defined('PSI_SSH_USER') && defined('PSI_SSH_PASSWORD')) {
                     $fgthost = preg_split("/:/", PSI_SSH_HOSTNAME, -1, PREG_SPLIT_NO_EMPTY);
                     define('PSI_EMU_HOSTNAME', trim($fgthost[0]));
                     if (isset($fgthost[1]) && (trim($fgthost[1] !== ''))) {
