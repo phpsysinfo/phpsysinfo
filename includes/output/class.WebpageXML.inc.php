@@ -154,7 +154,17 @@ class WebpageXML extends Output implements PSI_Interface_Output
         } else {
             if ((PSI_OS == 'WINNT') || (PSI_OS == 'Linux')) {
                 $plugname = strtoupper(trim($this->_pluginName));
-                if (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME')) {
+                if ((PSI_OS == 'Linux') && defined('PSI_PLUGIN_'.$plugname.'_SSH_HOSTNAME') && defined('PSI_PLUGIN_'.$plugname.'_SSH_USER') && defined('PSI_PLUGIN_'.$plugname.'_SSH_PASSWORD')) {                   
+                    $fgthost = preg_split("/:/", constant('PSI_PLUGIN_'.$plugname.'_SSH_HOSTNAME'), -1, PREG_SPLIT_NO_EMPTY);
+                    define('PSI_EMU_HOSTNAME', trim($fgthost[0]));
+                    if (isset($fgthost[1]) && (trim($fgthost[1] !== ''))) {
+                        define('PSI_EMU_PORT', trim($fgthost[1]));
+                    } else {
+                        define('PSI_EMU_PORT', 22);
+                    }
+                    define('PSI_EMU_USER', constant('PSI_PLUGIN_'.$plugname.'_SSH_USER'));
+                    define('PSI_EMU_PASSWORD', constant('PSI_PLUGIN_'.$plugname.'_SSH_PASSWORD'));
+                } elseif (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME')) {
                     define('PSI_EMU_HOSTNAME', constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'));
                     if (defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD')) {
                         define('PSI_EMU_USER', constant('PSI_PLUGIN_'.$plugname.'_WMI_USER'));

@@ -83,6 +83,8 @@ BLOCKS=true
 
 ; External Linux or FortiOS connection parameters via SSH
 ; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+; These settings can also be entered for a specific plug-in so that only it connects to an external server
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
 ;
 ;SSH_HOSTNAME="hostname:22"
 ;SSH_USER="username"
