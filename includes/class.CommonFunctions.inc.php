@@ -194,6 +194,16 @@ class CommonFunctions
         }
 
         if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
+            if (defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+                if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
+                    $sudocommands = eval(PSI_SUDO_COMMANDS);
+                } else {
+                    $sudocommands = array(PSI_SUDO_COMMANDS);
+                }
+                if (in_array($strProgramname, $sudocommands)) {
+                    $strAll = 'sudo '.$strAll;
+                }
+            }
             $strSet = '';
             $strProgramname = 'echo';
 //            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
@@ -217,7 +227,7 @@ class CommonFunctions
             }
         }
 
-        if ((PSI_OS != 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
             if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
                 $sudocommands = eval(PSI_SUDO_COMMANDS);
             } else {
