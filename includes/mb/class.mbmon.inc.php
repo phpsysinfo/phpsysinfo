@@ -45,7 +45,7 @@ class MBMon extends Sensors
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('mbmon.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('mbmon.tmp', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

@@ -33,7 +33,9 @@ class IPMItool extends Sensors
             CommonFunctions::executeProgram('ipmitool', 'sensor -v', $lines);
             break;
         case 'data':
-            CommonFunctions::rftsdata('ipmitool.tmp', $lines);
+            if (!defined('PSI_EMU_PORT')) {
+                CommonFunctions::rftsdata('ipmitool.tmp', $lines);
+            }
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmitool] ACCESS');

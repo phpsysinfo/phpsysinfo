@@ -37,7 +37,7 @@ class Healthd extends Sensors
             }
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('healthd.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('healthd.tmp', $lines)) {
                 $lines0 = preg_split("/\n/", $lines, 1, PREG_SPLIT_NO_EMPTY);
                 if (count($lines0) == 1) {
                     $this->_values = preg_split("/\t+/", $lines0[0]);

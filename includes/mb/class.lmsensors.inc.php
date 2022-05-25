@@ -33,7 +33,9 @@ class LMSensors extends Sensors
             CommonFunctions::executeProgram("sensors", "", $lines);
             break;
         case 'data':
-            CommonFunctions::rftsdata('lmsensors.tmp', $lines);
+            if (!defined('PSI_EMU_PORT')) {
+                CommonFunctions::rftsdata('lmsensors.tmp', $lines);
+            }
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');
