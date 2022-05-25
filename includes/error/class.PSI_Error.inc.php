@@ -247,8 +247,8 @@ class PSI_Error
                     $strFunc .= ' ';
                     $strComma = '';
                     foreach ($val['args'] as $valArgs) {
-                       $strFunc .= $strComma.$this->_printVar($valArgs);
-                       $strComma = ', ';
+                        $strFunc .= $strComma.$this->_printVar($valArgs);
+                        $strComma = ', ';
                     }
                     $strFunc .= ' ';
                 }
