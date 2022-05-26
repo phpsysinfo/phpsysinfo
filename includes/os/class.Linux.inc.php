@@ -248,7 +248,7 @@ class Linux extends OS
     }
 
     /**
-     * build the global Error object and create the WMI connection
+     * check OS type
      */
     public function __construct($blockname = false)
     {
