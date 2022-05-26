@@ -40,6 +40,8 @@ CURRENT TESTED PLATFORMS
 - ReactOS
 - IBM AIX
 - QNX
+- GNU Hurd
+- FortiOS (via SSH)
 
 If your platform is not here try checking out the mailing list archives or
 the message boards on SourceForge.

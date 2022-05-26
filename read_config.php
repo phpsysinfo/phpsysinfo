@@ -113,7 +113,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
-        if (PHP_OS == 'Linux') {
+        if ((PHP_OS == 'Linux') || (PHP_OS == 'GNU')) {
             if (file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/sysconfig/i18n')
                || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/default/locale')
                || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/locale.conf')
@@ -124,7 +124,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
-                if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
+                if ((PHP_OS == 'Linux') && file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
                     define('PSI_OS', 'Android');
                     if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
                         define('PSI_UNAMEO', $unameo0); // is Android on Termux

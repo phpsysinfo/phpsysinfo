@@ -163,12 +163,12 @@ class XML
             }
         }
 
-        if (defined('PSI_EMU_PORT')) {
+        if (($os = $this->_sys->getOS()) == 'Android') {
             $vitals->addAttribute('OS', 'Linux');
-        } elseif (defined('PSI_EMU_HOSTNAME')) {
-            $vitals->addAttribute('OS', 'WINNT');
+        } elseif ($os == 'GNU') {
+            $vitals->addAttribute('OS', 'Hurd');
         } else {
-            $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);
+            $vitals->addAttribute('OS', $os);
         }
     }
 

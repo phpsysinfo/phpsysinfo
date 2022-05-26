@@ -219,6 +219,11 @@ class Linux extends OS
             if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
                 CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
                 $this->_kernel_string = $strBuf;
+                if ($this->sys->getOS() == 'SSH') {
+                    if (CommonFunctions::executeProgram($uname, '-s', $strBuf, false) && (($strBuf == 'Linux') || ($strBuf == 'GNU'))) {
+                        $this->sys->setOS($strBuf);
+                    }
+                }
                 if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
                     if (preg_match('/ SMP /', $strBuf)) {
                         $this->_kernel_string .= ' (SMP)';
@@ -228,7 +233,9 @@ class Linux extends OS
                     $this->_kernel_string .= ' '.$strBuf;
                 }
             } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-                if (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+                if (preg_match('/\/Hurd-([^\)]+)/', $strBuf, $ar_buf)) {
+                    $this->_kernel_string = $ar_buf[1];
+                } elseif (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
                     $this->_kernel_string = $ar_buf[1];
                     if (preg_match('/ SMP /', $strBuf)) {
                         $this->_kernel_string .= ' (SMP)';
@@ -238,6 +245,15 @@ class Linux extends OS
         }
 
         return $this->_kernel_string;
+    }
+
+    /**
+     * build the global Error object and create the WMI connection
+     */
+    public function __construct($blockname = false)
+    {
+        parent::__construct($blockname);
+        $this->_get_kernel_string();
     }
 
     /**

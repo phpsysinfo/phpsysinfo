@@ -24,7 +24,7 @@
  * @version   Release: 3.0
  * @link      http://phpsysinfo.sourceforge.net
  */
-class SSH extends Linux
+class SSH extends GNU
 {
     /**
      * content of the system status
@@ -55,15 +55,9 @@ class SSH extends Linux
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if (CommonFunctions::executeProgram('uname' ,'', $result, false) && ($result !== "")) {
-            switch (strtolower($result)) {
-            case 'linux':
-                $this->_ostype = 'Linux';
-                break;
-            }
-        }
-        if (($this->_ostype === null) && ($this->getSystemStatus() !== '')) {
+        if ((($this->_ostype = $this->sys->getOS()) == 'SSH') && ($this->getSystemStatus() !== '')) {
             $this->_ostype = 'FortiOS';
+            $this->sys->setOS('Linux');
         }
     }
 
@@ -136,6 +130,7 @@ class SSH extends Linux
                 parent::_memory(substr($resulte, strlen($resulto[1][0])));
             }
             break;
+        case 'GNU':
         case 'Linux':
             if (!CommonFunctions::executeProgram('cat', '/proc/meminfo', $mbuf, false) || ($mbuf === "")) {
                 $mbuf = null;
@@ -171,6 +166,7 @@ class SSH extends Linux
                 }
             }
             break; 
+        case 'GNU':
         case 'Linux':
             parent::_usb();
         }
@@ -243,6 +239,7 @@ class SSH extends Linux
                 }
             }
             break;
+        case 'GNU':
         case 'Linux':            
             parent::_network();
         }
@@ -263,6 +260,7 @@ class SSH extends Linux
                 parent::_cpuinfo(substr($resulte, strlen($resulto[1][0])));
             }
             break;
+        case 'GNU':
         case 'Linux':
             if (CommonFunctions::executeProgram('cat', '/proc/cpuinfo', $resulte, false) && ($resulte !== "")) {
                 parent::_cpuinfo($resulte);
@@ -297,6 +295,7 @@ class SSH extends Linux
                 }
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_machine();
         }
@@ -324,6 +323,7 @@ class SSH extends Linux
 //                $this->sys->setHostname($hostname);
 //            }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_hostname();
         }
@@ -372,6 +372,7 @@ class SSH extends Linux
                 }
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_filesystems();
         }
@@ -391,6 +392,7 @@ class SSH extends Linux
             }
             $this->sys->setDistributionIcon('FortiOS.png');
             break;
+        case 'GNU':
         case 'Linux':
             parent::_distro();
         }
@@ -442,6 +444,7 @@ class SSH extends Linux
                 parent::_loadavg(substr($resulte, strlen($resulto[1][0])));
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_loadavg();
         }
@@ -461,6 +464,7 @@ class SSH extends Linux
                 parent::_uptime('up '.trim($buf[1]));
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_uptime();
         }
@@ -487,6 +491,7 @@ class SSH extends Linux
                 }
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::_kernel();
         }
@@ -529,6 +534,7 @@ class SSH extends Linux
                 $this->_network();
             }
             break;
+        case 'GNU':
         case 'Linux':
             parent::build();
         }

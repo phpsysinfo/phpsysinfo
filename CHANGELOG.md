@@ -8,8 +8,8 @@ phpSysInfo 3.4.2
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar and Ultramarine Linux to detected distros
  - [ADD] schabau_bootstrap template
  
- - [NEW] Ability to retrieve Linux system information via SSH
- - [NEW] Ability to retrieve FortiOS system information via SSH
+ - [NEW] Partial support of GNU Hurd
+ - [NEW] Ability to retrieve Linux, GNU Hurd and FortiOS system information via SSH
 
 phpSysInfo 3.4.1
 ----------------
@@ -338,7 +338,8 @@ phpSysInfo 3.1.11
  - [ADD] Generations Linux and SliTaz to detected distros
  - [ADD] IPMI and LMSensors currents information
  - [ADD] Plugin IPMIInfo - added powers and currents values
- - [ADD] Partial support of QNX
+
+ - [NEW] Partial support of QNX
 
  - [FIX] Reduce execution time on Linux systems when showing load average PR#47
 
