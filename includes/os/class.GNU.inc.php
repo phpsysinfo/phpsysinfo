@@ -55,9 +55,9 @@ class GNU extends Linux
                     } else {
                         if ($was) {
                             if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                                if (preg_match('/^\s+inet address\s+(.+)$/', $line, $ar_buf)) {
+                                if (preg_match('/^\s+inet address\s+(\S+)$/', $line, $ar_buf)) {
                                     $dev->setInfo($ar_buf[1]);
-                                } elseif (preg_match('/^\s+hardware addr\s+(.+)$/', $line, $ar_buf)) {
+                                } elseif (preg_match('/^\s+hardware addr\s+(\S+)$/', $line, $ar_buf)) {
                                     if (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) {
                                         $macaddr = preg_replace('/:/', '-', strtoupper($ar_buf[1]));
                                         if ($macaddr === '00-00-00-00-00-00') { // empty
