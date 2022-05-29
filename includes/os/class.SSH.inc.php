@@ -286,7 +286,11 @@ class SSH extends GNU
                     $machine .= ' '.$buf[1];
                 }
                 if (preg_match("/\nBIOS version: (\S+)\n/", $sysstat, $buf)) {
-                    $machine .= ' BIOS '.$buf[1];
+                    if (trim($machine) !== '') {
+                        $machine .= ', BIOS '.$buf[1];
+                    } else {
+                        $machine = 'BIOS '.$buf[1];
+                    }
                 }
                 $machine = trim($machine);
 
