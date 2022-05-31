@@ -216,20 +216,20 @@ class Linux extends OS
     {
         if ($this->_kernel_string === null) {
             $this->_kernel_string = "";
-            if (CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) || // show effective kernel if ksplice uptrack is installed
-                CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG)) {
+            if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
+                (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
                 $this->_kernel_string = $strBuf;
                 if ($this->sys->getOS() == 'SSH') {
                     if (CommonFunctions::executeProgram($uname, '-s', $strBuf, false) && (($strBuf == 'Linux') || ($strBuf == 'GNU'))) {
                         $this->sys->setOS($strBuf);
                     }
                 }
-                if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG)) {
+                if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
                     if (preg_match('/ SMP /', $strBuf)) {
                         $this->_kernel_string .= ' (SMP)';
                     }
                 }
-                if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG)) {
+                if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
                     $this->_kernel_string .= ' '.$strBuf;
                 }
             } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
