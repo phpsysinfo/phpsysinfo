@@ -661,6 +661,9 @@ function renderVitals(data) {
         }
     };
 
+    if ((data.Vitals["@attributes"].LoadAvg === '') && (data.Vitals["@attributes"].CPULoad === undefined)) {
+        $("#tr_LoadAvg").hide();
+    }
     if (data.Vitals["@attributes"].SysLang === undefined) {
         $("#tr_SysLang").hide();
     }
