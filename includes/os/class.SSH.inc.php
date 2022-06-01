@@ -70,9 +70,10 @@ class SSH extends GNU
      */
     public function getEncoding()
     {
-        if (($this->_ostype === 'FortiOS') || ($this->_ostype === 'SSH')) {
-            return 'UTF-8';
-        }
+//        if (($this->_ostype === 'FortiOS') || ($this->_ostype === 'SSH')) {
+//            return 'UTF-8';
+//        }
+        //return null;
     }
 
     /**
