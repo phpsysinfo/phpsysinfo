@@ -206,10 +206,24 @@ class CommonFunctions
             }
             $strSet = '';
             $strProgramname = 'sshpass';
-//            $strProgramname = 'echo';
-//            $strArguments = $strAll.' | sshpass -p \''.PSI_EMU_PASSWORD.'\' ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
-//            $strArguments = $strAll.' | sshpass -e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
-            $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+            if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
+                if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
+                    $arrPath = eval(PSI_ADD_PATHS);
+                } else {
+                    $arrPath = array(PSI_ADD_PATHS);
+                }
+                $PathStr = '';
+                foreach ($arrPath as $Path) {
+                    if ($PathStr === '') {
+                        $PathStr = $Path;
+                    } else {
+                        $PathStr = $PathStr.':'.$Path;
+                    }
+                }
+                $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
+            } else {
+                $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+            }
             $externally = true;
         } else {
             $externally = false;
