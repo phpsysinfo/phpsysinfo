@@ -206,11 +206,11 @@ class CommonFunctions
             }
             $strSet = '';
             $strProgramname = 'sshpass';
-            if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
-                if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
-                    $arrPath = eval(PSI_ADD_PATHS);
+            if (defined('PSI_EMU_ADD_PATHS') && is_string(PSI_EMU_ADD_PATHS)) {
+                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_PATHS)) {
+                    $arrPath = eval(PSI_EMU_ADD_PATHS);
                 } else {
-                    $arrPath = array(PSI_ADD_PATHS);
+                    $arrPath = array(PSI_EMU_ADD_PATHS);
                 }
                 $PathStr = '';
                 foreach ($arrPath as $Path) {

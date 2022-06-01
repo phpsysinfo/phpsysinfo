@@ -89,7 +89,10 @@ BLOCKS=true
 ;SSH_HOSTNAME="hostname:22"
 ;SSH_USER="username"
 ;SSH_PASSWORD="password"
-
+; Additional paths where to look for installed programs
+; Example : SSH_ADD_PATHS="/sbin,/usr/sbin"
+;
+;SSH_ADD_PATHS=false
 
 ; External WinNT server connection parameters
 ; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
