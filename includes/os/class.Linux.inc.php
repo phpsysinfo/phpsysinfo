@@ -217,7 +217,7 @@ class Linux extends OS
         if ($this->_kernel_string === null) {
             $this->_kernel_string = "";
             if ($this->sys->getOS() == 'SSH') {
-                if (CommonFunctions::executeProgram($uname, '-s', $strBuf, false) && (($strBuf == 'Linux') || ($strBuf == 'GNU'))) {
+                if (CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && (($strBuf == 'Linux') || ($strBuf == 'GNU'))) {
                     $this->sys->setOS($strBuf);
                 } else {
                 
