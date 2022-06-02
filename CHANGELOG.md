@@ -8,7 +8,7 @@ phpSysInfo 3.4.2
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar and Ultramarine Linux to detected distros
  - [ADD] schabau_bootstrap template
  
- - [NEW] Partial support of GNU Hurd
+ - [NEW] Partial support for GNU Hurd
  - [NEW] Ability to retrieve Linux, GNU Hurd and FortiOS system information via SSH
 
 phpSysInfo 3.4.1
