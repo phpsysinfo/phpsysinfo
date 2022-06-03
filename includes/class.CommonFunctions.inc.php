@@ -280,10 +280,18 @@ class CommonFunctions
 
                         return false;
                     }
-                    if ($arrArgs[$i] == '|') {
-                        $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                    if (preg_match('/\s/', $sudoProgram)) {
+                        if ($arrArgs[$i] == '|') {
+                            $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                        } else {
+                            $strArgs = preg_replace('/& '.$strCmd.'/', '& "'.$strNewcmd.'"', $strArgs);
+                        }
                     } else {
-                        $strArgs = preg_replace('/& '.$strCmd.'/', '& "'.$strNewcmd.'"', $strArgs);
+                        if ($arrArgs[$i] == '|') {
+                            $strArgs = preg_replace('/\| '.$strCmd.'/', '| '.$strNewcmd, $strArgs);
+                        } else {
+                            $strArgs = preg_replace('/& '.$strCmd.'/', '& '.$strNewcmd, $strArgs);
+                        }
                     }
                 }
             }
