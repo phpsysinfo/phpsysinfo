@@ -163,7 +163,7 @@ class CommonFunctions
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT)
+    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '')
     {
         if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
 
@@ -193,6 +193,7 @@ class CommonFunctions
             }
         }
 
+        $PathStr = '';
         if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
             if (defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
                 if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
@@ -212,7 +213,6 @@ class CommonFunctions
                 } else {
                     $arrPath = array(PSI_EMU_ADD_PATHS);
                 }
-                $PathStr = '';
                 foreach ($arrPath as $Path) {
                     if ($PathStr === '') {
                         $PathStr = $Path;
@@ -220,9 +220,17 @@ class CommonFunctions
                         $PathStr = $PathStr.':'.$Path;
                     }
                 }
-                $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
+                if ($separator === '') {
+                    $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
+                } else {
+                    $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                }
             } else {
-                $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+                if ($separator === '') {
+                    $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+                } else {
+                    $strArguments = '-e ssh -Tq -o \'StrictHostKeyChecking=no\' -o \'UserKnownHostsFile=/dev/null\' '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                }
             }
             $externally = true;
         } else {
@@ -306,6 +314,11 @@ class CommonFunctions
             putenv('SSHPASS='.PSI_EMU_PASSWORD);
         }
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
+            if ($separator !== '') {
+                $error->addError('executeProgram', 'wrong execution mode');
+
+                return false;
+            }
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
@@ -313,12 +326,19 @@ class CommonFunctions
             }
         } else {
             $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
+            if ($separator !== '') {
+                if ($PathStr === '') {
+                    fwrite($pipes[0], $strAll."\n \n");
+                } else {
+                    fwrite($pipes[0], 'PATH=\''.$PathStr.':$PATH\' '.$strAll."\n");
+                }
+            }
         }
         if ($externally) {
             putenv('SSHPASS');
         }
         if (is_resource($process)) {
-            $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
+            $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout, $separator);
             if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                 $return_value = pclose($pipes[1]);
             } else {
@@ -687,7 +707,7 @@ class CommonFunctions
      *
      * @return boolean timeout expired or not
      */
-    private static function _timeoutfgets($pipes, &$out, &$err, $timeout)
+    private static function _timeoutfgets($pipes, &$out, &$err, $timeout, $separator = '')
     {
         $w = null;
         $e = null;
@@ -712,6 +732,9 @@ class CommonFunctions
                 break;
             } elseif ($n === 0) {
                 error_log('stream_select: timeout expired !');
+//                if ($separator !== '') {
+//                    fwrite($pipes[0], "q");
+//                }
                 $te = true;
                 break;
             }
@@ -722,6 +745,12 @@ class CommonFunctions
                 } elseif (feof($pipes[1]) && $pipe2 && ($r == $pipes[2])) {//read STDERR after STDOUT
                     $err .= fread($r, 4096);
                 }
+            }
+//            if (($separator !== '') && preg_match('/'.$separator.'[^'.$separator.']+'.$separator.'/', $out)) {
+            if (($separator !== '') && preg_match('/'.$separator.'[\s\S]+'.$separator.'/', $out)) {
+                fwrite($pipes[0], "quit\n");
+              //  $te = true;
+              //  break;
             }
         }
 

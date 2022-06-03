@@ -43,6 +43,20 @@ class SSH extends GNU
 
 
     /**
+     * content of the sys ver systeminfo
+     *
+     * @var string
+     */
+    private $_sysversysteminfo = null;
+
+    /**
+     * content of the show status
+     *
+     * @var string
+     */
+    private $_showstatus = null;
+
+    /**
      * OS type
      *
      * @var string
@@ -55,9 +69,14 @@ class SSH extends GNU
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if ((($this->_ostype = $this->sys->getOS()) == 'SSH') && ($this->getSystemStatus() !== '')) {
-            $this->_ostype = 'FortiOS';
-            $this->sys->setOS('Linux');
+        if (($this->_ostype = $this->sys->getOS()) == 'SSH') { 
+            if ($this->getSystemStatus() !== '') {
+                $this->_ostype = 'FortiOS';
+                $this->sys->setOS('Linux');
+            } elseif ($this->getSysVerSysteminfo() !== '') {
+                $this->_ostype = 'DrayOS';
+                $this->sys->setOS('DrayOS');
+            }
         }
     }
 
@@ -70,7 +89,7 @@ class SSH extends GNU
      */
     public function getEncoding()
     {
-//        if (($this->_ostype === 'FortiOS') || ($this->_ostype === 'SSH')) {
+//        if (($this->_ostype === 'FortiOS') || ($this->_ostype === 'DrayOS') || ($this->_ostype === 'SSH')) {
 //            return 'UTF-8';
 //        }
         //return null;
@@ -117,6 +136,33 @@ class SSH extends GNU
         return $this->_sysperformance;
     }
 
+    private function getSysVerSysteminfo()
+    {
+        if ($this->_sysversysteminfo === null) {
+            if (CommonFunctions::executeProgram('sys' ,'ver systeminfo', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+               && preg_match('/([\s\S]+> sys ver systeminfo)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+                $this->_sysversysteminfo = substr($resulte, strlen($resulto[1][0]));
+            } else {
+                $this->_sysversysteminfo =  '';
+            }        
+        }
+
+        return $this->_sysversysteminfo;
+    }
+
+    private function getShowStatus()
+    {
+        if ($this->_showstatus === null) {
+            if (CommonFunctions::executeProgram('show' ,'status', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+               && preg_match('/([\s\S]+> show status)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+                $this->_showstatus = substr($resulte, strlen($resulto[1][0]));
+            } else {
+                $this->_showstatus =  '';
+            }
+        }
+
+        return $this->_showstatus;
+    }
     /**
      * Physical memory information and Swap Space information
      *
@@ -129,6 +175,16 @@ class SSH extends GNU
             if (CommonFunctions::executeProgram('get', 'hardware memory', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_memory(substr($resulte, strlen($resulto[1][0])));
+            }
+            break;
+        case 'DrayOS':
+            if (($sysstat = $this->getSysVerSysteminfo()) !== '') {
+                $machine= '';
+                if (preg_match("/ Total memory usage : \d+ % \((\d+)K\/(\d+)K\)/", $sysstat, $buf)) {
+                    $this->sys->setMemTotal($buf[2]*1024);
+                    $this->sys->setMemUsed($buf[1]*1024);
+                    $this->sys->setMemFree(($buf[2]-$buf[1])*1024);
+                }
             }
             break;
         case 'GNU':
@@ -240,6 +296,40 @@ class SSH extends GNU
                 }
             }
             break;
+        case 'DrayOS':
+            if (($bufr = $this->getShowStatus()) !== '') {
+                $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+                $was = false;
+                $dev = null;
+                foreach ($lines as $line) {
+                    if (preg_match("/^(.+) Status/", $line, $ar_buf)) {
+                        if ($was) {
+                            $this->sys->setNetDevices($dev);
+                        }
+                        $dev = new NetDevice();
+                        $dev->setName($ar_buf[1]);
+                        $was = true;
+                    } else {
+                        if ($was) {
+                            /*if (preg_match('/TX Packets:(\d+)[ ]+TX Rate\(bps\):\d+ RX Packets:(\d+)[ ]+RX/', $line, $ar_buf)) {
+                                    $dev->setTxBytes($ar_buf[1]);
+                                    $dev->setRxBytes($ar_buf[2]);
+                            } else*/if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                                if (preg_match('/ IP:([\d\.]+)[ ]+GW/', $line, $ar_buf) || preg_match('/IP Address:([\d\.]+)[ ]+Tx/', $line, $ar_buf)) {
+                                    $dev->setInfo($ar_buf[1]);
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($was) {
+                    $this->sys->setNetDevices($dev);
+                }
+            
+            
+                //var_dump($bufr);
+            }
+            break;
         case 'GNU':
         case 'Linux':            
             parent::_network();
@@ -259,6 +349,24 @@ class SSH extends GNU
             if (CommonFunctions::executeProgram('get', 'hardware cpu', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_cpuinfo(substr($resulte, strlen($resulto[1][0])));
+            }
+            break;
+        case 'DrayOS':
+            if (preg_match_all("/CPU(\d+) speed:[ ]*(\d+) MHz/m", $sysinfo = $this->getSysVerSysteminfo(), $bufarr)) {
+                foreach($bufarr[1] as $index=>$nr) {
+                    $dev = new CpuDevice();
+                    $dev->setModel('CPU'.$nr);
+                    $dev->setCpuSpeed($bufarr[2][$index]);
+                    if (PSI_LOAD_BAR) {
+                        $dev->setLoad($this->_parseProcStat('cpu'.$nr));
+                    }
+                    $this->sys->setCpus($dev);
+                }
+//var_dump($bufarr);
+//                $this->_cpu_loads['cpu'] = $buf[1];
+//                if (preg_match("/CPU1 speed/", $sysinfo)) {
+//                    $this->_cpu_loads['cpu0'] = $buf[1];
+//                }
             }
             break;
         case 'GNU':
@@ -300,6 +408,23 @@ class SSH extends GNU
                 }
             }
             break;
+        case 'DrayOS':
+            if (($sysstat = $this->getSysVerSysteminfo()) !== '') {
+                $machine= '';
+                if (preg_match("/\rRouter Model: (\S+) /", $sysstat, $buf)) {
+                    $machine = $buf[1];
+                }
+                if (preg_match("/\rRevision: (.+)\n/", $sysstat, $buf)) {
+                    $machine .= ' '.$buf[1];
+                }
+                $machine = trim($machine);
+
+                if ($machine !== '') {
+                    $this->sys->setMachine($machine);
+                }
+            }
+            break;
+
         case 'GNU':
         case 'Linux':
             parent::_machine();
@@ -327,6 +452,11 @@ class SSH extends GNU
 //            } else {
 //                $this->sys->setHostname($hostname);
 //            }
+            break;
+        case 'DrayOS':
+            if (preg_match("/\rRouter Name: ([^\n]+)\n/", $this->getSysVerSysteminfo(), $buf)) {
+                $this->sys->setHostname(trim($buf[1]));
+            }
             break;
         case 'GNU':
         case 'Linux':
@@ -397,6 +527,12 @@ class SSH extends GNU
             }
             $this->sys->setDistributionIcon('FortiOS.png');
             break;
+        case 'DrayOS':
+            if (preg_match("/ Version: ([^\n]+)\n/", $this->getSysVerSysteminfo(), $buf)) {
+                $this->sys->setDistribution('DrayOS '.trim($buf[1]));
+            }
+            $this->sys->setDistributionIcon('DrayOS.png');
+            break;
         case 'GNU':
         case 'Linux':
             parent::_distro();
@@ -415,22 +551,30 @@ class SSH extends GNU
      */
     protected function _parseProcStat($cpuline)
     {
-        if ($this->_ostype === 'FortiOS') {
-            if ($this->_cpu_loads === null) {
-                $this->_cpu_loads = array();
+        if ($this->_cpu_loads === null) {
+            $this->_cpu_loads = array();
+            switch ($this->_ostype) {
+            case 'FortiOS':
                 if (($strBuf = $this->getSystemPerformance()) !== '') {
                     $lines = preg_split('/\n/', $strBuf, -1, PREG_SPLIT_NO_EMPTY);
                     foreach ($lines as $line) if (preg_match('/^CPU(\d*) states: \d+% user \d+% system \d+% nice (\d+)% idle /', $line, $buf)) {
                         $this->_cpu_loads['cpu'.$buf[1]] = 100-$buf[2];
                     }
                 }
+                break;
+            case 'DrayOS':
+                if (preg_match("/CPU usage :[ ]*(\d+) %/", $sysinfo = $this->getSysVerSysteminfo(), $buf)) {
+                    $this->_cpu_loads['cpu'] = $buf[1];
+                    if (preg_match("/CPU1 speed/", $sysinfo) && !preg_match("/CPU2 speed/", $sysinfo)) { //only one cpu
+                        $this->_cpu_loads['cpu1'] = $buf[1];
+                    }
+                }
             }
-
-            if (isset($this->_cpu_loads[$cpuline])) {
-                return $this->_cpu_loads[$cpuline];
-            } else {
-                return null;
-            }
+        }
+        if (isset($this->_cpu_loads[$cpuline])) {
+            return $this->_cpu_loads[$cpuline];
+        } else {
+            return null;
         }
      }
 
@@ -447,6 +591,11 @@ class SSH extends GNU
             if (CommonFunctions::executeProgram('fnsysctl', 'cat /proc/loadavg', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 parent::_loadavg(substr($resulte, strlen($resulto[1][0])));
+            }
+            break;
+        case 'DrayOS':
+            if (PSI_LOAD_BAR) {
+                $this->sys->setLoadPercent($this->_parseProcStat('cpu'));
             }
             break;
         case 'GNU':
@@ -466,6 +615,11 @@ class SSH extends GNU
         switch ($this->_ostype) {
         case 'FortiOS':
             if (preg_match("/\nUptime: ([^\n]+)\n/", $this->getSystemPerformance(), $buf)) {
+                parent::_uptime('up '.trim($buf[1]));
+            }
+            break;
+        case 'DrayOS':
+            if (preg_match("/System Uptime:([\d:]+)/", $this->getShowStatus(), $buf)) {
                 parent::_uptime('up '.trim($buf[1]));
             }
             break;
@@ -544,6 +698,35 @@ class SSH extends GNU
                 $this->_network();
             }
             break;
+        case 'DrayOS':
+            if (!$this->blockname || $this->blockname==='vitals') {
+                $this->_distro();
+                $this->_hostname();
+//                $this->_kernel();
+                $this->_uptime();
+////                $this->_users();
+                $this->_loadavg();
+////                $this->_processes();
+            }
+            if (!$this->blockname || $this->blockname==='hardware') {
+                $this->_machine();
+                $this->_cpuinfo();
+//                //$this->_virtualizer();
+////                $this->_pci();
+//                $this->_usb();
+////                $this->_i2c();
+            }
+            if (!$this->blockname || $this->blockname==='memory') {
+                $this->_memory();
+            }
+            if (!$this->blockname || $this->blockname==='filesystem') {
+//                $this->_filesystems();
+            }
+            if (!$this->blockname || $this->blockname==='network') {
+                $this->_network();
+            }
+            break;
+
         case 'GNU':
         case 'Linux':
             parent::build();

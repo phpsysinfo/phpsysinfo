@@ -9,7 +9,7 @@ phpSysInfo 3.4.2
  - [ADD] schabau_bootstrap template
  
  - [NEW] Partial support for GNU Hurd
- - [NEW] Ability to retrieve Linux, GNU Hurd and FortiOS system information via SSH
+ - [NEW] Ability to retrieve Linux, GNU Hurd, DrayOS and FortiOS system information via SSH
 
 phpSysInfo 3.4.1
 ----------------
