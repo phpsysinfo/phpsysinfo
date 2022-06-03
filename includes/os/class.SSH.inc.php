@@ -411,10 +411,10 @@ class SSH extends GNU
         case 'DrayOS':
             if (($sysstat = $this->getSysVerSysteminfo()) !== '') {
                 $machine= '';
-                if (preg_match("/\rRouter Model: (\S+) /", $sysstat, $buf)) {
+                if (preg_match("/[\r\n]Router Model: (\S+) /", $sysstat, $buf)) {
                     $machine = $buf[1];
                 }
-                if (preg_match("/\rRevision: (.+)\n/", $sysstat, $buf)) {
+                if (preg_match("/[\r\n]Revision: (.+)[\r\n]/", $sysstat, $buf)) {
                     $machine .= ' '.$buf[1];
                 }
                 $machine = trim($machine);
@@ -454,7 +454,7 @@ class SSH extends GNU
 //            }
             break;
         case 'DrayOS':
-            if (preg_match("/\rRouter Name: ([^\n]+)\n/", $this->getSysVerSysteminfo(), $buf)) {
+            if (preg_match("/[\r\n]Router Name: ([^\n\r]+)[\r\n]/", $this->getSysVerSysteminfo(), $buf)) {
                 $this->sys->setHostname(trim($buf[1]));
             }
             break;
