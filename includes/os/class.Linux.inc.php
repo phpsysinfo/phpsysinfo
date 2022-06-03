@@ -561,6 +561,11 @@ class Linux extends OS
                 $min = $ar_buf[2];
                 $hours = $ar_buf[1];
                 $this->sys->setUptime($hours * 3600 + $min * 60);
+            } elseif (preg_match("/up[ ]+(\d+):(\d+):(\d+)/", $this->_uptime, $ar_buf)) {
+                $sec = $ar_buf[3];
+                $min = $ar_buf[2];
+                $hours = $ar_buf[1];
+                $this->sys->setUptime($hours * 3600 + $min * 60 + $sec);
             } elseif (preg_match("/up[ ]+(\d+) min,/", $this->_uptime, $ar_buf)) {
                 $min = $ar_buf[1];
                 $this->sys->setUptime($min * 60);
