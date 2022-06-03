@@ -471,7 +471,12 @@ class SSH extends GNU
             break;
         case 'GNU':
         case 'Linux':
-            parent::_uptime();
+            if (CommonFunctions::executeProgram('cat', '/proc/uptime', $resulte, false) && ($resulte !== "")) {
+                $ar_buf = preg_split('/ /', $resulte);
+                $this->sys->setUptime(trim($ar_buf[0]));
+            } else {
+                parent::_uptime();
+            }
         }
     }
 
