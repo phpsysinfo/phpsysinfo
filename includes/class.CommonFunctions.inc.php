@@ -228,7 +228,7 @@ class CommonFunctions
         } else {
             $externally = false;
         }
-        
+
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
