@@ -79,9 +79,9 @@ class SSH extends GNU
         case 'HI-UX/MPP':
         case 'Haiku':
         case 'Minix':
-        case 'NetBSD'
-        case 'OpenBSD'
-        case 'QNX'
+        case 'NetBSD':
+        case 'OpenBSD':
+        case 'QNX':
         case 'SunOS':
             $this->error->addError("__construct()", "OS ".$this->_ostype. " is not supported via SSH");
             break;
