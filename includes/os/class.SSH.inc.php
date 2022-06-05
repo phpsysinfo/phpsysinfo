@@ -526,6 +526,23 @@ class SSH extends GNU
                 }
             }
             break;
+        case 'DrayOS':
+            if (CommonFunctions::executeProgram('nand' ,'usage', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+               && preg_match('/([\s\S]+> nand usage)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+                $df = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($df as $df_line) {
+                    if (preg_match("/^(\S+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)%$/", trim($df_line), $df_buf)) {
+                        $dev = new DiskDevice();
+                        $dev->setName($df_buf[1]);
+                        $dev->setTotal($df_buf[2]);
+                        $dev->setUsed($df_buf[3]);
+                        $dev->setFree($df_buf[4]);
+                        $dev->setFsType('NAND');
+                        $this->sys->setDiskDevices($dev);
+                    }
+                }
+            }
+            break;
         case 'GNU':
         case 'Linux':
             parent::_filesystems();
@@ -739,7 +756,7 @@ class SSH extends GNU
                 $this->_memory();
             }
             if (!$this->blockname || $this->blockname==='filesystem') {
-//                $this->_filesystems();
+                $this->_filesystems();
             }
             if (!$this->blockname || $this->blockname==='network') {
                 $this->_network();
