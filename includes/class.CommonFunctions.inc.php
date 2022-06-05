@@ -328,7 +328,7 @@ class CommonFunctions
             $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
             if ($separator !== '') {
                 if ($PathStr === '') {
-                    fwrite($pipes[0], $strAll."\n \n");
+                    fwrite($pipes[0], $strAll."\n  "); // spaces at end for handling 'more'
                 } else {
                     fwrite($pipes[0], 'PATH=\''.$PathStr.':$PATH\' '.$strAll."\n");
                 }
@@ -749,6 +749,7 @@ class CommonFunctions
 //            if (($separator !== '') && preg_match('/'.$separator.'[^'.$separator.']+'.$separator.'/', $out)) {
             if (($separator !== '') && preg_match('/'.$separator.'[\s\S]+'.$separator.'/', $out)) {
                 fwrite($pipes[0], "quit\n");
+                $separator = ''; //only one time
               //  $te = true;
               //  break;
             }
