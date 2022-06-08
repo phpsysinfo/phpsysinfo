@@ -529,9 +529,18 @@ class SSH extends GNU
         case 'DrayOS':
             if (CommonFunctions::executeProgram('nand' ,'usage', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> nand usage)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
-                $df = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
+                $df = substr($resulte, strlen($resulto[1][0]));
+
+                if (preg_match('/Usecfg/', $df)) { // fix for Vigor2135ac v4.4.2
+                    $df = preg_replace("/(cfg|bin)/", "\n$1", substr($resulte, strlen($resulto[1][0])));
+                    $percent = '';
+                } else {
+                    $percent = '%';
+                }
+
+                $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($df as $df_line) {
-                    if (preg_match("/^(\S+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)%$/", trim($df_line), $df_buf)) {
+                    if (preg_match("/^(\S+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)[ ]+(\d+)".$percent."/", trim($df_line), $df_buf)) {
                         $dev = new DiskDevice();
                         $dev->setName($df_buf[1]);
                         $dev->setTotal($df_buf[2]);
