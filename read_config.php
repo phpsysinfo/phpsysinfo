@@ -32,10 +32,10 @@ if (!defined('PSI_CONFIG_FILE')) {
                 } elseif (trim($value)==="1") {
                     define($name_prefix.strtoupper($param), true);
                 } else {
-                    if (strstr($value, ',')) {
-                        define($name_prefix.strtoupper($param), 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
+                    if ((($paramup = strtoupper($param)) !== 'WMI_PASSWORD') && ($paramup !== 'SSH_PASSWORD') && strstr($value, ',')) {
+                        define($name_prefix.$paramup, 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
                     } else {
-                        define($name_prefix.strtoupper($param), trim($value));
+                        define($name_prefix.$paramup, trim($value));
                     }
                 }
             }
