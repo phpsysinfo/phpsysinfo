@@ -1184,10 +1184,10 @@ class Raid extends PSI_Plugin
 //                    $snmptablep[$data[1]]['physicalDiskSpareState']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.24\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
 //                    $snmptablep[$data[1]]['physicalDiskComponentStatus']=$data[2];
-//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.50\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
-//                    $snmptablep[$data[1]]['physicalDiskOperationalState']=$data[2];
-//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.51\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
-//                    $snmptablep[$data[1]]['physicalDiskProgress']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.50\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskOperationalState']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.51\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskProgress']=$data[2];
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.54\.(.*) = STRING:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskFQDD']=trim($data[2], "\"");
 
@@ -1331,6 +1331,35 @@ class Raid extends PSI_Plugin
                             case 3:
                                 $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "ok";
                                 $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = "online";
+                                if (isset($raid_physical['physicalDiskOperationalState'])) {
+                                    switch ($raid_physical['physicalDiskOperationalState']) {
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                        if (isset($raid_physical['physicalDiskProgress'])) {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'rebuilding '.$raid_physical['physicalDiskProgress'].'%';
+                                        } else {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'rebuilding';
+                                        }
+                                        break;
+                                    case 3:
+                                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                        if (isset($raid_physical['physicalDiskProgress'])) {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'erasing '.$raid_physical['physicalDiskProgress'].'%';
+                                        } else {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'erasing';
+                                        }
+                                        break;
+                                    case 4:
+                                        $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
+                                        if (isset($raid_physical['physicalDiskProgress'])) {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'copying '.$raid_physical['physicalDiskProgress'].'%';
+                                        } else {
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'copying';
+                                        }
+                                    }
+                                }
                                 break;
                             case 4:
                                 $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
