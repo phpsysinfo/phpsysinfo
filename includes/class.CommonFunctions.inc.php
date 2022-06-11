@@ -207,15 +207,15 @@ class CommonFunctions
             }
             $strSet = '';
             $strProgramname = 'sshpass';
-            $strParams = '';
-            if (defined('PSI_EMU_ADD_PARAMS') && is_string(PSI_EMU_ADD_PARAMS)) {
-                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_PARAMS)) {
-                    $arrParams = eval(PSI_EMU_ADD_PARAMS);
+            $strOptions = '';
+            if (defined('PSI_EMU_ADD_OPTIONS') && is_string(PSI_EMU_ADD_OPTIONS)) {
+                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_OPTIONS)) {
+                    $arrParams = eval(PSI_EMU_ADD_OPTIONS);
                 } else {
-                    $arrParams = array(PSI_EMU_ADD_PARAMS);
+                    $arrParams = array(PSI_EMU_ADD_OPTIONS);
                 }
-                foreach ($arrParams as $Params) if (preg_match('/(\S+)\s*\=\s*(\S+)/', $Params, $parbuf)) {
-                    $strParams = $strParams.'-o '.$parbuf[1].'='.$parbuf[2].' ';
+                foreach ($arrParams as $Params) if (preg_match('/(\S+)\s*\=\s*(\S+)/', $Params, $obuf)) {
+                    $strOptions = $strOptions.'-o '.$obuf[1].'='.$obuf[2].' ';
                 }
             }
             if (defined('PSI_EMU_ADD_PATHS') && is_string(PSI_EMU_ADD_PATHS)) {
@@ -232,15 +232,15 @@ class CommonFunctions
                     }
                 }
                 if ($separator === '') {
-                    $strArguments = '-e ssh -Tq '.$strParams.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
                 } else {
-                    $strArguments = '-e ssh -Tq '.$strParams.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
                 }
             } else {
                 if ($separator === '') {
-                    $strArguments = '-e ssh -Tq '.$strParams.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
                 } else {
-                    $strArguments = '-e ssh -Tq '.$strParams.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
                 }
             }
             $externally = true;

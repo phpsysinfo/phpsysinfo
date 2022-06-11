@@ -95,10 +95,10 @@ BLOCKS=true
 ;
 ;SSH_ADD_PATHS=false
 ;
-; Additional SSH parameters
-; Example : SSH_ADD_PARAMS="KexAlgorithms=+diffie-hellman-group1-sha1,HostKeyAlgorithms=+ssh-dss,Ciphers=+3des-cbc"
+; Additional SSH options
+; Example : SSH_ADD_OPTIONS="KexAlgorithms=+diffie-hellman-group1-sha1,HostKeyAlgorithms=+ssh-dss,Ciphers=+3des-cbc"
 ;
-;SSH_ADD_PARAMS=""
+;SSH_ADD_OPTIONS=""
 
 
 ; External WinNT server connection parameters
