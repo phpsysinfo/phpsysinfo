@@ -89,10 +89,16 @@ BLOCKS=true
 ;SSH_HOSTNAME="hostname:22"
 ;SSH_USER="username"
 ;SSH_PASSWORD="password"
+;
 ; Additional paths where to look for installed programs
 ; Example : SSH_ADD_PATHS="/sbin,/usr/sbin"
 ;
 ;SSH_ADD_PATHS=false
+;
+; Additional SSH parameters
+; Example : SSH_ADD_PARAMS="KexAlgorithms=+diffie-hellman-group1-sha1;HostKeyAlgorithms=+ssh-dss;Ciphers=+3des-cbc"
+;
+;SSH_ADD_PARAMS=""
 
 
 ; External WinNT server connection parameters

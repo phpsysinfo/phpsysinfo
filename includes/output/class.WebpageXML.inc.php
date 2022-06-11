@@ -74,6 +74,9 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 if (defined('PSI_SSH_ADD_PATHS')) {
                     define('PSI_EMU_ADD_PATHS', PSI_SSH_ADD_PATHS);
                 }
+                if (defined('PSI_SSH_ADD_PARAMS')) {
+                    define('PSI_EMU_ADD_PARAMS', PSI_SSH_ADD_PARAMS);
+                }
                 if (!file_exists(PSI_APP_ROOT.'/includes/os/class.Linux.inc.php')) {
                     $this->error->addError("file_exists(class.Linux.inc.php)", "Linux is not currently supported");
                 }
@@ -170,6 +173,9 @@ class WebpageXML extends Output implements PSI_Interface_Output
                     if (defined('PSI_PLUGIN_'.$plugname.'_SSH_ADD_PATHS')) {
                         define('PSI_EMU_ADD_PATHS', constant('PSI_PLUGIN_'.$plugname.'_SSH_ADD_PATHS'));
                     }
+                    if (defined('PSI_PLUGIN_'.$plugname.'_SSH_ADD_PARAMS')) {
+                        define('PSI_EMU_ADD_PARAMS', constant('PSI_PLUGIN_'.$plugname.'_SSH_ADD_PARAMS'));
+                    }
                 } elseif (defined('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME')) {
                     define('PSI_EMU_HOSTNAME', constant('PSI_PLUGIN_'.$plugname.'_WMI_HOSTNAME'));
                     if (defined('PSI_PLUGIN_'.$plugname.'_WMI_USER') && defined('PSI_PLUGIN_'.$plugname.'_WMI_PASSWORD')) {
@@ -189,6 +195,12 @@ class WebpageXML extends Output implements PSI_Interface_Output
                     }
                     define('PSI_EMU_USER', PSI_SSH_USER);
                     define('PSI_EMU_PASSWORD', PSI_SSH_PASSWORD);
+                    if (defined('PSI_SSH_ADD_PATHS')) {
+                        define('PSI_EMU_ADD_PATHS', PSI_SSH_ADD_PATHS);
+                    }
+                    if (defined('PSI_SSH_ADD_PARAMS')) {
+                        define('PSI_EMU_ADD_PARAMS', PSI_SSH_ADD_PARAMS);
+                    }
                 } elseif (defined('PSI_WMI_HOSTNAME')) {
                     define('PSI_EMU_HOSTNAME', PSI_WMI_HOSTNAME);
                     if (defined('PSI_WMI_USER') && defined('PSI_WMI_PASSWORD')) {
