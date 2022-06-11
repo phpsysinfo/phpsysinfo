@@ -223,7 +223,7 @@ class CommonFunctions
                 if ($separator === '') {
                     $strArguments = '-e ssh -Tq -o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
                 } else {
-                    $strArguments = '-e ssh -Tq -o ConnectTimeout='.$timeout.' -o \'StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                    $strArguments = '-e ssh -Tq -o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
                 }
             } else {
                 if ($separator === '') {
