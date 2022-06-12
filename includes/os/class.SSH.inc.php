@@ -316,20 +316,38 @@ class SSH extends GNU
             }
             break;
         case 'DrayOS':
+            $notwaslan = true;
+            if (CommonFunctions::executeProgram('show' ,'lan', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+               && preg_match('/([\s\S]+> show lan)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+                $lines = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($lines as $line) {
+                    if (preg_match("/^\[V\](\S+)\s+([\d\.]+)/", trim($line), $ar_buf)) {
+                        $dev = new NetDevice();
+                        $dev->setName($ar_buf[1]);
+                        if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                            $dev->setInfo($ar_buf[2]);
+                        }
+                        $this->sys->setNetDevices($dev);
+                        if (preg_match('/^LAN/', $ar_buf[1])) {
+                            $notwaslan = false;
+                        }
+                    }
+                }
+            }
             if (($bufr = $this->getShowStatus()) !== '') {
                 $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-                $was = false;
+                $last = false;
                 $dev = null;
                 foreach ($lines as $line) {
-                    if (preg_match("/^(.+) Status/", $line, $ar_buf)) {
-                        if ($was) {
+                    if (preg_match("/^(.+) Status/", trim($line), $ar_buf)) {
+                        if (($last !== false) && (($last !== 'LAN') || $notwaslan)) {
                             $this->sys->setNetDevices($dev);
                         }
                         $dev = new NetDevice();
-                        $dev->setName($ar_buf[1]);
-                        $was = true;
+                        $last = preg_replace('/\s+/', '', $ar_buf[1]);
+                        $dev->setName($last);
                     } else {
-                        if ($was) {
+                        if ($last !== false) {
                             /*if (preg_match('/TX Packets:(\d+)[ ]+TX Rate\(bps\):\d+ RX Packets:(\d+)[ ]+RX/', $line, $ar_buf)) {
                                     $dev->setTxBytes($ar_buf[1]);
                                     $dev->setRxBytes($ar_buf[2]);
@@ -341,12 +359,9 @@ class SSH extends GNU
                         }
                     }
                 }
-                if ($was) {
+                if (($last !== false) && (($last !== 'LAN') || $notwaslan)) {
                     $this->sys->setNetDevices($dev);
                 }
-            
-            
-                //var_dump($bufr);
             }
             break;
         case 'GNU':
