@@ -316,6 +316,27 @@ class SSH extends GNU
             }
             break;
         case 'DrayOS':
+            $macarray = array();
+            if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)) {
+                if (CommonFunctions::executeProgram('sys' ,'iface', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+                   && preg_match('/([\s\S]+> sys iface)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
+                    $lines = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
+                    $ipaddr = 'LAN';
+                    foreach ($lines as $line) {
+                        if (preg_match("/^IP Address:\s+([\d\.]+)\s/", trim($line), $ar_buf)) {
+                            if ($ipaddr === false) {
+                                $ipaddr = $ar_buf[1];
+                            }
+                        } elseif (preg_match("/^MAC:\s+([\d\-A-F]+)/", trim($line), $ar_buf)) {
+                            if ($ipaddr !== '0.0.0.0') {
+                                $macarray[$ipaddr] = $ar_buf[1];
+                            }
+                            $ipaddr = false;
+                        }
+                    }
+                }
+            }
+
             $notwaslan = true;
             if (CommonFunctions::executeProgram('show' ,'lan', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> show lan)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -326,6 +347,11 @@ class SSH extends GNU
                         $dev->setName($ar_buf[1]);
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                             $dev->setInfo($ar_buf[2]);
+                            if (isset($macarray['LAN'])) {
+                                $dev->setInfo($macarray['LAN'].';'.$ar_buf[2]);
+                            } else {
+                                $dev->setInfo($ar_buf[2]);
+                            }
                         }
                         $this->sys->setNetDevices($dev);
                         if (preg_match('/^LAN/', $ar_buf[1])) {
@@ -353,7 +379,15 @@ class SSH extends GNU
                                     $dev->setRxBytes($ar_buf[2]);
                             } else*/if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                                 if (preg_match('/ IP:([\d\.]+)[ ]+GW/', $line, $ar_buf) || preg_match('/IP Address:([\d\.]+)[ ]+Tx/', $line, $ar_buf)) {
-                                    $dev->setInfo($ar_buf[1]);
+                                    if ($last === 'LAN') {
+                                        if (isset($macarray['LAN'])) {
+                                            $dev->setInfo($macarray['LAN'].';'.$ar_buf[1]);
+                                        }
+                                    } elseif (isset($macarray[$ar_buf[1]])) {
+                                        $dev->setInfo($macarray[$ar_buf[1]].';'.$ar_buf[1]);
+                                    } else {
+                                       $dev->setInfo($ar_buf[1]);
+                                    }
                                 }
                             }
                         }
