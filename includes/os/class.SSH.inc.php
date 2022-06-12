@@ -321,7 +321,7 @@ class SSH extends GNU
                && preg_match('/([\s\S]+> show lan)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $lines = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
-                    if (preg_match("/^\[V\](\S+)\s+([\d\.]+)/", trim($line), $ar_buf)) {
+                    if (preg_match("/^\[V\](\S+)\s+([\d\.]+)\s/", trim($line), $ar_buf)) {
                         $dev = new NetDevice();
                         $dev->setName($ar_buf[1]);
                         if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
