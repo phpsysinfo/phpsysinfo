@@ -1031,27 +1031,45 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '';
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
         name = $(this).attr("Name");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
+        rxr = parseInt($(this).attr("RxRate"), 10);
+        txr = parseInt($(this).attr("TxRate"), 10);
 
-        if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
-            var diff, difftime;
-            if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
+        if (showNetworkActiveSpeed) {
+            if ((rx == 0) && !isNaN(rxr)) {
                 if (showNetworkActiveSpeed == 2) {
-                    htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    htmlrx ="<br><i>("+formatBPS(round(rxr, 2))+")</i>";
                 } else {
-                    htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    htmlrx ="<br><i>("+formatBytes(round(rxr, 2), xml)+"/s)</i>";
+                }
+            } else if ($.inArray(name, oldnetwork) >= 0) {
+                var diff, difftime;
+                if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
+                    if (showNetworkActiveSpeed == 2) {
+                        htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    } else {
+                        htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    }
                 }
             }
-            if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
+            if ((tx == 0) && !isNaN(txr)) {
                 if (showNetworkActiveSpeed == 2) {
-                    htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    htmltx ="<br><i>("+formatBPS(round(txr, 2))+")</i>";
                 } else {
-                    htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    htmltx ="<br><i>("+formatBytes(round(txr, 2), xml)+"/s)</i>";
+                }
+            } else if ($.inArray(name, oldnetwork) >= 0) {
+                if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
+                    if (showNetworkActiveSpeed == 2) {
+                        htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    } else {
+                        htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    }
                 }
             }
         }

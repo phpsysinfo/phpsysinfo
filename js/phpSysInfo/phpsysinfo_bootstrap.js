@@ -1203,13 +1203,21 @@ function renderNetwork(data) {
         RxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
-                    var diff, difftime;
-                    if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                if (showNetworkActiveSpeed) {
+                    if ((this.RxBytes == 0) && (this.RxRate !== undefined)) {
                         if (showNetworkActiveSpeed == 2) {
-                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            htmladd ="<br><i>("+formatBPS(round(this.RxRate, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(this.RxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                        }                
+                    } else if ($.inArray(this.Name, oldnetwork) >= 0) {
+                        var diff, difftime;
+                        if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                             if (showNetworkActiveSpeed == 2) {
+                                htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            } else {
+                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            }
                         }
                     }
                 }
@@ -1219,13 +1227,21 @@ function renderNetwork(data) {
         TxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
-                    var diff, difftime;
-                    if (((diff = this.TxBytes - oldnetwork[this.Name].TxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                if (showNetworkActiveSpeed) {
+                    if ((this.TxBytes == 0) && (this.TxRate !== undefined)) {
                         if (showNetworkActiveSpeed == 2) {
-                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            htmladd ="<br><i>("+formatBPS(round(this.TxRate, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(this.TxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                        }
+                    } else if ($.inArray(this.Name, oldnetwork) >= 0) {
+                        var diff, difftime;
+                        if (((diff = this.TxBytes - oldnetwork[this.Name].TxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                            if (showNetworkActiveSpeed == 2) {
+                                htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            } else {
+                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            }
                         }
                     }
                 }

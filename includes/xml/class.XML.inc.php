@@ -207,8 +207,28 @@ class XML
             if (!$hide) {
                 $device = $network->addChild('NetDevice');
                 $device->addAttribute('Name', $dev->getName());
-                $device->addAttribute('RxBytes', $dev->getRxBytes());
-                $device->addAttribute('TxBytes', $dev->getTxBytes());
+                $rxbytes = $dev->getRxBytes();
+                $txbytes = $dev->getTxBytes();
+                $device->addAttribute('RxBytes', $rxbytes);
+                $device->addAttribute('TxBytes', $txbytes);
+                if (defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') && PSI_SHOW_NETWORK_ACTIVE_SPEED) {
+                    if (($rxbytes == 0) && ($txbytes == 0)) {
+                        $rxrate = $dev->getRxRate();
+                        $txrate = $dev->getTxRate();
+                        IF (($rxrate !== null) || ($txrate !== null)) {
+                            if ($rxrate !== null) {
+                                $device->addAttribute('RxRate', $rxrate);
+                            } else {
+                                $device->addAttribute('RxRate', 0);
+                            }
+                            if ($txrate !== null) {
+                                $device->addAttribute('TxRate', $txrate);
+                            } else {
+                                $device->addAttribute('TxRate', 0);
+                            }
+                        }
+                    }
+                }
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo())

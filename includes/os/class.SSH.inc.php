@@ -374,11 +374,8 @@ class SSH extends GNU
                         $dev->setName($last);
                     } else {
                         if ($last !== false) {
-                            /*if (preg_match('/TX Packets:(\d+)[ ]+TX Rate\(bps\):\d+ RX Packets:(\d+)[ ]+RX/', $line, $ar_buf)) {
-                                    $dev->setTxBytes($ar_buf[1]);
-                                    $dev->setRxBytes($ar_buf[2]);
-                            } else*/if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                                if (preg_match('/ IP:([\d\.]+)[ ]+GW/', $line, $ar_buf) || preg_match('/IP Address:([\d\.]+)[ ]+Tx/', $line, $ar_buf)) {
+                            if (preg_match('/ IP:([\d\.]+)[ ]+GW/', $line, $ar_buf) || preg_match('/IP Address:([\d\.]+)[ ]+Tx/', $line, $ar_buf)) {
+                                if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                                     if ($last === 'LAN') {
                                         if (isset($macarray['LAN'])) {
                                             $dev->setInfo($macarray['LAN'].';'.$ar_buf[1]);
@@ -388,6 +385,11 @@ class SSH extends GNU
                                     } else {
                                        $dev->setInfo($ar_buf[1]);
                                     }
+                                }
+                            } elseif (preg_match('/TX Packets:\d+[ ]+TX Rate\(bps\):(\d+)[ ]+RX Packets:\d+[ ]+RX Rate\(bps\):(\d+)/', $line, $ar_buf)) {
+                                if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                                    $dev->setTxRate($ar_buf[1]);
+                                    $dev->setRxRate($ar_buf[2]);
                                 }
                             }
                         }
