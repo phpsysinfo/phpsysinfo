@@ -1338,25 +1338,31 @@ class Raid extends PSI_Plugin
                                     case 2:
                                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
                                         if (isset($raid_physical['physicalDiskProgress'])) {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'rebuilding '.$raid_physical['physicalDiskProgress'].'%';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Rebuilding ('.$raid_physical['physicalDiskProgress'].'%)';
+                                            $this->_result['devices'][$devname]['action']['name'] = 'Rebuilding';
+                                            $this->_result['devices'][$devname]['action']['percent'] = $raid_physical['physicalDiskProgress'];
                                         } else {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'rebuilding';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Rebuilding';
                                         }
                                         break;
                                     case 3:
                                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
                                         if (isset($raid_physical['physicalDiskProgress'])) {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'erasing '.$raid_physical['physicalDiskProgress'].'%';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Erasing ('.$raid_physical['physicalDiskProgress'].'%)';
+                                            $this->_result['devices'][$devname]['action']['name'] = 'Erasing';
+                                            $this->_result['devices'][$devname]['action']['percent'] = $raid_physical['physicalDiskProgress'];
                                         } else {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'erasing';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Erasing';
                                         }
                                         break;
                                     case 4:
                                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['status'] = "W";
                                         if (isset($raid_physical['physicalDiskProgress'])) {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'copying '.$raid_physical['physicalDiskProgress'].'%';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Copying ('.$raid_physical['physicalDiskProgress'].'%)';
+                                            $this->_result['devices'][$devname]['action']['name'] = 'Copying';
+                                            $this->_result['devices'][$devname]['action']['percent'] = $raid_physical['physicalDiskProgress'];
                                         } else {
-                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'copying';
+                                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['info'] = 'Copying';
                                         }
                                     }
                                 }
