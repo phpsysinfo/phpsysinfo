@@ -337,6 +337,15 @@ class SSH extends GNU
                 }
             }
 
+            $lantxrate = false;
+            $lanrxrate = false;
+            if (defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') && PSI_SHOW_NETWORK_ACTIVE_SPEED) {
+                if ((($bufr = $this->getShowStatus()) !== '') && preg_match('/IP Address:[\d\.]+[ ]+Tx Rate:(\d+)[ ]+Rx Rate:(\d+)/m', $bufr, $ar_buf)) {
+                    $lantxrate = $ar_buf[1];
+                    $lanrxrate = $ar_buf[2];
+                }
+            }
+
             $notwaslan = true;
             if (CommonFunctions::executeProgram('show' ,'lan', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> show lan)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
@@ -352,6 +361,12 @@ class SSH extends GNU
                             } else {
                                 $dev->setInfo($ar_buf[2]);
                             }
+                        }
+                        if ($lantxrate !== false) {
+                            $dev->setTxRate($lantxrate);
+                        }
+                        if ($lanrxrate !== false) {
+                            $dev->setRxRate($lanrxrate);
                         }
                         $this->sys->setNetDevices($dev);
                         if (preg_match('/^LAN/', $ar_buf[1])) {
@@ -380,6 +395,12 @@ class SSH extends GNU
                                         if (isset($macarray['LAN'])) {
                                             $dev->setInfo($macarray['LAN'].';'.$ar_buf[1]);
                                         }
+                                        if ($lantxrate !== false) {
+                                            $dev->setTxRate($lantxrate);
+                                        }
+                                        if ($lanrxrate !== false) {
+                                            $dev->setRxRate($lanrxrate);
+                                        }
                                     } elseif (isset($macarray[$ar_buf[1]])) {
                                         $dev->setInfo($macarray[$ar_buf[1]].';'.$ar_buf[1]);
                                     } else {
@@ -387,7 +408,7 @@ class SSH extends GNU
                                     }
                                 }
                             } elseif (preg_match('/TX Packets:\d+[ ]+TX Rate\(bps\):(\d+)[ ]+RX Packets:\d+[ ]+RX Rate\(bps\):(\d+)/', $line, $ar_buf)) {
-                                if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+                                if (defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') && PSI_SHOW_NETWORK_ACTIVE_SPEED) {
                                     $dev->setTxRate($ar_buf[1]);
                                     $dev->setRxRate($ar_buf[2]);
                                 }
@@ -432,7 +453,6 @@ class SSH extends GNU
                     }
                     $this->sys->setCpus($dev);
                 }
-//var_dump($bufarr);
 //                $this->_cpu_loads['cpu'] = $buf[1];
 //                if (preg_match("/CPU1 speed/", $sysinfo)) {
 //                    $this->_cpu_loads['cpu0'] = $buf[1];
