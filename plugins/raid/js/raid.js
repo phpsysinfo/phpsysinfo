@@ -125,12 +125,14 @@ function raid_buildaction(xml) {
  */
 function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
-        var status = "", name = "", type = "", info = "", parentid = 0;
+        var status = "", name = "", type = "", info = "", model = "", minfo = "", size = 0, parentid = 0;
 
         status = $(this).attr("Status");
         name = $(this).attr("Name");
         type = $(this).attr("Type");
         info = $(this).attr("Info");
+        model = $(this).attr("Model");
+        size = parseInt($(this).attr("Size"), 10);
         if (info === undefined) info = "";
         parentid = parseInt($(this).attr("ParentID"), 10);
 
@@ -177,7 +179,13 @@ function raid_diskicon(xml, id) {
 
         if (!isNaN(parentid)) {
             if (type !== undefined) {
-                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + "</small></div>"); //onload IE6 PNG fix
+                if (model !== undefined) {
+                    minfo = "<br>" + model;
+                }
+                if (!isNaN(size)) {
+                    minfo += "<br>" + formatBytes(size, xml);
+                }
+                $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + minfo + "</small></div>"); //onload IE6 PNG fix
             } else {
                 if (parentid === 0) {
                     $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");

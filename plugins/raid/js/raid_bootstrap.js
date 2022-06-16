@@ -19,14 +19,13 @@ function renderPlugin_raid(data) {
         return html;
     }
 
-    function raid_diskicon(data , id, itemid) {
+    function raid_diskicon(data , id, itemid, byteFormat) {
         var info = "";
-
         info = data.Info;
         if (info === undefined) info = "";
         parentid = parseInt(data.ParentID, 10);
 
-        var imgh = "", imgs = "", alt = "", bcolor = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "", minfo = "";
         switch (data.Status) {
         case "ok":
             imgh = "harddriveok.png";
@@ -69,7 +68,13 @@ function renderPlugin_raid(data) {
 
         if (!isNaN(parentid)) {
             if (data.Type !== undefined) {
-                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + "</small></div>");
+                if (data.Model !== undefined) {
+                    minfo = "<br>" + data.Model;
+                }
+                if (!isNaN(parseInt(data.Size, 10))) {
+                    minfo += "<br>" + formatBytes(parseInt(data.Size, 10), byteFormat);
+                }
+                $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + minfo + "</small></div>");   
             } else {
                 if (parentid === 0) {
                     $("#raid_list-" + id).append("<div id=\"raid_item" + id + "-" + (itemid+1) + "\" style=\"border:solid;border-width:2px;border-radius:5px;border-color:" + bcolor + ";margin:10px;float:left;text-align:center\">" + data.Name + "<br></div>");
@@ -148,7 +153,7 @@ function renderPlugin_raid(data) {
                 if (raiditems[k].RaidItems !== undefined) {
                     var diskitems = items(raiditems[k].RaidItems.Item);
                     for (var j = 0; j < diskitems.length ; j++) {
-                        raid_diskicon(diskitems[j]["@attributes"], k, j);
+                        raid_diskicon(diskitems[j]["@attributes"], k, j, data.Options["@attributes"].byteFormat);
                     }
                     $('#raid-'+k).treegrid({
                         initialState: 'collapsed',
