@@ -820,7 +820,8 @@ class Raid extends PSI_Plugin
                     if (count($buffArgs) == 3) {
                         $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
-                        $this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[1]);
+                        // disabled due to mixing name and serial number
+                        //$this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[1]);
                     } else {
                         if (trim($buffArgs[1])==="SSD") {
                             $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "ssd";
@@ -828,7 +829,8 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         }
                         $dskstat = trim($buffArgs[4]);
-                        $this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[2]);
+                        //disabled due to mixing name and serial number
+                        //$this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[2]);
 
                         $size = preg_replace("/,/", ".", trim($buffArgs[3]));
                         $unit = preg_replace("/^[\d\.\s]+/", "", $size);
