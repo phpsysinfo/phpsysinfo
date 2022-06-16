@@ -545,8 +545,8 @@ class Raid extends PSI_Plugin
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
                         if ((count($details) == 6) && ($details[2] === "RAID")) {
                             $this->_result['devices'][$prefix.$details[0]]['prog'] = $prog;
-                            $unit = preg_replace("/^\d+/", "", $details[1]);
-                            $value = preg_replace("/\D+$/", "", $details[1]);
+                            $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
+                            $value = preg_replace("/[\D\s]+$/", "", $details[1]);
                             switch ($unit) {
                             case 'B':
                                 $this->_result['devices'][$prefix.$details[0]]['size'] = $value;
@@ -606,6 +606,27 @@ class Raid extends PSI_Plugin
                                 default:
                                     $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['status'] = "W";
                                 }
+                                $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
+                                $value = preg_replace("/[\D\s]+$/", "", $details[1]);
+                                switch ($unit) {
+                                case 'B':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = $value;
+                                    break;
+                                case 'KiB':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = 1024*$value;
+                                    break;
+                                case 'MiB':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = 1024*1024*$value;
+                                    break;
+                                case 'GiB':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*$value;
+                                    break;
+                                case 'TiB':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                    break;
+                                case 'PiB':
+                                    $this->_result['devices'][$prefix.$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                }
                             }
                         } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
                             $itemn0 = rtrim($details[0], ':');
@@ -646,6 +667,27 @@ class Raid extends PSI_Plugin
                                 default:
                                     $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['status'] = "F";
                                 }
+                                $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
+                                $value = preg_replace("/[\D\s]+$/", "", $details[1]);
+                                switch ($unit) {
+                                case 'B':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = $value;
+                                    break;
+                                case 'KiB':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = 1024*$value;
+                                    break;
+                                case 'MiB':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = 1024*1024*$value;
+                                    break;
+                                case 'GiB':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*$value;
+                                    break;
+                                case 'TiB':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                    break;
+                                case 'PiB':
+                                    $this->_result['devices'][$prefix.$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                }
                             }
                         }
                     }
@@ -676,8 +718,8 @@ class Raid extends PSI_Plugin
                     if (count($buffArgs) == 6) $carr[$cname]['battery'] = trim($buffArgs[4]);
                     if (count($buffArgs) > 2) {
                         $carr[$cname]['cache_size'] = trim($buffArgs[2]);
-                        $unit = preg_replace("/^\d+/", "", trim($buffArgs[2]));
-                        $value = preg_replace("/\D+$/", "", trim($buffArgs[2]));
+                        $unit = preg_replace("/^[\d\s]+/", "", trim($buffArgs[2]));
+                        $value = preg_replace("/[\D\s]+$/", "", trim($buffArgs[2]));
                         switch ($unit) {
                         case 'B':
                             $carr[$cname]['cache_size'] = $value;
@@ -688,6 +730,7 @@ class Raid extends PSI_Plugin
                         case 'MB':
                             $carr[$cname]['cache_size'] = 1024*1024*$value;
                             break;
+                        case 'Gb':
                         case 'GB':
                             $carr[$cname]['cache_size'] = 1024*1024*1024*$value;
                             break;
@@ -711,8 +754,8 @@ class Raid extends PSI_Plugin
                     $this->_result['devices'][$prefix.$uname]['controller'] = $carr[$cname]['controller'];
                     if (isset($carr[$cname]['battery'])) $this->_result['devices'][$prefix.$uname]['battery'] = $carr[$cname]['battery'];
                     if (isset($carr[$cname]['cache_size'])) $this->_result['devices'][$prefix.$uname]['cache_size'] = $carr[$cname]['cache_size'];
-                    $unit = preg_replace("/^\d+/", "", trim($buffArgs[2]));
-                    $value = preg_replace("/\D+$/", "", trim($buffArgs[2]));
+                    $unit = preg_replace("/^[\d\s]+/", "", trim($buffArgs[2]));
+                    $value = preg_replace("/[\D\s]+$/", "", trim($buffArgs[2]));
                     switch ($unit) {
                     case 'B':
                         $this->_result['devices'][$prefix.$uname]['size'] = $value;
@@ -777,6 +820,7 @@ class Raid extends PSI_Plugin
                     if (count($buffArgs) == 3) {
                         $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         $dskstat = trim($buffArgs[2]);
+                        $this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[1]);
                     } else {
                         if (trim($buffArgs[1])==="SSD") {
                             $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "ssd";
@@ -784,6 +828,31 @@ class Raid extends PSI_Plugin
                             $this->_result['devices'][$prefix.$uname]['items'][$pname]['type'] = "disk";
                         }
                         $dskstat = trim($buffArgs[4]);
+                        $this->_result['devices'][$prefix.$uname]['items'][$pname]['model'] = trim($buffArgs[2]);
+
+                        $size = preg_replace("/,/", ".", trim($buffArgs[3]));
+                        $unit = preg_replace("/^[\d\.\s]+/", "", $size);
+                        $value = preg_replace("/[\D\s]+$/", "", $size);
+                        switch ($unit) {
+                        case 'B':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = $value;
+                            break;
+                        case 'KB':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = round(1024*$value);
+                            break;
+                        case 'MB':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = round(1024*1024*$value);
+                            break;
+                        case 'Gb':
+                        case 'GB':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = round(1024*1024*1024*$value);
+                            break;
+                        case 'TB':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = round(1024*1024*1024*1024*$value);
+                            break;
+                        case 'PB':
+                            $this->_result['devices'][$prefix.$uname]['items'][$pname]['size'] = round(1024*1024*1024*1024*1024*$value);
+                        }
                     }
                     switch ($dskstat) {
                     case 'OK':
@@ -887,6 +956,8 @@ class Raid extends PSI_Plugin
                         if (trim($data[4])=="%") {
                             $disksinfo[$disk]['percent'] = trim($data[3]);
                         }
+                    } elseif (($disk!=="") && preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
+                        $disksinfo[$disk]['size'] = trim($data[1]);
                     }
                 }
             }
@@ -1176,10 +1247,14 @@ class Raid extends PSI_Plugin
 
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.2\.(.*) = STRING:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskName']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.3\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskManufacturer']=trim($data[2], "\"");
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.4\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskState']=$data[2];
-//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
-//                    $snmptablep[$data[1]]['physicalDiskCapacityInMB']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.6\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskProductID']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskCapacityInMB']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.22\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
 //                    $snmptablep[$data[1]]['physicalDiskSpareState']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.24\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
@@ -1313,10 +1388,26 @@ class Raid extends PSI_Plugin
                         }
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['name']=$raid_physical['physicalDiskName'];
                         $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['parentid'] = 1;
-                        if (preg_match("/^Solid State Disk /", $raid_physical['physicalDiskName']))
+                        if (preg_match("/^Solid State Disk /", $raid_physical['physicalDiskName'])) {
                             $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = "ssd";
-                        else
+                        } else {
                             $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['type'] = "disk";
+                        }
+
+                        if (isset($raid_physical['physicalDiskCapacityInMB'])) {
+                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['size'] = $raid_physical['physicalDiskCapacityInMB'] * 1024 * 1024;
+                        }
+
+                        $model = "";
+                        if (isset($raid_physical['physicalDiskManufacturer'])) {
+                            $model = $raid_physical['physicalDiskManufacturer'];
+                        }
+                        if (isset($raid_physical['physicalDiskProductID'])) {
+                            $model .= " ".$raid_physical['physicalDiskProductID'];
+                        }
+                        if (($model = trim($model)) !== '') {
+                            $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['model'] = $model;
+                        }                        
 
                         if (isset($raid_physical['physicalDiskState'])) {
                             switch ($raid_physical['physicalDiskState']) {
@@ -1512,6 +1603,7 @@ class Raid extends PSI_Plugin
                                 }
                             }
                         }
+
                         if (isset($raid_virtual['virtualDiskSizeInMB'])) {
                             $this->_result['devices'][$devname]['size'] = $raid_virtual['virtualDiskSizeInMB'] * 1024 * 1024;
                         }
@@ -1703,6 +1795,8 @@ class Raid extends PSI_Plugin
                         //    $disktemp->addAttribute("Status", "W");
                         //}
                         if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
+                        if (isset($disk['size'])) $disktemp->addAttribute("Size", $disk['size']);
+                        if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
                     }
                 }
             }
