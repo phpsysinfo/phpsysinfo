@@ -20,8 +20,8 @@
   <expression id="plugin_raid_005" name="raid_level">
     <exp>Type de RAID</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_size">
-    <exp>Taille</exp>
+  <expression id="plugin_raid_006" name="raid_capacity">
+    <exp>Capacité</exp>
   </expression>
   <expression id="plugin_raid_007" name="raid_stride">
     <exp>Granularité</exp>

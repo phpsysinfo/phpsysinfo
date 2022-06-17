@@ -21,8 +21,8 @@
   <expression id="plugin_raid_005" name="raid_level">
     <exp>Τύπος RAID</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_size">
-    <exp>Μέγεθος</exp>
+  <expression id="plugin_raid_006" name="raid_capacity">
+    <exp>Χωρητικότητα</exp>
   </expression>
   <expression id="plugin_raid_007" name="raid_stride">
     <exp>Stride</exp>

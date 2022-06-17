@@ -74,8 +74,8 @@ function renderPlugin_raid(data) {
                 if (data.Serial !== undefined) {
                     minfo += "<br>" + data.Serial;
                 }
-                if (!isNaN(parseInt(data.Size, 10))) {
-                    minfo += "<br>" + formatBytes(parseInt(data.Size, 10), byteFormat);
+                if (!isNaN(parseInt(data.Capacity, 10))) {
+                    minfo += "<br>" + formatBytes(parseInt(data.Capacity, 10), byteFormat);
                 }
                 $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + minfo + "</small></div>");   
             } else {
@@ -113,7 +113,7 @@ function renderPlugin_raid(data) {
                     if (raiditems[i]["@attributes"].Name !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(3, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Name + "</td></tr>"; // Name
                     html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(4, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Status + "</td></tr>"; // Status
                     if (raiditems[i]["@attributes"].Level !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(5, 'raid')+"</span></td><td>" + raiditems[i]["@attributes"].Level + "</td></tr>"; // RAID-Level
-                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Size, 10))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Size, 10), data.Options["@attributes"].byteFormat) + "</td></tr>";// Size
+                    if (!isNaN(parseInt(raiditems[i]["@attributes"].Capacity, 10))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(6, 'raid')+"</span></td><td>" + formatBytes(parseInt(raiditems[i]["@attributes"].Capacity, 10), data.Options["@attributes"].byteFormat) + "</td></tr>";// Capacity
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Stride, 10))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(7, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Stride, 10) + "</td></tr>"; // Stride
                     if (!isNaN(parseInt(raiditems[i]["@attributes"].Subsets, 10))) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(8, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Subsets, 10) + "</td></tr>"; // Subsets
                     if (raiditems[i]["@attributes"].Devs !== undefined) html += "<tr class=\"treegrid-parent-raid-" + i + "\"><td><span class=\"treegrid-spanbold\">"+genlang(9, 'raid')+"</span></td><td>" + parseInt(raiditems[i]["@attributes"].Devs, 10) + "</td></tr>"; // Devices

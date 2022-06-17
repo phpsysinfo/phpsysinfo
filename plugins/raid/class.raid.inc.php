@@ -427,8 +427,8 @@ class Raid extends PSI_Plugin
 
                         $this->_result['dmraid'][$group]['items'][0]['name'] = trim($arrname[1]);
 
-                        if (preg_match('/^size\s*:\s*(.*)/m', $block, $size)) {
-                            $this->_result['dmraid'][$group]['size'] = trim($size[1]);
+                        if (preg_match('/^size\s*:\s*(.*)/m', $block, $capacity)) {
+                            $this->_result['dmraid'][$group]['capacity'] = trim($capacity[1]);
                         }
                         if (preg_match('/^stride\s*:\s*(.*)/m', $block, $stride)) {
                                 $this->_result['dmraid'][$group]['stride'] = trim($stride[1]);
@@ -539,22 +539,22 @@ class Raid extends PSI_Plugin
                             $value = preg_replace("/[\D\s]+$/", "", $details[1]);
                             switch ($unit) {
                             case 'B':
-                                $this->_result[$prog][$details[0]]['size'] = $value;
+                                $this->_result[$prog][$details[0]]['capacity'] = $value;
                                 break;
                             case 'KiB':
-                                $this->_result[$prog][$details[0]]['size'] = 1024*$value;
+                                $this->_result[$prog][$details[0]]['capacity'] = 1024*$value;
                                 break;
                             case 'MiB':
-                                $this->_result[$prog][$details[0]]['size'] = 1024*1024*$value;
+                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*$value;
                                 break;
                             case 'GiB':
-                                $this->_result[$prog][$details[0]]['size'] = 1024*1024*1024*$value;
+                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*$value;
                                 break;
                             case 'TiB':
-                                $this->_result[$prog][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
                                 break;
                             case 'PiB':
-                                $this->_result[$prog][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
                             }
                             $this->_result[$prog][$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
                             $this->_result[$prog][$details[0]]['status'] = $details[5];
@@ -601,22 +601,22 @@ class Raid extends PSI_Plugin
                                     $value = preg_replace("/[\D\s]+$/", "", $details[1]);
                                     switch ($unit) {
                                     case 'B':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = $value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = $value;
                                         break;
                                     case 'KiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = 1024*$value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*$value;
                                         break;
                                     case 'MiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = 1024*1024*$value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*$value;
                                         break;
                                     case 'GiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*$value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*$value;
                                         break;
                                     case 'TiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
                                         break;
                                     case 'PiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
                                     }
                                 }
                             }
@@ -663,22 +663,22 @@ class Raid extends PSI_Plugin
                                     $value = preg_replace("/[\D\s]+$/", "", $details[1]);
                                     switch ($unit) {
                                     case 'B':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = $value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = $value;
                                         break;
                                     case 'KiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = 1024*$value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*$value;
                                         break;
                                     case 'MiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = 1024*1024*$value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*$value;
                                         break;
                                     case 'GiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*$value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*$value;
                                         break;
                                     case 'TiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*1024*$value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
                                         break;
                                     case 'PiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['size'] = 1024*1024*1024*1024*1024*$value;
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
                                     }
                                 }
                             }
@@ -748,22 +748,22 @@ class Raid extends PSI_Plugin
                     $value = preg_replace("/[\D\s]+$/", "", trim($buffArgs[2]));
                     switch ($unit) {
                     case 'B':
-                        $this->_result[$prog][$uname]['size'] = $value;
+                        $this->_result[$prog][$uname]['capacity'] = $value;
                         break;
                     case 'K':
-                        $this->_result[$prog][$uname]['size'] = 1024*$value;
+                        $this->_result[$prog][$uname]['capacity'] = 1024*$value;
                         break;
                     case 'M':
-                        $this->_result[$prog][$uname]['size'] = 1024*1024*$value;
+                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*$value;
                         break;
                     case 'G':
-                        $this->_result[$prog][$uname]['size'] = 1024*1024*1024*$value;
+                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*$value;
                         break;
                     case 'T':
-                        $this->_result[$prog][$uname]['size'] = 1024*1024*1024*1024*$value;
+                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*$value;
                         break;
                     case 'P':
-                        $this->_result[$prog][$uname]['size'] = 1024*1024*1024*1024*1024*$value;
+                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*1024*$value;
                     }
                     if ((count($buffArgs) == 4) || (count($buffArgs) == 5)) {
                         $this->_result[$prog][$uname]['status'] = trim($buffArgs[3]);
@@ -829,28 +829,28 @@ class Raid extends PSI_Plugin
                                 $this->_result[$prog][$uname]['items'][$pname]['model'] = trim($buffArgs[2]);
                             }
                             */
-                            $size = preg_replace("/,/", ".", trim($buffArgs[3]));
-                            $unit = preg_replace("/^[\d\.\s]+/", "", $size);
-                            $value = preg_replace("/[\D\s]+$/", "", $size);
+                            $capacity = preg_replace("/,/", ".", trim($buffArgs[3]));
+                            $unit = preg_replace("/^[\d\.\s]+/", "", $capacity);
+                            $value = preg_replace("/[\D\s]+$/", "", $capacity);
                             switch ($unit) {
                             case 'B':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = $value;
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = $value;
                                 break;
                             case 'KB':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = round(1024*$value);
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = round(1024*$value);
                                 break;
                             case 'MB':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = round(1024*1024*$value);
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = round(1024*1024*$value);
                                 break;
                             case 'Gb':
                             case 'GB':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = round(1024*1024*1024*$value);
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = round(1024*1024*1024*$value);
                                 break;
                             case 'TB':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = round(1024*1024*1024*1024*$value);
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = round(1024*1024*1024*1024*$value);
                                 break;
                             case 'PB':
-                                $this->_result[$prog][$uname]['items'][$pname]['size'] = round(1024*1024*1024*1024*1024*$value);
+                                $this->_result[$prog][$uname]['items'][$pname]['capacity'] = round(1024*1024*1024*1024*1024*$value);
                             }
                         }
                     }
@@ -957,7 +957,7 @@ class Raid extends PSI_Plugin
                         }
                     } elseif (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
                        && ($disk !== "") && preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
-                        $disksinfo[$disk]['size'] = trim($data[1]);
+                        $disksinfo[$disk]['capacity'] = trim($data[1]);
                     }
                 }
             }
@@ -969,7 +969,7 @@ class Raid extends PSI_Plugin
                     if ($controller !== '') $this->_result['graid'][$group]['controller'] = $controller;
                 } elseif ($group!=="") {
                     if (preg_match('/^\s+Mediasize:\s+(\d+)/', $line, $data)) {
-                        $this->_result['graid'][$group]['size'] = trim($data[1]);
+                        $this->_result['graid'][$group]['capacity'] = trim($data[1]);
                     } elseif (preg_match('/^\s+State:\s+(.+)/', $line, $data)) {
                         $this->_result['graid'][$group]['status'] = trim($data[1]);
                     } elseif (preg_match('/^\s+RAIDLevel:\s+(.+)/', $line, $data)) {
@@ -1395,7 +1395,7 @@ class Raid extends PSI_Plugin
 
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                             if (isset($raid_physical['physicalDiskCapacityInMB'])) {
-                                $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['size'] = $raid_physical['physicalDiskCapacityInMB'] * 1024 * 1024;
+                                $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['capacity'] = $raid_physical['physicalDiskCapacityInMB'] * 1024 * 1024;
                             }
 
                             $model = "";
@@ -1611,7 +1611,7 @@ class Raid extends PSI_Plugin
                         }
 
                         if (isset($raid_virtual['virtualDiskSizeInMB'])) {
-                            $this->_result['idrac'][$devname]['size'] = $raid_virtual['virtualDiskSizeInMB'] * 1024 * 1024;
+                            $this->_result['idrac'][$devname]['capacity'] = $raid_virtual['virtualDiskSizeInMB'] * 1024 * 1024;
                         }
 
                         if (isset($raid_virtual['virtualDiskReadPolicy'])) {
@@ -1759,7 +1759,7 @@ class Raid extends PSI_Plugin
                     if (isset($device['level'])) $dev->addAttribute("Level", strtolower($device["level"]));
                     $dev->addAttribute("Status", strtolower($device["status"]));
                     if (isset($device['name'])) $dev->addAttribute("Name", $device["name"]);
-                    if (isset($device['size'])) $dev->addAttribute("Size", $device["size"]);
+                    if (isset($device['capacity'])) $dev->addAttribute("Capacity", $device["capacity"]);
                     if (isset($device['stride'])) $dev->addAttribute("Stride", $device["stride"]);
                     if (isset($device['subsets'])) $dev->addAttribute("Subsets", $device["subsets"]);
                     if (isset($device['devs'])) $dev->addAttribute("Devs", $device["devs"]);
@@ -1804,7 +1804,7 @@ class Raid extends PSI_Plugin
                             //}
                             if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                                if (isset($disk['size'])) $disktemp->addAttribute("Size", $disk['size']);
+                                if (isset($disk['capacity'])) $disktemp->addAttribute("Capacity", $disk['capacity']);
                                 if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
                                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                                     if (isset($disk['serial'])) $disktemp->addAttribute("Serial", $disk['serial']);
