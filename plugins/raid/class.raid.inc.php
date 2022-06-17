@@ -1807,7 +1807,7 @@ class Raid extends PSI_Plugin
                                 if (isset($disk['size'])) $disktemp->addAttribute("Size", $disk['size']);
                                 if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
                                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
-                                    if (isset($disk['model'])) $disktemp->addAttribute("Serial", $disk['serial']);
+                                    if (isset($disk['serial'])) $disktemp->addAttribute("Serial", $disk['serial']);
                                 }
                             }
                         }
