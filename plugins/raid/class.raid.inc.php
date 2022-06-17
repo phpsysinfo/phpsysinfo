@@ -1264,6 +1264,8 @@ class Raid extends PSI_Plugin
                     $snmptablep[$data[1]]['physicalDiskState']=$data[2];
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.6\.(.*) = STRING:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskProductID']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.7\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskSerialNo']=trim($data[2], "\"");
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskCapacityInMB']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.22\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
@@ -1419,6 +1421,12 @@ class Raid extends PSI_Plugin
                             }
                             if (($model = trim($model)) !== '') {
                                 $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['model'] = $model;
+                            }
+
+                            if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                if (isset($raid_physical['physicalDiskSerialNo'])) {
+                                    $this->_result['devices'][$devname]['items'][$raid_physical['physicalDiskName']]['serial'] = " ".$raid_physical['physicalDiskSerialNo'];
+                                }
                             }
                         }
 
@@ -1811,6 +1819,9 @@ class Raid extends PSI_Plugin
                         if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                             if (isset($disk['size'])) $disktemp->addAttribute("Size", $disk['size']);
                             if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
+                            if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                if (isset($disk['model'])) $disktemp->addAttribute("Serial", $disk['serial']);
+                            }
                         }
                     }
                 }

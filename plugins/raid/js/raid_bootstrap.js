@@ -25,7 +25,7 @@ function renderPlugin_raid(data) {
         if (info === undefined) info = "";
         parentid = parseInt(data.ParentID, 10);
 
-        var imgh = "", imgs = "", alt = "", bcolor = "", minfo = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "", minfo = "", serial = "";
         switch (data.Status) {
         case "ok":
             imgh = "harddriveok.png";
@@ -70,6 +70,9 @@ function renderPlugin_raid(data) {
             if (data.Type !== undefined) {
                 if (data.Model !== undefined) {
                     minfo = "<br>" + data.Model;
+                }
+                if (data.Serial !== undefined) {
+                    minfo += "<br>" + data.Serial;
                 }
                 if (!isNaN(parseInt(data.Size, 10))) {
                     minfo += "<br>" + formatBytes(parseInt(data.Size, 10), byteFormat);

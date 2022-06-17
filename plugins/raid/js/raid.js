@@ -125,13 +125,14 @@ function raid_buildaction(xml) {
  */
 function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
-        var status = "", name = "", type = "", info = "", model = "", minfo = "", size = 0, parentid = 0;
+        var status = "", name = "", type = "", info = "", model = "", minfo = "", serial = "", size = 0, parentid = 0;
 
         status = $(this).attr("Status");
         name = $(this).attr("Name");
         type = $(this).attr("Type");
         info = $(this).attr("Info");
         model = $(this).attr("Model");
+        serial = $(this).attr("Serial");
         size = parseInt($(this).attr("Size"), 10);
         if (info === undefined) info = "";
         parentid = parseInt($(this).attr("ParentID"), 10);
@@ -181,6 +182,9 @@ function raid_diskicon(xml, id) {
             if (type !== undefined) {
                 if (model !== undefined) {
                     minfo = "<br>" + model;
+                }
+                if (serial !== undefined) {
+                    minfo += "<br>" + serial;
                 }
                 if (!isNaN(size)) {
                     minfo += "<br>" + formatBytes(size, xml);
