@@ -1255,6 +1255,8 @@ class Raid extends PSI_Plugin
                     $snmptablep[$data[1]]['physicalDiskSerialNo']=trim($data[2], "\"");
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.11\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $snmptablep[$data[1]]['physicalDiskCapacityInMB']=$data[2];
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.21\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
+                    $snmptablep[$data[1]]['physicalDiskBusType']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.22\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
 //                    $snmptablep[$data[1]]['physicalDiskSpareState']=$data[2];
 //                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.4\.1\.24\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
@@ -1408,14 +1410,30 @@ class Raid extends PSI_Plugin
                             if (($model = trim($model)) !== '') {
                                 $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['model'] = $model;
                             }
-
+                            if (isset($raid_physical['physicalDiskBusType'])) {
+                                switch ($raid_physical['physicalDiskBusType']) {
+//                              case 1:
+//                                  $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['bus'] = "unknown";
+//                                  break;
+                                case 2:
+                                    $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['bus'] = "SCSI";
+                                    break;
+                                case 3:
+                                    $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['bus'] = "SAS";
+                                    break;
+                                case 4:
+                                    $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['bus'] = "SATA";
+                                    break;
+                                case 5:
+                                    $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['bus'] = "Fibre";
+                                }
+                            }
                             if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                                 if (isset($raid_physical['physicalDiskSerialNo'])) {
                                     $this->_result['idrac'][$devname]['items'][$raid_physical['physicalDiskName']]['serial'] = " ".$raid_physical['physicalDiskSerialNo'];
                                 }
                             }
                         }
-
                         if (isset($raid_physical['physicalDiskState'])) {
                             switch ($raid_physical['physicalDiskState']) {
                             case 1:
@@ -1804,6 +1822,7 @@ class Raid extends PSI_Plugin
                             //}
                             if (isset($disk['info'])) $disktemp->addAttribute("Info", $disk['info']);
                             if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                if (isset($disk['bus'])) $disktemp->addAttribute("Bus", $disk['bus']);
                                 if (isset($disk['capacity'])) $disktemp->addAttribute("Capacity", $disk['capacity']);
                                 if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
                                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
