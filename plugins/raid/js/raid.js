@@ -125,7 +125,7 @@ function raid_buildaction(xml) {
  */
 function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
-        var status = "", name = "", type = "", info = "", bus = "", model = "", minfo = "", serial = "", capacity = 0, parentid = 0;
+        var status = "", name = "", type = "", info = "", bus = "", cap = "", model = "", minfo = "", serial = "", capacity = 0, parentid = 0;
 
         status = $(this).attr("Status");
         bus = $(this).attr("Bus");
@@ -186,16 +186,14 @@ function raid_diskicon(xml, id) {
                 if (serial !== undefined) {
                     minfo += "<br>" + serial;
                 }
-                if (bus !== undefined) {
-                    bus += " ";
-                } else {
+                if (bus === undefined) {
                     bus = "";
                 }
                 if (!isNaN(capacity)) {
-                    minfo += "<br>" + bus + formatBytes(capacity, xml);
+                    cap = formatBytes(capacity, xml);
                 }
-                if (info === undefined) {
-                    info = "";
+                if ((bus !== "") || (cap !== "")) {
+                    minfo += "<br>" + $.trim(bus + " " + cap);
                 }
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + minfo + "</small></div>"); //onload IE6 PNG fix
             } else {

@@ -25,7 +25,7 @@ function renderPlugin_raid(data) {
         if (info === undefined) info = "";
         parentid = parseInt(data.ParentID, 10);
 
-        var imgh = "", imgs = "", alt = "", bcolor = "", bus = "", minfo = "", serial = "";
+        var imgh = "", imgs = "", alt = "", bcolor = "", bus = "", cap = "", minfo = "", serial = "";
         switch (data.Status) {
         case "ok":
             imgh = "harddriveok.png";
@@ -74,13 +74,16 @@ function renderPlugin_raid(data) {
                 if (data.Serial !== undefined) {
                     minfo += "<br>" + data.Serial;
                 }
-                if (data.Bus !== undefined) {
-                    bus = data.Bus + " ";
-                } else {
+                if (data.Bus === undefined) {
                     bus = "";
+                } else {
+                    bus = data.Bus;
                 }
                 if (!isNaN(parseInt(data.Capacity, 10))) {
-                    minfo += "<br>" + bus + formatBytes(parseInt(data.Capacity, 10), byteFormat);
+                    cap = formatBytes(parseInt(data.Capacity, 10), byteFormat);
+                }
+                if ((bus !== "") || (cap !== "")) {
+                    minfo += "<br>" + $.trim(bus + " " + cap);
                 }
                 $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + minfo + "</small></div>");   
             } else {
