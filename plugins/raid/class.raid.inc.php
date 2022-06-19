@@ -1252,8 +1252,8 @@ class Raid extends PSI_Plugin
                 }
                 if (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.2\.(.*) = STRING:\s(.*)/', $line, $data)) {
                     $snmptablec[$data[1]]['controllerName']=trim($data[2], "\"");
-//                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.8\.(.*) = STRING:\s(.*)/', $line, $data)) {
-//                    $snmptablec[$data[1]]['controllerFWVersion']=trim($data[2], "\"");
+                } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.8\.(.*) = STRING:\s(.*)/', $line, $data)) {
+                    $snmptablec[$data[1]]['controllerFWVersion']=trim($data[2], "\"");
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.9\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
                     $snmptablec[$data[1]]['controllerCacheSizeInMB']=$data[2];
                 } elseif (preg_match('/^\.1\.3\.6\.1\.4\.1\.674\.10892\.5\.5\.1\.20\.130\.1\.1\.37\.(.*) = INTEGER:\s(.*)/', $line, $data)) {
@@ -1353,6 +1353,9 @@ class Raid extends PSI_Plugin
                 if (isset($raid_controller['controllerName'])) {
                     $tablec['controller'] = $raid_controller['controllerName'];
                 }
+                if (isset($raid_controller['controllerFWVersion'])) {
+                    $tablec['firmware'] = $raid_controller['controllerFWVersion'];
+                }
                 if (isset($raid_controller['controllerCacheSizeInMB'])) {
                     $tablec['cache_size'] = $raid_controller['controllerCacheSizeInMB'] * 1024 * 1024;
                 }
@@ -1395,6 +1398,9 @@ class Raid extends PSI_Plugin
                         $this->_result['idrac'][$devname]['name']=$raid_controller['controllerFQDD'];
                         if (isset($tablec['controller'])) {
                             $this->_result['idrac'][$devname]['controller'] = $tablec['controller'];
+                        }
+                        if (isset($tablec['firmware'])) {
+                            $this->_result['idrac'][$devname]['firmware'] = $tablec['firmware'];
                         }
                         if (isset($tablec['battery'])) {
                             $this->_result['idrac'][$devname]['battery'] = $tablec['battery'];
@@ -1545,6 +1551,9 @@ class Raid extends PSI_Plugin
                         $this->_result['idrac'][$devname]['items'][0]['parentid'] = 0;
                         if (isset($tablec['controller'])) {
                             $this->_result['idrac'][$devname]['controller'] = $tablec['controller'];
+                        }
+                        if (isset($tablec['firmware'])) {
+                            $this->_result['idrac'][$devname]['firmware'] = $tablec['firmware'];
                         }
                         if (isset($tablec['battery'])) {
                             $this->_result['idrac'][$devname]['battery'] = $tablec['battery'];
