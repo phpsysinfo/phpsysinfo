@@ -74,9 +74,6 @@ function renderPlugin_raid(data) {
                 if (data.Serial !== undefined) {
                     minfo += "<br>" + data.Serial;
                 }
-                if (isFinite(parseFloat(data.Temperature))) {
-                    minfo += "<br>" + formatTemp(parseFloat(data.Temperature), tempFormat);
-                }
                 if (data.Bus === undefined) {
                     bus = "";
                 } else {
@@ -87,6 +84,9 @@ function renderPlugin_raid(data) {
                 }
                 if ((bus !== "") || (cap !== "")) {
                     minfo += "<br>" + $.trim(bus + " " + cap);
+                }
+                if (isFinite(parseFloat(data.Temperature))) {
+                    minfo += "<br>" + formatTemp(parseFloat(data.Temperature), tempFormat);
                 }
                 $("#raid_item" + id + "-" + parentid).append("<div style=\"margin-bottom:5px;margin-right:10px;margin-left:10px;float:left;text-align:center\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((data.Type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" /><br><small>" + data.Name + minfo + "</small></div>");   
             } else {

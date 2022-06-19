@@ -194,9 +194,6 @@ function raid_diskicon(xml, id, xml0) {
                 if (serial !== undefined) {
                     minfo += "<br>" + serial;
                 }
-                if (isFinite(temperature)) {
-                    minfo += "<br>" + formatTemp(temperature, xml0);
-                }
                 if (bus === undefined) {
                     bus = "";
                 }
@@ -205,6 +202,9 @@ function raid_diskicon(xml, id, xml0) {
                 }
                 if ((bus !== "") || (cap !== "")) {
                     minfo += "<br>" + $.trim(bus + " " + cap);
+                }
+                if (isFinite(temperature)) {
+                    minfo += "<br>" + formatTemp(temperature, xml0);
                 }
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + minfo + "</small></div>"); //onload IE6 PNG fix
             } else {
