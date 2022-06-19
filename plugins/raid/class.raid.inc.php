@@ -534,7 +534,7 @@ class Raid extends PSI_Plugin
                     unset($lines[0]);
                     foreach ($lines as $line) {
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
-                        if ((count($details) == 6) && ($details[2] === "RAID")) {
+                        if ((($countdet = count($details)) == 6) && ($details[2] === "RAID")) {
                             $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
                             $value = preg_replace("/[\D\s]+$/", "", $details[1]);
                             switch ($unit) {
@@ -575,7 +575,7 @@ class Raid extends PSI_Plugin
                             default:
                                 $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "W";
                             }
-                        } elseif (count($details) == 4) {
+                        } elseif ($countdet == 4) {
                             if (isset($this->_result[$prog][$details[2]])) {
                                 $this->_result[$prog][$details[2]]['items'][$details[0]]['parentid'] = 1;
                                 $this->_result[$prog][$details[2]]['items'][$details[0]]['type'] = "disk";
@@ -620,7 +620,7 @@ class Raid extends PSI_Plugin
                                     }
                                 }
                             }
-                        } elseif ((count($details) == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
+                        } elseif (($countdet == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
                             $itemn0 = rtrim($details[0], ':');
                             $itemn = $group .'-'.$itemn0;
                             $this->_result[$prog][$itemn]['status'] = $itemn0;
@@ -633,7 +633,7 @@ class Raid extends PSI_Plugin
                             } else {
                                 $this->_result[$prog][$itemn]['items'][$itemn]['status'] = "S";
                             }
-                        } elseif (count($details) == 3) {
+                        } elseif ($countdet == 3) {
                             $itemn = '';
                             switch ($details[2]) {
                             case 'BAD':
@@ -704,11 +704,21 @@ class Raid extends PSI_Plugin
             if (preg_match("/^(c\d+)[ |]/", $buffLine, $cbuff)) {
                 $cname = $cbuff[1];
                 $buffArgs = preg_split("/[\s]?\|[\s]?/", $buffLine, -1, PREG_SPLIT_NO_EMPTY);
-                if ((count($buffArgs) == 2) || (count($buffArgs) == 5) || (count($buffArgs) == 6)) {
+                if ((($countargs = count($buffArgs)) == 2) || ($countargs == 5) || ($countargs == 6)) {
                     $carr[$cname]['controller'] = trim($buffArgs[1]);
-                    if (count($buffArgs) == 6) $carr[$cname]['battery'] = trim($buffArgs[4]);
-                    if (count($buffArgs) > 2) {
+                    if ($countargs == 6) {
+                        $carr[$cname]['battery'] = trim($buffArgs[4]);
+                    }
+                    if ($countargs > 2) {
                         $carr[$cname]['cache_size'] = trim($buffArgs[2]);
+                        if (preg_match("/^FW:\s+(\S+)$/", trim($buffArgs[$countargs - 1]), $pregout)) {
+                            $carr[$cname]['firmware'] = $pregout[1];
+                        } else {
+                            $carr[$cname]['firmware'] = trim($buffArgs[$countargs -1]);
+                        }
+                        if (preg_match("/^(\d+)C$/", trim($buffArgs[3]), $pregout)) {
+                            $carr[$cname]['temperature'] = $pregout[1];
+                        }
                         $unit = preg_replace("/^[\d\s]+/", "", trim($buffArgs[2]));
                         $value = preg_replace("/[\D\s]+$/", "", trim($buffArgs[2]));
                         switch ($unit) {
@@ -732,8 +742,13 @@ class Raid extends PSI_Plugin
                             $carr[$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value;
                         }
                     }
-                } elseif (count($buffArgs) == 3) {
+                } elseif ($countargs == 3) {
                     $carr[$cname]['controller'] = trim($buffArgs[1]);
+                    if (preg_match("/^FW:\s+(\S+)$/", trim($buffArgs[2]), $pregout)) {
+                        $carr[$cname]['firmware'] = $pregout[1];
+                    } else {
+                        $carr[$cname]['firmware'] = trim($buffArgs[2]);
+                    }
                 }
             } elseif (preg_match("/^((c\d+)u\d+)[\t |]/", $buffLine, $ubuff)) {
                 $uname = $ubuff[1];
@@ -744,6 +759,8 @@ class Raid extends PSI_Plugin
                     $this->_result[$prog][$uname]['controller'] = $carr[$cname]['controller'];
                     if (isset($carr[$cname]['battery'])) $this->_result[$prog][$uname]['battery'] = $carr[$cname]['battery'];
                     if (isset($carr[$cname]['cache_size'])) $this->_result[$prog][$uname]['cache_size'] = $carr[$cname]['cache_size'];
+                    if (isset($carr[$cname]['firmware'])) $this->_result[$prog][$uname]['firmware'] = $carr[$cname]['firmware'];
+                    if (isset($carr[$cname]['temperature'])) $this->_result[$prog][$uname]['temperature'] = $carr[$cname]['temperature'];
                     $unit = preg_replace("/^[\d\s]+/", "", trim($buffArgs[2]));
                     $value = preg_replace("/[\D\s]+$/", "", trim($buffArgs[2]));
                     switch ($unit) {
@@ -817,6 +834,9 @@ class Raid extends PSI_Plugin
                         }
                         */
                     } else {
+                        if (preg_match("/^(\d+)C$/", trim($buffArgs[6]), $pregout)) {
+                            $this->_result[$prog][$uname]['items'][$pname]['temperature'] = $pregout[1];
+                        }
                         if (trim($buffArgs[1])==="SSD") {
                             $this->_result[$prog][$uname]['items'][$pname]['type'] = "ssd";
                         } else {
@@ -885,6 +905,8 @@ class Raid extends PSI_Plugin
                 $this->_result[$prog][$uname]['controller'] = $carr[$cname]['controller'];
                 if (isset($carr[$cname]['battery'])) $this->_result[$prog][$uname]['battery'] = $carr[$cname]['battery'];
                 if (isset($carr[$cname]['cache_size'])) $this->_result[$prog][$uname]['cache_size'] = $carr[$cname]['cache_size'];
+                if (isset($carr[$cname]['firmware'])) $this->_result[$prog][$uname]['firmware'] = $carr[$cname]['firmware'];
+                if (isset($carr[$cname]['temperature'])) $this->_result[$prog][$uname]['temperature'] = $carr[$cname]['temperature'];
                 $this->_result[$prog][$uname]['status'] = "unconfigured";
                 $this->_result[$prog][$uname]['items'][$uname]['parentid'] = 0;
                 $this->_result[$prog][$uname]['items'][$uname]['name'] = "unconfigured";
@@ -918,6 +940,9 @@ class Raid extends PSI_Plugin
                     case 'JBOD':
                         $this->_result[$prog][$uname]['items'][$uname."-".$id]['status'] = "ok";
                         break;
+                    case 'Unconfigured(bad)':
+                        $this->_result[$prog][$uname]['items'][$uname."-".$id]['status'] = "F";
+                        break;      
                     case 'Unconfigured(good), Spun Up':
                     case 'Unconfigured(good), Spun down':
                         $this->_result[$prog][$uname]['items'][$uname."-".$id]['status'] = "U";
@@ -1790,6 +1815,8 @@ class Raid extends PSI_Plugin
                     if (isset($device['registered'])) $dev->addAttribute("Disks_Registered", $device["registered"]);
                     if (isset($device['active'])) $dev->addAttribute("Disks_Active", $device["active"]);
                     if (isset($device['controller'])) $dev->addAttribute("Controller", $device["controller"]);
+                    if (isset($device['firmware'])) $dev->addAttribute("Firmware", $device["firmware"]);
+                    if (isset($device['temperature'])) $dev->addAttribute("Temperature", $device["temperature"]);
                     if (isset($device['battery'])) $dev->addAttribute("Battery", $device["battery"]);
                     if (isset($device['supported'])) $dev->addAttribute("Supported", $device["supported"]);
                     if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
@@ -1825,6 +1852,7 @@ class Raid extends PSI_Plugin
                                 if (isset($disk['bus'])) $disktemp->addAttribute("Bus", $disk['bus']);
                                 if (isset($disk['capacity'])) $disktemp->addAttribute("Capacity", $disk['capacity']);
                                 if (isset($disk['model'])) $disktemp->addAttribute("Model", $disk['model']);
+                                if (isset($disk['temperature'])) $disktemp->addAttribute("Temperature", $disk['temperature']);
                                 if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
                                     if (isset($disk['serial'])) $disktemp->addAttribute("Serial", $disk['serial']);
                                 }

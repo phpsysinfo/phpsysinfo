@@ -90,4 +90,10 @@
   <expression id="plugin_raid_028" name="raid_stripe">
     <exp>Μέγεθος Stripe</exp>
   </expression>
+  <expression id="plugin_raid_029" name="raid_firmware">
+    <exp>Firmware</exp>
+  </expression>
+  <expression id="plugin_raid_030" name="raid_temperature">
+    <exp>Temperature</exp>
+  </expression>
 </tns:translationPlugin>
