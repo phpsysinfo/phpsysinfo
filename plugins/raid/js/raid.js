@@ -33,7 +33,7 @@ var raid_show = false;
  * @param {number} id id of the device
  * @param {jQuery} xml plugin-XML
  */
-function raid_buildinfos(xml, id, xml0) {
+function raid_buildinfos(xml, id) {
     var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devfirmware = "", devtemperature = "", devbattery = "", devsupported = "", devcapacity = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
@@ -65,14 +65,14 @@ function raid_buildinfos(xml, id, xml0) {
     if (devname !== undefined) html += "<tr><td>" + genlang(3, "Raid") + "</td><td>" + devname + "</td></tr>";
     html += "<tr><td>" + genlang(4, "Raid") + "</td><td>" + devstatus + "</td></tr>";
     if (devlevel !== undefined) html += "<tr><td>" + genlang(5, "Raid") + "</td><td>" + devlevel + "</td></tr>";
-    if (!isNaN(devcapacity)) html += "<tr><td>" + genlang(6, "Raid") + "</td><td>" + formatBytes(devcapacity, xml0) + "</td></tr>";
+    if (!isNaN(devcapacity)) html += "<tr><td>" + genlang(6, "Raid") + "</td><td>" + formatBytes(devcapacity, xml.parent().parent().parent()) + "</td></tr>";
     if (!isNaN(devstride)) html += "<tr><td>" + genlang(7, "Raid") + "</td><td>" + devstride + "</td></tr>";
     if (!isNaN(devsubsets)) html += "<tr><td>" + genlang(8, "Raid") + "</td><td>" + devsubsets + "</td></tr>";
     if (!isNaN(devdevs)) html += "<tr><td>" + genlang(9, "Raid") + "</td><td>" + devdevs + "</td></tr>";
     if (!isNaN(devspares)) html += "<tr><td>" + genlang(10, "Raid") + "</td><td>" + devspares + "</td></tr>";
 
-    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + formatBytes(1024*devchunk, xml0) + "</td></tr>";
-    if (!isNaN(devstripe)) html += "<tr><td>" + genlang(28, "Raid") + "</td><td>" + formatBytes(devstripe, xml0) + "</td></tr>";
+    if (!isNaN(devchunk)) html += "<tr><td>" + genlang(13, "Raid") + "</td><td>" + formatBytes(1024*devchunk, xml.parent().parent().parent()) + "</td></tr>";
+    if (!isNaN(devstripe)) html += "<tr><td>" + genlang(28, "Raid") + "</td><td>" + formatBytes(devstripe, xml.parent().parent().parent()) + "</td></tr>";
     if (devalgor !== undefined) html += "<tr><td>" + genlang(14, "Raid") + "</td><td>" + devalgor + "</td></tr>";
     if (!isNaN(devpersist)) {
         if (devpersist == 1) {
@@ -84,12 +84,12 @@ function raid_buildinfos(xml, id, xml0) {
     if (!isNaN(devreg) && !isNaN(devact)) html += "<tr><td>" + genlang(18, "Raid") + "</td><td>" + devreg + "/" + devact + "</td></tr>";
     if (devcontroller !== undefined) html += "<tr><td>" + genlang(19, "Raid") + "</td><td>" + devcontroller + "</td></tr>";
     if (devfirmware !== undefined) html += "<tr><td>" + genlang(29, "Raid") + "</td><td>" + devfirmware + "</td></tr>";
-    if (isFinite(devtemperature)) html += "<tr><td>" + genlang(30, "Raid") + "</td><td>" + formatTemp(devtemperature, xml0) + "</td></tr>";
+    if (isFinite(devtemperature)) html += "<tr><td>" + genlang(30, "Raid") + "</td><td>" + formatTemp(devtemperature, xml.parent().parent().parent()) + "</td></tr>";
     if (devbattery !== undefined) html += "<tr><td>" + genlang(20, "Raid") + "</td><td>" + devbattery + "</td></tr>";
     if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
-    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml0) + "</td></tr>";
+    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml.parent().parent().parent()) + "</td></tr>";
     if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
@@ -104,7 +104,7 @@ function raid_buildinfos(xml, id, xml0) {
  * @param {jQuery} xml part of the plugin-XML
  * @param {jQuery} xml plugin-XML
  */
-function raid_buildaction(xml, xml0) {
+function raid_buildaction(xml) {
     var html = "", name = "", time = "", tunit = "", percent = 0;
     $("Action", xml).each(function mdstatus_getaction(id) {
         name = $(this).attr("Name");
@@ -130,7 +130,7 @@ function raid_buildaction(xml, xml0) {
  * @param {jQuery} xml part of the plugin-XML
  * @param {jQuery} xml plugin-XML
  */
-function raid_diskicon(xml, id, xml0) {
+function raid_diskicon(xml, id) {
     $("RaidItems Item", xml).each(function raid_getitems(itemid) {
         var status = "", name = "", type = "", info = "", bus = "", cap = "", model = "", minfo = "", serial = "", capacity = 0, temperature = 0, parentid = 0;
 
@@ -142,7 +142,7 @@ function raid_diskicon(xml, id, xml0) {
         model = $(this).attr("Model");
         serial = $(this).attr("Serial");
         capacity = parseInt($(this).attr("Capacity"), 10);
-        temperature = parseFloat($(xml).attr("Temperature"));
+        temperature = parseFloat($(this).attr("Temperature"));
         parentid = parseInt($(this).attr("ParentID"), 10);
 
         var imgh = "", imgs = "", alt = "", bcolor = "";
@@ -198,13 +198,13 @@ function raid_diskicon(xml, id, xml0) {
                     bus = "";
                 }
                 if (!isNaN(capacity)) {
-                    cap = formatBytes(capacity, xml0);
+                    cap = formatBytes(capacity, xml.parent().parent().parent());
                 }
                 if ((bus !== "") || (cap !== "")) {
                     minfo += "<br>" + $.trim(bus + " " + cap);
                 }
                 if (isFinite(temperature)) {
-                    minfo += "<br>" + formatTemp(temperature, xml0);
+                    minfo += "<br>" + formatTemp(temperature, xml.parent().parent().parent());
                 }
                 $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_biun\" title=\"" + info + "\"><img src=\"./plugins/raid/gfx/" + ((type === "ssd")?imgs:imgh) + "\" alt=\"" + alt + "\" style=\"width:60px;height:60px;\" onload=\"PNGload($(this));\" /><br><small>" + name + minfo + "</small></div>"); //onload IE6 PNG fix
             } else {
@@ -237,16 +237,16 @@ function raid_populate(xml) {
         var htmldisks = "", buildedaction = "";
         htmldisks += "<table style=\"border:none; width:100%;\"><tbody>";
         htmldisks += "<tr><td id=\"Plugin_Raid_List-" + id + "\"></td></tr>";
-        buildedaction = raid_buildaction($(this), xml);
+        buildedaction = raid_buildaction($(this));
         if (buildedaction) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
-        htmldisks += "<tr><td>" + raid_buildinfos($(this), id, xml);
+        htmldisks += "<tr><td>" + raid_buildinfos($(this), id);
         htmldisks += "</td></tr>";        
         htmldisks += "</tbody></table>";
 
         $("#Plugin_RaidTable").append("<tr><td><br>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");
-        raid_diskicon($(this), id, xml);
+        raid_diskicon($(this), id);
 
         $("#sPlugin_Raid_Info" + id).click(function raid_showinfo() {
             $("#Plugin_Raid_InfoTable" + id).slideDown("fast");
