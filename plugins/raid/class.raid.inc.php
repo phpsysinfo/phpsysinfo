@@ -1852,7 +1852,7 @@ class Raid extends PSI_Plugin
                             if (isset($disk['parentid'])) $disktemp->addAttribute("ParentID", $disk['parentid']);
                             if (isset($disk['type'])) $disktemp->addAttribute("Type", $disk['type']);
                             // if (in_array(strtolower($device["status"]), array('ok', 'optimal', 'active', 'online', 'degraded'))) {
-                                $disktemp->addAttribute("Status", $disk['status']);
+                            if (isset($disk['status'])) $disktemp->addAttribute("Status", $disk['status']);
                             //} else {
                             //    $disktemp->addAttribute("Status", "W");
                             //}
