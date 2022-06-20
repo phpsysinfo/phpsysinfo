@@ -1739,7 +1739,7 @@ function formatUptime(sec) {
 /**
  * format a celcius temperature to fahrenheit and also append the right suffix
  * @param {String} degreeC temperature in celvius
- * @param {jQuery} xml phpSysInfo-XML
+ * @param {String} temperature format
  * @return {String} html string with no breaking spaces and translation statements
  */
 function formatTemp(degreeC, tempFormat) {
@@ -1803,7 +1803,7 @@ function formatMTps(mtps) {
  * for binary and decimal output<br>user can specify a constant format for all byte outputs or the output is formated
  * automatically so that every value can be read in a user friendly way
  * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
- * @param {jQuery} xml phpSysInfo-XML
+ * @param {String} byte format
  * @param {parenths} if true then add parentheses
  * @return {String} string of the converted bytes with the translated unit expression
  */
