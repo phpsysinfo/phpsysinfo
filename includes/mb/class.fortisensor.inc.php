@@ -46,7 +46,7 @@ class FortiSensor extends Sensors
     private function _temperature()
     {
         foreach ($this->_lines as $line) {
-            if (preg_match('/^\s*\d+\s(.+)\sTemperature\s+([\d\.]+)\s\S+C$/', $line, $data)) {
+            if (preg_match('/^\s*\d+\s(.+)\sTemperature\s+([\d\.]+)\s\S*C\s*$/', $line, $data)) {
                 $dev = new SensorDevice();
                 $dev->setName($data[1]);
                 $dev->setValue($data[2]);
