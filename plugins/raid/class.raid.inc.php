@@ -1806,7 +1806,7 @@ class Raid extends PSI_Plugin
             foreach ($this->_result[$item] as $key=>$device) {
                 if (!in_array($key, $hideRaids, true)) {
                     $dev = $this->xml->addChild("Raid");
-                    $dev->addAttribute("Device_Name", $key); //for megactl and megasasctl conflicts
+                    $dev->addAttribute("Device_Name", $key);
                     $dev->addAttribute("Program", $item);
                     if (isset($device['level'])) $dev->addAttribute("Level", strtolower($device["level"]));
                     $dev->addAttribute("Status", strtolower($device["status"]));
