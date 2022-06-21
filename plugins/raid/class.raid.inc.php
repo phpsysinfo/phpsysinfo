@@ -1458,6 +1458,9 @@ class Raid extends PSI_Plugin
                         if (isset($tablec['battery'])) {
                             $this->_result['idrac'][$devname]['battery'] = $tablec['battery'];
                         }
+                        if (isset($tablec['cache_size'])) {
+                            $this->_result['idrac'][$devname]['cache_size'] = $tablec['cache_size'];
+                        }
                         if (isset($tablec['info'])) {
                             $this->_result['idrac'][$devname]['status'] = $tablec['info'];
                         } elseif (isset($tablec['status'])) {
