@@ -626,6 +626,9 @@ class Raid extends PSI_Plugin
                                 $this->_result[$prog][$itemn]['status'] = $itemn0;
                                 if ($controller !== '') $this->_result[$prog][$itemn]['controller'] = $controller;
                                 if ($battery !== '') $this->_result[$prog][$itemn]['battery'] = $battery;
+                                if ($battvolt !== '') $this->_result[$prog][$itemn]['battvolt'] = $battvolt;
+                                if ($batttemp !== '') $this->_result[$prog][$itemn]['batttemp'] = $batttemp;
+                                if ($cache_size !== '') $this->_result[$prog][$itemn]['cache_size'] = $cache_size;
                                 $this->_result[$prog][$itemn]['items'][$itemn]['parentid'] = 0;
                                 $this->_result[$prog][$itemn]['items'][$itemn]['name'] = $itemn0;
                                 if ($details[0]==='unconfigured:') {
