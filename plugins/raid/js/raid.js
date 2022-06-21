@@ -34,7 +34,7 @@ var raid_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devfirmware = "", devtemperature = "", devbattery = "", devsupported = "", devcapacity = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devfirmware = "", devtemperature = 0, devbattvolt = 0, devbatttemp = 0, devbattery = "", devsupported = "", devcapacity = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -43,6 +43,8 @@ function raid_buildinfos(xml, id) {
     devcontroller = $(xml).attr("Controller");
     devfirmware = $(xml).attr("Firmware");
     devtemperature = parseFloat($(xml).attr("Temperature"));
+    devbattvolt = parseFloat($(xml).attr("Batt_Volt"));
+    devbatttemp = parseFloat($(xml).attr("Batt_Temp"));
     devbattery = $(xml).attr("Battery");
     devsupported = $(xml).attr("Supported");
     devcapacity = parseInt($(xml).attr("Capacity"), 10);
@@ -86,6 +88,8 @@ function raid_buildinfos(xml, id) {
     if (devfirmware !== undefined) html += "<tr><td>" + genlang(29, "Raid") + "</td><td>" + devfirmware + "</td></tr>";
     if (isFinite(devtemperature)) html += "<tr><td>" + genlang(30, "Raid") + "</td><td>" + formatTemp(devtemperature, xml.parent().parent().parent()) + "</td></tr>";
     if (devbattery !== undefined) html += "<tr><td>" + genlang(20, "Raid") + "</td><td>" + devbattery + "</td></tr>";
+    if (isFinite(devbattvolt)) html += "<tr><td>" + genlang(31, "Raid") + "</td><td>" + round(devbattvolt, 3) + " V</td></tr>";
+    if (isFinite(devbatttemp)) html += "<tr><td>" + genlang(32, "Raid") + "</td><td>" + formatTemp(devbatttemp, xml.parent().parent().parent()) + "</td></tr>";
     if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";

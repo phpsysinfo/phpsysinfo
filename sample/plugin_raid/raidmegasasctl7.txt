@@ -1,0 +1,9 @@
+a0       MegaRAID SAS 8704ELP     bios:2.07.00 fw:1.40.42-0615 encl:1 ldrv:2  rbld:30% mem:128MiB batt:FAULT, module missing, pack missing, charge failed/0mV/0C
+a0d0      1861GiB RAID 1   1x2  optimal
+      row  0:  a0e252s2  a0e252s3
+a0d1       297GiB RAID 1   1x2  optimal
+      row  0:  a0e252s0  a0e252s1
+a0e252s0      ATA WDC WD3201ABYS-0 rev:1C02 s/n:WD-WCARW1234567         298GiB  a0d1  online
+a0e252s1      ATA WDC WD5003ABYX-0 rev:1S02 s/n:WD-WMAYP1234567         465GiB  a0d1  online
+a0e252s2      ATA WDC WD2003FYYS-0 rev:1D02 s/n:WD-WCAY12345678        1863GiB  a0d0  online
+a0e252s3      ATA WDC WD2003FYYS-0 rev:1D02 s/n:WD-WCAY87654321        1863GiB  a0d0  online

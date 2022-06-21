@@ -64,11 +64,11 @@ class Raid extends PSI_Plugin
                     $notwas = false;
                 }
                 if ((PSI_OS == 'Linux') && in_array('megactl', $this->prog_items)) {
-                    CommonFunctions::executeProgram("megactl", "", $this->_filecontent['megactl'], PSI_DEBUG);
+                    CommonFunctions::executeProgram("megactl", "-vv", $this->_filecontent['megactl'], PSI_DEBUG);
                     $notwas = false;
                 }
                 if ((PSI_OS == 'Linux') && in_array('megasasctl', $this->prog_items)) {
-                    CommonFunctions::executeProgram("megasasctl", "", $this->_filecontent['megasasctl'], PSI_DEBUG);
+                    CommonFunctions::executeProgram("megasasctl", "-vv", $this->_filecontent['megasasctl'], PSI_DEBUG);
                     $notwas = false;
                 }
                 if (in_array('megaclisas-status', $this->prog_items)) {
@@ -523,10 +523,25 @@ class Raid extends PSI_Plugin
                 } else {
                     $controller = '';
                 }
-                if (preg_match("/^[a-z]\d+ [^:\r\n]+ [^\r\n]* batt:([^:\r\n,]+)/", $raidgroup, $batt)) {
-                    $battery = trim($batt[1]);
+                if (preg_match("/^[a-z]\d+ .+ batt:([^:\r\n,]+)/", $raidgroup, $batt)) {
+                    if (preg_match("/^([^\/]+)\/((\d+)mV\/(-?\d+)C)$/", trim($batt[1]), $battarr) && ($battarr !== "0mV/0C")) {
+                        $battery = trim($battarr[1]);
+                        $battvolt = $battarr[3]/1000;
+                        $batttemp = $battarr[4];
+                    } else {
+                        $battery = trim($batt[1]);
+                        $battvolt = '';
+                        $batttemp = '';
+                    }
                 } else {
                     $battery = '';
+                    $battvolt = '';
+                    $batttemp = '';
+                }
+                if (preg_match("/^[a-z]\d+ .+ mem:(\d+)MiB/", $raidgroup, $batt)) {
+                    $cache_size = $batt[1]*1024*1024;
+                } else {
+                    $cache_size = '';
                 }
                 $group = $buff[1];
                 $lines = preg_split("/\r?\n/", $raidgroup, -1, PREG_SPLIT_NO_EMPTY);
@@ -534,151 +549,186 @@ class Raid extends PSI_Plugin
                     unset($lines[0]);
                     foreach ($lines as $line) {
                         $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
-                        if ((($countdet = count($details)) == 6) && ($details[2] === "RAID")) {
-                            $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
-                            $value = preg_replace("/[\D\s]+$/", "", $details[1]);
-                            switch ($unit) {
-                            case 'B':
-                                $this->_result[$prog][$details[0]]['capacity'] = $value;
-                                break;
-                            case 'KiB':
-                                $this->_result[$prog][$details[0]]['capacity'] = 1024*$value;
-                                break;
-                            case 'MiB':
-                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*$value;
-                                break;
-                            case 'GiB':
-                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*$value;
-                                break;
-                            case 'TiB':
-                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
-                                break;
-                            case 'PiB':
-                                $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
-                            }
-                            $this->_result[$prog][$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
-                            $this->_result[$prog][$details[0]]['status'] = $details[5];
-                            if ($controller !== '') $this->_result[$prog][$details[0]]['controller'] = $controller;
-                            if ($battery !== '') $this->_result[$prog][$details[0]]['battery'] = $battery;
-                            $this->_result[$prog][$details[0]]['items'][$details[0]]['parentid'] = 0;
-                            $this->_result[$prog][$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
-                            if ($details[5] !== 'optimal') {
-                                $this->_result[$prog][$details[0]]['items'][$details[0]]['info'] = $details[5];
-                            }
-                            switch ($details[5]) {
-                            case 'optimal':
-                                $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "ok";
-                                break;
-                            case 'OFFLINE':
-                                $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "F";
-                                break;
-                            default:
-                                $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "W";
-                            }
-                        } elseif ($countdet == 4) {
-                            if (isset($this->_result[$prog][$details[2]])) {
-                                $this->_result[$prog][$details[2]]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result[$prog][$details[2]]['items'][$details[0]]['type'] = "disk";
-                                $this->_result[$prog][$details[2]]['items'][$details[0]]['name'] = $details[0];
-                                if ($details[3] !== 'online') {
-                                    $this->_result[$prog][$details[2]]['items'][$details[0]]['info'] = $details[3];
+                        if (($countdet = count($details)) >= 2) {
+                            $size[0] = -1;
+                            for ($ind = $countdet; $ind > 1;) {
+                               if (preg_match('/(\d+)((B)|(KiB)|(MiB)|(GiB)|(TiB)|(PiB))/', $details[--$ind], $size)) { //Find size
+                                    $size[0] = $ind;
+                                    break;
+                                } else {
+                                   $size[0] = -1;
                                 }
-                                switch ($details[3]) {
-                                case 'online':
-                                    $this->_result[$prog][$details[2]]['items'][$details[0]]['status'] = "ok";
-                                    break;
-                                case 'hotspare':
-                                    $this->_result[$prog][$details[2]]['items'][$details[0]]['status'] = "S";
-                                    break;
-                                case 'rdy/fail':
-                                    $this->_result[$prog][$details[2]]['items'][$details[0]]['status'] = "F";
-                                    break;
-                                default:
-                                    $this->_result[$prog][$details[2]]['items'][$details[0]]['status'] = "W";
+                            }
+                            $model = '';
+                            $serial = '';
+                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && ($size[0] >= 2)) {
+                                for ($ind = 1; $ind < $size[0]; $ind++) {
+                                    if (preg_match('/:/', $details[$ind])) {
+                                        break;
+                                    }
+                                    $model .= " ".$details[$ind];
                                 }
-                                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                                    $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
-                                    $value = preg_replace("/[\D\s]+$/", "", $details[1]);
-                                    switch ($unit) {
-                                    case 'B':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = $value;
-                                        break;
-                                    case 'KiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*$value;
-                                        break;
-                                    case 'MiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*$value;
-                                        break;
-                                    case 'GiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*$value;
-                                        break;
-                                    case 'TiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
-                                        break;
-                                    case 'PiB':
-                                        $this->_result[$prog][$details[2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
+                                $model = trim($model);
+                                if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                    for (; $ind < $size[0]; $ind++) {
+                                        if (preg_match('/^s\/n:(.+)$/', $details[$ind], $ser)) {
+                                            $serial = $ser[1];
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                        } elseif (($countdet == 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
-                            $itemn0 = rtrim($details[0], ':');
-                            $itemn = $group .'-'.$itemn0;
-                            $this->_result[$prog][$itemn]['status'] = $itemn0;
-                            if ($controller !== '') $this->_result[$prog][$itemn]['controller'] = $controller;
-                            if ($battery !== '') $this->_result[$prog][$itemn]['battery'] = $battery;
-                            $this->_result[$prog][$itemn]['items'][$itemn]['parentid'] = 0;
-                            $this->_result[$prog][$itemn]['items'][$itemn]['name'] = $itemn0;
-                            if ($details[0]==='unconfigured:') {
-                                $this->_result[$prog][$itemn]['items'][$itemn]['status'] = "U";
-                            } else {
-                                $this->_result[$prog][$itemn]['items'][$itemn]['status'] = "S";
-                            }
-                        } elseif ($countdet == 3) {
-                            $itemn = '';
-                            switch ($details[2]) {
-                            case 'BAD':
-                            case 'ready':
-                                $itemn = $group .'-'.'unconfigured';
-                                break;
-                            case 'hotspare':
-                                $itemn = $group .'-'.'hotspare';
-                            }
-                            if (($itemn !== '') && isset($this->_result[$prog][$itemn])) {
-                                $this->_result[$prog][$itemn]['items'][$details[0]]['parentid'] = 1;
-                                $this->_result[$prog][$itemn]['items'][$details[0]]['type'] = "disk";
-                                $this->_result[$prog][$itemn]['items'][$details[0]]['name'] = $details[0];
-                                $this->_result[$prog][$itemn]['items'][$details[0]]['info'] = $details[2];
-                                switch ($details[2]) {
-                                case 'ready':
-                                    $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "U";
+                            if (($countdet == 6) && ($details[2] === "RAID") && ($size[0] == 1)) {
+                                switch ($size[2]) {
+                                case 'B':
+                                    $this->_result[$prog][$details[0]]['capacity'] = $size[1];
                                     break;
-                                case 'hotspare':
-                                    $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "S";
+                                case 'KiB':
+                                    $this->_result[$prog][$details[0]]['capacity'] = 1024*$size[1];
+                                    break;
+                                case 'MiB':
+                                    $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*$size[1];
+                                    break;
+                                case 'GiB':
+                                    $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*$size[1];
+                                    break;
+                                case 'TiB':
+                                    $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*$size[1];
+                                    break;
+                                case 'PiB':
+                                    $this->_result[$prog][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$size[1];
+                                }
+                                $this->_result[$prog][$details[0]]['level'] = "RAID".$details[3]." ".$details[4];
+                                $this->_result[$prog][$details[0]]['status'] = $details[5];
+                                if ($controller !== '') $this->_result[$prog][$details[0]]['controller'] = $controller;
+                                if ($battery !== '') $this->_result[$prog][$details[0]]['battery'] = $battery;
+                                if ($battvolt !== '') $this->_result[$prog][$details[0]]['battvolt'] = $battvolt;
+                                if ($batttemp !== '') $this->_result[$prog][$details[0]]['batttemp'] = $batttemp;
+                                if ($cache_size !== '') $this->_result[$prog][$details[0]]['cache_size'] = $cache_size;
+                                $this->_result[$prog][$details[0]]['items'][$details[0]]['parentid'] = 0;
+                                $this->_result[$prog][$details[0]]['items'][$details[0]]['name'] = "RAID".$details[3]." ".$details[4];
+                                if ($details[5] !== 'optimal') {
+                                    $this->_result[$prog][$details[0]]['items'][$details[0]]['info'] = $details[5];
+                                }
+                                switch ($details[5]) {
+                                case 'optimal':
+                                    $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "ok";
+                                    break;
+                                case 'OFFLINE':
+                                    $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "F";
                                     break;
                                 default:
-                                    $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "F";
+                                    $this->_result[$prog][$details[0]]['items'][$details[0]]['status'] = "W";
                                 }
-                                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                                    $unit = preg_replace("/^[\d\s]+/", "", $details[1]);
-                                    $value = preg_replace("/[\D\s]+$/", "", $details[1]);
-                                    switch ($unit) {
-                                    case 'B':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = $value;
+                            } elseif (($countdet >= 2) && (($details[0]==='unconfigured:') || ($details[0]==='hotspare:'))) {
+                                $itemn0 = rtrim($details[0], ':');
+                                $itemn = $group .'-'.$itemn0;
+                                $this->_result[$prog][$itemn]['status'] = $itemn0;
+                                if ($controller !== '') $this->_result[$prog][$itemn]['controller'] = $controller;
+                                if ($battery !== '') $this->_result[$prog][$itemn]['battery'] = $battery;
+                                $this->_result[$prog][$itemn]['items'][$itemn]['parentid'] = 0;
+                                $this->_result[$prog][$itemn]['items'][$itemn]['name'] = $itemn0;
+                                if ($details[0]==='unconfigured:') {
+                                    $this->_result[$prog][$itemn]['items'][$itemn]['status'] = "U";
+                                } else {
+                                    $this->_result[$prog][$itemn]['items'][$itemn]['status'] = "S";
+                                }
+                            } elseif (($countdet >= 4) && ($size[0] >= 1) && ($countdet - $size[0] == 3)) {
+                                if (isset($this->_result[$prog][$details[$countdet-2]])) {
+                                    $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['parentid'] = 1;
+                                    $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['type'] = "disk";
+                                    $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['name'] = $details[0];
+                                    if ($details[$countdet-1] !== 'online') {
+                                        $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['info'] = $details[$countdet-1];
+                                    }
+                                    switch ($details[$countdet-1]) {
+                                    case 'online':
+                                        $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['status'] = "ok";
                                         break;
-                                    case 'KiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*$value;
+                                    case 'hotspare':
+                                        $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['status'] = "S";
                                         break;
-                                    case 'MiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*$value;
+                                    case 'rdy/fail':
+                                        $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['status'] = "F";
                                         break;
-                                    case 'GiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*$value;
+                                    default:
+                                        $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['status'] = "W";
+                                    }
+                                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                        switch ($size[2]) {
+                                        case 'B':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = $size[1];
+                                            break;
+                                        case 'KiB':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = 1024*$size[1];
+                                            break;
+                                        case 'MiB':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = 1024*1024*$size[1];
+                                            break;
+                                        case 'GiB':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*$size[1];
+                                            break;
+                                        case 'TiB':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$size[1];
+                                            break;
+                                        case 'PiB':
+                                            $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$size[1];
+                                        }
+                                        if ($model !== '') $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['model'] = $model;
+                                        if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                            if ($serial !== '') $this->_result[$prog][$details[$countdet-2]]['items'][$details[0]]['serial'] = $serial;
+                                        }
+                                    }
+                                }
+                            } elseif (($countdet >= 3) && ($size[0] >= 1) && ($countdet - $size[0] == 2)) {
+                                $itemn = '';
+                                switch ($details[$countdet-1]) {
+                                case 'BAD':
+                                case 'ready':
+                                    $itemn = $group .'-'.'unconfigured';
+                                    break;
+                                case 'hotspare':
+                                    $itemn = $group .'-'.'hotspare';
+                                }
+                                if (($itemn !== '') && isset($this->_result[$prog][$itemn])) {
+                                    $this->_result[$prog][$itemn]['items'][$details[0]]['parentid'] = 1;
+                                    $this->_result[$prog][$itemn]['items'][$details[0]]['type'] = "disk";
+                                    $this->_result[$prog][$itemn]['items'][$details[0]]['name'] = $details[0];
+                                    $this->_result[$prog][$itemn]['items'][$details[0]]['info'] = $details[$countdet-1];
+                                    switch ($details[$countdet-1]) {
+                                    case 'ready':
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "U";
                                         break;
-                                    case 'TiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$value;
+                                    case 'hotspare':
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "S";
                                         break;
-                                    case 'PiB':
-                                        $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$value;
+                                    default:
+                                        $this->_result[$prog][$itemn]['items'][$details[0]]['status'] = "F";
+                                    }
+                                    if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                        switch ($size[2]) {
+                                        case 'B':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = $size[1];
+                                            break;
+                                        case 'KiB':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*$size[1];
+                                            break;
+                                        case 'MiB':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*$size[1];
+                                            break;
+                                        case 'GiB':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*$size[1];
+                                            break;
+                                        case 'TiB':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*$size[1];
+                                            break;
+                                        case 'PiB':
+                                            $this->_result[$prog][$itemn]['items'][$details[0]]['capacity'] = 1024*1024*1024*1024*1024*$size[1];
+                                        }
+                                        if ($model !== '') $this->_result[$prog][$itemn]['items'][$details[0]]['model'] = $model;
+                                        if (defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL) {
+                                            if ($serial !== '') $this->_result[$prog][$itemn]['items'][$details[0]]['serial'] = $serial;
+                                        }
                                     }
                                 }
                             }
@@ -1827,6 +1877,8 @@ class Raid extends PSI_Plugin
                     if (isset($device['firmware'])) $dev->addAttribute("Firmware", $device["firmware"]);
                     if (isset($device['temperature'])) $dev->addAttribute("Temperature", $device["temperature"]);
                     if (isset($device['battery'])) $dev->addAttribute("Battery", $device["battery"]);
+                    if (isset($device['battvolt'])) $dev->addAttribute("Batt_Volt", $device["battvolt"]);
+                    if (isset($device['batttemp'])) $dev->addAttribute("Batt_Temp", $device["batttemp"]);
                     if (isset($device['supported'])) $dev->addAttribute("Supported", $device["supported"]);
                     if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
                     if (isset($device['writepolicy'])) $dev->addAttribute("WritePolicy", $device["writepolicy"]);

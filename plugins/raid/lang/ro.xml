@@ -96,4 +96,10 @@
   <expression id="plugin_raid_030" name="raid_temperature">
     <exp>Temperature</exp>
   </expression>
+  <expression id="plugin_raid_031" name="raid_battvolt">
+    <exp>Battery Voltage</exp>
+  </expression>
+  <expression id="plugin_raid_032" name="raid_batttemp">
+    <exp>Battery Temperature</exp>
+  </expression>
 </tns:translationPlugin>
