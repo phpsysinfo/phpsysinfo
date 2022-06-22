@@ -88,7 +88,7 @@ function raid_buildinfos(xml, id) {
     if (devfirmware !== undefined) html += "<tr><td>" + genlang(29, "Raid") + "</td><td>" + devfirmware + "</td></tr>";
     if (isFinite(devtemperature)) html += "<tr><td>" + genlang(30, "Raid") + "</td><td>" + formatTemp(devtemperature, xml.parent().parent().parent()) + "</td></tr>";
     if (devbattery !== undefined) html += "<tr><td>" + genlang(20, "Raid") + "</td><td>" + devbattery + "</td></tr>";
-    if (isFinite(devbattvolt)) html += "<tr><td>" + genlang(31, "Raid") + "</td><td>" + round(devbattvolt, 3) + " V</td></tr>";
+    if (isFinite(devbattvolt)) html += "<tr><td>" + genlang(31, "Raid") + "</td><td>" + round(devbattvolt, 3) + " " + genlang(82) +"</td></tr>";
     if (isFinite(devbatttemp)) html += "<tr><td>" + genlang(32, "Raid") + "</td><td>" + formatTemp(devbatttemp, xml.parent().parent().parent()) + "</td></tr>";
     if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
