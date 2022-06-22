@@ -127,6 +127,9 @@ class FreeBSD extends BSDCommon
             } elseif (preg_match('/^FreeNAS/i', $version)) { // FreeNAS detection
                 $this->sys->setDistribution($version);
                 $this->sys->setDistributionIcon('FreeNAS.png');
+            } elseif (preg_match('/^TrueNAS/i', $version)) { // TrueNAS detection
+                $this->sys->setDistribution($version);
+                $this->sys->setDistributionIcon('TrueNAS.png');
             } else {
                 $this->sys->setDistributionIcon('FreeBSD.png');
             }
