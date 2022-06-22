@@ -91,9 +91,9 @@ function raid_buildinfos(xml, id) {
     if (isFinite(devbattvolt)) html += "<tr><td>" + genlang(31, "Raid") + "</td><td>" + round(devbattvolt, 3) + " " + genlang(82) +"</td></tr>";
     if (isFinite(devbatttemp)) html += "<tr><td>" + genlang(32, "Raid") + "</td><td>" + formatTemp(devbatttemp, xml.parent().parent().parent()) + "</td></tr>";
     if (devsupported !== undefined) html += "<tr><td>" + genlang(21, "Raid") + "</td><td>" + devsupported + "</td></tr>";
+    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml.parent().parent().parent()) + "</td></tr>";
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
-    if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml.parent().parent().parent()) + "</td></tr>";
     if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     
