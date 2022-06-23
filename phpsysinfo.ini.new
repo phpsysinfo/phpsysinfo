@@ -735,7 +735,7 @@ SHOW_SERIAL=false
 ;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl or http://github.com/namiltd/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
 ;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WinNT)
-;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid (Python 2) or https://github.com/ElCoyote27/hwraid (Python 3)
+;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid 
 ;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid
 ;             - graid:             command "graid list" is run (on FreeBSD only)
