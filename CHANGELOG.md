@@ -7,6 +7,7 @@ phpSysInfo 3.4.2
 ----------------
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar, Ultramarine Linux and TrueNAS to detected distros
  - [ADD] schabau_bootstrap template
+ - [ADD] Raid plugin - storcli and perccli status
  
  - [NEW] Partial support for GNU Hurd
  - [NEW] Ability to retrieve Linux, GNU Hurd, DrayOS and FortiOS system information via SSH

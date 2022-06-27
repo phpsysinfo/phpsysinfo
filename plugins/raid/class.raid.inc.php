@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','3ware-status','graid','zpool','idrac');
+    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','3ware-status','graid','zpool','idrac','storcli','perccli');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -109,6 +109,24 @@ class Raid extends PSI_Plugin
                 }
                 if (in_array('zpool', $this->prog_items)) {
                     CommonFunctions::executeProgram("zpool", "status", $this->_filecontent['zpool'], PSI_DEBUG);
+                    $notwas = false;
+                }
+                if (in_array('storcli', $this->prog_items)) {
+                    if ((PSI_OS == 'WINNT') && !WINNT::isAdmin() && (CommonFunctions::_findProgram("storcli64") || CommonFunctions::_findProgram("storcli"))) {
+                      $this->global_error->addError("RAID storcli error", "Program allowed for users with administrator privileges (run as administrator)");
+                    }        
+                    if (!(CommonFunctions::_findProgram("storcli64") && CommonFunctions::executeProgram("storcli64", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG))) {
+                        CommonFunctions::executeProgram("storcli", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG);
+                    }
+                    $notwas = false;
+                }
+                if (in_array('perccli', $this->prog_items)) {
+                    if ((PSI_OS == 'WINNT') && !WINNT::isAdmin() && (CommonFunctions::_findProgram("perccli64") || CommonFunctions::_findProgram("perccli"))) {
+                      $this->global_error->addError("RAID perccli error", "Program allowed for users with administrator privileges (run as administrator)");
+                    }
+                    if (!(CommonFunctions::_findProgram("perccli64") && CommonFunctions::executeProgram("perccli64", "/call show all", $this->_filecontent['perccli'], PSI_DEBUG))) {
+                        CommonFunctions::executeProgram("perccli", "/call show all", $this->_filecontent['perccli'], PSI_DEBUG);
+                    }
                     $notwas = false;
                 }
             }
@@ -1789,6 +1807,311 @@ class Raid extends PSI_Plugin
         }
     }
 
+
+
+    private function execute_storcli($buffer, $_perccli = false)
+    {
+
+        if ($_perccli === true) {
+            $prog = "perccli";
+        } else {
+            $prog = "storcli";
+        }
+
+        if (!empty($buffer)) {
+            $raiddata = preg_split("/\n(?=.+\s+:\r?\n===)/", $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            $carr = array();
+            $cnr = -1;
+            if (count($raiddata) > 2) foreach ($raiddata as $items) {
+                if (preg_match("/^(.+)\s+:\r?\n===+\r?\n([\s\S]+)$/", $items, $buff)) {
+                    if ($buff[1] === "Basics") {
+                        $cnr++;
+                    }
+                    if ($cnr >= 0) {
+                        $stage = 0;
+                        $lines = preg_split('/\r?\n/', $buff[2], -1, PREG_SPLIT_NO_EMPTY);
+                        foreach ($lines as $line) {
+                            if (($line = trim($line)) !== '') {
+                                $parts = preg_split("/ = /", $line);
+                                switch ($stage) {
+                                case 0:
+                                    if (count($parts) == 2) {
+                                        $carr[$cnr][$buff[1]][trim($parts[0])] = trim($parts[1]);
+                                    } elseif (preg_match("/^---/", $line)) {
+                                        $stage = 1;
+                                    }
+                                    break;
+                                case 1:
+                                    $args = preg_split("/ /" ,preg_replace("/ RetentionTime /", " Retention Hours ", preg_replace("/ Size /", " Size Unit ", $line)), -1, PREG_SPLIT_NO_EMPTY);
+                                    $stage = 2;
+                                    break;
+                                case 2:
+                                    if (preg_match("/^---/", $line)) {
+                                        $stage = 3;
+                                    }
+                                    break;
+                                case 3:
+                                    if (preg_match("/^---/", $line)) {
+                                        $stage = 4;
+                                    } else {
+                                        $values = preg_split("/ /" ,$line, -1, PREG_SPLIT_NO_EMPTY);
+                                        $diffc = count($values) - count($args);
+                                        if (($diffc >= 0) && (count($values) > 6)) {
+                                            $valarr = array();
+                                            for ($vnr = 0; $vnr < count($args); $vnr++) {
+                                                if (($diffc == 0) || (($args[$vnr] !== "Name") && ($args[$vnr] !== "Model"))) {
+                                                    $valarr[$args[$vnr]] = $values[$vnr];
+                                                } else {
+                                                    $valarr[$args[$vnr]] = $values[$vnr];
+                                                    break;
+                                                }
+                                            }
+                                            if (($diffc > 0) && ($vnr < count($args))) for ($enr = count($values)-1; $enr >= 0; $enr--) {
+                                                if (($args[$enr-$diffc] !== "Name") && ($args[$enr-$diffc] !== "Model")) {
+                                                    $valarr[$args[$enr-$diffc]] = $values[$enr];
+                                                } else {
+                                                    break;
+                                                }
+                                            }
+                                            if (($diffc > 0) && ($vnr < $enr)) {
+                                                for ($xnr = $vnr + 1; $xnr <= $enr; $xnr++) {
+                                                    $valarr[$args[$vnr]] .= " ".$values[$xnr];
+                                                }
+                                            }
+                                            $carr[$cnr][$buff[1]]['values'][] = $valarr;
+                                        } else {
+                                            $stage = 4;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach ($carr as $controller) if (isset($controller["Basics"]["Controller"])
+               && (($cnr = $controller["Basics"]["Controller"]) >= 0)) {
+                $dg = -1;
+                if (isset($controller["TOPOLOGY"]["values"])) foreach($controller["TOPOLOGY"]["values"] as $topol) {
+                    if (isset($topol["Arr"]) && ($topol["Arr"] !== "-" )) {
+                        if ($topol["DG"] != $dg) {
+                            $dg = $topol["DG"];
+                            $uname = 'c'.$cnr.'u'.$dg;
+                            if (isset($controller["Basics"]["Model"])) $this->_result[$prog][$uname]['controller'] = $controller["Basics"]["Model"];
+                            if (isset($controller["Version"]["Firmware Package Build"])) $this->_result[$prog][$uname]['firmware'] = $controller["Version"]["Firmware Package Build"];
+                            if (isset($controller["Status"]["Controller Status"])) {
+                                $this->_result[$prog][$uname]['status'] = $controller["Status"]["Controller Status"];
+                            } else {
+                                $this->_result[$prog][$uname]['status'] = 'Unknown';
+                            }
+                            if (isset($controller["BBU_Info"]["values"][0])) {
+                                if (isset($controller["BBU_Info"]["values"][0]["State"])) {
+                                    if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
+                                        $this->_result[$prog][$uname]['battery'] = "Good";
+                                    } else {
+                                        $this->_result[$prog][$uname]['battery'] = $state;
+                                    }
+                                }
+                                if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/" , $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
+                                    $this->_result[$prog][$uname]['batttemp'] = $batt[1];
+                                }
+                                if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
+                                if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
+                                    switch ($value[2]) {
+                                    case 'B':
+                                        $this->_result[$prog][$uname]['cache_size'] = $value[1];
+                                        break;
+                                    case 'KB':
+                                        $this->_result[$prog][$uname]['cache_size'] = 1024*$value[1];
+                                        break;
+                                    case 'MB':
+                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*$value[1];
+                                        break;
+                                    case 'GB':
+                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*$value[1];
+                                        break;
+                                    case 'TB':
+                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*$value[1];
+                                        break;
+                                    case 'PB':
+                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                    }
+                                }
+                                if (isset($topol["Size"]) && isset($topol["Unit"])) {
+                                    switch ($topol["Unit"]) {
+                                    case 'B':
+                                        $this->_result[$prog][$uname]['capacity'] = $topol["Size"];
+                                        break;
+                                    case 'KB':
+                                        $this->_result[$prog][$uname]['capacity'] = 1024*$topol["Size"];
+                                        break;
+                                    case 'MB':
+                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*$topol["Size"];
+                                        break;
+                                    case 'GB':
+                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*$topol["Size"];
+                                        break;
+                                    case 'TB':
+                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*$topol["Size"];
+                                        break;
+                                    case 'PB':
+                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
+                                    }
+                                }
+                                if (isset($topol["PDC"])) {
+                                    switch ($topol["PDC"]) {
+                                    case 'dflt':
+                                        $this->_result[$prog][$uname]['diskcache'] = "default";
+                                        break;
+                                    default:
+                                        $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
+                                    }
+                                }
+                                if (isset($controller["VD LIST"]["values"])) foreach($controller["VD LIST"]["values"] as $vdlist) {
+                                    if (isset($vdlist["DG/VD"])) {
+                                        if ($vdlist["DG/VD"] === $dg."/".$dg) {
+                                            if (isset($vdlist["TYPE"])) {
+                                                $this->_result[$prog][$uname]['items'][0]['parentid'] = 0;
+                                                $this->_result[$prog][$uname]['level'] = $vdlist["TYPE"];
+                                                if (isset($vdlist["Name"])) {
+                                                    $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["Name"];
+                                                } else {
+                                                    $vdlist["TYPE"];
+                                                }
+                                                if (isset($vdlist["State"])) {
+                                                    switch ($vdlist["State"]) {
+                                                    case 'Rec':
+                                                        $this->_result[$prog][$uname]['status'] = "Recovery";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                        break;
+                                                    case 'OfLn':
+                                                        $this->_result[$prog][$uname]['status'] = "OffLine";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "F";
+                                                        break;
+                                                    case 'Pdgd':
+                                                        $this->_result[$prog][$uname]['status'] = "Partially Degraded";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                        break;
+                                                    case 'Dgrd':
+                                                        $this->_result[$prog][$uname]['status'] = "Degraded";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                        break;
+                                                    case 'Optl':
+                                                        $this->_result[$prog][$uname]['status'] = "Optimal";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "ok";
+                                                        break;
+                                                    default:
+                                                        $this->_result[$prog][$uname]['status'] = "Unknown";
+                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "F";                                                    
+                                                    }
+                                                }
+                                                if (isset($vdlist["Cache"])) {
+                                                    $ctype = $vdlist["Cache"];
+                                                    if (preg_match("/^NR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "noReadAhead";
+                                                    elseif (preg_match("/^R/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "readAhead";
+                                                    elseif (preg_match("/^AR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "adaptiveReadAhead";
+                                                    if (preg_match("/WT[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeThrough";
+                                                    elseif (preg_match("/WB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBack";
+                                                    elseif (preg_match("/FWB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBackForce";
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            }
+                        } elseif (($dg >= 0) && isset($topol["Row"]) && ($topol["Row"] !== '-')
+                           && isset($topol["EID:Slot"]) && ($topol["EID:Slot"] !== '-')) {
+                            $uname = 'c'.$cnr.'u'.$dg;
+                            $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['parentid'] = 1;
+                            $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['name'] = $uname.'p'.($topol["Row"]);
+                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && isset($topol["Size"]) && isset($topol["Unit"])) {
+                                switch ($topol["Unit"]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = $topol["Size"];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*$topol["Size"];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*1024*$topol["Size"];
+                                    break;
+                                case 'GB':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*1024*1024*$topol["Size"];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*1024*1024*1024*$topol["Size"];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
+                                }
+                            }
+                            if (isset($controller["PD LIST"]["values"])) foreach($controller["PD LIST"]["values"] as $pdlist) {
+                                if (isset($pdlist["EID:Slt"])) {
+                                    if ($pdlist["EID:Slt"] === $topol["EID:Slot"]) {
+                                        if (isset($pdlist["State"])) {
+                                            switch ($pdlist["State"]) {
+                                            case 'DHS':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Dedicated Hot Spare";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "S";
+                                                break;
+                                            case 'UGood':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unconfigured Good";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "U";
+                                                break;
+                                            case 'GHS':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Global Hotspare";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "S";
+                                                break;
+                                            case 'UBAD':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unconfigured Bad";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";
+                                                break;
+                                            case 'Onln':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Online";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "ok";
+                                                break;
+                                            case 'Offln':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Offline";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";
+                                                break;
+                                            default:
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unknown";
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";                                                    
+                                            }
+                                        }
+                                        if (isset($pdlist["Med"])) {
+                                            switch ($pdlist["Med"]) {
+                                            case 'HDD':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['type'] = "disk";
+                                                break;
+                                            case 'SSD':
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['type'] = "ssd";
+                                            }
+                                        }
+                                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                            if (isset($pdlist["Model"])) $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['model'] = $pdlist["Model"];
+                                            if (isset($pdlist["Intf"])) $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['bus'] = $pdlist["Intf"];
+                                        }
+                                        break;
+                                    }    
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+
+
+
     /**
      * doing all tasks to get the required informations that the plugin needs
      * result is stored in an internal array<br>the array is build like a tree,
@@ -1826,6 +2149,12 @@ class Raid extends PSI_Plugin
                             break;
                         case 'zpool':
                             $this->execute_zpool($buffer);
+                            break;
+                        case 'storcli':
+                            $this->execute_storcli($buffer, false);
+                            break;
+                        case 'perccli':
+                            $this->execute_storcli($buffer, true);
                         }
                     }
                 } else {
