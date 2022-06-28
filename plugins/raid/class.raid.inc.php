@@ -24,7 +24,7 @@ class Raid extends PSI_Plugin
      */
     private $_result = array();
 
-    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','3ware-status','graid','zpool','idrac','storcli','perccli');
+    private $prog_items = array('mdstat','dmraid','megactl','megasasctl','megaclisas-status','3ware-status','graid','zpool','storcli','perccli','idrac');
 
     /**
      * read the data into an internal array and also call the parent constructor
@@ -1911,7 +1911,7 @@ class Raid extends PSI_Plugin
                             if (isset($controller["BBU_Info"]["values"][0])) {
                                 if (isset($controller["BBU_Info"]["values"][0]["State"])) {
                                     if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
-                                        $this->_result[$prog][$uname]['battery'] = "Good";
+                                        $this->_result[$prog][$uname]['battery'] = "good";
                                     } else {
                                         $this->_result[$prog][$uname]['battery'] = $state;
                                     }
