@@ -2085,6 +2085,15 @@ class Raid extends PSI_Plugin
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unknown";
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";                                                    
                                             }
+                                            if (isset($pdlist["Sp"])) {
+                                                switch ($pdlist["Sp"]) {
+                                                case 'U':
+                                                    $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] .= ", Spun Up";
+                                                    break;
+                                                case 'D':
+                                                   $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] .= ", Spun Down";
+                                                }
+                                            }
                                         }
                                         if (isset($pdlist["Med"])) {
                                             switch ($pdlist["Med"]) {
@@ -2183,7 +2192,15 @@ class Raid extends PSI_Plugin
                                         $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['type'] = "ssd";
                                     }
                                 }
-
+                                if (isset($pdlist["Sp"])) {
+                                    switch ($pdlist["Sp"]) {
+                                    case 'U':
+                                        $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] .= ", Spun Up";
+                                        break;
+                                    case 'D':
+                                        $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] .= ", Spun Down";
+                                    }
+                                }
                                 if (isset($controller["Basics"]["Model"])) $this->_result[$prog][$cname]['controller'] = $controller["Basics"]["Model"];
                                 if (isset($controller["Version"]["Firmware Package Build"])) $this->_result[$prog][$cname]['firmware'] = $controller["Version"]["Firmware Package Build"];
                                 if (isset($controller["Status"]["Controller Status"])) {
