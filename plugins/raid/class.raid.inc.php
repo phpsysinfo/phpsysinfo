@@ -1855,6 +1855,9 @@ class Raid extends PSI_Plugin
                                         $stage = 4;
                                     } else {
                                         $values = preg_split("/ /" ,$line, -1, PREG_SPLIT_NO_EMPTY);
+                                        if (count($values) == count($args)-1) { //no Name
+                                            $values[] = "";
+                                        }
                                         $diffc = count($values) - count($args);
                                         if (($diffc >= 0) && (count($values) > 6)) {
                                             $valarr = array();
@@ -1974,10 +1977,10 @@ class Raid extends PSI_Plugin
                                             if (isset($vdlist["TYPE"])) {
                                                 $this->_result[$prog][$uname]['items'][0]['parentid'] = 0;
                                                 $this->_result[$prog][$uname]['level'] = $vdlist["TYPE"];
-                                                if (isset($vdlist["Name"])) {
+                                                if (isset($vdlist["Name"]) && ($vdlist["Name"] !== "")) {
                                                     $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["Name"];
                                                 } else {
-                                                    $vdlist["TYPE"];
+                                                    $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["TYPE"];
                                                 }
                                                 if (isset($vdlist["State"])) {
                                                     switch ($vdlist["State"]) {
