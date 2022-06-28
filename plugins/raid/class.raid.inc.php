@@ -706,10 +706,10 @@ class Raid extends PSI_Plugin
                                 switch ($details[$countdet-1]) {
                                 case 'BAD':
                                 case 'ready':
-                                    $itemn = $group .'-'.'unconfigured';
+                                    $itemn = $group .'-unconfigured';
                                     break;
                                 case 'hotspare':
-                                    $itemn = $group .'-'.'hotspare';
+                                    $itemn = $group .'-hotspare';
                                 }
                                 if (($itemn !== '') && isset($this->_result[$prog][$itemn])) {
                                     $this->_result[$prog][$itemn]['items'][$details[0]]['parentid'] = 1;
@@ -2103,6 +2103,153 @@ class Raid extends PSI_Plugin
                                     }    
                                 } else {
                                     break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (isset($controller["PD LIST"]["values"])) foreach($controller["PD LIST"]["values"] as $pdlist) {
+                    if (isset($pdlist["DG"]) && ($pdlist["DG"] === "-")) {
+                        if (isset($pdlist["State"]) && isset($pdlist["EID:Slt"]) && isset($pdlist["DID"])) {
+                            $cname = '';
+                            switch ($pdlist["State"]) {
+                            case 'DHS':
+                                $cname = 'c'.$cnr.'-hotspare';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "S";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Dedicated Hot Spare";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "S";
+                                break;
+                            case 'UGood':
+                                $cname = 'c'.$cnr.'-unconfigured';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "U";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Unconfigured Good";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "U";
+                                $this->_result[$prog][$cname]['status'] = "Unconfigured";
+                                break;
+                            case 'GHS':
+                                $cname = 'c'.$cnr.'-hotspare';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "S";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Global Hotspare";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "S";
+                                $this->_result[$prog][$cname]['status'] = "Hotspare";
+                                break;
+                            case 'UBAD':
+                                $cname = 'c'.$cnr.'-unconfigured';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "U";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Unconfigured Bad";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "F";
+                                $this->_result[$prog][$cname]['status'] = "Unconfigured";
+                                break;
+                          /*  case 'Onln':
+                                $cname = 'c'.$cnr.'-online';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "ok";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Online";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "ok";
+                                $this->_result[$prog][$cname]['status'] = "Online";
+                                break;*/
+                            case 'Offln':
+                                $cname = 'c'.$cnr.'-offine';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "F";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Offline";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "F";
+                                $this->_result[$prog][$cname]['status'] = "Offline";
+                                break;
+                            case 'JBOD':
+                                $cname = 'c'.$cnr.'-jbod';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "ok";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "JBOD";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "ok";
+                                $this->_result[$prog][$cname]['level'] = "JBOD";
+                                $this->_result[$prog][$cname]['status'] = "JBOD";
+                                break;
+                            default:
+                                $cname = 'c'.$cnr.'-unknown';
+                                $this->_result[$prog][$cname]['items'][0]['status'] = "F";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Unknown";
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "F";
+                                $this->_result[$prog][$cname]['status'] = "Unknown";
+                            }
+                            if ($cname !== '') {
+                                $this->_result[$prog][$cname]['items'][0]['parentid'] = 0;
+                                $this->_result[$prog][$cname]['items'][0]['name'] = $this->_result[$prog][$cname]['status'];
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['parentid'] = 1;
+                                $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['name'] = 'c'.$cnr.'p'.$pdlist["DID"];
+                                if (isset($pdlist["Med"])) {
+                                    switch ($pdlist["Med"]) {
+                                    case 'HDD':
+                                        $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['type'] = "disk";
+                                        break;
+                                    case 'SSD':
+                                        $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['type'] = "ssd";
+                                    }
+                                }
+
+                                if (isset($controller["Basics"]["Model"])) $this->_result[$prog][$cname]['controller'] = $controller["Basics"]["Model"];
+                                if (isset($controller["Version"]["Firmware Package Build"])) $this->_result[$prog][$cname]['firmware'] = $controller["Version"]["Firmware Package Build"];
+                                if (isset($controller["Status"]["Controller Status"])) {
+                                    $this->_result[$prog][$cname]['status'] = $controller["Status"]["Controller Status"];
+                                } else {
+                                    $this->_result[$prog][$cname]['status'] = 'Unknown';
+                                }
+                                if (isset($controller["BBU_Info"]["values"][0])) {
+                                    if (isset($controller["BBU_Info"]["values"][0]["State"])) {
+                                       if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
+                                            $this->_result[$prog][$cname]['battery'] = "good";
+                                        } else {
+                                            $this->_result[$prog][$cname]['battery'] = $state;
+                                        }
+                                    }
+                                    if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/" , $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
+                                        $this->_result[$prog][$cname]['batttemp'] = $batt[1];
+                                    }
+                                }
+                                if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$cname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
+                                if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
+                                    switch ($value[2]) {
+                                    case 'B':
+                                        $this->_result[$prog][$cname]['cache_size'] = $value[1];
+                                        break;
+                                    case 'KB':
+                                        $this->_result[$prog][$cname]['cache_size'] = 1024*$value[1];
+                                        break;
+                                    case 'MB':
+                                        $this->_result[$prog][$cname]['cache_size'] = 1024*1024*$value[1];
+                                        break;
+                                    case 'GB':
+                                        $this->_result[$prog][$cname]['cache_size'] = 1024*1024*1024*$value[1];
+                                        break;
+                                    case 'TB':
+                                        $this->_result[$prog][$cname]['cache_size'] = 1024*1024*1024*1024*$value[1];
+                                        break;
+                                    case 'PB':
+                                        $this->_result[$prog][$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                    }
+                                }
+
+                                if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                    if (isset($pdlist["Size"]) && isset($pdlist["Unit"])) {
+                                        switch ($pdlist["Unit"]) {
+                                        case 'B':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = $pdlist["Size"];
+                                            break;
+                                        case 'KB':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = 1024*$pdlist["Size"];
+                                            break;
+                                        case 'MB':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = 1024*1024*$pdlist["Size"];
+                                            break;
+                                        case 'GB':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = 1024*1024*1024*$pdlist["Size"];
+                                            break;
+                                        case 'TB':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = 1024*1024*1024*1024*$pdlist["Size"];
+                                            break;
+                                        case 'PB':
+                                            $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['capacity'] = 1024*1024*1024*1024*1024*$pdlist["Size"];
+                                        }
+                                    }
+                                    if (isset($pdlist["Model"])) $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['model'] = $pdlist["Model"];
+                                    if (isset($pdlist["Intf"])) $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['bus'] = $pdlist["Intf"];
                                 }
                             }
                         }
