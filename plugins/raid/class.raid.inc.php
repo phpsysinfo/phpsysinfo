@@ -1919,111 +1919,111 @@ class Raid extends PSI_Plugin
                                 if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/" , $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
                                     $this->_result[$prog][$uname]['batttemp'] = $batt[1];
                                 }
-                                if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
-                                if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
-                                    switch ($value[2]) {
-                                    case 'B':
-                                        $this->_result[$prog][$uname]['cache_size'] = $value[1];
-                                        break;
-                                    case 'KB':
-                                        $this->_result[$prog][$uname]['cache_size'] = 1024*$value[1];
-                                        break;
-                                    case 'MB':
-                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*$value[1];
-                                        break;
+                            }
+                            if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
+                            if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
+                                switch ($value[2]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['cache_size'] = $value[1];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['cache_size'] = 1024*$value[1];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['cache_size'] = 1024*1024*$value[1];
+                                    break;
+                                case 'GB':
+                                    $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*$value[1];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*$value[1];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                }
+                            }
+                            if (isset($topol["Size"]) && isset($topol["Unit"])) {
+                                switch ($topol["Unit"]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['capacity'] = $topol["Size"];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['capacity'] = 1024*$topol["Size"];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['capacity'] = 1024*1024*$topol["Size"];
+                                    break;
                                     case 'GB':
-                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*$value[1];
-                                        break;
-                                    case 'TB':
-                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*$value[1];
-                                        break;
-                                    case 'PB':
-                                        $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
-                                    }
+                                    $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*$topol["Size"];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*$topol["Size"];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
                                 }
-                                if (isset($topol["Size"]) && isset($topol["Unit"])) {
-                                    switch ($topol["Unit"]) {
-                                    case 'B':
-                                        $this->_result[$prog][$uname]['capacity'] = $topol["Size"];
-                                        break;
-                                    case 'KB':
-                                        $this->_result[$prog][$uname]['capacity'] = 1024*$topol["Size"];
-                                        break;
-                                    case 'MB':
-                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*$topol["Size"];
-                                        break;
-                                    case 'GB':
-                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*$topol["Size"];
-                                        break;
-                                    case 'TB':
-                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*$topol["Size"];
-                                        break;
-                                    case 'PB':
-                                        $this->_result[$prog][$uname]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
-                                    }
+                            }
+                            if (isset($topol["PDC"])) {
+                                switch ($topol["PDC"]) {
+                                case 'dflt':
+                                    $this->_result[$prog][$uname]['diskcache'] = "default";
+                                    break;
+                                default:
+                                    $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
                                 }
-                                if (isset($topol["PDC"])) {
-                                    switch ($topol["PDC"]) {
-                                    case 'dflt':
-                                        $this->_result[$prog][$uname]['diskcache'] = "default";
-                                        break;
-                                    default:
-                                        $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
-                                    }
-                                }
-                                if (isset($controller["VD LIST"]["values"])) foreach($controller["VD LIST"]["values"] as $vdlist) {
-                                    if (isset($vdlist["DG/VD"])) {
-                                        if ($vdlist["DG/VD"] === $dg."/".$dg) {
-                                            if (isset($vdlist["TYPE"])) {
-                                                $this->_result[$prog][$uname]['items'][0]['parentid'] = 0;
-                                                $this->_result[$prog][$uname]['level'] = $vdlist["TYPE"];
-                                                if (isset($vdlist["Name"]) && (trim($vdlist["Name"]) !== "")) {
-                                                    $this->_result[$prog][$uname]['items'][0]['name'] = trim($vdlist["Name"]);
-                                                } else {
-                                                    $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["TYPE"];
-                                                }
-                                                if (isset($vdlist["State"])) {
-                                                    switch ($vdlist["State"]) {
-                                                    case 'Rec':
-                                                        $this->_result[$prog][$uname]['status'] = "Recovery";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
-                                                        break;
-                                                    case 'OfLn':
-                                                        $this->_result[$prog][$uname]['status'] = "OffLine";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "F";
-                                                        break;
-                                                    case 'Pdgd':
-                                                        $this->_result[$prog][$uname]['status'] = "Partially Degraded";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
-                                                        break;
-                                                    case 'Dgrd':
-                                                        $this->_result[$prog][$uname]['status'] = "Degraded";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "W";
-                                                        break;
-                                                    case 'Optl':
-                                                        $this->_result[$prog][$uname]['status'] = "Optimal";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "ok";
-                                                        break;
-                                                    default:
-                                                        $this->_result[$prog][$uname]['status'] = "Unknown";
-                                                        $this->_result[$prog][$uname]['items'][0]['status'] = "F";                                                    
-                                                    }
-                                                }
-                                                if (isset($vdlist["Cache"])) {
-                                                    $ctype = $vdlist["Cache"];
-                                                    if (preg_match("/^NR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "noReadAhead";
-                                                    elseif (preg_match("/^R/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "readAhead";
-                                                    elseif (preg_match("/^AR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "adaptiveReadAhead";
-                                                    if (preg_match("/WT[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeThrough";
-                                                    elseif (preg_match("/WB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBack";
-                                                    elseif (preg_match("/FWB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBackForce";
+                            }
+                            if (isset($controller["VD LIST"]["values"])) foreach($controller["VD LIST"]["values"] as $vdlist) {
+                                if (isset($vdlist["DG/VD"])) {
+                                    if ($vdlist["DG/VD"] === $dg."/".$dg) {
+                                        if (isset($vdlist["TYPE"])) {
+                                            $this->_result[$prog][$uname]['items'][0]['parentid'] = 0;
+                                            $this->_result[$prog][$uname]['level'] = $vdlist["TYPE"];
+                                            if (isset($vdlist["Name"]) && (trim($vdlist["Name"]) !== "")) {
+                                                $this->_result[$prog][$uname]['items'][0]['name'] = trim($vdlist["Name"]);
+                                            } else {
+                                                $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["TYPE"];
+                                            }
+                                            if (isset($vdlist["State"])) {
+                                                switch ($vdlist["State"]) {
+                                                case 'Rec':
+                                                    $this->_result[$prog][$uname]['status'] = "Recovery";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                    break;
+                                                case 'OfLn':
+                                                    $this->_result[$prog][$uname]['status'] = "OffLine";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "F";
+                                                    break;
+                                                case 'Pdgd':
+                                                    $this->_result[$prog][$uname]['status'] = "Partially Degraded";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                    break;
+                                                case 'Dgrd':
+                                                    $this->_result[$prog][$uname]['status'] = "Degraded";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "W";
+                                                    break;
+                                                case 'Optl':
+                                                    $this->_result[$prog][$uname]['status'] = "Optimal";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "ok";
+                                                    break;
+                                                default:
+                                                    $this->_result[$prog][$uname]['status'] = "Unknown";
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "F";                                                    
                                                 }
                                             }
-                                            break;
+                                            if (isset($vdlist["Cache"])) {
+                                                $ctype = $vdlist["Cache"];
+                                                if (preg_match("/^NR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "noReadAhead";
+                                                elseif (preg_match("/^R/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "readAhead";
+                                                elseif (preg_match("/^AR/", $ctype)) $this->_result[$prog][$uname]['readpolicy'] = "adaptiveReadAhead";
+                                                if (preg_match("/WT[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeThrough";
+                                                elseif (preg_match("/WB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBack";
+                                                elseif (preg_match("/FWB[DC]$/", $ctype)) $this->_result[$prog][$uname]['writepolicy'] = "writeBackForce";
+                                            }
                                         }
-                                    } else {
                                         break;
                                     }
+                                } else {
+                                        break;
                                 }
                             }
                         } elseif (($dg >= 0) && isset($topol["Row"]) && ($topol["Row"] !== '-')
@@ -2108,8 +2108,7 @@ class Raid extends PSI_Plugin
                         }
                     }
                 }
-            }
-            
+            }         
         }
     }
 
