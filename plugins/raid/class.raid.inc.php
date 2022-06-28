@@ -1977,8 +1977,8 @@ class Raid extends PSI_Plugin
                                             if (isset($vdlist["TYPE"])) {
                                                 $this->_result[$prog][$uname]['items'][0]['parentid'] = 0;
                                                 $this->_result[$prog][$uname]['level'] = $vdlist["TYPE"];
-                                                if (isset($vdlist["Name"]) && ($vdlist["Name"] !== "")) {
-                                                    $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["Name"];
+                                                if (isset($vdlist["Name"]) && (trim($vdlist["Name"]) !== "")) {
+                                                    $this->_result[$prog][$uname]['items'][0]['name'] = trim($vdlist["Name"]);
                                                 } else {
                                                     $this->_result[$prog][$uname]['items'][0]['name'] = $vdlist["TYPE"];
                                                 }
