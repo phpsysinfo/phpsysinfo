@@ -114,7 +114,7 @@ class Raid extends PSI_Plugin
                 if (in_array('storcli', $this->prog_items)) {
                     if ((PSI_OS == 'WINNT') && !WINNT::isAdmin() && (CommonFunctions::_findProgram("storcli64") || CommonFunctions::_findProgram("storcli"))) {
                       $this->global_error->addError("RAID storcli error", "Program allowed for users with administrator privileges (run as administrator)");
-                    }        
+                    }
                     if (!(CommonFunctions::_findProgram("storcli64") && CommonFunctions::executeProgram("storcli64", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG))) {
                         CommonFunctions::executeProgram("storcli", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG);
                     }
@@ -1013,7 +1013,7 @@ class Raid extends PSI_Plugin
                         break;
                     case 'Unconfigured(bad)':
                         $this->_result[$prog][$uname]['items'][$uname."-".$id]['status'] = "F";
-                        break;      
+                        break;
                     case 'Unconfigured(good), Spun Up':
                     case 'Unconfigured(good), Spun down':
                         $this->_result[$prog][$uname]['items'][$uname."-".$id]['status'] = "U";
@@ -1807,8 +1807,6 @@ class Raid extends PSI_Plugin
         }
     }
 
-
-
     private function execute_storcli($buffer, $_perccli = false)
     {
 
@@ -1896,7 +1894,7 @@ class Raid extends PSI_Plugin
             foreach ($carr as $controller) if (isset($controller["Basics"]["Controller"])
                && (($cnr = $controller["Basics"]["Controller"]) >= 0)) {
                 $dg = -1;
-                if (isset($controller["TOPOLOGY"]["values"])) foreach($controller["TOPOLOGY"]["values"] as $topol) {
+                if (isset($controller["TOPOLOGY"]["values"])) foreach ($controller["TOPOLOGY"]["values"] as $topol) {
                     if (isset($topol["Arr"]) && ($topol["Arr"] !== "-" )) {
                         if ($topol["DG"] != $dg) {
                             $dg = $topol["DG"];
@@ -1972,7 +1970,7 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
                                 }
                             }
-                            if (isset($controller["VD LIST"]["values"])) foreach($controller["VD LIST"]["values"] as $vdlist) {
+                            if (isset($controller["VD LIST"]["values"])) foreach ($controller["VD LIST"]["values"] as $vdlist) {
                                 if (isset($vdlist["DG/VD"])) {
                                     if ($vdlist["DG/VD"] === $dg."/".$dg) {
                                         if (isset($vdlist["TYPE"])) {
@@ -2007,7 +2005,7 @@ class Raid extends PSI_Plugin
                                                     break;
                                                 default:
                                                     $this->_result[$prog][$uname]['status'] = "Unknown";
-                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "F";                                                    
+                                                    $this->_result[$prog][$uname]['items'][0]['status'] = "F";
                                                 }
                                             }
                                             if (isset($vdlist["Cache"])) {
@@ -2052,7 +2050,7 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
                                 }
                             }
-                            if (isset($controller["PD LIST"]["values"])) foreach($controller["PD LIST"]["values"] as $pdlist) {
+                            if (isset($controller["PD LIST"]["values"])) foreach ($controller["PD LIST"]["values"] as $pdlist) {
                                 if (isset($pdlist["EID:Slt"])) {
                                     if ($pdlist["EID:Slt"] === $topol["EID:Slot"]) {
                                         if (isset($pdlist["State"])) {
@@ -2083,7 +2081,7 @@ class Raid extends PSI_Plugin
                                                 break;
                                             default:
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unknown";
-                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";                                                    
+                                                $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";
                                             }
                                             if (isset($pdlist["Sp"])) {
                                                 switch ($pdlist["Sp"]) {
@@ -2109,7 +2107,7 @@ class Raid extends PSI_Plugin
                                             if (isset($pdlist["Intf"])) $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['bus'] = $pdlist["Intf"];
                                         }
                                         break;
-                                    }    
+                                    }
                                 } else {
                                     break;
                                 }
@@ -2117,7 +2115,7 @@ class Raid extends PSI_Plugin
                         }
                     }
                 }
-                if (isset($controller["PD LIST"]["values"])) foreach($controller["PD LIST"]["values"] as $pdlist) {
+                if (isset($controller["PD LIST"]["values"])) foreach ($controller["PD LIST"]["values"] as $pdlist) {
                     if (isset($pdlist["DG"]) && ($pdlist["DG"] === "-")) {
                         if (isset($pdlist["State"]) && isset($pdlist["EID:Slt"]) && isset($pdlist["DID"])) {
                             $cname = '';
@@ -2272,11 +2270,9 @@ class Raid extends PSI_Plugin
                         }
                     }
                 }
-            }         
+            }
         }
     }
-
-
 
     /**
      * doing all tasks to get the required informations that the plugin needs

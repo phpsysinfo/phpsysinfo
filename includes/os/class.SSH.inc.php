@@ -33,14 +33,12 @@ class SSH extends GNU
      */
     private $_sysstatus = null;
 
-
     /**
      * content of the system performance status
      *
      * @var string
      */
     private $_sysperformance = null;
-
 
     /**
      * content of the sys ver systeminfo
@@ -126,7 +124,6 @@ class SSH extends GNU
         //return null;
     }
 
-
     private function getSystemStatus()
     {
         if ($this->_sysstatus === null) {
@@ -163,7 +160,7 @@ class SSH extends GNU
                 $this->_sysversysteminfo = substr($resulte, strlen($resulto[1][0]));
             } else {
                 $this->_sysversysteminfo =  '';
-            }        
+            }
         }
 
         return $this->_sysversysteminfo;
@@ -241,7 +238,7 @@ class SSH extends GNU
                     }
                 }
             }
-            break; 
+            break;
         case 'GNU':
         case 'Linux':
             parent::_usb();
@@ -422,7 +419,7 @@ class SSH extends GNU
             }
             break;
         case 'GNU':
-        case 'Linux':            
+        case 'Linux':
             parent::_network();
         }
     }
@@ -444,7 +441,7 @@ class SSH extends GNU
             break;
         case 'DrayOS':
             if (preg_match_all("/CPU(\d+) speed:[ ]*(\d+) MHz/m", $sysinfo = $this->getSysVerSysteminfo(), $bufarr)) {
-                foreach($bufarr[1] as $index=>$nr) {
+                foreach ($bufarr[1] as $index=>$nr) {
                     $dev = new CpuDevice();
                     $dev->setModel('CPU'.$nr);
                     $dev->setCpuSpeed($bufarr[2][$index]);

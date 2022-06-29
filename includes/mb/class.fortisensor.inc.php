@@ -56,7 +56,7 @@ class FortiSensor extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
                 $dev->setValue($data[3]);
-                if ($data[2] != 0){
+                if ($data[2] != 0) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
@@ -78,7 +78,7 @@ class FortiSensor extends Sensors
                 $dev = new SensorDevice();
                 $dev->setName(trim($data[1]));
                 $dev->setValue($data[3]);
-                if ($data[2] != 0){
+                if ($data[2] != 0) {
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbVolt($dev);

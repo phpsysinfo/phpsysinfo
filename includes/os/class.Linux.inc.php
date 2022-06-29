@@ -220,7 +220,6 @@ class Linux extends OS
                 if (CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && ($strBuf !== '')) {
                     $this->sys->setOS($strBuf);
                 } else {
-                
                     return $this->_kernel_string;
                 }
             }
