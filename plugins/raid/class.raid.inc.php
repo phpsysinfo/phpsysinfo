@@ -2067,7 +2067,7 @@ class Raid extends PSI_Plugin
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Global Hotspare";
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "S";
                                                 break;
-                                            case 'UBAD':
+                                            case 'UBad':
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['info'] = "Unconfigured Bad";
                                                 $this->_result[$prog][$uname]['items'][$topol["EID:Slot"]]['status'] = "F";
                                                 break;
@@ -2116,7 +2116,7 @@ class Raid extends PSI_Plugin
                     }
                 }
                 if (isset($controller["PD LIST"]["values"])) foreach ($controller["PD LIST"]["values"] as $pdlist) {
-                    if (isset($pdlist["DG"]) && ($pdlist["DG"] === "-")) {
+                    if (isset($pdlist["DG"]) && preg_match("/\D/", $pdlist["DG"])) {
                         if (isset($pdlist["State"]) && isset($pdlist["EID:Slt"]) && isset($pdlist["DID"])) {
                             $cname = '';
                             switch ($pdlist["State"]) {
@@ -2140,7 +2140,7 @@ class Raid extends PSI_Plugin
                                 $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['status'] = "S";
                                 $this->_result[$prog][$cname]['status'] = "Hotspare";
                                 break;
-                            case 'UBAD':
+                            case 'UBad':
                                 $cname = 'c'.$cnr.'-unconfigured';
                                 $this->_result[$prog][$cname]['items'][0]['status'] = "U";
                                 $this->_result[$prog][$cname]['items'][$pdlist["EID:Slt"]]['info'] = "Unconfigured Bad";
