@@ -1919,6 +1919,7 @@ class Raid extends PSI_Plugin
                                 }
                             }
                             if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
+                            if (isset($controller["HwCfg"]["ROC temperature(Degree Celsius)"])) $this->_result[$prog][$uname]['temperature'] = $controller["HwCfg"]["ROC temperature(Degree Celsius)"];
                             if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
                                 switch ($value[2]) {
                                 case 'B':
