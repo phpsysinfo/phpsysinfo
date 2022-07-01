@@ -2050,7 +2050,7 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
                                 }
                             }
-                            if (isset($topol["DID"]) {
+                            if (isset($topol["DID"])) {
                                 if ($topol["DID"] === '-') {
                                     if (isset($topol["State"]) && ($topol["State"] === "Msng")) {
                                         $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Missing";
