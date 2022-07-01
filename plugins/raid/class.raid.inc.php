@@ -2050,71 +2050,74 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['capacity'] = 1024*1024*1024*1024*1024*$topol["Size"];
                                 }
                             }
-                            if (isset($topol["DID"]) && ($topol["DID"] === '-') && isset($topol["State"]) && ($topol["State"] === "Msng")) {
-                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Missing";
-                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "E";
-                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "disk";
-                            }
-                            if (isset($topol["DID"]) && ($topol["DID"] !== '-') && isset($controller["PD LIST"]["values"])) foreach ($controller["PD LIST"]["values"] as $pdlist) {
-                                if (isset($pdlist["DID"])) {
-                                    if ($pdlist["DID"] === $topol["DID"]) {
-                                        if (isset($pdlist["State"])) {
-                                            switch ($pdlist["State"]) {
-                                            case 'DHS':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Dedicated Hot Spare";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "S";
-                                                break;
-                                            case 'UGood':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unconfigured Good";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "U";
-                                                break;
-                                            case 'GHS':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Global Hotspare";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "S";
-                                                break;
-                                            case 'UBad':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unconfigured Bad";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
-                                                break;
-                                            case 'Onln':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Online";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "ok";
-                                                break;
-                                            case 'Offln':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Offline";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
-                                                break;
-                                            default:
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unknown";
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
-                                            }
-                                            if (isset($pdlist["Sp"])) {
-                                                switch ($pdlist["Sp"]) {
-                                                case 'U':
-                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] .= ", Spun Up";
+                            if (isset($topol["DID"]) {
+                                if ($topol["DID"] === '-') {
+                                    if (isset($topol["State"]) && ($topol["State"] === "Msng")) {
+                                        $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Missing";
+                                        $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "E";
+                                        $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "disk";
+                                     }
+                                } elseif (isset($controller["PD LIST"]["values"])) foreach ($controller["PD LIST"]["values"] as $pdlist) {
+                                    if (isset($pdlist["DID"])) {
+                                        if ($pdlist["DID"] === $topol["DID"]) {
+                                            if (isset($pdlist["State"])) {
+                                                switch ($pdlist["State"]) {
+                                                case 'DHS':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Dedicated Hot Spare";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "S";
                                                     break;
-                                                case 'D':
-                                                   $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] .= ", Spun Down";
+                                                case 'UGood':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unconfigured Good";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "U";
+                                                    break;
+                                                case 'GHS':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Global Hotspare";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "S";
+                                                    break;
+                                                case 'UBad':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unconfigured Bad";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
+                                                    break;
+                                                case 'Onln':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Online";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "ok";
+                                                    break;
+                                                case 'Offln':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Offline";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
+                                                    break;
+                                                default:
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unknown";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
+                                                }
+                                                if (isset($pdlist["Sp"])) {
+                                                    switch ($pdlist["Sp"]) {
+                                                    case 'U':
+                                                        $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] .= ", Spun Up";
+                                                        break;
+                                                    case 'D':
+                                                       $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] .= ", Spun Down";
+                                                    }
                                                 }
                                             }
-                                        }
-                                        if (isset($pdlist["Med"])) {
-                                            switch ($pdlist["Med"]) {
-                                            case 'HDD':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "disk";
-                                                break;
-                                            case 'SSD':
-                                                $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "ssd";
+                                            if (isset($pdlist["Med"])) {
+                                                switch ($pdlist["Med"]) {
+                                                case 'HDD':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "disk";
+                                                    break;
+                                                case 'SSD':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['type'] = "ssd";
+                                                }
                                             }
+                                            if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
+                                                if (isset($pdlist["Model"])) $this->_result[$prog][$uname]['items'][$topol["DID"]]['model'] = $pdlist["Model"];
+                                                if (isset($pdlist["Intf"])) $this->_result[$prog][$uname]['items'][$topol["DID"]]['bus'] = $pdlist["Intf"];
+                                            }
+                                            break;
                                         }
-                                        if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
-                                            if (isset($pdlist["Model"])) $this->_result[$prog][$uname]['items'][$topol["DID"]]['model'] = $pdlist["Model"];
-                                            if (isset($pdlist["Intf"])) $this->_result[$prog][$uname]['items'][$topol["DID"]]['bus'] = $pdlist["Intf"];
-                                        }
+                                    } else {
                                         break;
                                     }
-                                } else {
-                                    break;
                                 }
                             }
                         }
