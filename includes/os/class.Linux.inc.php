@@ -352,14 +352,14 @@ class Linux extends OS
             $novm = true;
             // code based on src/basic/virt.c from systemd-detect-virt source code (https://github.com/systemd/systemd)
 
-            // First, try to detect Oracle Virtualbox and Amazon EC2 Nitro, even if they use KVM, as well as Xen even if
-            // it cloaks as Microsoft Hyper-V. Attempt to detect uml at this stage also since it runs as a user-process
-            // nested inside other VMs. Also check for Xen now, because Xen PV mode does not override CPUID when nested
-            // inside another hypervisor.
+            // First, try to detect Oracle Virtualbox, Amazon EC2 Nitro and Parallels, even if they use KVM,
+            // as well as Xen even if it cloaks as Microsoft Hyper-V. Attempt to detect uml at this stage also
+            // since it runs as a user-process nested inside other VMs. Also check for Xen now, because Xen PV
+            // mode does not override CPUID when nested inside another hypervisor.
             $machine_info = $this->_get_machine_info();
             if (isset($machine_info['hypervisor'])) {
                 $hypervisor = $machine_info['hypervisor'];
-                if (($hypervisor === 'oracle') || ($hypervisor === 'amazon') || ($hypervisor === 'xen')) {
+                if (($hypervisor === 'oracle') || ($hypervisor === 'amazon') || ($hypervisor === 'xen') || ($hypervisor === 'parallels')) {
                     $this->sys->setVirtualizer($hypervisor);
                     $novm = false;
                 }
