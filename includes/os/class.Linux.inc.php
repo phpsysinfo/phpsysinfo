@@ -952,9 +952,15 @@ class Linux extends OS
                            && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837') || ($_hard === 'BCM2711') || ($_hard === 'BCM2838'))
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
+                            $oldmach = $this->sys->getMachine();
+                            if (($oldmach !== '') && preg_match("/^raspberrypi rpi(,.+)/" , $oldmach, $machbuf)) {
+                                $oldmachend = $machbuf[1];
+                            } else {
+                                 $oldmachend = '';
+                            }
                             if ($raslist && !preg_match('/[^0-9a-f]/', $_revi)) {
                                 if (($revidec = hexdec($_revi)) & 0x800000) {
-                                    if ($this->sys->getMachine() === '') {
+                                    if (($oldmach === '') || ($oldmachend !== '')) {
                                         $manufacturer = ($revidec >> 16) & 15;
                                         if (isset($raslist['manufacturer'][$manufacturer])) {
                                             $manuf = ' '.$raslist['manufacturer'][$manufacturer];
@@ -963,17 +969,17 @@ class Linux extends OS
                                         }
                                         $model = ($revidec >> 4) & 255;
                                         if (isset($raslist['model'][$model])) {
-                                            $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).$manuf.')');
+                                            $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).$manuf.')'.$oldmachend);
                                         } else {
-                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).$manuf.')');
+                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).$manuf.').'.$oldmachend);
                                         }
                                     }
                                 } else {
-                                    if ($this->sys->getMachine() === '') {
+                                    if (($oldmach === '') || ($oldmachend !== '')) {
                                         if (isset($raslist['old'][$revidec & 0x7fffff])) {
-                                            $this->sys->setMachine('Raspberry Pi '.$raslist['old'][$revidec & 0x7fffff]);
+                                            $this->sys->setMachine('Raspberry Pi '.$raslist['old'][$revidec & 0x7fffff].$oldmachend);
                                         } else {
-                                            $this->sys->setMachine('Raspberry Pi');
+                                            $this->sys->setMachine('Raspberry Pi'.$oldmachend);
                                         }
                                     }
                                 }
