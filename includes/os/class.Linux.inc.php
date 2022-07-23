@@ -971,7 +971,7 @@ class Linux extends OS
                                         if (isset($raslist['model'][$model])) {
                                             $this->sys->setMachine('Raspberry Pi '.$raslist['model'][$model].' (PCB 1.'.($revidec & 15).$manuf.')'.$oldmachend);
                                         } else {
-                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).$manuf.').'.$oldmachend);
+                                            $this->sys->setMachine('Raspberry Pi (PCB 1.'.($revidec & 15).$manuf.')'.$oldmachend);
                                         }
                                     }
                                 } else {
