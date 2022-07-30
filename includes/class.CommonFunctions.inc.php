@@ -299,7 +299,7 @@ class CommonFunctions
 
                         return false;
                     }
-                    if (preg_match('/\s/', $sudoProgram)) {
+                    if (preg_match('/\s/', $strNewcmd)) {
                         if ($arrArgs[$i] == '|') {
                             $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
                         } else {
