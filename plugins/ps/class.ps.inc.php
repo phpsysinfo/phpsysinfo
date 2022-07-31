@@ -233,10 +233,10 @@ class PS extends PSI_Plugin
                 $xmlnode->addAttribute('ParentID', $parentid);
                 $xmlnode->addAttribute('PPID', $value[1]);
                 if (!defined('PSI_PLUGIN_PS_MEMORY_USAGE') || (PSI_PLUGIN_PS_MEMORY_USAGE !== false)) {
-                    $xmlnode->addAttribute('MemoryUsage', $value[2]);
+                    $xmlnode->addAttribute('MemoryUsage', str_replace(',', '.', $value[2]));
                 }
                 if (!defined('PSI_PLUGIN_PS_CPU_USAGE') || (PSI_PLUGIN_PS_CPU_USAGE !== false)) {
-                    $xmlnode->addAttribute('CPUUsage', $value[3]);
+                    $xmlnode->addAttribute('CPUUsage', str_replace(',', '.', $value[3]));
                 }
                 $xmlnode->addAttribute('Name', $value[4]);
                 if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') &&

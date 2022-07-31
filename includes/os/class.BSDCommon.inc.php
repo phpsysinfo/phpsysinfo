@@ -305,7 +305,7 @@ abstract class BSDCommon extends OS
                         array_shift($pslines);
                         $sum = 0;
                         foreach ($pslines as $psline) {
-                            $sum+=trim($psline);
+                            $sum+=str_replace(',', '.', trim($psline));
                         }
                         $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
                     }

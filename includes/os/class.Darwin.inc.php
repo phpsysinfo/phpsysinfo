@@ -310,14 +310,14 @@ class Darwin extends BSDCommon
                 $swap1 = preg_split('/M/', $swapBuff);
                 $swap2 = preg_split('/=/', $swap1[1]);
                 $swap3 = preg_split('/=/', $swap1[2]);
-                if (($swap=trim($swap1[0])) > 0) {
+                if (($swap=str_replace(',', '.', trim($swap1[0]))) > 0) {
                     $dev = new DiskDevice();
                     $dev->setName('SWAP');
                     $dev->setMountPoint('SWAP');
                     $dev->setFsType('swap');
                     $dev->setTotal($swap * 1024 * 1024);
-                    $dev->setUsed(trim($swap2[1]) * 1024 * 1024);
-                    $dev->setFree(trim($swap3[1]) * 1024 * 1024);
+                    $dev->setUsed(str_replace(',', '.', trim($swap2[1])) * 1024 * 1024);
+                    $dev->setFree(str_replace(',', '.', trim($swap3[1])) * 1024 * 1024);
                     $this->sys->setSwapDevices($dev);
                 }
             }
