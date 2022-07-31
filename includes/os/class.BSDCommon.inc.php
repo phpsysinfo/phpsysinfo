@@ -331,6 +331,7 @@ abstract class BSDCommon extends OS
         $s = $this->grabkey('vm.loadavg');
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
+        $s = str_replace(',', '.', $s);
         $this->sys->setLoad($s);
 
         if (PSI_LOAD_BAR) {
