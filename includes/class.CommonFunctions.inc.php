@@ -807,7 +807,8 @@ class CommonFunctions
         if (gettype($vendor_data) === "array") {
             $vendarray = array(
                 'KVM' => 'kvm', // KVM
-                'OpenStack' => 'kvm', // KVM
+                'OpenStack' => 'kvm', // Detect OpenStack instance as KVM in non x86 architecture
+                'KubeVirt' => 'kvm', // Detect KubeVirt instance as KVM in non x86 architecture
                 'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
                 'QEMU' => 'qemu', // QEMU
                 'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
