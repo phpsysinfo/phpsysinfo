@@ -42,7 +42,7 @@ JS_COMPRESSION="Normal"
 ADD_PATHS=false
 
 ; List of IP addresses of clients authorized to run
-; Example : ALLOWED="127.0.0.1,192.168.1.48" //allowed IP 127.0.0.1 and 192.168.1.48
+; Example : ALLOWED="127.0.0.1,192.168.1.48,192.168.0.0/24" //allowed IP 127.0.0.1, 192.168.1.48 and 192.168.0.0/24
 ;           ALLOWED=false //no IP checking
 ;
 ALLOWED=false

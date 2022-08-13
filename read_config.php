@@ -59,9 +59,32 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         }
         $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
-
-        if (!in_array($ip, $allowed, true)) {
-            echo "Client IP address not allowed";
+        
+        $ip_decimal = ip2long($ip);
+        if ($ip_decimal === false) {
+            echo "Client IP wrong address (".$ip."). Client not allowed.";
+            die();
+        }
+        
+        // code based on https://gist.github.com/tott/7684443
+        $was = false;
+        foreach ($allowed as $allow) {
+            if (strpos($allow, '/' ) === false) {
+		            $was = ($allow === $ip);
+	          } else {
+	              list($allow, $netmask) = explode( '/', $allow, 2);
+	              $allow_decimal = ip2long($allow);
+	              $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+	              $netmask_decimal = ~$wildcard_decimal;
+                $was = (($ip_decimal & $netmask_decimal) === ($allow_decimal & $netmask_decimal));
+            }
+            if ($was) {
+               break;
+            }
+        }       
+        
+        if (!$was) {
+            echo "Client IP address (".$ip.") not allowed.";
             die();
         }
     }
