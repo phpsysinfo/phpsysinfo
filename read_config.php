@@ -153,7 +153,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                         define('PSI_UNAMEO', $unameo0); // is Android on Termux
                     }
                     if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
-                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' bbbmand
+                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' command
                             define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
                         } else {
                             $out = '';
