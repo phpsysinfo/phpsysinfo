@@ -232,8 +232,14 @@ abstract class BSDCommon extends OS
     protected function kernel()
     {
         $s = $this->grabkey('kern.version');
-        $a = preg_split('/:/', $s);
-        if (isset($a[2])) {
+        $a = preg_split('/:/', $s, 4);
+        if (isset($a[3])) {
+            if (preg_match('/$(\d+ [A-Za-z]+ \d+)/', $a[3], $abuf)) {
+                $this->sys->setKernel($a[0].$a[1].':'.$a[2].':'.$abuf[1]);
+            } else {
+                $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
+            }
+        } elseif (isset($a[2])) {
             $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
         } else {
             $this->sys->setKernel($s);
