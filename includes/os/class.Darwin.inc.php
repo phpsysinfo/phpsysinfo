@@ -97,8 +97,8 @@ class Darwin extends BSDCommon
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
-        if (CommonFunctions::executeProgram('hostinfo', '| grep "Processor type"', $buf, PSI_DEBUG)) {
-            $dev->setModel(preg_replace('/Processor type: /', '', $buf));
+        if (CommonFunctions::executeProgram('hostinfo', '', $buf, PSI_DEBUG) && ($buf !== '') && preg_match('/^Processor type:[ ]+(.+)$/m'. $buf, $proc) && (($proc[1] = trim($proc[1])) !== '')) {
+            $dev->setModel($proc[1]);
             $buf=$this->grabkey('hw.model');
             if (($buf !== null) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
