@@ -147,55 +147,59 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
-                if ((PHP_OS == 'Linux') && file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
-                    define('PSI_OS', 'Android');
-                    if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
-                        define('PSI_UNAMEO', $unameo0); // is Android on Termux
-                    }
-                    if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
-                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' command
-                            define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
-                        } else {
-                            $out = '';
-                            $err = '';
-                            $pipes = array();
-                            $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-                            $process = proc_open("pwd 2>/dev/null ", $descriptorspec, $pipes);
-                            if (!is_resource($process)) {
-                                define('PSI_MODE_POPEN', true);
+                if (PHP_OS == 'Linux') { 
+                    if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
+                        define('PSI_OS', 'Android');
+                        if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
+                            define('PSI_UNAMEO', $unameo0); // is Android on Termux
+                        }
+                        if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
+                            if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' bbbmand
+                                define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
                             } else {
-                                $w = null;
-                                $e = null;
+                                $out = '';
+                                $err = '';
+                                $pipes = array();
+                                $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+                                $process = proc_open("pwd 2>/dev/null ", $descriptorspec, $pipes);
+                                if (!is_resource($process)) {
+                                    define('PSI_MODE_POPEN', true);
+                                } else {
+                                    $w = null;
+                                    $e = null;
 
-                                while (!(feof($pipes[1]) && feof($pipes[2]))) {
-                                    $read = array($pipes[1], $pipes[2]);
+                                    while (!(feof($pipes[1]) && feof($pipes[2]))) {
+                                        $read = array($pipes[1], $pipes[2]);
 
-                                    $n = stream_select($read, $w, $e, 5);
+                                        $n = stream_select($read, $w, $e, 5);
 
-                                    if (($n === false) || ($n === 0)) {
-                                        break;
-                                    }
+                                        if (($n === false) || ($n === 0)) {
+                                            break;
+                                        }
 
-                                    foreach ($read as $r) {
-                                        if ($r == $pipes[1]) {
-                                            $out .= fread($r, 4096);
-                                        } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
-                                            $err .= fread($r, 4096);
+                                        foreach ($read as $r) {
+                                            if ($r == $pipes[1]) {
+                                                $out .= fread($r, 4096);
+                                            } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
+                                                $err .= fread($r, 4096);
+                                            }
                                         }
                                     }
-                                }
 
-                                if (($out === null) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
-                                    define('PSI_MODE_POPEN', true);
+                                    if (($out === null) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
+                                        define('PSI_MODE_POPEN', true);
+                                    }
+                                    fclose($pipes[0]);
+                                    fclose($pipes[1]);
+                                    fclose($pipes[2]);
+                                    // It is important that you close any pipes before calling
+                                    // proc_close in order to avoid a deadlock
+                                    proc_close($process);
                                 }
-                                fclose($pipes[0]);
-                                fclose($pipes[1]);
-                                fclose($pipes[2]);
-                                // It is important that you close any pipes before calling
-                                // proc_close in order to avoid a deadlock
-                                proc_close($process);
                             }
                         }
+                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/Library/Preferences/.GlobalPreferences.plist')) { //iOS
+                        define('PSI_OS', 'Darwin');
                     }
                 }
             }
@@ -260,7 +264,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-        } elseif (PHP_OS == 'Darwin') {
+        } elseif ((PHP_OS == 'Darwin') || (defined('PSI_OS') && (PSI_OS == 'Darwin'))){
             if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
                 && (PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
                 $lang = "";
