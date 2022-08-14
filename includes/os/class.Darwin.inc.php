@@ -417,7 +417,7 @@ class Darwin extends BSDCommon
             }
             if (isset($distro_arr['System Version'])) {
                 $distro = $distro_arr['System Version'];
-                if (preg_match('/^Mac OS|^OS X|^macOS|^iPhone OS/', $distro)) {
+                if (preg_match('/^Mac OS |^OS X |^macOS |^iPhone OS |^Mac OS$|^OS X$|^macOS$|^iPhone OS$/', $distro)) {
                     $this->sys->setDistributionIcon('Apple.png');
                     if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) ((\d+)\.\d+)/', $distro, $ver)
                         && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {
