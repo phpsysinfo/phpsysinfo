@@ -29,7 +29,7 @@ CURRENT TESTED PLATFORMS
 - NetBSD
 - DragonFly
 - HP-UX
-- Darwin / Mac OS / OS X
+- Darwin / Mac OS / OS X / iOS
 - Windows 2000 / XP / 2003 / Vista / 2008 / 7 / 2011 / 2012 / 8 / 8.1 / 10 / 10 IoT / 2016 / 2019 / 2022 / 11
 - Android
 
