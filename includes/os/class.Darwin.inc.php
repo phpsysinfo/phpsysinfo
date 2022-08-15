@@ -264,8 +264,7 @@ class Darwin extends BSDCommon
      */
     protected function memory()
     {
-        $s = $this->grabkey('hw.memsize');
-        if ($s > 0) {
+        if (($s = $this->grabkey('hw.memsize')) > 0) {
             $this->sys->setMemTotal($s);
             if (CommonFunctions::executeProgram('vm_stat', '', $pstat, PSI_DEBUG)) {
                 // calculate free memory from page sizes (each page = 4096)
@@ -307,10 +306,11 @@ class Darwin extends BSDCommon
                 $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
             }
 
-            if (CommonFunctions::executeProgram('sysctl', 'vm.swapusage | colrm 1 22', $swapBuff, PSI_DEBUG)) {
-                $swap1 = preg_split('/M/', $swapBuff);
-                $swap2 = preg_split('/=/', $swap1[1]);
-                $swap3 = preg_split('/=/', $swap1[2]);
+            if (($swap = $this->grabkey("vm.swapusage")) > 0) {
+                $swap0 = preg_split('/M/', $swapBuff);
+                $swap1 = preg_split('/=/', $swap0[0]);
+                $swap2 = preg_split('/=/', $swap0[1]);
+                $swap3 = preg_split('/=/', $swap0[2]);
                 if (($swap=str_replace(',', '.', trim($swap1[0]))) > 0) {
                     $dev = new DiskDevice();
                     $dev->setName('SWAP');
