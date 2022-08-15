@@ -311,7 +311,7 @@ class Darwin extends BSDCommon
                 $swap1 = preg_split('/=/', $swap0[0]);
                 $swap2 = preg_split('/=/', $swap0[1]);
                 $swap3 = preg_split('/=/', $swap0[2]);
-                if (($swap=str_replace(',', '.', trim($swap1[0]))) > 0) {
+                if (($swap=str_replace(',', '.', trim($swap1[1]))) > 0) {
                     $dev = new DiskDevice();
                     $dev->setName('SWAP');
                     $dev->setMountPoint('SWAP');
