@@ -198,7 +198,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                 }
                             }
                         }
-                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/Library/Preferences/.GlobalPreferences.plist')) { //iOS
+                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/var/mobile/Library/Cydia/metadata.cb0')) { //iOS
                         define('PSI_OS', 'Darwin');
                     }
                 }
