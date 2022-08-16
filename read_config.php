@@ -198,7 +198,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                                 }
                             }
                         }
-                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/var/mobile/Library/Cydia/metadata.cb0')) { //iOS
+                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/var/mobile/Library/Cydia/metadata.cb0')) { //jailbroken iOS with Cydia
                         define('PSI_OS', 'Darwin');
                     }
                 }
