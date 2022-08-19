@@ -69,7 +69,7 @@ spl_autoload_register('psi_autoload');
 function errorHandlerPsi($level, $message, $file, $line)
 {
     $error = PSI_Error::singleton();
-    if ((PSI_DEBUG && !preg_match("/^fgets\(/", $message)) || (($level !== 2) && ($level !== 8)) || !(preg_match("/^[^:]*: open_basedir /", $message) || preg_match("/^fopen\(/", $message) || preg_match("/^fwrite\(/", $message) || preg_match("/^is_readable\(/", $message) || preg_match("/^file_exists\(/", $message) || preg_match("/^fgets\(/", $message))) { // disable open_basedir, fopen, is_readable, file_exists and fgets warnings and notices
+    if ((PSI_DEBUG && !(preg_match("/^fgets\(/", $message) || preg_match("/^stream_select\(/", $message))) || (($level !== 2) && ($level !== 8)) || !(preg_match("/^[^:]*: open_basedir /", $message) || preg_match("/^fopen\(/", $message) || preg_match("/^fwrite\(/", $message) || preg_match("/^is_readable\(/", $message) || preg_match("/^file_exists\(/", $message) || preg_match("/^fgets\(/", $message)  || preg_match("/^stream_select\(/", $message))) { // disable open_basedir, fopen, is_readable, file_exists, fgets and stream_select warnings and notices
         $error->addPhpError("errorHandlerPsi : ", "Level : ".$level." Message : ".$message." File : ".$file." Line : ".$line);
     }
 }
