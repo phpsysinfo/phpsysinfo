@@ -197,7 +197,7 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _machine()
+    protected function _machine()
     {
         if ($lines = $this->_get_buildprop()) {
             $buf = "";
