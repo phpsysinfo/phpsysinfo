@@ -234,7 +234,8 @@ abstract class BSDCommon extends OS
         $s = $this->grabkey('kern.version');
         $a = preg_split('/:/', $s, 4);
         if (isset($a[3])) {
-            if (preg_match('/^(\d+ [A-Za-z]+ \d+)/', $a[3], $abuf)) {
+            if (preg_match('/^(\d{2} [A-Z]{3});/', $a[3], $abuf) // eg. 19:58 GMT;... 
+               || preg_match('/^(\d{2} [A-Z]{3} \d{4})/', $a[3], $abuf)) { // eg. 26:31 PDT 2019...
                 $this->sys->setKernel($a[0].$a[1].':'.$a[2].':'.$abuf[1]);
             } else {
                 $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
