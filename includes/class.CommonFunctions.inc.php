@@ -821,6 +821,7 @@ class CommonFunctions
                 // https://wiki.freebsd.org/bhyve
                 'BHYVE' => 'bhyve', // bhyve
                 'Hyper-V' => 'microsoft', // Hyper-V
+                'Apple Virtualization' => 'apple', // Apple Virtualization.framework guests
                 'Microsoft Corporation Virtual Machine' => 'microsoft' // Hyper-V
             );
             for ($i = 0; $i < count($vendor_data); $i++) {
