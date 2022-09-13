@@ -241,7 +241,7 @@ class PSI_Error
                 $strFunc = $val['function'].'(';
                 if (isset($val['args'][0])) {
                     if (($val['function'] == 'executeProgram') && ($val['args'][0] == 'sshpass')
-                       && isset($val['args'][1]) && preg_match('/"([^"]+)"$/' ,$val['args'][1], $tmpout)) {
+                       && isset($val['args'][1]) && preg_match('/"([^"]+)"$/', $val['args'][1], $tmpout)) {
                         $val['args'][1] = 'ssh: '. $tmpout[1];
                     }
                     $strFunc .= ' ';

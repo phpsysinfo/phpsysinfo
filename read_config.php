@@ -59,30 +59,30 @@ if (!defined('PSI_CONFIG_FILE')) {
             }
         }
         $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
-        
+
         $ip_decimal = ip2long($ip);
         if ($ip_decimal === false) {
             echo "Client IP wrong address (".$ip."). Client not allowed.";
             die();
         }
-        
+
         // code based on https://gist.github.com/tott/7684443
         $was = false;
         foreach ($allowed as $allow) {
-            if (strpos($allow, '/' ) === false) {
-		            $was = ($allow === $ip);
-	          } else {
-	              list($allow, $netmask) = explode( '/', $allow, 2);
-	              $allow_decimal = ip2long($allow);
-	              $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
-	              $netmask_decimal = ~$wildcard_decimal;
+            if (strpos($allow, '/') === false) {
+                    $was = ($allow === $ip);
+            } else {
+                  list($allow, $netmask) = explode('/', $allow, 2);
+                  $allow_decimal = ip2long($allow);
+                  $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+                  $netmask_decimal = ~$wildcard_decimal;
                 $was = (($ip_decimal & $netmask_decimal) === ($allow_decimal & $netmask_decimal));
             }
             if ($was) {
                break;
             }
-        }       
-        
+        }
+
         if (!$was) {
             echo "Client IP address (".$ip.") not allowed.";
             die();
@@ -147,7 +147,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
-                if (PHP_OS == 'Linux') { 
+                if (PHP_OS == 'Linux') {
                     if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
                         define('PSI_OS', 'Android');
                         if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {

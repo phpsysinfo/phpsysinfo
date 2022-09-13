@@ -127,7 +127,7 @@ class SSH extends GNU
     private function getSystemStatus()
     {
         if ($this->_sysstatus === null) {
-            if (CommonFunctions::executeProgram('get' ,'system status', $resulte, false) && ($resulte !== "")
+            if (CommonFunctions::executeProgram('get', 'system status', $resulte, false) && ($resulte !== "")
                && preg_match('/^(.*[\$#]\s*)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $this->_sysstatus = substr($resulte, strlen($resulto[1][0]));
             } else {
@@ -155,7 +155,7 @@ class SSH extends GNU
     private function getSysVerSysteminfo()
     {
         if ($this->_sysversysteminfo === null) {
-            if (CommonFunctions::executeProgram('sys' ,'ver systeminfo', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+            if (CommonFunctions::executeProgram('sys', 'ver systeminfo', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> sys ver systeminfo)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $this->_sysversysteminfo = substr($resulte, strlen($resulto[1][0]));
             } else {
@@ -169,7 +169,7 @@ class SSH extends GNU
     private function getShowStatus()
     {
         if ($this->_showstatus === null) {
-            if (CommonFunctions::executeProgram('show' ,'status', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+            if (CommonFunctions::executeProgram('show', 'status', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> show status)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $this->_showstatus = substr($resulte, strlen($resulto[1][0]));
             } else {
@@ -315,7 +315,7 @@ class SSH extends GNU
         case 'DrayOS':
             $macarray = array();
             if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS) && (!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)) {
-                if (CommonFunctions::executeProgram('sys' ,'iface', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+                if (CommonFunctions::executeProgram('sys', 'iface', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                    && preg_match('/([\s\S]+> sys iface)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                     $lines = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
                     $ipaddr = 'LAN';
@@ -344,7 +344,7 @@ class SSH extends GNU
             }
 
             $notwaslan = true;
-            if (CommonFunctions::executeProgram('show' ,'lan', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+            if (CommonFunctions::executeProgram('show', 'lan', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> show lan)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $lines = preg_split("/\n/", substr($resulte, strlen($resulto[1][0])), -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($lines as $line) {
@@ -595,7 +595,7 @@ class SSH extends GNU
             }
             break;
         case 'DrayOS':
-            if (CommonFunctions::executeProgram('nand' ,'usage', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
+            if (CommonFunctions::executeProgram('nand', 'usage', $resulte, false, PSI_EXEC_TIMEOUT_INT, '>') && ($resulte !== "")
                && preg_match('/([\s\S]+> nand usage)/', $resulte, $resulto, PREG_OFFSET_CAPTURE)) {
                 $df = substr($resulte, strlen($resulto[1][0]));
 

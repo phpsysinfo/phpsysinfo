@@ -953,7 +953,7 @@ class Linux extends OS
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             $oldmach = $this->sys->getMachine();
-                            if (($oldmach !== '') && preg_match("/^raspberrypi rpi(,.+)/" , $oldmach, $machbuf)) {
+                            if (($oldmach !== '') && preg_match("/^raspberrypi rpi(,.+)/", $oldmach, $machbuf)) {
                                 $oldmachend = $machbuf[1];
                             } else {
                                  $oldmachend = '';

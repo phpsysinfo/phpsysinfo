@@ -215,7 +215,7 @@ class XML
                     if (($rxbytes == 0) && ($txbytes == 0)) {
                         $rxrate = $dev->getRxRate();
                         $txrate = $dev->getTxRate();
-                        IF (($rxrate !== null) || ($txrate !== null)) {
+                        if (($rxrate !== null) || ($txrate !== null)) {
                             if ($rxrate !== null) {
                                 $device->addAttribute('RxRate', $rxrate);
                             } else {
@@ -255,7 +255,7 @@ class XML
                      && (($slashpos = strpos($machine, "/", $offset)) !== false)
                      && ($slashpos < $comapos)) {
                     $len1 = $comapos - $slashpos - 1;
-                    $str1 = substr($machine , $slashpos + 1, $len1);
+                    $str1 = substr($machine, $slashpos + 1, $len1);
                     $begstr  = substr($machine, 0, $slashpos);
                     if ($len1 > 0) { // no empty
                         $str2 = substr($begstr, -$len1 - 1);

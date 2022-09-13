@@ -1840,7 +1840,7 @@ class Raid extends PSI_Plugin
                                     }
                                     break;
                                 case 1:
-                                    $args = preg_split("/ /" ,preg_replace("/ RetentionTime /", " Retention Hours ", preg_replace("/ Size /", " Size Unit ", $line)), -1, PREG_SPLIT_NO_EMPTY);
+                                    $args = preg_split("/ /", preg_replace("/ RetentionTime /", " Retention Hours ", preg_replace("/ Size /", " Size Unit ", $line)), -1, PREG_SPLIT_NO_EMPTY);
                                     $stage = 2;
                                     break;
                                 case 2:
@@ -1852,7 +1852,7 @@ class Raid extends PSI_Plugin
                                     if (preg_match("/^---/", $line)) {
                                         $stage = 4;
                                     } else {
-                                        $values = preg_split("/ /" ,$line, -1, PREG_SPLIT_NO_EMPTY);
+                                        $values = preg_split("/ /", $line, -1, PREG_SPLIT_NO_EMPTY);
                                         if (count($values) == count($args)-1) { //no Name
                                             $values[] = "";
                                         }
@@ -1895,7 +1895,7 @@ class Raid extends PSI_Plugin
                && (($cnr = $controller["Basics"]["Controller"]) >= 0)) {
                 $dg = -1;
                 if (isset($controller["TOPOLOGY"]["values"])) foreach ($controller["TOPOLOGY"]["values"] as $topol) {
-                    if (isset($topol["Arr"]) && ($topol["Arr"] !== "-" )) {
+                    if (isset($topol["Arr"]) && ($topol["Arr"] !== "-")) {
                         if ($topol["DG"] != $dg) {
                             $dg = $topol["DG"];
                             $uname = 'c'.$cnr.'u'.$dg;
@@ -1914,7 +1914,7 @@ class Raid extends PSI_Plugin
                                         $this->_result[$prog][$uname]['battery'] = $state;
                                     }
                                 }
-                                if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/" , $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
+                                if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
                                     $this->_result[$prog][$uname]['batttemp'] = $batt[1];
                                 }
                             }
@@ -2223,7 +2223,7 @@ class Raid extends PSI_Plugin
                                             $this->_result[$prog][$cname]['battery'] = $state;
                                         }
                                     }
-                                    if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/" , $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
+                                    if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
                                         $this->_result[$prog][$cname]['batttemp'] = $batt[1];
                                     }
                                 }
