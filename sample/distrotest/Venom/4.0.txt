@@ -1,0 +1,13 @@
+----------/etc/os-release----------
+NAME="Venom Linux"
+PRETTY_NAME="Venom Linux 4.0"
+VERSION="4.0"
+ID="venom"
+VERSION_ID="4.0"
+HOME_URL="https://venomlinux.org"
+LOGO="venomlinux"
+DOCUMENTATION_URL="https://github.com/venomlinux/ports/wiki"
+SUPPORT_URL="https://github.com/venomlinux/ports/issues"
+BUG_REPORT_URL="https://github.com/venomlinux/ports/issues"
+----------/etc/venom-release----------
+4.0

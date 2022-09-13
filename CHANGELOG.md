@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.3
+----------------
+ - [ADD] Venom Linux to detected distros
+
 phpSysInfo 3.4.2
 ----------------
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar, Ultramarine Linux and TrueNAS to detected distros
