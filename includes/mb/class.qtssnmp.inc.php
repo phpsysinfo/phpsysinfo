@@ -60,6 +60,11 @@ class QTSsnmp extends Sensors
      */
     private function _fans()
     {
+        if (!defined('PSI_EMU_PORT')) {
+            $address = '127.0.0.1';
+        } else {
+            $address = PSI_EMU_HOSTNAME;
+        }
         if (CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$address." .1.3.6.1.4.1.24681.1.2.15.1.3", $buffer, PSI_DEBUG)) {
             $lines = preg_split('/\r?\n/', $buffer);
             foreach ($lines as $line) if (preg_match('/^[\.\d]+\.(\d+) = STRING:\s\"?(\d+)\sRPM/', $line, $data)) {
