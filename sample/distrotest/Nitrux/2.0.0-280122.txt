@@ -1,0 +1,24 @@
+----------lsb_release -a----------
+Distributor ID:	Nitrux
+Description:	Nitrux 2.0.0 build.280122
+Release:	2.0.0 build.280122
+Codename:	nitrux
+----------/etc/lsb-release----------
+DISTRIB_ID=Nitrux
+DISTRIB_RELEASE=2.0.0
+DISTRIB_CODENAME=nitrux
+DISTRIB_DESCRIPTION="Nitrux 2.0.0 build.280122"
+----------/etc/os-release----------
+NAME="Nitrux"
+VERSION="2.0.0 build.280122"
+ID=nitrux
+ID_LIKE=ubuntu
+PRETTY_NAME="Nitrux 2.0.0 build.280122"
+VERSION_ID="2.0.0 build.280122"
+HOME_URL="https://nxos.org/"
+SUPPORT_URL="https://nxos.org/"
+BUG_REPORT_URL="https://github.com/Nitrux/nitrux-bug-tracker"
+VERSION_CODENAME=nitrux
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+unstable/sid

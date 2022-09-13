@@ -3,6 +3,15 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.2
+----------------
+ - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar, Ultramarine Linux and TrueNAS to detected distros
+ - [ADD] schabau_bootstrap template
+ - [ADD] Raid plugin - storcli and perccli status
+ 
+ - [NEW] Partial support for GNU Hurd
+ - [NEW] Ability to retrieve Linux, GNU Hurd, DrayOS and FortiOS system information via SSH
+
 phpSysInfo 3.4.1
 ----------------
  - [ADD] Linuxfx, EndeavourOS, Garuda, Arco and Artix Linux to detected distros
@@ -330,7 +339,8 @@ phpSysInfo 3.1.11
  - [ADD] Generations Linux and SliTaz to detected distros
  - [ADD] IPMI and LMSensors currents information
  - [ADD] Plugin IPMIInfo - added powers and currents values
- - [ADD] Partial support of QNX
+
+ - [NEW] Partial support of QNX
 
  - [FIX] Reduce execution time on Linux systems when showing load average PR#47
 

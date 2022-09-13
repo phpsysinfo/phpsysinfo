@@ -97,8 +97,8 @@ class Darwin extends BSDCommon
     protected function cpuinfo()
     {
         $dev = new CpuDevice();
-        if (CommonFunctions::executeProgram('hostinfo', '| grep "Processor type"', $buf, PSI_DEBUG)) {
-            $dev->setModel(preg_replace('/Processor type: /', '', $buf));
+        if (CommonFunctions::executeProgram('hostinfo', '', $buf, PSI_DEBUG) && ($buf !== '') && preg_match('/^Processor type:[ ]+(.+)$/m', $buf, $proc) && (($proc[1] = trim($proc[1])) !== '')) {
+            $dev->setModel($proc[1]);
             $buf=$this->grabkey('hw.model');
             if (($buf !== null) && (trim($buf) != "")) {
                 $this->sys->setMachine(trim($buf));
@@ -264,60 +264,61 @@ class Darwin extends BSDCommon
      */
     protected function memory()
     {
-        $s = $this->grabkey('hw.memsize');
-        if (CommonFunctions::executeProgram('vm_stat', '', $pstat, PSI_DEBUG)) {
-            // calculate free memory from page sizes (each page = 4096)
-            if (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf)) {
-                if (preg_match('/^Anonymous pages:\s+(\S+)/m', $pstat, $anon_buf)
-                   && preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)
-                   && preg_match('/^File-backed pages:\s+(\S+)/m', $pstat, $fileb_buf)) {
-                        // OS X 10.9 or never
-                        $this->sys->setMemFree($free_buf[1] * 4 * 1024);
-                        $this->sys->setMemApplication(($anon_buf[1]+$wire_buf[1]) * 4 * 1024);
-                        $this->sys->setMemCache($fileb_buf[1] * 4 * 1024);
-                        if (preg_match('/^Pages occupied by compressor:\s+(\S+)/m', $pstat, $compr_buf)) {
-                            $this->sys->setMemBuffer($compr_buf[1] * 4 * 1024);
-                        }
-                } else {
-                    if (preg_match('/^Pages speculative:\s+(\S+)/m', $pstat, $spec_buf)) {
-                        $this->sys->setMemFree(($free_buf[1]+$spec_buf[1]) * 4 * 1024);
+        if (($s = $this->grabkey('hw.memsize')) > 0) {
+            $this->sys->setMemTotal($s);
+            if (CommonFunctions::executeProgram('vm_stat', '', $pstat, PSI_DEBUG)) {
+                // calculate free memory from page sizes (each page = 4096)
+                if (preg_match('/^Pages free:\s+(\S+)/m', $pstat, $free_buf)) {
+                    if (preg_match('/^Anonymous pages:\s+(\S+)/m', $pstat, $anon_buf)
+                       && preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)
+                       && preg_match('/^File-backed pages:\s+(\S+)/m', $pstat, $fileb_buf)) {
+                            // OS X 10.9 or never
+                            $this->sys->setMemFree($free_buf[1] * 4 * 1024);
+                            $this->sys->setMemApplication(($anon_buf[1]+$wire_buf[1]) * 4 * 1024);
+                            $this->sys->setMemCache($fileb_buf[1] * 4 * 1024);
+                            if (preg_match('/^Pages occupied by compressor:\s+(\S+)/m', $pstat, $compr_buf)) {
+                                $this->sys->setMemBuffer($compr_buf[1] * 4 * 1024);
+                            }
                     } else {
-                        $this->sys->setMemFree($free_buf[1] * 4 * 1024);
-                    }
-                    $appMemory = 0;
-                    if (preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)) {
-                        $appMemory += $wire_buf[1] * 4 * 1024;
-                    }
-                    if (preg_match('/^Pages active:\s+(\S+)/m', $pstat, $active_buf)) {
-                        $appMemory += $active_buf[1] * 4 * 1024;
-                    }
-                    $this->sys->setMemApplication($appMemory);
+                        if (preg_match('/^Pages speculative:\s+(\S+)/m', $pstat, $spec_buf)) {
+                            $this->sys->setMemFree(($free_buf[1]+$spec_buf[1]) * 4 * 1024);
+                        } else {
+                            $this->sys->setMemFree($free_buf[1] * 4 * 1024);
+                        }
+                        $appMemory = 0;
+                        if (preg_match('/^Pages wired down:\s+(\S+)/m', $pstat, $wire_buf)) {
+                            $appMemory += $wire_buf[1] * 4 * 1024;
+                        }
+                        if (preg_match('/^Pages active:\s+(\S+)/m', $pstat, $active_buf)) {
+                            $appMemory += $active_buf[1] * 4 * 1024;
+                        }
+                        $this->sys->setMemApplication($appMemory);
 
-                    if (preg_match('/^Pages inactive:\s+(\S+)/m', $pstat, $inactive_buf)) {
-                        $this->sys->setMemCache($inactive_buf[1] * 4 * 1024);
+                        if (preg_match('/^Pages inactive:\s+(\S+)/m', $pstat, $inactive_buf)) {
+                            $this->sys->setMemCache($inactive_buf[1] * 4 * 1024);
+                        }
                     }
+                } else {
+                    $lines = preg_split("/\n/", $pstat, -1, PREG_SPLIT_NO_EMPTY);
+                    $ar_buf = preg_split("/\s+/", $lines[1], 19);
+                    $this->sys->setMemFree($ar_buf[2] * 4 * 1024);
                 }
-            } else {
-                $lines = preg_split("/\n/", $pstat, -1, PREG_SPLIT_NO_EMPTY);
-                $ar_buf = preg_split("/\s+/", $lines[1], 19);
-                $this->sys->setMemFree($ar_buf[2] * 4 * 1024);
+                $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
             }
 
-            $this->sys->setMemTotal($s);
-            $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
-
-            if (CommonFunctions::executeProgram('sysctl', 'vm.swapusage | colrm 1 22', $swapBuff, PSI_DEBUG)) {
-                $swap1 = preg_split('/M/', $swapBuff);
-                $swap2 = preg_split('/=/', $swap1[1]);
-                $swap3 = preg_split('/=/', $swap1[2]);
-                if (($swap=trim($swap1[0])) > 0) {
+            if (($swap = $this->grabkey("vm.swapusage")) > 0) {
+                $swap0 = preg_split('/M/', $swapBuff);
+                $swap1 = preg_split('/=/', $swap0[0]);
+                $swap2 = preg_split('/=/', $swap0[1]);
+                $swap3 = preg_split('/=/', $swap0[2]);
+                if (($swap=str_replace(',', '.', trim($swap1[1]))) > 0) {
                     $dev = new DiskDevice();
                     $dev->setName('SWAP');
                     $dev->setMountPoint('SWAP');
                     $dev->setFsType('swap');
                     $dev->setTotal($swap * 1024 * 1024);
-                    $dev->setUsed(trim($swap2[1]) * 1024 * 1024);
-                    $dev->setFree(trim($swap3[1]) * 1024 * 1024);
+                    $dev->setUsed(str_replace(',', '.', trim($swap2[1])) * 1024 * 1024);
+                    $dev->setFree(str_replace(',', '.', trim($swap3[1])) * 1024 * 1024);
                     $this->sys->setSwapDevices($dev);
                 }
             }
@@ -417,7 +418,7 @@ class Darwin extends BSDCommon
             }
             if (isset($distro_arr['System Version'])) {
                 $distro = $distro_arr['System Version'];
-                if (preg_match('/^Mac OS|^OS X|^macOS/', $distro)) {
+                if (preg_match('/^Mac OS |^OS X |^macOS |^iPhone OS |^Mac OS$|^OS X$|^macOS$|^iPhone OS$/', $distro)) {
                     $this->sys->setDistributionIcon('Apple.png');
                     if (preg_match('/(^Mac OS X Server|^Mac OS X|^OS X Server|^OS X|^macOS Server|^macOS) ((\d+)\.\d+)/', $distro, $ver)
                         && ($list = @parse_ini_file(PSI_APP_ROOT."/data/osnames.ini", true))) {

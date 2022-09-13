@@ -1,0 +1,9 @@
+a0       PERC H710 Mini           bios:5.42.00.1_4.12.0 fw:3.131.05-8148 encl:1 ldrv:2  rbld:30% mem:512MiB batt:good/3874mV/48C
+a0d0       558GiB RAID 1   1x2  optimal
+      row  0:  a0e32s0   a0e32s1
+a0d1       558GiB RAID 1   1x2  optimal
+      row  0:  a0e32s2   a0e32s3
+a0e32s0        WD WD6001BKHG       rev:D1S6 s/n:WXH1E98ABC01            558GiB  a0d0  online
+a0e32s1        WD WD6001BKHG       rev:D1S6 s/n:WXH1E98CDE01            558GiB  a0d0  online
+a0e32s2   SEAGATE ST600MM0069      rev:ST33 s/n:WFJ5AB12                558GiB  a0d1  online
+a0e32s3        WD WD6001BKHG       rev:D1S6 s/n:WXH1E98EFG01            558GiB  a0d1  online

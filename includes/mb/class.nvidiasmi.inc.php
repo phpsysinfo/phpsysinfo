@@ -27,7 +27,7 @@ class NvidiaSMI extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_NVIDIASMI_ACCESS')?strtolower(PSI_SENSOR_NVIDIASMI_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (defined('PSI_SENSOR_NVIDIASMI_ACCESS')?strtolower(PSI_SENSOR_NVIDIASMI_ACCESS):'command') {
         case 'command':
             if (PSI_OS == 'WINNT') {
                 $winnt_exe = (defined('PSI_SENSOR_NVIDIASMI_EXE_PATH') && is_string(PSI_SENSOR_NVIDIASMI_EXE_PATH))?strtolower(PSI_SENSOR_NVIDIASMI_EXE_PATH):"c:\\Program Files\\NVIDIA Corporation\\NVSMI\\nvidia-smi.exe";
@@ -43,7 +43,7 @@ class NvidiaSMI extends Sensors
             $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('nvidiasmi.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('nvidiasmi.tmp', $lines)) {
                 $this->_gpus = preg_split("/^(?=GPU )/m", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

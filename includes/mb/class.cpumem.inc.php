@@ -73,7 +73,7 @@ class CpuMem extends Hwmon
                 $this->mbinfo->setMbVolt($dev);
             }
         }
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) {
             $dmimd = CommonFunctions::readdmimemdata();
             $counter = 0;
             foreach ($dmimd as $mem) {

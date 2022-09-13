@@ -41,8 +41,8 @@ JS_COMPRESSION="Normal"
 ;
 ADD_PATHS=false
 
-; List of IP addresses of clients authorized to run
-; Example : ALLOWED="127.0.0.1,192.168.1.48" //allowed IP 127.0.0.1 and 192.168.1.48
+; List of IP addresses (IPv4) of clients authorized to run
+; Example : ALLOWED="127.0.0.1,192.168.1.48,192.168.0.0/24" //allowed IP 127.0.0.1, 192.168.1.48 and 192.168.0.0/24
 ;           ALLOWED=false //no IP checking
 ;
 ALLOWED=false
@@ -79,6 +79,27 @@ BLOCKS=true
 ; Example : ROOTFS="/rootfs"
 ;
 ;ROOTFS="/"
+
+
+; External Linux, GNU Hurd, DrayOS and FortiOS connection parameters via SSH
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+; These settings can also be entered for a specific plug-in so that only it connects to an external server
+; For safety reasons make sure that phpsysinfo.ini cannot be read by the network or other users!
+;
+;SSH_HOSTNAME="hostname:22"
+;SSH_USER="username"
+;SSH_PASSWORD="password"
+;
+; Additional paths where to look for installed programs
+; Example : SSH_ADD_PATHS="/sbin,/usr/sbin"
+;
+;SSH_ADD_PATHS=false
+;
+; Additional SSH options
+; Example : SSH_ADD_OPTIONS="KexAlgorithms=+diffie-hellman-group1-sha1,HostKeyAlgorithms=+ssh-dss,Ciphers=+3des-cbc"
+;
+;SSH_ADD_OPTIONS=""
+
 
 ; External WinNT server connection parameters
 ; Possibility available for WinNT and partly for LINUX (if wmic tool from wmic-linux or openvas-smb package is installed)
@@ -283,6 +304,7 @@ DATETIME_FORMAT="UTC"
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
 ; - Thinkpad       No addon tool neded (Lenovo Thinkpad - Linux)
 ; - NvidiaSMI      Nvidia GPU drivers (FreeBSD/Linux/SunOS/WinNT)
+; - FortiSensor    No addon tool neded (Fortinet devices - FortiOS)
 ;
 ; Example: If you want to use lmsensors : SENSOR_PROGRAM="LMSensors"
 ;          If you want to use lmsensors and IPMItool: SENSOR_PROGRAM="LMSensors,IPMItool"
@@ -706,29 +728,32 @@ SHOW_SERIAL=false
 ;             - dmraid:            command "dmraid -s -vv 2>&1" is run (on Linux only)
 ;                                  If access error try execute first: chmod 4755 /sbin/dmraid
 ;                                  This method is not recommended for safety reasons!
-;             - megactl:           command "megactl" (on Linux only)
-;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;             - megactl:           command "megactl -vv" is run (on Linux only)
+;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl or http://github.com/namiltd/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megactl
-;             - megasasctl:        command "megasasctl" (on Linux only)
-;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl
+;             - megasasctl:        command "megasasctl -vv" is run (on Linux only)
+;                                  downloaded from http://sourceforge.net/projects/megactl/ or http://github.com/hmage/megactl or http://github.com/namiltd/megactl
 ;                                  If permission error try execute first: chmod 4755 /usr/sbin/megasasctl
-;             - megaclisas-status: command "megaclisas-status" (or "megaclisas-status.py" on WinNT)
-;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid (Python 2) or https://github.com/ElCoyote27/hwraid (Python 3)
-;             - 3ware-status:      command "3ware-status" (or 3ware-status.py" on WinNT)
+;             - megaclisas-status: command "megaclisas-status" is run (or "megaclisas-status.py" on WinNT)
+;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid 
+;             - 3ware-status:      command "3ware-status" is run (or 3ware-status.py" on WinNT)
 ;                                  downloaded from http://hwraid.le-vert.net or https://github.com/eLvErDe/hwraid or https://github.com/ElCoyote27/hwraid
 ;             - graid:             command "graid list" is run (on FreeBSD only)
 ;             - zpool:             command "zpool status" is run
+;             - storcli:           command "storcli /call show all" or "storcli /call show all" is run
+;             - perccli:           command "perccli /call show all" or "perccli /call show all" is run
 ;             - idrac:             command "snmpwalk -Ona -c public -v 1 -r 0 -t 3 {device} .1.3.6.1.4.1.674.10892.5.5.1.20" is run
 ; - "php-snmp"- idrac:             execute php snmprealwalk function (php-snmp module must be installed)
 ;             - for others the option is inactive (uses "command" instead)
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;         with the filename "raidmdstat.tmp" or "raiddmraid.tmp" or "raidmegactl.tmp" or "raidmegasasctl.tmp" 
-;         or "raidmegaclisas-status.tmp" or "raidgraid.tmp" or "raidzpool.tmp" or "raididrac{device_number}.tmp")
+;         or "raidmegaclisas-status.tmp" or "raidgraid.tmp" or "raidzpool.tmp" or "raidstorcli.tmp" or "raidperccli.tmp"
+;         or "raididrac{device_number}.tmp")
 ;
 ACCESS="command"
 
 ; define possible programs
-PROGRAM="mdstat,dmraid,megactl,megasasctl,megaclisas-status,3ware-status,graid,zpool,idrac"
+PROGRAM="mdstat,dmraid,megactl,megasasctl,megaclisas-status,3ware-status,graid,zpool,storcli,perccli,idrac"
 
 ; Hide RAID devices
 ; Example : HIDE_DEVICES="md127"

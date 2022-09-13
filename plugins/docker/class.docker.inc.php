@@ -91,7 +91,7 @@ class Docker extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) {
             switch (strtolower(PSI_PLUGIN_DOCKER_ACCESS)) {
             case 'command':
                 $lines = "";
@@ -99,7 +99,7 @@ class Docker extends PSI_Plugin
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             case 'data':
-                if (CommonFunctions::rftsdata("docker.tmp", $lines) && !empty($lines))
+                if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rftsdata("docker.tmp", $lines) && !empty($lines))
                     $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
                 break;
             default:

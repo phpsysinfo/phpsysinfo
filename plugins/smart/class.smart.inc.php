@@ -76,7 +76,7 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
         case 'wmi':
-            if ((PSI_OS == 'WINNT') || defined('PSI_EMU_HOSTNAME')) {
+            if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                 if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !WINNT::isAdmin()) {
                     $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                 } else {
@@ -136,7 +136,7 @@ class SMART extends PSI_Plugin
             }
             break;
         case 'command':
-            if (!defined('PSI_EMU_HOSTNAME')) foreach ($disks as $disk) {
+            if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) foreach ($disks as $disk) {
                 if (trim($disk) != "") {
                     $diskdev = "";
                     if (preg_match("/\s*\(([^\(\(]*)\)\s*(.*)/", $disk, $devdisk)) {

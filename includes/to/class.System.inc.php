@@ -260,6 +260,13 @@ class System
     private $_virtualizer = array();
 
     /**
+     * operating system type
+     *
+     * @var string
+     */
+    private $_OS = "";
+
+    /**
      * remove duplicate Entries and Count
      *
      * @param array $arrDev list of HWDevices
@@ -1280,5 +1287,31 @@ class System
                 $this->_virtualizer[$value] = false;
             }
         }
+    }
+
+    /**
+     * Returns $_OS.
+     *
+     * @see System::$_OS
+     *
+     * @return string
+     */
+    public function getOS()
+    {
+        return $this->_OS;
+    }
+
+    /**
+     * Sets $_OS.
+     *
+     * @param $os operating system type
+     *
+     * @see System::$_OS
+     *
+     * @return void
+     */
+    public function setOS($OS)
+    {
+        $this->_OS = $OS;
     }
 }

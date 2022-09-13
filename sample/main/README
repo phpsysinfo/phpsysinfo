@@ -1,6 +1,10 @@
 FILE        CONTENT OF
 cpuinfo     cat /proc/cpuinfo
-df          df -P
+dfk         df -k
+dfP         df -P
+dfkP        df -k -P
+dfiP        df -i -P
 mount       mount
 dev         cat /proc/net/dev
 swaps       cat /proc/swaps
+nvme        nvme list

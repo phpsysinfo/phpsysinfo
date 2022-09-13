@@ -661,6 +661,9 @@ function renderVitals(data) {
         }
     };
 
+    if ((data.Vitals["@attributes"].LoadAvg === '') && (data.Vitals["@attributes"].CPULoad === undefined)) {
+        $("#tr_LoadAvg").hide();
+    }
     if (data.Vitals["@attributes"].SysLang === undefined) {
         $("#tr_SysLang").hide();
     }
@@ -725,7 +728,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2) + ' V';
+                return round(this.Voltage, 2) + genlang(82); //V
             }
         },
         Bogomips: {
@@ -767,7 +770,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2) + ' V';
+                return round(this.Voltage, 2)  + genlang(82); //V
             }
         },
         Capacity: {
@@ -1026,17 +1029,17 @@ function renderMemory(data) {
                     html += '<div class="percent">' + 'Total: ' + this["@attributes"].Percent + '% ' + '<i>(';
                     var not_first = false;
                     if (this.Details["@attributes"].AppPercent !== undefined) {
-                        html += genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
+                        html += '<span class="progress-bar-info">&emsp;</span>&nbsp;' + genlang(64) + ': '+ this.Details["@attributes"].AppPercent + '%'; //Kernel + apps
                         not_first = true;
                     }
                     if (this.Details["@attributes"].CachedPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
+                        html += '<span class="progress-bar-warning">&emsp;</span>&nbsp;' + genlang(66) + ': ' + this.Details["@attributes"].CachedPercent + '%'; //Cache
                         not_first = true;
                     }
                     if (this.Details["@attributes"].BuffersPercent !== undefined) {
                         if (not_first) html += ' - ';
-                        html += genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
+                        html += '<span class="progress-bar-danger">&emsp;</span>&nbsp;' + genlang(65) + ': ' + this.Details["@attributes"].BuffersPercent + '%'; //Buffers
                     }
                     html += ')</i></div>';
                     return html;
@@ -1200,13 +1203,21 @@ function renderNetwork(data) {
         RxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
-                    var diff, difftime;
-                    if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                if (showNetworkActiveSpeed) {
+                    if ((this.RxBytes == 0) && (this.RxRate !== undefined)) {
                         if (showNetworkActiveSpeed == 2) {
-                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            htmladd ="<br><i>("+formatBPS(round(this.RxRate, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(this.RxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                        }                
+                    } else if ($.inArray(this.Name, oldnetwork) >= 0) {
+                        var diff, difftime;
+                        if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                             if (showNetworkActiveSpeed == 2) {
+                                htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            } else {
+                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            }
                         }
                     }
                 }
@@ -1216,13 +1227,21 @@ function renderNetwork(data) {
         TxBytes: {
             html: function () {
                 var htmladd = '';
-                if (showNetworkActiveSpeed && ($.inArray(this.Name, oldnetwork) >= 0)) {
-                    var diff, difftime;
-                    if (((diff = this.TxBytes - oldnetwork[this.Name].TxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                if (showNetworkActiveSpeed) {
+                    if ((this.TxBytes == 0) && (this.TxRate !== undefined)) {
                         if (showNetworkActiveSpeed == 2) {
-                            htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            htmladd ="<br><i>("+formatBPS(round(this.TxRate, 2))+")</i>";
                         } else {
-                            htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            htmladd ="<br><i>("+formatBytes(round(this.TxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                        }
+                    } else if ($.inArray(this.Name, oldnetwork) >= 0) {
+                        var diff, difftime;
+                        if (((diff = this.TxBytes - oldnetwork[this.Name].TxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
+                            if (showNetworkActiveSpeed == 2) {
+                                htmladd ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                            } else {
+                                htmladd ="<br><i>("+formatBytes(round(diff/difftime, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
+                            }
                         }
                     }
                 }
@@ -1720,7 +1739,7 @@ function formatUptime(sec) {
 /**
  * format a celcius temperature to fahrenheit and also append the right suffix
  * @param {String} degreeC temperature in celvius
- * @param {jQuery} xml phpSysInfo-XML
+ * @param {String} temperature format
  * @return {String} html string with no breaking spaces and translation statements
  */
 function formatTemp(degreeC, tempFormat) {
@@ -1784,7 +1803,7 @@ function formatMTps(mtps) {
  * for binary and decimal output<br>user can specify a constant format for all byte outputs or the output is formated
  * automatically so that every value can be read in a user friendly way
  * @param {Number} bytes value that should be converted in the corespondenting format, which is specified in the phpsysinfo.ini
- * @param {jQuery} xml phpSysInfo-XML
+ * @param {String} byte format
  * @param {parenths} if true then add parentheses
  * @return {String} string of the converted bytes with the translated unit expression
  */

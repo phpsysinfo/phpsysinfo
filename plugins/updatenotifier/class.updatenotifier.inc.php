@@ -33,7 +33,7 @@ class UpdateNotifier extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
         $buffer_info = "";
-        if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_UPDATENOTIFIER_ACCESS)) {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (strtolower(PSI_PLUGIN_UPDATENOTIFIER_ACCESS)) {
         case 'command':
             if (defined('PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT') && PSI_PLUGIN_UPDATENOTIFIER_UBUNTU_LANDSCAPE_FORMAT) {
                 CommonFunctions::executeProgram("/usr/lib/update-notifier/apt-check", "--human-readable", $buffer_info);
@@ -42,10 +42,12 @@ class UpdateNotifier extends PSI_Plugin
             }
             break;
         case 'data':
-            if (defined('PSI_PLUGIN_UPDATENOTIFIER_FILE') && is_string(PSI_PLUGIN_UPDATENOTIFIER_FILE)) {
-                CommonFunctions::rfts(PSI_PLUGIN_UPDATENOTIFIER_FILE, $buffer_info);
-            } else {
-                CommonFunctions::rfts("/var/lib/update-notifier/updates-available", $buffer_info);
+            if (!defined('PSI_EMU_HOSTNAME')) {
+                if (defined('PSI_PLUGIN_UPDATENOTIFIER_FILE') && is_string(PSI_PLUGIN_UPDATENOTIFIER_FILE)) {
+                    CommonFunctions::rfts(PSI_PLUGIN_UPDATENOTIFIER_FILE, $buffer_info);
+                } else {
+                    CommonFunctions::rfts("/var/lib/update-notifier/updates-available", $buffer_info);
+                }
             }
             break;
         default:

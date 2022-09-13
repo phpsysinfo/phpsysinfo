@@ -27,13 +27,13 @@ class IPMIutil extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if (!defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_IPMIUTIL_ACCESS')?strtolower(PSI_SENSOR_IPMIUTIL_ACCESS):'command') {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (defined('PSI_SENSOR_IPMIUTIL_ACCESS')?strtolower(PSI_SENSOR_IPMIUTIL_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram('ipmiutil', 'sensor -stw', $lines);
             $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('ipmiutil.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('ipmiutil.tmp', $lines)) {
                 $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

@@ -1,0 +1,12 @@
+----------/etc/os-release----------
+NAME=Absolute
+VERSION="15.0"
+ID=Absolute
+VERSION_ID=15.0
+PRETTY_NAME="Absolute 15.0 (Slackware-15.0)"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:absolute:absolute_linux:15.0"
+HOME_URL="https://absolutelinux.org/"
+VERSION_CODENAME=StaleCracker
+----------/etc/slackware-version----------
+Slackware 15.0

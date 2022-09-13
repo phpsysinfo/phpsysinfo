@@ -38,12 +38,14 @@ class Quotas extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
         $buffer = "";
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_QUOTAS_ACCESS)) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (strtolower(PSI_PLUGIN_QUOTAS_ACCESS)) {
         case 'command':
             CommonFunctions::executeProgram("repquota", "-au", $buffer, PSI_DEBUG);
             break;
         case 'data':
-            CommonFunctions::rftsdata("quotas.tmp", $buffer);
+            if (!defined('PSI_EMU_HOSTNAME')) {
+                CommonFunctions::rftsdata("quotas.tmp", $buffer);
+            }
             break;
         default:
             $this->global_error->addConfigError("__construct()", "[quotas] ACCESS");

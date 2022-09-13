@@ -54,7 +54,7 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _kernel()
+    protected function _kernel()
     {
         if (CommonFunctions::executeProgram('uname', '-r', $strBuf, false)) {
             $result = $strBuf;
@@ -91,7 +91,7 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _filesystems()
+    protected function _filesystems()
     {
         $notwas = true;
         if (CommonFunctions::executeProgram('df', '2>/dev/null ', $df, PSI_DEBUG) && preg_match("/\s+[0-9\.]+[KMGT]\s+/", $df)) {
@@ -197,7 +197,7 @@ class Android extends Linux
      *
      * @return void
      */
-    private function _machine()
+    protected function _machine()
     {
         if ($lines = $this->_get_buildprop()) {
             $buf = "";

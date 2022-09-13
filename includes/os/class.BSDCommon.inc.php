@@ -232,8 +232,15 @@ abstract class BSDCommon extends OS
     protected function kernel()
     {
         $s = $this->grabkey('kern.version');
-        $a = preg_split('/:/', $s);
-        if (isset($a[2])) {
+        $a = preg_split('/:/', $s, 4);
+        if (isset($a[3])) {
+            if (preg_match('/^(\d{2} [A-Z]{3});/', $a[3], $abuf) // eg. 19:58 GMT;...
+               || preg_match('/^(\d{2} [A-Z]{3} \d{4})/', $a[3], $abuf)) { // eg. 26:31 PDT 2019...
+                $this->sys->setKernel($a[0].$a[1].':'.$a[2].':'.$abuf[1]);
+            } else {
+                $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
+            }
+        } elseif (isset($a[2])) {
             $this->sys->setKernel($a[0].$a[1].':'.$a[2]);
         } else {
             $this->sys->setKernel($s);
@@ -305,7 +312,7 @@ abstract class BSDCommon extends OS
                         array_shift($pslines);
                         $sum = 0;
                         foreach ($pslines as $psline) {
-                            $sum+=trim($psline);
+                            $sum+=str_replace(',', '.', trim($psline));
                         }
                         $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
                     }
@@ -331,6 +338,7 @@ abstract class BSDCommon extends OS
         $s = $this->grabkey('vm.loadavg');
         $s = preg_replace('/{ /', '', $s);
         $s = preg_replace('/ }/', '', $s);
+        $s = str_replace(',', '.', $s);
         $this->sys->setLoad($s);
 
         if (PSI_LOAD_BAR) {
@@ -358,7 +366,7 @@ abstract class BSDCommon extends OS
                $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
                foreach ($regexps as $regexp) {
                    if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                        if ($dev->getCpuSpeed() === 0) {
+                        if ($dev->getCpuSpeed() == 0) {
                             $dev->setCpuSpeed(round($ar_buf[2]));
                         }
                         $notwas = false;

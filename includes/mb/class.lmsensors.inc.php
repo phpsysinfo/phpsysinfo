@@ -28,12 +28,14 @@ class LMSensors extends Sensors
     {
         parent::__construct();
         $lines = "";
-        if ((PSI_OS == 'Linux') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_LMSENSORS_ACCESS')?strtolower(PSI_SENSOR_LMSENSORS_ACCESS):'command') {
+        if ((PSI_OS == 'Linux') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_LMSENSORS_ACCESS')?strtolower(PSI_SENSOR_LMSENSORS_ACCESS):'command') {
         case 'command':
             CommonFunctions::executeProgram("sensors", "", $lines);
             break;
         case 'data':
-            CommonFunctions::rftsdata('lmsensors.tmp', $lines);
+            if (!defined('PSI_EMU_PORT')) {
+                CommonFunctions::rftsdata('lmsensors.tmp', $lines);
+            }
             break;
         default:
             $this->error->addConfigError('__construct()', '[sensor_lmsensors] ACCESS');

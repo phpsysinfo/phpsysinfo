@@ -78,7 +78,7 @@ class Apcupsd extends UPS
                     }
                 }
             } else { //use default if address and port not defined
-                if (!defined('PSI_EMU_HOSTNAME')) {
+                if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) {
                     CommonFunctions::executeProgram('apcaccess', 'status', $temp);
                 } else {
                     CommonFunctions::executeProgram('apcaccess', 'status '.PSI_EMU_HOSTNAME, $temp);

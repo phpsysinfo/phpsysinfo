@@ -10,7 +10,7 @@
     <exp>Stav RAIDu</exp>
   </expression>
   <expression id="plugin_raid_002" name="raid_infos">
-    <exp>Dodatečné informace </exp>
+    <exp>Dodatečné informace</exp>
   </expression>
   <expression id="plugin_raid_003" name="raid_name">
     <exp>Name</exp>
@@ -21,8 +21,8 @@
   <expression id="plugin_raid_005" name="raid_level">
     <exp>Úroveň RAIDu</exp>
   </expression>
-  <expression id="plugin_raid_006" name="raid_size">
-    <exp>Size</exp>
+  <expression id="plugin_raid_006" name="raid_capacity">
+    <exp>Kapacita</exp>
   </expression>
   <expression id="plugin_raid_007" name="raid_stride">
     <exp>Stride</exp>
@@ -89,5 +89,17 @@
   </expression>
   <expression id="plugin_raid_028" name="raid_stripe">
     <exp>Stripe Size</exp>
+  </expression>
+  <expression id="plugin_raid_029" name="raid_firmware">
+    <exp>Firmware</exp>
+  </expression>
+  <expression id="plugin_raid_030" name="raid_temperature">
+    <exp>Temperature</exp>
+  </expression>
+  <expression id="plugin_raid_031" name="raid_battvolt">
+    <exp>Battery Voltage</exp>
+  </expression>
+  <expression id="plugin_raid_032" name="raid_batttemp">
+    <exp>Battery Temperature</exp>
   </expression>
 </tns:translationPlugin>

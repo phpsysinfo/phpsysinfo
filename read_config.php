@@ -32,10 +32,10 @@ if (!defined('PSI_CONFIG_FILE')) {
                 } elseif (trim($value)==="1") {
                     define($name_prefix.strtoupper($param), true);
                 } else {
-                    if (strstr($value, ',')) {
-                        define($name_prefix.strtoupper($param), 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
+                    if ((($paramup = strtoupper($param)) !== 'WMI_PASSWORD') && ($paramup !== 'SSH_PASSWORD') && strstr($value, ',')) {
+                        define($name_prefix.$paramup, 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
                     } else {
-                        define($name_prefix.strtoupper($param), trim($value));
+                        define($name_prefix.$paramup, trim($value));
                     }
                 }
             }
@@ -60,8 +60,31 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
         $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
 
-        if (!in_array($ip, $allowed, true)) {
-            echo "Client IP address not allowed";
+        $ip_decimal = ip2long($ip);
+        if ($ip_decimal === false) {
+            echo "Client IP wrong address (".$ip."). Client not allowed.";
+            die();
+        }
+
+        // code based on https://gist.github.com/tott/7684443
+        $was = false;
+        foreach ($allowed as $allow) {
+            if (strpos($allow, '/') === false) {
+                    $was = ($allow === $ip);
+            } else {
+                  list($allow, $netmask) = explode('/', $allow, 2);
+                  $allow_decimal = ip2long($allow);
+                  $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+                  $netmask_decimal = ~$wildcard_decimal;
+                $was = (($ip_decimal & $netmask_decimal) === ($allow_decimal & $netmask_decimal));
+            }
+            if ($was) {
+               break;
+            }
+        }
+
+        if (!$was) {
+            echo "Client IP address (".$ip.") not allowed.";
             die();
         }
     }
@@ -113,7 +136,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 
     if (!defined('PSI_OS')) { //if not overloaded in phpsysinfo.ini
         /* get Linux code page */
-        if (PHP_OS == 'Linux') {
+        if ((PHP_OS == 'Linux') || (PHP_OS == 'GNU')) {
             if (file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/sysconfig/i18n')
                || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/default/locale')
                || file_exists($fname = PSI_ROOT_FILESYSTEM.'/etc/locale.conf')
@@ -124,55 +147,59 @@ if (!defined('PSI_CONFIG_FILE')) {
                 $contents = @file_get_contents($fname);
             } else {
                 $contents = false;
-                if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
-                    define('PSI_OS', 'Android');
-                    if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
-                        define('PSI_UNAMEO', $unameo0); // is Android on Termux
-                    }
-                    if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
-                        if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' bbbmand
-                            define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
-                        } else {
-                            $out = '';
-                            $err = '';
-                            $pipes = array();
-                            $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
-                            $process = proc_open("pwd 2>/dev/null ", $descriptorspec, $pipes);
-                            if (!is_resource($process)) {
-                                define('PSI_MODE_POPEN', true);
+                if (PHP_OS == 'Linux') {
+                    if (file_exists(PSI_ROOT_FILESYSTEM.'/system/build.prop')) { //Android
+                        define('PSI_OS', 'Android');
+                        if ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('uname -o 2>/dev/null', $unameo) && (sizeof($unameo)>0) && (($unameo0 = trim($unameo[0])) != "")) {
+                            define('PSI_UNAMEO', $unameo0); // is Android on Termux
+                        }
+                        if ((PSI_ROOT_FILESYSTEM === '') && !defined('PSI_MODE_POPEN')) { //if not overloaded in phpsysinfo.ini
+                            if (!function_exists("proc_open")) { //proc_open function test by executing 'pwd' bbbmand
+                                define('PSI_MODE_POPEN', true); //use popen() function - no stderr error handling (but with problems with timeout)
                             } else {
-                                $w = null;
-                                $e = null;
+                                $out = '';
+                                $err = '';
+                                $pipes = array();
+                                $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+                                $process = proc_open("pwd 2>/dev/null ", $descriptorspec, $pipes);
+                                if (!is_resource($process)) {
+                                    define('PSI_MODE_POPEN', true);
+                                } else {
+                                    $w = null;
+                                    $e = null;
 
-                                while (!(feof($pipes[1]) && feof($pipes[2]))) {
-                                    $read = array($pipes[1], $pipes[2]);
+                                    while (!(feof($pipes[1]) && feof($pipes[2]))) {
+                                        $read = array($pipes[1], $pipes[2]);
 
-                                    $n = stream_select($read, $w, $e, 5);
+                                        $n = stream_select($read, $w, $e, 5);
 
-                                    if (($n === false) || ($n === 0)) {
-                                        break;
-                                    }
+                                        if (($n === false) || ($n === 0)) {
+                                            break;
+                                        }
 
-                                    foreach ($read as $r) {
-                                        if ($r == $pipes[1]) {
-                                            $out .= fread($r, 4096);
-                                        } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
-                                            $err .= fread($r, 4096);
+                                        foreach ($read as $r) {
+                                            if ($r == $pipes[1]) {
+                                                $out .= fread($r, 4096);
+                                            } elseif (feof($pipes[1]) && ($r == $pipes[2])) {//read STDERR after STDOUT
+                                                $err .= fread($r, 4096);
+                                            }
                                         }
                                     }
-                                }
 
-                                if (($out === null) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
-                                    define('PSI_MODE_POPEN', true);
+                                    if (($out === null) || (trim($out) == "") || (substr(trim($out), 0, 1) != "/")) {
+                                        define('PSI_MODE_POPEN', true);
+                                    }
+                                    fclose($pipes[0]);
+                                    fclose($pipes[1]);
+                                    fclose($pipes[2]);
+                                    // It is important that you close any pipes before calling
+                                    // proc_close in order to avoid a deadlock
+                                    proc_close($process);
                                 }
-                                fclose($pipes[0]);
-                                fclose($pipes[1]);
-                                fclose($pipes[2]);
-                                // It is important that you close any pipes before calling
-                                // proc_close in order to avoid a deadlock
-                                proc_close($process);
                             }
                         }
+                    } elseif (file_exists(PSI_ROOT_FILESYSTEM.'/var/mobile/Library/Cydia/metadata.cb0')) { //jailbroken iOS with Cydia
+                        define('PSI_OS', 'Darwin');
                     }
                 }
             }
@@ -183,7 +210,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                 if (!defined('PSI_SYSTEM_CODEPAGE')) {
                     if (file_exists($vtfname = PSI_ROOT_FILESYSTEM.'/sys/module/vt/parameters/default_utf8')
                        && (trim(@file_get_contents($vtfname)) === "1")) {
-                            define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
+                        define('PSI_SYSTEM_CODEPAGE', 'UTF-8');
                     } elseif ((PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec($matches[1].' locale -k LC_CTYPE 2>/dev/null', $lines)) { //if not overloaded in phpsysinfo.ini
                         foreach ($lines as $line) {
                             if (preg_match('/^charmap="?([^"]*)/', $line, $matches2)) {
@@ -237,7 +264,7 @@ if (!defined('PSI_CONFIG_FILE')) {
                     }
                 }
             }
-        } elseif (PHP_OS == 'Darwin') {
+        } elseif ((PHP_OS == 'Darwin') || (defined('PSI_OS') && (PSI_OS == 'Darwin'))){
             if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
                 && (PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
                 $lang = "";

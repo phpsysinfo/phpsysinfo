@@ -52,6 +52,7 @@ abstract class OS implements PSI_Interface_OS
         $this->error = PSI_Error::singleton();
         $this->sys = new System();
         $this->blockname = $blockname;
+        $this->sys->setOS(get_class($this));
     }
 
     /**

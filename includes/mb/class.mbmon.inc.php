@@ -27,9 +27,9 @@ class MBMon extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_MBMON_ACCESS')?strtolower(PSI_SENSOR_MBMON_ACCESS):'command') {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_MBMON_ACCESS')?strtolower(PSI_SENSOR_MBMON_ACCESS):'command') {
         case 'tcp':
-            $fp = fsockopen("localhost", 411, $errno, $errstr, 5);
+            $fp = fsockopen(defined('PSI_EMU_HOSTNAME')?PSI_EMU_HOSTNAME:'localhost', 411, $errno, $errstr, 5);
             if ($fp) {
                 $lines = "";
                 while (!feof($fp)) {
@@ -45,7 +45,7 @@ class MBMon extends Sensors
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('mbmon.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('mbmon.tmp', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

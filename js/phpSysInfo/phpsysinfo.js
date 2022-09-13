@@ -600,7 +600,7 @@ function formatTemp(degreeC, xml) {
     });
 
     degree = parseFloat(degreeC);
-    if (isNaN(degreeC)) {
+    if (!isFinite(degreeC)) {
         return "---";
     } else {
         switch (tempFormat) {
@@ -775,7 +775,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
         var model = "", speed = 0, voltage = 0, bus = 0, cache = 0, bogo = 0, temp = 0, load = 0, speedmax = 0, speedmin = 0, cpucoreposition = 0, virt = "", manufacturer = "";
         cpucount++;
         model = $(this).attr("Model");
-        voltage = $(this).attr("Voltage");
+        voltage = parseFloat($(this).attr("Voltage"));
         speed = parseInt($(this).attr("CpuSpeed"), 10);
         speedmax = parseInt($(this).attr("CpuSpeedMax"), 10);
         speedmin = parseInt($(this).attr("CpuSpeedMin"), 10);
@@ -823,8 +823,8 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(14) + ":</span></div></td><td>" + formatHertz(bus) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
-        if (!isNaN(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
+        if (isFinite(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
@@ -903,8 +903,8 @@ function fillHWDevice(xml, type, tree, rootposition) {
             html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(129) + ":</span></div></td><td>" + ((type=="MEM")?formatMTps(speed):formatBPS(1000000*speed)) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
-        if (!isNaN(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " V</td></tr>\n";
+        if (isFinite(voltage)) {
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {
@@ -1031,27 +1031,45 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '';
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
         name = $(this).attr("Name");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
         dr = parseInt($(this).attr("Drops"), 10);
+        rxr = parseInt($(this).attr("RxRate"), 10);
+        txr = parseInt($(this).attr("TxRate"), 10);
 
-        if (showNetworkActiveSpeed && ($.inArray(name, oldnetwork) >= 0)) {
-            var diff, difftime;
-            if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
+        if (showNetworkActiveSpeed) {
+            if ((rx == 0) && !isNaN(rxr)) {
                 if (showNetworkActiveSpeed == 2) {
-                    htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    htmlrx ="<br><i>("+formatBPS(round(rxr, 2))+")</i>";
                 } else {
-                    htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    htmlrx ="<br><i>("+formatBytes(round(rxr, 2), xml)+"/s)</i>";
+                }
+            } else if ($.inArray(name, oldnetwork) >= 0) {
+                var diff, difftime;
+                if (((diff = rx - oldnetwork[name].rx) > 0) && ((difftime = timestamp - oldnetwork[name].timestamp) > 0)) {
+                    if (showNetworkActiveSpeed == 2) {
+                        htmlrx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    } else {
+                        htmlrx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    }
                 }
             }
-            if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
+            if ((tx == 0) && !isNaN(txr)) {
                 if (showNetworkActiveSpeed == 2) {
-                    htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    htmltx ="<br><i>("+formatBPS(round(txr, 2))+")</i>";
                 } else {
-                    htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    htmltx ="<br><i>("+formatBytes(round(txr, 2), xml)+"/s)</i>";
+                }
+            } else if ($.inArray(name, oldnetwork) >= 0) {
+                if (((diff = tx - oldnetwork[name].tx) > 0) && (difftime > 0)) {
+                    if (showNetworkActiveSpeed == 2) {
+                        htmltx ="<br><i>("+formatBPS(round(8*diff/difftime, 2))+")</i>";
+                    } else {
+                        htmltx ="<br><i>("+formatBytes(round(diff/difftime, 2), xml)+"/s)</i>";
+                    }
                 }
             }
         }
@@ -1391,7 +1409,10 @@ function refreshVoltage(xml) {
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(62);
-        $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        if (isFinite(value))
+            $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        else
+            $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">---&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1427,11 +1448,17 @@ function refreshFans(xml) {
         if (unit === "%") {
             if (isFinite(min))
                 _min = round(min,0) + "%";
-            $("#fansTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
+            if (isFinite(value))
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
+            else
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>---%</td><td class=\"right\">" + _min + "</td></tr>");            
         } else {
             if (isFinite(min))
                 _min = round(min,0) + "&nbsp;" + genlang(63);
-            $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+            if (isFinite(value))
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
+            else
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">---&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
         }
         values = true;
     });
@@ -1459,14 +1486,17 @@ function refreshPower(xml) {
     $("MBInfo Power Item", xml).each(function getPowers(id) {
         var label = "", value = "", event = "", limit = 0, _limit = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value");
+        value = parseFloat($(this).attr("Value"));
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         limit = parseFloat($(this).attr("Max"));
         if (isFinite(limit))
             _limit = round(limit, 2) + "&nbsp;" + genlang(103);
-        $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        if (isFinite(value))
+            $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
+        else
+            $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">---&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
     if (values) {
@@ -1493,7 +1523,7 @@ function refreshCurrent(xml) {
     $("MBInfo Current Item", xml).each(function getCurrents(id) {
         var label = "", value = "", event = "", min = 0, max = 0, _min = "", _max = "";
         label = $(this).attr("Label");
-        value = $(this).attr("Value");
+        value = parseFloat($(this).attr("Value"));
         event = $(this).attr("Event");
         if (event !== undefined)
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
@@ -1503,7 +1533,10 @@ function refreshCurrent(xml) {
         min = parseFloat($(this).attr("Min"));
         if (isFinite(min))
             _min = round(min, 2) + "&nbsp;" + genlang(106);
-        $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        if (isFinite(value))
+            $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
+        else
+            $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">---&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
     if (values) {

@@ -156,17 +156,30 @@ class CommonFunctions
      * NOT $program = CommonFunctions::executeProgram('netstat', '-anp|grep LIST');
      *
      * @param string  $strProgramname name of the program
-     * @param string  $strArgs        arguments to the program
+     * @param string  $strArguments   arguments to the program
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT)
+    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '')
     {
+        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+
+            return false;
+        }
+
+        if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
+            $strSet = $strmatch[1].' ';
+            $strProgramname = $strmatch[2];
+        } else {
+            $strSet = '';
+        }
+        $strAll = trim($strSet.$strProgramname.' '.$strArguments);
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
-            $out = self::_parse_log_file("Executing: ".trim($strProgramname.' '.$strArgs));
+            $out = self::_parse_log_file("Executing: ".$strAll);
             if ($out == false) {
                 if (substr(PSI_LOG, 0, 1)=="-") {
                     $strBuffer = '';
@@ -180,21 +193,65 @@ class CommonFunctions
             }
         }
 
-        if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
-
-            return false;
-        }
-
-        if ((PSI_OS != 'WINNT') && preg_match('/^([^=]+=[^ \t]+)[ \t]+(.*)$/', $strProgramname, $strmatch)) {
-            $strSet = $strmatch[1].' ';
-            $strProgramname = $strmatch[2];
-        } else {
+        $PathStr = '';
+        if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
+            if (defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+                if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
+                    $sudocommands = eval(PSI_SUDO_COMMANDS);
+                } else {
+                    $sudocommands = array(PSI_SUDO_COMMANDS);
+                }
+                if (in_array($strProgramname, $sudocommands)) {
+                    $strAll = 'sudo '.$strAll;
+                }
+            }
             $strSet = '';
+            $strProgramname = 'sshpass';
+            $strOptions = '';
+            if (defined('PSI_EMU_ADD_OPTIONS') && is_string(PSI_EMU_ADD_OPTIONS)) {
+                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_OPTIONS)) {
+                    $arrParams = eval(PSI_EMU_ADD_OPTIONS);
+                } else {
+                    $arrParams = array(PSI_EMU_ADD_OPTIONS);
+                }
+                foreach ($arrParams as $Params) if (preg_match('/(\S+)\s*\=\s*(\S+)/', $Params, $obuf)) {
+                    $strOptions = $strOptions.'-o '.$obuf[1].'='.$obuf[2].' ';
+                }
+            }
+            if (defined('PSI_EMU_ADD_PATHS') && is_string(PSI_EMU_ADD_PATHS)) {
+                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_PATHS)) {
+                    $arrPath = eval(PSI_EMU_ADD_PATHS);
+                } else {
+                    $arrPath = array(PSI_EMU_ADD_PATHS);
+                }
+                foreach ($arrPath as $Path) {
+                    if ($PathStr === '') {
+                        $PathStr = $Path;
+                    } else {
+                        $PathStr = $PathStr.':'.$Path;
+                    }
+                }
+                if ($separator === '') {
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "PATH=\''.$PathStr.':$PATH\' '.$strAll.'"' ;
+                } else {
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                }
+            } else {
+                if ($separator === '') {
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT.' "'.$strAll.'"' ;
+                } else {
+                    $strArguments = '-e ssh -Tq '.$strOptions.'-o ConnectTimeout='.$timeout.' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null '.PSI_EMU_USER.'@'.PSI_EMU_HOSTNAME.' -p '.PSI_EMU_PORT;
+                }
+            }
+            $externally = true;
+        } else {
+            $externally = false;
         }
+
         $strProgram = self::_findProgram($strProgramname);
         $error = PSI_Error::singleton();
         if (!$strProgram) {
-            if ($booErrorRep) {
+            if ($booErrorRep || $externally) {
                 $error->addError('find_program("'.$strProgramname.'")', 'program not found on the machine');
             }
 
@@ -205,7 +262,7 @@ class CommonFunctions
             }
         }
 
-        if ((PSI_OS != 'WINNT') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
+        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
             if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
                 $sudocommands = eval(PSI_SUDO_COMMANDS);
             } else {
@@ -214,9 +271,7 @@ class CommonFunctions
             if (in_array($strProgramname, $sudocommands)) {
                 $sudoProgram = self::_findProgram("sudo");
                 if (!$sudoProgram) {
-                    if ($booErrorRep) {
-                        $error->addError('find_program("sudo")', 'program not found on the machine');
-                    }
+                    $error->addError('find_program("sudo")', 'program not found on the machine');
 
                     return false;
                 } else {
@@ -229,6 +284,7 @@ class CommonFunctions
             }
         }
 
+        $strArgs = $strArguments;
         // see if we've gotten a | or &, if we have we need to do path checking on the cmd
         if ($strArgs) {
             $arrArgs = preg_split('/ /', $strArgs, -1, PREG_SPLIT_NO_EMPTY);
@@ -236,10 +292,25 @@ class CommonFunctions
                 if (($arrArgs[$i] == '|') || ($arrArgs[$i] == '&')) {
                     $strCmd = $arrArgs[$i + 1];
                     $strNewcmd = self::_findProgram($strCmd);
-                    if ($arrArgs[$i] == '|') {
-                        $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                    if (!$strNewcmd) {
+                        if ($booErrorRep || $externally) {
+                            $error->addError('find_program("'.$strCmd.'")', 'program not found on the machine');
+                        }
+
+                        return false;
+                    }
+                    if (preg_match('/\s/', $strNewcmd)) {
+                        if ($arrArgs[$i] == '|') {
+                            $strArgs = preg_replace('/\| '.$strCmd.'/', '| "'.$strNewcmd.'"', $strArgs);
+                        } else {
+                            $strArgs = preg_replace('/& '.$strCmd.'/', '& "'.$strNewcmd.'"', $strArgs);
+                        }
                     } else {
-                        $strArgs = preg_replace('/& '.$strCmd.'/', '& "'.$strNewcmd.'"', $strArgs);
+                        if ($arrArgs[$i] == '|') {
+                            $strArgs = preg_replace('/\| '.$strCmd.'/', '| '.$strNewcmd, $strArgs);
+                        } else {
+                            $strArgs = preg_replace('/& '.$strCmd.'/', '& '.$strNewcmd, $strArgs);
+                        }
                     }
                 }
             }
@@ -250,7 +321,15 @@ class CommonFunctions
         $strError = '';
         $pipes = array();
         $descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+        if ($externally) {
+            putenv('SSHPASS='.PSI_EMU_PASSWORD);
+        }
         if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
+            if ($separator !== '') {
+                $error->addError('executeProgram', 'wrong execution mode');
+
+                return false;
+            }
             if (PSI_OS == 'WINNT') {
                 $process = $pipes[1] = popen($strSet.$strProgram.$strArgs." 2>nul", "r");
             } else {
@@ -258,9 +337,19 @@ class CommonFunctions
             }
         } else {
             $process = proc_open($strSet.$strProgram.$strArgs, $descriptorspec, $pipes);
+            if ($separator !== '') {
+                if ($PathStr === '') {
+                    fwrite($pipes[0], $strAll."\n  "); // spaces at end for handling 'more'
+                } else {
+                    fwrite($pipes[0], 'PATH=\''.$PathStr.':$PATH\' '.$strAll."\n");
+                }
+            }
+        }
+        if ($externally) {
+            putenv('SSHPASS');
         }
         if (is_resource($process)) {
-            $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout);
+            $te = self::_timeoutfgets($pipes, $strBuffer, $strError, $timeout, $separator);
             if (defined("PSI_MODE_POPEN") && PSI_MODE_POPEN) {
                 $return_value = pclose($pipes[1]);
             } else {
@@ -286,7 +375,7 @@ class CommonFunctions
         $strError = trim($strError);
         $strBuffer = trim($strBuffer);
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
-            error_log("---".gmdate('r T')."--- Executing: ".trim($strProgramname.$strArgs)."\n".$strBuffer."\n", 3, PSI_LOG);
+            error_log("---".gmdate('r T')."--- Executing: ".$strAll."\n".$strBuffer."\n", 3, PSI_LOG);
         }
         if (! empty($strError)) {
             if ($booErrorRep) {
@@ -306,6 +395,10 @@ class CommonFunctions
      */
     public static function rolv($similarFileName, $match = "//", $replace = "")
     {
+        if (defined('PSI_EMU_PORT')) {
+            return null;
+        }
+
         $filename = preg_replace($match, $replace, $similarFileName);
         if (self::fileexists($filename) && self::rfts($filename, $buf, 1, 4096, false) && (($buf=trim($buf)) != "")) {
             return $buf;
@@ -359,6 +452,10 @@ class CommonFunctions
      */
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $out = self::_parse_log_file("Reading: ".$strFileName);
             if ($out == false) {
@@ -478,6 +575,10 @@ class CommonFunctions
      */
     public static function findglob($pattern, $flags = 0)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         $outarr = glob(PSI_ROOT_FILESYSTEM.$pattern, $flags);
         if (PSI_ROOT_FILESYSTEM == '') {
             return $outarr;
@@ -503,6 +604,10 @@ class CommonFunctions
      */
     public static function fileexists($strFileName)
     {
+        if (defined('PSI_EMU_PORT')) {
+            return false;
+        }
+
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
             $log_file = substr(PSI_LOG, 1);
             if (file_exists($log_file)
@@ -613,7 +718,7 @@ class CommonFunctions
      *
      * @return boolean timeout expired or not
      */
-    private static function _timeoutfgets($pipes, &$out, &$err, $timeout)
+    private static function _timeoutfgets($pipes, &$out, &$err, $timeout, $separator = '')
     {
         $w = null;
         $e = null;
@@ -638,6 +743,9 @@ class CommonFunctions
                 break;
             } elseif ($n === 0) {
                 error_log('stream_select: timeout expired !');
+//                if ($separator !== '') {
+//                    fwrite($pipes[0], "q");
+//                }
                 $te = true;
                 break;
             }
@@ -648,6 +756,13 @@ class CommonFunctions
                 } elseif (feof($pipes[1]) && $pipe2 && ($r == $pipes[2])) {//read STDERR after STDOUT
                     $err .= fread($r, 4096);
                 }
+            }
+//            if (($separator !== '') && preg_match('/'.$separator.'[^'.$separator.']+'.$separator.'/', $out)) {
+            if (($separator !== '') && preg_match('/'.$separator.'[\s\S]+'.$separator.'/', $out)) {
+                fwrite($pipes[0], "quit\n");
+                $separator = ''; //only one time
+              //  $te = true;
+              //  break;
             }
         }
 
@@ -692,6 +807,8 @@ class CommonFunctions
         if (gettype($vendor_data) === "array") {
             $vendarray = array(
                 'KVM' => 'kvm', // KVM
+                'OpenStack' => 'kvm', // Detect OpenStack instance as KVM in non x86 architecture
+                'KubeVirt' => 'kvm', // Detect KubeVirt instance as KVM in non x86 architecture
                 'Amazon EC2' => 'amazon', // Amazon EC2 Nitro using Linux KVM
                 'QEMU' => 'qemu', // QEMU
                 'VMware' => 'vmware', // VMware https://kb.vmware.com/s/article/1009458
@@ -704,6 +821,7 @@ class CommonFunctions
                 // https://wiki.freebsd.org/bhyve
                 'BHYVE' => 'bhyve', // bhyve
                 'Hyper-V' => 'microsoft', // Hyper-V
+                'Apple Virtualization' => 'apple', // Apple Virtualization.framework guests
                 'Microsoft Corporation Virtual Machine' => 'microsoft' // Hyper-V
             );
             for ($i = 0; $i < count($vendor_data); $i++) {
@@ -717,6 +835,7 @@ class CommonFunctions
             $vidarray = array(
                 'bhyvebhyve' => 'bhyve', // bhyve
                 'KVMKVMKVM' => 'kvm', // KVM
+                'LinuxKVMHv' => 'hv-kvm', // KVM (KVM + HyperV Enlightenments)
                 'MicrosoftHv' => 'microsoft', // Hyper-V
                 'lrpepyhvr' => 'parallels', // Parallels
                 'UnisysSpar64' => 'spar', // Unisys sPar
@@ -744,7 +863,7 @@ class CommonFunctions
      */
     public static function readdmimemdata()
     {
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && (self::$_dmimd === null)) {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) && (self::$_dmimd === null)) {
             self::$_dmimd = array();
             $buffer = '';
             if (defined('PSI_DMIDECODE_ACCESS') && (strtolower(PSI_DMIDECODE_ACCESS)==='data')) {

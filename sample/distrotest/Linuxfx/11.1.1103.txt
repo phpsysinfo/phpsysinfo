@@ -22,6 +22,6 @@ PRIVACY_POLICY_URL="https://www.linuxfx.org/"
 VERSION_CODENAME=focal
 UBUNTU_CODENAME=focal
 ----------/etc/debian_version----------
-bullseya/sid
+bullseye/sid
 ----------/etc/fx.version----------
 11.1

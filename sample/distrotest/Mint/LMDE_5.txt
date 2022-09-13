@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Linuxmint
+Description:	LMDE 5 (elsie)
+Release:	5
+Codename:	elsie
+----------/etc/lsb-release----------
+DISTRIB_ID=LinuxMint
+DISTRIB_RELEASE=5
+DISTRIB_CODENAME=elsie
+DISTRIB_DESCRIPTION="LMDE 5 Elsie"
+----------/etc/os-release----------
+PRETTY_NAME="LMDE 5 (elsie)"
+NAME="LMDE"
+VERSION_ID="5"
+VERSION="5 (elsie)"
+ID=linuxmint
+ID_LIKE=debian
+HOME_URL="https://www.linuxmint.com/"
+SUPPORT_URL="https://forums.linuxmint.com/"
+BUG_REPORT_URL="http://linuxmint-troubleshooting-guide.readthedocs.io/en/latest/"
+PRIVACY_POLICY_URL="https://www.linuxmint.com/"
+VERSION_CODENAME=elsie
+DEBIAN_CODENAME=bullseye
+----------/etc/debian_version----------
+11.2

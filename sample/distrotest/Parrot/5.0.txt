@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+Distributor ID:	Parrot
+Description:	Parrot OS 5.0 (Electric Ara)
+Release:	5.0
+Codename:	ara
+----------/etc/os-release----------
+PRETTY_NAME="Parrot OS 5.0 (Electric Ara)"
+NAME="Parrot OS"
+VERSION_ID="5.0"
+VERSION="5.0 (Electric Ara)"
+VERSION_CODENAME=ara
+ID=parrot
+ID_LIKE=debian
+HOME_URL="https://www.parrotsec.org/"
+SUPPORT_URL="https://communuty.parrotsec.org/"
+BUG_REPORT_URL="https://communuty.parrotsec.org/"
+----------/etc/debian_version----------
+parrot

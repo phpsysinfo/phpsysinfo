@@ -10,32 +10,40 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: PHP Lint 5.4
+        uses: prestashop/github-action-php-lint/5.4@v1.1
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 5.5
-        uses: dbfx/github-phplint/5.5@master
+        uses: prestashop/github-action-php-lint/5.5@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 5.6
-        uses: dbfx/github-phplint/5.6@master
+        uses: prestashop/github-action-php-lint/5.6@v1.1
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 7.1
+        uses: prestashop/github-action-php-lint/7.1@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.2
-        uses: dbfx/github-phplint/7.2@master
+        uses: prestashop/github-action-php-lint/7.2@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.3
-        uses: dbfx/github-phplint/7.3@master
+        uses: prestashop/github-action-php-lint/7.3@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.4
-        uses: dbfx/github-phplint/7.4@master
+        uses: prestashop/github-action-php-lint/7.4@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 8.0
-        uses: dbfx/github-phplint/8.0@master
+        uses: prestashop/github-action-php-lint/8.0@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 8.1
-        uses: dbfx/github-phplint/8.1@master
+        uses: prestashop/github-action-php-lint/8.1@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
 

@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+Distributor ID:	Pop
+Description:	Pop!_OS 21.10
+Release:	21.10
+Codename:	impish
+----------/etc/lsb-release----------
+DISTRIB_ID=Pop
+DISTRIB_RELEASE=21.10
+DISTRIB_CODENAME=impish
+DISTRIB_DESCRIPTION="Pop!_OS 21.10"
+----------/etc/os-release----------
+NAME="Pop!_OS"
+VERSION="21.10"
+ID=pop
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="Pop!_OS 21.10"
+VERSION_ID="21.10"
+HOME_URL="https://pop.system76.com"
+SUPPORT_URL="https://support.system76.com"
+BUG_REPORT_URL="https://github.com/pop-os/pop/issues"
+PRIVACY_POLICY_URL="https://system76.com/privacy"
+VERSION_CODENAME=impish
+UBUNTU_CODENAME=impish
+LOGO=distributor-logo-pop-os
+----------/etc/debian_version----------
+11.0

@@ -67,7 +67,7 @@ class uprecords extends PSI_Plugin
     public function execute()
     {
         $this->_lines = array();
-        if (!defined('PSI_EMU_HOSTNAME')) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
+        if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (strtolower(PSI_PLUGIN_UPRECORDS_ACCESS)) {
         case 'command':
             $lines = "";
             $options = "";
@@ -83,7 +83,7 @@ class uprecords extends PSI_Plugin
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata("uprecords.tmp", $lines) && !empty($lines))
+            if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::rftsdata("uprecords.tmp", $lines) && !empty($lines))
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         default:

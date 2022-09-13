@@ -211,7 +211,11 @@ class SimpleXMLExtended
                 }
            }
         } else {
-            return mb_convert_encoding($str, 'UTF-8');
+            if (function_exists('mb_convert_encoding')) {
+                return mb_convert_encoding($str, 'UTF-8');
+            } else {
+                return $str;
+            }
         }
     }
 

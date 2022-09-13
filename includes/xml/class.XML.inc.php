@@ -92,7 +92,9 @@ class XML
         } else {
             $this->_complete_request = false;
         }
-        if (defined('PSI_EMU_HOSTNAME')) {
+        if (defined('PSI_EMU_PORT')) {
+            $os = 'SSH';
+        } elseif (defined('PSI_EMU_HOSTNAME')) {
             $os = 'WINNT';
         } else {
             $os = PSI_OS;
@@ -161,10 +163,12 @@ class XML
             }
         }
 
-        if (defined('PSI_EMU_HOSTNAME')) {
-            $vitals->addAttribute('OS', 'WINNT');
+        if (($os = $this->_sys->getOS()) == 'Android') {
+            $vitals->addAttribute('OS', 'Linux');
+        } elseif ($os == 'GNU') {
+            $vitals->addAttribute('OS', 'Hurd');
         } else {
-            $vitals->addAttribute('OS', (PSI_OS=='Android')?'Linux':PSI_OS);
+            $vitals->addAttribute('OS', $os);
         }
     }
 
@@ -203,8 +207,28 @@ class XML
             if (!$hide) {
                 $device = $network->addChild('NetDevice');
                 $device->addAttribute('Name', $dev->getName());
-                $device->addAttribute('RxBytes', $dev->getRxBytes());
-                $device->addAttribute('TxBytes', $dev->getTxBytes());
+                $rxbytes = $dev->getRxBytes();
+                $txbytes = $dev->getTxBytes();
+                $device->addAttribute('RxBytes', $rxbytes);
+                $device->addAttribute('TxBytes', $txbytes);
+                if (defined('PSI_SHOW_NETWORK_ACTIVE_SPEED') && PSI_SHOW_NETWORK_ACTIVE_SPEED) {
+                    if (($rxbytes == 0) && ($txbytes == 0)) {
+                        $rxrate = $dev->getRxRate();
+                        $txrate = $dev->getTxRate();
+                        if (($rxrate !== null) || ($txrate !== null)) {
+                            if ($rxrate !== null) {
+                                $device->addAttribute('RxRate', $rxrate);
+                            } else {
+                                $device->addAttribute('RxRate', 0);
+                            }
+                            if ($txrate !== null) {
+                                $device->addAttribute('TxRate', $txrate);
+                            } else {
+                                $device->addAttribute('TxRate', 0);
+                            }
+                        }
+                    }
+                }
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo())
@@ -222,16 +246,29 @@ class XML
     {
         $hardware = $this->_xml->addChild('Hardware');
         if (($machine = $this->_sys->getMachine()) != "") {
-            if ((preg_match('/^(.* (.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^(.* (.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^(.* (.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*\/.*\/.*))\/(.*\/.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*\/.*))\/(.*\/.*)(, BIOS .*)$/', $machine, $mbuf)
-               || preg_match('/^((.*))\/(.*)(, BIOS .*)$/', $machine, $mbuf))
-               && ($mbuf[2] === $mbuf[3])) { // find duplicates
-                $machine = $mbuf[1].$mbuf[4]; // minimized machine name
+            $machine = trim(preg_replace("/\s+/", " ", preg_replace("/^\s*[\/,]*/", "", preg_replace("/\/\s+,/", "/,", $machine)))); // remove leading slash or comma and unnecessary spaces
+            if (preg_match('/, BIOS .*$/', $machine, $mbuf, PREG_OFFSET_CAPTURE)) {
+                $comapos = $mbuf[0][1];
+                $endstr = $mbuf[0][0];
+                $offset = 0;
+                while (($offset < $comapos)
+                     && (($slashpos = strpos($machine, "/", $offset)) !== false)
+                     && ($slashpos < $comapos)) {
+                    $len1 = $comapos - $slashpos - 1;
+                    $str1 = substr($machine, $slashpos + 1, $len1);
+                    $begstr  = substr($machine, 0, $slashpos);
+                    if ($len1 > 0) { // no empty
+                        $str2 = substr($begstr, -$len1 - 1);
+                    } else {
+                        $str2 = " ";
+                    }
+                    if ((" ".$str1 === $str2) || ($str1 === $begstr)) { // duplicates
+                        $machine = $begstr.$endstr;
+                        break;
+                    }
+                    $offset = $slashpos + 1;
+                }
             }
-            $machine = trim(preg_replace("/^\s*\/?,?/", "", $machine)); // remove leading slash and comma
 
             if ($machine != "") {
                 $hardware->addAttribute('Name', $machine);

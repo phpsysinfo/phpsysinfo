@@ -27,14 +27,14 @@ class K8Temp extends Sensors
     public function __construct()
     {
         parent::__construct();
-        if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
+        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
         case 'command':
             $lines = "";
             CommonFunctions::executeProgram('k8temp', '', $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
-            if (CommonFunctions::rftsdata('k8temp.tmp', $lines)) {
+            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('k8temp.tmp', $lines)) {
                 $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             }
             break;

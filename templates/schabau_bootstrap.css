@@ -1,0 +1,233 @@
+/*
+ $Id: schabau_bootstrap.css $
+*/
+
+body {
+    font-family: Verdana, "Bitstream Vera Sans";
+    font-size: 13px;
+    padding-top: 80px;
+    color: #666;
+    background-color: #f2f2df;
+}
+
+wbr {
+    display: inline-block;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+.card {
+    background-color: #f2f2df;
+    border-color: #bcbbb1;
+}
+
+.navbar {
+    font-family: Georgia, serif;
+    background-color: #f2f2df;
+    border-color: #bcbbb1;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: #666;
+    margin-right: 0;
+}
+
+.treegrid-span {
+    display: table-cell;
+}
+
+.treegrid-spanbold {
+    font-weight: bold;
+    display: table-cell;
+}
+
+.treegrid-indent {
+    width: 16px;
+    height: 16px;
+    display: table-cell;
+}
+
+.treegrid-expander {
+    width: 0px;
+    height: 16px;
+    display: table-cell;
+    cursor: pointer;
+}
+
+.normalicon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    display: table-cell;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.normalicon-right:before {
+    content: "\25ba";
+}
+.normalicon-down:before {
+    content: "\25bc";
+}
+
+table.sortable thead th {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover {
+    background-color: #ebe8da;
+}
+
+.sorttable_nosort {
+    cursor: auto!important;
+}
+
+.table-hover > tbody > tr:hover {
+    color: #666;
+    background-color: #ebe8da;
+}
+
+.table-hover > tfoot > tr:hover {
+    background-color: #ebe8da;
+}
+
+table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
+    border: none!important;
+}
+
+.table {
+    color: #666;
+    background-color: #f2f2df!important;
+    margin: 0;
+    border: 0;
+}
+
+.logo {
+    cursor: pointer;
+    width: 32px;
+}
+
+.select {
+    color: #666;
+}
+
+select {
+    background-color: #f2f2df;
+}
+
+.template {
+    cursor: pointer;
+    color: #666;
+}
+
+.language {
+    cursor: pointer;
+    color: #666;
+}
+
+.card-header {
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 130%;
+    background-color: #326ea1!important;
+    border-color: #326ea1!important;
+    color: #f2f2df!important;
+}
+
+.progress {
+    margin-bottom: 0;
+    background-color: #f2f2df;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+.progress-bar-success {
+    background-color: #5cb85c;
+}
+
+.progress-bar-info {
+    background-color: #326edf;
+}
+
+.progress-bar-warning {
+    background-color: #E3CB93;
+}
+
+.progress-bar-danger {
+    background-color: #fa5858;
+}
+
+.modal-content {
+    background-color: #f2f2df;
+}
+
+.list-group {
+    display: block;
+}
+
+.list-group-item {
+    background-color: #f2f2df;
+}
+
+.reload {
+    background-image: url("../gfx/reload.gif");
+    float: right;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.container {
+    padding:0;
+}
+
+.table thead th {
+    border-top: none;
+}
+
+a, a:visited {
+    color: #666;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #666;
+}
+
+.psihref, .psihref:visited {
+    color: #326ea1;
+}
+
+.psihref:hover {
+    text-decoration: underline;
+    color: #326ea1;
+}
+
+.col-lg-6, .col-lg-12 {
+    padding-bottom: 20px;
+}
+
+.badge {
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 3px 7px;
+    float: right;
+}
+
+.table-nopadding > tbody > tr > td,
+.table-nopadding > tbody > tr > th {
+  padding: 0;
+}
