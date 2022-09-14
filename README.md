@@ -45,7 +45,7 @@ CURRENT TESTED PLATFORMS
 - DrayOS (via SSH)
 
 If your platform is not here try checking out the mailing list archives or
-the message boards on SourceForge.
+the message boards on Github.
 
 INSTALLATION AND CONFIGURATION
 ------------------------------
