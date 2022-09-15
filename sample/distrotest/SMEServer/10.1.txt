@@ -1,0 +1,34 @@
+----------/etc/centos-release----------
+CentOS Linux release 7.9.2009 (Core)
+----------/etc/e-smith-release----------
+SME Server release 10.1
+----------/etc/os-release----------
+#------------------------------------------------------------
+#	       !!DO NOT MODIFY THIS FILE!!
+# 
+# Manual changes will be lost when this file is regenerated.
+#
+# Please read the developer's guide, which is available
+# at http://www.contribs.org/development/
+#
+# Copyright (C) 1999-2006 Mitel Networks Corporation
+#------------------------------------------------------------
+NAME="Koozali SME Server"
+VERSION="10.1"
+ID="koozali"
+ID_LIKE="rhel fedora centos"
+VERSION_ID="10.1"
+PRETTY_NAME="Koozali SME Server 10.1"
+ANSI_COLOR="0;31"
+HOME_URL="https://koozali.org"
+BUG_REPORT_URL="https://bugs.koozali.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+----------/etc/redhat-release----------
+SME Server 10.1
+----------/etc/system-release----------
+SME Server 10.1
