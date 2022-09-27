@@ -1344,7 +1344,7 @@ class Linux extends OS
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
                     $dev = new HWDevice();
-                    $dev->setName(trim($buf));
+                    $dev->setName(trim($buf,": \n\r\t\v\x00"));
                     $this->sys->setI2cDevices($dev);
                 }
             }
