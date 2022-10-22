@@ -147,6 +147,11 @@ select {
     background-color: #871952;
 }
 
+.barrest {
+    background-image: url('blue/barrest.png');
+    background-color: #198785;
+}
+
 .right {
     padding-right: 20px;
     text-align: right;

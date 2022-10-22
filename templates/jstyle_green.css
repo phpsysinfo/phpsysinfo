@@ -129,15 +129,19 @@ select {
 }
 
 .even {
-    background: #EBE8DA;
+    background: #ebe8da;
 }
 
 .bar {
-    background-color: #C1DC70;
+    background-color: #c1dc70;
 }
 
 .barwarn {
-    background-color: #DC8B70;
+    background-color: #dc8b70;
+}
+
+.barrest {
+    background-color: #8bdc70;
 }
 
 .right {
