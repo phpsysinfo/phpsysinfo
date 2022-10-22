@@ -1130,8 +1130,8 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                var used1 = (this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0;
-                var used2 = Math.ceil(this.Percent);
+                var used1 = Math.max(Math.min((this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0, 100), 0);
+                var used2 = Math.max(Math.min(Math.ceil(this.Percent), 100), 0);
                 var used21= used2 - used1;
                 if (used21 > 0) {
                     return '<div class="progress">' + '<div class="' +
