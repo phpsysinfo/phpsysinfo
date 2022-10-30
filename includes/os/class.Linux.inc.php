@@ -1972,6 +1972,10 @@ class Linux extends OS
                                                     $distr2.=' ('.$dat_buf[1].')';
                                                 }
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".$distr2);
+                                            } elseif (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                                            } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                                             } else {
                                                 $distr2=trim(substr($buf, 0, strpos($buf, "\n")));
                                                 if (($distr2 !== null) && ($distr2 != "")) {
