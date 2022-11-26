@@ -2066,7 +2066,8 @@ class Linux extends OS
                         $this->sys->setDistributionIcon($list['Tails']['Image']);
                     } else {
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
-                           && !preg_match('/\$/', $desc_buf[1])) { // if is not defined by variable
+                           && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
+                           && (trim($id_buf[1])!==trim($desc_buf[1]))) {
                             $this->sys->setDistribution(trim($desc_buf[1]));
                         } else {
                             if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -2078,6 +2079,9 @@ class Linux extends OS
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                             } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            }
+                            if (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }
                         }
                         if (isset($list[trim($id_buf[1])]['Image'])) {
