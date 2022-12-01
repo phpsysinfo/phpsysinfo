@@ -1840,7 +1840,7 @@ class Raid extends PSI_Plugin
                                     }
                                     break;
                                 case 1:
-                                    $args = preg_split("/ /", preg_replace("/ RetentionTime /", " Retention Hours ", preg_replace("/ Size /", " Size Unit ", $line)), -1, PREG_SPLIT_NO_EMPTY);
+                                    $args = preg_split("/ /", preg_replace("/ Next Learn$/", " NextLearn", preg_replace("/ RetentionTime /", " Retention Hours ", preg_replace("/ Size /", " Size Unit ", $line))), -1, PREG_SPLIT_NO_EMPTY);
                                     $stage = 2;
                                     break;
                                 case 2:
@@ -1852,7 +1852,7 @@ class Raid extends PSI_Plugin
                                     if (preg_match("/^---/", $line)) {
                                         $stage = 4;
                                     } else {
-                                        $values = preg_split("/ /", preg_replace("/ hours \+ /", " hours+ ", $line), -1, PREG_SPLIT_NO_EMPTY);
+                                        $values = preg_split("/ /", preg_replace("/ (\d+\/\d+\/\d+) +(\d+:\d+:\d+)$/", " $1-$2", preg_replace("/ hours \+ /", " hours+ ", $line)), -1, PREG_SPLIT_NO_EMPTY);
                                         if (count($values) == count($args)-1) { //no Name
                                             $values[] = "";
                                         }
