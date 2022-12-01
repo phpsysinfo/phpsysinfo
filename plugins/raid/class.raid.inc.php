@@ -1852,7 +1852,7 @@ class Raid extends PSI_Plugin
                                     if (preg_match("/^---/", $line)) {
                                         $stage = 4;
                                     } else {
-                                        $values = preg_split("/ /", $line, -1, PREG_SPLIT_NO_EMPTY);
+                                        $values = preg_split("/ /", preg_replace("/ hours \+ /", " hours+ ", $line), -1, PREG_SPLIT_NO_EMPTY);
                                         if (count($values) == count($args)-1) { //no Name
                                             $values[] = "";
                                         }
