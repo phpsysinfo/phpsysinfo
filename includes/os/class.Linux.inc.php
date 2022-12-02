@@ -1387,9 +1387,9 @@ class Linux extends OS
                         $nsize[$locid] = $i - $nlocate[$locid];
                     }
                 } elseif ($count > 1) {
-                    if (isset($nlocate[2]) && isset($nsize[2])) {
+                    if (isset($nlocate[2]) && isset($nsize[2]) && (($nvname=trim(substr($buf, $nlocate[2], $nsize[2]))) !== '')) {
                         $dev = new HWDevice();
-                        $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
+                        $dev->setName($nvname);
                         if (defined('PSI_SHOW_DEVICES_INFOS') && (PSI_SHOW_DEVICES_INFOS)) {
                             if (isset($nlocate[4]) && isset($nsize[4])) {
                                 if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
