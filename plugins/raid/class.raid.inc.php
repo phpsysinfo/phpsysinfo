@@ -1867,16 +1867,18 @@ class Raid extends PSI_Plugin
                                                     break;
                                                 }
                                             }
-                                            if (($diffc > 0) && ($vnr < count($args))) for ($enr = count($values)-1; $enr >= 0; $enr--) {
-                                                if (($args[$enr-$diffc] !== "Name") && ($args[$enr-$diffc] !== "Model")) {
-                                                    $valarr[$args[$enr-$diffc]] = $values[$enr];
-                                                } else {
-                                                    break;
+                                            if (($diffc > 0) && ($vnr < count($args))) {
+                                                for ($enr = count($values)-1; $enr >= 0; $enr--) {
+                                                    if (($args[$enr-$diffc] !== "Name") && ($args[$enr-$diffc] !== "Model")) {
+                                                        $valarr[$args[$enr-$diffc]] = $values[$enr];
+                                                    } else {
+                                                        break;
+                                                    }
                                                 }
-                                            }
-                                            if (($diffc > 0) && ($vnr < $enr)) {
-                                                for ($xnr = $vnr + 1; $xnr <= $enr; $xnr++) {
-                                                    $valarr[$args[$vnr]] .= " ".$values[$xnr];
+                                                if ($vnr < $enr) {
+                                                    for ($xnr = $vnr + 1; $xnr <= $enr; $xnr++) {
+                                                        $valarr[$args[$vnr]] .= " ".$values[$xnr];
+                                                    }
                                                 }
                                             }
                                             $carr[$cnr][$buff[1]]['values'][] = $valarr;
