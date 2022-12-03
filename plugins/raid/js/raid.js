@@ -34,7 +34,7 @@ var raid_show = false;
  * @param {jQuery} xml plugin-XML
  */
 function raid_buildinfos(xml, id) {
-    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devfirmware = "", devtemperature = 0, devbattvolt = 0, devbatttemp = 0, devbattery = "", devsupported = "", devcapacity = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
+    var html = "", prog = "", devname = "", devstatus = "", devlevel = "", devcontroller = "", devfirmware = "", devtemperature = 0, devbattvolt = 0, devbatttemp = 0, devbattery = "", devsupported = "", devcachevault = 0, devcapacity = 0, devstride = 0, devsubsets = 0, devdevs = 0, devspares = 0, devchunk = 0, devstripe = 0, devalgor = "", devpersist = 0, devreg = 0, devact = 0, devcache = 0, devbad = 0, devread = "", devwrite = "", devdiskcache = "", button = "";
 
     prog = $(xml).attr("Program");
     devname = $(xml).attr("Name");
@@ -47,6 +47,7 @@ function raid_buildinfos(xml, id) {
     devbatttemp = parseFloat($(xml).attr("Batt_Temp"));
     devbattery = $(xml).attr("Battery");
     devsupported = $(xml).attr("Supported");
+    devcachevault = parseInt($(xml).attr("Cachevault_Size"), 10);
     devcapacity = parseInt($(xml).attr("Capacity"), 10);
     devstride = parseInt($(xml).attr("Stride"), 10);
     devsubsets = parseInt($(xml).attr("Subsets"), 10);
@@ -94,6 +95,7 @@ function raid_buildinfos(xml, id) {
     if (!isNaN(devcache)) html += "<tr><td>" + genlang(25, "Raid") + "</td><td>" + formatBytes(devcache, xml.parent().parent().parent()) + "</td></tr>";
     if (devread !== undefined) html += "<tr><td>" + genlang(23, "Raid") + "</td><td>" + devread + "</td></tr>";
     if (devwrite !== undefined) html += "<tr><td>" + genlang(24, "Raid") + "</td><td>" + devwrite + "</td></tr>";
+    if (!isNaN(devcachevault)) html += "<tr><td>" + genlang(33, "Raid") + "</td><td>" + formatBytes(devcachevault, xml.parent().parent().parent()) + "</td></tr>";
     if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
     

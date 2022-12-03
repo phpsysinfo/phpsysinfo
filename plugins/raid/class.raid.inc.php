@@ -1952,6 +1952,27 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
                                 }
                             }
+                            if (isset($controller["HwCfg"]["CacheVault Flash Size"]) && preg_match("/^([\d\.]+)\s*(\S+)$/", $controller["HwCfg"]["CacheVault Flash Size"], $value)) {
+                                switch ($value[2]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = $value[1];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*$value[1];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*$value[1];
+                                    break;
+                                case 'GB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*$value[1];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*1024*$value[1];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                }
+                            }
                             if (isset($topol["Size"]) && isset($topol["Unit"])) {
                                 switch ($topol["Unit"]) {
                                 case 'B':
@@ -2269,6 +2290,27 @@ class Raid extends PSI_Plugin
                                         $this->_result[$prog][$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
                                     }
                                 }
+                                if (isset($controller["HwCfg"]["CacheVault Flash Size"]) && preg_match("/^([\d\.]+)\s*(\S+)$/", $controller["HwCfg"]["CacheVault Flash Size"], $value)) {
+                                    switch ($value[2]) {
+                                    case 'B':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = $value[1];
+                                        break;
+                                    case 'KB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*$value[1];
+                                        break;
+                                    case 'MB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*$value[1];
+                                        break;
+                                    case 'GB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*$value[1];
+                                        break;
+                                    case 'TB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*1024*$value[1];
+                                        break;
+                                    case 'PB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                    }
+                                }
 
                                 if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
                                     if (isset($pdlist["Size"]) && isset($pdlist["Unit"])) {
@@ -2409,6 +2451,7 @@ class Raid extends PSI_Plugin
                     if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
                     if (isset($device['writepolicy'])) $dev->addAttribute("WritePolicy", $device["writepolicy"]);
                     if (isset($device['cache_size'])) $dev->addAttribute("Cache_Size", $device["cache_size"]);
+                    if (isset($device['cachevault_size'])) $dev->addAttribute("Cachevault_Size", $device["cachevault_size"]);
                     if (isset($device['diskcache'])) $dev->addAttribute("DiskCache", $device["diskcache"]);
                     if (isset($device['bad_blocks'])) $dev->addAttribute("Bad_Blocks", $device["bad_blocks"]);
 
