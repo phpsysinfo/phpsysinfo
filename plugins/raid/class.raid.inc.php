@@ -2225,14 +2225,21 @@ class Raid extends PSI_Plugin
                                     $this->_result[$prog][$cname]['status'] = 'Unknown';
                                 }
                                 if (isset($controller["BBU_Info"]["values"][0])) {
-                                    if (isset($controller["BBU_Info"]["values"][0]["State"])) {
-                                       if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
+                                    $bbuinfo = "BBU_Info";
+                                } elseif (isset($controller["Cachevault_Info"]["values"][0])) {
+                                    $bbuinfo = "Cachevault_Info";
+                                } else {
+                                    $bbuinfo = "";
+                                }
+                                if ($bbuinfo !== "") {
+                                    if (isset($controller[$bbuinfo]["values"][0]["State"])) {
+                                        if (($state = $controller[$bbuinfo]["values"][0]["State"]) === "Optimal") {
                                             $this->_result[$prog][$cname]['battery'] = "good";
                                         } else {
                                             $this->_result[$prog][$cname]['battery'] = $state;
                                         }
                                     }
-                                    if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
+                                    if (isset($controller[$bbuinfo]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller[$bbuinfo]["values"][0]["Temp"], $batt)) {
                                         $this->_result[$prog][$cname]['batttemp'] = $batt[1];
                                     }
                                 }
