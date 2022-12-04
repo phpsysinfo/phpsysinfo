@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.3
 ----------------
- - [ADD] Uruk, Laclin and Venom Linux to detected distros
+ - [ADD] Gnoppix, Uruk, Laclin and Venom Linux to detected distros
 
 phpSysInfo 3.4.2
 ----------------
