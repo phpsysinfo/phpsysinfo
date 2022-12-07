@@ -293,6 +293,8 @@ class XML
                     $virtstring .= 'virtualbox';
                 } elseif ($virtkey === 'zvm') {
                     $virtstring .= 'z/vm';
+                } elseif ($virtkey === 'sre') {
+                    $virtstring .= 'lmhs sre';
                 } else {
                     $virtstring .= $virtkey;
                 }
