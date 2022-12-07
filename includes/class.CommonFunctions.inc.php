@@ -845,7 +845,7 @@ class CommonFunctions
                 'TCGTCGTCGTCG' => 'qemu', // QEMU
                 'QNXQVMBSQG' => 'qnx', // QNX hypervisor
                 'VBoxVBoxVBox' => 'oracle', // Oracle VM VirtualBox
-                'SRESRESRESRE' => 'sre' // LMHS SRE
+                'SRESRESRESRE' => 'sre' // LMHS SRE hypervisor
             );
             $shortvendorid = trim(preg_replace('/[\s!\.]/', '', $vendor_data));
             if (($shortvendorid !== "") && isset($vidarray[$shortvendorid])) {
