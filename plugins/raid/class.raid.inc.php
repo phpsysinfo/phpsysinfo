@@ -1827,7 +1827,7 @@ class Raid extends PSI_Plugin
                     }
                     if ($cnr >= 0) {
                         $stage = 0;
-                        $lines = preg_split('/\r?\n/', $buff[2], -1, PREG_SPLIT_NO_EMPTY);
+                        $lines = preg_split('/\r?\n/', preg_replace("/, \r?\n/", ", ", $buff[2]), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($lines as $line) {
                             if (($line = trim($line)) !== '') {
                                 $parts = preg_split("/ = /", $line);
