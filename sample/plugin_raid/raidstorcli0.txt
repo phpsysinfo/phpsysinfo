@@ -170,10 +170,10 @@ Advanced Software Option part number :
 ========================
 
 --------------------------------------------
-Adv S/W Opt Time Remaining Mode
+Adv S/W Opt         Time Remaining    Mode
 --------------------------------------------
-MegaRAID SafeStore Unlimited Secured
-MegaRAID RAID5 Unlimited Secured
+MegaRAID SafeStore  Unlimited Secured
+MegaRAID RAID5      Unlimited Secured
 --------------------------------------------
 
 Safe ID = XCR9FXJX6PQ866ND56BJ86DU5V7CQ8XG4NQAKDRZ
@@ -205,17 +205,17 @@ Policies Table :
 ==============
 
 ------------------------------------------------
-Policy Current Default
+Policy                          Current Default
 ------------------------------------------------
-Predictive Fail Poll Interval 300 sec
+Predictive Fail Poll Interval   300 sec
 Interrupt Throttle Active Count 16
-Interrupt Throttle Completion 50 us
-Rebuild Rate 30 percent 30%
-PR Rate 30 percent 30%
-BGI Rate 30 percent 30%
-Check Consistency Rate 30 percent 30%
-Reconstruction Rate 30 percent 30%
-Cache Flush Interval 0s
+Interrupt Throttle Completion   50 us
+Rebuild Rate                    30 %    30%
+PR Rate                         30 %    30%
+BGI Rate                        30 %    30%
+Check Consistency Rate          30 %    30%
+Reconstruction Rate             30 %    30%
+Cache Flush Interval            0s
 ------------------------------------------------
 
 Flush Time(Default) = 4s
@@ -339,16 +339,16 @@ TOPOLOGY :
 ========
 
 --------------------------------------------------------------------------
-DG Arr Row EID:Slot DID Type State BT Size PDC PI SED DS3 FSpace
+DG Arr Row EID:Slot DID Type  State BT       Size PDC  PI SED DS3  FSpace
 --------------------------------------------------------------------------
-0 - - - - RAID5 Optl N 4.087 TB dsbl N N none N
-0 0 - - - RAID5 Optl N 4.087 TB dsbl N N none N
-0 0 0 252:5 7 DRIVE Onln N 837.258 GB dsbl N N none -
-0 0 1 252:4 8 DRIVE Onln N 837.258 GB dsbl N N none -
-0 0 2 252:1 10 DRIVE Onln N 837.258 GB dsbl N N none -
-0 0 3 252:6 11 DRIVE Onln N 837.258 GB dsbl N N none -
-0 0 4 252:2 12 DRIVE Onln N 837.258 GB dsbl N N none -
-0 0 5 252:3 13 DRIVE Onln N 837.258 GB dsbl N N none -
+ 0 -   -   -        -   RAID5 Optl  N    4.087 TB dsbl N  N   none N
+ 0 0   -   -        -   RAID5 Optl  N    4.087 TB dsbl N  N   none N
+ 0 0   0   252:5    7   DRIVE Onln  N  837.258 GB dsbl N  N   none -
+ 0 0   1   252:4    8   DRIVE Onln  N  837.258 GB dsbl N  N   none -
+ 0 0   2   252:1    10  DRIVE Onln  N  837.258 GB dsbl N  N   none -
+ 0 0   3   252:6    11  DRIVE Onln  N  837.258 GB dsbl N  N   none -
+ 0 0   4   252:2    12  DRIVE Onln  N  837.258 GB dsbl N  N   none -
+ 0 0   5   252:3    13  DRIVE Onln  N  837.258 GB dsbl N  N   none -
 --------------------------------------------------------------------------
 
 DG=Disk Group Index|Arr=Array Index|Row=Row Index|EID=Enclosure Device ID
@@ -379,16 +379,16 @@ Physical Drives = 7
 PD LIST :
 =======
 
-------------------------------------------------------------------------
-EID:Slt DID State DG Size Intf Med SED PI SeSz Model Sp
 -------------------------------------------------------------------------
-252:0 9 GHS - 837.258 GB SAS HDD N N 512B ST900MM0168 U
-252:1 10 Onln 0 837.258 GB SAS HDD N N 512B ST900MM0168 U
-252:2 12 Onln 0 837.258 GB SAS HDD N N 512B AL14SEB090N U
-252:3 13 Onln 0 837.258 GB SAS HDD N N 512B AL14SEB090N U
-252:4 8 Onln 0 837.258 GB SAS HDD N N 512B AL14SEB090N U
-252:5 7 Onln 0 837.258 GB SAS HDD N N 512B AL14SEB090N U
-252:6 11 Onln 0 837.258 GB SAS HDD N N 512B AL14SEB090N U
+EID:Slt DID State DG        Size Intf Med SED PI SeSz Model           Sp
+-------------------------------------------------------------------------
+252:0     9 GHS    -  837.258 GB SAS  HDD N   N  512B ST900MM0168     U
+252:1    10 Onln   0  837.258 GB SAS  HDD N   N  512B ST900MM0168     U
+252:2    12 Onln   0  837.258 GB SAS  HDD N   N  512B AL14SEB090N     U
+252:3    13 Onln   0  837.258 GB SAS  HDD N   N  512B AL14SEB090N     U
+252:4     8 Onln   0  837.258 GB SAS  HDD N   N  512B AL14SEB090N     U
+252:5     7 Onln   0  837.258 GB SAS  HDD N   N  512B AL14SEB090N     U
+252:6    11 Onln   0  837.258 GB SAS  HDD N   N  512B AL14SEB090N     U
 -------------------------------------------------------------------------
 
 EID-Enclosure Device ID|Slt-Slot No.|DID-Device ID|DG-DriveGroup
@@ -404,7 +404,7 @@ Cachevault_Info :
 ===============
 
 ------------------------------------
-Model State Temp Mode MfgDate
+Model  State   Temp Mode MfgDate
 ------------------------------------
-CVPM02 Optimal 28C - 2016/01/09
+CVPM02 Optimal 28C  -    2016/01/09
 ------------------------------------
