@@ -2125,6 +2125,10 @@ class Raid extends PSI_Plugin
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Offline";
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
                                                     break;
+                                                case 'Rbld':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Rebuild";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "W";
+                                                    break;
                                                 default:
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unknown";
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
