@@ -300,8 +300,8 @@ Capabilities :
 ============
 Supported Drives = SAS, SATA
 Boot Volume Supported = NO
-RAID Level Supported = RAID0, RAID1, RAID5, RAID00, RAID10, RAID50,
-, PRL 11, PRL 11 with spanning, SRL 3 supported,
+RAID Level Supported = RAID0, RAID1, RAID5, RAID00, RAID10, RAID50, 
+PRL 11, PRL 11 with spanning, SRL 3 supported, 
 PRL11-RLQ0 DDF layout with no span, PRL11-RLQ0 DDF layout with span
 Enable JBOD = No
 Mix in Enclosure = Allowed
