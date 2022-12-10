@@ -1999,6 +1999,12 @@ class Raid extends PSI_Plugin
                                 case 'dflt':
                                     $this->_result[$prog][$uname]['diskcache'] = "default";
                                     break;
+                                case 'dsbl':
+                                    $this->_result[$prog][$uname]['diskcache'] = "disabled";
+                                    break;
+                                case 'enbl':
+                                    $this->_result[$prog][$uname]['diskcache'] = "enabled";
+                                    break;
                                 default:
                                     $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
                                 }
