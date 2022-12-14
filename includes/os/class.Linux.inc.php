@@ -1532,13 +1532,13 @@ class Linux extends OS
                     $macaddr = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, PSI_DEBUG) && ($bufr2!="")
+                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, false) && ($bufr2!="")
                        && preg_match("/\n\s+RX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)[^\n]+\n\s+TX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)/m", $bufr2, $ar_buf2)) {
                         $dev->setRxBytes($ar_buf2[1]);
                         $dev->setTxBytes($ar_buf2[4]);
                         $dev->setErrors($ar_buf2[2]+$ar_buf2[5]);
                         $dev->setDrops($ar_buf2[3]+$ar_buf2[6]);
-                    } elseif (CommonFunctions::executeProgram('ifconfig', $ar_buf[1], $bufr2, PSI_DEBUG) && ($bufr2!="")) {
+                    } elseif (CommonFunctions::executeProgram('ifconfig', $ar_buf[1], $bufr2, false) && ($bufr2!="")) {
                         if (preg_match('/\sRX bytes:(\d+)\s/im', $bufr2, $ar_buf2)) {
                             $dev->setRxBytes($ar_buf2[1]);
                         }
