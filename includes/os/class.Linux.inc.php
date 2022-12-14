@@ -692,6 +692,9 @@ class Linux extends OS
             // IBM/S390
             $bufr = preg_replace('/\ncpu number\s*:\s*(\d+)\r?\ncpu MHz dynamic\s*:\s*(\d+)/m', "\nprocessor:$1\nclock:$2", $bufr);
 
+            // machine
+            $bufr = preg_replace('/(\nmachine\s*:\s*[^\r\n]+)/m', "$1\n", $bufr);
+           
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -724,6 +727,7 @@ class Linux extends OS
                         case 'cpu variant':
                             $_vari = $arrBuff1;
                             break;
+                        case 'machine':
                         case 'hardware':
                             $_hard = $arrBuff1;
                             break;
