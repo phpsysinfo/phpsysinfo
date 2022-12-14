@@ -306,7 +306,7 @@ class Linux extends OS
                 if ($ip != $result) {
                     $this->sys->setHostname(gethostbyaddr($ip));
                 }
-            } elseif (CommonFunctions::executeProgram('hostname', '', $ret)) {
+            } elseif (CommonFunctions::executeProgram('hostname', '', $ret, false)) {
                 $this->sys->setHostname($ret);
             }
         }
@@ -1518,7 +1518,7 @@ class Linux extends OS
             $speedinfo = "";
             $dev = null;
             foreach ($lines as $line) {
-                if (preg_match("/^\d+:\s+([^\s:]+)/", $line, $ar_buf)) {
+                if (preg_match("/^\d+:\s+([^\s:@]+)/", $line, $ar_buf)) {
                     if ($was) {
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
