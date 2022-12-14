@@ -1538,6 +1538,25 @@ class Linux extends OS
                         $dev->setTxBytes($ar_buf2[4]);
                         $dev->setErrors($ar_buf2[2]+$ar_buf2[5]);
                         $dev->setDrops($ar_buf2[3]+$ar_buf2[6]);
+                    } elseif (CommonFunctions::executeProgram('ifconfig', $ar_buf[1], $bufr2, PSI_DEBUG) && ($bufr2!="")) {
+                        if (preg_match('/\sRX bytes:(\d+)\s/im', $bufr2, $ar_buf2)) {
+                            $dev->setRxBytes($ar_buf2[1]);
+                        }
+                        if (preg_match('/\sTX bytes:(\d+)\s/im', $bufr2, $ar_buf2)) {
+                            $dev->setTxBytes($ar_buf2[1]);
+                        }
+                        $errors = 0;
+                        $drops = 0;
+                        if (preg_match('/\sRX packets:\d+\serrors:(\d+)\sdropped:(\d+)/im', $bufr2, $ar_buf2)) {
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[2];
+                        }
+                        if (preg_match('/\sTX packets:\d+\serrors:(\d+)\sdropped:(\d+)/im', $bufr2, $ar_buf2)) {
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[2];
+                        }
+                        $dev->setErrors($errors);
+                        $dev->setDrops($drops);
                     }
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
