@@ -1959,6 +1959,9 @@ class Linux extends OS
                                 } else {
                                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
                                         $buf = "";
+                                        if (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="analyse")) {
+                                            break;
+                                        }
                                     } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="analyse")) {
                                         if (preg_match('/^(\S+)\s*/', preg_replace('/^red\s+/', 'red', strtolower($buf)), $id_buf)
                                            && isset($list[trim($id_buf[1])]['Image'])) {
