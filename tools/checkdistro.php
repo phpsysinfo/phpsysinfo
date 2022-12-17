@@ -108,22 +108,28 @@ class _Linux extends Linux
 }
 
 $system = new _Linux('none');
-if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
-    echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\">";
-    echo "<tr>";
-    echo "<td>Distrotest sample</td>";
-    echo "<td>Distro Name</td>";
-    echo "<td>Distro Icon</td>";
-    echo "<td>Distro Name (no lsb_release)</td>";
-    echo "<td>Distro Icon (no lsb_release)</td>";
-    echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
-    echo "<td>Distro Icon (no lsb_release and no /etc/lsb-release)</td>";
-    echo "</tr>";
-    while (false !== ($entry = readdir($handle))) {
-        if (($entry!=".")&&($entry!="..")) {
-            if ($shandle = opendir(PSI_APP_ROOT."/sample/distrotest/$entry")) {
-                while (false !== ($sentry = readdir($shandle))) {
-                    if (($sentry!=".")&&($sentry!="..")) {
+$dirs = scandir(PSI_APP_ROOT.'/sample/distrotest');
+if (($dirs !== false) && (count($dirs) > 0)) {
+    $dirs = array_diff($dirs, array('.', '..'));
+    if (($dirs !== false) && (count($dirs) > 0)) {
+        natcasesort($dirs);
+        echo "<table cellpadding=\"2\" border=\"1\"  CELLSPACING=\"0\">";
+        echo "<tr>";
+        echo "<td>Distrotest sample</td>";
+        echo "<td>Distro Name</td>";
+        echo "<td>Distro Icon</td>";
+        echo "<td>Distro Name (no lsb_release)</td>";
+        echo "<td>Distro Icon (no lsb_release)</td>";
+        echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
+        echo "<td>Distro Icon (no lsb_release and no /etc/lsb-release)</td>";
+        echo "</tr>";
+        foreach ($dirs as $entry) {
+            $files = scandir(PSI_APP_ROOT."/sample/distrotest/$entry");
+            if (($files !== false) && (count($files) > 0)) {
+                $files = array_diff($files, array('.', '..'));
+                if (($files !== false) && (count($files) > 0)) {
+                    natcasesort($files);
+                    foreach ($files as $sentry) {
                         $log_file=PSI_APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
@@ -191,11 +197,9 @@ if ($handle = opendir(PSI_APP_ROOT.'/sample/distrotest')) {
                         echo "</tr>";
                     }
                 }
-                closedir($shandle);
             }
         }
+        echo "</table>";
     }
-    echo "</table>";
-    closedir($handle);
 }
 echo "</body>";
