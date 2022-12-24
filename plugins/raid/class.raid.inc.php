@@ -1901,6 +1901,32 @@ class Raid extends PSI_Plugin
                         if ($topol["DG"] != $dg) {
                             $dg = $topol["DG"];
                             $uname = 'c'.$cnr.'u'.$dg;
+                            if (isset($controller["VD".$dg." Properties"]["Strip Size"]) && preg_match("/^(\d+)\s*(\S+)$/", $controller["VD".$dg." Properties"]["Strip Size"], $value)) {
+                                switch ($value[2]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['stripe_size'] = $value[1];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['stripe_size'] = 1024*$value[1];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['stripe_size'] = 1024*1024*$value[1];
+                                    break;
+                                case 'GB':
+                                    $this->_result[$prog][$uname]['stripe_size'] = 1024*1024*1024*$value[1];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['stripe_size'] = 1024*1024*1024*1024*$value[1];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['stripe_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                }
+                            }
+                            if (isset($controller["VD".$dg." Properties"]["Active Operations"]) && preg_match("/^(.+) \((\d+)%\)/", $controller["VD".$dg." Properties"]["Active Operations"], $progarr)) {
+                                //$this->_result[$prog][$uname]['items'][$pname]['status'] = "W";
+                                $this->_result[$prog][$uname]['action']['name'] = trim($progarr[1]);
+                                $this->_result[$prog][$uname]['action']['percent'] = trim($progarr[2]);
+                            }
                             if (isset($controller["Basics"]["Model"])) $this->_result[$prog][$uname]['controller'] = $controller["Basics"]["Model"];
                             if (isset($controller["Version"]["Firmware Package Build"])) $this->_result[$prog][$uname]['firmware'] = $controller["Version"]["Firmware Package Build"];
                             if (isset($controller["Status"]["Controller Status"])) {
@@ -1931,7 +1957,7 @@ class Raid extends PSI_Plugin
                             }
                             if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
                             if (isset($controller["HwCfg"]["ROC temperature(Degree Celsius)"])) $this->_result[$prog][$uname]['temperature'] = $controller["HwCfg"]["ROC temperature(Degree Celsius)"];
-                            if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
+                            if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)\s*(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
                                 switch ($value[2]) {
                                 case 'B':
                                     $this->_result[$prog][$uname]['cache_size'] = $value[1];
@@ -2279,7 +2305,7 @@ class Raid extends PSI_Plugin
                                     }
                                 }
                                 if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$cname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
-                                if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
+                                if (isset($controller["HwCfg"]["On Board Memory Size"]) && preg_match("/^(\d+)\s*(\S+)$/", $controller["HwCfg"]["On Board Memory Size"], $value)) {
                                     switch ($value[2]) {
                                     case 'B':
                                         $this->_result[$prog][$cname]['cache_size'] = $value[1];
