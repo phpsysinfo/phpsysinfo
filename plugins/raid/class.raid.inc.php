@@ -115,18 +115,36 @@ class Raid extends PSI_Plugin
                     if ((PSI_OS == 'WINNT') && !WINNT::isAdmin() && (CommonFunctions::_findProgram("storcli64") || CommonFunctions::_findProgram("storcli"))) {
                       $this->global_error->addError("RAID storcli error", "Program allowed for users with administrator privileges (run as administrator)");
                     }
-                    if (!(CommonFunctions::_findProgram("storcli64") && CommonFunctions::executeProgram("storcli64", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG))) {
-                        CommonFunctions::executeProgram("storcli", "/call show all", $this->_filecontent['storcli'], PSI_DEBUG);
+                    $call = "";
+                    $vall = "";
+                    $raidcmd = "";
+                    if (!(CommonFunctions::_findProgram("storcli64") && CommonFunctions::executeProgram($raidcmd = "storcli64", "/call show all", $call, PSI_DEBUG))) {
+                        if (!CommonFunctions::executeProgram($raidcmd = "storcli", "/call show all", $call, PSI_DEBUG)) {
+                            $raidcmd = "";
+                        }
                     }
+                    if ($raidcmd !== "" ) {
+                        CommonFunctions::executeProgram($raidcmd, "/call /vall show all", $vall, PSI_DEBUG);
+                    }
+                    $this->_filecontent['storcli'] = $call.$vall;
                     $notwas = false;
                 }
                 if (in_array('perccli', $this->prog_items)) {
                     if ((PSI_OS == 'WINNT') && !WINNT::isAdmin() && (CommonFunctions::_findProgram("perccli64") || CommonFunctions::_findProgram("perccli"))) {
                       $this->global_error->addError("RAID perccli error", "Program allowed for users with administrator privileges (run as administrator)");
                     }
-                    if (!(CommonFunctions::_findProgram("perccli64") && CommonFunctions::executeProgram("perccli64", "/call show all", $this->_filecontent['perccli'], PSI_DEBUG))) {
-                        CommonFunctions::executeProgram("perccli", "/call show all", $this->_filecontent['perccli'], PSI_DEBUG);
+                    $call = "";
+                    $vall = "";
+                    $raidcmd = "";
+                    if (!(CommonFunctions::_findProgram("perccli64") && CommonFunctions::executeProgram($raidcmd = "perccli64", "/call show all", $call, PSI_DEBUG))) {
+                        if (!CommonFunctions::executeProgram($raidcmd = "perccli", "/call show all", $call, PSI_DEBUG)) {
+                            $raidcmd = "";
+                        }
                     }
+                    if ($raidcmd !== "" ) {
+                        CommonFunctions::executeProgram($raidcmd, "/call /vall show all", $vall, PSI_DEBUG);
+                    }
+                    $this->_filecontent['perccli'] = $call.$vall;
                     $notwas = false;
                 }
             }
