@@ -2080,7 +2080,7 @@ class Linux extends OS
                     }
                 } elseif (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
                     || (!defined('PSI_EMU_PORT') && CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))
-                    && (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf) || preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
+                    && (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf) || preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_ID=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
                     if (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf)) {
                         if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\r\n]+)/m', $buf, $desc_buf)) {
                             $this->sys->setDistribution(trim($desc_buf[1])." ".trim($tid_buf[1]));
