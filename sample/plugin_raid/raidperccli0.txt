@@ -441,3 +441,129 @@ BBU   Optimal 0 hour(s)     25C  -    0/00/00
 
 
 
+CLI Version = 007.0529.0000.0000 Sep 18, 2018
+Operating system = Linux 4.9.0-18-amd64
+Controller = 0
+Status = Success
+Description = None
+
+
+/c0/v0 :
+======
+
+-------------------------------------------------------------------------
+DG/VD TYPE  State Access Consist Cache Cac sCC       Size Name           
+-------------------------------------------------------------------------
+0/0   RAID1 Optl  RW     Yes     RWBD  -   OFF 744.625 GB Virtual Disk 0 
+-------------------------------------------------------------------------
+
+Cac=CacheCade|Rec=Recovery|OfLn=OffLine|Pdgd=Partially Degraded|Dgrd=Degraded
+Optl=Optimal|RO=Read Only|RW=Read Write|HD=Hidden|TRANS=TransportReady|B=Blocked|
+Consist=Consistent|R=Read Ahead Always|NR=No Read Ahead|WB=WriteBack|
+FWB=Force WriteBack|WT=WriteThrough|C=Cached IO|D=Direct IO|sCC=Scheduled
+Check Consistency
+
+
+PDs for VD 0 :
+============
+
+---------------------------------------------------------------------------
+EID:Slt DID State DG       Size Intf Med SED PI SeSz Model         Sp Type 
+---------------------------------------------------------------------------
+32:0      0 Onln   0 744.625 GB SATA SSD N   N  512B THNSF8800CCSE U  -    
+32:1      1 Onln   0 744.625 GB SATA SSD N   N  512B THNSF8800CCSE U  -    
+---------------------------------------------------------------------------
+
+EID-Enclosure Device ID|Slt-Slot No.|DID-Device ID|DG-DriveGroup
+DHS-Dedicated Hot Spare|UGood-Unconfigured Good|GHS-Global Hotspare
+UBad-Unconfigured Bad|Onln-Online|Offln-Offline|Intf-Interface
+Med-Media Type|SED-Self Encrypting Drive|PI-Protection Info
+SeSz-Sector Size|Sp-Spun|U-Up|D-Down/PowerSave|T-Transition|F-Foreign
+UGUnsp-Unsupported|UGShld-UnConfigured shielded|HSPShld-Hotspare shielded
+CFShld-Configured shielded|Cpybck-CopyBack|CBShld-Copyback Shielded
+
+
+VD0 Properties :
+==============
+Strip Size = 64 KB
+Number of Blocks = 1561591808
+VD has Emulated PD = No
+Span Depth = 1
+Number of Drives Per Span = 2
+Write Cache(initial setting) = WriteBack
+Disk Cache Policy = Disk's Default
+Encryption = None
+Data Protection = None
+Active Operations = None
+Exposed to OS = Yes
+Creation Date = 04-01-2019
+Creation Time = 11:04:16 PM
+Emulation type = default
+Cachebypass size = Cachebypass-64k
+Cachebypass Mode = Cachebypass Intelligent
+Is LD Ready for OS Requests = Yes
+SCSI NAA Id = 64cd98f040f0fd0023c2a2f070eefd16
+SCSI Unmap = No
+
+
+/c0/v1 :
+======
+
+-----------------------------------------------------------------------
+DG/VD TYPE  State Access Consist Cache Cac sCC     Size Name           
+-----------------------------------------------------------------------
+1/1   RAID5 Optl  RW     Yes     RWBD  -   OFF 2.727 TB Virtual Disk 1 
+-----------------------------------------------------------------------
+
+Cac=CacheCade|Rec=Recovery|OfLn=OffLine|Pdgd=Partially Degraded|Dgrd=Degraded
+Optl=Optimal|RO=Read Only|RW=Read Write|HD=Hidden|TRANS=TransportReady|B=Blocked|
+Consist=Consistent|R=Read Ahead Always|NR=No Read Ahead|WB=WriteBack|
+FWB=Force WriteBack|WT=WriteThrough|C=Cached IO|D=Direct IO|sCC=Scheduled
+Check Consistency
+
+
+PDs for VD 1 :
+============
+
+------------------------------------------------------------------------
+EID:Slt DID State DG     Size Intf Med SED PI SeSz Model        Sp Type 
+------------------------------------------------------------------------
+32:2      2 Onln   1 931.0 GB SATA HDD N   N  512B ST1000NX0443 U  -    
+32:3      3 Onln   1 931.0 GB SATA HDD N   N  512B ST1000NX0443 U  -    
+32:4      4 Onln   1 931.0 GB SATA HDD N   N  512B ST1000NX0443 U  -    
+32:5      5 Onln   1 931.0 GB SATA HDD N   N  512B ST1000NX0443 U  -    
+------------------------------------------------------------------------
+
+EID-Enclosure Device ID|Slt-Slot No.|DID-Device ID|DG-DriveGroup
+DHS-Dedicated Hot Spare|UGood-Unconfigured Good|GHS-Global Hotspare
+UBad-Unconfigured Bad|Onln-Online|Offln-Offline|Intf-Interface
+Med-Media Type|SED-Self Encrypting Drive|PI-Protection Info
+SeSz-Sector Size|Sp-Spun|U-Up|D-Down/PowerSave|T-Transition|F-Foreign
+UGUnsp-Unsupported|UGShld-UnConfigured shielded|HSPShld-Hotspare shielded
+CFShld-Configured shielded|Cpybck-CopyBack|CBShld-Copyback Shielded
+
+
+VD1 Properties :
+==============
+Strip Size = 64 KB
+Number of Blocks = 5857345536
+VD has Emulated PD = No
+Span Depth = 1
+Number of Drives Per Span = 4
+Write Cache(initial setting) = WriteBack
+Disk Cache Policy = Disk's Default
+Encryption = None
+Data Protection = None
+Active Operations = None
+Exposed to OS = Yes
+Creation Date = 04-01-2019
+Creation Time = 11:04:44 PM
+Emulation type = default
+Cachebypass size = Cachebypass-64k
+Cachebypass Mode = Cachebypass Intelligent
+Is LD Ready for OS Requests = Yes
+SCSI NAA Id = 64cd98f040f0fd0023c2a30c729a1fb9
+SCSI Unmap = No
+
+
+
