@@ -1042,8 +1042,9 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", bridge = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
         name = $(this).attr("Name");
+        bridge = $(this).attr("Bridge");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
@@ -1085,8 +1086,11 @@ function refreshNetwork(xml) {
             }
         }
 
-        html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
-
+        if ( (bridge !== undefined) && (bridge !== "") ) {
+            html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + " (" + bridge +")</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+        } else {
+            html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+        }
         networkindex = tree.push(0);
 
         if (showNetworkActiveSpeed) {

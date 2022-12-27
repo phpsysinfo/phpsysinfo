@@ -1455,10 +1455,16 @@ class Linux extends OS
                     $dev->setTxBytes($stats[8]);
                     $dev->setErrors($stats[2] + $stats[10]);
                     $dev->setDrops($stats[3] + $stats[11]);
+                    if (CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && (trim($bufr2)!="")) {
+                        if (preg_match("/^\d+:\s+([^\s:@]+).+\s+master\s+(\S+)/", $bufr2, $brbufr)) {
+                            $dev->setBridge($brbufr[2]);
+                        }
+                    } else {
+                        $bufr2 = "";
+                    }
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
                         $macaddr = "";
-                        if ((CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && ($bufr2!=""))
-                           || CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG)) {
+                        if (($bufr2!="") || CommonFunctions::executeProgram('ifconfig', trim($dev_name).' 2>/dev/null', $bufr2, PSI_DEBUG)) {
                             $bufe2 = preg_split("/\n/", $bufr2, -1, PREG_SPLIT_NO_EMPTY);
                             foreach ($bufe2 as $buf2) {
 //                                if (preg_match('/^'.trim($dev_name).'\s+Link\sencap:Ethernet\s+HWaddr\s(\S+)/i', $buf2, $ar_buf2)
@@ -1521,7 +1527,7 @@ class Linux extends OS
             $speedinfo = "";
             $dev = null;
             foreach ($lines as $line) {
-                if (preg_match("/^\d+:\s+([^\s:@]+)/", $line, $ar_buf)) {
+                if (preg_match("/^\d+:\s+([^\s:@]+)(.*)/", $line, $ar_buf)) {
                     if ($was) {
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
@@ -1535,6 +1541,9 @@ class Linux extends OS
                     $macaddr = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
+                    if (isset($ar_buf[2]) && (($ar_buf[2] = trim($ar_buf[2])) !=="") && preg_match("/\s+master\s+(\S+)/", $ar_buf[2], $bufr2)) {
+                        $dev->setBridge($bufr2[1]);
+                    }
                     if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, false) && ($bufr2!="")
                        && preg_match("/\n\s+RX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)[^\n]+\n\s+TX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)/m", $bufr2, $ar_buf2)) {
                         $dev->setRxBytes($ar_buf2[1]);

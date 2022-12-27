@@ -1200,6 +1200,15 @@ function renderNetwork(data) {
     }
 
     var directives = {
+        Name: {
+            text: function () {
+                if (this.Bridge !== undefined) {
+                    return this.Name + " (" + this.Bridge + ")";
+                } else {
+                    return this.Name;
+                }
+            }
+        },
         RxBytes: {
             html: function () {
                 var htmladd = '';
