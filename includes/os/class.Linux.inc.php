@@ -1481,7 +1481,8 @@ class Linux extends OS
                                     }
                                 } elseif (preg_match('/^\s+inet\saddr:(\S+)\s+P-t-P:(\S+)/i', $buf2, $ar_buf2)
                                        || preg_match('/^\s+inet\s+(\S+)\s+netmask.+destination\s+(\S+)/i', $buf2, $ar_buf2)
-                                       || preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)) {
+                                       || preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $buf2, $ar_buf2)
+                                       /*|| preg_match('/^\s+link\/sit\s+([^\/\s]+).*peer\s+([^\/\s]+)/i', $buf2, $ar_buf2)*/) {
                                     if ($ar_buf2[1] != $ar_buf2[2]) {
                                         $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
                                     } else {
@@ -1598,7 +1599,8 @@ class Linux extends OS
                                         $macaddr = "";
                                     }
                                 }
-                            } elseif (preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2)) {
+                            } elseif (preg_match('/^\s+inet\s+([^\/\s]+).*peer\s+([^\/\s]+).*\s+scope\s((global)|(host))/i', $line, $ar_buf2)
+                                     /*|| preg_match('/^\s+link\/sit\s+([^\/\s]+).*peer\s+([^\/\s]+)/i', $line, $ar_buf2)*/) {
                                 if ($ar_buf2[1] != $ar_buf2[2]) {
                                      $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').$ar_buf2[1].";:".$ar_buf2[2]);
                                 } else {
