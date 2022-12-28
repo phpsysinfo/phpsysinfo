@@ -1455,8 +1455,9 @@ class Linux extends OS
                     $dev->setTxBytes($stats[8]);
                     $dev->setErrors($stats[2] + $stats[10]);
                     $dev->setDrops($stats[3] + $stats[11]);
-                    if (CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && (trim($bufr2)!="")) {
-                        if (preg_match("/^\d+:\s+([^\s:@]+).+\s+master\s+(\S+)/", $bufr2, $brbufr)) {
+                    if (((defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) || (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE)) 
+                       && CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && (trim($bufr2)!="")) {
+                        if (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE && preg_match("/^\d+:\s+([^\s:@]+).+\s+master\s+(\S+)/", $bufr2, $brbufr)) {
                             $dev->setBridge($brbufr[2]);
                         }
                     } else {
@@ -1542,7 +1543,8 @@ class Linux extends OS
                     $macaddr = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    if (isset($ar_buf[2]) && (($ar_buf[2] = trim($ar_buf[2])) !=="") && preg_match("/\s+master\s+(\S+)/", $ar_buf[2], $bufr2)) {
+                    if (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE
+                       && isset($ar_buf[2]) && (($ar_buf[2] = trim($ar_buf[2])) !=="") && preg_match("/\s+master\s+(\S+)/", $ar_buf[2], $bufr2)) {
                         $dev->setBridge($bufr2[1]);
                     }
                     if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, false) && ($bufr2!="")

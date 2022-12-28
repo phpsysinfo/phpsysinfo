@@ -7,6 +7,8 @@ phpSysInfo 3.4.3
 ----------------
  - [ADD] Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin and Venom Linux to detected distros
 
+ - [NEW] SHOW_NETWORK_BRIDGE option
+
 phpSysInfo 3.4.2
 ----------------
  - [ADD] RebornOS, Parrot OS, Pop!_OS, Nitrux, Makulu, Absolute, Bluestar, Ultramarine Linux and TrueNAS to detected distros

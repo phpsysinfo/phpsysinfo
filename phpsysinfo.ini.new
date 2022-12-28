@@ -446,6 +446,11 @@ SHOW_NETWORK_INFOS=true
 HIDE_NETWORK_MACADDR=false
 
 
+; Show bridge info in the network interface name
+;
+SHOW_NETWORK_BRIDGE=true
+
+
 ; Sort network interfaces list
 ;
 SORT_NETWORK_INTERFACES_LIST=false

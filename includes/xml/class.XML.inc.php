@@ -231,7 +231,7 @@ class XML
                 }
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if ($dev->getBridge()) {
+                if (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE && $dev->getBridge()) {
                     $device->addAttribute('Bridge', $dev->getBridge());
                 }
                 if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo()) {
