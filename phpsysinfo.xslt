@@ -1403,6 +1403,12 @@
                                                         <tr>
                                                             <td>
                                                                 <xsl:value-of select="@Name"/>
+                                                                <xsl:if
+                                                                    test="count(@Bridge )&gt;0">
+                                                                    <xsl:text> (</xsl:text>
+                                                                    <xsl:value-of select="@Bridge" />
+                                                                    <xsl:text>)</xsl:text>
+                                                                </xsl:if>
                                                             </td>
                                                             <td class="right" width="60px">
                                                                 <span>

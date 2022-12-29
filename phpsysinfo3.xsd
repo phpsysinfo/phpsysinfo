@@ -37,6 +37,7 @@
 
     <complexType name="NetDevice">
         <attribute name="Name" type="string" use="required"></attribute>
+        <attribute name="Bridge" type="string" use="optional"></attribute>
         <attribute name="RxBytes" type="integer" use="required"></attribute>
         <attribute name="TxBytes" type="integer" use="required"></attribute>
         <attribute name="Err" type="integer" use="required"></attribute>
