@@ -2113,8 +2113,12 @@ class Linux extends OS
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                             } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            } elseif (preg_match('/^DISTRIB_RELEASE=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                             }
                             if (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
+                            } elseif (preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }
                         }
