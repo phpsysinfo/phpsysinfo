@@ -2018,6 +2018,23 @@ class Linux extends OS
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                                             } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                                            } elseif (preg_match('/^DISTRIB_ID=[\'"]?([^\'"\r\n]+)/m', $buf, $id_buf)) {                                            
+                                                if (preg_match('/^DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
+                                                   && (trim($desc_buf[1])!=trim($id_buf[1]))) {
+                                                    $this->sys->setDistribution(trim($desc_buf[1]));
+                                                } else {
+                                                    if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
+                                                        $this->sys->setDistribution(trim($list[strtolower(trim($id_buf[1]))]['Name']));
+                                                    } else {
+                                                        $this->sys->setDistribution(trim($id_buf[1]));
+                                                    }
+                                                    if (preg_match('/^RELEASE="?([^"\r\n]+)/m', $buf, $vers_buf) || preg_match('/^DISTRIB_RELEASE=[\'"]?([^\'"\r\n]+)/m', $buf, $vers_buf)) {
+                                                        $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                                                    }
+                                                    if (preg_match('/^CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
+                                                        $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
+                                                    }
+                                                }
                                             } else {
                                                 $distr2=trim(substr($buf, 0, strpos($buf, "\n")));
                                                 if (($distr2 !== null) && ($distr2 != "")) {
@@ -2066,30 +2083,6 @@ class Linux extends OS
                     if (preg_match('/^(\S+)\s*/', preg_replace('/^red\s+/', 'red', strtolower($buf)), $id_buf)
                         && isset($list[trim($id_buf[1])]['Image'])) {
                             $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                    }
-                } elseif (CommonFunctions::fileexists($filename="/etc/solydxk/info")
-                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf)) {
-                    if (preg_match('/^DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
-                       && (trim($desc_buf[1])!=trim($id_buf[1]))) {
-                        $this->sys->setDistribution(trim($desc_buf[1]));
-                    } else {
-                        if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
-                            $this->sys->setDistribution(trim($list[strtolower(trim($id_buf[1]))]['Name']));
-                        } else {
-                            $this->sys->setDistribution(trim($id_buf[1]));
-                        }
-                        if (preg_match('/^RELEASE="?([^"\r\n]+)/m', $buf, $vers_buf)) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                        }
-                        if (preg_match('/^CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
-                        }
-                    }
-                    if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
-                    } else {
-                        $this->sys->setDistributionIcon($list['solydxk']['Image']);
                     }
                 } elseif (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
                     || (!defined('PSI_EMU_PORT') && CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))
