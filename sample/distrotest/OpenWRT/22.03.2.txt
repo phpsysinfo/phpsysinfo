@@ -27,4 +27,3 @@ DISTRIB_DESCRIPTION='OpenWrt 22.03.2 r19803-9a599fee93'
 DISTRIB_TAINTS=''
 ----------/etc/openwrt_version----------
 r19803-9a599fee93
-
