@@ -16,6 +16,7 @@ require_once PSI_APP_ROOT.'/includes/os/class.Linux.inc.php';
 $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
+$osfile = true; //enable detection /etc/os-release
 $other = true; //enable other detection
 
 class PSI_Error
@@ -54,9 +55,12 @@ class CommonFunctions
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
         global $lsbfile;
+        global $osfile;
         global $other;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
+        } elseif ($strFileName=="/etc/os-release") {
+            $test = $osfile;
         } else {
             $test = $other;
         }
@@ -88,9 +92,12 @@ class CommonFunctions
     {
         global $log_file;
         global $lsbfile;
+        global $osfile;
         global $other;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
+        } elseif ($strFileName=="/etc/os-release") {
+            $test = $osfile;
         } else {
             $test = $other;
         }
@@ -122,6 +129,8 @@ if (($dirs !== false) && (count($dirs) > 0)) {
         echo "<td>Distro Icon (no lsb_release)</td>";
         echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
         echo "<td>Distro Icon (no lsb_release and no /etc/lsb-release)</td>";
+        echo "<td>Distro Name (os-release only)</td>";
+        echo "<td>Distro Icon (os-release only)</td>";
         echo "</tr>";
         foreach ($dirs as $entry) {
             $files = scandir(PSI_APP_ROOT."/sample/distrotest/$entry");
@@ -136,6 +145,8 @@ if (($dirs !== false) && (count($dirs) > 0)) {
 
                         $lsb = true;
                         $lsbfile = true;
+                        $osfile = true;
+                        $other = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
@@ -156,6 +167,8 @@ if (($dirs !== false) && (count($dirs) > 0)) {
 
                         $lsb = false;
                         $lsbfile = true;
+                        $osfile = true;
+                        $other = true;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
@@ -176,6 +189,30 @@ if (($dirs !== false) && (count($dirs) > 0)) {
 
                         $lsb = false;
                         $lsbfile = false;
+                        $osfile = true;
+                        $other = true;
+                        $sys=$system->getSys();
+                        $distro=$sys->getDistribution();
+                        $icon=$sys->getDistributionIcon();
+                        if ($icon == '') $icon="unknown.png";
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo $distro."</td>";
+                        if ($icon != $entry.'.png')
+                            echo "<td style='color:red'>";
+                        else
+                            echo "<td>";
+                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
+                        echo $icon."</td>";
+                        $sys->setDistribution("");
+                        $sys->setDistributionIcon("");
+
+                        $lsb = false;
+                        $lsbfile = false;
+                        $osfile = true;
+                        $other = false;
                         $sys=$system->getSys();
                         $distro=$sys->getDistribution();
                         $icon=$sys->getDistributionIcon();
