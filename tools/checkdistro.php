@@ -114,6 +114,40 @@ class _Linux extends Linux
     }
 }
 
+function echodist($entry, $system, $_lsb, $_lsbfile, $_osfile, $_other)
+{
+    global $lsb;
+    global $lsbfile;
+    global $osfile;
+    global $other;
+
+    $lsb = $_lsb;
+    $lsbfile = $_lsbfile;
+    $osfile = $_osfile;
+    $other = $_other;
+
+    $sys = $system->getSys();
+    $distro=$sys->getDistribution();
+    $icon=$sys->getDistributionIcon();
+    if ($icon == '') $icon="unknown.png";
+    echo "<td>";
+    if ($icon != $entry.'.png')
+        echo "<span style='color:red'>";
+    else
+        echo "<span>";
+    if ($distro !== 'Linux') echo $distro;
+    echo "</span></td><td>";
+    if ($icon != $entry.'.png')
+        echo "<span style='color:red'>";
+    else
+        echo "<span>";
+    if ($distro !== 'Linux') {
+        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
+        echo $icon;
+    }
+    echo "</span></td>";
+}
+
 $system = new _Linux('none');
 $dirs = scandir(PSI_APP_ROOT.'/sample/distrotest');
 if (($dirs !== false) && (count($dirs) > 0)) {
@@ -142,95 +176,10 @@ if (($dirs !== false) && (count($dirs) > 0)) {
                         $log_file=PSI_APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
-
-                        $lsb = true;
-                        $lsbfile = true;
-                        $osfile = true;
-                        $other = true;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon == '') $icon="unknown.png";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-
-                        $lsb = false;
-                        $lsbfile = true;
-                        $osfile = true;
-                        $other = true;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon == '') $icon="unknown.png";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-
-                        $lsb = false;
-                        $lsbfile = false;
-                        $osfile = true;
-                        $other = true;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon == '') $icon="unknown.png";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-
-                        $lsb = false;
-                        $lsbfile = false;
-                        $osfile = true;
-                        $other = false;
-                        $sys=$system->getSys();
-                        $distro=$sys->getDistribution();
-                        $icon=$sys->getDistributionIcon();
-                        if ($icon == '') $icon="unknown.png";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo $distro."</td>";
-                        if ($icon != $entry.'.png')
-                            echo "<td style='color:red'>";
-                        else
-                            echo "<td>";
-                        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
-                        echo $icon."</td>";
-                        $sys->setDistribution("");
-                        $sys->setDistributionIcon("");
-
+                        echodist($entry, $system, true, true, true, true);
+                        echodist($entry, $system, false, true, true, true);
+                        echodist($entry, $system, false, false, true, true);
+                        echodist($entry, $system, false, false, true, false);
                         echo "</tr>";
                     }
                 }
