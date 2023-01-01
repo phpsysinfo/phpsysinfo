@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.3
 ----------------
- - [ADD] Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin and Venom Linux to detected distros
+ - [ADD] Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin and Venom Linux to detected distros
 
  - [NEW] SHOW_NETWORK_BRIDGE option
 

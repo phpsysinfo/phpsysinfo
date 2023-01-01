@@ -1836,6 +1836,9 @@ class Linux extends OS
         if (!$list) {
             return;
         }
+        $_ignore_lsb_release = false;
+        $_Distrib = "";
+        $_DistribIcon = "";
         // We have the '2>/dev/null' because Ubuntu gives an error on this command which causes the distro to be unknown
         if (CommonFunctions::executeProgram('lsb_release', '-a 2>/dev/null', $distro_info, PSI_DEBUG) && strlen($distro_info) > 0) {
             $distro_tmp = preg_split("/\r?\n/", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
@@ -1846,12 +1849,15 @@ class Linux extends OS
                     $distro[trim($info_tmp[0])] = trim($info_tmp[1]);
                 }
             }
+
             if (!isset($distro['Distributor ID']) && !isset($distro['Description'])) { // Systems like StartOS
                 if (isset($distro_tmp[0]) && ($distro_tmp[0] !== null) && (trim($distro_tmp[0]) != "")) {
-                    $this->sys->setDistribution(trim($distro_tmp[0]));
+                    $_Distrib = trim($distro_tmp[0]);
                     if (preg_match('/^(\S+)\s*/', $distro_tmp[0], $id_buf)
                         && isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                            $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                            $_DistribIcon = $list[strtolower(trim($id_buf[1]))]['Image'];
+                            // set ignore lsb_release for some distributions
+                            if (isset($list[strtolower(trim($id_buf[1]))]['Test']) && ($list[strtolower(trim($id_buf[1]))]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
                     }
                 }
             } else {
@@ -1868,7 +1874,7 @@ class Linux extends OS
                    && (!isset($distro['Distributor ID'])
                    || (($distro['Distributor ID'] != "n/a")
                    && ($distro['Description'] != $distro['Distributor ID'])))) {
-                    $this->sys->setDistribution($distro['Description']);
+                    $_Distrib = $distro['Description'];
                     if (isset($distro['Release']) && ($distro['Release'] != "n/a")
                        && ($distro['Release'] != $distro['Description']) && strstr($distro['Release'], ".")){
                         if (preg_match("/^(\d+)\.[0]+$/", $distro['Release'], $match_buf)) {
@@ -1877,20 +1883,20 @@ class Linux extends OS
                             $tofind = $distro['Release'];
                         }
                         if (!preg_match("/^".$tofind."[\s\.]|[\(\[]".$tofind."[\.\)\]]|\s".$tofind."$|\s".$tofind."[\s\.]/", $distro['Description'])) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                            $_Distrib .= " ".$distro['Release'];
                         }
                     }
                 } elseif (isset($distro['Distributor ID'])) {
                     if ($distro['Distributor ID'] != "n/a") {
-                        $this->sys->setDistribution($distro['Distributor ID']);
+                        $_Distrib = $distro['Distributor ID'];
                         if (isset($distro['Release']) && ($distro['Release'] != "n/a")) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." ".$distro['Release']);
+                            $_Distrib .= " ".$distro['Release'];
                         }
                         if (isset($distro['Codename']) && ($distro['Codename'] != "n/a")) {
-                            $this->sys->setDistribution($this->sys->getDistribution()." (".$distro['Codename'].")");
+                            $_Distrib .= " (".$distro['Codename'].")";
                         }
                     } elseif (isset($distro['Description']) && ($distro['Description'] != "n/a")) {
-                        $this->sys->setDistribution($distro['Description']);
+                        $_Distrib = $distro['Description'];
                     }
                 }
                 if (isset($distro['Distributor ID'])) {
@@ -1906,13 +1912,25 @@ class Linux extends OS
                         }
                     }
                     if (isset($list[strtolower($distrib)]['Image'])) {
-                        $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+                        $_DistribIcon = $list[strtolower($distrib)]['Image'];
+                        // set ignore lsb_release for some distributions
+                        if (isset($list[strtolower($distrib)]['Test']) && ($list[strtolower($distrib)]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
                     } elseif (($distro['Distributor ID'] != "n/a") && isset($list[strtolower($distro['Distributor ID'])]['Image'])) {
-                        $this->sys->setDistributionIcon($list[strtolower($distro['Distributor ID'])]['Image']);
+                        $_DistribIcon = $list[strtolower($distro['Distributor ID'])]['Image'];
+                        // set ignore lsb_release for some distributions
+                        if (isset($list[strtolower($distro['Distributor ID'])]['Test']) && ($list[strtolower($distro['Distributor ID'])]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
                     }
                 }
             }
-        } else {
+        }
+
+        if (!$_ignore_lsb_release ) {  // don't ignore lsb_release
+            if ($_Distrib !== "") $this->sys->setDistribution($_Distrib);
+            if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
+        }
+
+        // if the distribution is still unknown
+        if ($this->sys->getDistribution() == "Linux") {
             /* default error handler */
             if (function_exists('errorHandlerPsi')) {
                 restore_error_handler();
@@ -2053,6 +2071,10 @@ class Linux extends OS
             }
             // if the distribution is still unknown
             if ($this->sys->getDistribution() == "Linux") {
+                if ($_ignore_lsb_release) { // if lsb_release was ignored
+                    if ($_Distrib !== "") $this->sys->setDistribution($_Distrib);
+                    if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
+                }
                 if (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf)) {
