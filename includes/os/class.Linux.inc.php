@@ -1897,24 +1897,37 @@ class Linux extends OS
                 }
                 if (isset($distro['Distributor ID'])) {
                     $distrib = $distro['Distributor ID'];
+                    $distrib2 = $distrib;
+                    $distrib3 = $distrib;
                     if (isset($distro['Description'])) {
                         $distarr = preg_split("/\s/", $distro['Description'], -1, PREG_SPLIT_NO_EMPTY);
                         if (isset($distarr[0])) {
                             if ($distrib != "n/a") {
-                                $distrib .= ' '.$distarr[0];
+                                $distrib2 .= ' '.$distarr[0];
                             } else {
-                                $distrib = $distarr[0];
+                                $distrib2 = $distarr[0];
+                            }
+                        }
+                        if (isset($distarr[1])) {
+                            if ($distrib != "n/a") {
+                                $distrib3 .= ' '.$distarr[0].' '.$distarr[1];
+                            } else {
+                                $distrib3 = $distarr[0].' '.$distarr[1];
                             }
                         }
                     }
-                    if (isset($list[strtolower($distrib)]['Image'])) {
+                    if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
+                        $_DistribIcon = $list[strtolower($distrib3)]['Image'];
+                        // set ignore lsb_release for some distributions
+                        if (isset($list[strtolower($distrib3)]['Test']) && ($list[strtolower($distrib3)]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
+                    } elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
+                        $_DistribIcon = $list[strtolower($distrib2)]['Image'];
+                        // set ignore lsb_release for some distributions
+                        if (isset($list[strtolower($distrib2)]['Test']) && ($list[strtolower($distrib2)]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
+                    } elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
                         $_DistribIcon = $list[strtolower($distrib)]['Image'];
                         // set ignore lsb_release for some distributions
                         if (isset($list[strtolower($distrib)]['Test']) && ($list[strtolower($distrib)]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
-                    } elseif (($distro['Distributor ID'] != "n/a") && isset($list[strtolower($distro['Distributor ID'])]['Image'])) {
-                        $_DistribIcon = $list[strtolower($distro['Distributor ID'])]['Image'];
-                        // set ignore lsb_release for some distributions
-                        if (isset($list[strtolower($distro['Distributor ID'])]['Test']) && ($list[strtolower($distro['Distributor ID'])]['Test'] === "nolsbfirst")) $_ignore_lsb_release = true;
                     }
                 }
             }
@@ -1954,14 +1967,21 @@ class Linux extends OS
                         }
                     }
                     $distrib = trim($id_buf[1]);
+                    $distrib2 = $distrib;
+                    $distrib3 = $distrib;
                     $distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
                     if (isset($distarr[0])) {
-                            $distrib .= ' '.$distarr[0];
+                        $distrib2 .= ' '.$distarr[0];
                     }
-                    if (isset($list[strtolower($distrib)]['Image'])) {
+                    if (isset($distarr[1])) {
+                        $distrib3 .= ' '.$distarr[0].' '.$distarr[1];
+                    }
+                    if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower($distrib3)]['Image']);
+                    } elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower($distrib2)]['Image']);
+                    } elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
                         $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
-                    } elseif (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
                     }
                 } else {
                     if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
@@ -2130,15 +2150,32 @@ class Linux extends OS
                         }
                         $this->sys->setDistributionIcon($list['tails']['Image']);
                     } else {
+                        $distrib = trim($id_buf[1]);
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
                            && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
-                           && (trim($id_buf[1])!==trim($desc_buf[1]))) {
+                           && ($distrib!==trim($desc_buf[1]))) {
                             $this->sys->setDistribution(trim($desc_buf[1]));
+                            $distrib2 = $distrib;
+                            $distrib3 = $distrib;
+                            $distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
+                            if (isset($distarr[0])) {
+                                $distrib2 .= ' '.$distarr[0];
+                            }
+                            if (isset($distarr[1])) {
+                                $distrib3 .= ' '.$distarr[0].' '.$distarr[1];
+                            }
+                            if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
+                                $this->sys->setDistributionIcon($list[strtolower($distrib3)]['Image']);
+                            } elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
+                                $this->sys->setDistributionIcon($list[strtolower($distrib2)]['Image']);
+                            } elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
+                                $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+                            }
                         } else {
-                            if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
-                                $this->sys->setDistribution(trim($list[strtolower(trim($id_buf[1]))]['Name']));
+                            if (isset($list[strtolower($distrib)]['Name'])) {
+                                $this->sys->setDistribution(trim($list[strtolower($distrib)]['Name']));
                             } else {
-                                $this->sys->setDistribution(trim($id_buf[1]));
+                                $this->sys->setDistribution($distrib);
                             }
                             if (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
@@ -2152,9 +2189,9 @@ class Linux extends OS
                             } elseif (preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }
-                        }
-                        if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                            $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                            if (isset($list[strtolower($distrib)]['Image'])) {
+                                $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+                            }
                         }
                     }
                 } elseif (CommonFunctions::fileexists($filename="/etc/debian_version")) {

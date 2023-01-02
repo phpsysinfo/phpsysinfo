@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Linux Lite 6.2
+Release:	22.04
+Codename:	jammy
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=22.04
+DISTRIB_CODENAME=jammy
+DISTRIB_DESCRIPTION="Linux Lite 6.2"
+----------/etc/os-release----------
+PRETTY_NAME="Linux Lite 6.2"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.1 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+----------/etc/debian_version----------
+bookworm/sid
