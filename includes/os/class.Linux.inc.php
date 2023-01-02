@@ -1861,10 +1861,6 @@ class Linux extends OS
                     }
                 }
             } else {
-                if (isset($distro['Description']) && ($distro['Description'] != "n/a") && isset($distro['Distributor ID']) && $distro['Distributor ID']=="Neon") { // Neon systems
-                    $distro_tmp = preg_split("/\s/", $distro['Description'], -1, PREG_SPLIT_NO_EMPTY);
-                    $distro['Distributor ID'] = $distro_tmp[0];
-                }
                 if (isset($distro['Description'])
                    && preg_match('/^NAME=\s*"?([^"\r\n]+)"?\s*$/', $distro['Description'], $name_tmp)) {
                    $distro['Description'] = trim($name_tmp[1]);
@@ -1957,6 +1953,16 @@ class Linux extends OS
                             $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                         }
                     }
+                    $distrib = trim($id_buf[1]);
+                    $distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
+                    if (isset($distarr[0])) {
+                            $distrib .= ' '.$distarr[0];
+                    }
+                    if (isset($list[strtolower($distrib)]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+                    } elseif (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                    }
                 } else {
                     if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
                         $this->sys->setDistribution(trim($list[strtolower(trim($id_buf[1]))]['Name']));
@@ -1969,9 +1975,9 @@ class Linux extends OS
                     if (preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                     }
-                }
-                if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                    $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                    if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                    }
                 }
             } else { // otherwise find files specific for distribution
                 foreach ($list as $section=>$distribution) {

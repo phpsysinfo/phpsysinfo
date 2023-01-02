@@ -1,0 +1,17 @@
+----------lsb_release -a----------
+Distributor ID:	Debian
+Description:	Debian GNU/Linux bookworm/sid
+Release:	n/a
+Codename:	bookworm
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux bookworm/sid"
+NAME="Debian GNU/Linux"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+----------/etc/siduction-version----------
+siduction 22.1 Masters_of_War - lxqt - (202212291722)
+----------/etc/debian_version----------
+bookworm/sid
