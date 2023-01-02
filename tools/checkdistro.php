@@ -16,6 +16,8 @@ require_once PSI_APP_ROOT.'/includes/os/class.Linux.inc.php';
 $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
+$files = true; //enable detection files
+$misc = true; //enable misc detection
 $osfile = true; //enable detection /etc/os-release
 $other = true; //enable other detection
 
@@ -55,14 +57,20 @@ class CommonFunctions
     public static function rfts($strFileName, &$strRet, $intLines = 0, $intBytes = 4096, $booErrorRep = true)
     {
         global $lsbfile;
+        global $files;
+        global $misc;
         global $osfile;
         global $other;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")) {
+            $test = $misc;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } else {
+        } elseif (($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
+        } else {
+            $test = $files;
         }
         if ($test) {
             $strRet=self::_parse_log_file($strFileName);
@@ -79,29 +87,34 @@ class CommonFunctions
     public static function executeProgram($strProgramname, $strArgs, &$strBuffer, $booErrorRep = true, $timeout = 30)
     {
         global $lsb;
-        global $other;
+        global $files;
         $strBuffer = '';
         if ($strProgramname=='lsb_release') {
             return $lsb && ($strBuffer = self::_parse_log_file('lsb_release -a'));
         } else {
-            return $other && ($strBuffer = self::_parse_log_file($strProgramname));
+            return $files && ($strBuffer = self::_parse_log_file($strProgramname));
         }
     }
 
     public static function fileexists($strFileName)
     {
-        global $log_file;
         global $lsbfile;
+        global $files;
+        global $misc;
         global $osfile;
         global $other;
+        global $log_file;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")) {
+            $test = $misc;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } else {
+        } elseif (($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
+        } else {
+            $test = $files;
         }
-
         return $test && file_exists($log_file) && ($contents = @file_get_contents($log_file)) && preg_match("/^\-\-\-\-\-\-\-\-\-\-".preg_quote($strFileName, '/')."\-\-\-\-\-\-\-\-\-\-\r?\n/m", $contents);
     }
 }
@@ -114,15 +127,19 @@ class _Linux extends Linux
     }
 }
 
-function echodist($entry, $system, $_lsb, $_lsbfile, $_osfile, $_other)
+function echodist($entry, $system, $_lsb, $_lsbfile, $_files, $_misc, $_osfile, $_other)
 {
     global $lsb;
     global $lsbfile;
+    global $files;
+    global $misc;
     global $osfile;
     global $other;
 
     $lsb = $_lsb;
     $lsbfile = $_lsbfile;
+    $files = $_files;
+    $misc = $_misc;
     $osfile = $_osfile;
     $other = $_other;
 
@@ -131,19 +148,14 @@ function echodist($entry, $system, $_lsb, $_lsbfile, $_osfile, $_other)
     $icon=$sys->getDistributionIcon();
     if ($icon == '') $icon="unknown.png";
     echo "<td>";
-    if ($icon != $entry.'.png')
-        echo "<span style='color:red'>";
-    else
-        echo "<span>";
-    if ($distro !== 'Linux') echo $distro;
-    echo "</span></td><td>";
+
     if ($icon != $entry.'.png')
         echo "<span style='color:red'>";
     else
         echo "<span>";
     if ($distro !== 'Linux') {
-        echo "<img src=\"../gfx/images/".$icon."\" height=\"16\" width=\"16\"/>";
-        echo $icon;
+        echo "<img src=\"../gfx/images/".$icon."\" title=\"".$icon."\" height=\"16\" width=\"16\"/>";
+        echo $distro;
     }
     echo "</span></td>";
 }
@@ -158,13 +170,12 @@ if (($dirs !== false) && (count($dirs) > 0)) {
         echo "<tr>";
         echo "<td>Distrotest sample</td>";
         echo "<td>Distro Name</td>";
-        echo "<td>Distro Icon</td>";
-        echo "<td>Distro Name (no lsb_release)</td>";
-        echo "<td>Distro Icon (no lsb_release)</td>";
-        echo "<td>Distro Name (no lsb_release and no /etc/lsb-release)</td>";
-        echo "<td>Distro Icon (no lsb_release and no /etc/lsb-release)</td>";
+        echo "<td>Distro Name (lsb_release only)</td>";
+        echo "<td>Distro Name (/etc/lsb-release only)</td>";
+        echo "<td>Distro Name (files only)</td>";
+        echo "<td>Distro Name (misc only)</td>";
         echo "<td>Distro Name (os-release only)</td>";
-        echo "<td>Distro Icon (os-release only)</td>";
+        echo "<td>Distro Name (other only)</td>";
         echo "</tr>";
         foreach ($dirs as $entry) {
             $files = scandir(PSI_APP_ROOT."/sample/distrotest/$entry");
@@ -176,10 +187,13 @@ if (($dirs !== false) && (count($dirs) > 0)) {
                         $log_file=PSI_APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
-                        echodist($entry, $system, true, true, true, true);
-                        echodist($entry, $system, false, true, true, true);
-                        echodist($entry, $system, false, false, true, true);
-                        echodist($entry, $system, false, false, true, false);
+                        echodist($entry, $system, true, true, true, true, true, true);
+                        echodist($entry, $system, true, false, false, false, false, false);
+                        echodist($entry, $system, false, true, false, false, false, false);
+                        echodist($entry, $system, false, false, true, false, false, false);
+                        echodist($entry, $system, false, false, false, true, false, false);
+                        echodist($entry, $system, false, false, false, false, true, false);
+                        echodist($entry, $system, false, false, false, false, false, true);
                         echo "</tr>";
                     }
                 }

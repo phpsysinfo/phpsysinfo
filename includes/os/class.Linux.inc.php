@@ -2081,6 +2081,9 @@ class Linux extends OS
                     if ($_Distrib !== "") $this->sys->setDistribution($_Distrib);
                     if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
                 }
+            }
+            // if the distribution is still unknown
+            if ($this->sys->getDistribution() == "Linux") {
                 if (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
                    && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf)) {
