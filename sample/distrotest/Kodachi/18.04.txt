@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Kodachi
+Release:	18.04
+Codename:	bionic
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=18.04
+DISTRIB_CODENAME=bionic
+DISTRIB_DESCRIPTION="Kodachi"
+----------/etc/os-release----------
+NAME="Ubuntu"
+VERSION="18.04.6 LTS (Bionic Beaver)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Linux Kodachi"
+VERSION_ID="18.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=bionic
+UBUNTU_CODENAME=bionic
+----------/etc/debian_version----------
+buster/sid

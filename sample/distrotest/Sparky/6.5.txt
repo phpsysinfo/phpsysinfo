@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	Sparky
+Description:	SparkyLinux 6.5 (Po-Tolo)
+Release:	6.5
+Codename:	bullseye
+----------/etc/lsb-release----------
+DISTRIB_ID=Sparky
+DISTRIB_RELEASE=6.5
+DISTRIB_CODENAME=Po-Tolo
+DISTRIB_DESCRIPTION="SparkyLinux"
+----------/etc/os-release----------
+PRETTY_NAME="SparkyLinux 6.5 (Po-Tolo)"
+NAME="SparkyLinux"
+VERSION_ID="6.5"
+VERSION="6.5 (Po-Tolo)"
+ID=sparky
+ID_LIKE=debian
+HOME_URL="https://sparkylinux.org/"
+SUPPORT_URL="https://sparkylinux.org/forum/"
+BUG_REPORT_URL="https://sourceforge.net/p/sparkylinux/tickets"
+----------/etc/debian_version----------
+bullseye/sid

@@ -1,0 +1,26 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	archcraft
+Description:	Archcraft
+Release:	rolling
+Codename:	n/a
+----------/etc/arch-release----------
+----------/etc/lsb-release----------
+DISTRIB_ID=archcraft
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="Archcraft"
+----------/etc/os-release----------
+NAME="Archcraft"
+PRETTY_NAME="Archcraft"
+ID=archcraft
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://archcraft.io"
+DOCUMENTATION_URL="https://wiki.archcraft.io"
+SUPPORT_URL="https://www.reddit.com/r/archcraft"
+BUG_REPORT_URL="https://github.com/archcraft-os/archcraft/issues"
+PRIVACY_POLICY_URL="https://terms.archlinux.org/docs/privacy-policy/"
+LOGO=archcraft
+IMAGE_ID=archcraft
+IMAGE_VERSION=2023.01.01

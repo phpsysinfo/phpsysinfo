@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.3
 ----------------
- - [ADD] Linux Lite, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin and Venom Linux to detected distros
+ - [ADD] Linux Lite, Archcraft, Kodachi, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin, Sparky and Venom Linux to detected distros
 
  - [NEW] SHOW_NETWORK_BRIDGE option
 
