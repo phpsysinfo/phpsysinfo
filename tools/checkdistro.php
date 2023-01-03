@@ -149,6 +149,7 @@ function echodist($entry, $system, $_lsb, $_lsbfile, $_files, $_osfile, $_other)
         echo $distro;
     }
     echo "</span></td>";
+    $sys->setDistributionIcon("");
 }
 
 $system = new _Linux('none');
