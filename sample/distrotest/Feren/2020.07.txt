@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Feren OS Classic
+Release:	18.04
+Codename:	bionic
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=18.04
+DISTRIB_CODENAME=bionic
+DISTRIB_DESCRIPTION="Feren OS Classic"
+----------/etc/os-release----------
+NAME="Feren OS Classic"
+VERSION="2020.07"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Feren OS Classic"
+VERSION_ID="18.04"
+HOME_URL="https://ferenos.weebly.com/"
+SUPPORT_URL="https://ferenos.weebly.com/feren-os-on-social-media.html"
+BUG_REPORT_URL="https://github.com/feren-OS/Bug-Reporting-Center/issues/new"
+PRIVACY_POLICY_URL="https://ferenos.weebly.com/privacy-policy.html"
+VERSION_CODENAME=bionic
+FEREN_CODENAME=beryllium
+----------/etc/debian_version----------
+buster/sid

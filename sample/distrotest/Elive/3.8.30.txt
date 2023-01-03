@@ -1,0 +1,37 @@
+----------lsb_release -a----------
+Distributor ID:	Debian
+Description:	Elive GNU/Linux 11 (on Debian bullseye)
+Release:	11
+Codename:	bullseye
+----------/etc/lsb-release----------
+# Defaults for debian
+DISTRIB_ID="Debian"
+DISTRIB_RELEASE="11"
+DISTRIB_CODENAME="bullseye"
+#DISTRIB_DESCRIPTION="Elive GNU/Linux 11 (on Debian bullseye)"
+# Important: The values should be the correct ones for Elive, but if you enable them it will break some debian stuff like update-notifier, update-manager-gnome, add-apt-repository, steam, and many others... - So better to stick at a Debian / bullseye compatible system
+#DISTRIB_ID="Elive"
+#DISTRIB_RELEASE="3.8.30"
+#DISTRIB_CODENAME="Opal+"
+#DISTRIB_DESCRIPTION="Elive beta 3.8.30 (Debian bullseye 11.3)"
+DISTRIB_DESCRIPTION="Elive beta 3.8.30"
+----------/etc/os-release----------
+PRETTY_NAME="Elive 32BIT 3.8.30 (beta)"
+NAME="Elive"
+VERSION_ID="11"
+VERSION="3.8.30 (beta)"
+ID=debian
+ID_LIKE=debian
+VERSION_CODENAME="bullseye"
+ANSI_COLOR="0;36"
+HOME_URL="https://www.elivecd.org"
+SUPPORT_URL="https://forum.elivelinux.org"
+BUG_REPORT_URL="https://bugs.elivecd.org"
+----------/etc/elive-version----------
+elive-codename: beta
+elive-version: 3.8.30
+debian-version: bullseye
+date-builded: 2022-07-07
+stable-release: no
+----------/etc/debian_version----------
+11.1

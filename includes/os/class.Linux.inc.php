@@ -1861,9 +1861,12 @@ class Linux extends OS
                     }
                 }
             } else {
-                if (isset($distro['Description'])
-                   && preg_match('/^NAME=\s*"?([^"\r\n]+)"?\s*$/', $distro['Description'], $name_tmp)) {
-                   $distro['Description'] = trim($name_tmp[1]);
+                if (isset($distro['Description'])) {
+                   if (preg_match('/^NAME=\s*"?([^"\r\n]+)"?\s*$/', $distro['Description'], $name_tmp)) {
+                       $distro['Description'] = trim($name_tmp[1]);
+                   } elseif (($distro['Description']==="Rolling Release") && isset($distro['Distributor ID']) && ($distro['Distributor ID'] != "n/a")) {
+                       $distro['Description'] = $distro['Distributor ID']." ".$distro['Description'];
+                   }
                 }
                 if (isset($distro['Description'])
                    && ($distro['Description'] != "n/a")
@@ -1954,6 +1957,9 @@ class Linux extends OS
                && preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf)) {
                 if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
                    && (trim($desc_buf[1])!=trim($id_buf[1]))) {
+                    if ($desc_buf[1]==="Rolling Release") {
+                        $desc_buf[1] = $id_buf[1]." ".$desc_buf[1];
+                    }
                     $this->sys->setDistribution(trim($desc_buf[1]));
                     if (preg_match('/^DISTRIB_RELEASE="?([^"\r\n]+)/m', $buf, $vers_buf)
                        && (trim($vers_buf[1])!=trim($desc_buf[1])) && strstr($vers_buf[1], ".")){
@@ -2058,9 +2064,11 @@ class Linux extends OS
                                                     $distr2.=' ('.$dat_buf[1].')';
                                                 }
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".$distr2);
-                                            } elseif (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
-                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                                            } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                            } elseif (preg_match('/^elive-codename:\s*([^\r\n]+)/m', $buf, $cod_buf)
+                                               && preg_match('/^elive-version:\s*([^\r\n]+)/m', $buf, $ver_buf)) {
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($cod_buf[1])." ".trim($ver_buf[1]));
+                                            } elseif (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+                                               || preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                                             } elseif (preg_match('/^DISTRIB_ID=[\'"]?([^\'"\r\n]+)/m', $buf, $id_buf)) {                                            
                                                 if (preg_match('/^DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
@@ -2119,6 +2127,7 @@ class Linux extends OS
                         }
                         $this->sys->setDistributionIcon($list['tails']['Image']);
                     } else {
+                        $addversion = false;
                         $distrib = trim($id_buf[1]);
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
                            && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
@@ -2135,8 +2144,14 @@ class Linux extends OS
                             }
                             if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
                                 $this->sys->setDistributionIcon($list[strtolower($distrib3)]['Image']);
+                                if (count($distarr) == 2) {
+                                    $addversion = true;
+                                }
                             } elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
                                 $this->sys->setDistributionIcon($list[strtolower($distrib2)]['Image']);
+                                if (count($distarr) == 1) {
+                                    $addversion = true;
+                                }
                             } elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
                                 $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
                             }
@@ -2146,20 +2161,21 @@ class Linux extends OS
                             } else {
                                 $this->sys->setDistribution($distrib);
                             }
-                            if (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
-                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                            } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
-                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                            } elseif (preg_match('/^DISTRIB_RELEASE=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
-                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                            }
-                            if (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
-                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
-                            } elseif (preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
-                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
-                            }
                             if (isset($list[strtolower($distrib)]['Image'])) {
                                 $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+                            }
+                            $addversion = true;
+                        }
+                        if ($addversion) {
+                            if (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+                               || preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+                               || preg_match('/^DISTRIB_RELEASE=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+                               || preg_match('/^IMAGE_VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            }
+                            if (!strstr($this->sys->getDistribution(),"(") && (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)
+                               || preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf))) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }
                         }
                     }

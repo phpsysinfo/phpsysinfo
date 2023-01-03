@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Snal
+Description:	Snal Linux
+Release:	1.24
+Codename:	n/a
+----------/etc/arch-release----------
+----------/etc/lsb-release----------
+DISTRIB_ID="Snal"
+DISTRIB_RELEASE="1.24"
+DISTRIB_DESCRIPTION="Snal Linux"
+----------/etc/os-release----------
+NAME="Snal Linux"
+PRETTY_NAME="Snal Linux"
+ID=snal
+BUILD_ID=1.24"
+ANSI_COLOR="0;36"
+HOME_URL="https://sourceforge.net/projects/snallinux/"
+DOCUMENTATION_URL="https://sourceforge.net/p/snallinux/wiki/Home/"
+SUPPORT_URL="https://sourceforge.net/p/snallinux/wiki/Home/"
+LOGO=snallinux
+IMAGE_ID=snallinux
+IMAGE_VERSION=1.24
+----------/etc/snal-release----------
+1.24
