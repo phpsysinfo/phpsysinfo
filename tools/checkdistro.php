@@ -177,7 +177,7 @@ if (($dirs !== false) && (count($dirs) > 0)) {
                         $log_file=PSI_APP_ROOT.'/sample/distrotest/'.$entry.'/'.$sentry;
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
-                        echodist($entry, $system, true, true, true, true, true, true);
+                        echodist($entry, $system, true, true, true, true, true);
                         echodist($entry, $system, true, false, false, false, false);
                         echodist($entry, $system, false, true, false, false, false);
                         echodist($entry, $system, false, false, true, false, false);
