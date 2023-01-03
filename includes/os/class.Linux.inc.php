@@ -2104,38 +2104,7 @@ class Linux extends OS
             }
             // if the distribution is still unknown
             if ($this->sys->getDistribution() == "Linux") {
-                if (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
-                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf)) {
-                    if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
-                        $dist = trim($list[strtolower(trim($id_buf[1]))]['Name']);
-                    } else {
-                        $dist = trim($id_buf[1]);
-                    }
-                    if (preg_match('/^DISTRO_VERSION=([^#\n\r]+)/m', $buf, $vers_buf)) {
-                        $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
-                    } else {
-                        $this->sys->setDistribution($dist);
-                    }
-                    if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
-                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
-                    } else {
-                        if (isset($list['puppy']['Image'])) {
-                            $this->sys->setDistributionIcon($list['puppy']['Image']);
-                        }
-                    }
-                } elseif ((CommonFunctions::fileexists($filename="/etc/distro-release")
-                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
-                        && ($buf !== null) && (trim($buf) != ""))
-                    || (CommonFunctions::fileexists($filename="/etc/system-release")
-                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
-                        && ($buf !== null) && (trim($buf) != ""))) {
-                    $this->sys->setDistribution(trim($buf));
-                    if (preg_match('/^(\S+)\s*/', preg_replace('/^red\s+/', 'red', strtolower($buf)), $id_buf)
-                        && isset($list[trim($id_buf[1])]['Image'])) {
-                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
-                    }
-                } elseif (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
+                if (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
                     || (!defined('PSI_EMU_PORT') && CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))
                     && (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf) || preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_ID=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
                     if (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf)) {
@@ -2193,6 +2162,37 @@ class Linux extends OS
                                 $this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
                             }
                         }
+                    }
+                } elseif (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
+                   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+                   && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf)) {
+                    if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
+                        $dist = trim($list[strtolower(trim($id_buf[1]))]['Name']);
+                    } else {
+                        $dist = trim($id_buf[1]);
+                    }
+                    if (preg_match('/^DISTRO_VERSION=([^#\n\r]+)/m', $buf, $vers_buf)) {
+                        $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
+                    } else {
+                        $this->sys->setDistribution($dist);
+                    }
+                    if (isset($list[strtolower(trim($id_buf[1]))]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower(trim($id_buf[1]))]['Image']);
+                    } else {
+                        if (isset($list['puppy']['Image'])) {
+                            $this->sys->setDistributionIcon($list['puppy']['Image']);
+                        }
+                    }
+                } elseif ((CommonFunctions::fileexists($filename="/etc/distro-release")
+                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
+                        && ($buf !== null) && (trim($buf) != ""))
+                    || (CommonFunctions::fileexists($filename="/etc/system-release")
+                        && CommonFunctions::rfts($filename, $buf, 1, 4096, false)
+                        && ($buf !== null) && (trim($buf) != ""))) {
+                    $this->sys->setDistribution(trim($buf));
+                    if (preg_match('/^(\S+)\s*/', preg_replace('/^red\s+/', 'red', strtolower($buf)), $id_buf)
+                        && isset($list[trim($id_buf[1])]['Image'])) {
+                            $this->sys->setDistributionIcon($list[trim($id_buf[1])]['Image']);
                     }
                 } elseif (CommonFunctions::fileexists($filename="/etc/debian_version")) {
                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {

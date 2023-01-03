@@ -17,7 +17,6 @@ $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
 $files = true; //enable detection files
-$misc = true; //enable misc detection
 $osfile = true; //enable detection /etc/os-release
 $other = true; //enable other detection
 
@@ -58,16 +57,13 @@ class CommonFunctions
     {
         global $lsbfile;
         global $files;
-        global $misc;
         global $osfile;
         global $other;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
-        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")) {
-            $test = $misc;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } elseif (($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
         } else {
             $test = $files;
@@ -100,17 +96,14 @@ class CommonFunctions
     {
         global $lsbfile;
         global $files;
-        global $misc;
         global $osfile;
         global $other;
         global $log_file;
         if ($strFileName=="/etc/lsb-release") {
             $test = $lsbfile;
-        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")) {
-            $test = $misc;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } elseif (($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
         } else {
             $test = $files;
@@ -127,19 +120,17 @@ class _Linux extends Linux
     }
 }
 
-function echodist($entry, $system, $_lsb, $_lsbfile, $_files, $_misc, $_osfile, $_other)
+function echodist($entry, $system, $_lsb, $_lsbfile, $_files, $_osfile, $_other)
 {
     global $lsb;
     global $lsbfile;
     global $files;
-    global $misc;
     global $osfile;
     global $other;
 
     $lsb = $_lsb;
     $lsbfile = $_lsbfile;
     $files = $_files;
-    $misc = $_misc;
     $osfile = $_osfile;
     $other = $_other;
 
@@ -173,7 +164,6 @@ if (($dirs !== false) && (count($dirs) > 0)) {
         echo "<td>Distro Name (lsb_release only)</td>";
         echo "<td>Distro Name (/etc/lsb-release only)</td>";
         echo "<td>Distro Name (files only)</td>";
-        echo "<td>Distro Name (misc only)</td>";
         echo "<td>Distro Name (os-release only)</td>";
         echo "<td>Distro Name (other only)</td>";
         echo "</tr>";
@@ -188,12 +178,11 @@ if (($dirs !== false) && (count($dirs) > 0)) {
                         echo "<tr>";
                         echo "<td>".$entry.'/'.$sentry."</td>";
                         echodist($entry, $system, true, true, true, true, true, true);
-                        echodist($entry, $system, true, false, false, false, false, false);
-                        echodist($entry, $system, false, true, false, false, false, false);
-                        echodist($entry, $system, false, false, true, false, false, false);
-                        echodist($entry, $system, false, false, false, true, false, false);
-                        echodist($entry, $system, false, false, false, false, true, false);
-                        echodist($entry, $system, false, false, false, false, false, true);
+                        echodist($entry, $system, true, false, false, false, false);
+                        echodist($entry, $system, false, true, false, false, false);
+                        echodist($entry, $system, false, false, true, false, false);
+                        echodist($entry, $system, false, false, false, true, false);
+                        echodist($entry, $system, false, false, false, false, true);
                         echo "</tr>";
                     }
                 }
