@@ -1,0 +1,30 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	cachyos
+Description:	CachyOS
+Release:	rolling
+Codename:	n/a
+----------/etc/arch-release----------
+----------/etc/cachyos-release----------
+LSB_VERSION=2.0
+DISTRIB_ID=CachyOS
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="CachyOS Linux"
+----------/etc/lsb-release----------
+DISTRIB_ID=cachyos
+DISTRIB_RELEASE="rolling"
+DISTRIB_DESCRIPTION="CachyOS"
+----------/etc/os-release----------
+NAME="CachyOS Linux"
+PRETTY_NAME="CachyOS"
+ID=cachyos
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://cachyos.org/"
+DOCUMENTATION_URL="https://wiki.cachyos.org/"
+SUPPORT_URL="https://forum.cachyos.org/"
+BUG_REPORT_URL="https://github.com/cachyos"
+LOGO=cachyos
+IMAGE_ID=cachyos
+IMAGE_VERSION=2022.12.30
