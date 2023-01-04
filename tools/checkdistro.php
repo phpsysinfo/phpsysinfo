@@ -63,7 +63,7 @@ class CommonFunctions
             $test = $lsbfile;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")|| ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
         } else {
             $test = $files;
@@ -103,7 +103,7 @@ class CommonFunctions
             $test = $lsbfile;
         } elseif ($strFileName=="/etc/os-release") {
             $test = $osfile;
-        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
+        } elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
             $test = $other;
         } else {
             $test = $files;
