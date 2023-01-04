@@ -1937,7 +1937,7 @@ class Linux extends OS
         }
 
         if (!$_ignore_lsb_release ) {  // don't ignore lsb_release
-            if ($_Distrib !== "") $this->sys->setDistribution($_Distrib);
+            if ($_Distrib !== "") $this->sys->setDistribution(preg_replace("/ - Version:/", "", $_Distrib));
             if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
         }
 
@@ -1960,7 +1960,7 @@ class Linux extends OS
                     if ($desc_buf[1]==="Rolling Release") {
                         $desc_buf[1] = $id_buf[1]." ".$desc_buf[1];
                     }
-                    $this->sys->setDistribution(trim($desc_buf[1]));
+                    $this->sys->setDistribution(preg_replace("/ - Version:/", "", trim($desc_buf[1])));
                     if (preg_match('/^DISTRIB_RELEASE="?([^"\r\n]+)/m', $buf, $vers_buf)
                        && (trim($vers_buf[1])!=trim($desc_buf[1])) && strstr($vers_buf[1], ".")){
                         if (preg_match("/^(\d+)\.[0]+$/", trim($vers_buf[1]), $match_buf)) {
@@ -2106,7 +2106,7 @@ class Linux extends OS
             // if the distribution is still unknown
             if ($this->sys->getDistribution() == "Linux") {
                 if ($_ignore_lsb_release) { // if lsb_release was ignored
-                    if ($_Distrib !== "") $this->sys->setDistribution($_Distrib);
+                    if ($_Distrib !== "") $this->sys->setDistribution(preg_replace("/ - Version:/", "", $_Distrib));
                     if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
                 }
             }
@@ -2132,7 +2132,7 @@ class Linux extends OS
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
                            && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
                            && ($distrib!==trim($desc_buf[1]))) {
-                            $this->sys->setDistribution(trim($desc_buf[1]));
+                            $this->sys->setDistribution(preg_replace("/ - Version:/", "", trim($desc_buf[1])));
                             $distrib2 = $distrib;
                             $distrib3 = $distrib;
                             $distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
