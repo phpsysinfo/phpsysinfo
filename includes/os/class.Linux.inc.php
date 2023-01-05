@@ -2135,7 +2135,11 @@ class Linux extends OS
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
                            && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
                            && ($distrib!==trim($desc_buf[1]))) {
-                            $this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build/i", "", trim($desc_buf[1])));
+                            if (isset($list[strtolower($distrib)]['Name']) && !preg_match("/".$list[strtolower($distrib)]['Name']."/i", trim($desc_buf[1]))) {
+                                $this->sys->setDistribution($list[strtolower($distrib)]['Name'] ." ". preg_replace("/ - Version:| Build:| Release| version| build/i", "", trim($desc_buf[1])));
+                            } else {
+                                $this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build/i", "", trim($desc_buf[1])));
+                            }
                             $distrib2 = $distrib;
                             $distrib3 = $distrib;
                             $distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
@@ -2200,6 +2204,9 @@ class Linux extends OS
                     } else {
                         if (isset($list['puppy']['Image'])) {
                             $this->sys->setDistributionIcon($list['puppy']['Image']);
+                            if (!preg_match("/puppy/i", $dist = $this->sys->getDistribution())) {
+                                $this->sys->setDistribution("Puppy ".$dist);
+                            }
                         }
                     }
                 } elseif ((CommonFunctions::fileexists($filename="/etc/distro-release")
