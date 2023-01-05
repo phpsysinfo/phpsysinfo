@@ -737,8 +737,8 @@ function refreshVitals(xml) {
         setAndStrip("#s_hostname", hostname);
         setAndStrip("#s_ip", ip);
         setAndStrip("#s_kernel", kernel);
-        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
-        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
+        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='" + icon + "' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='" + os + ".png' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
         setAndStrip("#s_uptime", uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
             setAndStrip("#s_lastboot", lastboot.toLocaleString());

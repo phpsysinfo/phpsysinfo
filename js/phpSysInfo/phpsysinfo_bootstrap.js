@@ -599,12 +599,12 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" title="' + this.Distroicon + '" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         OS: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" title="' + this.OS + '.png" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
             }
         },
         LoadAvg: {

@@ -106,6 +106,11 @@
                                                             </xsl:attribute>
                                                             <xsl:attribute
                                                                 name="alt" />
+                                                            <xsl:attribute
+                                                                name="title">
+                                                                <xsl:value-of
+                                                                    select="@Distroicon" /> 
+                                                            </xsl:attribute>
                                                         </img>
                                                         <span>
                                                             <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
@@ -137,6 +142,11 @@
                                                             </xsl:attribute>
                                                             <xsl:attribute
                                                                 name="alt" />
+                                                            <xsl:attribute
+                                                                name="title">
+                                                                <xsl:value-of
+                                                                    select="concat(@OS,&apos;.png&apos;)" /> 
+                                                            </xsl:attribute>
                                                         </img>
                                                         <span>
                                                             <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
