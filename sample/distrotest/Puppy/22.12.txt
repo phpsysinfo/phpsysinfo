@@ -1,0 +1,38 @@
+----------/etc/os-release----------
+NAME=Puppy
+VERSION="22.12"
+ID=puppy_s15pup32
+VERSION_ID=22.12
+PRETTY_NAME="S15Pup32 22.12"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:puppy:puppy_linux:22.12"
+HOME_URL="http://puppylinux.com/"
+SUPPORT_URL="http://www.murga-linux.com/puppy/index.php"
+BUG_REPORT_URL="https://github.com/puppylinux-woof-CE/woof-CE"
+----------/etc/DISTRO_SPECS----------
+#One or more words that identify this distribution:
+DISTRO_NAME='S15Pup32'
+#version number of this distribution:
+DISTRO_VERSION=22.12
+#The distro whose binary packages were used to build this distribution:
+DISTRO_BINARY_COMPAT='slackware'
+#Prefix for some filenames: e.g.: s15pup32save.2fs, puppy_s15pup32-22.12.sfs
+DISTRO_FILE_PREFIX='s15pup32'
+#The version of the distro whose binary packages were used to build this distro:
+DISTRO_COMPAT_VERSION='15.0'
+#the kernel pet package used:
+DISTRO_KERNEL_PET='Huge_Kernel'
+DISTRO_XORG_AUTO='yes'
+DISTRO_DB_SUBNAME='slacko15.0'
+DISTRO_TARGETARCH='x86'
+BUILD_FROM_WOOF='testing;c009e653e;2022-11-29 19:30:14 +0200'
+#Puppy default filenames...
+#Note, the 'SFS' files below are what the 'init' script in initrd.gz searches for,
+#for the partition, path and actual files loaded, see PUPSFS and ZDRV in /etc/rc.d/PUPSTATE
+DISTRO_BDRVSFS='bdrv_s15pup32_22.12.sfs'
+DISTRO_PUPPYSFS='puppy_s15pup32_22.12.sfs'
+DISTRO_ZDRVSFS='zdrv_s15pup32_22.12.sfs'
+DISTRO_FDRVSFS='fdrv_s15pup32_22.12.sfs'
+DISTRO_ADRVSFS='adrv_s15pup32_22.12.sfs'
+DISTRO_YDRVSFS='ydrv_s15pup32_22.12.sfs'
+DISTRO_PUPPYDATE='Dec 2022'
