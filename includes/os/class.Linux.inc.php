@@ -2184,13 +2184,13 @@ class Linux extends OS
                     }
                 } elseif (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")
                    && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-                   && preg_match('/^DISTRO_NAME=\'(.+)\'/m', $buf, $id_buf)) {
+                   && preg_match('/^DISTRO_NAME=["\']([^"\']+)/m', $buf, $id_buf)) {
                     if (isset($list[strtolower(trim($id_buf[1]))]['Name'])) {
                         $dist = trim($list[strtolower(trim($id_buf[1]))]['Name']);
                     } else {
                         $dist = trim($id_buf[1]);
                     }
-                    if (preg_match('/^DISTRO_VERSION=([^#\n\r]+)/m', $buf, $vers_buf)) {
+                    if (preg_match('/^DISTRO_VERSION=([^$#\n\r]+)/m', $buf, $vers_buf)) {
                         $this->sys->setDistribution(trim($dist." ".trim($vers_buf[1])));
                     } else {
                         $this->sys->setDistribution($dist);
