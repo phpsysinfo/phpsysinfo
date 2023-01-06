@@ -5,7 +5,7 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.3
 ----------------
- - [ADD] Linux Lite, Fatdog, CachyOS, Snal, Feren, Archman, Elive, RoboLinux, ExTiX, Kaisen, LXLE, Neptune, Regata, Archcraft, Kodachi, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin, Clear, Sparky and Venom Linux to detected distros
+ - [ADD] Linux Lite, risiOS, Fatdog, CachyOS, Snal, Feren, Archman, Elive, RoboLinux, ExTiX, Kaisen, LXLE, Neptune, Regata, Archcraft, Kodachi, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin, Clear, Sparky and Venom Linux to detected distros
 
  - [NEW] SHOW_NETWORK_BRIDGE option
 
