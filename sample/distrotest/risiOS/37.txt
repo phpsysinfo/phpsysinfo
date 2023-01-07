@@ -1,3 +1,9 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	risiOS
+Description:	risiOS release 37 (The Beautiful)
+Release:	37
+Codename:	TheBeautiful
 ----------/etc/fedora-release----------
 risiOS release 37 (The Beautiful)
 ----------/etc/os-release----------
