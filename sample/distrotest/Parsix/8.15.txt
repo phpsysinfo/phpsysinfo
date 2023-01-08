@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Parsix
+Description:	Parsix GNU/Linux 8.15 (nev)
+Release:	8.15
+Codename:	nev
+----------/etc/os-release----------
+PRETTY_NAME="Parsix GNU/Linux 8.15 (nev)"
+NAME="Parsix GNU/Linux"
+VERSION_ID="8.15"
+VERSION="8.15 (nev)"
+ID=parsix
+ANSI_COLOR="1;31"
+HOME_URL="http://www.parsix.org/"
+SUPPORT_URL="http://forums.parsix.org/"
+BUG_REPORT_URL="http://bugs.parsix.org/"
+----------/etc/parsix-version----------
+Parsix GNU/Linux 8.15r1
+----------/etc/debian_version----------
+8.0
