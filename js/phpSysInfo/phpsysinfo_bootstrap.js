@@ -329,7 +329,7 @@ $(document).ready(function () {
         } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
         }
-    } else if ((ua=useragent.match(/Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
+    } else if ((ua=useragent.match(/\(KHTML, like Gecko\) Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
         if (ua[1]<=5) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
         } else if (ua[1]<=8) {
