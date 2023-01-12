@@ -69,24 +69,24 @@ class LMSensors extends Sensors
                 }
             }
             $data = array();
-            if (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+)\WC\s*\((.+)=(.+)\WC,(.+)=(.+)\WC\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)\WC\s*\((.+)=(.+)\WC,(.+)=(.+)\WC\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)\WC\s*\((.+)=(.+)\WC\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)\WC,(.+)=(.+)\WC\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)\WC,(.+)=(.+)\WC\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)\WC\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)\WC\s*\(/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s+\D+/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)\WC\s+\D+/", $line, $data)) {
                 ;
             } else {
-                preg_match("/^(.+):(.+).C\r?$/", $line, $data);
+                preg_match("/^(.+):(.+)\WC\r?$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
