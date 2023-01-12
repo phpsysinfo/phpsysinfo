@@ -351,6 +351,10 @@ $(document).ready(function () {
         } else if (ua[1]<=28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
         }
+    } else if ((ua=useragent.match(/^Opera\/.*Version\/(\d+)\.[\d\.]+$/))  !== null) {
+        if (ua[1]<=11) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-opera11.css');
+        }
     }
 
     $(window).resize();
