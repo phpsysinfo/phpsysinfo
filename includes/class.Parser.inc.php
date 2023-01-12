@@ -131,7 +131,9 @@ class Parser
                 }
             }
         }
-        if (CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG) && ($df!=="")) {
+        $df = "";
+        CommonFunctions::executeProgram('df', '-k '.$df_param, $df, PSI_DEBUG);
+        if ($df!=="") {
             $df = preg_split("/\n/", $df, -1, PREG_SPLIT_NO_EMPTY);
             if ($get_inodes && PSI_SHOW_INODES) {
                 if (CommonFunctions::executeProgram('df', '-i '.$df_param, $df2, PSI_DEBUG)) {
