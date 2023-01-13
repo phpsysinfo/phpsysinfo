@@ -1,0 +1,6 @@
+----------/etc/os-release----------
+NAME=dahliaOS
+VERSION=220222
+ID=dahliaOS
+VERSION_ID=220222
+PRETTY_NAME="dahliaOS 220222"
