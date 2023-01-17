@@ -1,0 +1,3 @@
+----------/etc/os-release----------
+NAME=Linux
+PRETTY_NAME="Plop Linux"
