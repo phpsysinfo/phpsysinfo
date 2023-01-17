@@ -1,0 +1,19 @@
+----------lsb_release -a----------
+Distributor ID:	Rbos
+Description:	RebeccaBlackOS
+Release:	1
+Codename:	bullseye
+----------/etc/lsb-release----------
+DISTRIB_DESCRIPTION="RebeccaBlackOS"
+----------/etc/os-release----------
+NAME="RebeccaBlackOS"
+VERSION="1"
+ID=rbos
+ID_LIKE=debian
+PRETTY_NAME="RebeccaBlackOS"
+VERSION_ID="1"
+HOME_URL="https://sourceforge.net/p/rebeccablackos/"
+SUPPORT_URL="https://sourceforge.net/p/rebeccablackos/"
+BUG_REPORT_URL="http://sourceforge.net/p/rebeccablackos/tickets/"
+----------/etc/debian_version----------
+11.6

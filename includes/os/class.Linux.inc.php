@@ -1954,7 +1954,7 @@ class Linux extends OS
             // Fall back in case 'lsb_release' does not exist but exist /etc/lsb-release
             if (CommonFunctions::fileexists($filename="/etc/lsb-release")
                && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-               && preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf)) {
+               && (preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $id_buf))) {
                 if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
                    && (trim($desc_buf[1])!=trim($id_buf[1]))) {
                     if ($desc_buf[1]==="Rolling Release") {
