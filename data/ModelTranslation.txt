@@ -39,6 +39,7 @@ M43ADP1,1:Development Mac Pro:Intel Xeon X5340
 Mac13,1:Mac Studio M1 Max:Apple M1 Max
 Mac13,2:Mac Studio M1 Ultra:Apple M1 Ultra
 Mac14,2:MacBook Air M2:Apple M2
+Mac14,7:MacBook Pro M2:Apple M2
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
 MacBook3,1:MacBook Core 2 Duo:Intel Core 2 Duo T7300/T7500
