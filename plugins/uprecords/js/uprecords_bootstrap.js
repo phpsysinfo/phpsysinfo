@@ -8,6 +8,7 @@ function renderPlugin_uprecords(data) {
         },
         Bootup: {
             html: function () {
+                var datetimeFormat;
                 if (((datetimeFormat = data.Options["@attributes"].datetimeFormat) !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
                     var bootup = new Date(this.Bootup);
                     return bootup.toLocaleString();

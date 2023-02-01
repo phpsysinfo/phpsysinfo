@@ -24,7 +24,7 @@ function renderPlugin_smart(data) {
                 html += '<th class="rightCell"><table class="borderless table-hover table-nopadding" style="float:right;"><tbody><tr><td>'+ diskitems[i]["@attributes"].name + ' </td><td><img style="vertical-align:middle;width:20px;" src="./gfx/attention.gif" alt="!" title="' + diskitems[i]["@attributes"].event + '"/></td></tr></tbody></table></th>';
             else
                 html += '<th class="rightCell">'+ diskitems[i]["@attributes"].name + '</th>';
-            attribitems = items(diskitems[i].attribute);
+            var attribitems = items(diskitems[i].attribute);
             var valarray = [];
             for (j = 0;j < attribitems.length; j++) {
                 valarray[attribitems[j]["@attributes"].id] = attribitems[j]["@attributes"];
