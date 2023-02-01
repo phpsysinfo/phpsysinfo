@@ -205,7 +205,6 @@ function changeSpanLanguage(plugin) {
 }
 
 function reload(initiate) {
-    var refrtime = "0";
     $("#errorbutton").css("visibility", "hidden");
     $("#errorbutton").css('cursor', 'default');
     $("#errorbutton").attr('data-toggle', '');
@@ -232,6 +231,7 @@ function reload(initiate) {
             }
         },
         success: function (data) {
+            var refrtime;
 //            console.log(data);
 //            data_dbg = data;
             if ((typeof(initiate) === 'boolean') && (data.Options !== undefined) && (data.Options["@attributes"] !== undefined) && ((refrtime = data.Options["@attributes"].refresh) !== undefined) && (refrtime !== "0")) {
