@@ -205,6 +205,7 @@ function changeSpanLanguage(plugin) {
 }
 
 function reload(initiate) {
+    var refrtime = "0";
     $("#errorbutton").css("visibility", "hidden");
     $("#errorbutton").css('cursor', 'default');
     $("#errorbutton").attr('data-toggle', '');
