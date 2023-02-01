@@ -20,10 +20,9 @@ function renderPlugin_raid(data) {
     }
 
     function raid_diskicon(data , id, itemid, byteFormat, tempFormat) {
-        var info = "";
-        info = data.Info;
+        var info = data.Info;
         if (info === undefined) info = "";
-        parentid = parseInt(data.ParentID, 10);
+        var parentid = parseInt(data.ParentID, 10);
 
         var imgh = "", imgs = "", alt = "", bcolor = "", bus = "", cap = "", minfo = "", serial = "";
         switch (data.Status) {
