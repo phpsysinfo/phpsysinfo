@@ -294,7 +294,7 @@ function plugin_request(pluginname) {
             try {
                 for (var propertyName in data.Plugins) {
                     if ((data.Plugins[propertyName]["@attributes"] !== undefined) && 
-                       ((hostname = data.Plugins[propertyName]["@attributes"]["Hostname"]) !== undefined)) {
+                       ((hostname = data.Plugins[propertyName]["@attributes"].Hostname) !== undefined)) {
                         $('span[class=hostname_' + pluginname + ']').html(hostname);
                     }
                     break;
