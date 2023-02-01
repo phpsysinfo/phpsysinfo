@@ -1143,8 +1143,8 @@ function renderFilesystem(data) {
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                         '" style="width:' + used1 + '% ;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>'
-                        +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>' +
+                        '</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
                 } else {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
