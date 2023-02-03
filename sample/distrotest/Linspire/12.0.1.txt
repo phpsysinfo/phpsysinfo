@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	Linspire 12.0.1
+Release:	22.04
+Codename:	jammy
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=22.04
+DISTRIB_CODENAME=jammy
+DISTRIB_DESCRIPTION="Linspire 12"
+----------/etc/os-release----------
+PRETTY_NAME="Linspire 12.0.1"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.1 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.pc-opensystems.com/"
+SUPPORT_URL="https://help.linspirelinux.com/"
+BUG_REPORT_URL="https://www.pc-opensystems.com"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+----------/etc/debian_version----------
+bookworm/sid
