@@ -40,16 +40,22 @@ echo "\n";
 
 echo "PHP EXTENSIONS:\n";
 $arrReq = array('simplexml', 'pcre', 'xml', 'dom', 'mbstring', 'com_dotnet', 'json', 'xsl', 'snmp', 'pfsense');
+$extensions = get_loaded_extensions();
+$extarray = array();
+foreach ($extensions as $extension) {
+    $extarray[strtolower($extension)] = $extension;
+}
+
 $first = true;
-foreach ($arrReq as $extension) if (extension_loaded($extension)) {
+foreach ($arrReq as $extension) if (isset($extarray[$extension])) {
     if ($first) {
         echo "                requred loaded:\n";
         $first = false;
     }
-    echoinfo($extension);
+    echoinfo($extarray[$extension]);
 }
 $first = true;
-foreach ($arrReq as $extension) if (!extension_loaded($extension)) {
+foreach ($arrReq as $extension) if (!isset($extarray[$extension])) {
     if ($first) {
         echo "                requred not loaded:\n";
         $first = false;
@@ -57,8 +63,7 @@ foreach ($arrReq as $extension) if (!extension_loaded($extension)) {
     echoinfo($extension);
 }
 $first = true;
-$extensions = get_loaded_extensions();
-foreach ($extensions as $extension) if (!in_array(strtolower($extension), $arrReq, true)) {
+foreach ($extarray as $extlower=>$extension) if (!in_array($extlower, $arrReq, true)) {
     if ($first) {
         echo "                others loaded:\n";
         $first = false;
