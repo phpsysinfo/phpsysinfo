@@ -86,10 +86,11 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      */
     private function _getconfig()
     {
-        if ((!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_ACCESS')) &&
-             (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_FILE')) &&
-             (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_SHOW_SERIAL'))) {
-                $this->global_error->addError("phpsysinfo.ini", "Config for plugin ".$this->_plugin_name." not exist!");
+        if ((strtoupper($this->_plugin_name) !== 'DISKLOAD') &&
+           (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_ACCESS')) &&
+           (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_FILE')) &&
+           (!defined('PSI_PLUGIN_'.strtoupper($this->_plugin_name).'_SHOW_SERIAL'))) {
+            $this->global_error->addError("phpsysinfo.ini", "Config for plugin ".$this->_plugin_name." not exist!");
         }
     }
 
