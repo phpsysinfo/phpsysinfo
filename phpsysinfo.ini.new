@@ -127,7 +127,7 @@ BLOCKS=true
 ; - Uprecords      - show uprecords info
 ; - PingTest       - show Ping Test info
 ; - StableBit      - show StableBit Scanner info (WinNT)
-; - DiskLoad      - show Disk Load info (WinNT)
+; - DiskLoad       - show Disk Load info (WinNT)
 ; - HyperV         - show Hyper-V info (WinNT)
 ; - Docker         - show docker stats
 ; - Viewer         - show output of any command or file viewer.tmp contents
