@@ -625,36 +625,37 @@ function renderVitals(data) {
         },
         Processes: {
             html: function () {
-                var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
+                var processes = 0, psarray = [0,0,0,0,0,0];
                 var not_first = false;
                 processes = parseInt(this.Processes, 10);
                 if (processes > 0) {
                     if (this.ProcessesRunning !== undefined) {
-                        p111 = parseInt(this.ProcessesRunning, 10);
+                        psarray[0] = parseInt(this.ProcessesRunning, 10);
                     }
                     if (this.ProcessesSleeping !== undefined) {
-                        p112 = parseInt(this.ProcessesSleeping, 10);
+                        psarray[1] = parseInt(this.ProcessesSleeping, 10);
                     }
                     if (this.ProcessesStopped !== undefined) {
-                        p113 = parseInt(this.ProcessesStopped, 10);
+                        psarray[2] = parseInt(this.ProcessesStopped, 10);
                     }
                     if (this.ProcessesZombie !== undefined) {
-                        p114 = parseInt(this.ProcessesZombie, 10);
+                        psarray[3] = parseInt(this.ProcessesZombie, 10);
                     }
                     if (this.ProcessesWaiting !== undefined) {
-                        p115 = parseInt(this.ProcessesWaiting, 10);
+                        psarray[4] = parseInt(this.ProcessesWaiting, 10);
                     }
                     if (this.ProcessesOther !== undefined) {
-                        p116 = parseInt(this.ProcessesOther, 10);
+                        psarray[5] = parseInt(this.ProcessesOther, 10);
                     }
-                    if (p111 || p112 || p113 || p114 || p115 || p116) {
+                    if (psarray[0] || psarray[1] || psarray[2] || psarray[3] || psarray[4] || psarray[5]) {
                         processes += " (";
-                        for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
-                            if (eval("p" + proc_type)) {
+                        var idlist = {0:111,1:112,2:113,3:114,4:115,5:116};
+                        for (var proc_type in idlist) {
+                            if (psarray[proc_type]) {
                                 if (not_first) {
                                     processes += ", ";
                                 }
-                                processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
+                                processes += psarray[proc_type] + String.fromCharCode(160) + genlang(idlist[proc_type]);
                                 not_first = true;
                             }
                         }

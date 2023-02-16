@@ -674,7 +674,7 @@ function refreshVitals(xml) {
     }
 
     var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "", os = "";
-    var processes = 0, prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
+    var processes = 0, psarray = [0,0,0,0,0,0];
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -713,22 +713,22 @@ function refreshVitals(xml) {
             processes = parseInt($(this).attr("Processes"), 10);
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
-            prunning = parseInt($(this).attr("ProcessesRunning"), 10);
+            psarray[0] = parseInt($(this).attr("ProcessesRunning"), 10);
         }
         if ($(this).attr("ProcessesSleeping") !== undefined) {
-            psleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
+            psarray[1] = parseInt($(this).attr("ProcessesSleeping"), 10);
         }
         if ($(this).attr("ProcessesStopped") !== undefined) {
-            pstopped = parseInt($(this).attr("ProcessesStopped"), 10);
+            psarray[2] = parseInt($(this).attr("ProcessesStopped"), 10);
         }
         if ($(this).attr("ProcessesZombie") !== undefined) {
-            pzombie = parseInt($(this).attr("ProcessesZombie"), 10);
+            psarray[3] = parseInt($(this).attr("ProcessesZombie"), 10);
         }
         if ($(this).attr("ProcessesWaiting") !== undefined) {
-            pwaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
+            psarray[4] = parseInt($(this).attr("ProcessesWaiting"), 10);
         }
         if ($(this).attr("ProcessesOther") !== undefined) {
-            pother = parseInt($(this).attr("ProcessesOther"), 10);
+            psarray[5] = parseInt($(this).attr("ProcessesOther"), 10);
         }
 
         document.title = "System information: " + hostname + " (" + ip + ")";
@@ -755,15 +755,15 @@ function refreshVitals(xml) {
         setAndStrip("#s_syslang", syslang);
         setAndStrip("#s_codepage", codepage);
         setAndStrip("#s_processes", processes);
-        if ((processes > 0) && (prunning || psleeping || pstopped || pzombie || pwaiting || pother)) {
+        if ((processes > 0) && (psarray[0] || psarray[1] || psarray[2] || psarray[3] || psarray[4] || psarray[5])) {
             $("#s_processes").append(" (");
-            var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
-            for (var proc_type in typelist) {
-                if (eval("p" + proc_type)) {
+            var idlist = {0:111,1:112,2:113,3:114,4:115,5:116};
+            for (var proc_type in idlist) {
+                if (psarray[proc_type]) {
                     if (not_first) {
                         $("#s_processes").append(", ");
                     }
-                    $("#s_processes").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
+                    $("#s_processes").append(psarray[proc_type] + "&nbsp;" + genlang(idlist[proc_type]));
                     not_first = true;
                 }
             }
