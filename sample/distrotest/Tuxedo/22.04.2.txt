@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+Distributor ID:	Tuxedo
+Description:	TUXEDO OS 2
+Release:	22.04
+Codename:	jammy
+----------/etc/lsb-release----------
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=22.04.2
+DISTRIB_CODENAME=jammy
+DISTRIB_DESCRIPTION="TUXEDO OS 2"
+----------/etc/os-release----------
+NAME="TUXEDO OS"
+VERSION="2"
+ID=tuxedo
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="TUXEDO OS 2"
+VERSION_ID="22.04"
+HOME_URL="https://tuxedocomputers.com/"
+SUPPORT_URL="https://support.tuxedocomputers.com/"
+BUG_REPORT_URL="https://gitlab.com/tuxedocomputers/development/tuxedo_os/os"
+PRIVACY_POLICY_URL="https://www.tuxedocomputers.com/en/Privacy-policy.tuxedo"
+VERSION_CODENAME=jammy
+UBUNTU_CODENAME=jammy
+----------/etc/tuxedo-os-version----------
+TUXEDO-OS 2 tuxedo - kde-2204-plasma - (202302231702)
+----------/etc/debian_version----------
+bookworm/sid
