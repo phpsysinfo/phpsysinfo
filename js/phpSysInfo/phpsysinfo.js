@@ -1586,7 +1586,10 @@ function refreshOther(xml) {
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         unit = $(this).attr("Unit");
         if (unit === "%") {
-            $("#otherTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td></tr>");
+            if (isFinite(value))
+                $("#otherTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td></tr>");
+            else
+                $("#otherTable tbody").append("<tr><td>" + label + "</td><td>---%</td></tr>");
         } else {
             $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
         }

@@ -1332,7 +1332,7 @@ function renderVoltage(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "V";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "V";
             }
         },
         Min: {
@@ -1424,11 +1424,14 @@ function renderFans(data) {
         Value: {
             html: function () {
                 if (this.Unit === "%") {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    if (isFinite(this.Value))
+                        return '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                            '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    else
+                        return '---%';
                 } else {
-                    return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                    return (isFinite(this.Value)?round(this.Value,0):"---") + String.fromCharCode(160) + genlang(63); //RPM
                 }
             }
         },
@@ -1477,7 +1480,7 @@ function renderPower(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "W";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "W";
             }
         },
         Max: {
@@ -1520,7 +1523,7 @@ function renderCurrent(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "A";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "A";
             }
         },
         Min: {
@@ -1570,10 +1573,12 @@ function renderOther(data) {
         Value: {
             html: function () {
                 if (this.Unit === "%") {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
-                   // return round(this.Value,0) + "%";
+                    if (isFinite(this.Value))
+                        return '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                            '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    else
+                        return '---%';
                 } else {
                     return this.Value;
                 }
