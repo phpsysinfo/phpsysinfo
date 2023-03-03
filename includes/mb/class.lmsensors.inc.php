@@ -241,6 +241,8 @@ class LMSensors extends Sensors
                 ;
             } elseif (preg_match("/^(.+):\s*(FAULT)()\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
+            } elseif (preg_match("/^(.+):\s*(.+) (m?)V\s*()()\((.+)=(.+) V\)(.*)/", $line, $data)) {
+                ;
             } elseif (preg_match("/^(.+):(.+) (m?)V\s*\(/", $line, $data)) {
                 ;
             } elseif (preg_match("/^(.+):(.+) (m?)V\s+\D+/", $line, $data)) {
@@ -264,7 +266,7 @@ class LMSensors extends Sensors
                 } else {
                     $dev->setValue($data[2]);
                 }
-                if (isset($data[5])) {
+                if (isset($data[5]) && ($data[5]!=='')) {
                     $dev->setMin($data[5]);
                 }
                 if (isset($data[7])) {
