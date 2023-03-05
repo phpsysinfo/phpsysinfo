@@ -446,6 +446,10 @@ class Linux extends OS
                                 }
                             }
                         }
+                        if (CommonFunctions::rfts('/proc/device-tree/compatible', $compatible, 1, 4096, false) && ($compatible === "qemu,pseries")) {
+                            $this->sys->setVirtualizer('qemu'); // QEMU
+                            $novm = false;
+                        }
                     }
                 }
             }
