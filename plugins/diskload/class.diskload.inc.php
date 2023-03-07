@@ -40,7 +40,7 @@ class DiskLoad extends PSI_Plugin
     {
         if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
             $diskphys = array();
-            $disklogi = array();            
+            $disklogi = array();
             try {
                 $wmi = WINNT::getcimv2wmi();
                 $diskphys = WINNT::getWMI($wmi, 'Win32_PerfFormattedData_PerfDisk_PhysicalDisk', array('Name', 'PercentIdleTime'));

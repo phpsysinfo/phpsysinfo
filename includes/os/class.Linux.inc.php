@@ -1355,7 +1355,7 @@ class Linux extends OS
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
                     $dev = new HWDevice();
-                    $dev->setName(trim($buf,": \n\r\t\v\x00"));
+                    $dev->setName(trim($buf, ": \n\r\t\v\x00"));
                     $this->sys->setI2cDevices($dev);
                 }
             }
@@ -1459,7 +1459,7 @@ class Linux extends OS
                     $dev->setTxBytes($stats[8]);
                     $dev->setErrors($stats[2] + $stats[10]);
                     $dev->setDrops($stats[3] + $stats[11]);
-                    if (((defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) || (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE)) 
+                    if (((defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) || (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE))
                        && CommonFunctions::executeProgram('ip', 'addr show '.trim($dev_name), $bufr2, PSI_DEBUG) && (trim($bufr2)!="")) {
                         if (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE && preg_match("/^\d+:\s+([^\s:@]+).+\s+master\s+(\S+)/", $bufr2, $brbufr)) {
                             $dev->setBridge($brbufr[2]);
@@ -1940,7 +1940,7 @@ class Linux extends OS
             }
         }
 
-        if (!$_ignore_lsb_release ) {  // don't ignore lsb_release
+        if (!$_ignore_lsb_release) {  // don't ignore lsb_release
             if ($_Distrib !== "") $this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build/i", "", $_Distrib));
             if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
         }
@@ -2077,7 +2077,7 @@ class Linux extends OS
                                             } elseif (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
                                                || preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
-                                            } elseif (preg_match('/^DISTRIB_ID=[\'"]?([^\'"\r\n]+)/m', $buf, $id_buf)) {                                            
+                                            } elseif (preg_match('/^DISTRIB_ID=[\'"]?([^\'"\r\n]+)/m', $buf, $id_buf)) {
                                                 if (preg_match('/^DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
                                                    && (trim($desc_buf[1])!=trim($id_buf[1]))) {
                                                     $this->sys->setDistribution(trim($desc_buf[1]));
@@ -2184,7 +2184,7 @@ class Linux extends OS
                                || preg_match('/^IMAGE_VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                             }
-                            if (!strstr($this->sys->getDistribution(),"(") && (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)
+                            if (!strstr($this->sys->getDistribution(), "(") && (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)
                                || preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf))) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }

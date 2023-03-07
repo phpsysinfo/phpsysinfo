@@ -123,7 +123,7 @@ class Raid extends PSI_Plugin
                             $raidcmd = "";
                         }
                     }
-                    if ($raidcmd !== "" ) {
+                    if ($raidcmd !== "") {
                         CommonFunctions::executeProgram($raidcmd, "/call /vall show all", $vall, PSI_DEBUG);
                     }
                     $this->_filecontent['storcli'] = $call.$vall;
@@ -141,7 +141,7 @@ class Raid extends PSI_Plugin
                             $raidcmd = "";
                         }
                     }
-                    if ($raidcmd !== "" ) {
+                    if ($raidcmd !== "") {
                         CommonFunctions::executeProgram($raidcmd, "/call /vall show all", $vall, PSI_DEBUG);
                     }
                     $this->_filecontent['perccli'] = $call.$vall;
