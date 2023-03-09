@@ -31,7 +31,7 @@ USED     : used for the entire bootstrap userinterface
 
 console-shim.js
 ---------
-VERSION  : 
+VERSION  :
 URL      : https://github.com/liamnewmarch/console-shim/
 DESC     : Shim to make browsers store console messages without Dev Tools open (e.g. IE9)
 USED     : used for the entire bootstrap userinterface
@@ -47,12 +47,12 @@ bootstrap-ie8.js
 ---------
 VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
-DESC     : Bootstrap 4 compatibility module for IE8 
+DESC     : Bootstrap 4 compatibility module for IE8
 USED     : used for the entire bootstrap userinterface on IE8
 
 bootstrap-ie9.js
 ---------
 VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
-DESC     : Bootstrap 4 compatibility module for IE9 
+DESC     : Bootstrap 4 compatibility module for IE9
 USED     : used for the entire bootstrap userinterface on IE9

@@ -701,7 +701,7 @@ class Linux extends OS
 
             // machine
             $bufr = preg_replace('/(\nmachine\s*:\s*[^\r\n]+)/m', "$1\n", $bufr);
-           
+
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage

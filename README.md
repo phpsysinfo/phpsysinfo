@@ -126,5 +126,5 @@ in the [phpSysInfo](https://github.com/phpsysinfo/phpsysinfo) repository.
 LICENSING
 ---------
 
-This program is released under the GNU Public License Version 2 or 
+This program is released under the GNU Public License Version 2 or
 (at your option) any later version, see [COPYING](COPYING) for details.

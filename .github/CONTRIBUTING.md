@@ -1,4 +1,4 @@
-# Contributing to phpSysInfo 
+# Contributing to phpSysInfo
 First time contributing to phpSysInfo? Read our [Code of Conduct](https://github.com/phpsysinfo/phpsysinfo/blob/main/CODE_OF_CONDUCT.md).
 
 ### Propose a feature
