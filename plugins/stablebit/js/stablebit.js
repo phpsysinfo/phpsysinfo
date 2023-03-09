@@ -58,7 +58,7 @@ function stablebit_buildTable(xml) {
         name = $(this).attr("Name");
         if (name !== undefined) {
             var serialnumber = "", firmware = "", size = 0, powerstate = "", temperaturec = "",
-            ishot = 0, issmartwarning = 0, issmartpastthresholds = 0, issmartpastadvisorythresholds = 0, 
+            ishot = 0, issmartwarning = 0, issmartpastthresholds = 0, issmartpastadvisorythresholds = 0,
             issmartfailurepredicted = 0, isdamaged = 0;
 
             html += "      <tr><td colspan=\"2\"><div class=\"treediv\"><span class=\"treespanbold\">" + name + "</div></span></td></tr>\n";
@@ -78,7 +78,7 @@ function stablebit_buildTable(xml) {
             if (!isNaN(size)) {
                 html += "      <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(6, "StableBit") + "</div></span></td><td>" + formatBytes(size, xml) +"</td></tr>\n";
                 tree.push(index);
-            }        
+            }
             powerstate = $(this).attr("PowerState");
             if (powerstate !== undefined) {
                 html += "      <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(7, "StableBit") + "</div></span></td><td>" + powerstate +"</td></tr>\n";

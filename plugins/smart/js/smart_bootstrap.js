@@ -46,7 +46,7 @@ function renderPlugin_smart(data) {
                     html += '<td></td>';
                 }
             }
-            html += '</tr>'; 
+            html += '</tr>';
         }
         html += '</tbody>';
         $('#smart').empty().append(html);

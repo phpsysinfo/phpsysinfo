@@ -293,7 +293,7 @@ function plugin_request(pluginname) {
          success: function (data) {
             try {
                 for (var propertyName in data.Plugins) {
-                    if ((data.Plugins[propertyName]["@attributes"] !== undefined) && 
+                    if ((data.Plugins[propertyName]["@attributes"] !== undefined) &&
                        ((hostname = data.Plugins[propertyName]["@attributes"].Hostname) !== undefined)) {
                         $('span[class=hostname_' + pluginname + ']').html(hostname);
                     }
@@ -801,7 +801,7 @@ function renderHardware(data) {
 
     var html="";
 
-    if (data.Hardware["@attributes"] !== undefined) { 
+    if (data.Hardware["@attributes"] !== undefined) {
         if (data.Hardware["@attributes"].Name !== undefined) {
             html+="<tr id=\"hardware-Machine\">";
             html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
@@ -868,7 +868,7 @@ function renderHardware(data) {
                         html+="<td><span class=\"treegrid-span\">" + genlang('128') + ":</span></td>"; //Number of memories
                     } else {
                         html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
-                    }                    
+                    }
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -1167,7 +1167,7 @@ function renderFilesystem(data) {
             if (showtotals) {
                 if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
                     if (datas[i]["@attributes"].Ignore == 2) {
-                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                     } else if (datas[i]["@attributes"].Ignore == 1) {
                         total.Total += parseInt(datas[i]["@attributes"].Used, 10);
                         total.Used += parseInt(datas[i]["@attributes"].Used, 10);
@@ -1224,7 +1224,7 @@ function renderNetwork(data) {
                             htmladd ="<br><i>("+formatBPS(round(this.RxRate, 2))+")</i>";
                         } else {
                             htmladd ="<br><i>("+formatBytes(round(this.RxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
-                        }                
+                        }
                     } else if ($.inArray(this.Name, oldnetwork) >= 0) {
                         var diff, difftime;
                         if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {

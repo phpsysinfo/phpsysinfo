@@ -98,7 +98,7 @@ function raid_buildinfos(xml, id) {
     if (!isNaN(devcachevault)) html += "<tr><td>" + genlang(33, "Raid") + "</td><td>" + formatBytes(devcachevault, xml.parent().parent().parent()) + "</td></tr>";
     if (devdiskcache !== undefined) html += "<tr><td>" + genlang(27, "Raid") + "</td><td>" + devdiskcache + "</td></tr>";
     if (!isNaN(devbad)) html += "<tr><td>" + genlang(26, "Raid") + "</td><td>" + devbad + "</td></tr>";
-    
+
     button += "<h3 style=\"cursor:pointer\" id=\"sPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_plus.gif\" alt=\"plus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<h3 style=\"cursor:pointer; display:none;\" id=\"hPlugin_Raid_Info" + id + "\"><img src=\"./gfx/bullet_toggle_minus.gif\" alt=\"minus\" title=\"\" style=\"vertical-align:middle;width:16px;\" />" + genlang(2, "Raid") + "</h3>";
     button += "<table id=\"Plugin_Raid_InfoTable" + id + "\" style=\"border:none; border-collapse:collapse; display:none;\"><tbody>" + html + "</tbody></table>";
@@ -218,7 +218,7 @@ function raid_diskicon(xml, id) {
                     $("#Plugin_Raid_List-" + id).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
                 } else {
                     $("#Plugin_Raid_Item" + id + "-" + parentid).append("<div class=\"plugin_raid_item\" id=\"Plugin_Raid_Item" + id + "-" + (itemid+1) + "\" style=\"border-color:" + bcolor + "\">" + name + "<br></div>");
-                } 
+                }
             }
         }
     });
@@ -230,7 +230,7 @@ function raid_diskicon(xml, id) {
  */
 function raid_populate(xml) {
     var hostname = "";
-   
+
     $("#Plugin_RaidTable").empty();
 
     hostname = $("Plugins Plugin_Raid", xml).attr('Hostname');
@@ -248,7 +248,7 @@ function raid_populate(xml) {
             htmldisks += "<tr><td>" + buildedaction + "</td></tr>";
         }
         htmldisks += "<tr><td>" + raid_buildinfos($(this), id);
-        htmldisks += "</td></tr>";        
+        htmldisks += "</td></tr>";
         htmldisks += "</tbody></table>";
 
         $("#Plugin_RaidTable").append("<tr><td><br>" + $(this).attr("Device_Name") + "</td><td>" + htmldisks + "</td></tr>");

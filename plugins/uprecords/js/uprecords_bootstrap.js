@@ -15,7 +15,7 @@ function renderPlugin_uprecords(data) {
                 } else {
                     return this.Bootup;
                 }
-            }            
+            }
         }
     };
 

@@ -121,7 +121,7 @@ function switchStyle(template) {
     } else {
         $('link[rel*=style][title]').each(function getTitle(i) {
             if (this.getAttribute('title') === 'PSI_Template') {
-                this.setAttribute('href', './templates/' + template + ".css");  
+                this.setAttribute('href', './templates/' + template + ".css");
             }
         });
     }
@@ -733,7 +733,7 @@ function refreshVitals(xml) {
 
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
-        $("#s_ip_title").html(ip);      
+        $("#s_ip_title").html(ip);
         setAndStrip("#s_hostname", hostname);
         setAndStrip("#s_ip", ip);
         setAndStrip("#s_kernel", kernel);
@@ -1349,7 +1349,7 @@ function refreshFilesystems(xml) {
             }
         }
     });
-    
+
     if (showTotals) {
         usage = (total_size != 0) ? Math.ceil((total_used / total_size) * 100) : 0;
         total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
@@ -1468,7 +1468,7 @@ function refreshFans(xml) {
             if (isFinite(value))
                 $("#fansTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
             else
-                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>---%</td><td class=\"right\">" + _min + "</td></tr>");            
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>---%</td><td class=\"right\">" + _min + "</td></tr>");
         } else {
             if (isFinite(min))
                 _min = round(min,0) + "&nbsp;" + genlang(63);
@@ -1891,7 +1891,7 @@ $(document).ready(function buildpage() {
             $("#template").val(cookie_template);
             if ($("#template").val() === null) {
                 $("#template").val(old_template);
-            }           
+            }
         }
         switchStyle($("#template").val().toString());
         $('#template').show();
