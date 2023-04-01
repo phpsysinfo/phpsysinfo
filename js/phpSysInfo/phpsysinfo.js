@@ -29,6 +29,13 @@ var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blo
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, increaseWidth, oldnetwork = [];
 
 /**
+ * Fix potential XSS vulnerability in jQuery
+ */
+jQuery.htmlPrefilter = function( html ) {
+	return html;
+};
+
+/**
  * Fix PNG loading on IE6 or below
  */
 function PNGload(png) {

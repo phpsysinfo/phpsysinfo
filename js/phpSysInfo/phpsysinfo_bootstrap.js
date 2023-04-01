@@ -2,6 +2,13 @@ var langxml = [], langarr = [], current_language = "", plugins = [], blocks = []
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
+ * Fix potential XSS vulnerability in jQuery
+ */
+jQuery.htmlPrefilter = function( html ) {
+	return html;
+};
+
+/**
  * generate a cookie, if not exist, and add an entry to it<br><br>
  * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
  * @param {String} name name that holds the value
