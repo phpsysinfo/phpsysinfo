@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	BigLinux based in Ubuntu 19.04
+Release:	19.04
+Codename:	disco
+----------/etc/lsb-release----------
+DISTRIB_ID=BigLinux based in Ubuntu 19.04"
+DISTRIB_RELEASE=19.04
+DISTRIB_CODENAME=Disco
+DISTRIB_DESCRIPTION="BigLinux 19.04"
+----------/etc/os-release----------
+NAME="BigLinux based in Ubuntu"
+VERSION="19.04 (Disco)"
+ID=BigLinux
+ID_LIKE=ubuntu
+PRETTY_NAME="BigLinux based in Ubuntu 19.04"
+VERSION_ID="19.04"
+HOME_URL="https://www.biglinux.com.br/"
+SUPPORT_URL="https://forum.biglinux.com.br/"
+VERSION_CODENAME=disco
+UBUNTU_CODENAME=disco
+----------/etc/debian_version----------
+buster/sid

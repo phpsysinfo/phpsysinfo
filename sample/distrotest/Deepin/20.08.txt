@@ -1,0 +1,42 @@
+----------lsb_release -a----------
+Distributor ID:	Deepin
+Description:	Deepin 20.08
+Release:	20.08
+Codename:	apricot
+----------/etc/lsb-release----------
+DISTRIB_ID=Deepin
+DISTRIB_RELEASE=20.08
+DISTRIB_DESCRIPTION="Deepin 20.08"
+DISTRIB_CODENAME=apricot
+----------/etc/os-release----------
+PRETTY_NAME="Deepin 20.08"
+NAME="Deepin"
+VERSION_ID="20.08"
+VERSION="20.08"
+VERSION_CODENAME="apricot"
+ID=Deepin
+HOME_URL="https://www.deepin.org/"
+BUG_REPORT_URL="https://bbs.deepin.org/"
+----------/etc/deepin-version----------
+[Release]
+Version=20.8
+Type=Desktop
+Type[zh_CN]=xxx
+Edition=Y2020E0001
+Copyright=Y2020CR001
+[Addition]
+Milestone=
+Buildid=build1
+----------/etc/os-version----------
+[Version]
+SystemName=Deepin
+SystemName[zh_CN]=xxx
+ProductType=Desktop
+ProductType[zh_CN]=xxx
+EditionName=Community
+EditionName[zh_CN]=xxx
+MajorVersion=20
+MinorVersion=20.8
+OsBuild=11038.007
+----------/etc/debian_version----------
+10.10
