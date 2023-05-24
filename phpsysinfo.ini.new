@@ -47,6 +47,13 @@ ADD_PATHS=false
 ;
 ALLOWED=false
 
+; Enable JSONP data mode (e.g. /phpsysinfo/xml.php?plugin=complete&jsonp&callback=getData)
+; Disabled by default for security reasons.
+; - false : JSONP data mode disabled
+; - true : JSONP data mode enabled
+;
+;JSONP=false
+
 ; List of sudo commands
 ; Example : SUDO_COMMANDS="iptables-save" //execute "sudo iptables-save" instead "iptables-save"
 ;           SUDO_COMMANDS=false //no sudo commands

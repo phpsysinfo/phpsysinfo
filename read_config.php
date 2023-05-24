@@ -89,6 +89,11 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    if (isset($_GET['jsonp']) && (!defined('PSI_JSONP') || !PSI_JSONP)) {
+        echo "JSONP data mode not enabled in phpsysinfo.ini.";
+        die();
+    }
+
     /* default error handler */
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
