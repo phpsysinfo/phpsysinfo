@@ -21,7 +21,7 @@ USED     : provide tablesorting for the filesystem table
 
 jquery.nyroModal.js
 -------------------
-VERSION  : 1.6.2+jquery1.8fix+bindfix
+VERSION  : 1.6.2+jquery1.8fix+bindfix+ff2fix
 URL      : http://plugins.jquery.com/project/nyroModal
 DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
