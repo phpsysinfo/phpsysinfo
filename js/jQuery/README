@@ -50,7 +50,7 @@ USED     : Hardware, Memory, UPS blocks
 
 jquery.ifixpng.js
 -------------------
-VERSION  : 2.1 (23/04/2008)+jquery1.8fix
+VERSION  : 2.1 (23/04/2008)+jquery1.9fix
 URL      : http://jquery.khurshid.com
 DESC     : Designed to fix that problem by applying appropriate filters to user specified elements, while keeping all element tags intact.
 USED     : used for the entire userinterface
