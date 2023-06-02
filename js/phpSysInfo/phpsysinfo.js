@@ -842,7 +842,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             tree.push(cpucoreposition);
         }
         if (isFinite(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + String.fromCharCode(160) + genlang(82) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
@@ -922,7 +922,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
             tree.push(devcoreposition);
         }
         if (isFinite(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + String.fromCharCode(160) + genlang(82) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {
