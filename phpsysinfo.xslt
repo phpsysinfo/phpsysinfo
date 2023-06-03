@@ -478,6 +478,24 @@
                                                             </tr>
                                                         </xsl:if>
                                                         <xsl:if
+                                                            test="count(@Voltage )&gt;0">
+                                                            <tr class="odd">
+                                                                <td
+                                                                    style="width:160px;">
+                                                                    <span>
+                                                                        <xsl:text>Voltage</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <xsl:value-of
+                                                                        select="@Voltage" />
+                                                                    <span>
+                                                                        <xsl:text> V</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </xsl:if>
+                                                        <xsl:if
                                                             test="count(@Manufacturer )&gt;0">
                                                             <tr class="odd">
                                                                 <td

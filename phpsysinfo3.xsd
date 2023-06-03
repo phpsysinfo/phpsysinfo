@@ -177,6 +177,7 @@
                 </restriction>
             </simpleType>
         </attribute>
+        <attribute name="Voltage" type="string" use="optional"></attribute>
         <attribute name="Manufacturer" type="string" use="optional"></attribute>
         <attribute name="Load" use="optional">
             <simpleType>
@@ -451,14 +452,14 @@
         <attribute name="StartTime" type="string" use="optional"></attribute>
         <attribute name="Status" type="string" use="required"></attribute>
         <attribute name="BeeperStatus" type="string" use="optional"></attribute>
-        <attribute name="Temperature" type="unsignedLong" use="optional"></attribute>
+        <attribute name="Temperature" type="string" use="optional"></attribute>
         <attribute name="OutagesCount" type="unsignedLong" use="optional"></attribute>
         <attribute name="LastOutage" type="string" use="optional"></attribute>
         <attribute name="LastOutageFinish" type="string" use="optional"></attribute>
-        <attribute name="LineVoltage" type="unsignedLong" use="optional"></attribute>
-        <attribute name="LoadPercent" type="unsignedLong" use="optional"></attribute>
-        <attribute name="BatteryVoltage" type="unsignedLong" use="optional"></attribute>
-        <attribute name="BatteryChargePercent" type="unsignedLong" use="optional"></attribute>
+        <attribute name="LineVoltage" type="string" use="optional"></attribute>
+        <attribute name="LoadPercent" type="string" use="optional"></attribute>
+        <attribute name="BatteryVoltage" type="string" use="optional"></attribute>
+        <attribute name="BatteryChargePercent" type="string" use="optional"></attribute>
         <attribute name="TimeLeftMinutes" type="string" use="optional"></attribute>
     </complexType>
 
