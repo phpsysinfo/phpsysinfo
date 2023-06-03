@@ -741,7 +741,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(82); //V
+                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(62); //V
             }
         },
         Bogomips: {
@@ -783,7 +783,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(82); //V
+                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(62); //V
             }
         },
         Capacity: {
