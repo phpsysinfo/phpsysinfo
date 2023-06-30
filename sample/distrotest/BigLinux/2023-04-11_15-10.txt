@@ -1,0 +1,32 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	BigLinux based in Manjaro Linux
+Description:	BigLinux
+Release:	2023-04-11_15-10
+Codename:	Sikaris
+----------/etc/arch-release----------
+Manjaro Linux
+----------/etc/big-release----------
+BUILD
+BUILD_BRANCH=stable
+UNIX_TIMESTAMP=19458
+----------/etc/lsb-release----------
+DISTRIB_ID="BigLinux based in Manjaro Linux"
+DISTRIB_RELEASE=2023-04-11_15-10
+DISTRIB_CODENAME=Sikaris
+DISTRIB_DESCRIPTION="BigLinux"
+----------/etc/manjaro-release----------
+Manjaro Linux
+----------/etc/os-release----------
+NAME="BigLinux based in Manjaro Linux"
+PRETTY_NAME="BigLinux based in Manjaro Linux"
+ID=manjaro
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="32;1;24;144;200"
+HOME_URL="https://www.biglinux.com.br"
+DOCUMENTATION_URL="https://manual.biglinux.com.br"
+SUPPORT_URL="https://forum.biglinux.com.br"
+BUG_REPORT_URL="https://docs.manjaro.org/reporting-bugs/"
+PRIVACY_POLICY_URL="https://manjaro.org/privacy-policy/"
+LOGO="biglinux-blue"

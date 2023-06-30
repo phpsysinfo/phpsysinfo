@@ -1,0 +1,29 @@
+----------/etc/os-release----------
+NAME="OpenWrt"
+VERSION="22.03.2"
+ID="openwrt"
+ID_LIKE="lede openwrt"
+PRETTY_NAME="OpenWrt 22.03.2"
+VERSION_ID="22.03.2"
+HOME_URL="https://openwrt.org/"
+BUG_URL="https://bugs.openwrt.org/"
+SUPPORT_URL="https://forum.openwrt.org/"
+BUILD_ID="r19803-9a599fee93"
+OPENWRT_BOARD="ath79/generic"
+OPENWRT_ARCH="mips_24kc"
+OPENWRT_TAINTS=""
+OPENWRT_DEVICE_MANUFACTURER="OpenWrt"
+OPENWRT_DEVICE_MANUFACTURER_URL="https://openwrt.org/"
+OPENWRT_DEVICE_PRODUCT="Generic"
+OPENWRT_DEVICE_REVISION="v0"
+OPENWRT_RELEASE="OpenWrt 22.03.2 r19803-9a599fee93"
+----------/etc/openwrt_release----------
+DISTRIB_ID='OpenWrt'
+DISTRIB_RELEASE='22.03.2'
+DISTRIB_REVISION='r19803-9a599fee93'
+DISTRIB_TARGET='ath79/generic'
+DISTRIB_ARCH='mips_24kc'
+DISTRIB_DESCRIPTION='OpenWrt 22.03.2 r19803-9a599fee93'
+DISTRIB_TAINTS=''
+----------/etc/openwrt_version----------
+r19803-9a599fee93

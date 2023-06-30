@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+Distributor ID:	Kaisen
+Description:	Kaisen GNU/Linux 2.2 (rolling)
+Release:	2.2
+Codename:	rolling
+----------/etc/os-release----------
+PRETTY_NAME="Kaisen GNU/Linux 2.2 (rolling)"
+NAME="Kaisen GNU/Linux"
+VERSION_ID="2.2"
+VERSION="2.2 (rolling)"
+VERSION_CODENAME=rolling
+ID=kaisen
+ID_LIKE=debian
+HOME_URL="https://kaisenlinux.org"
+SUPPORT_URL="https://forum.kaisenlinux.org"
+BUG_REPORT_URL="https://forum.kaisenlinux.org"
+----------/etc/debian_version----------
+Rolling 2.2

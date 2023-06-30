@@ -89,6 +89,11 @@ if (!defined('PSI_CONFIG_FILE')) {
         }
     }
 
+    if (isset($_GET['jsonp']) && (!defined('PSI_JSONP') || !PSI_JSONP)) {
+        echo "JSONP data mode not enabled in phpsysinfo.ini.";
+        die();
+    }
+
     /* default error handler */
     if (function_exists('errorHandlerPsi')) {
         restore_error_handler();
@@ -327,8 +332,8 @@ if (!defined('PSI_CONFIG_FILE')) {
     }
 
     if (!defined('PSI_JSON_ISSUE')) { //if not overloaded in phpsysinfo.ini
-        if (!extension_loaded("xml")) {
-            die("phpSysInfo requires the xml extension to php in order to work properly.");
+        if (!extension_loaded("simplexml")) {
+            die("phpSysInfo requires the simplexml extension to php in order to work properly.");
         }
         if (simplexml_load_string("<A><B><C/></B>\n</A>") !== simplexml_load_string("<A><B><C/></B></A>")) { // json_encode issue test
             define('PSI_JSON_ISSUE', true); // Problem must be solved

@@ -4,7 +4,7 @@ versions, links and simple description of used jquery files
 
 jquery.js
 ---------
-VERSION  : 1.12.4-ff3fix-ff2fix
+VERSION  : v1.12.4-ff3fix-ff2fix-CVE_2015_9251fix-CVE_2019_11358fix
 URL      : http://jquery.com/
 DESC     : jQuery is a fast, concise, JavaScript Library that simplifies how you traverse HTML documents, handle
            events, perform animations, and add Ajax interactions to your web pages.
@@ -13,7 +13,7 @@ USED     : used for the entire userinterface
 
 jquery.dataTables.js
 --------------------
-VERSION  : 1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix
+VERSION  : 1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix+noeval
 URL      : http://plugins.jquery.com/project/DataTables
 DESC     : dataTables is a jQuery plugin for turning a standard HTML table with THEAD and TBODY tags into a sortable
            table without page refreshes.
@@ -21,7 +21,7 @@ USED     : provide tablesorting for the filesystem table
 
 jquery.nyroModal.js
 -------------------
-VERSION  : 1.6.2+jquery1.8fix+bindfix
+VERSION  : 1.6.2+jquery1.8fix+bindfix+ff2fix
 URL      : http://plugins.jquery.com/project/nyroModal
 DESC     : nyroModal is a high customizable modal window plugin.
 USED     : provide a modal dialog, that is shown when errors are found during execution of the php parsers, or lets say
@@ -50,7 +50,7 @@ USED     : Hardware, Memory, UPS blocks
 
 jquery.ifixpng.js
 -------------------
-VERSION  : 2.1 (23/04/2008)+jquery1.8fix
+VERSION  : 2.1 (23/04/2008)+jquery1.9fix
 URL      : http://jquery.khurshid.com
 DESC     : Designed to fix that problem by applying appropriate filters to user specified elements, while keeping all element tags intact.
 USED     : used for the entire userinterface

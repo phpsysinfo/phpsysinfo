@@ -106,6 +106,11 @@
                                                             </xsl:attribute>
                                                             <xsl:attribute
                                                                 name="alt" />
+                                                            <xsl:attribute
+                                                                name="title">
+                                                                <xsl:value-of
+                                                                    select="@Distroicon" /> 
+                                                            </xsl:attribute>
                                                         </img>
                                                         <span>
                                                             <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
@@ -137,6 +142,11 @@
                                                             </xsl:attribute>
                                                             <xsl:attribute
                                                                 name="alt" />
+                                                            <xsl:attribute
+                                                                name="title">
+                                                                <xsl:value-of
+                                                                    select="concat(@OS,&apos;.png&apos;)" /> 
+                                                            </xsl:attribute>
                                                         </img>
                                                         <span>
                                                             <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
@@ -464,6 +474,24 @@
                                                                 <td>
                                                                     <xsl:value-of
                                                                         select="round(@Bogomips)" />
+                                                                </td>
+                                                            </tr>
+                                                        </xsl:if>
+                                                        <xsl:if
+                                                            test="count(@Voltage )&gt;0">
+                                                            <tr class="odd">
+                                                                <td
+                                                                    style="width:160px;">
+                                                                    <span>
+                                                                        <xsl:text>Voltage</xsl:text>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <xsl:value-of
+                                                                        select="@Voltage" />
+                                                                    <span>
+                                                                        <xsl:text> V</xsl:text>
+                                                                    </span>
                                                                 </td>
                                                             </tr>
                                                         </xsl:if>
@@ -1403,6 +1431,12 @@
                                                         <tr>
                                                             <td>
                                                                 <xsl:value-of select="@Name"/>
+                                                                <xsl:if
+                                                                    test="count(@Bridge )&gt;0">
+                                                                    <xsl:text> (</xsl:text>
+                                                                    <xsl:value-of select="@Bridge" />
+                                                                    <xsl:text>)</xsl:text>
+                                                                </xsl:if>
                                                             </td>
                                                             <td class="right" width="60px">
                                                                 <span>

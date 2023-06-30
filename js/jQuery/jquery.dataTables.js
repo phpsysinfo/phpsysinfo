@@ -1,6 +1,6 @@
 /*
  * File:        jquery.dataTables.js
- * Version:     1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix
+ * Version:     1.8.2+jquery1.9fix+parseJSONfix2+bindfix+samesitefix+noeval
  * Description: Paginate, search and sort HTML tables
  * Author:      Allan Jardine (www.sprymedia.co.uk)
  * Created:     28/3/2008
@@ -6376,13 +6376,18 @@
 			if ( iLength+10 > 4096 ) /* Magic 10 for padding */
 			{
 				var aCookies =document.cookie.split(';');
+				var sData;
 				for ( var i=0, iLen=aCookies.length ; i<iLen ; i++ )
 				{
 					if ( aCookies[i].indexOf( sBaseName ) != -1 )
 					{
 						/* It's a DataTables cookie, so eval it and check the time stamp */
 						var aSplitCookie = aCookies[i].split('=');
-						try { oData = eval( '('+decodeURIComponent(aSplitCookie[1])+')' ); }
+						try {
+							sData = decodeURIComponent(aSplitCookie[1]);
+							oData = (typeof JSON.parse == 'function') ? 
+								JSON.parse( sData.replace(/'/g, '"') ) : $.parseJSON( sData.replace(/'/g, '"') ); }
+						//try { oData = eval( '('+decodeURIComponent(aSplitCookie[1])+')' ); }
 						catch( e ) { continue; }
 						
 						if ( typeof oData.iCreate != 'undefined' && oData.iCreate < iOldTime )

@@ -69,24 +69,24 @@ class LMSensors extends Sensors
                 }
             }
             $data = array();
-            if (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+)[^\w\r\n\t]C\s*\((.+)=(.+)[^\w\r\n\t]C,(.+)=(.+)[^\w\r\n\t]C\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)[^\w\r\n\t]C\s*\((.+)=(.+)[^\w\r\n\t]C,(.+)=(.+)[^\w\r\n\t]C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)[^\w\r\n\t]C\s*\((.+)=(.+)[^\w\r\n\t]C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)\)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)[^\w\r\n\t]C,(.+)=(.+)[^\w\r\n\t]C\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C,(.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)[^\w\r\n\t]C,(.+)=(.+)[^\w\r\n\t]C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+).C\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+)[^\w\r\n\t]C\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)[^\w\r\n\t]C\s*\(/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+).C\s+\D+/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+)[^\w\r\n\t]C\s+\D+/", $line, $data)) {
                 ;
             } else {
-                preg_match("/^(.+):(.+).C\r?$/", $line, $data);
+                preg_match("/^(.+):(.+)[^\w\r\n\t]C\r?$/", $line, $data);
             }
             if (count($data)>2) {
                 foreach ($data as $key=>$value) {
@@ -233,20 +233,22 @@ class LMSensors extends Sensors
                 }
             }
             $data = array();
-            if (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
+            if (preg_match("/^(.+):(.+) (m?)V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+) V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) (m?)V\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)()\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)\)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):\s*(FAULT)\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(FAULT)()\s*\((.+)=(.+) V,(.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+) V\s*\(/", $line, $data)) {
+            } elseif (preg_match("/^(.+):\s*(.+) (m?)V\s*()()\((.+)=(.+) V\)(.*)/", $line, $data)) {
                 ;
-            } elseif (preg_match("/^(.+):(.+) V\s+\D+/", $line, $data)) {
+            } elseif (preg_match("/^(.+):(.+) (m?)V\s*\(/", $line, $data)) {
+                ;
+            } elseif (preg_match("/^(.+):(.+) (m?)V\s+\D+/", $line, $data)) {
                 ;
             } else {
-                preg_match("/^(.+):(.+) V\r?$/", $line, $data);
+                preg_match("/^(.+):(.+) (m?)V\r?$/", $line, $data);
             }
 
             if (count($data)>2) {
@@ -259,12 +261,16 @@ class LMSensors extends Sensors
                 }
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);
-                $dev->setValue($data[2]);
-                if (isset($data[4])) {
-                    $dev->setMin($data[4]);
+                if (isset($data[3]) && ($data[3]==='m') && is_float($data[2])) {
+                    $dev->setValue($data[2]/1000);
+                } else {
+                    $dev->setValue($data[2]);
                 }
-                if (isset($data[6])) {
-                    $dev->setMax($data[6]);
+                if (isset($data[5]) && ($data[5]!=='')) {
+                    $dev->setMin($data[5]);
+                }
+                if (isset($data[7])) {
+                    $dev->setMax($data[7]);
                 }
                 if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
                     $dev->setEvent($evbuf[1]);

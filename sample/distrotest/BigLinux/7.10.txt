@@ -1,0 +1,28 @@
+----------lsb_release -a----------
+Distributor ID:	Deepin
+Description:	BigLinux 7.10
+Release:	7.10
+Codename:	Trioxin
+----------/etc/lsb-release----------
+DISTRIB_ID=Deepin
+DISTRIB_RELEASE=7.10
+DISTRIB_CODENAME=Trioxin
+DISTRIB_DESCRIPTION="BigLinux 7.10"
+----------/etc/os-release----------
+PRETTY_NAME="Deepin 15"
+NAME="Deepin"
+VERSION_ID="15.4.1"
+VERSION="15.4.1"
+ID=deepin
+HOME_URL="https://www.deepin.org/"
+BUG_REPORT_URL="http://feedback.deepin.org/feedback/"
+----------/etc/deepin-version----------
+[Release]
+Version=15.4.1
+Type=Desktop
+Type[zh_CN]=xxx
+
+[Addition]
+Milestone=
+----------/etc/debian_version----------
+8.0

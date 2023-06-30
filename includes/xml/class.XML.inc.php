@@ -231,8 +231,12 @@ class XML
                 }
                 $device->addAttribute('Err', $dev->getErrors());
                 $device->addAttribute('Drops', $dev->getDrops());
-                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo())
+                if (defined('PSI_SHOW_NETWORK_BRIDGE') && PSI_SHOW_NETWORK_BRIDGE && $dev->getBridge()) {
+                    $device->addAttribute('Bridge', $dev->getBridge());
+                }
+                if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS && $dev->getInfo()) {
                     $device->addAttribute('Info', $dev->getInfo());
+                }
             }
         }
     }
@@ -293,6 +297,8 @@ class XML
                     $virtstring .= 'virtualbox';
                 } elseif ($virtkey === 'zvm') {
                     $virtstring .= 'z/vm';
+                } elseif ($virtkey === 'sre') {
+                    $virtstring .= 'lmhs sre';
                 } else {
                     $virtstring .= $virtkey;
                 }
@@ -927,7 +933,9 @@ class XML
                 $plugins = array($this->_plugin);
             }
             foreach ($plugins as $plugin) {
-                if (!$this->_complete_request || !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME') ||
+                if (!$this->_complete_request ||
+                   (!defined('PSI_PLUGIN_'.strtoupper($plugin).'_SSH_HOSTNAME') && !defined('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')) ||
+                   (defined('PSI_SSH_HOSTNAME') && (PSI_SSH_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_SSH_HOSTNAME'))) ||
                    (defined('PSI_WMI_HOSTNAME') && (PSI_WMI_HOSTNAME == constant('PSI_PLUGIN_'.strtoupper($plugin).'_WMI_HOSTNAME')))) {
                     $object = new $plugin($this->_sysinfo->getEncoding());
                     $object->execute();

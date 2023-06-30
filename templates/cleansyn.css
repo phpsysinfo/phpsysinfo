@@ -142,6 +142,10 @@ select {
     background-color: #944;
 }
 
+.barrest {
+    background: #80ff00;
+}
+
 .right {
     text-align: right;
     padding-right: 20px;

@@ -111,7 +111,7 @@ function bat_buildTable(xml) {
                 if (isNaN(DesignCapacity)) {
                     html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(13, "BAT") + "</div></span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td></td></tr>\n";
                     tree.push(index);
-                } else {            
+                } else {
                     html += "     <tr><td><div class=\"treediv\"><span class=\"treespan\">" + genlang(13, "BAT") + "</div></span></td><td>" + FullCapacity+' '+CapacityUnit +"</td><td>" + createBar(DesignCapacity !== 0 ? round(FullCapacity / DesignCapacity * 100, 0) : 0) + "</td></tr>\n";
                     tree.push(index);
                 }

@@ -1,0 +1,21 @@
+----------/etc/laclin-release----------
+PRETTY_NAME=Laclin (It's the Sin that Makes Me Grin)
+NAME="Laclin"
+VERSION_ID="1"
+VERSION="1 (Sanhedrin)"
+VERSION_CODENAME=sanhedrin
+ID=lacliin
+HOME_URL="https://laclin.com/"
+SUPPORT_URL="https://laclin.com/"
+BUG_REPORT_URL="https://laclin.com/"
+----------/etc/os-release----------
+NAME=Laclin
+VERSION="14.2"
+ID=laclin
+VERSION_ID=14.2
+PRETTY_NAME="Slackware 14.2"
+ANSI_COLOR="0;34"
+CPE_NAME="cpe:/o:slackware:slackware_linux:14.2"
+HOME_URL="https://laclin.com/"
+SUPPORT_URL="https://laclin.com/"
+BUG_REPORT_URL="http://www.linuxquestions.org/questions/slackware-14/"

@@ -29,6 +29,13 @@ var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blo
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showMemoryInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, showTotals, increaseWidth, oldnetwork = [];
 
 /**
+ * Fix potential XSS vulnerability in jQuery
+ */
+jQuery.htmlPrefilter = function( html ) {
+	return html;
+};
+
+/**
  * Fix PNG loading on IE6 or below
  */
 function PNGload(png) {
@@ -121,7 +128,7 @@ function switchStyle(template) {
     } else {
         $('link[rel*=style][title]').each(function getTitle(i) {
             if (this.getAttribute('title') === 'PSI_Template') {
-                this.setAttribute('href', './templates/' + template + ".css");  
+                this.setAttribute('href', './templates/' + template + ".css");
             }
         });
     }
@@ -621,11 +628,22 @@ function formatTemp(degreeC, xml) {
  * @param {Number} size barclass
  * @return {String} HTML string which contains the full layout of the bar
  */
-function createBar(size, barclass) {
+function createBar(size, barclass, sizeused) {
+    var percsize = 0, percsizeused = 0;
     if (barclass === undefined) {
         barclass = "bar";
     }
-    return "<div class=\"" + barclass + "\" style=\"float:left; width: " + Math.max(Math.min(Math.round(size), 100), 0) + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+    percsize = Math.max(Math.min(Math.ceil(size), 100), 0);
+    if (sizeused === undefined) {
+        percsizeused = percsize;
+    } else {
+        percsizeused = Math.max(Math.min(Math.ceil(sizeused), size), 0);
+    }
+    if (percsizeused == percsize) {
+        return "<div class=\"" + barclass + "\" style=\"float:left; width: " + percsizeused + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+    } else {
+        return "<div class=\"" + barclass + "\" style=\"float:left; width: " + percsizeused + "px;\">&nbsp;</div><div class=\"barrest\" style=\"float:left; width: " + (percsize-percsizeused) + "px;\">&nbsp;</div>&nbsp;" + size + "%";
+    }
 }
 
 /**
@@ -663,7 +681,7 @@ function refreshVitals(xml) {
     }
 
     var kernel = "", distro = "", icon = "", uptime = "", users = 0, loadavg = "", os = "";
-    var processes = 0, prunning = 0, psleeping = 0, pstopped = 0, pzombie = 0, pwaiting = 0, pother = 0;
+    var processes = 0, psarray = [0,0,0,0,0,0];
     var syslang = "", codepage = "";
     var lastboot = 0;
     var timestamp = parseInt($("Generation", xml).attr("timestamp"), 10)*1000; //server time
@@ -702,32 +720,32 @@ function refreshVitals(xml) {
             processes = parseInt($(this).attr("Processes"), 10);
         }
         if ($(this).attr("ProcessesRunning") !== undefined) {
-            prunning = parseInt($(this).attr("ProcessesRunning"), 10);
+            psarray[0] = parseInt($(this).attr("ProcessesRunning"), 10);
         }
         if ($(this).attr("ProcessesSleeping") !== undefined) {
-            psleeping = parseInt($(this).attr("ProcessesSleeping"), 10);
+            psarray[1] = parseInt($(this).attr("ProcessesSleeping"), 10);
         }
         if ($(this).attr("ProcessesStopped") !== undefined) {
-            pstopped = parseInt($(this).attr("ProcessesStopped"), 10);
+            psarray[2] = parseInt($(this).attr("ProcessesStopped"), 10);
         }
         if ($(this).attr("ProcessesZombie") !== undefined) {
-            pzombie = parseInt($(this).attr("ProcessesZombie"), 10);
+            psarray[3] = parseInt($(this).attr("ProcessesZombie"), 10);
         }
         if ($(this).attr("ProcessesWaiting") !== undefined) {
-            pwaiting = parseInt($(this).attr("ProcessesWaiting"), 10);
+            psarray[4] = parseInt($(this).attr("ProcessesWaiting"), 10);
         }
         if ($(this).attr("ProcessesOther") !== undefined) {
-            pother = parseInt($(this).attr("ProcessesOther"), 10);
+            psarray[5] = parseInt($(this).attr("ProcessesOther"), 10);
         }
 
         document.title = "System information: " + hostname + " (" + ip + ")";
         $("#s_hostname_title").html(hostname);
-        $("#s_ip_title").html(ip);      
+        $("#s_ip_title").html(ip);
         setAndStrip("#s_hostname", hostname);
         setAndStrip("#s_ip", ip);
         setAndStrip("#s_kernel", kernel);
-        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
-        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
+        setAndStrip("#s_distro", "<img src='./gfx/images/" + icon + "' alt='Icon' title='" + icon + "' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        setAndStrip("#s_os", "<img src='./gfx/images/" + os + ".png' alt='OSIcon' title='" + os + ".png' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + os); //onload IE6 PNG fix
         setAndStrip("#s_uptime", uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
             setAndStrip("#s_lastboot", lastboot.toLocaleString());
@@ -744,15 +762,15 @@ function refreshVitals(xml) {
         setAndStrip("#s_syslang", syslang);
         setAndStrip("#s_codepage", codepage);
         setAndStrip("#s_processes", processes);
-        if ((processes > 0) && (prunning || psleeping || pstopped || pzombie || pwaiting || pother)) {
+        if ((processes > 0) && (psarray[0] || psarray[1] || psarray[2] || psarray[3] || psarray[4] || psarray[5])) {
             $("#s_processes").append(" (");
-            var typelist = {running:111,sleeping:112,stopped:113,zombie:114,waiting:115,other:116};
-            for (var proc_type in typelist) {
-                if (eval("p" + proc_type)) {
+            var idlist = {0:111,1:112,2:113,3:114,4:115,5:116};
+            for (var proc_type in idlist) {
+                if (psarray[proc_type]) {
                     if (not_first) {
                         $("#s_processes").append(", ");
                     }
-                    $("#s_processes").append(eval("p" + proc_type) + "&nbsp;" + genlang(typelist[proc_type]));
+                    $("#s_processes").append(psarray[proc_type] + "&nbsp;" + genlang(idlist[proc_type]));
                     not_first = true;
                 }
             }
@@ -824,7 +842,7 @@ function fillCpu(xml, tree, rootposition, collapsed) {
             tree.push(cpucoreposition);
         }
         if (isFinite(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + String.fromCharCode(160) + genlang(62) + "</td></tr>\n";
             tree.push(cpucoreposition);
         }
         if (!isNaN(bogo)) {
@@ -904,7 +922,7 @@ function fillHWDevice(xml, type, tree, rootposition) {
             tree.push(devcoreposition);
         }
         if (isFinite(voltage)) {
-            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + " " + genlang(82) + "</td></tr>\n";
+            html += "<tr><td style=\"width:68%\"><div class=\"treediv\"><span class=\"treespan\">" + genlang(52) + ":</span></div></td><td>" + round(voltage, 2) + String.fromCharCode(160) + genlang(62) + "</td></tr>\n";
             tree.push(devcoreposition);
         }
         if (serial !== undefined) {
@@ -1031,8 +1049,9 @@ function refreshNetwork(xml) {
     }
 
     $("Network NetDevice", xml).each(function getDevice(id) {
-        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
+        var name = "", rx = 0, tx = 0, er = 0, dr = 0, info = "", bridge = "", networkindex = 0, htmlrx = '', htmltx = '', rxr = 0, txr = 0;
         name = $(this).attr("Name");
+        bridge = $(this).attr("Bridge");
         rx = parseInt($(this).attr("RxBytes"), 10);
         tx = parseInt($(this).attr("TxBytes"), 10);
         er = parseInt($(this).attr("Err"), 10);
@@ -1074,8 +1093,11 @@ function refreshNetwork(xml) {
             }
         }
 
-        html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
-
+        if ( (bridge !== undefined) && (bridge !== "") ) {
+            html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + " (" + bridge +")</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+        } else {
+            html +="<tr><td><div class=\"treediv\"><span class=\"treespan\">" + name + "</span></div></td><td class=\"right\">" + formatBytes(rx, xml) + htmlrx + "</td><td class=\"right\">" + formatBytes(tx, xml) + htmltx +"</td><td class=\"right\">" + er.toString() + "/<wbr>" + dr.toString() + "</td></tr>";
+        }
         networkindex = tree.push(0);
 
         if (showNetworkActiveSpeed) {
@@ -1262,7 +1284,7 @@ function refreshFilesystems(xml) {
         return;
     }
 
-    var total_usage = 0, total_used = 0, total_free = 0, total_size = 0, threshold = 0;
+    var total_usage = 0, total_used = 0, total_free = 0, total_size = 0, threshold = 0, usage = 0;
 
     filesystemTable.fnClearTable();
 
@@ -1297,25 +1319,26 @@ function refreshFilesystems(xml) {
             type = "";
         }
 
+        usage = (size != 0) ? Math.ceil((used / size) * 100) : 0;
         if (!isNaN(ignore) && (ignore > 0) && showTotals) {
             if (ignore >= 3) {
                 if ((ignore == 3) && !isNaN(threshold) && (percent >= threshold)) {
-                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 } else {
-                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "bar", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span><i>(" + formatBytes(used, xml) + ")</i>", "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 }
             } else  {
                 if (!isNaN(threshold) && (percent >= threshold)) {
-                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) +  ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) +  ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 } else {
-                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
+                    filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "bar", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span><i>(" + formatBytes(free, xml) + ")</i>", "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span><i>(" + formatBytes(size, xml) + ")</i>"]);
                 }
             }
         } else {
             if (!isNaN(threshold) && (percent >= threshold) && (showTotals || isNaN(ignore) || (ignore < 4))) {
-                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn") + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "barwarn", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             } else {
-                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
+                filesystemTable.fnAddData(["<span style=\"display:none;\">" + mpoint + "</span>" + mpoint, "<span style=\"display:none;\">" + type + "</span>" + type, "<span style=\"display:none;\">" + name + "</span>" + name + options_text, "<span style=\"display:none;\">" + percent.toString() + "</span>" + createBar(percent, "bar", usage) + inodes_text, "<span style=\"display:none;\">" + free.toString() + "</span>" + formatBytes(free, xml), "<span style=\"display:none;\">" + used.toString() + "</span>" + formatBytes(used, xml), "<span style=\"display:none;\">" + size.toString() + "</span>" + formatBytes(size, xml)]);
             }
         }
         if (showTotals) {
@@ -1331,15 +1354,16 @@ function refreshFilesystems(xml) {
                 total_free += free;
                 total_size += size;
             }
-            total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
         }
     });
-    
+
     if (showTotals) {
+        usage = (total_size != 0) ? Math.ceil((total_used / total_size) * 100) : 0;
+        total_usage = (total_size != 0) ? round(100 - (total_free / total_size) * 100, 2) : 0;
         if (!isNaN(threshold) && (total_usage >= threshold)) {
-            $("#s_fs_total").html(createBar(total_usage, "barwarn"));
+            $("#s_fs_total").html(createBar(total_usage, "barwarn" , usage));
         } else {
-            $("#s_fs_total").html(createBar(total_usage));
+            $("#s_fs_total").html(createBar(total_usage, "bar", usage));
         }
         $("#s_fs_tfree").html(formatBytes(total_free, xml));
         $("#s_fs_tused").html(formatBytes(total_used, xml));
@@ -1451,7 +1475,7 @@ function refreshFans(xml) {
             if (isFinite(value))
                 $("#fansTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td><td class=\"right\">" + _min + "</td></tr>");
             else
-                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>---%</td><td class=\"right\">" + _min + "</td></tr>");            
+                $("#fansTable tbody").append("<tr><td>" + label + "</td><td>---%</td><td class=\"right\">" + _min + "</td></tr>");
         } else {
             if (isFinite(min))
                 _min = round(min,0) + "&nbsp;" + genlang(63);
@@ -1569,7 +1593,10 @@ function refreshOther(xml) {
             label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         unit = $(this).attr("Unit");
         if (unit === "%") {
-            $("#otherTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td></tr>");
+            if (isFinite(value))
+                $("#otherTable tbody").append("<tr><td>" + label + "</td><td>" + createBar(round(value,0)) + "</td></tr>");
+            else
+                $("#otherTable tbody").append("<tr><td>" + label + "</td><td>---%</td></tr>");
         } else {
             $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
         }
@@ -1871,7 +1898,7 @@ $(document).ready(function buildpage() {
             $("#template").val(cookie_template);
             if ($("#template").val() === null) {
                 $("#template").val(old_template);
-            }           
+            }
         }
         switchStyle($("#template").val().toString());
         $('#template').show();

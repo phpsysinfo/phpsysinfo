@@ -68,6 +68,13 @@ class NetDevice
     private $_info = null;
 
     /**
+     * string with bridge
+     *
+     * @var string
+     */
+    private $_bridge = null;
+
+    /**
      * transmitted bytes rate
      *
      * @var int
@@ -236,6 +243,33 @@ class NetDevice
     {
         $this->_info = $info;
     }
+
+    /**
+     * Returns $_bridge.
+     *
+     * @see NetDevice::$_bridge
+     *
+     * @return String
+     */
+    public function getBridge()
+    {
+        return $this->_bridge;
+    }
+
+    /**
+     * Sets $_bridge.
+     *
+     * @param String $bridge bridge string
+     *
+     * @see NetDevice::$_bridge
+     *
+     * @return void
+     */
+    public function setBridge($bridge)
+    {
+        $this->_bridge = $bridge;
+    }
+
     /**
      * Returns $_rxRate.
      *

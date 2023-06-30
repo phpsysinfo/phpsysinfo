@@ -29,7 +29,7 @@ var UpdateNotifier_show = false, UpdateNotifier_table;
  */
 function updatenotifier_populate(xml) {
     var html = "", hostname = "";
- 
+
     hostname = $("Plugins Plugin_UpdateNotifier", xml).attr('Hostname');
     if (hostname !== undefined) {
         $('span[class=Hostname_UpdateNotifier]').html(hostname);

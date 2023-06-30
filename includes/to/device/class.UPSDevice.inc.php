@@ -63,7 +63,7 @@ class UPSDevice
     /**
      * temperature of the ups
      *
-     * @var int
+     * @var string
      */
     private $_temperatur = null;
 
@@ -91,7 +91,7 @@ class UPSDevice
     /**
      * line volt
      *
-     * @var int
+     * @var float
      */
     private $_lineVoltage = null;
 
@@ -105,7 +105,7 @@ class UPSDevice
     /**
      * current load of the ups in percent
      *
-     * @var int
+     * @var float
      */
     private $_load = null;
 
@@ -119,14 +119,14 @@ class UPSDevice
     /**
      * current battery volt
      *
-     * @var int
+     * @var float
      */
     private $_batteryVoltage = null;
 
     /**
      * current charge in percent of the battery
      *
-     * @var int
+     * @var float
      */
     private $_batterCharge = null;
 
@@ -149,7 +149,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_batterCharge
      *
-     * @return integer
+     * @return float
      */
     public function getBatterCharge()
     {
@@ -159,7 +159,7 @@ class UPSDevice
     /**
      * Sets $_batterCharge.
      *
-     * @param int $batterCharge battery charge
+     * @param float $batterCharge battery charge
      *
      * @see UPSDevice::$_batterCharge
      *
@@ -201,7 +201,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_batteryVoltage
      *
-     * @return int
+     * @return float
      */
     public function getBatteryVoltage()
     {
@@ -211,7 +211,7 @@ class UPSDevice
     /**
      * Sets $_batteryVoltage.
      *
-     * @param int $batteryVoltage battery volt
+     * @param float $batteryVoltage battery volt
      *
      * @see UPSDevice::$_batteryVoltage
      *
@@ -279,7 +279,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_lineVoltage
      *
-     * @return int
+     * @return float
      */
     public function getLineVoltage()
     {
@@ -289,7 +289,7 @@ class UPSDevice
     /**
      * Sets $_lineVoltage.
      *
-     * @param int $lineVoltage line voltage
+     * @param float $lineVoltage line voltage
      *
      * @see UPSDevice::$_lineVoltage
      *
@@ -331,7 +331,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_load
      *
-     * @return int
+     * @return float
      */
     public function getLoad()
     {
@@ -341,7 +341,7 @@ class UPSDevice
     /**
      * Sets $_load.
      *
-     * @param int $load current load
+     * @param float $load current load
      *
      * @see UPSDevice::$_load
      *
@@ -513,7 +513,7 @@ class UPSDevice
      *
      * @see UPSDevice::$_temperatur
      *
-     * @return int
+     * @return string
      */
     public function getTemperatur()
     {
@@ -523,7 +523,7 @@ class UPSDevice
     /**
      * Sets $_temperatur.
      *
-     * @param int $temperatur temperature
+     * @param string $temperatur temperature
      *
      * @see UPSDevice::$_temperatur
      *

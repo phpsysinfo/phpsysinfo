@@ -1,0 +1,33 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	Nobara
+Description:	Nobara release 37 (Thirty Seven)
+Release:	37
+Codename:	ThirtySeven
+----------/etc/nobara-release----------
+Nobara release 37 (Thirty Seven)
+----------/etc/os-release----------
+NAME="Nobara Linux"
+VERSION="37 (Thirty Seven)"
+ID=nobara
+VERSION_ID=37
+VERSION_CODENAME=""
+PLATFORM_ID="platform:f37"
+PRETTY_NAME="Nobara Linux 37 (Thirty Seven)"
+ANSI_COLOR="0;38;2;60;110;180"
+LOGO=nobara-logo-icon
+CPE_NAME="cpe:/o:nobaraproject:nobara:37"
+HOME_URL="https://www.nobaraproject.org/"
+DOCUMENTATION_URL="https://www.nobaraproject.org/"
+SUPPORT_URL="https://www.nobaraproject.org/"
+BUG_REPORT_URL=""
+REDHAT_BUGZILLA_PRODUCT="Nobara"
+REDHAT_BUGZILLA_PRODUCT_VERSION=37
+REDHAT_SUPPORT_PRODUCT="Nobara"
+REDHAT_SUPPORT_PRODUCT_VERSION=37
+PRIVACY_POLICY_URL=""
+VARIANT_ID=workstation
+----------/etc/redhat-release----------
+Nobara release 37 (Thirty Seven)
+----------/etc/system-release----------
+Nobara release 37 (Thirty Seven)

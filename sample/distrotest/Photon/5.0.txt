@@ -1,0 +1,22 @@
+----------lsb_release -a----------
+Distributor ID:	VMware Photon OS
+Description:	VMware Photon OS 5.0
+Release:	5.0
+Codename:	Photon
+----------/etc/lsb-release----------
+DISTRIB_ID="VMware Photon OS"
+DISTRIB_RELEASE="5.0"
+DISTRIB_CODENAME=Photon
+DISTRIB_DESCRIPTION="VMware Photon OS 5.0"
+----------/etc/os-release----------
+NAME="VMware Photon OS"
+VERSION="5.0"
+ID=photon
+VERSION_ID=5.0
+PRETTY_NAME="VMware Photon OS/Linux"
+ANSI_COLOR="1;34"
+HOME_URL="https://vmware.github.io/photon/"
+BUG_REPORT_URL="https://github.com/vmware/photon/issues"
+----------/etc/photon-release----------
+VMware Photon OS 5.0
+PHOTON_BUILD_NUMBER=9e778f409

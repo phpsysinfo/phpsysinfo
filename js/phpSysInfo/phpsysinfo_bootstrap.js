@@ -2,6 +2,13 @@ var langxml = [], langarr = [], current_language = "", plugins = [], blocks = []
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
 /**
+ * Fix potential XSS vulnerability in jQuery
+ */
+jQuery.htmlPrefilter = function( html ) {
+	return html;
+};
+
+/**
  * generate a cookie, if not exist, and add an entry to it<br><br>
  * inspired by <a href="http://www.quirksmode.org/js/cookies.html">http://www.quirksmode.org/js/cookies.html</a>
  * @param {String} name name that holds the value
@@ -231,6 +238,7 @@ function reload(initiate) {
             }
         },
         success: function (data) {
+            var refrtime;
 //            console.log(data);
 //            data_dbg = data;
             if ((typeof(initiate) === 'boolean') && (data.Options !== undefined) && (data.Options["@attributes"] !== undefined) && ((refrtime = data.Options["@attributes"].refresh) !== undefined) && (refrtime !== "0")) {
@@ -292,8 +300,8 @@ function plugin_request(pluginname) {
          success: function (data) {
             try {
                 for (var propertyName in data.Plugins) {
-                    if ((data.Plugins[propertyName]["@attributes"] !== undefined) && 
-                       ((hostname = data.Plugins[propertyName]["@attributes"]["Hostname"]) !== undefined)) {
+                    if ((data.Plugins[propertyName]["@attributes"] !== undefined) &&
+                       ((hostname = data.Plugins[propertyName]["@attributes"].Hostname) !== undefined)) {
                         $('span[class=hostname_' + pluginname + ']').html(hostname);
                     }
                     break;
@@ -323,13 +331,19 @@ $(document).ready(function () {
         });
     }
 
-    if ((ua=useragent.match(/Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
+    if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/)) !== null) {
+        if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
+        } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
+        }
+    } else if ((ua=useragent.match(/\(KHTML, like Gecko\) Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
         if (ua[1]<=5) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
         } else if (ua[1]<=8) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
         }
-    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/))  !== null) {
+    } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/)) !== null) {
         if (ua[1]<=15) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
         } else if (ua[1]<=20) {
@@ -339,17 +353,15 @@ $(document).ready(function () {
         } else if (ua[1]==28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
         }
-    } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/))  !== null) {
-        if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
-        } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
-        }
-    } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/))  !== null) {
+    } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/)) !== null) {
         if (ua[1]<=25) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome25.css');
         } else if (ua[1]<=28) {
             $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
+        }
+    } else if ((ua=useragent.match(/^Opera\/.*Version\/(\d+)\.[\d\.]+$/)) !== null) {
+        if (ua[1]<=11) {
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-opera11.css');
         }
     }
 
@@ -599,12 +611,12 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" title="' + this.Distroicon + '" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         OS: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" title="' + this.OS + '.png" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
             }
         },
         LoadAvg: {
@@ -620,36 +632,37 @@ function renderVitals(data) {
         },
         Processes: {
             html: function () {
-                var processes = "", p111 = 0, p112 = 0, p113 = 0, p114 = 0, p115 = 0, p116 = 0;
+                var processes = 0, psarray = [0,0,0,0,0,0];
                 var not_first = false;
                 processes = parseInt(this.Processes, 10);
                 if (processes > 0) {
                     if (this.ProcessesRunning !== undefined) {
-                        p111 = parseInt(this.ProcessesRunning, 10);
+                        psarray[0] = parseInt(this.ProcessesRunning, 10);
                     }
                     if (this.ProcessesSleeping !== undefined) {
-                        p112 = parseInt(this.ProcessesSleeping, 10);
+                        psarray[1] = parseInt(this.ProcessesSleeping, 10);
                     }
                     if (this.ProcessesStopped !== undefined) {
-                        p113 = parseInt(this.ProcessesStopped, 10);
+                        psarray[2] = parseInt(this.ProcessesStopped, 10);
                     }
                     if (this.ProcessesZombie !== undefined) {
-                        p114 = parseInt(this.ProcessesZombie, 10);
+                        psarray[3] = parseInt(this.ProcessesZombie, 10);
                     }
                     if (this.ProcessesWaiting !== undefined) {
-                        p115 = parseInt(this.ProcessesWaiting, 10);
+                        psarray[4] = parseInt(this.ProcessesWaiting, 10);
                     }
                     if (this.ProcessesOther !== undefined) {
-                        p116 = parseInt(this.ProcessesOther, 10);
+                        psarray[5] = parseInt(this.ProcessesOther, 10);
                     }
-                    if (p111 || p112 || p113 || p114 || p115 || p116) {
+                    if (psarray[0] || psarray[1] || psarray[2] || psarray[3] || psarray[4] || psarray[5]) {
                         processes += " (";
-                        for (var proc_type in {111:0,112:1,113:2,114:3,115:4,116:5}) {
-                            if (eval("p" + proc_type)) {
+                        var idlist = {0:111,1:112,2:113,3:114,4:115,5:116};
+                        for (var proc_type in idlist) {
+                            if (psarray[proc_type]) {
                                 if (not_first) {
                                     processes += ", ";
                                 }
-                                processes += eval("p" + proc_type) + String.fromCharCode(160) + genlang(proc_type);
+                                processes += psarray[proc_type] + String.fromCharCode(160) + genlang(idlist[proc_type]);
                                 not_first = true;
                             }
                         }
@@ -728,7 +741,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2) + genlang(82); //V
+                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(62); //V
             }
         },
         Bogomips: {
@@ -770,7 +783,7 @@ function renderHardware(data) {
         },
         Voltage: {
             html: function() {
-                return round(this.Voltage, 2)  + genlang(82); //V
+                return round(this.Voltage, 2) + String.fromCharCode(160) + genlang(62); //V
             }
         },
         Capacity: {
@@ -795,7 +808,7 @@ function renderHardware(data) {
 
     var html="";
 
-    if (data.Hardware["@attributes"] !== undefined) { 
+    if (data.Hardware["@attributes"] !== undefined) {
         if (data.Hardware["@attributes"].Name !== undefined) {
             html+="<tr id=\"hardware-Machine\">";
             html+="<th style=\"width:8%;\">"+genlang(107)+"</th>"; //Machine
@@ -862,7 +875,7 @@ function renderHardware(data) {
                         html+="<td><span class=\"treegrid-span\">" + genlang('128') + ":</span></td>"; //Number of memories
                     } else {
                         html+="<td><span class=\"treegrid-span\">" + genlang('120') + ":</span></td>"; //Number of devices
-                    }                    
+                    }
                     html+="<td class=\"rightCell\"><span id=\"" + hw_type + "Count\"></span></td>";
                     html+="</tr>";
                 }
@@ -1130,16 +1143,16 @@ function renderFilesystem(data) {
         },
         Percent: {
             html: function () {
-                var used1 = (this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0;
-                var used2 = Math.ceil(this.Percent);
+                var used1 = Math.max(Math.min((this.Total != 0) ? Math.ceil((this.Used / this.Total) * 100) : 0, 100), 0);
+                var used2 = Math.max(Math.min(Math.ceil(this.Percent), 100), 0);
                 var used21= used2 - used1;
                 if (used21 > 0) {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
                             (parseInt(this.Percent, 10) >= parseInt(data.Options["@attributes"].threshold, 10))) ) ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-info' ) +
                         '" style="width:' + used1 + '% ;"></div>' +
-                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>'
-                        +'</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
+                        '<div class="progress-bar progress-bar-warning" style="width:' + used21 + '% ;"></div>' +
+                        '</div><div class="percent">' + this.Percent + '% ' + ((this.Inodes !== undefined) ? '<i>(' + this.Inodes + '%)</i>' : '') + '</div>';
                 } else {
                     return '<div class="progress">' + '<div class="' +
                         ( ( ((this.Ignore == undefined) || (this.Ignore < 4)) && ((data.Options["@attributes"].threshold !== undefined) &&
@@ -1161,7 +1174,7 @@ function renderFilesystem(data) {
             if (showtotals) {
                 if ((datas[i]["@attributes"].Ignore !== undefined) && (datas[i]["@attributes"].Ignore > 0)) {
                     if (datas[i]["@attributes"].Ignore == 2) {
-                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);                
+                        total.Used += parseInt(datas[i]["@attributes"].Used, 10);
                     } else if (datas[i]["@attributes"].Ignore == 1) {
                         total.Total += parseInt(datas[i]["@attributes"].Used, 10);
                         total.Used += parseInt(datas[i]["@attributes"].Used, 10);
@@ -1200,6 +1213,15 @@ function renderNetwork(data) {
     }
 
     var directives = {
+        Name: {
+            text: function () {
+                if (this.Bridge !== undefined) {
+                    return this.Name + " (" + this.Bridge + ")";
+                } else {
+                    return this.Name;
+                }
+            }
+        },
         RxBytes: {
             html: function () {
                 var htmladd = '';
@@ -1209,7 +1231,7 @@ function renderNetwork(data) {
                             htmladd ="<br><i>("+formatBPS(round(this.RxRate, 2))+")</i>";
                         } else {
                             htmladd ="<br><i>("+formatBytes(round(this.RxRate, 2), data.Options["@attributes"].byteFormat)+"/s)</i>";
-                        }                
+                        }
                     } else if ($.inArray(this.Name, oldnetwork) >= 0) {
                         var diff, difftime;
                         if (((diff = this.RxBytes - oldnetwork[this.Name].RxBytes) > 0) && ((difftime = data.Generation["@attributes"].timestamp - oldnetwork[this.Name].timestamp) > 0)) {
@@ -1317,7 +1339,7 @@ function renderVoltage(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "V";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "V";
             }
         },
         Min: {
@@ -1409,11 +1431,14 @@ function renderFans(data) {
         Value: {
             html: function () {
                 if (this.Unit === "%") {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    if (isFinite(this.Value))
+                        return '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                            '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    else
+                        return '---%';
                 } else {
-                    return round(this.Value,0) + String.fromCharCode(160) + genlang(63); //RPM
+                    return (isFinite(this.Value)?round(this.Value,0):"---") + String.fromCharCode(160) + genlang(63); //RPM
                 }
             }
         },
@@ -1462,7 +1487,7 @@ function renderPower(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "W";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "W";
             }
         },
         Max: {
@@ -1505,7 +1530,7 @@ function renderCurrent(data) {
     var directives = {
         Value: {
             text: function () {
-                return round(this.Value,2) + String.fromCharCode(160) + "A";
+                return (isFinite(this.Value)?round(this.Value,2):"---") + String.fromCharCode(160) + "A";
             }
         },
         Min: {
@@ -1555,10 +1580,12 @@ function renderOther(data) {
         Value: {
             html: function () {
                 if (this.Unit === "%") {
-                    return '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
-                        '</div><div class="percent">' + round(this.Value,0) + '%</div>';
-                   // return round(this.Value,0) + "%";
+                    if (isFinite(this.Value))
+                        return '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-info" style="width:' + round(this.Value,0) + '%;"></div>' +
+                            '</div><div class="percent">' + round(this.Value,0) + '%</div>';
+                    else
+                        return '---%';
                 } else {
                     return this.Value;
                 }

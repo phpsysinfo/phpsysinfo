@@ -26,12 +26,12 @@ html5shiv-printshiv.js
 ---------
 VERSION  : 3.7.3
 URL      : https://github.com/aFarkas/html5shiv/
-DESC     : Enabling HTML5 Shiv Script and Print Support on old IE6-9 Browser Safari 4.x and Firefox 3.x
+DESC     : Enabling HTML5 Shiv Script and Print Support on old IE6-9 Browser, Safari 4.x and Firefox 3.x
 USED     : used for the entire bootstrap userinterface
 
 console-shim.js
 ---------
-VERSION  : 
+VERSION  :
 URL      : https://github.com/liamnewmarch/console-shim/
 DESC     : Shim to make browsers store console messages without Dev Tools open (e.g. IE9)
 USED     : used for the entire bootstrap userinterface
@@ -47,12 +47,12 @@ bootstrap-ie8.js
 ---------
 VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
-DESC     : Bootstrap 4 compatibility module for IE8 
+DESC     : Bootstrap 4 compatibility module for IE8
 USED     : used for the entire bootstrap userinterface on IE8
 
 bootstrap-ie9.js
 ---------
 VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
-DESC     : Bootstrap 4 compatibility module for IE9 
+DESC     : Bootstrap 4 compatibility module for IE9
 USED     : used for the entire bootstrap userinterface on IE9

@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	Gnoppix
+Description:	Gnoppix 22
+Release:	22
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=gnoppix
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=focal
+DISTRIB_DESCRIPTION=Gnoppix User 11 - 20 year Gnoppix Anniversary Edition 
+----------/etc/os-release----------
+NAME="Gnoppix"
+VERSION="22"
+ID=gnoppix
+ID_LIKE=gnoppix
+PRETTY_NAME="Gnoppix 22"
+VERSION_ID="22"
+HOME_URL="https://www.gnoppix.com/"
+SUPPORT_URL="https://www.gnoppix.com/"
+BUG_REPORT_URL="https://www.gnoppix.com"
+PRIVACY_POLICY_URL="https://www.gnoppix.com/"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+kali-rolling

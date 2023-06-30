@@ -1,0 +1,42 @@
+----------lsb_release -a----------
+Distributor ID:	Deepin
+Description:	ExTiX 22.12 - Deepin 20.8
+Release:	20.8
+Codename:	apricot
+----------/etc/lsb-release----------
+DISTRIB_ID=Deepin
+DISTRIB_RELEASE=20.8
+DISTRIB_DESCRIPTION="ExTiX Deepin 20.8"
+DISTRIB_CODENAME=apricot
+----------/etc/os-release----------
+PRETTY_NAME="ExTiX 22.12 - Deepin 20.8"
+NAME="Deepin"
+VERSION_ID="20.8"
+VERSION="20.8"
+VERSION_CODENAME="apricot"
+ID=Deepin
+HOME_URL="https://www.extix.se/"
+BUG_REPORT_URL="https://www.extix.se/"
+----------/etc/deepin-version----------
+[Release]
+Version=20.8
+Type=Desktop
+Type[zh_CN]=社区版
+Edition=Y2020E0001
+Copyright=Y2020CR001
+[Addition]
+Milestone=
+Buildid=build1
+----------/etc/os-version----------
+[Version] 
+SystemName=Deepin
+SystemName[zh_CN]=深度操作系统
+ProductType=Desktop
+ProductType[zh_CN]=桌面
+EditionName=Community
+EditionName[zh_CN]=社区版
+MajorVersion=20
+MinorVersion=20.8
+OsBuild=11038.007
+----------/etc/debian_version----------
+10.10

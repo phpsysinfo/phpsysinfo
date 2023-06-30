@@ -1,0 +1,17 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	n/a
+Description:	Regata OS 22 Discovery
+Release:	22
+Codename:	n/a
+----------/etc/os-release----------
+NAME="Regata OS"
+VERSION="22"
+ID=regataos
+ID_LIKE="regataos"
+VERSION_ID="22"
+PRETTY_NAME="Regata OS 22 Discovery"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:regataos:discovery:22"
+BUG_REPORT_URL="http://www.regataos.com/"
+HOME_URL="http://www.regataos.com/"

@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	PureOS
+Description:	PureOS
+Release:	10.0
+Codename:	byzantium
+----------/etc/lsb-release----------
+DISTRIB_ID=PureOS
+DISTRIB_RELEASE=10
+DISTRIB_CODENAME=byzantium
+DISTRIB_DESCRIPTION="PureOS 10"
+----------/etc/os-release----------
+ID=pureos
+NAME=PureOS
+PRETTY_NAME=PureOS
+
+VERSION_ID=10.0
+VERSION_CODENAME=byzantium
+
+HOME_URL="https://pureos.net/"
+SUPPORT_URL="https://puri.sm/faq/#faq-WherecanIfindoutmoreaboutPureOS"
+BUG_REPORT_URL="https://tracker.pureos.net/"
+
+LOGO=pureos-logo-icon
+----------/etc/debian_version----------
+buster/sid

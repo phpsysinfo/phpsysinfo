@@ -1,0 +1,31 @@
+----------/etc/os-release----------
+NAME="Fatdog64 Linux"
+VERSION="813"
+ID="fatdog64"
+VERSION_ID="813"
+PRETTY_NAME="Fatdog64 Linux 813"
+BUILD_ID="b7ca684f0eb8edac68b98079186c79be0a73def8"
+HOME_URL="http://distro.ibiblio.org/fatdog/web/"
+SUPPORT_URL="https://forum.puppylinux.com/viewforum.php?f=59"
+BUG_REPORT_URL="https://forum.puppylinux.com/viewforum.php?f=59"
+----------/etc/fatdog-fossil-version----------
+b7ca684f0eb8edac68b98079186c79be0a73def8
+----------/etc/fatdog-version----------
+813
+----------/etc/DISTRO_SPECS----------
+# Puppy build-time config file. Not used by Fatdog.
+# Left here for scripts that looks for it.
+# -------------
+# Original notes:
+# DISTRO_FILE_PREFIX: prefix for Puppy files... exs: upup-500.sfs, upupsave.2fs
+# DISTRO_VERSION: this is the version number of Puppy that you are building. must be 3 digits.
+#        (technical note: see below it is defined without quotes, this is required by scripts)
+# package list and urls are in file DISTRO-PKGS-SPECS-${DISTRO_BINARY_COMPAT}.
+
+DISTRO_VERSION=$(cat /etc/fatdog-version)
+DISTRO_BINARY_COMPAT="fatdog64"
+
+DISTRO_NAME="Fatdog64"
+DISTRO_FILE_PREFIX="fd64"
+DISTRO_NOTAGS_VERSION=${DISTRO_VERSION%%[!0-9]*}
+DISTRO_COMPAT_VERSION=${DISTRO_NOTAGS_VERSION%?}0

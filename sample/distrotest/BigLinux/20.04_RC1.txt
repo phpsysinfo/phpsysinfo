@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID:	Ubuntu
+Description:	BigLinux based in Ubuntu 20.04
+Release:	20.04
+Codename:	focal
+----------/etc/lsb-release----------
+DISTRIB_ID=BigLinux based in Ubuntu"
+DISTRIB_RELEASE=20.04
+DISTRIB_CODENAME=Focal
+DISTRIB_DESCRIPTION="BigLinux 20.04"
+----------/etc/os-release----------
+NAME="BigLinux based in Ubuntu"
+VERSION="20.04 (Focal)"
+ID=ubuntu
+ID_LIKE=ubuntu
+PRETTY_NAME="BigLinux based in Ubuntu 20.04"
+VERSION_ID="20.04"
+HOME_URL="https://www.biglinux.com.br/"
+SUPPORT_URL="https://forum.biglinux.com.br/"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+----------/etc/debian_version----------
+bullseye/sid

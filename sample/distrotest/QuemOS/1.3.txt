@@ -1,0 +1,17 @@
+----------lsb_release -a----------
+Distributor ID:	Quemos
+Description:	QuemOS 1.3
+Release:	1.3
+Codename:	1.3
+----------/etc/os-release----------
+PRETTY_NAME="QuemOS 1.3"
+NAME="QuemOS"
+VERSION_ID="1.3"
+VERSION="1.3"
+VERSION_CODENAME=1.3
+ID=quemos
+HOME_URL="https://quemos.github.io/"
+SUPPORT_URL="https://quemos.github.io/support"
+BUG_REPORT_URL="https://bugs.quemos.github.io/"
+----------/etc/debian_version----------
+11.6

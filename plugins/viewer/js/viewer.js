@@ -34,7 +34,7 @@ var viewer_show = false;
 
 function viewer_populate(xml) {
     var html = "", name = "", hostname = "";
- 
+
     hostname = $("Plugins Plugin_Viewer", xml).attr('Hostname');
     if (hostname !== undefined) {
         $('span[class=Hostname_Viewer]').html(hostname);

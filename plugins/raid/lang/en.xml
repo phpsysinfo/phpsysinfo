@@ -102,4 +102,7 @@
   <expression id="plugin_raid_032" name="raid_batttemp">
     <exp>Battery Temperature</exp>
   </expression>
+  <expression id="plugin_raid_033" name="raid_cachevaultsize">
+    <exp>Cachevault Flash Size</exp>
+  </expression>
 </tns:translationPlugin>

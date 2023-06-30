@@ -1,0 +1,23 @@
+----------lsb_release -a----------
+Distributor ID:	Neptune
+Description:	Neptune 7.5
+Release:	7.5
+Codename:	bullseye
+----------/etc/lsb-release----------
+DISTRIB_ID=Debian
+DISTRIB_RELEASE=7.5
+DISTRIB_CODENAME=bullseye
+DISTRIB_DESCRIPTION="Neptune"
+----------/etc/os-release----------
+NAME="Neptune"
+VERSION_ID="7.5"
+VERSION="7.5 (Ada)"
+ID=neptune
+ID_LIKE=debian
+HOME_URL="https://www.neptuneos.com/"
+SUPPORT_URL="https://forum.neptuneos.com"
+BUG_REPORT_URL="https://forum.neptuneos.com"
+VERSION_CODENAME=bullseye
+PRETTY_NAME="Neptune 7.5"
+----------/etc/debian_version----------
+11.4

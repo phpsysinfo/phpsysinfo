@@ -5,7 +5,7 @@ phpSysInfo
 * Copyright (c), 1999-2009, Michael Cramer ([github.com/bigmichi1](https://github.com/bigmichi1), [sf.net/users/bigmichi1](https://sf.net/users/bigmichi1))
 * Copyright (c), 2007-2008, Audun Larsen ([sf.net/users/xqus](https://sf.net/users/xqus))
 * Copyright (c), 2007-2015, Erkan Valentin ([github.com/rk4an](https://github.com/rk4an), [sf.net/users/jacky672](https://sf.net/users/jacky672))
-* Copyright (c), 2009-2022, Mieczyslaw Nalewaj ([github.com/namiltd](https://github.com/namiltd), [sf.net/users/namiltd](https://sf.net/users/namiltd))
+* Copyright (c), 2009-2023, Mieczyslaw Nalewaj ([github.com/namiltd](https://github.com/namiltd), [sf.net/users/namiltd](https://sf.net/users/namiltd))
 * Copyright (c), 2010-2012, Damien Roth ([sf.net/users/iysaak](https://sf.net/users/iysaak))
 
 
@@ -45,7 +45,7 @@ CURRENT TESTED PLATFORMS
 - DrayOS (via SSH)
 
 If your platform is not here try checking out the mailing list archives or
-the message boards on SourceForge.
+the message boards on Github.
 
 INSTALLATION AND CONFIGURATION
 ------------------------------
@@ -126,5 +126,5 @@ in the [phpSysInfo](https://github.com/phpsysinfo/phpsysinfo) repository.
 LICENSING
 ---------
 
-This program is released under the GNU Public License Version 2 or 
+This program is released under the GNU Public License Version 2 or
 (at your option) any later version, see [COPYING](COPYING) for details.

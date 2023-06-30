@@ -1,0 +1,18 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	openEuler
+Description:	openEuler release 22.09
+Release:	22.09
+Codename:	n/a
+----------/etc/openEuler-release----------
+openEuler release 22.09
+----------/etc/os-release----------
+NAME="openEuler"
+VERSION="22.09"
+ID="openEuler"
+VERSION_ID="22.09"
+PRETY_NAME="openEuler 22.09"
+ANSI_COLOR="0;31"
+
+----------/etc/system-release----------
+openEuler release 22.09

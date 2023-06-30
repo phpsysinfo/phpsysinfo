@@ -1,0 +1,24 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	Archman
+Description:	Rolling Release
+Release:	2022-07
+Codename:	Freedom
+----------/etc/arch-release----------
+----------/etc/lsb-release----------
+DISTRIB_ID=Archman
+DISTRIB_RELEASE=2022-07
+DISTRIB_DESCRIPTION="Rolling Release"
+DISTRIB_CODENAME="Freedom"
+----------/etc/os-release----------
+NAME="Archman"
+PRETTY_NAME="Archman"
+ID=archman
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://archman.org"
+DOCUMENTATION_URL="https://archman.org/topluluk/belgeler"
+SUPPORT_URL="https://archman.org/topluluk"
+BUG_REPORT_URL="https://gitlab.com/groups/Archman-OS/-/issues"
+PRIVACY_POLICY_URL="https://terms.archlinux.org/docs/privacy-policy/"
+LOGO=archman

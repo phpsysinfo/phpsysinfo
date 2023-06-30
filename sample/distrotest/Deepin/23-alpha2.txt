@@ -1,0 +1,44 @@
+----------lsb_release -a----------
+Distributor ID:	Deepin
+Description:	Deepin 23
+Release:	23
+Codename:	beige
+----------/etc/lsb-release----------
+DISTRIB_ID=Deepin
+DISTRIB_RELEASE=23
+DISTRIB_DESCRIPTION="Deepin 23"
+DISTRIB_CODENAME=beige
+----------/etc/os-release----------
+PRETTY_NAME="Deepin 23"
+NAME="Deepin"
+VERSION_ID="23"
+VERSION="23"
+ID=Deepin
+HOME_URL="https://www.deepin.org/"
+BUG_REPORT_URL="https://bbs.deepin.org/"
+VERSION_CODENAME=beige
+----------/etc/deepin-version----------
+[Release]
+Version=23
+Type=Desktop
+Type[zh_CN]=xxx
+Edition=Y2020E0001
+Copyright=Y2020CR001
+[Addition]
+Milestone=
+Buildid=build1
+----------/etc/os-version----------
+[Version]
+SystemName=Deepin
+SystemName[zh_CN]=xxx
+ProductType=Desktop
+ProductType[zh_CN]=xxx
+EditionName=Community
+EditionName[zh_CN]=xxx (alpha2)
+MajorVersion=23
+MinorVersion=23
+OsBuild=21238.100
+----------/etc/debian_version----------
+bookworm/sid
+----------/etc/deepin_version----------
+23

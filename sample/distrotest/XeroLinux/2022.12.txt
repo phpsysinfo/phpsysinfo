@@ -1,0 +1,27 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	XeroLinux-KDE
+Description:	XeroLinux
+Release:	rolling
+Codename:	n/a
+----------/etc/arch-release----------
+----------/etc/lsb-release----------
+DISTRIB_ID=XeroLinux-KDE
+DISTRIB_RELEASE="rolling"
+DISTRIB_DESCRIPTION="XeroLinux"
+----------/etc/os-release----------
+NAME="XeroLinux"
+PRETTY_NAME="XeroLinux"
+ID=XeroLinux
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://xerolinux.xyz/"
+LOGO=XeroLinux
+IMAGE_ID=xerolinux
+IMAGE_VERSION=2022.12
+----------/etc/xerolinux-release----------
+LSB_VERSION=1.4
+DISTRIB_ID=XeroLinux
+DISTRIB_RELEASE=rolling
+DISTRIB_DESCRIPTION="XeroLinux"

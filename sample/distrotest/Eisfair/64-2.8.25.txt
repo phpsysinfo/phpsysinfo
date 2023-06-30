@@ -1,0 +1,15 @@
+----------lsb_release -a----------
+LSB Version:	n/a
+Distributor ID:	eisfair project
+Description:	eisfair-64
+Release:	2.8.25
+Codename:	n/a
+----------/etc/os-release----------
+NAME=eisfair
+VERSION="2.8.25"
+VERSION_ID="2.8.25"
+PRETTY_NAME="eisfair-64"
+----------/etc/version----------
+2.8.25
+----------/etc/eisfair-system----------
+eisfair-64

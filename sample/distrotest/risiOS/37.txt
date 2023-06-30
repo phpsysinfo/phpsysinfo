@@ -1,0 +1,29 @@
+----------lsb_release -a----------
+LSB Version:	:core-4.1-amd64:core-4.1-noarch
+Distributor ID:	risiOS
+Description:	risiOS release 37 (The Beautiful)
+Release:	37
+Codename:	TheBeautiful
+----------/etc/fedora-release----------
+risiOS release 37 (The Beautiful)
+----------/etc/os-release----------
+NAME=risiOS
+VERSION="37 (The Beautiful)"
+ID=risios
+ID_LIKE=fedora
+VERSION_ID=37
+PRETTY_NAME="risiOS 37 (The Beautiful)"
+ANSI_COLOR="0;94"
+CPE_NAME="cpe:/o:risi:risios:37"
+HOME_URL="https://risi.io/"
+SUPPORT_URL="https://risi.io/"
+BUG_REPORT_URL="https://risi.io/"
+REDHAT_BUGZILLA_PRODUCT="risiOS"
+REDHAT_BUGZILLA_PRODUCT_VERSION=%{bug_version}
+REDHAT_SUPPORT_PRODUCT="risiOS"
+REDHAT_SUPPORT_PRODUCT_VERSION=%{bug_version}
+PRIVACY_POLICY_URL="https://risi.io/"
+----------/etc/redhat-release----------
+risiOS release 37 (The Beautiful)
+----------/etc/system-release----------
+risiOS release 37 (The Beautiful)

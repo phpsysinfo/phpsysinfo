@@ -83,7 +83,7 @@ function snmppinfo_buildTable(xml) {
             index = tree.push(0);
             lastdev = device;
         }
-        
+
         if (!isNaN(supply)) {
             switch (supply) {
                 case 7:
