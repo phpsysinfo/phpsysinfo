@@ -575,7 +575,7 @@ class WINNT extends OS
             self::$_wmi = false; // No WMI info on ReactOS yet
             $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
-            if (PSI_OS == 'WINNT') {
+            if ((PSI_OS == 'WINNT') && !defined('PSI_SYSTEM_CODEPAGE')) {
                 if (defined('PSI_EMU_HOSTNAME')) {
                     try {
                         $objLocator = new COM('WbemScripting.SWbemLocator');
