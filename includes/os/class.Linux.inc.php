@@ -1940,6 +1940,16 @@ class Linux extends OS
             }
         }
 
+        // Special case for Proxmox which is detected as Debian
+        if (CommonFunctions::fileexists($filename="/usr/bin/pveversion")) {
+            if (CommonFunctions::executeProgram('pveversion', ' 2>/dev/null', $distro_info, PSI_DEBUG) && strlen($distro_info) > 0) {
+                $distro_tmp = preg_split("/\//", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
+                $distro_tmp_count = count($distro_tmp);
+                $_Distrib = "Proxmox $distro_tmp[1]";
+                $_DistribIcon = $list['proxmox']['Image'];
+            }
+        }
+
         if (!$_ignore_lsb_release) {  // don't ignore lsb_release
             if ($_Distrib !== "") $this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build| based in Ubuntu/i", "", $_Distrib));
             if ($_DistribIcon !== "") $this->sys->setDistributionIcon($_DistribIcon);
