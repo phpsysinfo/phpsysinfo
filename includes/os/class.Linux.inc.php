@@ -1944,7 +1944,6 @@ class Linux extends OS
         if (CommonFunctions::fileexists($filename="/usr/bin/pveversion")) {
             if (CommonFunctions::executeProgram('pveversion', ' 2>/dev/null', $distro_info, PSI_DEBUG) && strlen($distro_info) > 0) {
                 $distro_tmp = preg_split("/\//", $distro_info, -1, PREG_SPLIT_NO_EMPTY);
-                $distro_tmp_count = count($distro_tmp);
                 $_Distrib = "Proxmox $distro_tmp[1]";
                 $_DistribIcon = $list['proxmox']['Image'];
             }
