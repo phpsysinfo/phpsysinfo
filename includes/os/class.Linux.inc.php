@@ -2022,6 +2022,8 @@ class Linux extends OS
                                 } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="execute")) {
                                     if (!CommonFunctions::executeProgram($filename, '2>/dev/null', $buf, PSI_DEBUG)) {
                                         $buf = "";
+                                    } elseif (preg_match('/^pve-manager\/([\d.]+)\//', $buf, $vers_buf)) { // Proxmox version
+                                        $buf = $vers_buf[1];
                                     }
                                 } else {
                                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
