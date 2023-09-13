@@ -43,7 +43,7 @@ Mac14,3:Mac mini M2:Apple M2
 Mac14,5:MacBook Pro M2 Max:Apple M2 Max
 Mac14,6:MacBook Pro M2 Max:Apple M2 Max
 Mac14,7:MacBook Pro M2:Apple M2
-Mac14,8:MacBook Pro M2 Ultra:Apple M2 Ultra
+Mac14,8:Mac Pro M2 Ultra:Apple M2 Ultra
 Mac14,9:MacBook Pro M2 Pro:Apple M2 Pro
 Mac14,10:MacBook Pro M2 Pro:Apple M2 Pro
 Mac14,12:Mac mini M2 Pro:Apple M2 Pro
