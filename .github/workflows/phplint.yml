@@ -46,6 +46,10 @@ jobs:
         uses: prestashop/github-action-php-lint/8.1@v1.1
         with:
           folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
+      - name: PHP Lint 8.2
+        uses: prestashop/github-action-php-lint/8.2@v1.1
+        with:
+          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
 
 on:
   push:
