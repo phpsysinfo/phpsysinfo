@@ -12,44 +12,24 @@ jobs:
           fetch-depth: 0
       - name: PHP Lint 5.4
         uses: prestashop/github-action-php-lint/5.4@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 5.5
         uses: prestashop/github-action-php-lint/5.5@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 5.6
         uses: prestashop/github-action-php-lint/5.6@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.1
         uses: prestashop/github-action-php-lint/7.1@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.2
         uses: prestashop/github-action-php-lint/7.2@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.3
         uses: prestashop/github-action-php-lint/7.3@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 7.4
         uses: prestashop/github-action-php-lint/7.4@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 8.0
         uses: prestashop/github-action-php-lint/8.0@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 8.1
         uses: prestashop/github-action-php-lint/8.1@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
       - name: PHP Lint 8.2
         uses: prestashop/github-action-php-lint/8.2@v2.1
-        with:
-          folder-to-exclude: "! -path \"./vendor/*\" ! -path \"./folder/excluded/*\""
 
 on:
   push:
