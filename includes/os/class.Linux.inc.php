@@ -960,7 +960,7 @@ class Linux extends OS
 */
                     if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
-                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837') || ($_hard === 'BCM2711') || ($_hard === 'BCM2838'))
+                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2709') || ($_hard === 'BCM2710') || ($_hard === 'BCM2711') || ($_hard === 'BCM2712') || ($_hard === 'BCM2835') || ($_hard === 'BCM2836') || ($_hard === 'BCM2837') || ($_hard === 'BCM2838'))
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             $oldmach = $this->sys->getMachine();
