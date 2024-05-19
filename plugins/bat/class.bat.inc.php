@@ -35,7 +35,7 @@ class BAT extends PSI_Plugin
         $buffer = array();
         switch (strtolower(PSI_PLUGIN_BAT_ACCESS)) {
         case 'command':
-            if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
+            if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                 $_cim = WINNT::getcimv2wmi();
                 $_wmi = WINNT::initWMI('root\WMI');
                 $bufferWB = array();
