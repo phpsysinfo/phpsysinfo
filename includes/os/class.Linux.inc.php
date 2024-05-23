@@ -217,11 +217,7 @@ class Linux extends OS
         if ($this->_kernel_string === null) {
             $this->_kernel_string = "";
             if ($this->sys->getOS() == 'SSH') {
-                if (CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && ($strBuf !== '')) {
-                    $this->sys->setOS($strBuf);
-                } else {
-                    return $this->_kernel_string;
-                }
+                return $this->_kernel_string;
             }
             if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
                 (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
@@ -255,7 +251,10 @@ class Linux extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        $this->_get_kernel_string();
+
+        if (($this->sys->getOS() == 'SSH') && CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && ($strBuf !== '')) {
+            $this->sys->setOS($strBuf);
+        }
     }
 
     /**
