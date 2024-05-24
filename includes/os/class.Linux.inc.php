@@ -47,9 +47,14 @@ class Linux extends OS
     private $_machine_info = null;
 
     /**
-     * Array of info from dmesg.
+     * Content of dmesg file.
      */
-    private $_dmesg_info = null;
+    private $_dmesg_f = null;
+
+    /**
+     * Result of executing dmesg command.
+     */
+    private $_dmesgc_c = null;
 
     /**
      * Result of systemd-detect-virt.
@@ -57,33 +62,37 @@ class Linux extends OS
     private $system_detect_virt = null;
 
      /**
-      * Get info from dmesg
+      * Read contents of the dmesg file.
       *
-      * @return array
+      * @return string
       */
-    private function _get_dmesg_info()
+    private function _get_dmesg_f()
     {
-        if ($this->_dmesg_info === null) {
-            $this->_dmesg_info = array();
+        if ($this->_dmesg_f === null) {
+            $this->_dmesg_f = "";
             if (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)) {
-                if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
-                }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
-                }
-            }
-            if ((count($this->_dmesg_info) < ((defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null))?2:1)) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
-                if (!isset($this->_dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
-                }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && !isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
-                }
+                $this->_dmesg_f = trim($result);
             }
         }
 
-        return $this->_dmesg_info;
+        return $this->_dmesg_f;
+    }
+
+     /**
+      * Save output of the dmesg command.
+      *
+      * @return string
+      */
+    private function _get_dmesg_c()
+    {
+        if ($this->_dmesg_c === null) {
+            $this->_dmesg_c = "";
+            if (CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+                $this->_dmesg_c = trim($result);
+            }
+        }
+
+        return $this->_dmesg_c;
     }
 
     /**
@@ -101,8 +110,9 @@ class Linux extends OS
                 }
             }
             $vendor_array = array();
-            if ((($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['dmi'])) {
-                $this->_machine_info['machine'] = $dmesg['dmi'];
+            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf)) || //may be only a fragment
+                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf))) {
+                $this->_machine_info['machine'] = trim($ar_buf[1]);
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
@@ -463,8 +473,10 @@ class Linux extends OS
             }
 
             // Additional tests outside of the systemd-detect-virt source code
-            if ($novm && (($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['hypervisor'])) {
-                switch ($dmesg['hypervisor']) {
+            if ($novm && (
+                ((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)) || //may be only a fragment
+                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)))) {
+                switch (trim($ar_buf[1])) {
                 case 'VMware':
                     $this->sys->setVirtualizer('vmware'); // VMware
                     $novm = false;
