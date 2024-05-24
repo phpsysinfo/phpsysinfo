@@ -54,7 +54,7 @@ class Linux extends OS
     /**
      * Result of executing dmesg command.
      */
-    private $_dmesgc_c = null;
+    private $_dmesg_c = null;
 
     /**
      * Result of systemd-detect-virt.
@@ -1108,6 +1108,15 @@ class Linux extends OS
                         } else {
                             $dev->setName("unknown");
                         }
+                        $this->sys->setPciDevices($dev);
+                    }
+                }
+            } elseif (($dmesg = $this->_get_dmesg_c()) !== null) {
+                $arrBuf = preg_split("/\n/", $dmesg, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($arrBuf as $strLine) {
+                    if (preg_match('/^[\s\[\]\.\d]*pci\s+\d\d\d\d:\d\d:\d\d.\d: (\[[^\]]+\].*)/', $strLine, $ar_buf)) {
+                        $dev = new HWDevice();
+                        $dev->setName(trim($ar_buf[1]));
                         $this->sys->setPciDevices($dev);
                     }
                 }
