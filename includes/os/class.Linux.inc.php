@@ -110,7 +110,7 @@ class Linux extends OS
                 }
             }
             $vendor_array = array();
-            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf)) || //may be only a fragment
+            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf)) ||
                 ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf))) {
                 $this->_machine_info['machine'] = trim($ar_buf[1]);
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
@@ -474,7 +474,7 @@ class Linux extends OS
 
             // Additional tests outside of the systemd-detect-virt source code
             if ($novm && (
-                ((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)) || //may be only a fragment
+                ((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)) ||
                 ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)))) {
                 switch (trim($ar_buf[1])) {
                 case 'VMware':
