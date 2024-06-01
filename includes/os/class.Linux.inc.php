@@ -726,54 +726,57 @@ class Linux extends OS
             $_buss = null;
             $_bogo = null;
             $_vend = null;
+            $_system = null;
             $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'cpu architecture':
-                            $_arch = $arrBuff1;
+                            $_arch = $arrBuff2;
                             break;
                         case 'cpu implementer':
-                            $_impl = $arrBuff1;
+                            $_impl = $arrBuff2;
                             break;
                         case 'cpu part':
-                            $_part = $arrBuff1;
+                            $_part = $arrBuff2;
                             break;
                         case 'cpu variant':
-                            $_vari = $arrBuff1;
+                            $_vari = $arrBuff2;
+                            break;
+                        case 'system type':
+                            $_system = $arrBuff2;
                             break;
                         case 'machine':
                         case 'hardware':
-                            $_hard = $arrBuff1;
+                            $_hard = $arrBuff2;
                             break;
                         case 'revision':
-                            $_revi = $arrBuff1;
+                            $_revi = $arrBuff2;
                             break;
                         case 'cpu frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 $_cpus = round($bufr2[1]/1000000);
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 $_cpus = $bufr2[1];
                             }
                             break;
                         case 'system bus frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 $_buss = round($bufr2[1]/1000000);
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 $_buss = $bufr2[1];
                             }
                             break;
                         case 'bogomips per cpu':
-                            $_bogo = round($arrBuff1);
+                            $_bogo = round($arrBuff2);
                             break;
                         case 'vendor_id':
-                            $_vend = $arrBuff1;
+                            $_vend = $arrBuff2;
                             break;
                         case 'cpu':
-                            $procname = $arrBuff1;
+                            $procname = $arrBuff2;
                         }
                     }
                 }
@@ -791,11 +794,10 @@ class Linux extends OS
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'processor':
-                            $proc = $arrBuff1;
+                            $proc = $arrBuff2;
                             if (is_numeric($proc)) {
                                 if (($procname !== null) && (strlen($procname) > 0)) {
                                     $dev->setModel($procname);
@@ -809,15 +811,15 @@ class Linux extends OS
                         case 'cpu model':
                         case 'cpu type':
                         case 'cpu':
-                            $dev->setModel($arrBuff1);
+                            $dev->setModel($arrBuff2);
                             break;
                         case 'cpu frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 if (($tmpsp = round($bufr2[1]/1000000)) > 0) {
                                     $dev->setCpuSpeed($tmpsp);
                                     $speedset = true;
                                 }
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 if ($bufr2[1] > 0) {
                                     $dev->setCpuSpeed($bufr2[1]);
                                     $speedset = true;
@@ -826,42 +828,42 @@ class Linux extends OS
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            if ($arrBuff1 > 0) {
-                                $dev->setCpuSpeed($arrBuff1);
+                            if ($arrBuff2 > 0) {
+                                $dev->setCpuSpeed($arrBuff2);
                                 $speedset = true;
                             }
                             break;
                         case 'cpu mhz static':
-                            $dev->setCpuSpeedMax($arrBuff1);
+                            $dev->setCpuSpeedMax($arrBuff2);
                             break;
                         case 'cycle frequency [hz]':
-                            if (($tmpsp = round($arrBuff1/1000000)) > 0) {
+                            if (($tmpsp = round($arrBuff2/1000000)) > 0) {
                                 $dev->setCpuSpeed($tmpsp);
                                 $speedset = true;
                             }
                             break;
                         case 'cpu0clktck': // Linux sparc64
-                            if (($tmpsp = round(hexdec($arrBuff1)/1000000)) > 0) {
+                            if (($tmpsp = round(hexdec($arrBuff2)/1000000)) > 0) {
                                 $dev->setCpuSpeed($tmpsp);
                                 $speedset = true;
                             }
                             break;
                         case 'l3 cache':
                         case 'cache size':
-                            $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff1)) * 1024);
+                            $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff2)) * 1024);
                             break;
                         case 'initial bogomips':
                         case 'bogomips':
                         case 'cpu0bogo':
-                            $dev->setBogomips(round($arrBuff1));
+                            $dev->setBogomips(round($arrBuff2));
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/", $arrBuff1)) {
+                            if (preg_match("/ vmx/", $arrBuff2)) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/", $arrBuff1)) {
+                            } elseif (preg_match("/ svm/", $arrBuff2)) {
                                 $dev->setVirt("svm");
                             }
-                            if (preg_match("/ hypervisor/", $arrBuff1)) {
+                            if (preg_match("/ hypervisor/", $arrBuff2)) {
                                 if ($dev->getVirt() === null) {
                                     $dev->setVirt("hypervisor");
                                 }
@@ -873,26 +875,26 @@ class Linux extends OS
                         case 'i size':
                         case 'd size':
                             if ($dev->getCache() === null) {
-                                $dev->setCache($arrBuff1 * 1024);
+                                $dev->setCache($arrBuff2 * 1024);
                             } else {
-                                $dev->setCache($dev->getCache() + ($arrBuff1 * 1024));
+                                $dev->setCache($dev->getCache() + ($arrBuff2 * 1024));
                             }
                             break;
                         case 'cpu architecture':
-                            $arch = $arrBuff1;
+                            $arch = $arrBuff2;
                             break;
                         case 'cpu implementer':
-                            $impl = $arrBuff1;
+                            $impl = $arrBuff2;
                             break;
                         case 'cpu part':
-                            $part = $arrBuff1;
+                            $part = $arrBuff2;
                             break;
                         case 'cpu variant':
-                            $vari = $arrBuff1;
+                            $vari = $arrBuff2;
                             break;
                         case 'vendor_id':
-                            $dev->setVendorId($arrBuff1);
-                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $arrBuff1)) {
+                            $dev->setVendorId($arrBuff2);
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $arrBuff2)) {
                                 $this->sys->setVirtualizer("cpuid:UserModeLinux", false);
                             }
                         }
@@ -1006,8 +1008,16 @@ class Linux extends OS
                                     }
                                 }
                             }
-                        } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other ARM hardware
-                            $this->sys->setMachine($_hard);
+                        } elseif ($this->sys->getMachine() === '') { // other ARM hardware
+                            if ($_hard !== null) {
+                                if ($_system !== null) {
+                                    $this->sys->setMachine($_hard." - ".$_system);
+                                } else {
+                                    $this->sys->setMachine($_hard);
+                                }
+                            } elseif ($_system !== null) {
+                                $this->sys->setMachine($_system);
+                            }
                         }
                         if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
                         if ($cpulist && (((($vari !== null) && isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part.','.$vari)]))
@@ -1018,8 +1028,16 @@ class Linux extends OS
                                 $dev->setModel($cpulist['cpu'][$cpufromlist]);
                             }
                         }
-                    } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other hardware
-                        $this->sys->setMachine($_hard);
+                    } elseif ($this->sys->getMachine() === '') { // other hardware
+                        if ($_hard !== null) {
+                            if ($_system !== null) {
+                                $this->sys->setMachine($_hard." - ".$_system);
+                            } else {
+                                $this->sys->setMachine($_hard);
+                            }
+                        } elseif ($_system !== null) {
+                            $this->sys->setMachine($_system);
+                        }
                     }
 
                     $cpumodel = $dev->getModel();

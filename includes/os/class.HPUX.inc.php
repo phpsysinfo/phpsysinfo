@@ -106,30 +106,29 @@ class HPUX extends OS
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s+:\s+/', trim($detail));
-                    if (count($arrBuff) == 2) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'model name':
                         case 'cpu':
-                            $dev->setModel($arrBuff[1]);
+                            $dev->setModel($arrBuff2);
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            $dev->setCpuSpeed($arrBuff[1]);
+                            $dev->setCpuSpeed($arrBuff2);
                             break;
                         case 'cycle frequency [hz]':
-                            $dev->setCpuSpeed($arrBuff[1] / 1000000);
+                            $dev->setCpuSpeed($arrBuff2 / 1000000);
                             break;
                         case 'cpu0clktck':
-                            $dev->setCpuSpeed(hexdec($arrBuff[1]) / 1000000); // Linux sparc64
+                            $dev->setCpuSpeed(hexdec($arrBuff2) / 1000000); // Linux sparc64
                             break;
                         case 'l2 cache':
                         case 'cache size':
-                            $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff[1]) * 1024);
+                            $dev->setCache(preg_replace("/[a-zA-Z]/", "", $arrBuff2) * 1024);
                             break;
                         case 'bogomips':
                         case 'cpu0bogo':
-                            $dev->setBogomips($arrBuff[1]);
+                            $dev->setBogomips($arrBuff2);
                         }
                     }
                 }

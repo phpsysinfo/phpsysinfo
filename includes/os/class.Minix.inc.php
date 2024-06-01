@@ -72,33 +72,32 @@ class Minix extends OS
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s+:\s+/', trim($detail));
-                    if (count($arrBuff) == 2) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'model name':
-                            $_n = $arrBuff[1];
+                            $_n = $arrBuff2;
                             break;
                         case 'cpu mhz':
-                            $dev->setCpuSpeed($arrBuff[1]);
+                            $dev->setCpuSpeed($arrBuff2);
                             break;
                         case 'cpu family':
-                            $_f = $arrBuff[1];
+                            $_f = $arrBuff2;
                             break;
                         case 'model':
-                            $_m = $arrBuff[1];
+                            $_m = $arrBuff2;
                             break;
                         case 'stepping':
-                            $_s = $arrBuff[1];
+                            $_s = $arrBuff2;
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/", $arrBuff[1])) {
+                            if (preg_match("/ vmx/", $arrBuff2)) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/", $arrBuff[1])) {
+                            } elseif (preg_match("/ svm/", $arrBuff2)) {
                                 $dev->setVirt("svm");
                             }
                             break;
                         case 'vendor_id':
-                            $dev->setVendorId($arrBuff[1]);
+                            $dev->setVendorId($arrBuff2);
                         }
                     }
                 }
