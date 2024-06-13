@@ -653,17 +653,28 @@ ACCESS="command"
 [sensor_ipmicfg]
 ; IPMIcfg motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' command
-; - ACCESS="data"  //read data from file data/ipmicfg.tmp (output from: "ipmicfg -sdr>ipmicfg.tmp; ipmicfg -psfruinfo>>ipmicfg.tmp")
+; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' and/or 'ipmicfg -pminfo' commands
+; - ACCESS="data"  //read data from file data/ipmicfg.tmp (output from: "ipmicfg -sdr>ipmicfg.tmp; ipmicfg -psfruinfo>>ipmicfg.tmp; ipmicfg -pminfo>>ipmicfg.tmp")
 ;
 ACCESS="command"
 
+; Execute command to view SDR records
+; - true   : execute 'ipmicfg -sdr'
+; - false  : don't execute 'ipmicfg -sdr'
+;
+SDR=true
+
 ; Execute power supply FRU health info
-; - true   : execute 'ipmicfg --psfruinfo'
-; - false  : don't execute 'ipmicfg --psfruinfo'
-; - "only" : execute 'ipmicfg --psfruinfo' and don't execute 'ipmicfg -sdr'
+; - true   : execute 'ipmicfg -psfruinfo'
+; - false  : don't execute 'ipmicfg -psfruinfo'
 ;
 PSFRUINFO=true
+
+; Execute Power supply PMBus health info
+; - true   : execute 'ipmicfg -pminfo'
+; - false  : don't execute 'ipmicfg -pminfo'
+;
+PMINFO=true
 
 [sensor_k8temp]
 ; K8Temp motherboard monitoring program configuration

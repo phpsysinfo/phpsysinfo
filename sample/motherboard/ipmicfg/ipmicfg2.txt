@@ -1,0 +1,39 @@
+[SlaveAddress = 78h] [Module 1]
+ Item                           |                          Value
+ ----                           |                          -----
+ Status                         |              [STATUS OK] (00h)
+ Input Voltage                  |                        227.8 V
+ Input Current                  |                         2.34 A
+ Main Output Voltage            |                        12.19 V
+ Main Output Current            |                        42.06 A
+ Temperature 1                  |                       42C/108F
+ Temperature 2                  |                       56C/133F
+ Fan 1                          |                       8448 RPM
+ Fan 2                          |                       9856 RPM
+ Main Output Power              |                          513 W 
+ Input Power                    |                          532 W
+ PMBus Revision                 |                           0x22
+ PWS Serial Number              |                P2K22CK33VB1234
+ PWS Module Number              |                   PWS-2K22A-1R
+ PWS Revision                   |                            1.5
+ Current Sharing Control        |           Active - Active (90)
+
+ [SlaveAddress = 7Ah] [Module 2]
+ Item                           |                          Value
+ ----                           |                          -----
+ Status                         |              [STATUS OK] (00h)
+ Input Voltage                  |                        227.5 V
+ Input Current                  |                         2.70 A
+ Main Output Voltage            |                        12.21 V
+ Main Output Current            |                        48.25 A
+ Temperature 1                  |                       44C/111F
+ Temperature 2                  |                       56C/133F
+ Fan 1                          |                       8608 RPM
+ Fan 2                          |                      10112 RPM
+ Main Output Power              |                          589 W 
+ Input Power                    |                          613 W
+ PMBus Revision                 |                           0x22
+ PWS Serial Number              |                P2K22CK33VB4578
+ PWS Module Number              |                   PWS-2K22A-1R
+ PWS Revision                   |                            1.5
+ Current Sharing Control        |           Active - Active (90)

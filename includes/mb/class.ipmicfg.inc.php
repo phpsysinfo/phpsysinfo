@@ -29,15 +29,35 @@ class IPMIcfg extends Sensors
         parent::__construct();
         if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) switch (defined('PSI_SENSOR_IPMICFG_ACCESS')?strtolower(PSI_SENSOR_IPMICFG_ACCESS):'command') {
         case 'command':
-            if (!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) {
-                CommonFunctions::executeProgram('ipmicfg', '-sdr', $lines);
-            }
-            if (defined('PSI_SENSOR_IPMICFG_PSFRUINFO') && (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) {
-                if (CommonFunctions::executeProgram('ipmicfg', '-psfruinfo', $lines2, PSI_DEBUG)) {
-                    $lines.=$lines2;
+            if ((!defined('PSI_SENSOR_IPMICFG_SDR') || (PSI_SENSOR_IPMICFG_SDR!==false)) || 
+                (!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) ||
+                (!defined('PSI_SENSOR_IPMICFG_PMINFO') || (PSI_SENSOR_IPMICFG_PMINFO!==false))) {
+                $lines='';
+                $first=true;
+                if (!defined('PSI_SENSOR_IPMICFG_SDR') || (PSI_SENSOR_IPMICFG_SDR!==false)) {
+                    $linestmp='';
+                    if (CommonFunctions::executeProgram('ipmicfg', '-sdr', $linestmp)) {
+                        $lines=$linestmp;
+                    }
+                    $first=false;
                 }
+                if (!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) {
+                    $linestmp='';
+                    if (CommonFunctions::executeProgram('ipmicfg', '-psfruinfo', $linestmp, $first || PSI_DEBUG)) {
+                        $lines.=$linestmp;
+                    }
+                    $first=false;
+                }
+                if (!defined('PSI_SENSOR_IPMICFG_PMINFO') || (PSI_SENSOR_IPMICFG_PMINFO!==false)) {
+                    $linestmp='';
+                    if (CommonFunctions::executeProgram('ipmicfg', '-pminfo', $linestmp, $first || PSI_DEBUG)) {
+                        $lines.=$linestmp;
+                    }
+                }
+                $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $this->error->addConfigError('__construct()', '[sensor_ipmicfg] Not defined: SDR | PSRUINFO | PMINFO');
             }
-            $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             break;
         case 'data':
             if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('ipmicfg.tmp', $lines)) {
@@ -56,10 +76,13 @@ class IPMIcfg extends Sensors
      */
     private function _temperature()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[2], $valbuff)) {
+            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 if ($valbuff[1]<-128) $valbuff[1]+=256; //+256 correction
@@ -75,10 +98,9 @@ class IPMIcfg extends Sensors
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
-            } elseif ((defined('PSI_SENSOR_IPMICFG_PSFRUINFO') && (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) &&
-               (count($buffer)==2) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (psfruinfo)");
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBTemp($dev);
             }
@@ -92,10 +114,13 @@ class IPMIcfg extends Sensors
      */
     private function _voltage()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[2], $valbuff)) {
+            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -107,6 +132,11 @@ class IPMIcfg extends Sensors
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbVolt($dev);
+            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[1], $valbuff)) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setValue($valbuff[1]);
+                $this->mbinfo->setMBVolt($dev);
             }
         }
     }
@@ -118,10 +148,13 @@ class IPMIcfg extends Sensors
      */
     private function _fans()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[2], $valbuff)) {
+            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -132,10 +165,9 @@ class IPMIcfg extends Sensors
                     $dev->setEvent(trim($buffer[0]));
                 }
                 $this->mbinfo->setMbFan($dev);
-            } elseif ((defined('PSI_SENSOR_IPMICFG_PSFRUINFO') && (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) &&
-               (count($buffer)==2) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (psfruinfo)");
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBFan($dev);
             }
@@ -149,18 +181,26 @@ class IPMIcfg extends Sensors
      */
     private function _power()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sWatts\s*$/", $buffer[2], $valbuff)) {
+            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*(\d+)\sWatts\s*$/", $buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*(\d+)\sW\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbPower($dev);
+            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[1], $valbuff)) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setValue($valbuff[1]);
+                $this->mbinfo->setMBPower($dev);
             }
         }
     }
@@ -172,21 +212,29 @@ class IPMIcfg extends Sensors
      */
     private function _current()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sAmps\s*$/", $buffer[2], $valbuff)) {
+            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*([\d\.].+)\sA\s*$/", $buffer[3], $valbuffmin)) {
                     $dev->setMin($valbuffmin[1]);
                 }
-                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*([\d\.].+)\sA\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbCurrent($dev);
+            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[1], $valbuff)) {
+                $dev = new SensorDevice();
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setValue($valbuff[1]);
+                $this->mbinfo->setMBCurrent($dev);
             }
         }
     }
@@ -198,10 +246,13 @@ class IPMIcfg extends Sensors
      */
     private function _other()
     {
+        $addr='';
         foreach ($this->_lines as $line) {
+            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
+                $addr=$addrtmp[1];
+            }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if ((!defined('PSI_SENSOR_IPMICFG_PSFRUINFO') || (strtolower(PSI_SENSOR_IPMICFG_PSFRUINFO)!=="only")) &&
-               (count($buffer)==4) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) &&
+            if (($addr=='') && (count($buffer)==4) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) &&
                ($buffer[2]!=="Correctable ECC / other correctable memory error") &&
                ($buffer[2]!=="N/A")) {
                 $dev = new SensorDevice();
@@ -209,10 +260,9 @@ class IPMIcfg extends Sensors
                 $dev->setValue($buffer[2]);
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbOther($dev);
-            } elseif ((defined('PSI_SENSOR_IPMICFG_PSFRUINFO') && (PSI_SENSOR_IPMICFG_PSFRUINFO!==false)) &&
-               (count($buffer)==2) && (trim($buffer[0])=="Status")) {
+            } elseif (($addr!='') && (count($buffer)==2) && (trim($buffer[0])=="Status")) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (psfruinfo)");
+                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
                 $dev->setValue($buffer[1]);
                 $this->mbinfo->setMbOther($dev);
             }

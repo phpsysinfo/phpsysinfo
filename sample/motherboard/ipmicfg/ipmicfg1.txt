@@ -61,4 +61,22 @@ Status | (#)Sensor                |      Reading | Low Limit | High Limit |
  Temperature                    |             54C/129F
  Fan 1                          |              572 RPM
  Fan 2                          |              572 RPM
-
+[SlaveAddress = 78h] [Module 1]
+ Item                           |                          Value
+ ----                           |                          -----
+ Status                         |                             OK
+ Input Voltage                  |                        235.0 V
+ Input Current                  |                         0.96 A
+ Main Output Voltage            |                        12.15 V
+ Main Output Current            |                        12.37 A
+ Temperature 1                  |                       49C/120F
+ Temperature 2                  |                       61C/142F
+ Fan 1                          |                        928 RPM
+ Fan 2                          |                          0 RPM
+ Main Output Power              |                          189 W
+ Input Power                    |                          212 W
+ PMBus Revision                 |                           0x22
+ PWS Serial Number              |                P1K25AF01A23456
+ PWS Module Number              |                   PWS-1K25P-PQ
+ PWS Revision                   |                            1.1
+ Current Sharing Control        |           Active - Active (00)
