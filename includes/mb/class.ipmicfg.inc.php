@@ -56,7 +56,7 @@ class IPMIcfg extends Sensors
                 }
                 $this->_lines = preg_split("/\r?\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
             } else {
-                $this->error->addConfigError('__construct()', '[sensor_ipmicfg] Not defined: SDR | PSRUINFO | PMINFO');
+                $this->error->addConfigError('__construct()', '[sensor_ipmicfg] Not defined: SDR or PSFRUINFO or PMINFO');
             }
             break;
         case 'data':
