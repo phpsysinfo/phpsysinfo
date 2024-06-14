@@ -260,7 +260,7 @@ class IPMIcfg extends Sensors
                 $dev->setValue($buffer[2]);
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbOther($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && (trim($buffer[0])=="Status")) {
+            } elseif (($addr!='') && (count($buffer)==2) && ((trim($buffer[0])=="Status") || (trim($buffer[0])=="Current Sharing Control"))) {
                 $dev = new SensorDevice();
                 $dev->setName(trim($buffer[0])." (slave ".$addr.")");
                 $dev->setValue($buffer[1]);
