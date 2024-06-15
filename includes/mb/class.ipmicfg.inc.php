@@ -240,14 +240,14 @@ class IPMIcfg extends Sensors
                 continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sAmps\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
-                if (preg_match("/^\s*([\d\.].+)\sA\s*$/", $buffer[3], $valbuffmin)) {
+                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[3], $valbuffmin)) {
                     $dev->setMin($valbuffmin[1]);
                 }
-                if (preg_match("/^\s*([\d\.].+)\sA\s*$/", $buffer[4], $valbuffmax)) {
+                if (preg_match("/^\s*([\d\.].+)\sAmps\s*$/", $buffer[4], $valbuffmax)) {
                     $dev->setMax($valbuffmax[1]);
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
