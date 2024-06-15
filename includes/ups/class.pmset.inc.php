@@ -79,7 +79,12 @@ class Pmset extends UPS
                             $dev->setBatterCharge($tmpbuf[1]);
                         }
                     }
-                    $dev->setStatus(trim($percCharge[1]));
+                    $percCharge[1]=trim($percCharge[1]);
+                    if (preg_match("/^(.+) present:/", $percCharge[1], $tmpbuf)) {
+                        $dev->setStatus(trim($tmpbuf[1]));
+                    } else {
+                        $dev->setStatus($percCharge[1]);
+                    }
                     if (isset($percCharge[2]) && preg_match("/\s(\d+):(\d+)\s/", $percCharge[2], $tmpbuf)) {
                          $dev->setTimeLeft($tmpbuf[1]*60+$tmpbuf[2]);
                     }

@@ -1,0 +1,2 @@
+Now drawing from 'AC Power'
+-Back-UPS ES 850G2 FW:938.a2 .I USB FW:a2 (id=12345678) 75%; charging present: true
