@@ -63,22 +63,25 @@ class Pmset extends UPS
         $percCharge = array();
         $lines = explode(PHP_EOL, implode($this->_output));
         if (count($lines)>1) {
-            $model = explode('FW:', $lines[1]);
-            if (strpos($model[0], 'InternalBattery') === false) {
+            if (strpos($lines[1], 'InternalBattery') === false) {
                 $dev = new UPSDevice();
-                $percCharge = explode(';', $lines[1]);
                 $dev->setName('UPS');
+                $percCharge = explode(';', $lines[1]);
+                $model = explode('FW:', $lines[1]);
                 if ($model !== false) {
                     $dev->setModel(substr(trim($model[0]), 1));
                 }
                 if ($percCharge !== false) {
-                    $dev->setBatterCharge(trim(substr($percCharge[0], -4, 3)));
+                    if (preg_match("/\s(\d+)\%$/", trim($percCharge[0]), $tmpbuf)) {
+                        if ($tmpbuf[1]>100) {
+                            $dev->setBatterCharge(100);
+                        } else {
+                            $dev->setBatterCharge($tmpbuf[1]);
+                        }
+                    }
                     $dev->setStatus(trim($percCharge[1]));
-                    if (isset($percCharge[2])) {
-                        $time = explode(':', $percCharge[2]);
-                        $hours = $time[0];
-                        $minutes = $hours*60+substr($time[1], 0, 2);
-                        $dev->setTimeLeft($minutes);
+                    if (isset($percCharge[2]) && preg_match("/\s(\d+):(\d+)\s/", $percCharge[2], $tmpbuf)) {
+                         $dev->setTimeLeft($tmpbuf[1]*60+$tmpbuf[2]);
                     }
                 }
                 $dev->setMode("pmset");
