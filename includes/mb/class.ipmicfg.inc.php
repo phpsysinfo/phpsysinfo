@@ -278,7 +278,9 @@ class IPMIcfg extends Sensors
             if (($mdid=='') && (count($buffer)>=3) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff)) {
                 if ((count($buffer)==3) &&
                    ($buffer[2]!=="Correctable ECC / other correctable memory error") &&
-                   ($buffer[2]!=="N/A")) {
+                   ($buffer[2]!=="Not Present") &&
+                   ($buffer[2]!=="N/A") &&
+                   (trim($buffer[0]) != "") {
                     $dev = new SensorDevice();
                     $dev->setName($namebuff[1]);
                     $dev->setValue($buffer[2]);
