@@ -276,6 +276,7 @@ class IPMIcfg extends Sensors
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
             if (($mdid=='') && (count($buffer)>=3) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff)) {
+                $buffer[2]=trim($buffer[2]);
                 if ((count($buffer)==3) &&
                    ($buffer[2]!=="Correctable ECC / other correctable memory error") &&
                    ($buffer[2]!=="Not Present") &&
