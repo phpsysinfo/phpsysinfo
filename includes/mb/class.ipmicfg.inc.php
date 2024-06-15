@@ -67,6 +67,23 @@ class IPMIcfg extends Sensors
         default:
             $this->error->addConfigError('__construct()', '[sensor_ipmicfg] ACCESS');
         }
+        
+        if ($this->_lines===false) {
+            $this->_lines = array();
+        } else {
+            $pmbus=false;
+            for ($licz=count($this->_lines); $licz--; $licz>0) {
+                $line=$this->_lines[$licz];
+                if (preg_match("/^\s*PMBus Revision\s*\|/", $line)) {
+                    $pmbus=true;
+                } else if (preg_match("/^(\s*\[SlaveAddress = [\da..fA..F]+h\] \[)(Module )(\d+\])/", $line, $tmpbuf)) {
+                    $this->_lines[$licz]=$tmpbuf[1].($pmbus?"PMBus ":"FRF ").$tmpbuf[3];
+                    $pmbus=false;
+                } else {
+                    $this->_lines[$licz]=preg_replace("/\|\s*$/", "", $line);
+                }
+            }
+        }
     }
 
     /**
@@ -76,13 +93,14 @@ class IPMIcfg extends Sensors
      */
     private function _temperature()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 if ($valbuff[1]<-128) $valbuff[1]+=256; //+256 correction
@@ -98,9 +116,9 @@ class IPMIcfg extends Sensors
                     $dev->setEvent("Alarm");
                 }
                 $this->mbinfo->setMbTemp($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($mdid!='') && (count($buffer)==2) && preg_match("/^\s*([-\d]+)C\/[-\d]+F\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBTemp($dev);
             }
@@ -114,13 +132,14 @@ class IPMIcfg extends Sensors
      */
     private function _voltage()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -132,9 +151,9 @@ class IPMIcfg extends Sensors
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbVolt($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($mdid!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sV\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBVolt($dev);
             }
@@ -148,13 +167,14 @@ class IPMIcfg extends Sensors
      */
     private function _fans()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -165,9 +185,9 @@ class IPMIcfg extends Sensors
                     $dev->setEvent(trim($buffer[0]));
                 }
                 $this->mbinfo->setMbFan($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($mdid!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sRPM\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBFan($dev);
             }
@@ -181,13 +201,14 @@ class IPMIcfg extends Sensors
      */
     private function _power()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -196,9 +217,9 @@ class IPMIcfg extends Sensors
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbPower($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($mdid!='') && (count($buffer)==2) && preg_match("/^\s*(\d+)\sW\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBPower($dev);
             }
@@ -212,13 +233,14 @@ class IPMIcfg extends Sensors
      */
     private function _current()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==6) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[2], $valbuff)) {
+            if (($mdid=='') && (count($buffer)==5) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[2], $valbuff)) {
                 $dev = new SensorDevice();
                 $dev->setName($namebuff[1]);
                 $dev->setValue($valbuff[1]);
@@ -230,9 +252,9 @@ class IPMIcfg extends Sensors
                 }
                 if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
                 $this->mbinfo->setMbCurrent($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[1], $valbuff)) {
+            } elseif (($mdid!='') && (count($buffer)==2) && preg_match("/^\s*([\d\.]+)\sA\s*$/", $buffer[1], $valbuff)) {
                 $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($valbuff[1]);
                 $this->mbinfo->setMBCurrent($dev);
             }
@@ -246,23 +268,31 @@ class IPMIcfg extends Sensors
      */
     private function _other()
     {
-        $addr='';
+        $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = ([\da..fA..F]+h)\] \[Module \d+\]/", $line, $addrtmp)) {
-                $addr=$addrtmp[1];
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+                $mdid=$mdidtmp[1];
+                continue;
             }
             $buffer = preg_split("/\s*\|\s*/", $line);
-            if (($addr=='') && (count($buffer)==4) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff) &&
-               ($buffer[2]!=="Correctable ECC / other correctable memory error") &&
-               ($buffer[2]!=="N/A")) {
+            if (($mdid=='') && (count($buffer)>=3) && preg_match("/^\s*\(\d+\)\s(.*)\s*$/", $buffer[1], $namebuff)) {
+                if ((count($buffer)==3) &&
+                   ($buffer[2]!=="Correctable ECC / other correctable memory error") &&
+                   ($buffer[2]!=="N/A")) {
+                    $dev = new SensorDevice();
+                    $dev->setName($namebuff[1]);
+                    $dev->setValue($buffer[2]);
+                    if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
+                    $this->mbinfo->setMbOther($dev);
+                } elseif ((count($buffer)==5)&& preg_match("/(^\s*[\d\.]+\s*$)|(^\s*[\da-fA-F]{2}\s+[\da-fA-F]{2}\s+[\da-fA-F]{2}\s+[\da-fA-F]{2}\s*$)/", $buffer[2], $valbuff)) {
+                    $dev = new SensorDevice();
+                    $dev->setName($namebuff[1]);
+                    $dev->setValue($buffer[0]);
+                    $this->mbinfo->setMbOther($dev);
+                }
+            } elseif (($mdid!='') && (count($buffer)==2) && ((trim($buffer[0])=="Status") || (trim($buffer[0])=="Current Sharing Control"))) {
                 $dev = new SensorDevice();
-                $dev->setName($namebuff[1]);
-                $dev->setValue($buffer[2]);
-                if (trim($buffer[0]) != "OK") $dev->setEvent(trim($buffer[0]));
-                $this->mbinfo->setMbOther($dev);
-            } elseif (($addr!='') && (count($buffer)==2) && ((trim($buffer[0])=="Status") || (trim($buffer[0])=="Current Sharing Control"))) {
-                $dev = new SensorDevice();
-                $dev->setName(trim($buffer[0])." (slave ".$addr.")");
+                $dev->setName(trim($buffer[0])." (".$mdid.")");
                 $dev->setValue($buffer[1]);
                 $this->mbinfo->setMbOther($dev);
             }
