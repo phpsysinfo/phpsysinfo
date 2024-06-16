@@ -77,7 +77,7 @@ class IPMIcfg extends Sensors
                 if (preg_match("/^\s*PMBus Revision\s*\|/", $line)) {
                     $pmbus=true;
                 } else if (preg_match("/^(\s*\[SlaveAddress = [\da..fA..F]+h\] \[)(Module )(\d+\])/", $line, $tmpbuf)) {
-                    $this->_lines[$licz]=$tmpbuf[1].($pmbus?"PMBus ":"FRF ").$tmpbuf[3];
+                    $this->_lines[$licz]=$tmpbuf[1].($pmbus?"PMBus ":"SMBus ").$tmpbuf[3];
                     $pmbus=false;
                 } else {
                     $this->_lines[$licz]=preg_replace("/\|\s*$/", "", $line);
@@ -95,7 +95,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
@@ -134,7 +134,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
@@ -169,7 +169,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
@@ -203,7 +203,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
@@ -235,7 +235,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
@@ -270,7 +270,7 @@ class IPMIcfg extends Sensors
     {
         $mdid='';
         foreach ($this->_lines as $line) {
-            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(FRF \d+))\]/", $line, $mdidtmp)) {
+            if (preg_match("/^\s*\[SlaveAddress = [\da..fA..F]+h\] \[((PMBus \d+)|(SMBus \d+))\]/", $line, $mdidtmp)) {
                 $mdid=$mdidtmp[1];
                 continue;
             }
