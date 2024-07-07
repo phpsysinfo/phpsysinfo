@@ -1056,7 +1056,7 @@ class Linux extends OS
                 }
             }
 
-            $cpudevices = CommonFunctions::findglob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
+            $cpudevices = CommonFunctions::findglob('/sys/devices/system/cpu/cpu[0-9]*/uevent', GLOB_NOSORT);
             if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
                 for (; $cpustopped > 0; $cpustopped--) {
                     $dev = new CpuDevice();
