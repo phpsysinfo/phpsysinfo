@@ -313,7 +313,7 @@ class Linux extends OS
                 $result = trim($result);
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
-                    $this->sys->setHostname(gethostbyaddr($ip));
+                    $this->sys->setHostname(trim(gethostbyaddr($ip), "."));
                 }
             } elseif (CommonFunctions::executeProgram('hostname', '', $ret, false)) {
                 $this->sys->setHostname($ret);
