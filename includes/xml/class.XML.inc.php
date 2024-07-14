@@ -281,18 +281,13 @@ class XML
 
         if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
             $virt = $this->_sys->getVirtualizer();
-            $first = true;
             $virtstring = "";
             foreach ($virt as $virtkey=>$virtvalue) if ($virtvalue) {
-                if ($first) {
-                    $first = false;
-                } else {
+                if ($virtstring !== "") {
                     $virtstring .= ", ";
                 }
                 if ($virtkey === 'microsoft') {
-                    if (isset($virt["wsl"]) && $virt["wsl"]) {
-                        $virtstring .= 'pico process';
-                    } else {
+                    if (!isset($virt["wsl"]) || !$virt["wsl"]) {
                         $virtstring .= 'hyper-v';
                     }
                 } elseif ($virtkey === 'kvm') {
