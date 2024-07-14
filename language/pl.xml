@@ -394,7 +394,7 @@ phpSysInfo language file Language: Polish Created by: Damian Pasternok
     <exp>Prędkość</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Chipy Pamięci</exp>
+    <exp>Układy Pamięci</exp>
   </expression>
   <expression id="131" name="mtps">
     <exp>MT/s</exp>
