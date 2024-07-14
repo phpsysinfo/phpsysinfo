@@ -290,7 +290,11 @@ class XML
                     $virtstring .= ", ";
                 }
                 if ($virtkey === 'microsoft') {
-                    $virtstring .= 'hyper-v';
+                    if (isset($virt["wsl"]) && $virt["wsl"]) {
+                        $virtstring .= 'pico process';
+                    } else {
+                        $virtstring .= 'hyper-v';
+                    }
                 } elseif ($virtkey === 'kvm') {
                     $virtstring .= 'qemu-kvm';
                 } elseif ($virtkey === 'oracle') {
