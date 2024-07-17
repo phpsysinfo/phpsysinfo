@@ -332,6 +332,12 @@ SENSOR_EVENTS=true
 SORT_SENSORS_LIST=false
 
 
+; Hide sensors
+; Example : HIDE_SENSORS="FAN2/PS (PMBus 1),VDIMM GH"
+;
+HIDE_SENSORS=""
+
+
 ; Some sensors programs contain an additional configuration in the relevant sections [sensor_...]
 
 

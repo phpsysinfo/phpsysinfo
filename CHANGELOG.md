@@ -7,6 +7,8 @@ phpSysInfo 3.4.4
 ----------------
  - [ADD] Proxmox to detected distros
 
+ - [NEW] HIDE_SENSORS option
+
  - [FIX] pmset - UPS support for macOS 10.15
 
  - [UPD] IPMIcfg sensor program - pminfo
