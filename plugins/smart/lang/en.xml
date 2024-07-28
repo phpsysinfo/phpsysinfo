@@ -49,6 +49,12 @@
   <expression id="plugin_smart_112" name="smart_power_cycle_count">
     <exp>Power Cycle Count</exp>
   </expression>
+  <expression id="plugin_smart_132" name="smart_data_units_read">
+    <exp>Data Units Read</exp>
+  </expression>
+  <expression id="plugin_smart_148" name="smart_data_units_written">
+    <exp>Data Units Written</exp>
+  </expression>
   <expression id="plugin_smart_277" name="smart_wear_range_delta">
     <exp>Wear Range Delta</exp>
   </expression>
