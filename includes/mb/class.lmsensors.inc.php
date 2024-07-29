@@ -42,8 +42,10 @@ class LMSensors extends Sensors
         }
 
         if (trim($lines) !== "") {
+            $lines = str_replace("\r\n", "\n", $lines);
             $lines = str_replace(":\n", ":", $lines);
             $lines = str_replace("\n\n", "\n", $lines);
+            $lines = preg_replace("/\)\n\s+\(/m", ", ", $lines);
             $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
         }
     }
@@ -148,7 +150,7 @@ class LMSensors extends Sensors
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
                     $dev->setMax($data[4]);
                 }
-                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || preg_match("/\s(ALARM)\s+sensor\s+=/", $line, $evbuf) ||  (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
+                if (preg_match("/\s(ALARM)\s*$/", $line, $evbuf) || preg_match("/\s(ALARM)\s+\(/", $line, $evbuf) || preg_match("/\s(ALARM)\s+sensor\s+=/", $line, $evbuf) || (($evbuf[1] = $dev->getValue()) === 'FAULT')) {
                     $dev->setEvent($evbuf[1]);
                 }
                 $this->mbinfo->setMbTemp($dev);
