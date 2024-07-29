@@ -448,14 +448,17 @@ class SMART extends PSI_Plugin
                     $idsr = preg_split('/-/', $this->_ids[$cid]);
                     if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
                 }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && (($this->_ids[$cid]=="raw_value") || ($this->_ids[$cid]=="value"))) {
                     if (preg_match('/\nData Units Read\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
                             $this->_result[$disk][7]['id'] = $cid;
                             $this->_result[$disk][7]['attribute_name'] = "Data_Units_Read";
-                            $this->_result[$disk][7]['raw_value'] = $vals;
+                            if ($this->_ids[$cid]=="raw_value") $this->_result[$disk][7]['raw_value'] = $vals;
+                            if (($this->_ids[$cid]=="value") && preg_match('/\[(.+)\]/', $tmpbuf[1], $tmpbuf2)) {
+                                $this->_result[$disk][7]['value'] = trim($tmpbuf2[1]);
+                            }
                         }
                     }
                 }
@@ -465,14 +468,17 @@ class SMART extends PSI_Plugin
                     $idsr = preg_split('/-/', $this->_ids[$cid]);
                     if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
                 }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && (($this->_ids[$cid]=="raw_value") || ($this->_ids[$cid]=="value"))) {
                     if (preg_match('/\nData Units Written\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
                             $this->_result[$disk][8]['id'] = $cid;
                             $this->_result[$disk][8]['attribute_name'] = "Data_Units_Written";
-                            $this->_result[$disk][8]['raw_value'] = $vals;
+                            if ($this->_ids[$cid]=="raw_value") $this->_result[$disk][8]['raw_value'] = $vals;
+                            if (($this->_ids[$cid]=="value") && preg_match('/\[(.+)\]/', $tmpbuf[1], $tmpbuf2)) {
+                                $this->_result[$disk][8]['value'] = trim($tmpbuf2[1]);
+                            }
                         }
                     }
                 }

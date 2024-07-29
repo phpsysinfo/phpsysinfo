@@ -897,8 +897,8 @@ DEVICES="/dev/sda, /dev/sdb"
 ; Elements in grown defect list: - is marked as 005-RAW_VALUE
 ; Power On Hours: - is marked as 009-RAW_VALUE
 ; Power Cycles: - is marked as 012-RAW_VALUE
-; Data Units Read: - is marked as 032-RAW_VALUE
-; Data Units Written: - is marked as 048-RAW_VALUE
+; Data Units Read: - is marked as 032-RAW_VALUE and 032-VALUE
+; Data Units Written: - is marked as 048-RAW_VALUE and 048-VALUE
 ; Media and Data Integrity Errors: - is marked as 187-RAW_VALUE
 ; Unsafe Shutdowns: - is marked as 192-RAW_VALUE
 ; Temperature: - is marked as 194-RAW_VALUE
