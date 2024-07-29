@@ -1,18 +1,18 @@
 coretemp-isa-0000
 Adapter: ISA adapter
-Package id 0:  +47.0캜  (high = +105.0캜, crit = +105.0캜)
-Core 0:        +45.0캜  (high = +105.0캜, crit = +105.0캜)
-Core 1:        +45.0캜  (high = +105.0캜, crit = +105.0캜)
-Core 2:        +45.0캜  (high = +105.0캜, crit = +105.0캜)
-Core 3:        +44.0캜  (high = +105.0캜, crit = +105.0캜)
+Package id 0:  +47.0째C  (high = +105.0째C, crit = +105.0째C)
+Core 0:        +45.0째C  (high = +105.0째C, crit = +105.0째C)
+Core 1:        +45.0째C  (high = +105.0째C, crit = +105.0째C)
+Core 2:        +45.0째C  (high = +105.0째C, crit = +105.0째C)
+Core 3:        +44.0째C  (high = +105.0째C, crit = +105.0째C)
 
 acpitz-acpi-0
 Adapter: ACPI interface
-temp1:        +27.8캜
+temp1:        +27.8째C
 
 nvme-pci-0200
 Adapter: PCI adapter
-Composite:    +49.9캜  (low  = -273.1캜, high = +81.8캜)
-                       (crit = +84.8캜)
-Sensor 1:     +49.9캜  (low  = -273.1캜, high = +65261.8캜)
-Sensor 2:     +54.9캜  (low  = -273.1캜, high = +65261.8캜)
+Composite:    +49.9째C  (low  = -273.1째C, high = +81.8째C)
+                       (crit = +84.8째C)
+Sensor 1:     +49.9째C  (low  = -273.1째C, high = +65261.8째C)
+Sensor 2:     +54.9째C  (low  = -273.1째C, high = +65261.8째C)
