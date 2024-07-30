@@ -170,9 +170,9 @@ class LMSensors extends Sensors
                     }
 
                     if (isset($sensor[$limit="crit"]) && preg_match("/^\+?(-?[0-9\.]+)[^\w\r\n\t]+C$/", $sensor[$limit], $tmpbuf) && (($tmpbuf[1]=floatval($tmpbuf[1])) > 0)) {
-                        $dev->setMax($tmpbuf[1]);
+                        $dev->setMax(floatval($tmpbuf[1]));
                     } elseif (isset($sensor[$limit="high"]) && preg_match("/^\+?(-?[0-9\.]+)[^\w\r\n\t]+C$/", $sensor[$limit], $tmpbuf) && (($tmpbuf[1]=floatval($tmpbuf[1])) > 0) && ($tmpbuf[1]<65261.8)) {
-                        $dev->setMax($tmpbuf[1]);
+                        $dev->setMax(floatval($tmpbuf[1]));
                     }
 
                     $this->mbinfo->setMbTemp($dev);
@@ -241,11 +241,11 @@ class LMSensors extends Sensors
                     if (isset($sensor["alarm"])) $dev->setEvent("ALARM");
 
                     if (isset($sensor[$limit="min"]) && preg_match("/^\+?(-?[0-9\.]+) (m?)V$/", $sensor[$limit], $tmpbuf)) {
-                        $dev->setMin($tmpbuf[1]);
+                        $dev->setMin(floatval($tmpbuf[1]));
                     }
 
                     if (isset($sensor[$limit="max"]) && preg_match("/^\+?(-?[0-9\.]+) (m?)V$/", $sensor[$limit], $tmpbuf)) {
-                       $dev->setMax($tmpbuf[1]);
+                       $dev->setMax(floatval($tmpbuf[1]));
                     }
 
                     $this->mbinfo->setMbVolt($dev);
@@ -277,7 +277,7 @@ class LMSensors extends Sensors
                     if (isset($sensor["alarm"])) $dev->setEvent("ALARM");
 
                     if (isset($sensor[$limit="crit"]) && preg_match("/^\+?(-?[0-9\.]+) W$/", $sensor[$limit], $tmpbuf)) {
-                       $dev->setMax($tmpbuf[1]);
+                       $dev->setMax(floatval($tmpbuf[1]));
                     }
 
                     $this->mbinfo->setMbPower($dev);
@@ -310,11 +310,11 @@ class LMSensors extends Sensors
                     if (isset($sensor["alarm"])) $dev->setEvent("ALARM");
 
                     if (isset($sensor[$limit="min"]) && preg_match("/^\+?(-?[0-9\.]+) A$/", $sensor[$limit], $tmpbuf)) {
-                       $dev->setMin($tmpbuf[1]);
+                       $dev->setMin(floatval($tmpbuf[1]));
                     }
 
                     if (isset($sensor[$limit="max"]) && preg_match("/^\+?(-?[0-9\.]+) A$/", $sensor[$limit], $tmpbuf)) {
-                       $dev->setMax($tmpbuf[1]);
+                       $dev->setMax(floatval($tmpbuf[1]));
                     }
 
                     $this->mbinfo->setMbCurrent($dev);
