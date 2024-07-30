@@ -144,7 +144,11 @@ class LMSensors extends Sensors
 
                 $dev = new SensorDevice();
                 $dev->setName($data[1].$sname);
-                $dev->setValue($data[2]);
+                if ($data[2] == -110.8) {
+                    $dev->setValue("FAULT");
+                } else {
+                    $dev->setValue($data[2]);
+                }
                 if (isset($data[6]) && $data[2] <= $data[6] && $data[6] < 65261.8) {
                     $dev->setMax(max($data[4], $data[6]));
                 } elseif (isset($data[4]) && $data[2] <= $data[4]) {
