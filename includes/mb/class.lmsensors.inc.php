@@ -153,7 +153,7 @@ class LMSensors extends Sensors
             if (isset($sensor["value"])) {
                 $limit = "";
                 if (preg_match("/^\+?(-?[0-9\.]+)[^\w\r\n\t]+C$/", $sensor["value"], $tmpbuf) || 
-                   ((isset($sensor[$limit="crit"]) || isset($sensor[$limit="high"]) || isset($sensor[$limit="hist"])) && preg_match("/^\+?(-?[0-9\.]+)[^\w\r\n\t]+C$/", $sensor[$limit]))) {
+                   ((isset($sensor[$limit="crit"]) || isset($sensor[$limit="high"]) || isset($sensor[$limit="hyst"])) && preg_match("/^\+?(-?[0-9\.]+)[^\w\r\n\t]+C$/", $sensor[$limit]))) {
                     $dev = new SensorDevice();
                     $dev->setName($sensor["name"]);
                     if ($limit != "") {
@@ -333,7 +333,7 @@ class LMSensors extends Sensors
         foreach ($this->_values as $sensors) foreach ($sensors as $sensor){
             if (isset($sensor["value"])) {
                 if (preg_match("/^([^\-\+\d\s].+)$/", $sensor["value"], $tmpbuf) &&
-                    !isset($sensor[$limit="min"]) && !isset($sensor[$limit="max"]) && !isset($sensor[$limit="crit"]) && !isset($sensor[$limit="high"]) && !isset($sensor[$limit="hist"])) {
+                    !isset($sensor[$limit="min"]) && !isset($sensor[$limit="max"]) && !isset($sensor[$limit="crit"]) && !isset($sensor[$limit="high"]) && !isset($sensor[$limit="hyst"])) {
                     $dev = new SensorDevice();
                     $dev->setName($sensor["name"]);
                     $dev->setValue($sensor["value"]);
