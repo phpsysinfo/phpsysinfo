@@ -673,7 +673,7 @@ class XML
             foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                 $mbinfo_data = new $mbinfoclass();
                 $mbinfo_detail = $mbinfo_data->getMBInfo();
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='temperature') foreach ($mbinfo_detail->getMbTemp() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='temperature' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbTemp() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($temp == null) {
@@ -693,7 +693,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='fans') foreach ($mbinfo_detail->getMbFan() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='fans' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbFan() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($fan == null) {
@@ -716,7 +716,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='voltage') foreach ($mbinfo_detail->getMbVolt() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='voltage' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbVolt() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($volt == null) {
@@ -742,7 +742,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='power') foreach ($mbinfo_detail->getMbPower() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='power' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbPower() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($power == null) {
@@ -762,7 +762,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='current') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='current' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbCurrent() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($current == null) {
@@ -788,7 +788,7 @@ class XML
                     }
                 }
 
-                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='other') foreach ($mbinfo_detail->getMbOther() as $dev) {
+                if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='other' || $this->_sysinfo->getBlockName()==='mbinfo') foreach ($mbinfo_detail->getMbOther() as $dev) {
                     $mbinfo_name = $dev->getName();
                     if (!in_array($mbinfo_name, $hideSensors, true)) {
                         if ($other == null) {
@@ -921,7 +921,7 @@ class XML
             if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='hardware') $this->_buildHardware();
             if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='memory') $this->_buildMemory();
             if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='filesystem') $this->_buildFilesystems();
-            if (!$this->_sysinfo->getBlockName() || in_array($this->_sysinfo->getBlockName(), array('voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
+            if (!$this->_sysinfo->getBlockName() || in_array($this->_sysinfo->getBlockName(), array('mbinfo','voltage','current','temperature','fans','power','other'))) $this->_buildMbinfo();
             if (!$this->_sysinfo->getBlockName() || $this->_sysinfo->getBlockName()==='ups') $this->_buildUpsinfo();
         }
         if (!$this->_sysinfo->getBlockName()) $this->_buildPlugins();
