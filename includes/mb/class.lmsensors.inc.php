@@ -332,7 +332,7 @@ class LMSensors extends Sensors
     {
         foreach ($this->_values as $sensors) foreach ($sensors as $sensor){
             if (isset($sensor["value"])) {
-                if (preg_match("/^([^\-\+\d\s].+)$/", $sensor["value"], $tmpbuf) &&
+                if ((preg_match("/^([^\-\+\d\s].+)$/", $sensor["value"], $tmpbuf) || preg_match("/^(\d+)$/", $sensor["value"], $tmpbuf)) &&
                     !isset($sensor[$limit="min"]) && !isset($sensor[$limit="max"]) && !isset($sensor[$limit="crit"]) && !isset($sensor[$limit="high"]) && !isset($sensor[$limit="hyst"])) {
                     $dev = new SensorDevice();
                     $dev->setName($sensor["name"]);
