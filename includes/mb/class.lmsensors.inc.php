@@ -48,6 +48,29 @@ class LMSensors extends Sensors
             $lines = preg_replace("/\n\s+\(/m", " (", $lines);
             $_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
 
+            $applearray1 = array(
+                              "A" => "Ambient",
+                              "B" => "Battery",
+                              "C" => "CPU",
+                              "G" => "GPU",
+                              "H" => "Harddisk Bay",
+                              "h" => "Heatpipe",
+                              "L" => "LCD",
+                              "M" => "Memory",
+                              "m" => "Memory Contr.",
+                              "N" => "Northbridge",
+                              "O" => "Optical Drive",
+                              "p" => "Power supply",
+                              "S" => "Slot",
+                              "s" => "Slot",
+                              "W" => "Airport"
+                       );
+            $applearray3 = array(
+                              "H" => "Heatsink",
+                              "P" => "Proximity",
+                              "D" => "Die"
+                           );
+
             $tmpvalue=array();
             $applesmc = false;
             $sname = '';
@@ -67,47 +90,9 @@ class LMSensors extends Sensors
                 } else {
                     if (preg_match("/^(.+):(.+)$/", trim($line), $data) && ($data[1]!=="Adapter")) {
                         if ($applesmc && (strlen($data[1]) == 4) && ($data[1][0] == "T")) {
-                            if ($data[1][1] == "A") {
-                                $data[1] = $data[1] . " Ambient";
-                             } elseif ($data[1][1] == "B") {
-                                $data[1] = $data[1] . " Battery";
-                            } elseif ($data[1][1] == "C") {
-                                $data[1] = $data[1] . " CPU";
-                            } elseif ($data[1][1] == "G") {
-                                $data[1] = $data[1] . " GPU";
-                            } elseif ($data[1][1] == "H") {
-                                $data[1] = $data[1] . " Harddisk Bay";
-                            } elseif ($data[1][1] == "h") {
-                                $data[1] = $data[1] . " Heatpipe";
-                            } elseif ($data[1][1] == "L") {
-                                $data[1] = $data[1] . " LCD";
-                            } elseif ($data[1][1] == "M") {
-                                $data[1] = $data[1] . " Memory";
-                            } elseif ($data[1][1] == "m") {
-                                $data[1] = $data[1] . " Memory Contr.";
-                            } elseif ($data[1][1] == "N") {
-                                $data[1] = $data[1] . " Northbridge";
-                            } elseif ($data[1][1] == "O") {
-                                $data[1] = $data[1] . " Optical Drive";
-                            } elseif ($data[1][1] == "p") {
-                                $data[1] = $data[1] . " Power supply";
-                            } elseif ($data[1][1] == "S") {
-                                $data[1] = $data[1] . " Slot";
-                            } elseif ($data[1][1] == "s") {
-                                $data[1] = $data[1] . " Slot";
-                            } elseif ($data[1][1] == "W") {
-                                $data[1] = $data[1] . " Airport";
-                            }
-
-                            if ($data[1][3] == "H") {
-                                $data[1] = $data[1] . " Heatsink";
-                            } elseif ($data[1][3] == "P") {
-                                $data[1] = $data[1] . " Proximity";
-                            } elseif ($data[1][3] == "D") {
-                                $data[1] = $data[1] . " Die";
-                            }
+                            if (isset($applearray1[$data[1][1]])) $data[1] .= " ".$applearray1[$data[1][1]];
+                            if (isset($applearray3[$data[1][3]])) $data[1] .= " ".$applearray3[$data[1][3]];
                         }
-                    
 
                         $arrtemp=array();
                         if ($sname !== "" ) {
