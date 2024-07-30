@@ -203,7 +203,7 @@ class LMSensors extends Sensors
                     }
                     if (isset($sensor["alarm"])) $dev->setEvent("ALARM");
 
-                    if (isset($sensor[$limit="min"]) && preg_match("/^([0-9\.]+) RPM$/", $sensor[$limit], $tmpbuf) && ($tmpbuf[1] > 0)) {
+                    if (isset($sensor[$limit="min"]) && preg_match("/^([0-9]+) RPM$/", $sensor[$limit], $tmpbuf) && ($tmpbuf[1] > 0)) {
                         $dev->setMin($tmpbuf[1]);
                     }
 
