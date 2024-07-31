@@ -942,7 +942,7 @@ ACCESS="data"
 
 ; define the update info file format
 ; - true: Ubuntu Landscape format (file: /var/lib/update-notifier/updates-available)
-; - false: universal format   (format: A;B)
+; - false: universal format (format: A;B)
 ;          A: total packages to update
 ;          B: security packages to update
 ;
