@@ -226,27 +226,26 @@ class Linux extends OS
     {
         if ($this->_kernel_string === null) {
             $this->_kernel_string = "";
-            if ($this->sys->getOS() == 'SSH') {
-                return $this->_kernel_string;
-            }
-            if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
-                (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
-                $this->_kernel_string = $strBuf;
-                if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
-                    if (preg_match('/ SMP /', $strBuf)) {
-                        $this->_kernel_string .= ' (SMP)';
+            if ($this->sys->getOS() !== 'SSH') {
+                if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
+                    (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
+                    $this->_kernel_string = $strBuf;
+                    if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
+                        if (preg_match('/ SMP /', $strBuf)) {
+                            $this->_kernel_string .= ' (SMP)';
+                        }
                     }
-                }
-                if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
-                    $this->_kernel_string .= ' '.$strBuf;
-                }
-            } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-                if (preg_match('/\/Hurd-([^\)]+)/', $strBuf, $ar_buf)) {
-                    $this->_kernel_string = $ar_buf[1];
-                } elseif (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
-                    $this->_kernel_string = $ar_buf[1];
-                    if (preg_match('/ SMP /', $strBuf)) {
-                        $this->_kernel_string .= ' (SMP)';
+                    if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
+                        $this->_kernel_string .= ' '.$strBuf;
+                    }
+                } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
+                    if (preg_match('/\/Hurd-([^\)]+)/', $strBuf, $ar_buf)) {
+                        $this->_kernel_string = $ar_buf[1];
+                    } elseif (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+                        $this->_kernel_string = $ar_buf[1];
+                        if (preg_match('/ SMP /', $strBuf)) {
+                            $this->_kernel_string .= ' (SMP)';
+                        }
                     }
                 }
             }
