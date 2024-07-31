@@ -48,7 +48,7 @@ class UpdateNotifier extends PSI_Plugin
                 } else {
                     CommonFunctions::rfts("/var/lib/update-notifier/updates-available", $buffer_info);
                 }
-            } elseif (defined('PSI_EMU_PORT')) {
+            } else { //if (defined('PSI_EMU_PORT')
                 if (defined('PSI_PLUGIN_UPDATENOTIFIER_FILE') && is_string(PSI_PLUGIN_UPDATENOTIFIER_FILE)) {
                     CommonFunctions::executeProgram('cat', PSI_PLUGIN_UPDATENOTIFIER_FILE, $buffer_info);
                 } else {
