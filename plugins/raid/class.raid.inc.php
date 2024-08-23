@@ -584,7 +584,7 @@ class Raid extends PSI_Plugin
                 if (!empty($lines)) {
                     unset($lines[0]);
                     foreach ($lines as $line) {
-                        $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', $line), -1, PREG_SPLIT_NO_EMPTY);
+                        $details = preg_split('/ /', preg_replace('/^hot spares +:/', 'hotspare:', preg_replace('/errs:.+$/','',$line)), -1, PREG_SPLIT_NO_EMPTY);
                         if (($countdet = count($details)) >= 2) {
                             $size[0] = -1;
                             for ($ind = $countdet; $ind > 1;) {
