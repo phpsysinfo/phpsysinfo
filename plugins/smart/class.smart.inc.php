@@ -488,7 +488,7 @@ class SMART extends PSI_Plugin
                     $idsr = preg_split('/-/', $this->_ids[$cid]);
                     if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
                 }
-                if (!empty($this->_ids[$cid]) && (($this->_ids[$cid]=="raw_value") || ($this->_ids[$cid]=="value"))) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
                     if (preg_match('/\nAccumulated start-stop cycles\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
