@@ -503,6 +503,26 @@ class SMART extends PSI_Plugin
                     }
                 }
 
+                $cid = 193;
+                if (!empty($this->_ids[$cid])) { //replace test
+                    $idsr = preg_split('/-/', $this->_ids[$cid]);
+                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
+                }
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                    if (preg_match('/\nAccumulated load-unload cycles\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[3]));
+                            $this->_result[$disk][10]['id'] = $cid;
+                            $this->_result[$disk][10]['attribute_name'] = "Load_Cycle_Count";
+                            if ($this->_ids[$cid]=="raw_value") $this->_result[$disk][10]['raw_value'] = $vals;
+                            if (($this->_ids[$cid]=="value") && preg_match('/\[(.+)\]/', $tmpbuf[1], $tmpbuf2)) {
+                                $this->_result[$disk][10]['value'] = trim($tmpbuf2[1]);
+                            }
+                        }
+                    }
+                }
+
                 if (preg_match('/\nSMART Health Status\: ([^\[\n]+)/', $result, $tmpbuf)) {
                     $event=trim($tmpbuf[1]);
                     if (!empty($event) && ($event!=='OK')) {
