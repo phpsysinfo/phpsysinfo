@@ -902,7 +902,7 @@ DEVICES="/dev/sda, /dev/sdb"
 ; Data Units Written: - is marked as 048-RAW_VALUE and 048-VALUE
 ; Media and Data Integrity Errors: - is marked as 187-RAW_VALUE
 ; Unsafe Shutdowns: - is marked as 192-RAW_VALUE
-; Accumulated load-unload cycles: - is marked as 194-RAW_VALUE
+; Accumulated load-unload cycles: - is marked as 193-RAW_VALUE
 ; Temperature: - is marked as 194-RAW_VALUE
 ; Current Drive Temperature: - is marked as 194-RAW_VALUE
 ; Non-medium Error Count: - is marked as 255-RAW_VALUE
