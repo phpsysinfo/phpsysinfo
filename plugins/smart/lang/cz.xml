@@ -122,7 +122,10 @@
     <exp>Good Block Count</exp>
   </expression>
   <expression id="plugin_smart_341" name="smart_total_lbas_written">
-    <exp>Total LBAs Written</exp>
+    <exp>Total LBAs/GiB Written</exp>
+  </expression>
+  <expression id="plugin_smart_342" name="smart_total_lbas_read">
+    <exp>Total LBAs/GiB Read</exp>
   </expression>
   <expression id="plugin_smart_355" name="smart_non-medium_error_count">
     <exp>Non-medium error count</exp>
