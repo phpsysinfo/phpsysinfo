@@ -495,10 +495,12 @@ class SMART extends PSI_Plugin
         //reformat to power on hours 
         foreach ($this->_result as $diskName=>$diskInfos) {
             foreach ($diskInfos as $did=>$lineInfos)
-                if ((($lineInfos['id'] == 9) && isset($lineInfos['attribute_name'])) && ($lineInfos['raw_value']) &&
+                if ((($lineInfos['id'] == 9) && isset($lineInfos['attribute_name'])) &&
                     (($lineInfos['attribute_name'] === "Power_On_Hours_and_Msec") || ($lineInfos['attribute_name'] === "Power_On_Seconds"))) {
-                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
-                    $this->_result[$diskName][$did]['raw_value'] = $raw_value[0];
+                    if (isset($lineInfos['raw_value'])) {
+                        $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
+                        $this->_result[$diskName][$did]['raw_value'] = $raw_value[0];
+                    }
                     $this->_result[$diskName][$did]['attribute_name'] = "Power_On_Hours";
                     break;
                 }
