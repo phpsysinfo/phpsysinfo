@@ -5,13 +5,19 @@ function renderPlugin_smart(data) {
         var html = '';
         var i,j;
         var smartid;
+        var attribute_name;
 
         html+="<thead>";
         html+="<tr>";
         html+="<th id=\"smart_name\" class=\"rightCell\">"+genlang(2, 'smart')+"</th>"; // Name
         for (i = 0; i < smartitems.length ; i++) {
-            smartid = smartitems[i]["@attributes"].id;
-            html+="<th class=\"sorttable_numeric rightCell\">"+ genlang(100+parseInt(smartid, 10), 'smart', smartid) + "</th>";
+            attribute_name = smartitems[i]["@attributes"].attribute_name;
+            if (typeof attribute_name === 'string')
+                attribute_name = attribute_name.replace(/_/g, " ").replace(/;/g, "<br>");
+            else
+                attribute_name = "Attribute " + smartitems[i]["@attributes"].id;
+
+            html+="<th class=\"sorttable_numeric rightCell\">"+ attribute_name + "</th>";
         }
         html+="</tr>";
         html+="</thead>";
