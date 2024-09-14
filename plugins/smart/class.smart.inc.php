@@ -492,6 +492,18 @@ class SMART extends PSI_Plugin
             }
         }
 
+        //reformat to power on hours 
+        foreach ($this->_result as $diskName=>$diskInfos) {
+            foreach ($diskInfos as $did=>$lineInfos)
+                if ((($lineInfos['id'] == 9) && isset($lineInfos['attribute_name'])) && ($lineInfos['raw_value']) &&
+                    (($lineInfos['attribute_name'] === "Power_On_Hours_and_Msec") || ($lineInfos['attribute_name'] === "Power_On_Seconds"))) {
+                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
+                    $this->_result[$diskName][$did]['raw_value'] = $raw_value[0];
+                    $this->_result[$diskName][$did]['attribute_name'] = "Power_On_Hours";
+                    break;
+                }
+        }
+
         //usage and attribute name test
         foreach ($this->_ids as $id=>$column) if (!isset($column["replace"])) {
             foreach ($this->_result as $diskName=>$diskInfos) {
@@ -536,12 +548,6 @@ class SMART extends PSI_Plugin
             if (isset($this->_event[$diskName])) $diskChild->addAttribute('event', $this->_event[$diskName]);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
-
-                if (($lineInfos['id'] == 9) && isset($lineInfos['attribute_name']) && ($lineInfos['attribute_name'] !== "Power_On_Hours")) { //Power_On_Hours_and_Msec and Power_On_Seconds
-                    $lineInfos['attribute_name'] = "Power_On_Hours";
-                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
-                    $lineInfos['raw_value'] = $raw_value[0];
-                }
 
                 foreach ($lineInfos as $label=>$value) {
                     $lineChild->addAttribute($label, $value);
