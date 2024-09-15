@@ -506,7 +506,7 @@ class SMART extends PSI_Plugin
                 }
         }
 
-        //usage and attribute name test
+        //set attribute name/names
         foreach ($this->_ids as $id=>$column) if (!isset($column["replace"])) {
             foreach ($this->_result as $diskName=>$diskInfos) {
                 foreach ($diskInfos as $lineInfos)
