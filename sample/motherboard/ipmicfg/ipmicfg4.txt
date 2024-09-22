@@ -1,0 +1,108 @@
+Status | (#)Sensor                |      Reading | Low Limit | High Limit |
+------ | ---------                |      ------- | --------- | ---------- |
+       | (1) SEL                  |                                   N/A |
+    OK | (2) Intrusion            |                                    OK |
+    OK | (11) Fan1A               |     1680 RPM |   720 RPM |        N/A |
+    OK | (12) Fan1B               |     1560 RPM |   720 RPM |        N/A |
+    OK | (13) Fan2A               |     2280 RPM |   720 RPM |        N/A |
+    OK | (14) Fan2B               |     2160 RPM |   720 RPM |        N/A |
+    OK | (15) Fan3A               |     2280 RPM |   720 RPM |        N/A |
+    OK | (16) Fan3B               |     2160 RPM |   720 RPM |        N/A |
+    OK | (17) Fan4A               |     2280 RPM |   720 RPM |        N/A |
+    OK | (18) Fan4B               |     2160 RPM |   720 RPM |        N/A |
+    OK | (19) Fan5A               |     2280 RPM |   720 RPM |        N/A |
+    OK | (20) Fan5B               |     2160 RPM |   720 RPM |        N/A |
+    OK | (21) Inlet Temp          |      17C/63F |   -7C/19F |   47C/117F |
+       | (22) OS Watchdog         |                                   N/A |
+    OK | (23) VCORE PG            |                      State Deasserted |
+    OK | (24) 3.3V PG             |                      State Deasserted |
+    OK | (25) 5V PG               |                      State Deasserted |
+       | (26) USB Cable Pres      |    Cable or Interconnect is connected |
+       | (27) Dedicated NIC       |                         Entity Absent |
+       | (28) VGA Cable Pres      |    Cable or Interconnect is connected |
+       | (29) Presence            |                        Entity Present |
+       | (30) Presence            |                        Entity Present |
+    OK | (31) PLL PG              |                      State Deasserted |
+    OK | (32) 1.1V PG             |                      State Deasserted |
+    OK | (33) BP1 5V PG           |                      State Deasserted |
+       | (34) Presence            |                        Entity Present |
+    OK | (35) VSA PG              |                      State Deasserted |
+    OK | (36) MEM VDDQ PG         |                      State Deasserted |
+       | (37) LCD Cable Pres      |    Cable or Interconnect is connected |
+    OK | (38) VTT PG              |                      State Deasserted |
+       | (39) Presence            |                         Entity Absent |
+    OK | (40) Status              |           Processor presence detected |
+       | (41) Fan Redundancy      |          N/A |       N/A |        N/A |
+       | (44) Riser Config Err    |    Cable or Interconnect is connected |
+    OK | (45) 1.5V PG             |                      State Deasserted |
+    OK | (46) PS2 PG Fail         |                      State Deasserted |
+    OK | (47) PS1 PG Fail         |                      State Deasserted |
+    OK | (48) MEM VTT PG          |                      State Deasserted |
+       | (49) Presence            |                        Entity Present |
+       | (50) PCIe Slot1          |                                   N/A |
+       | (51) PCIe Slot2          |                                   N/A |
+       | (52) PCIe Slot3          |                                   N/A |
+       | (53) PCIe Slot4          |                                   N/A |
+    OK | (54) A                   |                     Presence detected |
+    OK | (57) vFlash              |  00 C0 00 80 |       N/A |        N/A |
+       | (58) CMOS Battery        |                                   N/A |
+       | (59) Presence            |                        Entity Present |
+    OK | (60) Current 1           |    0.20 Amps |       N/A |        N/A |
+    OK | (61) Current 2           |    0.20 Amps |       N/A |        N/A |
+    OK | (62) Voltage 1           |     240.00 V |       N/A |        N/A |
+    OK | (63) Voltage 2           |     240.00 V |       N/A |        N/A |
+    OK | (64) PS Redundancy       |  04 E0 00 00 |       N/A |        N/A |
+    OK | (65) Status              |                     Presence detected |
+    OK | (66) Status              |                     Presence detected |
+    OK | (67) Pwr Consumption     |     70 Watts |       N/A | 1456 Watts |
+       | (68) Power Optimized     |                               failure |
+       | (69) SD1                 |                                   N/A |
+       | (70) SD2                 |                                   N/A |
+       | (71) Redundancy          |          N/A |       N/A |        N/A |
+       | (72) ECC Corr Err        |                                   N/A |
+       | (73) ECC Uncorr Err      |                                   N/A |
+       | (74) I/O Channel Chk     |                                   N/A |
+       | (75) PCI Parity Err      |                 Bus Correctable Error |
+       | (76) PCI System Err      |                                   N/A |
+       | (77) SBE Log Disabled    |                                   N/A |
+       | (78) Logging Disabled    |                                   N/A |
+       | (79) Unknown             |                                   N/A |
+    OK | (80) CPU Protocol Err    |          N/A |       N/A |        N/A |
+    OK | (81) CPU Bus PERR        |          N/A |       N/A |        N/A |
+    OK | (82) CPU Init Err        |          N/A |       N/A |        N/A |
+    OK | (83) CPU Machine Chk     |          N/A |       N/A |        N/A |
+       | (84) Memory Spared       |          N/A |       N/A |        N/A |
+       | (85) Memory Mirrored     |          N/A |       N/A |        N/A |
+       | (86) Memory RAID         |          N/A |       N/A |        N/A |
+  Fail | (87) Memory Added        | Correctable ECC / other correctable memory error |
+       | (88) Memory Removed      |                                   N/A |
+       | (89) Memory Cfg Err      |                                   N/A |
+       | (90) Mem Redun Gain      |          N/A |       N/A |        N/A |
+       | (91) PCIE Fatal Err      |                                   N/A |
+       | (92) Chipset Err         | Front Panel NMI / Diagnostic Interrupt |
+       | (93) Err Reg Pointer     |          N/A |       N/A |        N/A |
+       | (94) Mem ECC Warning     |          N/A |       N/A |        N/A |
+       | (95) Mem CRC Err         |          N/A |       N/A |        N/A |
+       | (96) USB Over-current    |          N/A |       N/A |        N/A |
+       | (97) POST Err            | System Firmware Error (POST Error) - Unspecified |
+       | (98) Hdwr version err    |                                   N/A |
+  Fail | (99) Mem Overtemp        | Correctable ECC / other correctable memory error |
+       | (100) Mem Fatal SB CRC   |                                   N/A |
+       | (101) Mem Fatal NB CRC   |                                   N/A |
+       | (102) OS Watchdog Time   |                                   N/A |
+       | (103) Non Fatal PCI Er   |                                   N/A |
+  Fail | (104) Fatal IO Error     | Correctable ECC / other correctable memory error |
+  Fail | (105) MSR Info Log       | Correctable ECC / other correctable memory error |
+    OK | (106) Drive 0            |                        Drive Presence |
+       | (107) Cable SAS A        |    Cable or Interconnect is connected |
+       | (108) Cable SAS B        |                                   N/A |
+       | (109) Cable SAS C        |                                   N/A |
+       | (110) Cable SAS D        |                                   N/A |
+       | (111) Power Cable        |    Cable or Interconnect is connected |
+       | (112) Signal Cable       |    Cable or Interconnect is connected |
+       | (113) PFault Fail Safe   |                                   N/A |
+       | (114) ROMB Battery       |                                   N/A |
+       | (115) ROMB Battery       |                                   N/A |
+       | (116) Riser 1 Presence   |    Cable or Interconnect is connected |
+       | (117) Riser 2 Presence   |    Cable or Interconnect is connected |
+    OK | (119) Temp               |     46C/115F |    3C/37F |   97C/207F |

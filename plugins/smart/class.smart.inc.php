@@ -62,9 +62,10 @@ class SMART extends PSI_Plugin
                     }
                     foreach ($fullIds as $fullId) {
                         $arrFullId = preg_split('/-/', $fullId);
-                        $this->_ids[intval($arrFullId[0])] = strtolower($arrFullId[1]);
+                        $this->_ids[intval($arrFullId[0])]["value_type"] = strtolower($arrFullId[1]);
                         if (!empty($arrFullId[2])) {
-                            $this->_ids[intval($arrFullId[2])] = "#replace-".intval($arrFullId[0]);
+                            $this->_ids[intval($arrFullId[2])]["replace"] = intval($arrFullId[0]);
+                            $this->_ids[intval($arrFullId[2])]["value_type"] = strtolower($arrFullId[1]);
                         }
                     }
                 }
@@ -76,7 +77,7 @@ class SMART extends PSI_Plugin
 
         switch (strtolower(PSI_PLUGIN_SMART_ACCESS)) {
         case 'wmi':
-            if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
+            if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                 if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME') && !WINNT::isAdmin()) {
                     $this->global_error->addError("SMART WMI mode error", "Mode allowed for WinNT systems, with administrator privileges (run as administrator)");
                 } else {
@@ -239,6 +240,8 @@ class SMART extends PSI_Plugin
             if ($startIndex && $endIndex && ($endIndex>$startIndex))
                  $vendorInfos = preg_split("/\n/", substr($result, $startIndex, $endIndex - $startIndex));
 
+            $i = 0; // Line number
+
             if (!empty($vendorInfos)) {
                 if (preg_match('/\nSMART overall-health self-assessment test result\: ([^!\n]+)/', $result, $tmpbuf)) {
                     $event=trim($tmpbuf[1]);
@@ -247,14 +250,8 @@ class SMART extends PSI_Plugin
                     }
                 }
 
-                $i = 0; // Line number
-
                 $cid = 0;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nATA Error Count\: (\d+)/', $result, $tmpbuf)) {
                         $this->_result[$disk][$i]['id'] = $cid;
                         $this->_result[$disk][$i]['attribute_name'] = "ATA_Error_Count";
@@ -281,16 +278,10 @@ class SMART extends PSI_Plugin
                     $j = 0;
                     $found = 0;
                     foreach ($values as $value) {
-                        if ((in_array($value, array_keys($this->_ids)) && $labels[$j] == 'id')) {
-                          $arrFullVa = preg_split('/-/', $this->_ids[$value]);
-                          if (($arrFullVa[0]=="#replace") && !empty($arrFullVa[1])) {
-                              $value=$arrFullVa[1];
-                          }
-                        }
                         if (in_array($value, array_keys($this->_ids)) && ($labels[$j] == 'id') && ($value > 0) && ($value < 255)) {
                             $this->_result[$disk][$i][$labels[$j]] = $value;
                             $found = $value;
-                        } elseif (($found > 0) && (($labels[$j] == 'attribute_name') || ($labels[$j] == $this->_ids[$found]))) {
+                        } elseif (($found > 0) && (($labels[$j] == 'attribute_name') || ($labels[$j] == $this->_ids[$found]["value_type"]))) {
                             $this->_result[$disk][$i][$labels[$j]] = $value;
                         }
                         $j++;
@@ -300,11 +291,7 @@ class SMART extends PSI_Plugin
             } else {
                 //SCSI and MVMe devices
                 $cid = 187;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nread\: (.*)\n/', $result, $tmpbufr) && preg_match('/\nwrite\: (.*)\n/', $result, $tmpbufw)) {
                         $valuesr=preg_split('/ +/', $tmpbufr[0]);
                         $valuesw=preg_split('/ +/', $tmpbufw[0]);
@@ -314,134 +301,168 @@ class SMART extends PSI_Plugin
                             $valuesv=preg_split('/ +/', $tmpbufv[0]);
                         }
                         if (!empty($valuesr) && !empty($valuesw) && !empty($valuesv) && ($valuesr[7]!=null) && ($valuesw[7]!=null) && ($valuesw[7]!=null)) {
-                            $this->_result[$disk][0]['id'] = $cid;
-                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
-                            $this->_result[$disk][0]['raw_value'] = intval($valuesr[7])+intval($valuesw[7])+intval($valuesv[7]);
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Reported_Uncorrectable_Errors";
+                            $this->_result[$disk][$i]['raw_value'] = intval($valuesr[7])+intval($valuesw[7])+intval($valuesv[7]);
+                            $i++;
                         }
                     } elseif (preg_match('/\nMedia and Data Integrity Errors\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[5]));
-                            $this->_result[$disk][0]['id'] = $cid;
-                            $this->_result[$disk][0]['attribute_name'] = "Reported_Uncorrectable_Errors";
-                            $this->_result[$disk][0]['raw_value'] = $vals;
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Reported_Uncorrectable_Errors";
+                            $this->_result[$disk][$i]['raw_value'] = $vals;
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 5;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nElements in grown defect list\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[5]!=null)) {
-                            $this->_result[$disk][1]['id'] = $cid;
-                            $this->_result[$disk][1]['attribute_name'] = "Reallocated_Sector_Ct";
-                            $this->_result[$disk][1]['raw_value'] = trim($values[5]);
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Reallocated_Sector_Ct";
+                            $this->_result[$disk][$i]['raw_value'] = trim($values[5]);
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 9;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\n +number of hours powered up = (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[7]!=null)) {
                             $vals=preg_split('/[,\.]/', trim($values[7]));
-                            $this->_result[$disk][2]['id'] = $cid;
-                            $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
-                            $this->_result[$disk][2]['raw_value'] =  $vals[0];
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Power_On_Hours";
+                            $this->_result[$disk][$i]['raw_value'] =  $vals[0];
+                            $i++;
                         }
                     } elseif (preg_match('/\nPower On Hours\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[3]));
-                            $this->_result[$disk][2]['id'] = $cid;
-                            $this->_result[$disk][2]['attribute_name'] = "Power_On_Hours";
-                            $this->_result[$disk][2]['raw_value'] =  $vals;
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Power_On_Hours";
+                            $this->_result[$disk][$i]['raw_value'] =  $vals;
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 194;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nCurrent Drive Temperature\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $this->_result[$disk][3]['id'] = $cid;
-                            $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
-                            $this->_result[$disk][3]['raw_value'] = trim($values[3]);
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Temperature_Celsius";
+                            $this->_result[$disk][$i]['raw_value'] = trim($values[3]);
+                            $i++;
                         }
                     } elseif (preg_match('/\nTemperature\: (.*) Celsius/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[1]!=null)) {
-                            $this->_result[$disk][3]['id'] = $cid;
-                            $this->_result[$disk][3]['attribute_name'] = "Temperature_Celsius";
-                            $this->_result[$disk][3]['raw_value'] = trim($values[1]);
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Temperature_Celsius";
+                            $this->_result[$disk][$i]['raw_value'] = trim($values[1]);
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 12;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nPower Cycles\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][4]['id'] = $cid;
-                            $this->_result[$disk][4]['attribute_name'] = "Power_Cycle_Count";
-                            $this->_result[$disk][4]['raw_value'] = $vals;
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Power_Cycle_Count";
+                            $this->_result[$disk][$i]['raw_value'] = $vals;
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 192;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nUnsafe Shutdowns\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[2]!=null)) {
                             $vals=preg_replace('/,/', '', trim($values[2]));
-                            $this->_result[$disk][5]['id'] = $cid;
-                            $this->_result[$disk][5]['attribute_name'] = "Unsafe_Shutdown_Count";
-                            $this->_result[$disk][5]['raw_value'] = $vals;
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Unsafe_Shutdown_Count";
+                            $this->_result[$disk][$i]['raw_value'] = $vals;
+                            $i++;
                         }
                     }
                 }
 
                 $cid = 255;
-                if (!empty($this->_ids[$cid])) { //replace test
-                    $idsr = preg_split('/-/', $this->_ids[$cid]);
-                    if (($idsr[0]=="#replace") && !empty($idsr[1])) $cid=$idsr[1];
-                }
-                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]=="raw_value")) {
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
                     if (preg_match('/\nNon-medium error count\: (.*)\n/', $result, $tmpbuf)) {
                         $values=preg_split('/ +/', $tmpbuf[0]);
                         if (!empty($values) && ($values[3]!=null)) {
-                            $this->_result[$disk][6]['id'] = $cid;
-                            $this->_result[$disk][6]['attribute_name'] = "Non-medium_Error_Count";
-                            $this->_result[$disk][6]['raw_value'] = trim($values[3]);
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Non-medium_Error_Count";
+                            $this->_result[$disk][$i]['raw_value'] = trim($values[3]);
+                            $i++;
                         }
                     }
                 }
+
+                $cid = 32;
+                if (!empty($this->_ids[$cid]) && (($this->_ids[$cid]["value_type"]=="raw_value") || ($this->_ids[$cid]["value_type"]=="value"))) {
+                    if (preg_match('/\nData Units Read\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[3]));
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Data_Units_Read";
+                            if ($this->_ids[$cid]["value_type"]=="raw_value") $this->_result[$disk][$i]['raw_value'] = $vals;
+                            if (($this->_ids[$cid]["value_type"]=="value") && preg_match('/\[(.+)\]/', $tmpbuf[1], $tmpbuf2)) {
+                                $this->_result[$disk][$i]['value'] = trim($tmpbuf2[1]);
+                            }
+                            $i++;
+                        }
+                    }
+                }
+
+                $cid = 48;
+                if (!empty($this->_ids[$cid]) && (($this->_ids[$cid]["value_type"]=="raw_value") || ($this->_ids[$cid]["value_type"]=="value"))) {
+                    if (preg_match('/\nData Units Written\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $vals=preg_replace('/,/', '', trim($values[3]));
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Data_Units_Written";
+                            if ($this->_ids[$cid]["value_type"]=="raw_value") $this->_result[$disk][$i]['raw_value'] = $vals;
+                            if (($this->_ids[$cid]["value_type"]=="value") && preg_match('/\[(.+)\]/', $tmpbuf[1], $tmpbuf2)) {
+                                $this->_result[$disk][$i]['value'] = trim($tmpbuf2[1]);
+                            }
+                            $i++;
+                        }
+                    }
+                }
+
+                $cid = 4;
+                if (!empty($this->_ids[$cid]) && ($this->_ids[$cid]["value_type"]=="raw_value")) {
+                    if (preg_match('/\nAccumulated start-stop cycles\: (.*)\n/', $result, $tmpbuf)) {
+                        $values=preg_split('/ +/', $tmpbuf[0]);
+                        if (!empty($values) && ($values[3]!=null)) {
+                            $this->_result[$disk][$i]['id'] = $cid;
+                            $this->_result[$disk][$i]['attribute_name'] = "Start_Stop_Count";
+                            $this->_result[$disk][$i]['raw_value'] = trim($values[3]);
+                            $i++;
+                        }
+                    }
+                }
+
                 if (preg_match('/\nSMART Health Status\: ([^\[\n]+)/', $result, $tmpbuf)) {
                     $event=trim($tmpbuf[1]);
                     if (!empty($event) && ($event!=='OK')) {
@@ -450,26 +471,55 @@ class SMART extends PSI_Plugin
                 }
             }
         }
-        //Usage test
-        $newIds = array();
-        foreach ($this->_ids as $id=>$column_name) {
-            $found = 0;
+
+        //replacement where necessary
+        foreach ($this->_ids as $id=>$column) if (isset($column["replace"])) {
             foreach ($this->_result as $diskName=>$diskInfos) {
-                if ($found!=2) foreach ($diskInfos as $lineInfos) {
-                    if ($found!=2) {
-                        $found = 0;
-                        foreach ($lineInfos as $label=>$value) {
-                            if (($found==0) && ($label=="id") && ($value==$id))
-                                $found = 1;
-                            if (($found==1) && ($label==$column_name))
-                                $found = 2;
-                        }
+                $not_found = true;
+                foreach ($diskInfos as $lineInfos)
+                    if (($lineInfos["id"] == $column["replace"]) && isset($lineInfos[$column["value_type"]])) {
+                         $not_found = false;
+                         break;
                     }
+                foreach ($diskInfos as $did=>$lineInfos)
+                    if (($lineInfos["id"] == $id) && isset($lineInfos[$column["value_type"]])) {
+                        if ($not_found)
+                            $this->_result[$diskName][$did]["id"] = $column["replace"];
+                         else
+                            unset($this->_result[$diskName][$did]);
+                         break;
                 }
             }
-            if ($found==2) $newIds[$id] = $this->_ids[$id];
         }
-        $this->_ids = $newIds;
+
+        //reformat to power on hours 
+        foreach ($this->_result as $diskName=>$diskInfos) {
+            foreach ($diskInfos as $did=>$lineInfos)
+                if ((($lineInfos['id'] == 9) && isset($lineInfos['attribute_name'])) &&
+                    (($lineInfos['attribute_name'] === "Power_On_Hours_and_Msec") || ($lineInfos['attribute_name'] === "Power_On_Seconds"))) {
+                    if (isset($lineInfos['raw_value'])) {
+                        $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
+                        $this->_result[$diskName][$did]['raw_value'] = $raw_value[0];
+                    }
+                    $this->_result[$diskName][$did]['attribute_name'] = "Power_On_Hours";
+                    break;
+                }
+        }
+
+        //set attribute name/names
+        foreach ($this->_ids as $id=>$column) if (!isset($column["replace"])) {
+            foreach ($this->_result as $diskName=>$diskInfos) {
+                foreach ($diskInfos as $lineInfos)
+                    if (($lineInfos["id"] == $id) && isset($lineInfos["attribute_name"])) {
+                        $canname = preg_replace("/\s|;/", "_", trim($lineInfos["attribute_name"]));
+                        if (!isset($this->_ids[$id]["attribute_name"]))
+                            $this->_ids[$id]["attribute_name"] = $canname;
+                        elseif (!in_array($canname, preg_split('/;/', $this->_ids[$id]["attribute_name"])))
+                            $this->_ids[$id]["attribute_name"] .= ";".$canname;
+                        break;
+                    }
+            }
+        }
     }
 
     /**
@@ -485,10 +535,11 @@ class SMART extends PSI_Plugin
 
         $columnsChild = $this->xml->addChild('columns');
         // Fill the xml with preferences
-        foreach ($this->_ids as $id=>$column_name) {
+        foreach ($this->_ids as $id=>$column) if (isset($column["attribute_name"])) {
             $columnChild = $columnsChild->addChild('column');
             $columnChild->addAttribute('id', $id);
-            $columnChild->addAttribute('name', $column_name);
+            $columnChild->addAttribute('name', $column["value_type"]);
+            $columnChild->addAttribute('attribute_name', $column["attribute_name"]);
         }
 
         $disksChild = $this->xml->addChild('disks');
@@ -499,12 +550,6 @@ class SMART extends PSI_Plugin
             if (isset($this->_event[$diskName])) $diskChild->addAttribute('event', $this->_event[$diskName]);
             foreach ($diskInfos as $lineInfos) {
                 $lineChild = $diskChild->addChild('attribute');
-
-                if (($lineInfos['id'] == 9) && isset($lineInfos['attribute_name']) && ($lineInfos['attribute_name'] !== "Power_On_Hours")) { //Power_On_Hours_and_Msec and Power_On_Seconds
-                    $lineInfos['attribute_name'] = "Power_On_Hours";
-                    $raw_value = preg_split("/h/", $lineInfos['raw_value'], -1, PREG_SPLIT_NO_EMPTY);
-                    $lineInfos['raw_value'] = $raw_value[0];
-                }
 
                 foreach ($lineInfos as $label=>$value) {
                     $lineChild->addAttribute($label, $value);

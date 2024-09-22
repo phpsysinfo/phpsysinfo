@@ -35,6 +35,7 @@ var smart_show = false, smart_table;
 function smart_buildTable(xml) {
     var html = "", hostname = "";
     var smartid;
+    var attribute_name;
 
     hostname = $("Plugins Plugin_SMART", xml).attr('Hostname');
     if (hostname !== undefined) {
@@ -47,8 +48,13 @@ function smart_buildTable(xml) {
     html += "      <tr>\n";
     html += "        <th class=\"right\">" + genlang(2, "SMART") + "</th>\n";
     $("Plugins Plugin_SMART columns column", xml).each(function smart_table_header() {
-        smartid = $(this).attr("id");
-        html += "        <th class=\"right\">" + genlang(100 + parseInt(smartid, 10), "SMART", smartid) + "</th>\n";
+        attribute_name = $(this).attr("attribute_name");
+        if (typeof attribute_name === 'string')
+            attribute_name = attribute_name.replace(/_/g, " ").replace(/;/g, "<br>");
+        else
+            attribute_name = "Attribute " + $(this).attr("id");
+
+        html += "        <th class=\"right\">" + attribute_name + "</th>\n";
     });
     html += "      </tr>\n";
     html += "    </thead>\n";

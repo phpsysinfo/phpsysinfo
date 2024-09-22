@@ -1,0 +1,10 @@
+a0       PERC H710 Mini           bios:5.42.00.1_4.12.0 fw:3.131.05-8148 encl:1 ldrv:2  rbld:30% mem:512MiB batt:good/3938mV/48C
+a0d0       558GiB RAID 1   1x2  optimal
+      row  0:  a0e32s0   a0e32s1 
+a0d1       893GiB RAID 1   1x2  optimal
+      row  0:  a0e32s2   a0e32s3 
+a0e32s0        WD WD6001BKHG       rev:D1S6 s/n:WXH1A93ABC00            558GiB  a0d0  online  
+a0e32s1        WD WD6001BKHG       rev:D1S6 s/n:WXH1A93ABC01            558GiB  a0d0  online  
+a0e32s2       ATA SAMSUNG MZ7L3960 rev:404Q s/n:S987NS0X101234A         894GiB  a0d1  online   errs: media:0  other:1158
+a0e32s3       ATA SAMSUNG MZ7L3960 rev:404Q s/n:S987NS0X105678B         894GiB  a0d1  online   errs: media:0  other:1158
+

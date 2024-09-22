@@ -86,6 +86,9 @@ class SSH extends GNU
         case 'GNU':
         case 'Linux':
             break;
+        case 'SSH':
+            $this->error->addError("__construct()", "SSH connection error");
+            break;
         default:
             if ($this->getSystemStatus() !== '') {
                 $this->_ostype = 'FortiOS';
@@ -634,6 +637,10 @@ class SSH extends GNU
     protected function _distro()
     {
         switch ($this->_ostype) {
+        case 'SSH':
+            $this->sys->setOS('Unknown');
+            $this->sys->setDistributionIcon('Unknown.png');
+            break;
         case 'FortiOS':
             if (preg_match("/^Version: \S+ (v[^\n]+)\n/", $this->getSystemStatus(), $buf)) {
                 $this->sys->setDistribution('FortiOS '.trim($buf[1]));
@@ -783,6 +790,9 @@ class SSH extends GNU
     {
         $this->error->addWarning("The SSH version of phpSysInfo is a work in progress, some things currently don't work");
         switch ($this->_ostype) {
+        case 'SSH':
+                $this->_distro();
+                break;
         case 'FortiOS':
             if (!$this->blockname || $this->blockname==='vitals') {
                 $this->_distro();
@@ -839,7 +849,6 @@ class SSH extends GNU
                 $this->_network();
             }
             break;
-
         case 'GNU':
         case 'Linux':
             parent::build();

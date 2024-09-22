@@ -307,7 +307,7 @@ class Darwin extends BSDCommon
             }
 
             if (($swap = $this->grabkey("vm.swapusage")) > 0) {
-                $swap0 = preg_split('/M/', $swapBuff);
+                $swap0 = preg_split('/M/', $swap);
                 $swap1 = preg_split('/=/', $swap0[0]);
                 $swap2 = preg_split('/=/', $swap0[1]);
                 $swap3 = preg_split('/=/', $swap0[2]);

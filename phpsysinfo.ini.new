@@ -332,6 +332,12 @@ SENSOR_EVENTS=true
 SORT_SENSORS_LIST=false
 
 
+; Hide sensors
+; Example : HIDE_SENSORS="FAN2/PS (PMBus 1),VDIMM GH"
+;
+HIDE_SENSORS=""
+
+
 ; Some sensors programs contain an additional configuration in the relevant sections [sensor_...]
 
 
@@ -653,17 +659,28 @@ ACCESS="command"
 [sensor_ipmicfg]
 ; IPMIcfg motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' command
-; - ACCESS="data"  //read data from file data/ipmicfg.tmp (output from: "ipmicfg -sdr>ipmicfg.tmp; ipmicfg -psfruinfo>>ipmicfg.tmp")
+; - ACCESS="command"  //read data from 'ipmicfg -sdr' and/or 'ipmicfg -psfruinfo' and/or 'ipmicfg -pminfo' commands
+; - ACCESS="data"  //read data from file data/ipmicfg.tmp (output from: "ipmicfg -sdr>ipmicfg.tmp; ipmicfg -psfruinfo>>ipmicfg.tmp; ipmicfg -pminfo>>ipmicfg.tmp")
 ;
 ACCESS="command"
 
+; Execute command to view SDR records
+; - true   : execute 'ipmicfg -sdr'
+; - false  : don't execute 'ipmicfg -sdr'
+;
+SDR=true
+
 ; Execute power supply FRU health info
-; - true   : execute 'ipmicfg --psfruinfo'
-; - false  : don't execute 'ipmicfg --psfruinfo'
-; - "only" : execute 'ipmicfg --psfruinfo' and don't execute 'ipmicfg -sdr'
+; - true   : execute 'ipmicfg -psfruinfo'
+; - false  : don't execute 'ipmicfg -psfruinfo'
 ;
 PSFRUINFO=true
+
+; Execute Power supply PMBus health info
+; - true   : execute 'ipmicfg -pminfo'
+; - false  : don't execute 'ipmicfg -pminfo'
+;
+PMINFO=true
 
 [sensor_k8temp]
 ; K8Temp motherboard monitoring program configuration
@@ -711,16 +728,15 @@ EXE_PATH="c:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe"
 ; BAT Plugin configuration
 
 ; define how to access the battery statistic data
-; - "command" on Linux and Android read data from /proc/acpi/battery/BAT0/info and /proc/acpi/battery/BAT0/state
+; - "command" on Linux and Android read data from /proc/acpi/battery/BAT*/info and /proc/acpi/battery/BAT*/state
 ;                or on newer kernel from /sys/class/power_supply/
-;                or from 'upower -d' command (if UPOWER is true)
-;             on Android read data from /sys/class/power_supply/ 
+;                or from 'upower -d' command (only on Linux if UPOWER is true)
 ;             on Darwin read data from 'ioreg -w0 -l -n AppleSmartBattery -r' command
 ;             on FreeBSD read data from 'acpiconf -i batt' command
 ;             on OpenBSD read data from 'sysctl hw.sensors.acpibat0' command
 ; - "data" (a file must be available in the data directory of the phpsysinfo installation
 ;          with the filename "bat_info.tmp" and "bat_state.tmp"; content is the output
-;          from "cat /proc/acpi/battery/BAT0/info" and "cat /proc/acpi/battery/BAT0/state")
+;          from "cat /proc/acpi/battery/BAT*/info" and "cat /proc/acpi/battery/BAT*/state")
 ;
 ACCESS="command"
 
@@ -877,8 +893,19 @@ DEVICES="/dev/sda, /dev/sdb"
 ; COLUMN_NAME of this ID# will be displayed in the phpsysinfo S.M.A.R.T table. If you want RAW_VALUE to be displayed for the temperature (ID# 194) enter 194-RAW_VALUE
 ; - IDS="194-VALUE,4-VALUE,009-RAW_VALUE"  //ID#-COLUMN_NAME, ID#-COLUMN_NAME, etc...
 ; The additional attributes:
-; ATA Error Count is marked as 0-RAW_VALUE
-; Non-medium Error Count is marked as 255-RAW_VALUE
+; ATA Error Count: - is marked as 0-RAW_VALUE
+; Accumulated start-stop cycles: - is marked as 004-RAW_VALUE
+; Elements in grown defect list: - is marked as 005-RAW_VALUE
+; Power On Hours: - is marked as 009-RAW_VALUE
+; Power Cycles: - is marked as 012-RAW_VALUE
+; Data Units Read: - is marked as 032-RAW_VALUE and 032-VALUE
+; Data Units Written: - is marked as 048-RAW_VALUE and 048-VALUE
+; Media and Data Integrity Errors: - is marked as 187-RAW_VALUE
+; Unsafe Shutdowns: - is marked as 192-RAW_VALUE
+; Accumulated load-unload cycles: - is marked as 193-RAW_VALUE
+; Temperature: - is marked as 194-RAW_VALUE
+; Current Drive Temperature: - is marked as 194-RAW_VALUE
+; Non-medium Error Count: - is marked as 255-RAW_VALUE
 ;
 IDS="005-RAW_VALUE,194-RAW_VALUE,009-RAW_VALUE,012-RAW_VALUE,193-RAW_VALUE-225,001-RAW_VALUE,007-RAW_VALUE,200-RAW_VALUE,197-RAW_VALUE,198-RAW_VALUE,0-RAW_VALUE"
 
@@ -917,7 +944,7 @@ ACCESS="data"
 
 ; define the update info file format
 ; - true: Ubuntu Landscape format (file: /var/lib/update-notifier/updates-available)
-; - false: universal format   (format: A;B)
+; - false: universal format (format: A;B)
 ;          A: total packages to update
 ;          B: security packages to update
 ;

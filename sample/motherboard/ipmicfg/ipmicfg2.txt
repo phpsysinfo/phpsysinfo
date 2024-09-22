@@ -1,0 +1,68 @@
+Status | (#)Sensor                |      Reading | Low Limit | High Limit
+------ | ---------                |      ------- | --------- | ----------
+    OK | (4) CPU1 Temp            |     44C/111F |    0C/32F |   86C/187F
+    OK | (71) CPU2 Temp           |     44C/111F |    0C/32F |   86C/187F
+    OK | (138) System Temp        |      31C/88F |   -5C/23F |   80C/176F
+    OK | (205) Peripheral Temp    |     44C/111F |   -5C/23F |   80C/176F
+    OK | (272) PCH Temp           |     57C/135F |   -5C/23F |   90C/194F
+    OK | (339) FAN1               |     1800 RPM |   600 RPM |  18975 RPM
+    OK | (406) FAN2               |     1800 RPM |   600 RPM |  18975 RPM
+       | (473) FAN3               |          N/A |       N/A |        N/A
+       | (540) FAN4               |          N/A |       N/A |        N/A
+       | (607) FAN5               |          N/A |       N/A |        N/A
+       | (674) FAN6               |          N/A |       N/A |        N/A
+       | (741) FAN7               |          N/A |       N/A |        N/A
+       | (808) FAN8               |          N/A |       N/A |        N/A
+    OK | (875) VTT                |       1.05 V |    0.91 V |     1.34 V
+    OK | (942) CPU1 Vcore         |       0.89 V |    0.54 V |     1.48 V
+    OK | (1009) CPU2 Vcore        |       0.76 V |    0.54 V |     1.48 V
+    OK | (1076) VDIMM ABCD        |       1.48 V |    1.20 V |     1.64 V
+    OK | (1143) VDIMM EFGH        |       1.50 V |    1.20 V |     1.64 V
+    OK | (1210) +1.5 V            |       1.47 V |    1.34 V |     1.64 V
+    OK | (1277) 3.3V              |       3.31 V |    2.92 V |     3.64 V
+    OK | (1344) +3.3VSB           |       3.31 V |    2.92 V |     3.64 V
+    OK | (1411) 5V                |       5.05 V |    4.48 V |     5.50 V
+    OK | (1478) 12V               |      12.29 V |   10.81 V |    13.25 V
+    OK | (1545) VBAT              |       3.26 V |    2.68 V |     3.31 V
+    OK | (1612) HDD Status        |        0.00  |     2.68  |      3.31 
+  Fail | (1679) Chassis Intru     |  01 C0 01 00 |       N/A |        N/A
+    OK | (1746) PS1 Status        |  01 C0 01 00 |       N/A |        N/A
+[SlaveAddress = 78h] [Module 1]
+ Item                           |                          Value
+ ----                           |                          -----
+ Status                         |              [STATUS OK] (00h)
+ Input Voltage                  |                        227.8 V
+ Input Current                  |                         2.34 A
+ Main Output Voltage            |                        12.19 V
+ Main Output Current            |                        42.06 A
+ Temperature 1                  |                       42C/108F
+ Temperature 2                  |                       56C/133F
+ Fan 1                          |                       8448 RPM
+ Fan 2                          |                       9856 RPM
+ Main Output Power              |                          513 W 
+ Input Power                    |                          532 W
+ PMBus Revision                 |                           0x22
+ PWS Serial Number              |                P2K22CK33VB1234
+ PWS Module Number              |                   PWS-2K22A-1R
+ PWS Revision                   |                            1.5
+ Current Sharing Control        |           Active - Active (90)
+
+ [SlaveAddress = 7Ah] [Module 2]
+ Item                           |                          Value
+ ----                           |                          -----
+ Status                         |              [STATUS OK] (00h)
+ Input Voltage                  |                        227.5 V
+ Input Current                  |                         2.70 A
+ Main Output Voltage            |                        12.21 V
+ Main Output Current            |                        48.25 A
+ Temperature 1                  |                       44C/111F
+ Temperature 2                  |                       56C/133F
+ Fan 1                          |                       8608 RPM
+ Fan 2                          |                      10112 RPM
+ Main Output Power              |                          589 W 
+ Input Power                    |                          613 W
+ PMBus Revision                 |                           0x22
+ PWS Serial Number              |                P2K22CK33VB4578
+ PWS Module Number              |                   PWS-2K22A-1R
+ PWS Revision                   |                            1.5
+ Current Sharing Control        |           Active - Active (90)

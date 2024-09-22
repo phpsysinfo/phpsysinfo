@@ -1,0 +1,6 @@
+UA Infra: Extended Security Maintenance (ESM) is enabled.
+
+3 packages can be updated.
+1 of these updates is fixed through UA Infra: ESM.
+1 of these updates is a security update.
+To see these additional updates run: apt list --upgradable

@@ -38,7 +38,7 @@ class DiskLoad extends PSI_Plugin
      */
     public function execute()
     {
-        if ((PSI_OS == 'WINNT') || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
+        if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
             $diskphys = array();
             $disklogi = array();
             try {

@@ -99,7 +99,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 }
             }
 
-            if (!defined('PSI_MBINFO') && (!$this->_blockName || in_array($this->_blockName, array('voltage','current','temperature','fans','power','other')))) {
+            if (!defined('PSI_MBINFO') && (!$this->_blockName || in_array($this->_blockName, array('mbinfo','voltage','current','temperature','fans','power','other')))) {
                 // check if there is a valid sensor configuration in phpsysinfo.ini
                 $foundsp = array();
                 if (defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM)) {
@@ -283,7 +283,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 $this->_blockName = ' '; // mask wrong plugin name
             } elseif (($plugin = strtolower($plugin)) === "complete") {
                 $this->_completeXML = true;
-            } elseif (in_array($plugin, array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups'))) {
+            } elseif (in_array($plugin, array('vitals','hardware','memory','filesystem','network','mbinfo','voltage','current','temperature','fans','power','other','ups'))) {
                 $this->_blockName = $plugin;
             } elseif (in_array($plugin, CommonFunctions::getPlugins())) {
                 $this->_pluginName = $plugin;

@@ -1,0 +1,47 @@
+Status | (#)Sensor                |      Reading | Low Limit | High Limit |
+------ | ---------                |      ------- | --------- | ---------- |
+    OK | (4) CPU1 Temp            |      32C/90F |    0C/32F |   70C/158F |
+    OK | (71) CPU2 Temp           |      35C/95F |    0C/32F |   70C/158F |
+    OK | (138) System Temp        |      37C/99F |   -7C/19F |   85C/185F |
+    OK | (205) Peripheral Temp    |     38C/100F |   -7C/19F |   85C/185F |
+    OK | (272) PCH Temp           |     49C/120F |   -8C/18F |   95C/203F |
+    OK | (339) P1-DIMMA1 TEMP     |     46C/115F |    2C/36F |   85C/185F |
+       | (406) P1-DIMMA2 TEMP     |          N/A |       N/A |        N/A |
+    OK | (473) P1-DIMMB1 TEMP     |     41C/106F |    2C/36F |   85C/185F |
+       | (540) P1-DIMMB2 TEMP     |          N/A |       N/A |        N/A |
+       | (607) P1-DIMMC1 TEMP     |          N/A |       N/A |        N/A |
+       | (674) P1-DIMMC2 TEMP     |          N/A |       N/A |        N/A |
+       | (741) P1-DIMMD1 TEMP     |          N/A |       N/A |        N/A |
+       | (808) P1-DIMMD2 TEMP     |          N/A |       N/A |        N/A |
+    OK | (875) P2-DIMME1 TEMP     |     47C/117F |    2C/36F |   85C/185F |
+       | (942) P2-DIMME2 TEMP     |          N/A |       N/A |        N/A |
+    OK | (1009) P2-DIMMF1 TEMP    |     46C/115F |    2C/36F |   85C/185F |
+       | (1076) P2-DIMMF2 TEMP    |          N/A |       N/A |        N/A |
+       | (1143) P2-DIMMG1 TEMP    |          N/A |       N/A |        N/A |
+       | (1210) P2-DIMMG2 TEMP    |          N/A |       N/A |        N/A |
+       | (1277) P2-DIMMH1 TEMP    |          N/A |       N/A |        N/A |
+       | (1344) P2-DIMMH2 TEMP    |          N/A |       N/A |        N/A |
+    OK | (1411) FAN1              |     1575 RPM |   450 RPM |  19050 RPM |
+    OK | (1478) FAN2              |     1500 RPM |   450 RPM |  19050 RPM |
+    OK | (1545) FAN3              |      750 RPM |   450 RPM |  19050 RPM |
+    OK | (1612) FAN4              |      825 RPM |   450 RPM |  19050 RPM |
+       | (1679) FAN5              |          N/A |       N/A |        N/A |
+       | (1746) FAN6              |          N/A |       N/A |        N/A |
+    OK | (1813) FAN7              |     1350 RPM |   450 RPM |  19050 RPM |
+    OK | (1880) FAN8              |     1650 RPM |   450 RPM |  19050 RPM |
+    OK | (1947) VTT               |       1.00 V |    0.86 V |     1.39 V |
+    OK | (2014) CPU1 Vcore        |       0.81 V |    0.51 V |     1.52 V |
+    OK | (2081) CPU2 Vcore        |       0.81 V |    0.51 V |     1.52 V |
+    OK | (2148) VDIMM AB          |       1.34 V |    1.15 V |     1.69 V |
+    OK | (2215) VDIMM CD          |       1.34 V |    1.15 V |     1.69 V |
+    OK | (2282) VDIMM EF          |       1.34 V |    1.15 V |     1.69 V |
+    OK | (2349) VDIMM GH          |       1.34 V |    1.15 V |     1.69 V |
+    OK | (2416) +1.5 V            |       1.48 V |    1.29 V |     1.69 V |
+    OK | (2483) 3.3V              |       3.31 V |    2.78 V |     3.79 V |
+    OK | (2550) +3.3VSB           |       3.40 V |    2.78 V |     3.79 V |
+    OK | (2617) 5V                |       5.05 V |    4.28 V |     5.69 V |
+    OK | (2684) 12V               |      12.08 V |   10.49 V |    13.56 V |
+    OK | (2751) VBAT              |       3.16 V |    2.54 V |     3.45 V |
+       | (2818) HDD Status        |                           Not Present |
+    OK | (2885) Chassis Intru     |                                    OK |
+    OK | (2952) PS1 Status        |                     Presence detected |

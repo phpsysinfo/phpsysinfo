@@ -47,9 +47,14 @@ class Linux extends OS
     private $_machine_info = null;
 
     /**
-     * Array of info from dmesg.
+     * Content of dmesg file.
      */
-    private $_dmesg_info = null;
+    private $_dmesg_f = null;
+
+    /**
+     * Result of executing dmesg command.
+     */
+    private $_dmesg_c = null;
 
     /**
      * Result of systemd-detect-virt.
@@ -57,33 +62,37 @@ class Linux extends OS
     private $system_detect_virt = null;
 
      /**
-      * Get info from dmesg
+      * Read contents of the dmesg file.
       *
-      * @return array
+      * @return string
       */
-    private function _get_dmesg_info()
+    private function _get_dmesg_f()
     {
-        if ($this->_dmesg_info === null) {
-            $this->_dmesg_info = array();
+        if ($this->_dmesg_f === null) {
+            $this->_dmesg_f = "";
             if (CommonFunctions::rfts('/var/log/dmesg', $result, 0, 4096, false)) {
-                if (preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
-                }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
-                }
-            }
-            if ((count($this->_dmesg_info) < ((defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null))?2:1)) && CommonFunctions::executeProgram('dmesg', '', $result, false)) {
-                if (!isset($this->_dmesg_info['dmi']) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['dmi'] = trim($ar_buf[1]);
-                }
-                if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null) && !isset($this->_dmesg_info['hypervisor']) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $result, $ar_buf)) {
-                    $this->_dmesg_info['hypervisor'] = trim($ar_buf[1]);
-                }
+                $this->_dmesg_f = trim($result);
             }
         }
 
-        return $this->_dmesg_info;
+        return $this->_dmesg_f;
+    }
+
+     /**
+      * Save output of the dmesg command.
+      *
+      * @return string
+      */
+    private function _get_dmesg_c()
+    {
+        if ($this->_dmesg_c === null) {
+            $this->_dmesg_c = "";
+            if (CommonFunctions::executeProgram('dmesg', '', $result, false)) {
+                $this->_dmesg_c = trim($result);
+            }
+        }
+
+        return $this->_dmesg_c;
     }
 
     /**
@@ -101,8 +110,9 @@ class Linux extends OS
                 }
             }
             $vendor_array = array();
-            if ((($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['dmi'])) {
-                $this->_machine_info['machine'] = $dmesg['dmi'];
+            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf)) ||
+                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf))) {
+                $this->_machine_info['machine'] = trim($ar_buf[1]);
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
@@ -216,31 +226,26 @@ class Linux extends OS
     {
         if ($this->_kernel_string === null) {
             $this->_kernel_string = "";
-            if ($this->sys->getOS() == 'SSH') {
-                if (CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && ($strBuf !== '')) {
-                    $this->sys->setOS($strBuf);
-                } else {
-                    return $this->_kernel_string;
-                }
-            }
-            if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
-                (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
-                $this->_kernel_string = $strBuf;
-                if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
-                    if (preg_match('/ SMP /', $strBuf)) {
-                        $this->_kernel_string .= ' (SMP)';
+            if ($this->sys->getOS() !== 'SSH') {
+                if ((CommonFunctions::executeProgram($uname="uptrack-uname", '-r', $strBuf, false) && ($strBuf !== '')) || // show effective kernel if ksplice uptrack is installed
+                    (CommonFunctions::executeProgram($uname="uname", '-r', $strBuf, PSI_DEBUG) && ($strBuf !== ''))) {
+                    $this->_kernel_string = $strBuf;
+                    if (CommonFunctions::executeProgram($uname, '-v', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
+                        if (preg_match('/ SMP /', $strBuf)) {
+                            $this->_kernel_string .= ' (SMP)';
+                        }
                     }
-                }
-                if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
-                    $this->_kernel_string .= ' '.$strBuf;
-                }
-            } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
-                if (preg_match('/\/Hurd-([^\)]+)/', $strBuf, $ar_buf)) {
-                    $this->_kernel_string = $ar_buf[1];
-                } elseif (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
-                    $this->_kernel_string = $ar_buf[1];
-                    if (preg_match('/ SMP /', $strBuf)) {
-                        $this->_kernel_string .= ' (SMP)';
+                    if (CommonFunctions::executeProgram($uname, '-m', $strBuf, PSI_DEBUG) && ($strBuf !== '')) {
+                        $this->_kernel_string .= ' '.$strBuf;
+                    }
+                } elseif (CommonFunctions::rfts('/proc/version', $strBuf, 1)) {
+                    if (preg_match('/\/Hurd-([^\)]+)/', $strBuf, $ar_buf)) {
+                        $this->_kernel_string = $ar_buf[1];
+                    } elseif (preg_match('/version\s+(\S+)/', $strBuf, $ar_buf)) {
+                        $this->_kernel_string = $ar_buf[1];
+                        if (preg_match('/ SMP /', $strBuf)) {
+                            $this->_kernel_string .= ' (SMP)';
+                        }
                     }
                 }
             }
@@ -255,7 +260,10 @@ class Linux extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        $this->_get_kernel_string();
+
+        if (($this->sys->getOS() == 'SSH') && CommonFunctions::executeProgram('uname', '-s', $strBuf, false) && ($strBuf !== '')) {
+            $this->sys->setOS($strBuf);
+        }
     }
 
     /**
@@ -304,7 +312,7 @@ class Linux extends OS
                 $result = trim($result);
                 $ip = gethostbyname($result);
                 if ($ip != $result) {
-                    $this->sys->setHostname(gethostbyaddr($ip));
+                    $this->sys->setHostname(trim(gethostbyaddr($ip), "."));
                 }
             } elseif (CommonFunctions::executeProgram('hostname', '', $ret, false)) {
                 $this->sys->setHostname($ret);
@@ -464,8 +472,10 @@ class Linux extends OS
             }
 
             // Additional tests outside of the systemd-detect-virt source code
-            if ($novm && (($dmesg = $this->_get_dmesg_info()) !== null) && isset($dmesg['hypervisor'])) {
-                switch ($dmesg['hypervisor']) {
+            if ($novm && (
+                ((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)) ||
+                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*Hypervisor detected:\s*(.+)/m', $dmesg, $ar_buf)))) {
+                switch (trim($ar_buf[1])) {
                 case 'VMware':
                     $this->sys->setVirtualizer('vmware'); // VMware
                     $novm = false;
@@ -715,54 +725,57 @@ class Linux extends OS
             $_buss = null;
             $_bogo = null;
             $_vend = null;
+            $_system = null;
             $procname = null;
             foreach ($processors as $processor) if (!preg_match('/^\s*processor\s*:/mi', $processor)) {
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'cpu architecture':
-                            $_arch = $arrBuff1;
+                            $_arch = $arrBuff2;
                             break;
                         case 'cpu implementer':
-                            $_impl = $arrBuff1;
+                            $_impl = $arrBuff2;
                             break;
                         case 'cpu part':
-                            $_part = $arrBuff1;
+                            $_part = $arrBuff2;
                             break;
                         case 'cpu variant':
-                            $_vari = $arrBuff1;
+                            $_vari = $arrBuff2;
+                            break;
+                        case 'system type':
+                            $_system = $arrBuff2;
                             break;
                         case 'machine':
                         case 'hardware':
-                            $_hard = $arrBuff1;
+                            $_hard = $arrBuff2;
                             break;
                         case 'revision':
-                            $_revi = $arrBuff1;
+                            $_revi = $arrBuff2;
                             break;
                         case 'cpu frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 $_cpus = round($bufr2[1]/1000000);
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 $_cpus = $bufr2[1];
                             }
                             break;
                         case 'system bus frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 $_buss = round($bufr2[1]/1000000);
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 $_buss = $bufr2[1];
                             }
                             break;
                         case 'bogomips per cpu':
-                            $_bogo = round($arrBuff1);
+                            $_bogo = round($arrBuff2);
                             break;
                         case 'vendor_id':
-                            $_vend = $arrBuff1;
+                            $_vend = $arrBuff2;
                             break;
                         case 'cpu':
-                            $procname = $arrBuff1;
+                            $procname = $arrBuff2;
                         }
                     }
                 }
@@ -780,11 +793,10 @@ class Linux extends OS
                 $dev = new CpuDevice();
                 $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($details as $detail) {
-                    $arrBuff = preg_split('/\s*:\s*/', trim($detail));
-                    if ((count($arrBuff) == 2) && (($arrBuff1 = trim($arrBuff[1])) !== '')) {
-                        switch (strtolower($arrBuff[0])) {
+                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+                        switch (strtolower(trim($arrBuff[1]))) {
                         case 'processor':
-                            $proc = $arrBuff1;
+                            $proc = $arrBuff2;
                             if (is_numeric($proc)) {
                                 if (($procname !== null) && (strlen($procname) > 0)) {
                                     $dev->setModel($procname);
@@ -798,15 +810,15 @@ class Linux extends OS
                         case 'cpu model':
                         case 'cpu type':
                         case 'cpu':
-                            $dev->setModel($arrBuff1);
+                            $dev->setModel($arrBuff2);
                             break;
                         case 'cpu frequency':
-                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff1, $bufr2)) {
+                            if (preg_match('/^(\d+)\s+Hz/i', $arrBuff2, $bufr2)) {
                                 if (($tmpsp = round($bufr2[1]/1000000)) > 0) {
                                     $dev->setCpuSpeed($tmpsp);
                                     $speedset = true;
                                 }
-                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff1, $bufr2)) {
+                            } elseif (preg_match('/^(\d+)\s+MHz/i', $arrBuff2, $bufr2)) {
                                 if ($bufr2[1] > 0) {
                                     $dev->setCpuSpeed($bufr2[1]);
                                     $speedset = true;
@@ -815,42 +827,42 @@ class Linux extends OS
                             break;
                         case 'cpu mhz':
                         case 'clock':
-                            if ($arrBuff1 > 0) {
-                                $dev->setCpuSpeed($arrBuff1);
+                            if ($arrBuff2 > 0) {
+                                $dev->setCpuSpeed($arrBuff2);
                                 $speedset = true;
                             }
                             break;
                         case 'cpu mhz static':
-                            $dev->setCpuSpeedMax($arrBuff1);
+                            $dev->setCpuSpeedMax($arrBuff2);
                             break;
                         case 'cycle frequency [hz]':
-                            if (($tmpsp = round($arrBuff1/1000000)) > 0) {
+                            if (($tmpsp = round($arrBuff2/1000000)) > 0) {
                                 $dev->setCpuSpeed($tmpsp);
                                 $speedset = true;
                             }
                             break;
                         case 'cpu0clktck': // Linux sparc64
-                            if (($tmpsp = round(hexdec($arrBuff1)/1000000)) > 0) {
+                            if (($tmpsp = round(hexdec($arrBuff2)/1000000)) > 0) {
                                 $dev->setCpuSpeed($tmpsp);
                                 $speedset = true;
                             }
                             break;
                         case 'l3 cache':
                         case 'cache size':
-                            $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff1)) * 1024);
+                            $dev->setCache(trim(preg_replace("/[a-zA-Z]/", "", $arrBuff2)) * 1024);
                             break;
                         case 'initial bogomips':
                         case 'bogomips':
                         case 'cpu0bogo':
-                            $dev->setBogomips(round($arrBuff1));
+                            $dev->setBogomips(round($arrBuff2));
                             break;
                         case 'flags':
-                            if (preg_match("/ vmx/", $arrBuff1)) {
+                            if (preg_match("/ vmx/", $arrBuff2)) {
                                 $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/", $arrBuff1)) {
+                            } elseif (preg_match("/ svm/", $arrBuff2)) {
                                 $dev->setVirt("svm");
                             }
-                            if (preg_match("/ hypervisor/", $arrBuff1)) {
+                            if (preg_match("/ hypervisor/", $arrBuff2)) {
                                 if ($dev->getVirt() === null) {
                                     $dev->setVirt("hypervisor");
                                 }
@@ -862,26 +874,26 @@ class Linux extends OS
                         case 'i size':
                         case 'd size':
                             if ($dev->getCache() === null) {
-                                $dev->setCache($arrBuff1 * 1024);
+                                $dev->setCache($arrBuff2 * 1024);
                             } else {
-                                $dev->setCache($dev->getCache() + ($arrBuff1 * 1024));
+                                $dev->setCache($dev->getCache() + ($arrBuff2 * 1024));
                             }
                             break;
                         case 'cpu architecture':
-                            $arch = $arrBuff1;
+                            $arch = $arrBuff2;
                             break;
                         case 'cpu implementer':
-                            $impl = $arrBuff1;
+                            $impl = $arrBuff2;
                             break;
                         case 'cpu part':
-                            $part = $arrBuff1;
+                            $part = $arrBuff2;
                             break;
                         case 'cpu variant':
-                            $vari = $arrBuff1;
+                            $vari = $arrBuff2;
                             break;
                         case 'vendor_id':
-                            $dev->setVendorId($arrBuff1);
-                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $arrBuff1)) {
+                            $dev->setVendorId($arrBuff2);
+                            if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^User Mode Linux/', $arrBuff2)) {
                                 $this->sys->setVirtualizer("cpuid:UserModeLinux", false);
                             }
                         }
@@ -960,7 +972,7 @@ class Linux extends OS
 */
                     if (($arch !== null) && ($impl !== null) && ($part !== null)) {
                         if (($impl === '0x41')
-                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2835') || ($_hard === 'BCM2709') || ($_hard === 'BCM2836') || ($_hard === 'BCM2710') || ($_hard === 'BCM2837') || ($_hard === 'BCM2711') || ($_hard === 'BCM2838'))
+                           && (($_hard === 'BCM2708') || ($_hard === 'BCM2709') || ($_hard === 'BCM2710') || ($_hard === 'BCM2711') || ($_hard === 'BCM2712') || ($_hard === 'BCM2835') || ($_hard === 'BCM2836') || ($_hard === 'BCM2837') || ($_hard === 'BCM2838'))
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             $oldmach = $this->sys->getMachine();
@@ -995,8 +1007,16 @@ class Linux extends OS
                                     }
                                 }
                             }
-                        } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other ARM hardware
-                            $this->sys->setMachine($_hard);
+                        } elseif ($this->sys->getMachine() === '') { // other ARM hardware
+                            if ($_hard !== null) {
+                                if ($_system !== null) {
+                                    $this->sys->setMachine($_hard." - ".$_system);
+                                } else {
+                                    $this->sys->setMachine($_hard);
+                                }
+                            } elseif ($_system !== null) {
+                                $this->sys->setMachine($_system);
+                            }
                         }
                         if ($cpulist === null) $cpulist = @parse_ini_file(PSI_APP_ROOT."/data/cpus.ini", true);
                         if ($cpulist && (((($vari !== null) && isset($cpulist['cpu'][$cpufromlist = strtolower($impl.','.$part.','.$vari)]))
@@ -1007,8 +1027,16 @@ class Linux extends OS
                                 $dev->setModel($cpulist['cpu'][$cpufromlist]);
                             }
                         }
-                    } elseif (($_hard !== null) && ($this->sys->getMachine() === '')) { // other hardware
-                        $this->sys->setMachine($_hard);
+                    } elseif ($this->sys->getMachine() === '') { // other hardware
+                        if ($_hard !== null) {
+                            if ($_system !== null) {
+                                $this->sys->setMachine($_hard." - ".$_system);
+                            } else {
+                                $this->sys->setMachine($_hard);
+                            }
+                        } elseif ($_system !== null) {
+                            $this->sys->setMachine($_system);
+                        }
                     }
 
                     $cpumodel = $dev->getModel();
@@ -1027,7 +1055,7 @@ class Linux extends OS
                 }
             }
 
-            $cpudevices = CommonFunctions::findglob('/sys/devices/system/cpu/cpu*/uevent', GLOB_NOSORT);
+            $cpudevices = CommonFunctions::findglob('/sys/devices/system/cpu/cpu[0-9]*/uevent', GLOB_NOSORT);
             if (is_array($cpudevices) && (($cpustopped = count($cpudevices)-$cpucount) > 0)) {
                 for (; $cpustopped > 0; $cpustopped--) {
                     $dev = new CpuDevice();
@@ -1097,6 +1125,15 @@ class Linux extends OS
                         } else {
                             $dev->setName("unknown");
                         }
+                        $this->sys->setPciDevices($dev);
+                    }
+                }
+            } elseif (($dmesg = $this->_get_dmesg_c()) !== null) {
+                $arrBuf = preg_split("/\n/", $dmesg, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($arrBuf as $strLine) {
+                    if (preg_match('/^[\s\[\]\.\d]*pci\s+\d\d\d\d:\d\d:\d\d.\d: (\[[^\]]+\].*)/', $strLine, $ar_buf)) {
+                        $dev = new HWDevice();
+                        $dev->setName(trim($ar_buf[1]));
                         $this->sys->setPciDevices($dev);
                     }
                 }
@@ -2022,6 +2059,8 @@ class Linux extends OS
                                 } elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="execute")) {
                                     if (!CommonFunctions::executeProgram($filename, '2>/dev/null', $buf, PSI_DEBUG)) {
                                         $buf = "";
+                                    } elseif (preg_match('/^pve-manager\/([\d.]+)\//', $buf, $vers_buf)) { // Proxmox version
+                                        $buf = $vers_buf[1];
                                     }
                                 } else {
                                     if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {

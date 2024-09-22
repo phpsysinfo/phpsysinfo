@@ -48,6 +48,12 @@ class UpdateNotifier extends PSI_Plugin
                 } else {
                     CommonFunctions::rfts("/var/lib/update-notifier/updates-available", $buffer_info);
                 }
+            } else { //if (defined('PSI_EMU_PORT')
+                if (defined('PSI_PLUGIN_UPDATENOTIFIER_FILE') && is_string(PSI_PLUGIN_UPDATENOTIFIER_FILE)) {
+                    CommonFunctions::executeProgram('cat', PSI_PLUGIN_UPDATENOTIFIER_FILE, $buffer_info);
+                } else {
+                    CommonFunctions::executeProgram('cat', "/var/lib/update-notifier/updates-available", $buffer_info);
+                }
             }
             break;
         default:
@@ -78,11 +84,14 @@ class UpdateNotifier extends PSI_Plugin
              - line 1: packages to update
              - line 2: security packages to update
              */
-            if ((count($this->_filecontent) >= 1) || (count($this->_filecontent) <= 3)) {
+            if (count($this->_filecontent) >= 1) {
                 foreach ($this->_filecontent as $line) {
-                   if (preg_match("/^(\d+)\s/", $line, $num) && !preg_match("/UA Infra/", $line)) {
+                   if (preg_match("/^(\d+)\s/", $line, $num) && !preg_match("/UA Infra|ESM Apps/", $line)) {
                        $this->_result[] = $num[1];
                    }
+                }
+                if (empty($this->_result)) {
+                    $this->global_error->addWarning("Unable to parse UpdateNotifier file");
                 }
             } else {
                 $this->global_error->addWarning("Unable to parse UpdateNotifier file");
