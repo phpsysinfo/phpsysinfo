@@ -12,6 +12,7 @@ phpSysInfo 3.4.4
  - [FIX] pmset - UPS support for macOS 10.15
 
  - [UPD] IPMIcfg sensor program - pminfo
+ - [UPD] SMART Plugin - rebuilt to show the state of any defined attributes IDs
 
 phpSysInfo 3.4.3
 ----------------
