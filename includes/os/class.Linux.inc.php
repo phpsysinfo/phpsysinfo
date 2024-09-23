@@ -130,7 +130,7 @@ class Linux extends OS
                             $vendor_array[] = trim($buf);
                         }
                     } else {
-                        $vendor_array[] = $dmesg['dmi'];
+                        $vendor_array[] = $this->_machine_info['machine'];
                     }
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/bios_vendor', $buf, 1, 4096, false) && (trim($buf)!="")) {
                         $vendor_array[] = trim($buf);
