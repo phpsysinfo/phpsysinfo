@@ -727,22 +727,18 @@ abstract class BSDCommon extends OS
      */
     protected function memory()
     {
-        if (PSI_OS == 'FreeBSD' || PSI_OS == 'OpenBSD') {
+        if (PSI_OS == 'FreeBSD' || PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
             // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
             // I should probably add some version checking here, but for now
             // we only support fbsd 4.4
-            $pagesize = 1024;
+            $multiplier = 1024;
         } else {
-            $pagesize = $this->grabkey('hw.pagesize');
+            $multiplier = $this->grabkey('hw.pagesize');
         }
         if (CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
             $ar_buf = preg_split("/\s+/", trim($lines[2]), 19);
-            if (PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
-                $this->sys->setMemFree($ar_buf[4] * 1024);
-            } else {
-                $this->sys->setMemFree($ar_buf[4] * $pagesize);
-            }
+            $this->sys->setMemFree($ar_buf[4] * $multiplier);
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
 
