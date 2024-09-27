@@ -3,6 +3,10 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.5
+----------------
+ - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
+
 phpSysInfo 3.4.4
 ----------------
  - [ADD] Proxmox to detected distros

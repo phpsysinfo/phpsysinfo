@@ -727,10 +727,18 @@ abstract class BSDCommon extends OS
      */
     protected function memory()
     {
-        if (PSI_OS == 'FreeBSD' || PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
-            // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
-            // I should probably add some version checking here, but for now
-            // we only support fbsd 4.4
+        if (PSI_OS == 'FreeBSD') {
+            $kos = $this->grabkey('kern.osrelease');
+            if (preg_match("/^(\d+\.\d+)/", $kos, $kver) && version_compare("14.1", $kver[1], "<=")) {
+                // vmstat on fbsd 14.1 or greater outputs bytes
+                $multiplier = 1;
+            } else {
+                // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
+                // I should probably add some version checking here, but for now
+                // we only support fbsd 4.4
+                $$multiplier = 1024;
+            }
+        } elseif (PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
             $multiplier = 1024;
         } else {
             $multiplier = $this->grabkey('hw.pagesize');
