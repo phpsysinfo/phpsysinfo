@@ -13,7 +13,7 @@
  * @link      http://phpsysinfo.sourceforge.net
  */
 
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 /**
  * automatic loading classes when using them
