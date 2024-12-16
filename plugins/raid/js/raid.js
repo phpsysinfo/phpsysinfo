@@ -194,6 +194,9 @@ function raid_diskicon(xml, id) {
 
         if (!isNaN(parentid)) {
             if (type !== undefined) {
+                if (info === undefined) {
+                    info = "";
+                }
                 if (model !== undefined) {
                     minfo = "<br>" + model;
                 }
