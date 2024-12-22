@@ -23,8 +23,8 @@ wbr {
 }
 
 .navbar {
-    background-color: #3b87c8;
-    border-color: #2d6da3;
+    background-color: #3bc873;
+    border-color: #33b667;
 }
 
 .navbar-brand, .navbar-brand:hover {
@@ -133,8 +133,8 @@ select {
 }
 
 .card-header {
-    background-color: #337ab7!important;
-    border-color: #337ab7!important;
+    background-color: #33b770!important;
+    border-color: #33b770!important;
     color: #fff!important;
 }
 
@@ -146,11 +146,11 @@ select {
 }
 
 .progress-bar-success {
-    background-color: #5cb85c;
+    background-color: #5bc0de;
 }
 
 .progress-bar-info {
-    background-color: #5bc0de;
+    background-color: #5cb85c;
 }
 
 .progress-bar-warning {
@@ -174,7 +174,7 @@ select {
 }
 
 .reload {
-    background-image: url("../gfx/reload.gif");
+    background-image: url("../../gfx/reload.gif");
     float: right;
     cursor: pointer;
     width: 16px;
@@ -212,7 +212,7 @@ a:hover {
     padding-bottom: 20px;
 }
 
-.badge {
+.badge{
     font-size: 12px;
     border-radius: 10px;
     padding: 3px 7px;
