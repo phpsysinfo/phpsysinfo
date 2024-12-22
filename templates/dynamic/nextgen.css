@@ -145,15 +145,15 @@ select {
 }
 
 .bar {
-    background: #c1dc70 url("../gfx/html.gif");
+    background: #c1dc70 url("../../gfx/html.gif");
 }
 
 .barwarn {
-    background: #dc8b70 url("../gfx/htmlwarn.gif");
+    background: #dc8b70 url("../../gfx/htmlwarn.gif");
 }
 
 .barrest {
-    background: #dcc170 url("../gfx/htmlrest.gif");
+    background: #dcc170 url("../../gfx/htmlrest.gif");
 }
 
 .right {

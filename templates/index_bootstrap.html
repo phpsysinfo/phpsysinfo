@@ -12,14 +12,14 @@
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <noscript><meta http-equiv="refresh" content="2; URL=index.php?disp=static"/></noscript>
-    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
-    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-webapp.css">
+    <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/bootstrap.min.css">
+    <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/webapp.css">
     <!--[if IE 9]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
+        <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/ie9.css">
         <script type="text/JavaScript" src="./js.php?name=bootstrap-ie9"></script>
     <![endif]-->
     <!--[if IE 8]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
+        <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/ie8.css">
         <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
         <script type="text/JavaScript" src="./js.php?name=bootstrap-ie8"></script>
     <![endif]-->
@@ -29,8 +29,8 @@
             die();
         </script>
     <![endif]-->
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_CSS_Fix">
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_Template">
+    <link rel="stylesheet" type='text/css' href="templates/common/emptyfile.css" id="PSI_CSS_Fix">
+    <link rel="stylesheet" type='text/css' href="templates/common/emptyfile.css" id="PSI_Template">
 </head>
 
 <body>
@@ -60,15 +60,15 @@
                 <span class="lang_044">Template</span>
                 <select class="template" id="template">
 <?php if ($picktemplate) {
-foreach ($bootstraptemplates as $t) :
+foreach ($templates as $t) :
     $selected = "";
-    if ($bootstraptemplate === $t) {
+    if ($template === $t) {
         $selected = " selected=\"selected\"";
     }
     echo "                    <option value=\"".$t."\"".$selected.">".$t."</option>\n";
 endforeach;
 } else {
-    echo "                    <option value=\"".$bootstraptemplate."\" selected=\"selected\">".$bootstraptemplate."</option>\n";
+    echo "                    <option value=\"".$template."\" selected=\"selected\">".$template."</option>\n";
 }?>
                 </select>
             </div>

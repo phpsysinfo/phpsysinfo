@@ -32,7 +32,7 @@ require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 require_once PSI_APP_ROOT.'/read_config.php';
 
 if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
-    $tpl = new Template("/templates/html/error_config.html");
+    $tpl = new Template("/templates/error_config.html");
     echo $tpl->fetch();
     die();
 }
@@ -61,14 +61,14 @@ case "json":
     break;
 case "bootstrap":
 /*
-    $tpl = new Template("/templates/html/index_bootstrap.html");
+    $tpl = new Template("/templates/index_bootstrap.html");
     echo $tpl->fetch();
 */
     $webpage = new Webpage("bootstrap");
     $webpage->run();
     break;
 case "auto":
-    $tpl = new Template("/templates/html/index_all.html");
+    $tpl = new Template("/templates/index_all.html");
     echo $tpl->fetch();
     break;
 default:
@@ -87,7 +87,7 @@ default:
         $webpage->run();
         break;
     default:
-        $tpl = new Template("/templates/html/index_all.html");
+        $tpl = new Template("/templates/index_all.html");
         echo $tpl->fetch();
     }
 }

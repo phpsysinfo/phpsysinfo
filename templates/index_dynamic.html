@@ -11,11 +11,11 @@
       <meta http-equiv="refresh" content="2; URL=index.php?disp=static" />
     </noscript>
     <link rel="shortcut icon" href="gfx/favicon.gif" />
-    <link type="text/css" rel="stylesheet" href="./templates/misc/emptyfile.css" title="PSI_Template" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/nyroModal.full.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.jgrowl.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.dataTables.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.treeTable.css" />
+    <link type="text/css" rel="stylesheet" href="./templates/common/emptyfile.css" title="PSI_Template" />
+    <link type="text/css" rel="stylesheet" href="./templates/dynamic/plugin/nyroModal.full.css" />
+    <link type="text/css" rel="stylesheet" href="./templates/dynamic/plugin/jquery.jgrowl.css" />
+    <link type="text/css" rel="stylesheet" href="./templates/dynamic/plugin/jquery.dataTables.css" />
+    <link type="text/css" rel="stylesheet" href="./templates/dynamic/plugin/jquery.treeTable.css" />
 
     <script type="text/JavaScript" src="./js.php?name=jquery"></script>
     <script type="text/JavaScript" src="./js.php?name=jquery.dataTables"></script>
@@ -26,7 +26,7 @@
 <!--[if lte IE 6]>
     <script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
 <![endif]-->
-    <script type="text/JavaScript" src="./js.php?name=phpsysinfo"></script>
+    <script type="text/JavaScript" src="./js.php?name=phpsysinfo_dynamic"></script>
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
     <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
       <link type="text/css" rel="stylesheet" href="./plugins/<?php echo $plugin ?>/css/<?php echo $plugin ?>.css" />
