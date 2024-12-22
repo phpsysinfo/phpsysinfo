@@ -31,7 +31,7 @@
     <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
       <link type="text/css" rel="stylesheet" href="./plugins/<?php echo $plugin ?>/css/<?php echo $plugin ?>.css" />
     <?php endif; ?>
-    <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>"></script>
+    <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_dynamic"></script>
 <?php endforeach; ?>
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
   </head>
