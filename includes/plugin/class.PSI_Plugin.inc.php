@@ -102,19 +102,15 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
      */
     private function _checkfiles()
     {
-        if (!file_exists($this->_plugin_base."js/".strtolower($this->_plugin_name).".js")) {
-            $this->global_error->addError("file_exists(".$this->_plugin_base."js/".strtolower($this->_plugin_name).".js)", "JS-File for Plugin ".$this->_plugin_name." is missing!");
-        } else {
-            if (!is_readable($this->_plugin_base."js/".strtolower($this->_plugin_name).".js")) {
-                $this->global_error->addError("is_readable(".$this->_plugin_base."js/".strtolower($this->_plugin_name).".js)", "JS-File for Plugin ".$this->_plugin_name." is present but is not readable!");
-            }
+        if (!file_exists($filename = $this->_plugin_base."js/".strtolower($this->_plugin_name).".js")) {
+            $this->global_error->addError("file_exists(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is missing!");
+        } elseif (!is_readable($filename)) {
+            $this->global_error->addError("is_readable(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is present but is not readable!");
         }
-        if (!file_exists($this->_plugin_base."lang/en.xml")) {
-            $this->global_error->addError("file_exists(".$this->_plugin_base."lang/en.xml)", "At least an english translation must exist for the plugin!");
-        } else {
-            if (!is_readable($this->_plugin_base."lang/en.xml")) {
-                $this->global_error->addError("is_readable(".$this->_plugin_base."lang/en.xml".")", "The english translation is present but is not readable!");
-            }
+        if (!file_exists($filename = $this->_plugin_base."lang/en.xml")) {
+            $this->global_error->addError("file_exists(".$filename.")", "At least an english translation must exist for the plugin!");
+        } elseif (!is_readable($filename)) {
+            $this->global_error->addError("is_readable(".$filename.")", "The english translation is present but is not readable!");
         }
     }
 
