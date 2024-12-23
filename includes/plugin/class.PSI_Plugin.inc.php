@@ -95,14 +95,19 @@ abstract class PSI_Plugin implements PSI_Interface_Plugin
     }
 
     /**
-     * check if there is a default translation file availabe and also the required js file for
+     * check if there is a default translation file availabe and also the required js files for
      * appending the content of the plugin to the main webpage
      *
      * @return void
      */
     private function _checkfiles()
     {
-        if (!file_exists($filename = $this->_plugin_base."js/".strtolower($this->_plugin_name).".js")) {
+        if (!file_exists($filename = $this->_plugin_base."js/".strtolower($this->_plugin_name)."_dynamic.js")) {
+            $this->global_error->addError("file_exists(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is missing!");
+        } elseif (!is_readable($filename)) {
+            $this->global_error->addError("is_readable(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is present but is not readable!");
+        }
+        if (!file_exists($filename = $this->_plugin_base."js/".strtolower($this->_plugin_name)."_bootstrap.js")) {
             $this->global_error->addError("file_exists(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is missing!");
         } elseif (!is_readable($filename)) {
             $this->global_error->addError("is_readable(".$filename.")", "JS-File for Plugin ".$this->_plugin_name." is present but is not readable!");
