@@ -54,20 +54,6 @@ class Webpage extends Output implements PSI_Interface_Output
     private $_templates = array();
 
     /**
-     * configured bootstrap template
-     *
-     * @var string
-     */
-    private $_bootstrap_template;
-
-    /**
-     * all available bootstrap templates
-     *
-     * @var array
-     */
-    private $_bootstrap_templates = array();
-
-    /**
      * all available languages
      *
      * @var array
@@ -108,11 +94,19 @@ class Webpage extends Output implements PSI_Interface_Output
      */
     private function _checkTemplateLanguage()
     {
-        if (!defined("PSI_DEFAULT_TEMPLATE") || (($this->_template = strtolower(trim(PSI_DEFAULT_TEMPLATE))) == "") || !file_exists(PSI_APP_ROOT.'/templates/'.$this->_template.".css")) {
-            $this->_template = 'phpsysinfo';
-        }
-        if (!defined("PSI_DEFAULT_BOOTSTRAP_TEMPLATE") || (($this->_bootstrap_template = strtolower(trim(PSI_DEFAULT_BOOTSTRAP_TEMPLATE))) == "") || !file_exists(PSI_APP_ROOT.'/templates/'.$this->_bootstrap_template."_bootstrap.css")) {
-            $this->_bootstrap_template = 'phpsysinfo';
+        switch ($this->_indexname) {
+        case 'dynamic':
+            if (!defined("PSI_DEFAULT_TEMPLATE") || (($this->_template = strtolower(trim(PSI_DEFAULT_TEMPLATE))) == "") || !file_exists(PSI_APP_ROOT.'/templates/dynamic/'.$this->_template.".css")) {
+                $this->_template = 'phpsysinfo';
+            }
+            break;
+        case 'bootstrap':
+            if (!defined("PSI_DEFAULT_BOOTSTRAP_TEMPLATE") || (($this->_template = strtolower(trim(PSI_DEFAULT_BOOTSTRAP_TEMPLATE))) == "") || !file_exists(PSI_APP_ROOT.'/templates/bootstrap/'.$this->_template.".css")) {
+                $this->_template = 'phpsysinfo';
+            }
+            break;
+        default:
+            $this->_template = '';
         }
         $this->_pick_template = !defined("PSI_SHOW_PICKLIST_TEMPLATE") || (PSI_SHOW_PICKLIST_TEMPLATE !== false);
 
@@ -129,17 +123,13 @@ class Webpage extends Output implements PSI_Interface_Output
      */
     private function _getTemplateList()
     {
-        $dirlist = CommonFunctions::gdc(PSI_APP_ROOT.'/templates/');
+        $dirlist = CommonFunctions::gdc(PSI_APP_ROOT.'/templates/'.$this->_indexname.'/');
         sort($dirlist);
         foreach ($dirlist as $file) {
             $tpl_ext = substr($file, strlen($file) - 4);
             $tpl_name = substr($file, 0, strlen($file) - 4);
             if ($tpl_ext === ".css") {
-                if (preg_match("/(\S+)_bootstrap$/", $tpl_name, $ar_buf)) {
-                    array_push($this->_bootstrap_templates, $ar_buf[1]);
-                } else {
-                    array_push($this->_templates, $tpl_name);
-                }
+                array_push($this->_templates, $tpl_name);
             }
         }
     }
@@ -171,12 +161,10 @@ class Webpage extends Output implements PSI_Interface_Output
     {
         $this->_checkTemplateLanguage();
 
-        $tpl = new Template("/templates/html/index_".$this->_indexname.".html");
+        $tpl = new Template("/templates/index_".$this->_indexname.".html");
 
         $tpl->set("template", $this->_template);
         $tpl->set("templates", $this->_templates);
-        $tpl->set("bootstraptemplate", $this->_bootstrap_template);
-        $tpl->set("bootstraptemplates", $this->_bootstrap_templates);
         $tpl->set("picktemplate", $this->_pick_template);
         $tpl->set("language", $this->_language);
         $tpl->set("languages", $this->_languages);
