@@ -78,8 +78,11 @@ class Webpage extends Output implements PSI_Interface_Output
      * check for all extensions that are needed, initialize needed vars and read phpsysinfo.ini
      * @param string $indexname
      */
-    public function __construct($indexname="dynamic")
+    public function __construct($indexname)
     {
+        if ($indexname !== "bootstrap") {
+            $indexname = "dynamic"
+        }
         $this->_indexname = $indexname;
         parent::__construct();
         $this->_getTemplateList();
