@@ -17,7 +17,7 @@
                 </title>
                 <style type="text/css">
                     <xsl:comment>
-                        @import url("templates/phpsysinfo.css");
+                        @import url("templates/dynamic/phpsysinfo.css");
                     </xsl:comment>
                 </style>
                 <link href="gfx/favicon.gif" rel="shortcut icon" />

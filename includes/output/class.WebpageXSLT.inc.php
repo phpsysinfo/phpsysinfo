@@ -42,7 +42,7 @@ class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
     {
         CommonFunctions::checkForExtensions(array('xsl'));
         $xmlfile = $this->getXMLString();
-        $xslfile = "phpsysinfo.xslt";
+        $xslfile = "templates/index_static.xslt";
         $domxml = new DOMDocument();
         $domxml->loadXML($xmlfile);
         $domxsl = new DOMDocument();
