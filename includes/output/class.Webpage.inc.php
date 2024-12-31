@@ -81,7 +81,7 @@ class Webpage extends Output implements PSI_Interface_Output
     public function __construct($indexname)
     {
         if ($indexname !== "bootstrap") {
-            $indexname = "dynamic"
+            $indexname = "dynamic";
         }
         $this->_indexname = $indexname;
         parent::__construct();
