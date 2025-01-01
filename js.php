@@ -23,17 +23,19 @@ require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 
 require_once PSI_APP_ROOT.'/read_config.php';
 
-$file = isset($_GET['name']) ? basename(htmlspecialchars($_GET['name'])) : null;
-$plugin = isset($_GET['plugin']) ? basename(htmlspecialchars($_GET['plugin'])) : null;
+$file = isset($_GET['name']) ? basename(htmlspecialchars(trim($_GET['name']))) : null;
+$plugin = isset($_GET['plugin']) ? basename(htmlspecialchars(trim($_GET['plugin']))) : null;
 $script = null;
 
 if ($file != null && $plugin == null) {
-    if (strtolower(substr($file, 0, 6)) == 'jquery') {
-        $script = PSI_APP_ROOT.'/js/jQuery/'.$file;
-    } elseif (strtolower(substr($file, 0, 10)) == 'phpsysinfo') {
-        $script = PSI_APP_ROOT.'/js/phpSysInfo/'.$file;
+    if (strtolower(substr($file, 0, 10)) == 'phpsysinfo') {
+        $script = PSI_APP_ROOT.'/js/'.$file;
+    } elseif (strtolower($file) == 'jquery') {
+        $script = PSI_APP_ROOT.'/js/common/jquery';
+    } elseif (strtolower(substr($file, 0, 7)) == 'jquery.') {
+        $script = PSI_APP_ROOT.'/js/dynamic/'.$file;
     } else {
-        $script = PSI_APP_ROOT.'/js/vendor/'.$file;
+        $script = PSI_APP_ROOT.'/js/bootstrap/'.$file;
     }
 } elseif ($file == null && $plugin != null) {
     $script = PSI_APP_ROOT.'/plugins/'.strtolower($plugin).'/js/'.strtolower($plugin);

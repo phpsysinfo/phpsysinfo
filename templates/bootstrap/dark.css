@@ -1,13 +1,9 @@
-/*
- $Id: schabau_bootstrap.css $
-*/
-
 body {
-    font-family: Verdana, "Bitstream Vera Sans";
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     padding-top: 80px;
-    color: #666;
-    background-color: #f2f2df;
+    color: #c8c8c8;
+    background-color: #272b30;
 }
 
 wbr {
@@ -23,18 +19,17 @@ wbr {
 }
 
 .card {
-    background-color: #f2f2df;
-    border-color: #bcbbb1;
+    background-color: #2e3338;
+    border-style: none;
 }
 
 .navbar {
-    font-family: Georgia, serif;
-    background-color: #f2f2df;
-    border-color: #bcbbb1;
+    background-color: #3a3f44;
+    border-color: #2b2e32;
 }
 
 .navbar-brand, .navbar-brand:hover {
-    color: #666;
+    color: #fff;
     margin-right: 0;
 }
 
@@ -88,7 +83,7 @@ table.sortable thead th {
 }
 
 table.sortable thead th:hover {
-    background-color: #ebe8da;
+    background-color: #49515a;
 }
 
 .sorttable_nosort {
@@ -96,12 +91,12 @@ table.sortable thead th:hover {
 }
 
 .table-hover > tbody > tr:hover {
-    color: #666;
-    background-color: #ebe8da;
+    color: #c8c8c8;
+    background-color: #49515a;
 }
 
 .table-hover > tfoot > tr:hover {
-    background-color: #ebe8da;
+    background-color: #49515a;
 }
 
 table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
@@ -109,8 +104,8 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .table {
-    color: #666;
-    background-color: #f2f2df!important;
+    color: #c8c8c8;
+    background-color: #2e3338!important;
     margin: 0;
     border-style: none;
 }
@@ -121,57 +116,54 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .select {
-    color: #666;
+    color: #c8c8c8;
 }
 
 select {
-    background-color: #f2f2df;
+    background-color: #fefefe;
 }
 
 .template {
     cursor: pointer;
-    color: #666;
+    color: #333;
 }
 
 .language {
     cursor: pointer;
-    color: #666;
+    color: #333;
 }
 
 .card-header {
-    font-family: Georgia, serif;
-    font-weight: bold;
-    font-size: 130%;
-    background-color: #326ea1!important;
-    border-color: #326ea1!important;
-    color: #f2f2df!important;
+   background-color: #3e444c!important;
+   border-color: #3e444c!important;
+   color: #fff!important;
 }
 
 .progress {
     margin-bottom: 0;
-    background-color: #f2f2df;
+    background-color: #1c1e22;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
           box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
 .progress-bar-success {
-    background-color: #5cb85c;
+    background-color: #62c462;
 }
 
 .progress-bar-info {
-    background-color: #326edf;
+    background-color: #5bc0de;
 }
 
 .progress-bar-warning {
-    background-color: #E3CB93;
+    background-color: #f89406;
 }
 
 .progress-bar-danger {
-    background-color: #fa5858;
+    background-color: #ee5f5b;
 }
 
 .modal-content {
-    background-color: #f2f2df;
+    background-color: #2e3338;
 }
 
 .list-group {
@@ -179,11 +171,11 @@ select {
 }
 
 .list-group-item {
-    background-color: #f2f2df;
+    background-color: #2e3338;
 }
 
 .reload {
-    background-image: url("../gfx/reload.gif");
+    background-image: url("../../gfx/reload.gif");
     float: right;
     cursor: pointer;
     width: 16px;
@@ -199,22 +191,22 @@ select {
 }
 
 a, a:visited {
-    color: #666;
+    color: #fff;
 }
 
 a:hover {
     text-decoration: underline;
-    color: #666;
+    color: #fff;
 }
 
 .psihref, .psihref:visited {
     text-decoration: none;
-    color: #326ea1;
+    color: #fff;
 }
 
 .psihref:hover {
     text-decoration: underline;
-    color: #326ea1;
+    color: #fff;
 }
 
 .col-lg-6, .col-lg-12 {
