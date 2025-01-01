@@ -99,14 +99,14 @@ table.sortable thead th:hover {
 }
 
 table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
-    border: none!important;
+    border-style: none!important;
 }
 
 .table {
     color: #333;
     background-color: #fff!important;
     margin: 0;
-    border: 0;
+    border-style: none;
 }
 
 .logo {
@@ -182,7 +182,7 @@ select {
 }
 
 .container {
-    padding:0;
+    padding: 0;
 }
 
 .table thead th {
@@ -199,6 +199,7 @@ a:hover {
 }
 
 .psihref, .psihref:visited {
+    text-decoration: none;
     color: #fff;
 }
 
