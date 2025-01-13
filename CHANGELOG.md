@@ -7,6 +7,8 @@ phpSysInfo 3.4.5
 ----------------
  - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
 
+ - [DEL] Removed Bootstrap javascript code
+
 phpSysInfo 3.4.4
 ----------------
  - [ADD] Proxmox to detected distros
