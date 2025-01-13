@@ -1,5 +1,5 @@
-versions, links and simple description of used jquery files
-===========================================================
+versions, links and simple description of used javascript files
+===============================================================
 
 transparency.js
 ---------
@@ -42,3 +42,10 @@ VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
 DESC     : Bootstrap 4 compatibility module for IE9
 USED     : used for the entire bootstrap userinterface on IE9
+
+jquery-treegrid.js
+-------------------
+VERSION  : 0.3.0
+URL      : http://plugins.jquery.com/treegrid/; http://maxazan.github.io/jquery-treegrid/
+DESC     : TreeGrid is a lightweight and flexible jQuery plugin to create a tree grid component that renders hierarchical, nested and flat data in a table.
+USED     : Hardware, Memory, UPS blocks
