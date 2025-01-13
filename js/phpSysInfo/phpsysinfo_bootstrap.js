@@ -58,7 +58,7 @@ function readCookie(name) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $("#PSI_Template")[0].setAttribute('href', 'templates/' + template + "_bootstrap.css");
+    $("#PSI_Template")[0].setAttribute('href', 'templates/bootstrap/' + template + ".css");
 }
 
 /**
@@ -366,35 +366,35 @@ $(document).ready(function () {
 
     if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/)) !== null) {
         if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/midori04.css');
         } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/midori05.css');
         }
     } else if ((ua=useragent.match(/\(KHTML, like Gecko\) Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
         if (ua[1]<=5) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/safari5.css');
         } else if (ua[1]<=8) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/safari8.css');
         }
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/)) !== null) {
         if (ua[1]<=15) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/firefox15.css');
         } else if (ua[1]<=20) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox20.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/firefox20.css');
         } else if (ua[1]<=27) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/firefox27.css');
         } else if (ua[1]==28) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/firefox28.css');
         }
     } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/)) !== null) {
         if (ua[1]<=25) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome25.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/chrome25.css');
         } else if (ua[1]<=28) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/chrome28.css');
         }
     } else if ((ua=useragent.match(/^Opera\/.*Version\/(\d+)\.[\d\.]+$/)) !== null) {
         if (ua[1]<=11) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-opera11.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/bootstrap/vendor/opera11.css');
         }
     }
 

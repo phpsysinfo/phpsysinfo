@@ -179,7 +179,7 @@ select {
 }
 
 .reload {
-    background-image: url("../gfx/reload.gif");
+    background-image: url("../../gfx/reload.gif");
     float: right;
     cursor: pointer;
     width: 16px;

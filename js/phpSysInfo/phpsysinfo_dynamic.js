@@ -122,13 +122,13 @@ function switchStyle(template) {
     if (increaseWidth > 0) {
         $('link[rel*=style][title]').each(function getTitle(i) {
             if (this.getAttribute('title') === 'PSI_Template') {
-                this.setAttribute('href', './templates/css.php?name=' + template + '&increase=' + increaseWidth);
+                this.setAttribute('href', './templates/dynamic/css.php?name=' + template + '&increase=' + increaseWidth);
             }
         });
     } else {
         $('link[rel*=style][title]').each(function getTitle(i) {
             if (this.getAttribute('title') === 'PSI_Template') {
-                this.setAttribute('href', './templates/' + template + ".css");
+                this.setAttribute('href', './templates/dynamic/' + template + ".css");
             }
         });
     }
