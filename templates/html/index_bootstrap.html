@@ -21,7 +21,7 @@
     <!--[if IE 8]>
         <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
         <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
-        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie8"></script>
+        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie8nojs"></script>
     <![endif]-->
     <!--[if lt IE 8]>
         <script type="text/javascript">
@@ -463,7 +463,7 @@ if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstr
 </div>
 
 <!-- Errors details modal dialogs -->
-<div class="modal fade" id="errors-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" id="errors-dialog" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -490,8 +490,6 @@ if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstr
 <script type="text/JavaScript" src="./js.php?name=transparency"></script>
 <script type="text/JavaScript" src="./js.php?name=sorttable"></script>
 <script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-util"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-modal"></script>
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
 <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>

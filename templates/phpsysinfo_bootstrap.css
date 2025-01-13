@@ -165,6 +165,11 @@ select {
     background-color: #fff;
 }
 
+.modal {
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
 .list-group {
     display: block;
 }

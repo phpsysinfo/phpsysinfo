@@ -321,6 +321,39 @@ function plugin_request(pluginname) {
 
 $(document).ready(function () {
     var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "", ua = null, useragent = navigator.userAgent;
+    var scrollDiv, scrollbarWidth = 0; 
+
+    scrollDiv = document.createElement('div');
+    scrollDiv.style.cssText = 'position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll';
+    document.body.appendChild(scrollDiv);
+    scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
+    document.body.removeChild(scrollDiv);
+
+    // When the user clicks on the button, open the modal
+    $('#errorbutton').click(function() {
+      $('#errors-dialog').css("display","block");;
+      $('body').css('overflow','hidden');
+      $('body').css('padding-right',scrollbarWidth+'px');
+      $('.navbar').css('padding-right',parseFloat($('.navbar').css('padding-right'))+scrollbarWidth+'px')
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    $('.close').click(function() {
+      $('#errors-dialog').css("display","none");
+      $('body').css('overflow','visible');
+      $('body').css('padding-right','0');
+      $('.navbar').css('padding-right',parseFloat($('.navbar').css('padding-right'))-scrollbarWidth+'px')
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    $('.modal').click(function(event) {
+      if ($(event.target).hasClass('modal')) {
+        $('#errors-dialog').css("display","none");
+        $('body').css('overflow','visible');
+        $('body').css('padding-right','0');
+        $('.navbar').css('padding-right',parseFloat($('.navbar').css('padding-right'))-scrollbarWidth+'px')
+      }
+    });
 
     if ($("#hideBootstrapLoader").val().toString()!=="true") {
         $(document).ajaxStart(function () {

@@ -1,20 +1,6 @@
 versions, links and simple description of used jquery files
 ===========================================================
 
-bootstrap-modal.js
----------
-VERSION  : 4.3.1
-URL      : https://getbootstrap.com/
-DESC     : Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web
-USED     : used for the entire bootstrap userinterface
-
-bootstrap-util.js
----------
-VERSION  : 4.3.1
-URL      : https://getbootstrap.com/
-DESC     : Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web
-USED     : used for the entire bootstrap userinterface
-
 transparency.js
 ---------
 VERSION  : 0.10.0
@@ -43,7 +29,7 @@ URL      : https://www.kryogenix.org/code/browser/sorttable/
 DESC     : Make all your tables sortable
 USED     : used for the entire bootstrap userinterface
 
-bootstrap-ie8.js
+bootstrap-ie8nojs.js
 ---------
 VERSION  : 4.3.100
 URL      : https://namiltd.github.io/bootstrap-ie/
