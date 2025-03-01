@@ -5,6 +5,8 @@ http://phpsysinfo.sourceforge.net/
 
 phpSysInfo 3.4.5
 ----------------
+ - [ADD] Chimera to detected distros
+
  - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
 
  - [DEL] Removed Bootstrap javascript code
