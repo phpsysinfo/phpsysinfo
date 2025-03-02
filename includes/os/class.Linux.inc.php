@@ -1995,8 +1995,14 @@ class Linux extends OS
             // Fall back in case 'lsb_release' does not exist but exist /etc/lsb-release
             if (CommonFunctions::fileexists($filename="/etc/lsb-release")
                && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
-               && (preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $id_buf))) {
-                if (preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
+               && (preg_match('/^DISTRIB_ID="?([^"\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $id_buf) 
+                   || preg_match('/^NAME="?([^"\r\n]+)/m', $buf, $nm_buf))) {
+                if (empty($id_buf) && preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)) {
+                    if (isset($list[strtolower($nm_buf[1])]['Image'])) {
+                        $this->sys->setDistributionIcon($list[strtolower($nm_buf[1])]['Image']);
+                    }
+                    $this->sys->setDistribution(trim($desc_buf[1]));
+                } elseif (preg_match('/^DISTRIB_DESCRIPTION="?([^"\r\n]+)/m', $buf, $desc_buf)
                    && (trim($desc_buf[1])!=trim($id_buf[1]))) {
                     if ($desc_buf[1]==="Rolling Release") {
                         $desc_buf[1] = $id_buf[1]." ".$desc_buf[1];
