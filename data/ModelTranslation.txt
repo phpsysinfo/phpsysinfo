@@ -59,6 +59,17 @@ Mac15,8:MacBook Pro 14" M3 Max:Apple M3 Max
 Mac15,9:MacBook Pro 16" M3 Max:Apple M3 Max
 Mac15,10:MacBook Pro 14" M3 Max:Apple M3 Max
 Mac15,11:MacBook Pro 16" M3 Max:Apple M3 Max
+Mac15,12:MacBook Air 13" M3:Apple M3
+Mac15,13:MacBook Air 15" M3:Apple M3
+Mac16,1:MacBook Pro 14" M4:Apple M4
+Mac16,2:iMac 24" M4:Apple M4
+Mac16,3:iMac 24" M4:Apple M4
+Mac16,5:MacBook Pro 16" M4 Max:Apple M4 Max
+Mac16,6:MacBook Pro 14" M4 Max:Apple M4 Max
+Mac16,7:MacBook Pro 16" M4 Pro:Apple M4 Pro
+Mac16,8:MacBook Pro 14" M4 Pro:Apple M4 Pro
+Mac16,10:Mac mini M4:Apple M4
+Mac16,11:Mac mini M4 Pro:Apple M4 Pro
 MacBook1,1:MacBook Core Duo:Intel Core Duo T2400/T2500
 MacBook2,1:MacBook Core 2 Duo:Intel Core 2 Duo T5600/T7200/T7400
 MacBook3,1:MacBook Core 2 Duo:Intel Core 2 Duo T7300/T7500
