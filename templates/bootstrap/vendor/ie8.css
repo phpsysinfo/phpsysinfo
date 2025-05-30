@@ -187,7 +187,7 @@ aside,
   cursor: auto;
 }
 .modal-header .close {
-  margin: -48px -16px -16px auto;
+  margin: -48px -16px -16px auto !important;
 }
 .btn-group,
 .btn-group-vertical {
