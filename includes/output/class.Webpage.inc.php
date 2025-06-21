@@ -181,6 +181,7 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("hideBootstrapLoader", defined('PSI_HIDE_BOOTSTRAP_LOADER') ? (PSI_HIDE_BOOTSTRAP_LOADER ? 'true' : 'false') : 'false');
         $tpl->set("increaseWidth", defined('PSI_INCREASE_WIDTH') ? ((intval(PSI_INCREASE_WIDTH)>0) ? intval(PSI_INCREASE_WIDTH) : 0) : 0);
         $tpl->set("hideTotals", defined('PSI_HIDE_TOTALS') ? (PSI_HIDE_TOTALS ? 'true' : 'false') : 'false');
+        $tpl->set("bootstrap5", defined('PSI_BOOTSTRAP5') ? (PSI_BOOTSTRAP5 ? 'true' : 'false') : 'false');
         if (defined('PSI_BLOCKS')) {
             if (is_string(PSI_BLOCKS)) {
                 if (preg_match(ARRAY_EXP, PSI_BLOCKS)) {
