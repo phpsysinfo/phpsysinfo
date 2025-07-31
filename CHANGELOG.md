@@ -6,6 +6,7 @@ http://phpsysinfo.sourceforge.net/
 phpSysInfo 3.4.5
 ----------------
  - [ADD] Chimera and Mauna Linux to detected distros
+ - [ADD] ThermalZone sensor support for FreeBSD
 
  - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
 

@@ -305,7 +305,7 @@ DATETIME_FORMAT="UTC"
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
-; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
+; - ThermalZone    No addon tool neded (FreeBSD/Linux/Android/WinNT)
 ; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
