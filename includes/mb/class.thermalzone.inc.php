@@ -103,7 +103,7 @@ class ThermalZone extends Sensors
         } elseif (($mode == 'command') && (PSI_OS == 'FreeBSD')) {
                 if (CommonFunctions::executeProgram('sysctl', 'hw.acpi.thermal', $tztmp, false)) {
                     $tzlines = preg_split("/\n/", $tztmp, -1, PREG_SPLIT_NO_EMPTY);
-                    foreach ($tzlines as $tzline) {
+                    if (is_array($tzlines) && (count($tzlines) > 0)) foreach ($tzlines as $tzline) {
                        if (preg_match("/^hw\.acpi\.thermal\.(tz\d+)\.temperature: (\-?\d+[,\.]\d+)C$/", $tzline, $ar_buf)) {
                             $dev = new SensorDevice();
                             $dev->setName('ThermalZone '.$ar_buf[1]);
