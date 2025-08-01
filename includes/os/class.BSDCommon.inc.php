@@ -33,6 +33,13 @@ abstract class BSDCommon extends OS
     private $_cpu_loads = null;
 
     /**
+     * content of the vmstat -P or vmstat
+     *
+     * @var array
+     */
+    private $_vmstat = null;
+
+    /**
      * content of the syslog
      *
      * @var array
@@ -173,6 +180,29 @@ abstract class BSDCommon extends OS
     }
 
     /**
+     * execute vmstat -P or vmstat, but only if we haven't already
+     *
+     * @return array
+     */
+    protected function parsevmstat()
+    {
+        if ($this->_vmstat === null) {
+            if (((PSI_OS == 'FreeBSD') && CommonFunctions::executeProgram('vmstat', '-P', $vmstat, false)) || CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
+                $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
+                if (count($lines) >= 3)
+                    $this->_vmstat = $lines;
+                else
+                    $this->_vmstat = array();
+            } else {
+                $this->_vmstat = array();
+            }
+        }
+
+        return $this->_vmstat;
+    }
+
+
+    /**
      * read /var/run/dmesg.boot, but only if we haven't already
      *
      * @return array
@@ -278,12 +308,51 @@ abstract class BSDCommon extends OS
      *
      * @return void
      */
-    protected function cpuusage()
+    protected function cpuusage($cpuline)
     {
         if (($this->_cpu_loads === null)) {
             $this->_cpu_loads = array();
-            if (PSI_OS != 'Darwin') {
-                if ($fd = $this->grabkey('kern.cp_time')) {
+            if (PSI_OS == 'Darwin') {
+                $ncpu = $this->grabkey('hw.ncpu');
+                if (($ncpu !== "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
+                    $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
+                    if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
+                        array_shift($pslines);
+                        $sum = 0;
+                        foreach ($pslines as $psline) {
+                            $sum+=str_replace(',', '.', trim($psline));
+                        }
+                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
+                    }
+                }
+            } else {
+                $notwas = true;
+                if (PSI_OS == 'FreeBSD') {
+                    $lines = $this->parsevmstat();
+                    $nparams = count(preg_split("/\s/", $lines[1], -1, PREG_SPLIT_NO_EMPTY));
+                    if ($nparams >= 19) {
+                        $cpunr = 0;
+                        $sum = 0;
+                        $cpupl = ($nparams - 16) / 3;
+                        for ($n = 2 ; $n < count($lines) ; $n++) {
+                            $params = preg_split("/\s/", $lines[$n], -1, PREG_SPLIT_NO_EMPTY);
+                            if ($params[$nparams - 1] > 100) break;
+                            for ($p = 0 ; $p < $cpupl ; $p++) {
+                                $val = 100 - $params[18 + 3*$p];
+                                if ($val < 0) $val = 0;
+                                elseif ($val > 100) $val = 100;
+                                $this->_cpu_loads['cpu'.$cpunr] = $val;
+                                $sum += $val;
+                                $cpunr++;
+                            }
+                        }
+                        if ($cpunr > 0) {
+                            $this->_cpu_loads['cpu'] = $sum / $cpunr; 
+                            $notwas = false;
+                        }
+                    }
+                }
+                if ($notwas && ($fd = $this->grabkey('kern.cp_time'))) {
                     // Find out the CPU load
                     // user + sys = load
                     // total = total
@@ -304,24 +373,11 @@ abstract class BSDCommon extends OS
                         }
                     }
                 }
-            } else {
-                $ncpu = $this->grabkey('hw.ncpu');
-                if (($ncpu !== "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
-                    $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
-                    if (!empty($pslines) && (count($pslines)>1) && (trim($pslines[0])==="%CPU")) {
-                        array_shift($pslines);
-                        $sum = 0;
-                        foreach ($pslines as $psline) {
-                            $sum+=str_replace(',', '.', trim($psline));
-                        }
-                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
-                    }
-                }
             }
         }
 
-        if (isset($this->_cpu_loads['cpu'])) {
-            return $this->_cpu_loads['cpu'];
+        if (isset($this->_cpu_loads[$cpuline])) {
+            return $this->_cpu_loads[$cpuline];
         } else {
             return null;
         }
@@ -342,7 +398,7 @@ abstract class BSDCommon extends OS
         $this->sys->setLoad($s);
 
         if (PSI_LOAD_BAR) {
-            $this->sys->setLoadPercent($this->cpuusage());
+            $this->sys->setLoadPercent($this->cpuusage('cpu'));
         }
     }
 
@@ -353,10 +409,9 @@ abstract class BSDCommon extends OS
      */
     protected function cpuinfo()
     {
-        $dev = new CpuDevice();
-        $cpumodel = $this->grabkey('hw.model');
-        $dev->setModel($cpumodel);
-        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+        $devarray = array();
+        $devarray['Model'] = $this->grabkey('hw.model');
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $devarray['Model'])) {
             $this->sys->setVirtualizer("cpuid:QEMU", false);
         }
 
@@ -366,8 +421,8 @@ abstract class BSDCommon extends OS
                $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
                foreach ($regexps as $regexp) {
                    if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                        if ($dev->getCpuSpeed() == 0) {
-                            $dev->setCpuSpeed(round($ar_buf[2]));
+                        if (!isset($devarray['CpuSpeed']) || ($devarray['CpuSpeed'] == 0)) {
+                            $devarray['CpuSpeed'] = round($ar_buf[2]);
                         }
                         $notwas = false;
                         break;
@@ -376,15 +431,15 @@ abstract class BSDCommon extends OS
             } else {
                 if (preg_match("/^\s+Origin| Features/", $line, $ar_buf)) {
                     if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
-                        $dev->setVendorId($ar_buf[1]);
+                        $devarray['VendorId'] = $ar_buf[1];
                     } elseif (preg_match("/ Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {
-                                $dev->setVirt($feat);
+                                $devarray['Virt'] = $feat;
                             } elseif ($feat=="hv") {
-                                if ($dev->getVirt() === null) {
-                                    $dev->setVirt('hypervisor');
+                                if (!isset($devarray['Virt'])) {
+                                    $devarray['Virt'] = 'hypervisor';
                                 }
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                     $this->sys->setVirtualizer("hypervisor", false);
@@ -400,10 +455,28 @@ abstract class BSDCommon extends OS
         if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
-        if (($ncpu == 1) && PSI_LOAD_BAR) {
-            $dev->setLoad($this->cpuusage());
-        }
-        for ($ncpu ; $ncpu > 0 ; $ncpu--) {
+
+        if (PSI_LOAD_BAR) {
+            $showbar = true;
+            for ($n = 0 ; $n < $ncpu ; $n++) {
+                if ($this->cpuusage('cpu'.$n) === null) {
+                    $showbar = false;
+                    break;
+                }
+            }
+         } else {
+             $showbar = false;
+         }
+
+        for ($n = 0 ; $n < $ncpu ; $n++) {
+            $dev = new CpuDevice();
+            $dev->setModel($devarray['Model']);
+            if (isset($devarray['CpuSpeed'])) $dev->setCpuSpeed($devarray['CpuSpeed']);
+            if (isset($devarray['VendorId'])) $dev->setVendorId($devarray['VendorId']);
+            if (isset($devarray['Virt'])) $dev->setVirt($devarray['Virt']);
+            if ($showbar) {
+                $dev->setLoad($this->cpuusage('cpu'.$n));
+            }
             $this->sys->setCpus($dev);
         }
     }
@@ -743,8 +816,7 @@ abstract class BSDCommon extends OS
         } else {
             $multiplier = $this->grabkey('hw.pagesize');
         }
-        if (CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
-            $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
+        if ($lines = $this->parsevmstat()) {
             $ar_buf = preg_split("/\s+/", trim($lines[2]), 19);
             $this->sys->setMemFree($ar_buf[4] * $multiplier);
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
