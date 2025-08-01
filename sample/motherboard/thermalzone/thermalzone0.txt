@@ -1,0 +1,25 @@
+hw.acpi.thermal.tz1._TSP: 10
+hw.acpi.thermal.tz1._TC2: 5
+hw.acpi.thermal.tz1._TC1: 1
+hw.acpi.thermal.tz1._ACx: -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+hw.acpi.thermal.tz1._CRT: 106,1C
+hw.acpi.thermal.tz1._HOT: -1
+hw.acpi.thermal.tz1._PSV: 106,1C
+hw.acpi.thermal.tz1.thermal_flags: 0
+hw.acpi.thermal.tz1.passive_cooling: 1
+hw.acpi.thermal.tz1.active: -1
+hw.acpi.thermal.tz1.temperature: 29,9C
+hw.acpi.thermal.tz0._TSP: -1
+hw.acpi.thermal.tz0._TC2: -1
+hw.acpi.thermal.tz0._TC1: -1
+hw.acpi.thermal.tz0._ACx: 87,1C 55,1C 0,1C 0,1C 0,1C -1 -1 -1 -1 -1
+hw.acpi.thermal.tz0._CRT: 106,1C
+hw.acpi.thermal.tz0._HOT: -1
+hw.acpi.thermal.tz0._PSV: -1
+hw.acpi.thermal.tz0.thermal_flags: 0
+hw.acpi.thermal.tz0.passive_cooling: 0
+hw.acpi.thermal.tz0.active: 2
+hw.acpi.thermal.tz0.temperature: 27,9C
+hw.acpi.thermal.user_override: 0
+hw.acpi.thermal.polling_rate: 10
+hw.acpi.thermal.min_runtime: 0

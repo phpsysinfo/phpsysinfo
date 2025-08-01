@@ -100,6 +100,18 @@ class ThermalZone extends Sensors
                     }
                 }
             }
+        } elseif (($mode == 'command') && (PSI_OS == 'FreeBSD')) {
+            if (CommonFunctions::executeProgram('sysctl', 'hw.acpi.thermal', $tztmp, false)) {
+                $tzlines = preg_split("/\n/", $tztmp, -1, PREG_SPLIT_NO_EMPTY);
+                if (is_array($tzlines) && (count($tzlines) > 0)) foreach ($tzlines as $tzline) {
+                   if (preg_match("/^hw\.acpi\.thermal\.(tz\d+)\.temperature: (\-?\d+[,\.]\d+)C$/", $tzline, $ar_buf)) {
+                        $dev = new SensorDevice();
+                        $dev->setName('ThermalZone '.$ar_buf[1]);
+                        $dev->setValue(preg_replace('/,/', '.', $ar_buf[2]));
+                        $this->mbinfo->setMbTemp($dev);
+                   }
+                }
+            }
         } elseif (($mode == 'command') && (PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME')) {
             $notwas = true;
             $thermalzones = CommonFunctions::findglob('/sys/class/thermal/thermal_zone*/');

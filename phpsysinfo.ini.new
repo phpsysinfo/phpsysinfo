@@ -305,7 +305,7 @@ DATETIME_FORMAT="UTC"
 ; - K8Temp         http://hur.st/k8temp/ (DragonFly/FreeBSD/NetBSD/OpenBSD)
 ; - PiTemp         No addon tool neded (Raspberry Pi and Banana Pi - Linux)
 ; - OHM            http://openhardwaremonitor.org/ (WinNT)
-; - ThermalZone    No addon tool neded (WinNT/Linux/Android)
+; - ThermalZone    No addon tool neded (FreeBSD/Linux/Android/WinNT)
 ; - QTSsnmp        SNMP service enabled and snmp-utils package installed: opkg install snmp-utils (QNAP - QTS Linux)
 ; - Hwmon          No addon tool neded (Linux)
 ; - SpeedFan       http://www.almico.com/speedfan.php (required tool packaged in: tools/speedfan/SpeedFanGet_bin.zip) (WinNT)
@@ -692,7 +692,7 @@ ACCESS="command"
 [sensor_thermalzone]
 ; ThermalZone motherboard monitoring program configuration
 ;
-; - ACCESS="command"  //on Linux information is retrieved everytime through system files / on WinNT information is retrieved everytime through WMI
+; - ACCESS="command"  //on FreeBSD, Linux or Android information is retrieved everytime through system files / on WinNT information is retrieved everytime through WMI
 ; - ACCESS="data"  //read data from file data/thermalzone.tmp (output of WinNT command "wmic /namespace:\\root\wmi PATH MSAcpi_ThermalZoneTemperature get CriticalTripPoint,CurrentTemperature,InstanceName")
 ;
 ACCESS="command"
