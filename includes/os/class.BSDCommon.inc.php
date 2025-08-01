@@ -729,8 +729,8 @@ abstract class BSDCommon extends OS
     {
         if (PSI_OS == 'FreeBSD') {
             $kos = $this->grabkey('kern.osrelease');
-            if (preg_match("/^(\d+\.\d+)/", $kos, $kver) && version_compare("13.4", $kver[1], "<=") && version_compare("14.0", $kver[1], "<>")) {
-                // vmstat on fbsd 13.4 or grater (excluding 14.0) outputs bytes
+            if (preg_match("/^(\d+\.\d+)/", $kos, $kver) && version_compare("14.1", $kver[1], "<=")) {
+                // vmstat on fbsd 14.1 or greater outputs bytes
                 $multiplier = 1;
             } else {
                 // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
