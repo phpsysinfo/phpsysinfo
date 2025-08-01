@@ -736,7 +736,7 @@ abstract class BSDCommon extends OS
                 // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
                 // I should probably add some version checking here, but for now
                 // we only support fbsd 4.4
-                $$multiplier = 1024;
+                $multiplier = 1024;
             }
         } elseif (PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
             $multiplier = 1024;
