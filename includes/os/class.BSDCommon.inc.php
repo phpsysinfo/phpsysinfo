@@ -334,11 +334,17 @@ abstract class BSDCommon extends OS
                         $cpunr = 0;
                         $sum = 0;
                         $cpupl = ($nparams - 16) / 3;
+                        $fix32 = false;
                         for ($n = 2 ; $n < count($lines) ; $n++) {
                             $params = preg_split("/\s/", $lines[$n], -1, PREG_SPLIT_NO_EMPTY);
-                            if ($params[$nparams - 1] > 100) break; //32-bit vmstat issue test
+                            if ($n == 2) $fix32 = $params[$nparams - 1] > 255; //32-bit vmstat issue test
                             for ($p = 0 ; $p < $cpupl ; $p++) {
-                                $val = 100 - $params[18 + 3*$p];
+                                if ($fix32) { //fix 32-bit vmstat issue
+                                    $valtmp = $params[18 + 3*$p];
+                                    $val = 100 + floor($valtmp / 256) * 256 - $valtmp;
+                                } else {
+                                    $val = 100 - $params[18 + 3*$p];
+                                }
                                 if ($val < 0) $val = 0;
                                 elseif ($val > 100) $val = 100;
                                 $this->_cpu_loads['cpu'.$cpunr] = $val;
