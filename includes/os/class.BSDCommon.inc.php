@@ -322,7 +322,7 @@ abstract class BSDCommon extends OS
                         foreach ($pslines as $psline) {
                             $sum+=str_replace(',', '.', trim($psline));
                         }
-                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
+                        $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = min($sum/$ncpu, 100);
                     }
                 }
             } else {
@@ -336,7 +336,7 @@ abstract class BSDCommon extends OS
                         $cpupl = ($nparams - 16) / 3;
                         for ($n = 2 ; $n < count($lines) ; $n++) {
                             $params = preg_split("/\s/", $lines[$n], -1, PREG_SPLIT_NO_EMPTY);
-                            if ($params[$nparams - 1] > 100) break;
+                            if ($params[$nparams - 1] > 100) break; //32-bit vmstat issue test
                             for ($p = 0 ; $p < $cpupl ; $p++) {
                                 $val = 100 - $params[18 + 3*$p];
                                 if ($val < 0) $val = 0;
@@ -366,9 +366,9 @@ abstract class BSDCommon extends OS
                             $load2 = $res[2] + $res[3] + $res[4];
                             $total2 = $res[2] + $res[3] + $res[4] + $res[5];
                             if ($total2 != $total) {
-                                $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
+                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = (100 * ($load2 - $load)) / ($total2 - $total);
                             } else {
-                                $this->_cpu_loads['cpu'] = 0;
+                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = 0;
                             }
                         }
                     }
@@ -457,6 +457,7 @@ abstract class BSDCommon extends OS
         }
 
         if (PSI_LOAD_BAR) {
+            //check if it is defined for all processors
             $showbar = true;
             for ($n = 0 ; $n < $ncpu ; $n++) {
                 if ($this->cpuusage('cpu'.$n) === null) {
