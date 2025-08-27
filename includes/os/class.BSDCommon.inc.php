@@ -33,13 +33,6 @@ abstract class BSDCommon extends OS
     private $_cpu_loads = null;
 
     /**
-     * content of the vmstat -P or vmstat
-     *
-     * @var array
-     */
-    private $_vmstat = null;
-
-    /**
      * content of the syslog
      *
      * @var array
@@ -180,29 +173,6 @@ abstract class BSDCommon extends OS
     }
 
     /**
-     * execute vmstat -P or vmstat, but only if we haven't already
-     *
-     * @return array
-     */
-    protected function parsevmstat()
-    {
-        if ($this->_vmstat === null) {
-            if (((PSI_OS == 'FreeBSD') && CommonFunctions::executeProgram('vmstat', '-P', $vmstat, false)) || CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
-                $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
-                if (count($lines) >= 3)
-                    $this->_vmstat = $lines;
-                else
-                    $this->_vmstat = array();
-            } else {
-                $this->_vmstat = array();
-            }
-        }
-
-        return $this->_vmstat;
-    }
-
-
-    /**
      * read /var/run/dmesg.boot, but only if we haven't already
      *
      * @return array
@@ -228,10 +198,10 @@ abstract class BSDCommon extends OS
      *
      * @return string
      */
-    protected function grabkey($key)
+    protected function grabkey($key, $debug = PSI_DEBUG)
     {
         $buf = "";
-        if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, $debug)) {
             return $buf;
         } else {
             return '';
@@ -327,34 +297,35 @@ abstract class BSDCommon extends OS
                 }
             } else {
                 $notwas = true;
-                if (PSI_OS == 'FreeBSD') {
-                    $lines = $this->parsevmstat();
-                    $nparams = count(preg_split("/\s/", $lines[1], -1, PREG_SPLIT_NO_EMPTY));
-                    if ($nparams >= 19) {
-                        $cpunr = 0;
-                        $sum = 0;
-                        $cpupl = ($nparams - 16) / 3;
-                        $fix32 = false;
-                        for ($n = 2 ; $n < count($lines) ; $n++) {
-                            $params = preg_split("/\s/", $lines[$n], -1, PREG_SPLIT_NO_EMPTY);
-                            if ($n == 2) $fix32 = $params[$nparams - 1] > 255; //32-bit vmstat issue test
-                            for ($p = 0 ; $p < $cpupl ; $p++) {
-                                if ($fix32) { //fix 32-bit vmstat issue
-                                    $valtmp = $params[18 + 3*$p];
-                                    $val = 100 + floor($valtmp / 256) * 256 - $valtmp;
-                                } else {
-                                    $val = 100 - $params[18 + 3*$p];
+                if ((PSI_OS == 'FreeBSD') && ($fd = $this->grabkey('kern.cp_times', false))) {
+                    if (!preg_match("/[^\s\d]/", $fd)) {
+                        $valb = preg_split("/\s+/", $fd, -1, PREG_SPLIT_NO_EMPTY);
+                        if (($valb !== false) && (($cb = count($valb)) >= 5) && (($cb % 5) == 0)) {
+                            sleep(1);
+                            $fd = $this->grabkey('kern.cp_times', false);
+                            if (!preg_match("/[^\s\d]/", $fd)) {
+                                $vale = preg_split("/\s+/", $fd, -1, PREG_SPLIT_NO_EMPTY);
+                                if (($vale !== false) && (count($vale) == $cb)) {
+                                    $ncpu = ($cb / 5);
+                                    $sum = 0;
+                                    for ($n = 0 ; $n < $ncpu ; $n++) {
+                                        $n5 = $n * 5;
+                                        $loadb = $valb[$n5 + 1] + $valb[$n5 + 2] + $valb[$n5 + 3];
+                                        $totalb = $loadb + $valb[$n5 + 4];
+                                        $loade = $vale[$n5 + 1] + $vale[$n5 + 2] + $vale[$n5 + 3];
+                                        $totale = $loade + $vale[$n5 + 4];
+                                        if ($totalb != $totale) {
+                                            $val = (100 * ($loade - $loadb)) / ($totale - $totalb);
+                                        } else {
+                                            $val = 0;
+                                        }
+                                        $this->_cpu_loads['cpu'.$n] = $val;
+                                        $sum += $val;
+                                    }
+                                    $this->_cpu_loads['cpu'] = $sum / $ncpu;
+                                    $notwas = false;
                                 }
-                                if ($val < 0) $val = 0;
-                                elseif ($val > 100) $val = 100;
-                                $this->_cpu_loads['cpu'.$cpunr] = $val;
-                                $sum += $val;
-                                $cpunr++;
                             }
-                        }
-                        if ($cpunr > 0) {
-                            $this->_cpu_loads['cpu'] = $sum / $cpunr; 
-                            $notwas = false;
                         }
                     }
                 }
@@ -363,16 +334,16 @@ abstract class BSDCommon extends OS
                     // user + sys = load
                     // total = total
                     if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
-                        $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
-                        $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
+                        $loadb = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
+                        $totalb = $loadb + $res[5]; // cpu.total
                         // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
                         sleep(1);
                         $fd = $this->grabkey('kern.cp_time');
                         if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
-                            $load2 = $res[2] + $res[3] + $res[4];
-                            $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                            if ($total2 != $total) {
-                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = (100 * ($load2 - $load)) / ($total2 - $total);
+                            $loade = $res[2] + $res[3] + $res[4];
+                            $totale = $loade + $res[5];
+                            if ($totalb != $totale) {
+                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = (100 * ($loade - $loadb)) / ($totale - $totalb);
                             } else {
                                 $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = 0;
                             }
@@ -823,7 +794,8 @@ abstract class BSDCommon extends OS
         } else {
             $multiplier = $this->grabkey('hw.pagesize');
         }
-        if ($lines = $this->parsevmstat()) {
+        if (CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
+            $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
             $ar_buf = preg_split("/\s+/", trim($lines[2]), 19);
             $this->sys->setMemFree($ar_buf[4] * $multiplier);
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
