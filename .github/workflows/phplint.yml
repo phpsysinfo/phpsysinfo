@@ -1,5 +1,14 @@
 name: PHP Linting
 
+on:
+  push:
+    branches:
+      - main
+      - stable
+
+permissions:
+  contents: read
+
 jobs:
   phplint:
 
@@ -32,9 +41,3 @@ jobs:
         uses: PrestaShopCorp/github-action-php-lint/8.3@v2.3.1
       - name: PHP Lint 8.4
         uses: PrestaShopCorp/github-action-php-lint/8.4@v2.3.1
-
-on:
-  push:
-    branches:
-      - main
-      - stable
