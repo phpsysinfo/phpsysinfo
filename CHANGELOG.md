@@ -10,6 +10,8 @@ phpSysInfo 3.4.5
  - [ADD] Usage of individual processors on FreeBSD
 
  - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
+ 
+ - [UPD] Asturian Translation ast.xml
 
  - [DEL] Removed Bootstrap javascript code
 
