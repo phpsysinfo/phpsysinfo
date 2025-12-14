@@ -364,7 +364,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Númberu de procesos</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Númbere de preseos</exp>
+    <exp>Númberu de preseos</exp>
   </expression>
   <expression id="121" name="other">
     <exp>Otros</exp>
