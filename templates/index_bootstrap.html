@@ -12,7 +12,11 @@
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
     <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <noscript><meta http-equiv="refresh" content="2; URL=index.php?disp=static"/></noscript>
-    <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/bootstrap.min.css">
+<?php if ($bootstrap5==='true') {
+    echo "    <link rel=\"stylesheet\" type='text/css' href=\"templates/bootstrap/vendor/bootstrap5.min.css\">\n";
+} else {
+    echo "    <link rel=\"stylesheet\" type='text/css' href=\"templates/bootstrap/vendor/bootstrap.min.css\">\n";
+}?>
     <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/webapp.css">
     <!--[if IE 9]>
         <link rel="stylesheet" type='text/css' href="templates/bootstrap/vendor/ie9.css">

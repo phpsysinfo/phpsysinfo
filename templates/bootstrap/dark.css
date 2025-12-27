@@ -99,6 +99,13 @@ table.sortable thead th:hover {
     background-color: #49515a;
 }
 
+.table > :not(caption) > * > * {
+    border-top-width: 1px;
+    border-bottom-width: 0;
+    color: #c8c8c8;
+    background-color: #2e3338;
+}
+
 table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
     border-style: none!important;
 }
@@ -228,4 +235,41 @@ a:hover {
 .table-nopadding > tbody > tr > td,
 .table-nopadding > tbody > tr > th {
   padding: 0;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
+
+.close:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.close:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
+  opacity: .75;
+}
+
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+a.close.disabled {
+  pointer-events: none;
+}
+
+.modal-header .close {
+  padding: 1rem 1rem;
+  margin: -1rem -1rem -1rem auto;
 }

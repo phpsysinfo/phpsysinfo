@@ -63,7 +63,7 @@
   float: left;
 }
 .modal-header .close {
-  margin: -48px -16px -16px auto;
+  margin: -48px -16px -16px auto !important;
 }
 .progress-bar {
   height: 100%;
