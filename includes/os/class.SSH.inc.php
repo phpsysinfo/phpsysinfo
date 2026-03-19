@@ -198,7 +198,6 @@ class SSH extends GNU
             break;
         case 'DrayOS':
             if (($sysstat = $this->getSysVerSysteminfo()) !== '') {
-                $machine= '';
                 if (preg_match("/ Total memory usage : \d+ % \((\d+)K\/(\d+)K\)/", $sysstat, $buf)) {
                     $this->sys->setMemTotal($buf[2]*1024);
                     $this->sys->setMemUsed($buf[1]*1024);
