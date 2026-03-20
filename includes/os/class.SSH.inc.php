@@ -69,34 +69,22 @@ class SSH extends GNU
         parent::__construct($blockname);
         $this->_ostype = $this->sys->getOS();
         switch ($this->_ostype) {
-        case '4.2BSD':
-        case 'AIX':
-        case 'Darwin':
-        case 'DragonFly':
-        case 'FreeBSD':
-        case 'HI-UX/MPP':
-        case 'Haiku':
-        case 'Minix':
-        case 'NetBSD':
-        case 'OpenBSD':
-        case 'QNX':
-        case 'SunOS':
-            $this->error->addError("__construct()", "OS ".$this->_ostype. " is not supported via SSH");
-            break;
         case 'GNU':
         case 'Linux':
             break;
         case 'SSH':
-            $this->error->addError("__construct()", "SSH connection error");
-            break;
-        default:
             if ($this->getSystemStatus() !== '') {
                 $this->_ostype = 'FortiOS';
                 $this->sys->setOS('Linux');
             } elseif ($this->getSysVerSysteminfo() !== '') {
                 $this->_ostype = 'DrayOS';
                 $this->sys->setOS('DrayOS');
+            } else {
+                $this->error->addError("__construct()", "SSH connection error");
             }
+            break;
+        default:
+            $this->error->addError("__construct()", "OS ".$this->_ostype. " is not supported via SSH");
         }
     }
 
