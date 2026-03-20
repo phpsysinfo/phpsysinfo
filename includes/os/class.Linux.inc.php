@@ -2384,6 +2384,12 @@ class Linux extends OS
         if (!$this->blockname || $this->blockname==='hardware') {
             $this->_machine();
             $this->_cpuinfo();
+            if ($this->sys->getMachine() == "") {
+                if ($this->blockname==='hardware')
+                    $this->_distro();
+                if (($this->sys->getDistributionIcon() === "OpenWrt.png") && CommonFunctions::executeProgram('cat', '/tmp/sysinfo/model', $buf, false) && ($buf !== ''))
+                    $this->sys->setMachine($buf);
+            }
             $this->_virtualizer();
             $this->_pci();
             $this->_ide();
