@@ -367,45 +367,45 @@ phpSysInfo language file Language: Turkish Created by: Kamil Sarıaydın Updated
     <exp>Sürücülerin numaralari</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>Diğer</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
-  </expression>
-  <expression id="123" name="product">
-    <exp>Product</exp>
-  </expression>
-  <expression id="124" name="serial">
-    <exp>Serial number</exp>
-  </expression>
+  <exp>Üretici</exp>
+</expression>
+<expression id="123" name="product">
+  <exp>Ürün</exp>
+</expression>
+<expression id="124" name="serial">
+  <exp>Seri numarası</exp>
+</expression>
   <expression id="125" name="memfree">
     <exp>Boş</exp>
   </expression>
   <expression id="126" name="nvme">
     <exp>NVMe Aygıtlar</exp>
   </expression>
-  <expression id="127" name="os">
-    <exp>OS Type</exp>
+ <expression id="127" name="os">
+  <exp>İşletim Sistemi Türü</exp>
+</expression>
+<expression id="128" name="no_memories">
+  <exp>Bellek çipi sayısı</exp>
+</expression>
+<expression id="129" name="speed">
+  <exp>Hız</exp>
   </expression>
-  <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
-  </expression>
-  <expression id="129" name="speed">
-    <exp>Speed</exp>
-  </expression>
-  <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
-  </expression>
-  <expression id="131" name="mtps">
-    <exp>MT/s</exp>
-  </expression>
-  <expression id="132" name="gtps">
-    <exp>GT/s</exp>
-  </expression>
-  <expression id="133" name="ups_beeper_status">
-    <exp>Beeper status</exp>
-  </expression>
-  <expression id="134" name="virtualizer">
-    <exp>Virtualizer</exp>
-  </expression>
+<expression id="130" name="mem">
+  <exp>Bellek Çipleri</exp>
+</expression>
+<expression id="131" name="mtps">
+  <exp>MT/s (Megatransfer/saniye)</exp>
+</expression>
+<expression id="132" name="gtps">
+  <exp>GT/s (Gigatransfer/saniye)</exp>
+</expression>
+<expression id="133" name="ups_beeper_status">
+  <exp>Sesli uyarı durumu</exp>
+</expression>
+<expression id="134" name="virtualizer">
+  <exp>Sanallaştırıcı</exp>
+</expression>
 </tns:translation>

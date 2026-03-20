@@ -198,10 +198,10 @@ abstract class BSDCommon extends OS
      *
      * @return string
      */
-    protected function grabkey($key)
+    protected function grabkey($key, $debug = PSI_DEBUG)
     {
         $buf = "";
-        if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, PSI_DEBUG)) {
+        if (CommonFunctions::executeProgram('sysctl', "-n $key", $buf, $debug)) {
             return $buf;
         } else {
             return '';
@@ -278,33 +278,11 @@ abstract class BSDCommon extends OS
      *
      * @return void
      */
-    protected function cpuusage()
+    protected function cpuusage($cpuline)
     {
         if (($this->_cpu_loads === null)) {
             $this->_cpu_loads = array();
-            if (PSI_OS != 'Darwin') {
-                if ($fd = $this->grabkey('kern.cp_time')) {
-                    // Find out the CPU load
-                    // user + sys = load
-                    // total = total
-                    if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
-                        $load = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
-                        $total = $res[2] + $res[3] + $res[4] + $res[5]; // cpu.total
-                        // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
-                        sleep(1);
-                        $fd = $this->grabkey('kern.cp_time');
-                        if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
-                            $load2 = $res[2] + $res[3] + $res[4];
-                            $total2 = $res[2] + $res[3] + $res[4] + $res[5];
-                            if ($total2 != $total) {
-                                $this->_cpu_loads['cpu'] = (100 * ($load2 - $load)) / ($total2 - $total);
-                            } else {
-                                $this->_cpu_loads['cpu'] = 0;
-                            }
-                        }
-                    }
-                }
-            } else {
+            if (PSI_OS == 'Darwin') {
                 $ncpu = $this->grabkey('hw.ncpu');
                 if (($ncpu !== "") && ($ncpu >= 1) && CommonFunctions::executeProgram('ps', "-A -o %cpu", $pstable, false) && !empty($pstable)) {
                     $pslines = preg_split("/\n/", $pstable, -1, PREG_SPLIT_NO_EMPTY);
@@ -314,14 +292,69 @@ abstract class BSDCommon extends OS
                         foreach ($pslines as $psline) {
                             $sum+=str_replace(',', '.', trim($psline));
                         }
-                        $this->_cpu_loads['cpu'] = min($sum/$ncpu, 100);
+                        $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = min($sum/$ncpu, 100);
+                    }
+                }
+            } else {
+                $notwas = true;
+                if ((PSI_OS == 'FreeBSD') && ($fd = $this->grabkey('kern.cp_times', false))) {
+                    if (!preg_match("/[^\s\d]/", $fd)) {
+                        $valb = preg_split("/\s+/", $fd, -1, PREG_SPLIT_NO_EMPTY);
+                        if (($valb !== false) && (($cb = count($valb)) >= 5) && (($cb % 5) == 0)) {
+                            sleep(1);
+                            $fd = $this->grabkey('kern.cp_times', false);
+                            if (!preg_match("/[^\s\d]/", $fd)) {
+                                $vale = preg_split("/\s+/", $fd, -1, PREG_SPLIT_NO_EMPTY);
+                                if (($vale !== false) && (count($vale) == $cb)) {
+                                    $ncpu = ($cb / 5);
+                                    $sum = 0;
+                                    for ($n = 0 ; $n < $ncpu ; $n++) {
+                                        $n5 = $n * 5;
+                                        $loadb = $valb[$n5 + 1] + $valb[$n5 + 2] + $valb[$n5 + 3];
+                                        $totalb = $loadb + $valb[$n5 + 4];
+                                        $loade = $vale[$n5 + 1] + $vale[$n5 + 2] + $vale[$n5 + 3];
+                                        $totale = $loade + $vale[$n5 + 4];
+                                        if ($totalb != $totale) {
+                                            $val = (100 * ($loade - $loadb)) / ($totale - $totalb);
+                                        } else {
+                                            $val = 0;
+                                        }
+                                        $this->_cpu_loads['cpu'.$n] = $val;
+                                        $sum += $val;
+                                    }
+                                    $this->_cpu_loads['cpu'] = $sum / $ncpu;
+                                    $notwas = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($notwas && ($fd = $this->grabkey('kern.cp_time'))) {
+                    // Find out the CPU load
+                    // user + sys = load
+                    // total = total
+                    if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
+                        $loadb = $res[2] + $res[3] + $res[4]; // cpu.user + cpu.sys
+                        $totalb = $loadb + $res[5]; // cpu.total
+                        // we need a second value, wait 1 second befor getting (< 1 second no good value will occour)
+                        sleep(1);
+                        $fd = $this->grabkey('kern.cp_time');
+                        if (preg_match($this->_CPURegExp2, $fd, $res) && (sizeof($res) > 4)) {
+                            $loade = $res[2] + $res[3] + $res[4];
+                            $totale = $loade + $res[5];
+                            if ($totalb != $totale) {
+                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = (100 * ($loade - $loadb)) / ($totale - $totalb);
+                            } else {
+                                $this->_cpu_loads['cpu'] = $this->_cpu_loads['cpu0'] = 0;
+                            }
+                        }
                     }
                 }
             }
         }
 
-        if (isset($this->_cpu_loads['cpu'])) {
-            return $this->_cpu_loads['cpu'];
+        if (isset($this->_cpu_loads[$cpuline])) {
+            return $this->_cpu_loads[$cpuline];
         } else {
             return null;
         }
@@ -342,7 +375,7 @@ abstract class BSDCommon extends OS
         $this->sys->setLoad($s);
 
         if (PSI_LOAD_BAR) {
-            $this->sys->setLoadPercent($this->cpuusage());
+            $this->sys->setLoadPercent($this->cpuusage('cpu'));
         }
     }
 
@@ -353,10 +386,9 @@ abstract class BSDCommon extends OS
      */
     protected function cpuinfo()
     {
-        $dev = new CpuDevice();
-        $cpumodel = $this->grabkey('hw.model');
-        $dev->setModel($cpumodel);
-        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $cpumodel)) {
+        $devarray = array();
+        $devarray['Model'] = $this->grabkey('hw.model');
+        if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && preg_match('/^QEMU Virtual CPU version /', $devarray['Model'])) {
             $this->sys->setVirtualizer("cpuid:QEMU", false);
         }
 
@@ -366,8 +398,8 @@ abstract class BSDCommon extends OS
                $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
                foreach ($regexps as $regexp) {
                    if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
-                        if ($dev->getCpuSpeed() == 0) {
-                            $dev->setCpuSpeed(round($ar_buf[2]));
+                        if (!isset($devarray['CpuSpeed']) || ($devarray['CpuSpeed'] == 0)) {
+                            $devarray['CpuSpeed'] = round($ar_buf[2]);
                         }
                         $notwas = false;
                         break;
@@ -376,15 +408,15 @@ abstract class BSDCommon extends OS
             } else {
                 if (preg_match("/^\s+Origin| Features/", $line, $ar_buf)) {
                     if (preg_match("/^\s+Origin[ ]*=[ ]*\"(.+)\"/", $line, $ar_buf)) {
-                        $dev->setVendorId($ar_buf[1]);
+                        $devarray['VendorId'] = $ar_buf[1];
                     } elseif (preg_match("/ Features2[ ]*=.*<(.+)>/", $line, $ar_buf)) {
                         $feats = preg_split("/,/", strtolower(trim($ar_buf[1])), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($feats as $feat) {
                             if (($feat=="vmx") || ($feat=="svm")) {
-                                $dev->setVirt($feat);
+                                $devarray['Virt'] = $feat;
                             } elseif ($feat=="hv") {
-                                if ($dev->getVirt() === null) {
-                                    $dev->setVirt('hypervisor');
+                                if (!isset($devarray['Virt'])) {
+                                    $devarray['Virt'] = 'hypervisor';
                                 }
                                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO) {
                                     $this->sys->setVirtualizer("hypervisor", false);
@@ -400,10 +432,29 @@ abstract class BSDCommon extends OS
         if (($ncpu === "") || !($ncpu >= 1)) {
             $ncpu = 1;
         }
-        if (($ncpu == 1) && PSI_LOAD_BAR) {
-            $dev->setLoad($this->cpuusage());
-        }
-        for ($ncpu ; $ncpu > 0 ; $ncpu--) {
+
+        if (PSI_LOAD_BAR) {
+            //check if it is defined for all processors
+            $showbar = true;
+            for ($n = 0 ; $n < $ncpu ; $n++) {
+                if ($this->cpuusage('cpu'.$n) === null) {
+                    $showbar = false;
+                    break;
+                }
+            }
+         } else {
+             $showbar = false;
+         }
+
+        for ($n = 0 ; $n < $ncpu ; $n++) {
+            $dev = new CpuDevice();
+            $dev->setModel($devarray['Model']);
+            if (isset($devarray['CpuSpeed'])) $dev->setCpuSpeed($devarray['CpuSpeed']);
+            if (isset($devarray['VendorId'])) $dev->setVendorId($devarray['VendorId']);
+            if (isset($devarray['Virt'])) $dev->setVirt($devarray['Virt']);
+            if ($showbar) {
+                $dev->setLoad($this->cpuusage('cpu'.$n));
+            }
             $this->sys->setCpus($dev);
         }
     }
@@ -727,22 +778,26 @@ abstract class BSDCommon extends OS
      */
     protected function memory()
     {
-        if (PSI_OS == 'FreeBSD' || PSI_OS == 'OpenBSD') {
-            // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
-            // I should probably add some version checking here, but for now
-            // we only support fbsd 4.4
-            $pagesize = 1024;
+        if (PSI_OS == 'FreeBSD') {
+            $kos = $this->grabkey('kern.osrelease');
+            if (preg_match("/^(\d+\.\d+)/", $kos, $kver) && version_compare("14.1", $kver[1], "<=")) {
+                // vmstat on fbsd 14.1 or greater outputs bytes
+                $multiplier = 1;
+            } else {
+                // vmstat on fbsd 4.4 or greater outputs kbytes not hw.pagesize
+                // I should probably add some version checking here, but for now
+                // we only support fbsd 4.4
+                $multiplier = 1024;
+            }
+        } elseif (PSI_OS == 'OpenBSD' || PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
+            $multiplier = 1024;
         } else {
-            $pagesize = $this->grabkey('hw.pagesize');
+            $multiplier = $this->grabkey('hw.pagesize');
         }
         if (CommonFunctions::executeProgram('vmstat', '', $vmstat, PSI_DEBUG)) {
             $lines = preg_split("/\n/", $vmstat, -1, PREG_SPLIT_NO_EMPTY);
             $ar_buf = preg_split("/\s+/", trim($lines[2]), 19);
-            if (PSI_OS == 'NetBSD' || PSI_OS == 'DragonFly') {
-                $this->sys->setMemFree($ar_buf[4] * 1024);
-            } else {
-                $this->sys->setMemFree($ar_buf[4] * $pagesize);
-            }
+            $this->sys->setMemFree($ar_buf[4] * $multiplier);
             $this->sys->setMemTotal($this->grabkey('hw.physmem'));
             $this->sys->setMemUsed($this->sys->getMemTotal() - $this->sys->getMemFree());
 

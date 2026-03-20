@@ -1,0 +1,16 @@
+----------lsb_release -a----------
+LSB Version:	1.0
+Distributor ID:	Chimera
+Description:	Chimera Linux
+Release:	rolling
+Codename:	chimera
+----------/etc/chimera-release----------
+rolling
+----------/etc/os-release----------
+NAME="Chimera"
+ID="chimera"
+PRETTY_NAME="Chimera Linux"
+HOME_URL="https://chimera-linux.org"
+DOCUMENTATION_URL="https://chimera-linux.org/docs"
+LOGO="chimera-logo"
+ANSI_COLOR="0;38;2;214;79;93"

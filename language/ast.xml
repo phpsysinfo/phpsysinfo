@@ -34,7 +34,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Medies d'usu</exp>
   </expression>
   <expression id="010" name="hardware">
-    <exp>Información del hardware</exp>
+    <exp>Información tocante al hardware</exp>
   </expression>
   <expression id="011" name="numcpu">
     <exp>Procesadores</exp>
@@ -49,28 +49,28 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Velocidá de BUS</exp>
   </expression>
   <expression id="015" name="cache">
-    <exp>Tamamñu de la caché</exp>
+    <exp>Tamañu de la caché</exp>
   </expression>
   <expression id="016" name="bogomips">
     <exp>Sistema Bogomips</exp>
   </expression>
   <expression id="017" name="pci">
-    <exp>Dispositivos PCI</exp>
+    <exp>Preseos PCI</exp>
   </expression>
   <expression id="018" name="ide">
-    <exp>Dispositivos IDE</exp>
+    <exp>Preseos IDE</exp>
   </expression>
   <expression id="019" name="scsi">
-    <exp>Dispositivos SCSI</exp>
+    <exp>Preseos SCSI</exp>
   </expression>
   <expression id="020" name="usb">
-    <exp>Dispositivios USB</exp>
+    <exp>Preseos USB</exp>
   </expression>
   <expression id="021" name="netusage">
     <exp>Usu de la rede</exp>
   </expression>
   <expression id="022" name="device">
-    <exp>Dispositivu</exp>
+    <exp>Preséu</exp>
   </expression>
   <expression id="023" name="received">
     <exp>Recibíos</exp>
@@ -97,7 +97,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Sistemes de ficheros montaos</exp>
   </expression>
   <expression id="031" name="mount">
-    <exp>Puntu de monstaxe</exp>
+    <exp>Puntu de montaxe</exp>
   </expression>
   <expression id="032" name="partition">
     <exp>Partición</exp>
@@ -106,7 +106,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Usu</exp>
   </expression>
   <expression id="034" name="type">
-    <exp>Tipu</exp>
+    <exp>Triba</exp>
   </expression>
   <expression id="035" name="free">
     <exp>Llibre</exp>
@@ -136,7 +136,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Capacidá</exp>
   </expression>
   <expression id="044" name="template">
-    <exp>Plantía</exp>
+    <exp>Plantiya</exp>
   </expression>
   <expression id="045" name="language">
     <exp>Llingua</exp>
@@ -178,7 +178,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Causes</exp>
   </expression>
   <expression id="058" name="s_limit">
-    <exp>Llimite</exp>
+    <exp>Llende</exp>
   </expression>
   <expression id="059" name="s_label">
     <exp>Etiqueta</exp>
@@ -217,7 +217,7 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Modelu</exp>
   </expression>
   <expression id="071" name="ups_mode">
-    <exp>Modu</exp>
+    <exp>Mou</exp>
   </expression>
   <expression id="072" name="ups_start_time">
     <exp>Entamó</exp>
@@ -229,10 +229,10 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>Cortes</exp>
   </expression>
   <expression id="075" name="ups_last_outage">
-    <exp>Causa del útlimu corte</exp>
+    <exp>Causa del corte últimu</exp>
   </expression>
   <expression id="076" name="ups_last_outage_finish">
-    <exp>Fin del últimu corte</exp>
+    <exp>Fin del corte últimu</exp>
   </expression>
   <expression id="077" name="ups_line_voltage">
     <exp>Voltaxe de la llinia</exp>
@@ -286,115 +286,115 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>GHz</exp>
   </expression>
   <expression id="094" name="virtualization">
-    <exp>Virtualization</exp>
+    <exp>Virtualización</exp>
   </expression>
   <expression id="095" name="lastboot">
-    <exp>Last boot</exp>
+    <exp>Arranque últimu</exp>
   </expression>
   <expression id="096" name="bytes">
     <exp>B</exp>
   </expression>
   <expression id="097" name="syslang">
-    <exp>System Language</exp>
+    <exp>Llingua del sistema</exp>
   </expression>
   <expression id="098" name="codepage">
-    <exp>Code Page</exp>
+    <exp>Codificación de la páxina</exp>
   </expression>
   <expression id="099" name="details">
-    <exp>Details</exp>
+    <exp>Detalles</exp>
   </expression>
   <expression id="100" name="cpuspeedMax">
-    <exp>CPU Speed Max</exp>
+    <exp>Velocidá máxima de la CPU</exp>
   </expression>
   <expression id="101" name="cpuspeedMin">
-    <exp>CPU Speed Min</exp>
+    <exp>Velocidá mínima de la CPU</exp>
   </expression>
   <expression id="102" name="power">
-    <exp>Power</exp>
+    <exp>Enerxía</exp>
   </expression>
   <expression id="103" name="power_mark">
     <exp>W</exp>
   </expression>
   <expression id="104" name="ups_battery_date">
-    <exp>Battery date</exp>
+    <exp>Data de la batería</exp>
   </expression>
   <expression id="105" name="current">
-    <exp>Current</exp>
+    <exp>Anguaño</exp>
   </expression>
   <expression id="106" name="current_mark">
     <exp>A</exp>
   </expression>
   <expression id="107" name="machine">
-    <exp>Machine</exp>
+    <exp>Máquina</exp>
   </expression>
   <expression id="108" name="ups_line_frequency">
-    <exp>Line frequency</exp>
+    <exp>Frecuencia de la llinia</exp>
   </expression>
   <expression id="109" name="Hz">
     <exp>Hz</exp>
   </expression>
   <expression id="110" name="Processes">
-    <exp>Processes</exp>
+    <exp>Procesos</exp>
   </expression>
   <expression id="111" name="ProcessesRunning">
-    <exp>running</exp>
+    <exp>furrulando</exp>
   </expression>
   <expression id="112" name="ProcessesSleeping">
-    <exp>sleeping</exp>
+    <exp>durmiendo</exp>
   </expression>
   <expression id="113" name="ProcessesStopped">
-    <exp>stopped</exp>
+    <exp>paraos</exp>
   </expression>
   <expression id="114" name="ProcessesZombie">
     <exp>zombie</exp>
   </expression>
   <expression id="115" name="ProcessesWaiting">
-    <exp>waiting</exp>
+    <exp>esperando</exp>
   </expression>
   <expression id="116" name="ProcessesOther">
-    <exp>other</exp>
+    <exp>otros</exp>
   </expression>
   <expression id="117" name="tb">
-    <exp>Dispositivios TB</exp>
+    <exp>Preseos TB</exp>
   </expression>
   <expression id="118" name="i2c">
-    <exp>Dispositivios I2C</exp>
+    <exp>Preseos I2C</exp>
   </expression>
   <expression id="119" name="no_processors">
-    <exp>Number of processors</exp>
+    <exp>Númberu de procesos</exp>
   </expression>
   <expression id="120" name="no_devices">
-    <exp>Number of devices</exp>
+    <exp>Númberu de preseos</exp>
   </expression>
   <expression id="121" name="other">
-    <exp>Other</exp>
+    <exp>Otros</exp>
   </expression>
   <expression id="122" name="manufacturer">
-    <exp>Manufacturer</exp>
+    <exp>Fabricante</exp>
   </expression>
   <expression id="123" name="product">
-    <exp>Product</exp>
+    <exp>Productu</exp>
   </expression>
   <expression id="124" name="serial">
-    <exp>Serial number</exp>
+    <exp>Númberu de serie</exp>
   </expression>
   <expression id="125" name="memfree">
     <exp>Llibre</exp>
   </expression>
   <expression id="126" name="nvme">
-    <exp>Dispositivios NVMe</exp>
+    <exp>Preseos NVMe</exp>
   </expression>
   <expression id="127" name="os">
-    <exp>OS Type</exp>
+    <exp>Triba de sistema operativu</exp>
   </expression>
   <expression id="128" name="no_memories">
-    <exp>Number of memory chips</exp>
+    <exp>Númberu de chips de memoria</exp>
   </expression>
   <expression id="129" name="speed">
-    <exp>Speed</exp>
+    <exp>Velocidá</exp>
   </expression>
   <expression id="130" name="mem">
-    <exp>Memory Chips</exp>
+    <exp>Chips de memoria</exp>
   </expression>
   <expression id="131" name="mtps">
     <exp>MT/s</exp>
@@ -403,9 +403,9 @@ phpSysInfo language file Language: Asturian Created by: Mikel González
     <exp>GT/s</exp>
   </expression>
   <expression id="133" name="ups_beeper_status">
-    <exp>Beeper status</exp>
+    <exp>Estáu del beeper</exp>
   </expression>
   <expression id="134" name="virtualizer">
-    <exp>Virtualizer</exp>
+    <exp>Virtualizador</exp>
   </expression>
 </tns:translation>

@@ -1,0 +1,25 @@
+----------lsb_release -a----------
+Distributor ID:	AnduinOS
+Description:	AnduinOS 1.4.0
+Release:	1.4.0
+Codename:	questing
+----------/etc/lsb-release----------
+DISTRIB_ID=AnduinOS
+DISTRIB_RELEASE=1.4.0
+DISTRIB_CODENAME=questing
+DISTRIB_DESCRIPTION="AnduinOS 1.4.0"
+----------/etc/os-release----------
+PRETTY_NAME="AnduinOS 1.4.0"
+NAME="AnduinOS"
+VERSION_ID="1.4.0"
+VERSION="1.4.0 (questing)"
+VERSION_CODENAME=questing
+ID=anduinos
+ID_LIKE=debian
+HOME_URL="https://www.anduinos.com/"
+SUPPORT_URL="https://github.com/Anduin2017/AnduinOS/discussions"
+BUG_REPORT_URL="https://github.com/Anduin2017/AnduinOS/issues"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=questing
+----------/etc/debian_version----------
+forky/sid

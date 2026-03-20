@@ -69,34 +69,22 @@ class SSH extends GNU
         parent::__construct($blockname);
         $this->_ostype = $this->sys->getOS();
         switch ($this->_ostype) {
-        case '4.2BSD':
-        case 'AIX':
-        case 'Darwin':
-        case 'DragonFly':
-        case 'FreeBSD':
-        case 'HI-UX/MPP':
-        case 'Haiku':
-        case 'Minix':
-        case 'NetBSD':
-        case 'OpenBSD':
-        case 'QNX':
-        case 'SunOS':
-            $this->error->addError("__construct()", "OS ".$this->_ostype. " is not supported via SSH");
-            break;
         case 'GNU':
         case 'Linux':
             break;
         case 'SSH':
-            $this->error->addError("__construct()", "SSH connection error");
-            break;
-        default:
             if ($this->getSystemStatus() !== '') {
                 $this->_ostype = 'FortiOS';
                 $this->sys->setOS('Linux');
             } elseif ($this->getSysVerSysteminfo() !== '') {
                 $this->_ostype = 'DrayOS';
                 $this->sys->setOS('DrayOS');
+            } else {
+                $this->error->addError("__construct()", "SSH connection error");
             }
+            break;
+        default:
+            $this->error->addError("__construct()", "OS ".$this->_ostype. " is not supported via SSH");
         }
     }
 
@@ -109,10 +97,6 @@ class SSH extends GNU
      */
     public function getEncoding()
     {
-//        if (($this->_ostype === 'FortiOS') || ($this->_ostype === 'DrayOS') || ($this->_ostype === 'SSH')) {
-//            return 'UTF-8';
-//        }
-        //return null;
     }
 
     /**
@@ -198,7 +182,6 @@ class SSH extends GNU
             break;
         case 'DrayOS':
             if (($sysstat = $this->getSysVerSysteminfo()) !== '') {
-                $machine= '';
                 if (preg_match("/ Total memory usage : \d+ % \((\d+)K\/(\d+)K\)/", $sysstat, $buf)) {
                     $this->sys->setMemTotal($buf[2]*1024);
                     $this->sys->setMemUsed($buf[1]*1024);
@@ -304,11 +287,7 @@ class SSH extends GNU
                 foreach ($netdevs as $netname=>$netinfo) {
                     if (!preg_match('/^vsys_/i', $netname)) {
                         $dev = new NetDevice();
-//                        if ($netname === 'root') {
-//                            $dev->setName('lo');
-//                        } else {
                             $dev->setName($netname);
-//                        }
                         $this->sys->setNetDevices($dev);
                         $dev->setInfo($netinfo);
                     }
@@ -453,10 +432,6 @@ class SSH extends GNU
                     }
                     $this->sys->setCpus($dev);
                 }
-//                $this->_cpu_loads['cpu'] = $buf[1];
-//                if (preg_match("/CPU1 speed/", $sysinfo)) {
-//                    $this->_cpu_loads['cpu0'] = $buf[1];
-//                }
             }
             break;
         case 'GNU':
@@ -530,18 +505,9 @@ class SSH extends GNU
     {
         switch ($this->_ostype) {
         case 'FortiOS':
-//            $hostname = PSI_EMU_HOSTNAME;
             if (preg_match("/\nHostname: ([^\n]+)\n/", $this->getSystemStatus(), $buf)) {
                 $this->sys->setHostname(trim($buf[1]));
-//                $hostname = trim($buf[1]);
             }
-
-//            $ip = gethostbyname($hostname);
-//            if ($ip != $hostname) {
-//                $this->sys->setHostname(gethostbyaddr($ip));
-//            } else {
-//                $this->sys->setHostname($hostname);
-//            }
             break;
         case 'DrayOS':
             if (preg_match("/[\r\n]Router Name: ([^\n\r]+)[\r\n]/", $this->getSysVerSysteminfo(), $buf)) {
@@ -657,9 +623,6 @@ class SSH extends GNU
         case 'Linux':
             parent::_distro();
         }
-//        if ($this->_ostype !== null) {
-//            $this->sys->setDistributionIcon($this->_ostype);
-//        }
     }
 
     /**
@@ -799,17 +762,12 @@ class SSH extends GNU
                 $this->_hostname();
                 $this->_kernel();
                 $this->_uptime();
-//                $this->_users();
                 $this->_loadavg();
-//                $this->_processes();
             }
             if (!$this->blockname || $this->blockname==='hardware') {
                 $this->_machine();
                 $this->_cpuinfo();
-                //$this->_virtualizer();
-//                $this->_pci();
                 $this->_usb();
-//                $this->_i2c();
             }
             if (!$this->blockname || $this->blockname==='memory') {
                 $this->_memory();
@@ -825,19 +783,12 @@ class SSH extends GNU
             if (!$this->blockname || $this->blockname==='vitals') {
                 $this->_distro();
                 $this->_hostname();
-//                $this->_kernel();
                 $this->_uptime();
-////                $this->_users();
                 $this->_loadavg();
-////                $this->_processes();
             }
             if (!$this->blockname || $this->blockname==='hardware') {
                 $this->_machine();
                 $this->_cpuinfo();
-//                //$this->_virtualizer();
-////                $this->_pci();
-//                $this->_usb();
-////                $this->_i2c();
             }
             if (!$this->blockname || $this->blockname==='memory') {
                 $this->_memory();

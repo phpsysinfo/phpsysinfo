@@ -149,7 +149,7 @@ class SMART extends PSI_Plugin
                         $diskname = trim($disk);
                     }
                     $buffer = "";
-                    if (trim($diskname != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
+                    if ((trim($diskname) != "") && (CommonFunctions::executeProgram('smartctl', '--all'.' '.$diskdev.' '.$diskname, $buffer, PSI_DEBUG))) {
                         $this->_filecontent[trim($disk)] = $buffer;
                     }
                 }

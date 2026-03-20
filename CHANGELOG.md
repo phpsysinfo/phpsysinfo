@@ -3,6 +3,18 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.5
+----------------
+ - [ADD] AnduinOS, Chimera and Mauna Linux to detected distros
+ - [ADD] ThermalZone sensor support for FreeBSD
+ - [ADD] Usage of individual processors on FreeBSD
+
+ - [FIX] Fixed incorrect memory usage on FreeBSD 14.1
+ 
+ - [UPD] Asturian Translation ast.xml
+
+ - [DEL] Removed Bootstrap javascript code
+
 phpSysInfo 3.4.4
 ----------------
  - [ADD] Proxmox to detected distros
@@ -16,7 +28,7 @@ phpSysInfo 3.4.4
 
 phpSysInfo 3.4.3
 ----------------
- - [ADD] Linux Lite, BigLinux, Linspire, Tuxedo, Armbian, Photon, RebeccaBlackOS, QuemOS, dahliaOS, openEuler, Runtu, risiOS, Nobara, Fatdog, CachyOS, Snal, Feren, Archman, Elive, RoboLinux, ExTiX, Kaisen, LXLE, Neptune, Regata, Archcraft, Kodachi, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWRT, Gnoppix, Uruk, Laclin, Clear, Sparky and Venom Linux to detected distros
+ - [ADD] Linux Lite, BigLinux, Linspire, Tuxedo, Armbian, Photon, RebeccaBlackOS, QuemOS, dahliaOS, openEuler, Runtu, risiOS, Nobara, Fatdog, CachyOS, Snal, Feren, Archman, Elive, RoboLinux, ExTiX, Kaisen, LXLE, Neptune, Regata, Archcraft, Kodachi, Bodhi, Siduction, Vanilla, Q4OS, Guix, XeroLinux, OpenWrt, Gnoppix, Uruk, Laclin, Clear, Sparky and Venom Linux to detected distros
 
  - [NEW] SHOW_NETWORK_BRIDGE option
  - [NEW] JSONP option for enable JSONP data mode

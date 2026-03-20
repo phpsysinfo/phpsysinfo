@@ -1,0 +1,33 @@
+----------lsb_release -a----------
+Distributor ID:	Debian
+Description:	Debian GNU/Linux 12 (bookworm)
+Release:	12
+Codename:	bookworm
+----------/etc/lsb-release----------
+PRETTY_NAME="Mauna Linux 24.5"
+NAME="Mauna Linux"
+VERSION_ID="24.5"
+VERSION="24.5"
+VERSION_CODENAME=Sirius
+ID=mauna
+ID_LIKE=debian
+HOME_URL="https://maunalinux.top/"
+SUPPORT_URL="https://forum.maunalinux.top/"
+BUG_REPORT_URL="https://github.com/maunalinux/issue/"
+WIKI_URL="http://wiki.maunalinux.top/"
+----------/etc/os-release----------
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+IMAGE_ID=live
+BUILD_ID=20250217T015224Z
+----------/etc/debian_version----------
+12.9
+----------/etc/mauna_version----------
+24.5

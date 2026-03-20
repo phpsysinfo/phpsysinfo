@@ -1,0 +1,51 @@
+versions, links and simple description of used javascript files
+===============================================================
+
+transparency.js
+---------
+VERSION  : 0.10.0
+URL      : https://leonidas.github.io/transparency/
+DESC     : Transparency is a minimal template engine for jQuery. It maps JSON objects to DOM elements with zero configuration. Just call .render()
+USED     : used for the entire bootstrap userinterface
+
+html5shiv-printshiv.js
+---------
+VERSION  : 3.7.3
+URL      : https://github.com/aFarkas/html5shiv/
+DESC     : Enabling HTML5 Shiv Script and Print Support on old IE6-9 Browser, Safari 4.x and Firefox 3.x
+USED     : used for the entire bootstrap userinterface
+
+console-shim.js
+---------
+VERSION  :
+URL      : https://github.com/liamnewmarch/console-shim/
+DESC     : Shim to make browsers store console messages without Dev Tools open (e.g. IE9)
+USED     : used for the entire bootstrap userinterface
+
+sorttable.js
+---------
+VERSION  : 2+2014.12.25.12_fix-noinit-noforeach
+URL      : https://www.kryogenix.org/code/browser/sorttable/
+DESC     : Make all your tables sortable
+USED     : used for the entire bootstrap userinterface
+
+bootstrap-ie8nojs.js
+---------
+VERSION  : 4.3.100
+URL      : https://namiltd.github.io/bootstrap-ie/
+DESC     : Bootstrap 4 compatibility module for IE8
+USED     : used for the entire bootstrap userinterface on IE8
+
+bootstrap-ie9.js
+---------
+VERSION  : 4.3.100
+URL      : https://namiltd.github.io/bootstrap-ie/
+DESC     : Bootstrap 4 compatibility module for IE9
+USED     : used for the entire bootstrap userinterface on IE9
+
+jquery-treegrid.js
+-------------------
+VERSION  : 0.3.0
+URL      : http://plugins.jquery.com/treegrid/; http://maxazan.github.io/jquery-treegrid/
+DESC     : TreeGrid is a lightweight and flexible jQuery plugin to create a tree grid component that renders hierarchical, nested and flat data in a table.
+USED     : Hardware, Memory, UPS blocks
