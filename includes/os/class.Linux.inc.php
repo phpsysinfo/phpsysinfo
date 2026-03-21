@@ -110,9 +110,9 @@ class Linux extends OS
                 }
             }
             $vendor_array = array();
-            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf)) ||
-                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*DMI:\s*(.+)/m', $dmesg, $ar_buf))) {
-                $this->_machine_info['machine'] = trim($ar_buf[1]);
+            if (((($dmesg = $this->_get_dmesg_f()) !== null) && preg_match('/^[\s\[\]\.\d]*(DMI|Machine model):\s*(.+)/m', $dmesg, $ar_buf)) ||
+                ((($dmesg = $this->_get_dmesg_c()) !== null) && preg_match('/^[\s\[\]\.\d]*(DMI|Machine model):\s*(.+)/m', $dmesg, $ar_buf))) {
+                $this->_machine_info['machine'] = trim($ar_buf[2]);
                 if (defined('PSI_SHOW_VIRTUALIZER_INFO') && PSI_SHOW_VIRTUALIZER_INFO && ($this->system_detect_virt === null)) {
                     /* Test this before sys_vendor to detect KVM over QEMU */
                     if (CommonFunctions::rfts('/sys/devices/virtual/dmi/id/product_name', $buf, 1, 4096, false) && (trim($buf)!="")) {
