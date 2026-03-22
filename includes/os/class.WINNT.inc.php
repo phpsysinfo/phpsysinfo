@@ -258,8 +258,8 @@ class WINNT extends OS
         if (self::$_asadmin == null) {
             if (PSI_OS == 'WINNT') {
                 $strBuf = '';
-                CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false); // 'net session' for detection does not work if "Server" (LanmanServer) service is stopped
-                if (preg_match('/^\/SCANNOW\s/m', preg_replace('/(\x00)/', '', $strBuf))) { // SCANNOW checking - also if Unicode
+                CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false, PSI_EXEC_TIMEOUT_INT, '', true); // execute with quick utf16 conversion
+                if (preg_match('/^\/SCANNOW\s/m', $strBuf)) { // SCANNOW checking
                     self::$_asadmin = true;
                 } else {
                     self::$_asadmin = false;

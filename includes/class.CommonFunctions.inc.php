@@ -160,10 +160,12 @@ class CommonFunctions
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
+     * @param string  $separator      new line separator on DrayOS
+     * @param boolean $utf16          quick conversion from utf16
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '')
+    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '', $utf16 = false)
     {
         if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
 
@@ -372,8 +374,15 @@ class CommonFunctions
 
             return false;
         }
-        $strError = trim($strError);
-        $strBuffer = trim($strBuffer);
+        // quick conversion from utf16
+        if ($utf16 && ((strlen($strError) > 1) && ($strError[1] === chr(0))
+                    || (strlen($strBuffer) > 1) && ($strBuffer[1] === chr(0)))) {
+            $strError = trim(preg_replace('/(\x00)/', '', $strError));
+            $strBuffer = trim(preg_replace('/(\x00)/', '', $strBuffer));
+        } else {
+            $strError = trim($strError);
+            $strBuffer = trim($strBuffer);
+        }
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             error_log("---".gmdate('r T')."--- Executing: ".$strAll."\n".$strBuffer."\n", 3, PSI_LOG);
         }
