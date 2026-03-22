@@ -586,12 +586,14 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== "")) {
-            $this->_ver = $ver_value;
-        }
-        if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
-            self::$_wmi = false; // No WMI info on ReactOS yet
-            $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
+        if (!defined('PSI_EMU_HOSTNAME') && commonfunctions::readenv('WinDir', $serverpath) //ReactOS detection
+            && CommonFunctions::rfts($serverpath.'/readme.txt', $readme, 2, 4096, false)
+            && ($readme !== "") && preg_match('/[=]+\r?\nReactOS/',$readme)
+            && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && ($ver_value !== "")
+            && preg_match("/ReactOS\r?\n\S+\s+.+/", $ver_value)) {
+                $this->_ver = $ver_value;
+                self::$_wmi = false; // No WMI info on ReactOS yet
+                $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
             if ((PSI_OS == 'WINNT') && !defined('PSI_SYSTEM_CODEPAGE')) {
                 if (defined('PSI_EMU_HOSTNAME')) {
