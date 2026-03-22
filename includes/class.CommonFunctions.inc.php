@@ -377,8 +377,8 @@ class CommonFunctions
         // quick conversion from utf16
         if ($utf16 && ((strlen($strError) > 1) && ($strError[1] === chr(0))
                     || (strlen($strBuffer) > 1) && ($strBuffer[1] === chr(0)))) {
-            $strError = trim(preg_replace('/(\x00)/', '', $strError));
-            $strBuffer = trim(preg_replace('/(\x00)/', '', $strBuffer));
+            $strError = trim(preg_replace('/\r\r\n/', "\n", preg_replace('/(\x00)/', '', $strError)));
+            $strBuffer = trim(preg_replace('/\r\r\n/', "\n", preg_replace('/(\x00)/', '', $strBuffer)));
         } else {
             $strError = trim($strError);
             $strBuffer = trim($strBuffer);
