@@ -49,6 +49,13 @@ class WINNT extends OS
     private $_Win32_ComputerSystem = null;
 
     /**
+     * holds the data from WMI Win32_Process
+     *
+     * @var array
+     */
+    private static $_Win32_Process = null;
+
+    /**
      * holds the data from WMI Win32_Processor
      *
      * @var array
@@ -186,6 +193,17 @@ class WINNT extends OS
     {
         if ($this->_Win32_ComputerSystem === null) $this->_Win32_ComputerSystem = self::getWMI(self::$_wmi, 'Win32_ComputerSystem', array('Name', 'Manufacturer', 'Model', 'SystemFamily'));
         return $this->_Win32_ComputerSystem;
+    }
+
+    /**
+     * reads the data from WMI Win32_Process
+     *
+     * @return array
+     */
+    public static function _get_Win32_Process()
+    {
+        if (self::$_Win32_Process === null) self::$_Win32_Process = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+        return self::$_Win32_Process;
     }
 
     /**
@@ -959,7 +977,7 @@ class WINNT extends OS
                 $users = count($lines)-1;
         } else {
             $users = 0;
-            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+            $buffer = $this->_get_Win32_Process();
             foreach ($buffer as $process) {
                 if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
                     $users++;
@@ -1730,7 +1748,7 @@ class WINNT extends OS
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
         if ($processes['*'] <= 0) {
-            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+            $buffer = $this->_get_Win32_Process();
             $processes['*'] = count($buffer);
         }
         $processes[' '] = $processes['*'];
