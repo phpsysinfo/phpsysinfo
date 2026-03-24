@@ -833,7 +833,9 @@ class WINNT extends OS
                     if (!isset($device['PNPClass']) || ($device['PNPClass']===$strType) || ($device['PNPClass']==='System')) {
                         $device['PNPClass'] = null;
                     }
-                    if (!isset($device['Manufacturer']) || preg_match('/^\(.*\)$/', $device['Manufacturer']) || (($device['PNPClass']==='USB') && preg_match('/\sUSB\s/', $device['Manufacturer']))) {
+                    if (!isset($device['Manufacturer']) || is_array($device['Manufacturer'])
+                       || preg_match('/^\(.*\)$/', $device['Manufacturer']) 
+                       || (($device['PNPClass']==='USB') && preg_match('/\sUSB\s/', $device['Manufacturer']))) {
                         $device['Manufacturer'] = null;
                     }
                     $device['Capacity'] = null;
@@ -1513,7 +1515,7 @@ class WINNT extends OS
 
                 $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('Caption', 'SettingID', 'MACAddress', 'IPAddress'));
 
-                if (!$aliases && !$aliases2) { // old method tested on XP via WMI
+                if (!$aliases && !$aliases2) { // old method, tested XP via WMI on Linux
                     foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
                        if (isset($NetworkAdapterConfiguration['Caption'])) {
                            if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
