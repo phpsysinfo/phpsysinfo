@@ -380,13 +380,28 @@ class WINNT extends OS
                         $values = preg_split('/'.$delimeter.'/', $line, -1);
                         if (count($values) == $namesc) {
                             foreach ($values as $id=>$value) {
+                                $value = trim($value);
                                 if (empty($strValue)) {
-                                    if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
-                                    else $arrInstance[$names[$id]] = null;
+                                    if ($value !== "(null)") {
+                                        if (preg_match('/^\((.+)\)$/', $value, $values)) {
+                                            $arrInstance[$names[$id]] = explode(',', $values[1]);
+                                        } else {
+                                            $arrInstance[$names[$id]] = $value;
+                                        }
+                                    } else {
+                                        $arrInstance[$names[$id]] = null;
+                                    }
                                 } else {
                                     if (in_array($names[$id], $strValue)) {
-                                        if ($value !== "(null)") $arrInstance[$names[$id]] = trim($value);
-                                        else $arrInstance[$names[$id]] = null;
+                                        if ($value !== "(null)") {
+                                            if (preg_match('/^\((.+)\)$/', $value, $values)) {
+                                                $arrInstance[$names[$id]] = explode(',', $values[1]);
+                                            } else {
+                                                $arrInstance[$names[$id]] = $value;
+                                            }
+                                        } else {
+                                            $arrInstance[$names[$id]] = null;
+                                        }
                                     }
                                 }
                             }
@@ -1496,7 +1511,24 @@ class WINNT extends OS
                     }
                 }
 
-                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
+                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('Caption', 'SettingID', 'MACAddress', 'IPAddress'));
+
+                if (!$aliases && !$aliases2) { // old method tested on XP via WMI
+                    foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                       if (isset($NetworkAdapterConfiguration['Caption'])) {
+                           if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
+                               $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
+                               if (!isset($aliases[$cname])) { // duplicate checking
+                                    $aliases[$cname]['id'] = $NetworkAdapterConfiguration['SettingID'];
+                                    $aliases[$cname]['name'] = $strName;
+                                } else {
+                                    $aliases[$cname]['id'] = '';
+                                }
+                            }
+                        }
+                    }
+                }
+
                 foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
