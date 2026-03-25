@@ -1496,7 +1496,24 @@ class WINNT extends OS
                     }
                 }
 
-                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
+                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('Caption', 'SettingID', 'MACAddress', 'IPAddress'));
+
+                if (!$aliases && !$aliases2) { // old method - tested on XP via WMI on Linux
+                    foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                       if (isset($NetworkAdapterConfiguration['Caption'])) {
+                           if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
+                               $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
+                               if (!isset($aliases[$cname])) { // duplicate checking
+                                    $aliases[$cname]['id'] = $NetworkAdapterConfiguration['SettingID'];
+                                    $aliases[$cname]['name'] = $strName;
+                                } else {
+                                    $aliases[$cname]['id'] = '';
+                                }
+                            }
+                        }
+                    }
+                }
+
                 foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
@@ -1526,6 +1543,11 @@ class WINNT extends OS
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                        && $macexist) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                        // multiple values via WMI on Linux
+                                        if (!is_array($value =  $NetworkAdapterConfiguration['IPAddress'])
+                                           && preg_match('/^\((.+)\)$/', $value, $values)) {
+                                            $NetworkAdapterConfiguration['IPAddress'] = explode(',', $values[1]);
+                                        }
                                         foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
