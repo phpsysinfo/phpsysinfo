@@ -606,7 +606,7 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if (!defined('PSI_EMU_HOSTNAME') && commonfunctions::readenv('WinDir', $serverpath) //ReactOS detection
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::readenv('WinDir', $serverpath) //ReactOS detection
             && CommonFunctions::rfts($serverpath.'/readme.txt', $readme, 2, 4096, false)
             && ($readme !== "") && preg_match('/[=]+\r?\nReactOS/',$readme)
             && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && ($ver_value !== "")
