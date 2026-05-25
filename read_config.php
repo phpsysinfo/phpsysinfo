@@ -9,8 +9,6 @@ if (!defined('PSI_CONFIG_FILE')) {
      */
     define('PSI_CONFIG_FILE', PSI_APP_ROOT.'/phpsysinfo.ini');
 
-    define('ARRAY_EXP', '/^return array \([^;]*\);$/'); //array expression search
-
     if (!is_readable(PSI_CONFIG_FILE)) {
         echo "ERROR: phpsysinfo.ini does not exist or is not readable by the webserver in the phpsysinfo directory";
         die();
@@ -32,22 +30,14 @@ if (!defined('PSI_CONFIG_FILE')) {
                 } elseif (trim($value)==="1") {
                     define($name_prefix.strtoupper($param), true);
                 } else {
-                    if ((($paramup = strtoupper($param)) !== 'WMI_PASSWORD') && ($paramup !== 'SSH_PASSWORD') && strstr($value, ',')) {
-                        define($name_prefix.$paramup, 'return '.var_export(preg_split('/\s*,\s*/', trim($value), -1, PREG_SPLIT_NO_EMPTY), 1).';');
-                    } else {
-                        define($name_prefix.$paramup, trim($value));
-                    }
+                    define($name_prefix.strtoupper($param), trim($value));
                 }
             }
         }
     }
 
     if (defined('PSI_ALLOWED') && is_string(PSI_ALLOWED)) {
-        if (preg_match(ARRAY_EXP, PSI_ALLOWED)) {
-            $allowed = eval(strtolower(PSI_ALLOWED));
-        } else {
-            $allowed = array(strtolower(PSI_ALLOWED));
-        }
+        $allowed = preg_split('/\s*,\s*/', strtolower(PSI_ALLOWED), -1, PREG_SPLIT_NO_EMPTY);
 
         if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
             $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];

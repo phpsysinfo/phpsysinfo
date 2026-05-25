@@ -91,11 +91,7 @@ class CommonFunctions
                 array_push($arrPath, '/system/bin'); // Termux patch
             }
             if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
-                if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
-                    $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-                } else {
-                    $arrPath = array_merge(array(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-                }
+                $arrPath = array_merge(CommonFunctions::splitCommaList(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
             }
         } else { //directory defined
             array_push($arrPath, $path_parts['dirname']);
@@ -198,11 +194,7 @@ class CommonFunctions
         $PathStr = '';
         if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
             if (defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
-                if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
-                    $sudocommands = eval(PSI_SUDO_COMMANDS);
-                } else {
-                    $sudocommands = array(PSI_SUDO_COMMANDS);
-                }
+                $sudocommands = CommonFunctions::splitCommaList(PSI_SUDO_COMMANDS);
                 if (in_array($strProgramname, $sudocommands)) {
                     $strAll = 'sudo '.$strAll;
                 }
@@ -211,21 +203,13 @@ class CommonFunctions
             $strProgramname = 'sshpass';
             $strOptions = '';
             if (defined('PSI_EMU_ADD_OPTIONS') && is_string(PSI_EMU_ADD_OPTIONS)) {
-                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_OPTIONS)) {
-                    $arrParams = eval(PSI_EMU_ADD_OPTIONS);
-                } else {
-                    $arrParams = array(PSI_EMU_ADD_OPTIONS);
-                }
+                $arrParams = CommonFunctions::splitCommaList(PSI_EMU_ADD_OPTIONS);
                 foreach ($arrParams as $Params) if (preg_match('/(\S+)\s*\=\s*(\S+)/', $Params, $obuf)) {
                     $strOptions = $strOptions.'-o '.$obuf[1].'='.$obuf[2].' ';
                 }
             }
             if (defined('PSI_EMU_ADD_PATHS') && is_string(PSI_EMU_ADD_PATHS)) {
-                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_PATHS)) {
-                    $arrPath = eval(PSI_EMU_ADD_PATHS);
-                } else {
-                    $arrPath = array(PSI_EMU_ADD_PATHS);
-                }
+                $arrPath = CommonFunctions::splitCommaList(PSI_EMU_ADD_PATHS);
                 foreach ($arrPath as $Path) {
                     if ($PathStr === '') {
                         $PathStr = $Path;
@@ -265,11 +249,7 @@ class CommonFunctions
         }
 
         if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
-            if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
-                $sudocommands = eval(PSI_SUDO_COMMANDS);
-            } else {
-                $sudocommands = array(PSI_SUDO_COMMANDS);
-            }
+            $sudocommands = CommonFunctions::splitCommaList(PSI_SUDO_COMMANDS);
             if (in_array($strProgramname, $sudocommands)) {
                 $sudoProgram = self::_findProgram("sudo");
                 if (!$sudoProgram) {
@@ -786,11 +766,7 @@ class CommonFunctions
     public static function getPlugins()
     {
         if (defined('PSI_PLUGINS') && is_string(PSI_PLUGINS)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGINS)) {
-                return eval(strtolower(PSI_PLUGINS));
-            } else {
-                return array(strtolower(PSI_PLUGINS));
-            }
+            return CommonFunctions::splitCommaList(strtolower(PSI_PLUGINS));
         } else {
             return array();
         }
@@ -901,5 +877,23 @@ class CommonFunctions
         }
 
         return self::$_dmimd;
+    }
+
+    /**
+     * splitCommaList function
+     *
+     * @return array
+     */
+    public static function splitCommaList($value)
+    {
+        if ($value === false || $value === '' || $value === null) {
+            return array();
+        }
+        if (!is_string($value)) {
+            return array($value);
+        }
+        $result = preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY);
+
+        return $result;
     }
 }

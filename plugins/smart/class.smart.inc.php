@@ -49,17 +49,9 @@ class SMART extends PSI_Plugin
         case 'command':
         case 'data':
             if (defined('PSI_PLUGIN_SMART_DEVICES') && is_string(PSI_PLUGIN_SMART_DEVICES)) {
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_DEVICES)) {
-                    $disks = eval(PSI_PLUGIN_SMART_DEVICES);
-                } else {
-                    $disks = array(PSI_PLUGIN_SMART_DEVICES);
-                }
+                $disks = CommonFunctions::splitCommaList(PSI_PLUGIN_SMART_DEVICES);
                 if (defined('PSI_PLUGIN_SMART_IDS') && is_string(PSI_PLUGIN_SMART_IDS)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SMART_IDS)) {
-                        $fullIds = eval(PSI_PLUGIN_SMART_IDS);
-                    } else {
-                        $fullIds = array(PSI_PLUGIN_SMART_IDS);
-                    }
+                    $fullIds = CommonFunctions::splitCommaList(PSI_PLUGIN_SMART_IDS);
                     foreach ($fullIds as $fullId) {
                         $arrFullId = preg_split('/-/', $fullId);
                         $this->_ids[intval($arrFullId[0])]["value_type"] = strtolower($arrFullId[1]);

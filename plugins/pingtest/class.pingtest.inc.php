@@ -35,12 +35,7 @@ class PingTest extends PSI_Plugin
     {
         parent::__construct(__CLASS__, $enc);
         if (defined('PSI_PLUGIN_PINGTEST_ADDRESSES') && is_string(PSI_PLUGIN_PINGTEST_ADDRESSES)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGIN_PINGTEST_ADDRESSES)) {
-                $addresses = eval(PSI_PLUGIN_PINGTEST_ADDRESSES);
-            } else {
-                $addresses = array(PSI_PLUGIN_PINGTEST_ADDRESSES);
-            }
-
+            $addresses = CommonFunctions::splitCommaList(PSI_PLUGIN_PINGTEST_ADDRESSES);
             switch (strtolower(PSI_PLUGIN_PINGTEST_ACCESS)) {
             case 'command':
                 if (PHP_OS == 'WINNT') {
@@ -95,11 +90,7 @@ class PingTest extends PSI_Plugin
     public function execute()
     {
         if (defined('PSI_PLUGIN_PINGTEST_ADDRESSES') && is_string(PSI_PLUGIN_PINGTEST_ADDRESSES)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGIN_PINGTEST_ADDRESSES)) {
-                $addresses = eval(PSI_PLUGIN_PINGTEST_ADDRESSES);
-            } else {
-                $addresses = array(PSI_PLUGIN_PINGTEST_ADDRESSES);
-            }
+            $addresses = CommonFunctions::splitCommaList(PSI_PLUGIN_PINGTEST_ADDRESSES);
             foreach ($addresses as $address) {
                 $this->_result[] = array($address, $this->address_inarray($address, $this->_filecontent));
             }

@@ -46,16 +46,12 @@ class Nut extends UPS
         switch (strtolower(PSI_UPS_NUT_ACCESS)) {
         case 'data':
             if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
-                    $upss = eval(PSI_UPS_NUT_LIST);
-                } else {
-                    $upss = array(PSI_UPS_NUT_LIST);
-                }
+                $upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
             } else {
-               $upss = array('UPS');
+                $upses = array('UPS');
             }
             $un = 0;
-            foreach ($upss as $ups) {
+            foreach ($upses as $ups) {
                 $temp = "";
                 CommonFunctions::rftsdata("upsnut{$un}.tmp", $temp);
                 if (! empty($temp)) {
@@ -66,11 +62,7 @@ class Nut extends UPS
             break;
         default:
             if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-                if (preg_match(ARRAY_EXP, PSI_UPS_NUT_LIST)) {
-                    $upses = eval(PSI_UPS_NUT_LIST);
-                } else {
-                    $upses = array(PSI_UPS_NUT_LIST);
-                }
+                $upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
                 foreach ($upses as $ups) {
                     CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
                     $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);

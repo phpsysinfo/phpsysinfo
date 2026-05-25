@@ -45,16 +45,12 @@ class SNMPups extends UPS
         switch (strtolower(PSI_UPS_SNMPUPS_ACCESS)) {
         case 'data':
                 if (defined('PSI_UPS_SNMPUPS_LIST') && is_string(PSI_UPS_SNMPUPS_LIST)) {
-                    if (preg_match(ARRAY_EXP, PSI_UPS_SNMPUPS_LIST)) {
-                        $upss = eval(PSI_UPS_SNMPUPS_LIST);
-                    } else {
-                        $upss = array(PSI_UPS_SNMPUPS_LIST);
-                    }
+                    $upses = CommonFunctions::splitCommaList(PSI_UPS_SNMPUPS_LIST);
                 } else {
-                   $upss = array('UPS');
+                    $upses = array('UPS');
                 }
                 $un = 0;
-                foreach ($upss as $ups) {
+                foreach ($upses as $ups) {
                     $temp = "";
                     CommonFunctions::rftsdata("upssnmpups{$un}.tmp", $temp);
                     if (! empty($temp)) {
@@ -65,12 +61,8 @@ class SNMPups extends UPS
                 break;
         case 'command':
                 if (defined('PSI_UPS_SNMPUPS_LIST') && is_string(PSI_UPS_SNMPUPS_LIST)) {
-                    if (preg_match(ARRAY_EXP, PSI_UPS_SNMPUPS_LIST)) {
-                        $upss = eval(PSI_UPS_SNMPUPS_LIST);
-                    } else {
-                        $upss = array(PSI_UPS_SNMPUPS_LIST);
-                    }
-                    foreach ($upss as $ups) {
+                    $upses = CommonFunctions::splitCommaList(PSI_UPS_SNMPUPS_LIST);
+                    foreach ($upses as $ups) {
                         $buffer = "";
                         CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$ups." .1.3.6.1.4.1.318.1.1.1.1", $buffer, PSI_DEBUG);
                         if (strlen($buffer) > 0) {
@@ -102,12 +94,8 @@ class SNMPups extends UPS
                 snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
                 snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
                 if (defined('PSI_UPS_SNMPUPS_LIST') && is_string(PSI_UPS_SNMPUPS_LIST)) {
-                    if (preg_match(ARRAY_EXP, PSI_UPS_SNMPUPS_LIST)) {
-                        $upss = eval(PSI_UPS_SNMPUPS_LIST);
-                    } else {
-                        $upss = array(PSI_UPS_SNMPUPS_LIST);
-                    }
-                    foreach ($upss as $ups) {
+                    $upses = CommonFunctions::splitCommaList(PSI_UPS_SNMPUPS_LIST);
+                    foreach ($upses as $ups) {
                         if (! PSI_DEBUG) {
                             restore_error_handler(); /* default error handler */
                             $old_err_rep = error_reporting();

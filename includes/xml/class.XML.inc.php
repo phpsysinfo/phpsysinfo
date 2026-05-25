@@ -183,11 +183,7 @@ class XML
         $network = $this->_xml->addChild('Network');
         if (defined('PSI_HIDE_NETWORK_INTERFACE')) {
             if (is_string(PSI_HIDE_NETWORK_INTERFACE)) {
-                if (preg_match(ARRAY_EXP, PSI_HIDE_NETWORK_INTERFACE)) {
-                    $hideDevices = eval(PSI_HIDE_NETWORK_INTERFACE);
-                } else {
-                    $hideDevices = array(PSI_HIDE_NETWORK_INTERFACE);
-                }
+                $hideDevices = CommonFunctions::splitCommaList(PSI_HIDE_NETWORK_INTERFACE);
             } elseif (PSI_HIDE_NETWORK_INTERFACE === true) {
                 return;
             }
@@ -580,57 +576,29 @@ class XML
     {
         $hideMounts = $hideFstypes = $hideDisks = $ignoreFree = $ignoreTotal = $ignoreUsage = $ignoreThreshold = array();
         if (defined('PSI_HIDE_MOUNTS') && is_string(PSI_HIDE_MOUNTS)) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_MOUNTS)) {
-                $hideMounts = eval(PSI_HIDE_MOUNTS);
-            } else {
-                $hideMounts = array(PSI_HIDE_MOUNTS);
-            }
+            $hideMounts = CommonFunctions::splitCommaList(PSI_HIDE_MOUNTS);
         }
         if (defined('PSI_HIDE_FS_TYPES') && is_string(PSI_HIDE_FS_TYPES)) {
-            if (preg_match(ARRAY_EXP, PSI_HIDE_FS_TYPES)) {
-                $hideFstypes = eval(PSI_HIDE_FS_TYPES);
-            } else {
-                $hideFstypes = array(PSI_HIDE_FS_TYPES);
-            }
+            $hideFstypes = CommonFunctions::splitCommaList(PSI_HIDE_FS_TYPES);
         }
         if (defined('PSI_HIDE_DISKS')) {
             if (is_string(PSI_HIDE_DISKS)) {
-                if (preg_match(ARRAY_EXP, PSI_HIDE_DISKS)) {
-                    $hideDisks = eval(PSI_HIDE_DISKS);
-                } else {
-                    $hideDisks = array(PSI_HIDE_DISKS);
-                }
+                $hideDisks = CommonFunctions::splitCommaList(PSI_HIDE_DISKS);
             } elseif (PSI_HIDE_DISKS === true) {
                 return;
             }
         }
         if (defined('PSI_IGNORE_FREE') && is_string(PSI_IGNORE_FREE)) {
-            if (preg_match(ARRAY_EXP, PSI_IGNORE_FREE)) {
-                $ignoreFree = eval(PSI_IGNORE_FREE);
-            } else {
-                $ignoreFree = array(PSI_IGNORE_FREE);
-            }
+            $ignoreFree = CommonFunctions::splitCommaList(PSI_IGNORE_FREE);
         }
         if (defined('PSI_IGNORE_TOTAL') && is_string(PSI_IGNORE_TOTAL)) {
-            if (preg_match(ARRAY_EXP, PSI_IGNORE_TOTAL)) {
-                $ignoreTotal = eval(PSI_IGNORE_TOTAL);
-            } else {
-                $ignoreTotal = array(PSI_IGNORE_TOTAL);
-            }
+            $ignoreTotal = CommonFunctions::splitCommaList(PSI_IGNORE_TOTAL);
         }
         if (defined('PSI_IGNORE_USAGE') && is_string(PSI_IGNORE_USAGE)) {
-            if (preg_match(ARRAY_EXP, PSI_IGNORE_USAGE)) {
-                $ignoreUsage = eval(PSI_IGNORE_USAGE);
-            } else {
-                $ignoreUsage = array(PSI_IGNORE_USAGE);
-            }
+            $ignoreUsage = CommonFunctions::splitCommaList(PSI_IGNORE_USAGE);
         }
         if (defined('PSI_IGNORE_THRESHOLD_FS_TYPES') && is_string(PSI_IGNORE_THRESHOLD_FS_TYPES)) {
-            if (preg_match(ARRAY_EXP, PSI_IGNORE_THRESHOLD_FS_TYPES)) {
-                $ignoreThreshold = eval(PSI_IGNORE_THRESHOLD_FS_TYPES);
-            } else {
-                $ignoreThreshold = array(PSI_IGNORE_THRESHOLD_FS_TYPES);
-            }
+            $ignoreThreshold = CommonFunctions::splitCommaList(PSI_IGNORE_THRESHOLD_FS_TYPES);
         }
         $fs = $this->_xml->addChild('FileSystem');
         $i = 1;
@@ -664,11 +632,7 @@ class XML
 
         if (sizeof(unserialize(PSI_MBINFO))>0) {
             if (defined('PSI_HIDE_SENSORS') && is_string(PSI_HIDE_SENSORS)) {
-                 if (preg_match(ARRAY_EXP, PSI_HIDE_SENSORS)) {
-                    $hideSensors = eval(PSI_HIDE_SENSORS);
-                } else {
-                    $hideSensors = array(PSI_HIDE_SENSORS);
-                }
+                 $hideSensors = CommonFunctions::splitCommaList(PSI_HIDE_SENSORS);
             }
             foreach (unserialize(PSI_MBINFO) as $mbinfoclass) {
                 $mbinfo_data = new $mbinfoclass();

@@ -48,11 +48,7 @@ class PSStatus extends PSI_Plugin
         if (defined('PSI_PLUGIN_PSSTATUS_PROCESSES') && is_string(PSI_PLUGIN_PSSTATUS_PROCESSES)) {
             switch (strtolower(PSI_PLUGIN_PSSTATUS_ACCESS)) {
             case 'command':
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-                    $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                } else {
-                    $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                }
+                $processes = CommonFunctions::splitCommaList(PSI_PLUGIN_PSSTATUS_PROCESSES);
                 if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
                     $short = true;
                     if (strcasecmp($enc, "UTF-8") == 0) {
@@ -142,21 +138,13 @@ class PSStatus extends PSI_Plugin
                 if (defined('PSI_EMU_HOSTNAME')) {
                     WINNT::convertCP($strBuf, $this->_enc);
                 }
-                if (preg_match(ARRAY_EXP, $strBuf)) {
-                    $processes = eval($strBuf);
-                } else {
-                    $processes = array($strBuf);
-                }
+                $processes = CommonFunctions::splitCommaList($strBuf);
 
                 foreach ($processes as $process) {
                     $this->_result[] = array($process, $this->process_inarray(strtolower($process), $this->_filecontent));
                 }
             } else {
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_PSSTATUS_PROCESSES)) {
-                    $processes = eval(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                } else {
-                    $processes = array(PSI_PLUGIN_PSSTATUS_PROCESSES);
-                }
+                $processes = CommonFunctions::splitCommaList(PSI_PLUGIN_PSSTATUS_PROCESSES);
 
                 foreach ($processes as $process) {
                     $this->_result[] = array($process, $this->process_inarray($process, $this->_filecontent));

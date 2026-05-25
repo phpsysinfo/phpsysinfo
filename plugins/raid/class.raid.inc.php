@@ -38,11 +38,7 @@ class Raid extends PSI_Plugin
         $this->prog_items = array();
         if (defined('PSI_PLUGIN_RAID_PROGRAM') && is_string(PSI_PLUGIN_RAID_PROGRAM)) {
             if (is_string(PSI_PLUGIN_RAID_PROGRAM)) {
-                if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_PROGRAM)) {
-                    $this->prog_items = eval(strtolower(PSI_PLUGIN_RAID_PROGRAM));
-                } else {
-                    $this->prog_items = array(strtolower(PSI_PLUGIN_RAID_PROGRAM));
-                }
+                $this->prog_items = CommonFunctions::splitCommaList(strtolower(PSI_PLUGIN_RAID_PROGRAM));
             } else {
                 $this->global_error->addConfigError("__construct()", "[raid] PROGRAM");
 
@@ -150,11 +146,7 @@ class Raid extends PSI_Plugin
             }
             if (in_array('idrac', $this->prog_items)) {
                 if (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
-                        $devices = eval(PSI_PLUGIN_RAID_IDRAC_DEVICES);
-                    } else {
-                        $devices = array(PSI_PLUGIN_RAID_IDRAC_DEVICES);
-                    }
+                    $devices = CommonFunctions::splitCommaList(PSI_PLUGIN_RAID_IDRAC_DEVICES);
                     if (strtolower(PSI_PLUGIN_RAID_ACCESS)=="command") {
                         foreach ($devices as $device) {
                             CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$device." .1.3.6.1.4.1.674.10892.5.5.1.20", $buffer, PSI_DEBUG);
@@ -201,11 +193,7 @@ class Raid extends PSI_Plugin
                     if ($item !== 'idrac') {
                         CommonFunctions::rftsdata("raid".$item.".tmp", $this->_filecontent[$item], 0, 4096, false);
                     } elseif (defined('PSI_PLUGIN_RAID_IDRAC_DEVICES') && is_string(PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
-                        if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_IDRAC_DEVICES)) {
-                            $devices = eval(PSI_PLUGIN_RAID_IDRAC_DEVICES);
-                        } else {
-                            $devices = array(PSI_PLUGIN_RAID_IDRAC_DEVICES);
-                        }
+                        $devices = CommonFunctions::splitCommaList(PSI_PLUGIN_RAID_IDRAC_DEVICES);
                         $pn=0;
                         foreach ($devices as $device) {
                             $buffer="";
@@ -2467,11 +2455,7 @@ class Raid extends PSI_Plugin
         }
         $hideRaids = array();
         if (defined('PSI_PLUGIN_RAID_HIDE_DEVICES') && is_string(PSI_PLUGIN_RAID_HIDE_DEVICES)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGIN_RAID_HIDE_DEVICES)) {
-                $hideRaids = eval(PSI_PLUGIN_RAID_HIDE_DEVICES);
-            } else {
-                $hideRaids = array(PSI_PLUGIN_RAID_HIDE_DEVICES);
-            }
+            $hideRaids = CommonFunctions::splitCommaList(PSI_PLUGIN_RAID_HIDE_DEVICES);
         }
 
         foreach ($this->prog_items as $item) if (isset($this->_result[$item])) {

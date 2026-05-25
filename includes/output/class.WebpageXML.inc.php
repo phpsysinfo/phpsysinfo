@@ -103,11 +103,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 // check if there is a valid sensor configuration in phpsysinfo.ini
                 $foundsp = array();
                 if (defined('PSI_SENSOR_PROGRAM') && is_string(PSI_SENSOR_PROGRAM)) {
-                    if (preg_match(ARRAY_EXP, PSI_SENSOR_PROGRAM)) {
-                        $sensorprograms = eval(strtolower(PSI_SENSOR_PROGRAM));
-                    } else {
-                        $sensorprograms = array(strtolower(PSI_SENSOR_PROGRAM));
-                    }
+                    $sensorprograms = CommonFunctions::splitCommaList(strtolower(PSI_SENSOR_PROGRAM));
                     foreach ($sensorprograms as $sensorprogram) {
                         if (!file_exists(PSI_APP_ROOT.'/includes/mb/class.'.$sensorprogram.'.inc.php')) {
                             $this->error->addError("file_exists(class.".htmlspecialchars($sensorprogram).".inc.php)", "specified sensor program is not supported");
@@ -129,11 +125,7 @@ class WebpageXML extends Output implements PSI_Interface_Output
                 // check if there is a valid ups configuration in phpsysinfo.ini
                 $foundup = array();
                 if (defined('PSI_UPS_PROGRAM') && is_string(PSI_UPS_PROGRAM)) {
-                    if (preg_match(ARRAY_EXP, PSI_UPS_PROGRAM)) {
-                        $upsprograms = eval(strtolower(PSI_UPS_PROGRAM));
-                    } else {
-                        $upsprograms = array(strtolower(PSI_UPS_PROGRAM));
-                    }
+                    $upsprograms = CommonFunctions::splitCommaList(strtolower(PSI_UPS_PROGRAM));
                     foreach ($upsprograms as $upsprogram) {
                         if (!file_exists(PSI_APP_ROOT.'/includes/ups/class.'.$upsprogram.'.inc.php')) {
                             $this->error->addError("file_exists(class.".htmlspecialchars($upsprogram).".inc.php)", "specified UPS program is not supported");
