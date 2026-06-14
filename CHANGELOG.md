@@ -7,6 +7,7 @@ phpSysInfo 3.4.6
 ----------------
 
  - [NEW] Themes: catppuccin, tomorrow-night-eighties, tokyo-night-storm
+ - [NEW] TRUSTED_PROXIES option
 
 phpSysInfo 3.4.5
 ----------------
