@@ -39,15 +39,55 @@ if (!defined('PSI_CONFIG_FILE')) {
     if (defined('PSI_ALLOWED') && is_string(PSI_ALLOWED)) {
         $allowed = preg_split('/\s*,\s*/', strtolower(PSI_ALLOWED), -1, PREG_SPLIT_NO_EMPTY);
 
-        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-        } else {
-            if (isset($_SERVER["HTTP_CLIENT_IP"])) {
-                $ip = $_SERVER["HTTP_CLIENT_IP"];
-            } else {
-                $ip = $_SERVER["REMOTE_ADDR"];
+      // Default: REMOTE_ADDR cannot be spoofed by the client
+        $ip = $_SERVER["REMOTE_ADDR"];
+
+    // Only trust X-Forwarded-For / Client-IP when request comes from a trusted proxy
+        if (defined('PSI_TRUSTED_PROXIES') && is_string(PSI_TRUSTED_PROXIES)) {
+            $trusted_proxies = preg_split('/\s*,\s*/', strtolower(PSI_TRUSTED_PROXIES), -1, PREG_SPLIT_NO_EMPTY);
+
+            $proxy_ip_decimal = ip2long(preg_replace("/^::ffff:/", "", strtolower($ip)));
+            $is_trusted = false;
+
+            if ($proxy_ip_decimal !== false) {
+                foreach ($trusted_proxies as $proxy) {
+                    if (strpos($proxy, '/') === false) {
+                        $is_trusted = (ip2long($proxy) === $proxy_ip_decimal);
+                    } else {
+                        list($proxy_net, $netmask) = explode('/', $proxy, 2);
+                        $proxy_net_decimal = ip2long($proxy_net);
+                        $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+                        $netmask_decimal = ~$wildcard_decimal;
+                        $is_trusted = (($proxy_ip_decimal & $netmask_decimal) === ($proxy_net_decimal & $netmask_decimal));
+                    }
+                    if ($is_trusted) {
+                        break;
+                    }
+                }
+            }
+
+            // Request comes from trusted proxy — extract real client IP
+            if ($is_trusted) {
+                $candidate = null;
+
+                if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+                    $parts = array_map('trim', explode(',', $_SERVER["HTTP_X_FORWARDED_FOR"]));
+                    $candidate = end($parts); // right-most untrusted hop
+                } elseif (isset($_SERVER["HTTP_CLIENT_IP"])) {
+                    $parts = array_map('trim', explode(',', $_SERVER["HTTP_CLIENT_IP"]));
+                    $candidate = end($parts);
+                }
+
+                // Validate IP before trusting
+                if ($candidate !== null) {
+                    $candidate_clean = preg_replace("/^::ffff:/", "", strtolower($candidate));
+                    if (ip2long($candidate_clean) !== false) {
+                        $ip = $candidate_clean;
+                    }
+                }
             }
         }
+
         $ip = preg_replace("/^::ffff:/", "", strtolower($ip));
 
         $ip_decimal = ip2long($ip);

@@ -41,11 +41,17 @@ JS_COMPRESSION="Normal"
 ;
 ADD_PATHS=false
 
-; List of IP addresses (IPv4) of clients authorized to run
+; List of IP addresses (IPv4) of clients authorized to run. Supports CIDR notation.
 ; Example : ALLOWED="127.0.0.1,192.168.1.48,192.168.0.0/24" //allowed IP 127.0.0.1, 192.168.1.48 and 192.168.0.0/24
 ;           ALLOWED=false //no IP checking
 ;
 ALLOWED=false
+
+; Trusted reverse proxies — ONLY when phpSysInfo is behind a proxy
+; These are the proxy IPs, NOT client IPs. Supports CIDR notation.
+; Example : TRUSTED_PROXIES="192.168.1.1,10.0.0.0/8,127.0.0.1"
+;           TRUSTED_PROXIES=false //no proxy (default, safest)
+TRUSTED_PROXIES=false
 
 ; Enable JSONP data mode (e.g. /phpsysinfo/xml.php?plugin=complete&jsonp&callback=getData)
 ; Disabled by default for security reasons.
