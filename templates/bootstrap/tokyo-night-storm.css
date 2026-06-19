@@ -1,0 +1,232 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    padding-top: 80px;
+    color: #a9b1d6;
+    background-color: #24283b;
+}
+
+wbr {
+    display: inline-block;
+}
+
+.table td.rightCell, .table th.rightCell {
+    text-align: right;
+}
+
+.percent {
+    text-align: center;
+}
+
+.card {
+    background-color: #1f2335;
+    border-style: none;
+}
+
+.navbar {
+    background-color: #414868;
+    border-color: #1f2335;
+}
+
+.navbar-brand, .navbar-brand:hover {
+    color: #c0caf5;
+    margin-right: 0;
+}
+
+.treegrid-span {
+    display: table-cell;
+}
+
+.treegrid-spanbold {
+    font-weight: bold;
+    display: table-cell;
+}
+
+.treegrid-indent {
+    width: 16px;
+    height: 16px;
+    display: table-cell;
+}
+
+.treegrid-expander {
+    width: 0px;
+    height: 16px;
+    display: table-cell;
+    cursor: pointer;
+}
+
+.normalicon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 1px;
+    display: table-cell;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.normalicon-right:before {
+    content: "\25ba";
+}
+.normalicon-down:before {
+    content: "\25bc";
+}
+
+table.sortable thead th {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover {
+    background-color: #414868;
+}
+
+.sorttable_nosort {
+    cursor: auto!important;
+}
+
+.table-hover > tbody > tr:hover {
+    color: #a9b1d6;
+    background-color: #414868;
+}
+
+.table-hover > tfoot > tr:hover {
+    background-color: #414868;
+}
+
+table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
+    border-style: none!important;
+}
+
+.table {
+    color: #a9b1d6;
+    background-color: #1f2335!important;
+    margin: 0;
+    border-style: none;
+}
+
+.logo {
+    cursor: pointer;
+    width: 32px;
+}
+
+.select {
+    color: #a9b1d6;
+}
+
+select {
+    background-color: #414868;
+    color: #a9b1d6;
+}
+
+.template {
+    cursor: pointer;
+    color: #a9b1d6;
+}
+
+.language {
+    cursor: pointer;
+    color: #a9b1d6;
+}
+
+.card-header {
+   background-color: #7aa2f7!important;
+   border-color: #7aa2f7!important;
+   color: #1f2335!important;
+}
+
+.progress {
+    margin-bottom: 0;
+    background-color: #1a1b26;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+
+.progress-bar-success {
+    background-color: #9ece6a;
+}
+
+.progress-bar-info {
+    background-color: #7dcfff;
+}
+
+.progress-bar-warning {
+    background-color: #e0af68;
+}
+
+.progress-bar-danger {
+    background-color: #f7768e;
+}
+
+.modal-content {
+    background-color: #1f2335;
+}
+
+.modal {
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.list-group {
+    display: block;
+}
+
+.list-group-item {
+    background-color: #1f2335;
+}
+
+.reload {
+    background-image: url("../../gfx/reload.gif");
+    float: right;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.container {
+    padding: 0;
+}
+
+.table thead th {
+    border-top: none;
+}
+
+a, a:visited {
+    color: #7aa2f7;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #b4d0fb;
+}
+
+.psihref, .psihref:visited {
+    text-decoration: none;
+    color: #c0caf5;
+}
+
+.psihref:hover {
+    text-decoration: underline;
+    color: #c0caf5;
+}
+
+.col-lg-6, .col-lg-12 {
+    padding-bottom: 20px;
+}
+
+.badge {
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 3px 7px;
+    float: right;
+}
+
+.table-nopadding > tbody > tr > td,
+.table-nopadding > tbody > tr > th {
+  padding: 0;
+}

@@ -35,11 +35,7 @@ class SNMPPInfo extends PSI_Plugin
         switch (strtolower(PSI_PLUGIN_SNMPPINFO_ACCESS)) {
         case 'command':
                 if (defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                        $printers = eval(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    } else {
-                        $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    }
+                    $printers = CommonFunctions::splitCommaList(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     foreach ($printers as $printer) {
                         CommonFunctions::executeProgram("snmpwalk", "-Ona -c public -v 1 -t ".PSI_SNMP_TIMEOUT_INT." -r ".PSI_SNMP_RETRY_INT." ".$printer." .1.3.6.1.2.1.1.5", $buffer, PSI_DEBUG);
                         if (strlen($buffer) > 0) {
@@ -70,11 +66,7 @@ class SNMPPInfo extends PSI_Plugin
                 snmp_set_valueretrieval(SNMP_VALUE_LIBRARY);
                 snmp_set_oid_output_format(SNMP_OID_OUTPUT_NUMERIC);
                 if (defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                        $printers = eval(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    } else {
-                        $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    }
+                    $printers = CommonFunctions::splitCommaList(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     foreach ($printers as $printer) {
                         if (! PSI_DEBUG) {
                             restore_error_handler(); /* default error handler */
@@ -147,11 +139,7 @@ class SNMPPInfo extends PSI_Plugin
                 break;
         case 'data':
                 if (defined('PSI_PLUGIN_SNMPPINFO_DEVICES') && is_string(PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                    if (preg_match(ARRAY_EXP, PSI_PLUGIN_SNMPPINFO_DEVICES)) {
-                        $printers = eval(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    } else {
-                        $printers = array(PSI_PLUGIN_SNMPPINFO_DEVICES);
-                    }
+                    $printers = CommonFunctions::splitCommaList(PSI_PLUGIN_SNMPPINFO_DEVICES);
                     $pn=0;
                     foreach ($printers as $printer) {
                         $buffer="";

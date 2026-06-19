@@ -183,11 +183,7 @@ class Webpage extends Output implements PSI_Interface_Output
         $tpl->set("hideTotals", defined('PSI_HIDE_TOTALS') ? (PSI_HIDE_TOTALS ? 'true' : 'false') : 'false');
         if (defined('PSI_BLOCKS')) {
             if (is_string(PSI_BLOCKS)) {
-                if (preg_match(ARRAY_EXP, PSI_BLOCKS)) {
-                    $blocks = eval(strtolower(PSI_BLOCKS));
-                } else {
-                    $blocks = array(strtolower(PSI_BLOCKS));
-                }
+                $blocks = CommonFunctions::splitCommaList(strtolower(PSI_BLOCKS));
                 $blocklist = '';
                 $validblocks = array('vitals','hardware','memory','filesystem','network','voltage','current','temperature','fans','power','other','ups');
                 foreach ($blocks as $block) {

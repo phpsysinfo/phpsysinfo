@@ -91,11 +91,7 @@ class CommonFunctions
                 array_push($arrPath, '/system/bin'); // Termux patch
             }
             if (defined('PSI_ADD_PATHS') && is_string(PSI_ADD_PATHS)) {
-                if (preg_match(ARRAY_EXP, PSI_ADD_PATHS)) {
-                    $arrPath = array_merge(eval(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-                } else {
-                    $arrPath = array_merge(array(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
-                }
+                $arrPath = array_merge(CommonFunctions::splitCommaList(PSI_ADD_PATHS), $arrPath); // In this order so $addpaths is before $arrPath when looking for a program
             }
         } else { //directory defined
             array_push($arrPath, $path_parts['dirname']);
@@ -160,10 +156,12 @@ class CommonFunctions
      * @param string  &$strBuffer     output of the command
      * @param boolean $booErrorRep    en- or disables the reporting of errors which should be logged
      * @param int     $timeout        timeout value in seconds (default value is PSI_EXEC_TIMEOUT_INT)
+     * @param string  $separator      new line separator on DrayOS
+     * @param boolean $utf16          quick conversion from utf16
      *
      * @return boolean command successfull or not
      */
-    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '')
+    public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '', $utf16 = false)
     {
         if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
 
@@ -196,11 +194,7 @@ class CommonFunctions
         $PathStr = '';
         if (defined('PSI_EMU_PORT') && !in_array($strProgramname, array('ping', 'snmpwalk'))) {
             if (defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
-                if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
-                    $sudocommands = eval(PSI_SUDO_COMMANDS);
-                } else {
-                    $sudocommands = array(PSI_SUDO_COMMANDS);
-                }
+                $sudocommands = CommonFunctions::splitCommaList(PSI_SUDO_COMMANDS);
                 if (in_array($strProgramname, $sudocommands)) {
                     $strAll = 'sudo '.$strAll;
                 }
@@ -209,21 +203,13 @@ class CommonFunctions
             $strProgramname = 'sshpass';
             $strOptions = '';
             if (defined('PSI_EMU_ADD_OPTIONS') && is_string(PSI_EMU_ADD_OPTIONS)) {
-                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_OPTIONS)) {
-                    $arrParams = eval(PSI_EMU_ADD_OPTIONS);
-                } else {
-                    $arrParams = array(PSI_EMU_ADD_OPTIONS);
-                }
+                $arrParams = CommonFunctions::splitCommaList(PSI_EMU_ADD_OPTIONS);
                 foreach ($arrParams as $Params) if (preg_match('/(\S+)\s*\=\s*(\S+)/', $Params, $obuf)) {
                     $strOptions = $strOptions.'-o '.$obuf[1].'='.$obuf[2].' ';
                 }
             }
             if (defined('PSI_EMU_ADD_PATHS') && is_string(PSI_EMU_ADD_PATHS)) {
-                if (preg_match(ARRAY_EXP, PSI_EMU_ADD_PATHS)) {
-                    $arrPath = eval(PSI_EMU_ADD_PATHS);
-                } else {
-                    $arrPath = array(PSI_EMU_ADD_PATHS);
-                }
+                $arrPath = CommonFunctions::splitCommaList(PSI_EMU_ADD_PATHS);
                 foreach ($arrPath as $Path) {
                     if ($PathStr === '') {
                         $PathStr = $Path;
@@ -263,11 +249,7 @@ class CommonFunctions
         }
 
         if ((PSI_OS != 'WINNT') && !defined('PSI_EMU_HOSTNAME') && defined('PSI_SUDO_COMMANDS') && is_string(PSI_SUDO_COMMANDS)) {
-            if (preg_match(ARRAY_EXP, PSI_SUDO_COMMANDS)) {
-                $sudocommands = eval(PSI_SUDO_COMMANDS);
-            } else {
-                $sudocommands = array(PSI_SUDO_COMMANDS);
-            }
+            $sudocommands = CommonFunctions::splitCommaList(PSI_SUDO_COMMANDS);
             if (in_array($strProgramname, $sudocommands)) {
                 $sudoProgram = self::_findProgram("sudo");
                 if (!$sudoProgram) {
@@ -372,8 +354,15 @@ class CommonFunctions
 
             return false;
         }
-        $strError = trim($strError);
-        $strBuffer = trim($strBuffer);
+        // quick conversion from utf16
+        if ($utf16 && ((strlen($strError) > 1) && ($strError[1] === chr(0))
+                    || (strlen($strBuffer) > 1) && ($strBuffer[1] === chr(0)))) {
+            $strError = trim(preg_replace('/\r\r\n/', "\n", preg_replace('/(\x00)/', '', $strError)));
+            $strBuffer = trim(preg_replace('/\r\r\n/', "\n", preg_replace('/(\x00)/', '', $strBuffer)));
+        } else {
+            $strError = trim($strError);
+            $strBuffer = trim($strBuffer);
+        }
         if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && (substr(PSI_LOG, 0, 1)!="-") && (substr(PSI_LOG, 0, 1)!="+")) {
             error_log("---".gmdate('r T')."--- Executing: ".$strAll."\n".$strBuffer."\n", 3, PSI_LOG);
         }
@@ -777,11 +766,7 @@ class CommonFunctions
     public static function getPlugins()
     {
         if (defined('PSI_PLUGINS') && is_string(PSI_PLUGINS)) {
-            if (preg_match(ARRAY_EXP, PSI_PLUGINS)) {
-                return eval(strtolower(PSI_PLUGINS));
-            } else {
-                return array(strtolower(PSI_PLUGINS));
-            }
+            return CommonFunctions::splitCommaList(strtolower(PSI_PLUGINS));
         } else {
             return array();
         }
@@ -892,5 +877,23 @@ class CommonFunctions
         }
 
         return self::$_dmimd;
+    }
+
+    /**
+     * splitCommaList function
+     *
+     * @return array
+     */
+    public static function splitCommaList($value)
+    {
+        if ($value === false || $value === '' || $value === null) {
+            return array();
+        }
+        if (!is_string($value)) {
+            return array($value);
+        }
+        $result = preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY);
+
+        return $result;
     }
 }

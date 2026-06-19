@@ -49,6 +49,13 @@ class WINNT extends OS
     private $_Win32_ComputerSystem = null;
 
     /**
+     * holds the data from WMI Win32_Process
+     *
+     * @var array
+     */
+    private static $_Win32_Process = null;
+
+    /**
      * holds the data from WMI Win32_Processor
      *
      * @var array
@@ -189,6 +196,17 @@ class WINNT extends OS
     }
 
     /**
+     * reads the data from WMI Win32_Process
+     *
+     * @return array
+     */
+    public static function _get_Win32_Process()
+    {
+        if (self::$_Win32_Process === null) self::$_Win32_Process = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+        return self::$_Win32_Process;
+    }
+
+    /**
      * reads the data from WMI Win32_Processor
      *
      * @return array
@@ -221,7 +239,7 @@ class WINNT extends OS
             $this->_Win32_PerfFormattedData_PerfOS_Processor = array();
             $buffer = $this->_get_Win32_OperatingSystem();
             if ($buffer && isset($buffer[0]) && isset($buffer[0]['Version']) && version_compare($buffer[0]['Version'], "5.1", ">=")) { // minimal windows 2003 or windows XP
-                $cpubuffer = self::getWMI(self::$_wmi, 'Win32_PerfFormattedData_PerfOS_Processor', array('Name', 'PercentProcessorTime'));
+                $cpubuffer = self::getWMI(self::$_wmi, 'Win32_PerfFormattedData_PerfOS_Processor', array('Name', 'PercentProcessorTime'), true);
                 foreach ($cpubuffer as $cpu) {
                     if (isset($cpu['Name']) && isset($cpu['PercentProcessorTime'])) {
                         $this->_Win32_PerfFormattedData_PerfOS_Processor['cpu'.$cpu['Name']] = $cpu['PercentProcessorTime'];
@@ -258,8 +276,8 @@ class WINNT extends OS
         if (self::$_asadmin == null) {
             if (PSI_OS == 'WINNT') {
                 $strBuf = '';
-                CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false); // 'net session' for detection does not work if "Server" (LanmanServer) service is stopped
-                if (preg_match('/^\/SCANNOW\s/m', preg_replace('/(\x00)/', '', $strBuf))) { // SCANNOW checking - also if Unicode
+                CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false, PSI_EXEC_TIMEOUT_INT, '', true); // execute with quick utf16 conversion
+                if (preg_match('/^\/SCANNOW\s/m', $strBuf)) { // SCANNOW checking
                     self::$_asadmin = true;
                 } else {
                     self::$_asadmin = false;
@@ -279,36 +297,50 @@ class WINNT extends OS
      * @param $wmi object holds the COM object that we pull the WMI data from
      * @param string $strClass name of the class where the values are stored
      * @param array  $strValue filter out only needed values, if not set all values of the class are returned
+     * @forceselect  use select values instead of getting all (set when you are sure that all of them are always defined)
      *
      * @return array content of the class stored in an array
      */
-    public static function getWMI($wmi, $strClass, $strValue = array())
+    public static function getWMI($wmi, $strClass, $strValue = array(), $forceselect = false)
     {
         $arrData = array();
         if (gettype($wmi) === "object") {
             $value = "";
             try {
-                $objWEBM = $wmi->Get($strClass);
-                $arrProp = $objWEBM->Properties_;
-                $arrWEBMCol = $objWEBM->Instances_();
-                foreach ($arrWEBMCol as $objItem) {
-                    if (is_array($arrProp)) {
-                        reset($arrProp);
+                if (!empty($strValue) && ((count($strValue) == 1) || $forceselect)) { 
+                    // When there is only one parameter, we don't have to worry about any other parameters not existing, so we can select one instead of getting all
+                    $objWEBM = $wmi->ExecQuery("SELECT ".implode(',', $strValue)." FROM ".$strClass);
+                    foreach ($objWEBM as $objItem) {
+                        $arrInstance = array();
+                        foreach ($strValue as $propItem) {
+                            if (isset($objItem->$propItem))
+                                $arrInstance[$propItem] = $objItem->$propItem;
+                        }
+                        $arrData[] = $arrInstance;
                     }
-                    $arrInstance = array();
-                    foreach ($arrProp as $propItem) {
-                        $value = $objItem->{$propItem->Name}; //instead exploitable eval("\$value = \$objItem->".$propItem->Name.";");
-                        if (empty($strValue)) {
-                            if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
-                            else $arrInstance[$propItem->Name] = $value;
-                        } else {
-                            if (in_array($propItem->Name, $strValue)) {
+                } else {
+                    $objWEBM = $wmi->Get($strClass);
+                    $arrProp = $objWEBM->Properties_;
+                    $arrWEBMCol = $objWEBM->Instances_();
+                    foreach ($arrWEBMCol as $objItem) {
+                        if (is_array($arrProp)) {
+                            reset($arrProp);
+                        }
+                        $arrInstance = array();
+                        foreach ($arrProp as $propItem) {
+                            $value = $objItem->{$propItem->Name}; //instead exploitable eval("\$value = \$objItem->".$propItem->Name.";");
+                            if (empty($strValue)) {
                                 if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
                                 else $arrInstance[$propItem->Name] = $value;
+                            } else {
+                                if (in_array($propItem->Name, $strValue)) {
+                                    if (is_string($value)) $arrInstance[$propItem->Name] = trim($value);
+                                    else $arrInstance[$propItem->Name] = $value;
+                                }
                             }
                         }
+                        $arrData[] = $arrInstance;
                     }
-                    $arrData[] = $arrInstance;
                 }
             } catch (Exception $e) {
                 if (PSI_DEBUG && (($message = trim($e->getMessage())) !== "<b>Source:</b> SWbemServicesEx<br/><b>Description:</b> Not found")) {
@@ -318,7 +350,13 @@ class WINNT extends OS
             }
         } elseif ((gettype($wmi) === "string") && (PSI_OS == 'Linux')) {
             $delimeter = '@@@DELIM@@@';
-            if (CommonFunctions::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
+            if (!empty($strValue) && ((count($strValue) == 1) || $forceselect)) {
+                // When there is only one parameter, we don't have to worry about any other parameters not existing, so we can select one instead of all
+                $select = implode(',', $strValue);
+            } else {
+                $select = '*';
+            }
+            if (CommonFunctions::executeProgram('wmic', '--delimiter="'.$delimeter.'" '.$wmi.' "select '.$select.' from '.$strClass.'" 2>/dev/null', $strBuf, true) && preg_match("/^CLASS:\s/", $strBuf)) {
                 if (self::$_cp) {
                     if (self::$_cp == 932) {
                         $codename = ' (SJIS)';
@@ -515,7 +553,7 @@ class WINNT extends OS
             try {
                 if (PSI_OS == 'Linux') {
                     if (defined('PSI_EMU_HOSTNAME'))
-                        $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME.' "select * from';
+                        $wmi = '--namespace="'.$namespace.'" -U '.PSI_EMU_USER.'%'.PSI_EMU_PASSWORD.' //'.PSI_EMU_HOSTNAME;
                 } elseif (PSI_OS == 'WINNT') {
                     $objLocator = new COM('WbemScripting.SWbemLocator');
                     if (defined('PSI_EMU_HOSTNAME'))
@@ -568,12 +606,14 @@ class WINNT extends OS
     public function __construct($blockname = false)
     {
         parent::__construct($blockname);
-        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && (($ver_value = trim($ver_value)) !== "")) {
-            $this->_ver = $ver_value;
-        }
-        if (($this->_ver !== "") && preg_match("/ReactOS\r?\n\S+\s+.+/", $this->_ver)) {
-            self::$_wmi = false; // No WMI info on ReactOS yet
-            $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
+        if (!defined('PSI_EMU_HOSTNAME') && CommonFunctions::readenv('WinDir', $serverpath) //ReactOS detection
+            && CommonFunctions::rfts($serverpath.'/readme.txt', $readme, 2, 4096, false)
+            && ($readme !== "") && preg_match('/[=]+\r?\nReactOS/',$readme)
+            && CommonFunctions::executeProgram('cmd', '/c ver 2>nul', $ver_value, false) && ($ver_value !== "")
+            && preg_match("/ReactOS\r?\n\S+\s+.+/", $ver_value)) {
+                $this->_ver = $ver_value;
+                self::$_wmi = false; // No WMI info on ReactOS yet
+                $this->_reg = false; // No EnumKey and ReadReg on ReactOS yet
         } else {
             if ((PSI_OS == 'WINNT') && !defined('PSI_SYSTEM_CODEPAGE')) {
                 if (defined('PSI_EMU_HOSTNAME')) {
@@ -959,7 +999,7 @@ class WINNT extends OS
                 $users = count($lines)-1;
         } else {
             $users = 0;
-            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+            $buffer = $this->_get_Win32_Process();
             foreach ($buffer as $process) {
                 if (strtoupper($process['Caption']) == strtoupper('explorer.exe')) {
                     $users++;
@@ -1456,7 +1496,24 @@ class WINNT extends OS
                     }
                 }
 
-                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('SettingID', /*'Description',*/ 'MACAddress', 'IPAddress'));
+                $allNetworkAdapterConfigurations = self::getWMI(self::$_wmi, 'Win32_NetworkAdapterConfiguration', array('Caption', 'SettingID', 'MACAddress', 'IPAddress'));
+
+                if (!$aliases && !$aliases2) { // old method - tested on XP via WMI on Linux
+                    foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
+                       if (isset($NetworkAdapterConfiguration['Caption'])) {
+                           if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
+                               $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
+                               if (!isset($aliases[$cname])) { // duplicate checking
+                                    $aliases[$cname]['id'] = $NetworkAdapterConfiguration['SettingID'];
+                                    $aliases[$cname]['name'] = $strName;
+                                } else {
+                                    $aliases[$cname]['id'] = '';
+                                }
+                            }
+                        }
+                    }
+                }
+
                 foreach ($allDevices as $device) if (!preg_match('/^WAN Miniport \[/', $device['Name'])) {
                     $dev = new NetDevice();
                     $name = $device['Name'];
@@ -1486,6 +1543,11 @@ class WINNT extends OS
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                        && $macexist) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
                                     if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                        // multiple values via WMI on Linux
+                                        if (!is_array($value =  $NetworkAdapterConfiguration['IPAddress'])
+                                           && preg_match('/^\((.+)\)$/', $value, $values)) {
+                                            $NetworkAdapterConfiguration['IPAddress'] = explode(',', $values[1]);
+                                        }
                                         foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
@@ -1730,7 +1792,7 @@ class WINNT extends OS
             $processes['*'] = (count($lines)-1) - 3 ; //correction for process "qprocess *"
         }
         if ($processes['*'] <= 0) {
-            $buffer = self::getWMI(self::$_wmi, 'Win32_Process', array('Caption'));
+            $buffer = $this->_get_Win32_Process();
             $processes['*'] = count($buffer);
         }
         $processes[' '] = $processes['*'];

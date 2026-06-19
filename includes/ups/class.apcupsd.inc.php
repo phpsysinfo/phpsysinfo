@@ -45,16 +45,12 @@ class Apcupsd extends UPS
         switch (strtolower(PSI_UPS_APCUPSD_ACCESS)) {
         case 'data':
             if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
-                if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
-                    $upss = eval(PSI_UPS_APCUPSD_LIST);
-                } else {
-                    $upss = array(PSI_UPS_APCUPSD_LIST);
-                }
+                $upses = CommonFunctions::splitCommaList(PSI_UPS_APCUPSD_LIST);
             } else {
-               $upss = array('UPS');
+                $upses = array('UPS');
             }
             $un = 0;
-            foreach ($upss as $ups) {
+            foreach ($upses as $ups) {
                 $temp = "";
                 CommonFunctions::rftsdata("upsapcupsd{$un}.tmp", $temp);
                 if (! empty($temp)) {
@@ -65,11 +61,7 @@ class Apcupsd extends UPS
             break;
         default:
             if (defined('PSI_UPS_APCUPSD_LIST') && is_string(PSI_UPS_APCUPSD_LIST)) {
-                if (preg_match(ARRAY_EXP, PSI_UPS_APCUPSD_LIST)) {
-                    $upses = eval(PSI_UPS_APCUPSD_LIST);
-                } else {
-                    $upses = array(PSI_UPS_APCUPSD_LIST);
-                }
+                $upses = CommonFunctions::splitCommaList(PSI_UPS_APCUPSD_LIST);
                 foreach ($upses as $ups) {
                     $temp = "";
                     CommonFunctions::executeProgram('apcaccess', 'status '.trim($ups), $temp);

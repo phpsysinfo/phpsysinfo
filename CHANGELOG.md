@@ -3,6 +3,12 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.sourceforge.net/
 
+phpSysInfo 3.4.6
+----------------
+
+ - [NEW] Themes: catppuccin, tomorrow-night-eighties, tokyo-night-storm
+ - [NEW] TRUSTED_PROXIES option
+
 phpSysInfo 3.4.5
 ----------------
  - [ADD] AnduinOS, Chimera and Mauna Linux to detected distros
