@@ -39,10 +39,10 @@ if (!defined('PSI_CONFIG_FILE')) {
     if (defined('PSI_ALLOWED') && is_string(PSI_ALLOWED)) {
         $allowed = preg_split('/\s*,\s*/', strtolower(PSI_ALLOWED), -1, PREG_SPLIT_NO_EMPTY);
 
-      // Default: REMOTE_ADDR cannot be spoofed by the client
+        // Default: REMOTE_ADDR cannot be spoofed by the client
         $ip = $_SERVER["REMOTE_ADDR"];
 
-    // Only trust X-Forwarded-For / Client-IP when request comes from a trusted proxy
+        // Only trust X-Forwarded-For / Client-IP when request comes from a trusted proxy
         if (defined('PSI_TRUSTED_PROXIES') && is_string(PSI_TRUSTED_PROXIES)) {
             $trusted_proxies = preg_split('/\s*,\s*/', strtolower(PSI_TRUSTED_PROXIES), -1, PREG_SPLIT_NO_EMPTY);
 
