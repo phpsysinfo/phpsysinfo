@@ -1542,15 +1542,16 @@ class WINNT extends OS
                                     if (isset($ali[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $ali[$name]['netname']));
                                     if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
                                        && $macexist) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
-                                    if (isset($NetworkAdapterConfiguration['IPAddress']))
+                                    if (isset($NetworkAdapterConfiguration['IPAddress'])) {
                                         // multiple values via WMI on Linux
-                                        if (!is_array($value =  $NetworkAdapterConfiguration['IPAddress'])
+                                        if (is_string($value = $NetworkAdapterConfiguration['IPAddress'])
                                            && preg_match('/^\((.+)\)$/', $value, $values)) {
                                             $NetworkAdapterConfiguration['IPAddress'] = explode(',', $values[1]);
                                         }
                                         foreach ($NetworkAdapterConfiguration['IPAddress'] as $ipaddres)
                                             if (($ipaddres != "0.0.0.0") && ($ipaddres != "::") && !preg_match('/^fe80::/i', $ipaddres))
                                                 $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').strtolower($ipaddres));
+                                    }
                                 }
 
                                 break;
