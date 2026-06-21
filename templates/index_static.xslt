@@ -574,7 +574,6 @@
 																				<xsl:text> KiB)</xsl:text>
 																			</span>
 																		</xsl:if>
-
 																	</li>
 																</xsl:for-each>
 															</ul>
