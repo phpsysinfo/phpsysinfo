@@ -193,7 +193,7 @@ class Darwin extends BSDCommon
 		foreach ($lines as $line) {
 					$dev = new HWDevice();
 					if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
-					   $ar_buf = preg_split("/[\s@]+/", $line, 19);
+						$ar_buf = preg_split("/[\s@]+/", $line, 19);
 					$dev->setName(trim($ar_buf[1]));
 					$this->sys->setIdeDevices($dev);
 		}
@@ -203,7 +203,7 @@ class Darwin extends BSDCommon
 		foreach ($lines as $line) {
 					$dev = new HWDevice();
 					if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
-					   $ar_buf = preg_split("/[\s@]+/", $line, 19);
+						$ar_buf = preg_split("/[\s@]+/", $line, 19);
 					$dev->setName(trim($ar_buf[1]));
 					$this->sys->setIdeDevices($dev);
 		}
@@ -221,7 +221,7 @@ class Darwin extends BSDCommon
 		foreach ($lines as $line) {
 					$dev = new HWDevice();
 					if (!preg_match('/"USB Product Name" = "([^"]*)"/', $line, $ar_buf))
-					   $ar_buf = preg_split("/[\s@]+/", $line, 19);
+						$ar_buf = preg_split("/[\s@]+/", $line, 19);
 					$dev->setName(trim($ar_buf[1]));
 					if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
 						if (preg_match('/"USB Vendor Name" = "([^"]*)"/', $line, $ar_buf)) {
@@ -251,7 +251,7 @@ class Darwin extends BSDCommon
 		foreach ($lines as $line) {
 					$dev = new HWDevice();
 					if (!preg_match('/"Product Name"="([^"]*)"/', $line, $ar_buf))
-					   $ar_buf = preg_split("/[\s@]+/", $line, 19);
+						$ar_buf = preg_split("/[\s@]+/", $line, 19);
 					$dev->setName(trim($ar_buf[1]));
 					$this->sys->setScsiDevices($dev);
 		}
@@ -337,7 +337,7 @@ class Darwin extends BSDCommon
 		foreach ($lines as $line) {
 					$dev = new HWDevice();
 					if (!preg_match('/"Description" = "([^"]*)"/', $line, $ar_buf))
-					   $ar_buf = preg_split("/[\s@]+/", $line, 19);
+						$ar_buf = preg_split("/[\s@]+/", $line, 19);
 					$dev->setName(trim($ar_buf[1]));
 					$this->sys->setTbDevices($dev);
 		}

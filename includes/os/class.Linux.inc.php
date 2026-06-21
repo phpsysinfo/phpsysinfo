@@ -61,11 +61,11 @@ class Linux extends OS
 	 */
 	private $system_detect_virt = null;
 
-	 /**
-	  * Read contents of the dmesg file.
-	  *
-	  * @return string
-	  */
+	/**
+	 * Read contents of the dmesg file.
+	 *
+	 * @return string
+	 */
 	private function _get_dmesg_f()
 	{
 		if ($this->_dmesg_f === null) {
@@ -78,11 +78,11 @@ class Linux extends OS
 		return $this->_dmesg_f;
 	}
 
-	 /**
-	  * Save output of the dmesg command.
-	  *
-	  * @return string
-	  */
+	/**
+	 * Save output of the dmesg command.
+	 *
+	 * @return string
+	 */
 	private function _get_dmesg_c()
 	{
 		if ($this->_dmesg_c === null) {
@@ -538,7 +538,7 @@ class Linux extends OS
 			}
 
 			if (CommonFunctions::rfts('/proc/self/cgroup', $strBuf2, 0, 4096, false)) {
-			   if (preg_match('/:\/lxc\//m', $strBuf2)) {
+				if (preg_match('/:\/lxc\//m', $strBuf2)) {
 					$this->sys->setVirtualizer('lxc'); // Linux container
 				} elseif (preg_match('/:\/docker\//m', $strBuf2)) {
 					$this->sys->setVirtualizer('docker'); // Docker
@@ -608,7 +608,7 @@ class Linux extends OS
 			unset($result[3]);
 			$this->sys->setLoad(implode(' ', $result));
 		} elseif (($buf === null) && ((($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) && preg_match("/load average: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf))) {
-			  $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
+				$this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
 		}
 		if (PSI_LOAD_BAR) {
 			$this->sys->setLoadPercent($this->_parseProcStat('cpu'));
@@ -1201,16 +1201,16 @@ class Linux extends OS
 
 					if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS
 					   && ($dev_type[1]==='Direct-Access')) {
-					   $sizelist = CommonFunctions::findglob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
-					   if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
-						   $buf = "";
-						   for ($i = 0; $i < $total; $i++) {
-							   if (CommonFunctions::rfts($sizelist[$i], $buf, 1, 4096, false) && (($buf=trim($buf)) != "") && ($buf > 0)) {
-								   $dev->setCapacity($buf * 512);
-								   break;
-							   }
-						   }
-					   }
+						$sizelist = CommonFunctions::findglob('/sys/bus/scsi/devices/'.intval($scsiid[1]).':'.intval($scsiid[2]).':'.intval($scsiid[3]).':'.intval($scsiid[4]).'/*/*/size', GLOB_NOSORT);
+						if (is_array($sizelist) && (($total = count($sizelist)) > 0)) {
+							$buf = "";
+							for ($i = 0; $i < $total; $i++) {
+								if (CommonFunctions::rfts($sizelist[$i], $buf, 1, 4096, false) && (($buf=trim($buf)) != "") && ($buf > 0)) {
+									$dev->setCapacity($buf * 512);
+									break;
+								}
+							}
+						}
 					}
 					$this->sys->setScsiDevices($dev);
 					$getline = 0;

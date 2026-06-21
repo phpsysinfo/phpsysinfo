@@ -383,9 +383,9 @@ class Haiku extends OS
 			$this->_processes();
 		}
 		if (!$this->blockname || $this->blockname==='hardware') {
-		   $this->_cpuinfo();
-		   $this->_pci();
-		   $this->_usb();
+			$this->_cpuinfo();
+			$this->_pci();
+			$this->_usb();
 		}
 		if (!$this->blockname || $this->blockname==='memory') {
 			$this->_memory();

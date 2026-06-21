@@ -383,7 +383,7 @@ class SSH extends GNU
 									} elseif (isset($macarray[$ar_buf[1]])) {
 										$dev->setInfo($macarray[$ar_buf[1]].';'.$ar_buf[1]);
 									} else {
-									   $dev->setInfo($ar_buf[1]);
+										$dev->setInfo($ar_buf[1]);
 									}
 								}
 							} elseif (preg_match('/TX Packets:\d+[ ]+TX Rate\(bps\):(\d+)[ ]+RX Packets:\d+[ ]+RX Rate\(bps\):(\d+)/', $line, $ar_buf)) {

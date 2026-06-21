@@ -134,8 +134,8 @@ abstract class OS implements PSI_Interface_OS
 	protected function _ip()
 	{
 		if (PSI_USE_VHOST && !defined('PSI_EMU_HOSTNAME')) {
-		   if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
-			  && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
+			if ((CommonFunctions::readenv('SERVER_ADDR', $result) || CommonFunctions::readenv('LOCAL_ADDR', $result)) //is server address defined
+			   && !strstr($result, '.') && strstr($result, ':')) { //is IPv6, quick version of preg_match('/\(([[0-9A-Fa-f\:]+)\)/', $result)
 				$dnsrec = dns_get_record($this->sys->getHostname(), DNS_AAAA);
 				if (isset($dnsrec[0]['ipv6'])) { //is DNS IPv6 record
 					$this->sys->setIp($dnsrec[0]['ipv6']); //from DNS (avoid IPv6 NAT translation)
@@ -206,9 +206,9 @@ abstract class OS implements PSI_Interface_OS
 						$memtype = '';
 						if (isset($mem['Type']) && (($type = $mem['Type']) != 'None') && ($type != 'N/A') && ($type != 'Not Specified') && ($type != 'Other') && ($type != 'Unknown') && ($type != '<OUT OF SPEC>')) {
 							if (isset($mem['Speed']) && preg_match('/^(\d+)\s(MHz|MT\/s)/', $mem['Speed'], $speed) && ($speed[1] > 0) && (preg_match('/^(DDR\d*)(.*)/', $type, $dr) || preg_match('/^(SDR)AM(.*)/', $type, $dr))) {
-							   if (isset($mem['Minimum Voltage']) && isset($mem['Maximum Voltage']) &&
-								  preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
-								  ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
+								if (isset($mem['Minimum Voltage']) && isset($mem['Maximum Voltage']) &&
+								    preg_match('/^([\d\.]+)\sV$/', $mem['Minimum Voltage'], $minv) && preg_match('/^([\d\.]+)\sV$/', $mem['Maximum Voltage'], $maxv) &&
+								   ($minv[1]  > 0) && ($maxv[1] >0) && ($minv[1] < $maxv[1])) {
 									$lv = 'L';
 								} else {
 									$lv = '';

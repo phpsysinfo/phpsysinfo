@@ -395,9 +395,9 @@ abstract class BSDCommon extends OS
 		$notwas = true;
 		foreach ($this->readdmesg() as $line) {
 			if ($notwas) {
-			   $regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
-			   foreach ($regexps as $regexp) {
-				   if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
+				$regexps = preg_split("/\n/", $this->_CPURegExp1, -1, PREG_SPLIT_NO_EMPTY); // multiple regexp separated by \n
+				foreach ($regexps as $regexp) {
+					if (preg_match($regexp, $line, $ar_buf) && (sizeof($ar_buf) > 2)) {
 						if (!isset($devarray['CpuSpeed']) || ($devarray['CpuSpeed'] == 0)) {
 							$devarray['CpuSpeed'] = round($ar_buf[2]);
 						}

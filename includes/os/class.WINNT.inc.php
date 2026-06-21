@@ -517,7 +517,7 @@ class WINNT extends OS
 			if (isset($_hkey[$hkey])) {
 				$sub_keys = new VARIANT();
 				try {
-				   $reg->Get("StdRegProv")->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
+					$reg->Get("StdRegProv")->EnumKey(strval($_hkey[$hkey]), substr($strName, $first+1), $sub_keys);
 				} catch (Exception $e) {
 					if ($booErrorRep) {
 						$error = PSI_Error::singleton();
@@ -786,20 +786,20 @@ class WINNT extends OS
 									foreach ($tarBuf as $scsitar) if (!strncasecmp($scsitar, "Target Id ", strlen("Target Id "))) {
 										if (self::enumKey($this->_reg, $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar, $logBuf, false)) {
 											foreach ($logBuf as $scsilog) if (!strncasecmp($scsilog, "Logical Unit Id ", strlen("Logical Unit Id "))) {
-											   $hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
-											   if ((self::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || self::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
-												  && (($typeBuf=strtolower(trim($typeBuf))) !== "")) {
-												  if ((($typeBuf == 'diskperipheral') || ($typeBuf == 'cdromperipheral'))
-													 && self::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
-													  $this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
-													  if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
-														 && self::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false)
-														 && (($serBuf=trim($serBuf)) !== "")) {
-														  $this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
-													  }
-													  $id++;
-												  }
-											   }
+												$hkey2 = $hkey."\\".$scsiport."\\".$scsibus."\\".$scsitar."\\".$scsilog."\\";
+												if ((self::readReg($this->_reg, $hkey2."DeviceType", $typeBuf, false) || self::readReg($this->_reg, $hkey2."Type", $typeBuf, false))
+												   && (($typeBuf=strtolower(trim($typeBuf))) !== "")) {
+													if ((($typeBuf == 'diskperipheral') || ($typeBuf == 'cdromperipheral'))
+													    && self::readReg($this->_reg, $hkey2."Identifier", $ideBuf, false)) {
+														$this->_wmidevices[] = array('Name'=>$ideBuf, 'PNPDeviceID'=>'SCSI\\'.$id);
+														if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS && defined('PSI_SHOW_DEVICES_SERIAL') && PSI_SHOW_DEVICES_SERIAL
+														   && self::readReg($this->_reg, $hkey2."SerialNumber", $serBuf, false)
+														   && (($serBuf=trim($serBuf)) !== "")) {
+															$this->_wmidisks[] = array('PNPDeviceID'=>'SCSI\\'.$id, 'SerialNumber'=>$serBuf);
+														}
+														$id++;
+													}
+												}
 											}
 										}
 									}
@@ -1284,7 +1284,7 @@ class WINNT extends OS
 				}
 				if (PSI_LOAD_BAR) {
 					if (($cpubuffer = $this->_get_Win32_PerfFormattedData_PerfOS_Processor()) && (count($cpubuffer) == ($globalcpus+1)) && isset($cpubuffer['cpu'.$i])) {
-						   $cpu->setLoad($cpubuffer['cpu'.$i]);
+						$cpu->setLoad($cpubuffer['cpu'.$i]);
 					} elseif ((count($allCpus) == $globalcpus) && isset($oneCpu['LoadPercentage'])) {
 						$cpu->setLoad($oneCpu['LoadPercentage']);
 					}
@@ -1395,7 +1395,7 @@ class WINNT extends OS
 			$dev->setName($pciDev['Name']);
 			if (defined('PSI_SHOW_DEVICES_INFOS') && PSI_SHOW_DEVICES_INFOS) {
 				if (($pciDev['Manufacturer'] !== null) && preg_match("/^@[^\.]+\.inf,%([^%]+)%$/i", trim($pciDev['Manufacturer']), $mbuff)) {
-				   $dev->setManufacturer($mbuff[1]);
+					$dev->setManufacturer($mbuff[1]);
 				} else {
 					$dev->setManufacturer($pciDev['Manufacturer']);
 				}
@@ -1500,10 +1500,10 @@ class WINNT extends OS
 
 				if (!$aliases && !$aliases2) { // old method - tested on XP via WMI on Linux
 					foreach ($allNetworkAdapterConfigurations as $NetworkAdapterConfiguration) {
-					   if (isset($NetworkAdapterConfiguration['Caption'])) {
-						   if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
-							   $cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
-							   if (!isset($aliases[$cname])) { // duplicate checking
+						if (isset($NetworkAdapterConfiguration['Caption'])) {
+							if (preg_match('/^\[\d+\]\s+(.+)/', $NetworkAdapterConfiguration['Caption'], $strBuff) && (($strName=trim($strBuff[1])) !== '')) {
+								$cname = str_replace(array('(', ')', '#', '/'), array('[', ']', '_', '_'), $strName); //convert to canonical
+								if (!isset($aliases[$cname])) { // duplicate checking
 									$aliases[$cname]['id'] = $NetworkAdapterConfiguration['SettingID'];
 									$aliases[$cname]['name'] = $strName;
 								} else {
@@ -1539,9 +1539,10 @@ class WINNT extends OS
 								$dev->setName($mininame);
 								if (isset($NetworkAdapterConfiguration['MACAddress']) && trim($NetworkAdapterConfiguration['MACAddress']) !== "") $macexist = true;
 								if (defined('PSI_SHOW_NETWORK_INFOS') && PSI_SHOW_NETWORK_INFOS) {
-									if (isset($ali[$name]['netname'])) $dev->setInfo(str_replace(';', ':', $ali[$name]['netname']));
-									if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR)
-									   && $macexist) $dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
+									if (isset($ali[$name]['netname']))
+										$dev->setInfo(str_replace(';', ':', $ali[$name]['netname']));
+									if ((!defined('PSI_HIDE_NETWORK_MACADDR') || !PSI_HIDE_NETWORK_MACADDR) && $macexist)
+										$dev->setInfo(($dev->getInfo()?$dev->getInfo().';':'').str_replace(':', '-', strtoupper(trim($NetworkAdapterConfiguration['MACAddress']))));
 									if (isset($NetworkAdapterConfiguration['IPAddress'])) {
 										// multiple values via WMI on Linux
 										if (is_string($value = $NetworkAdapterConfiguration['IPAddress'])
@@ -1586,14 +1587,14 @@ class WINNT extends OS
 							$rxbytes += 4294967296;
 						} elseif ($txbytes < 0) {
 							if ($device['BytesTotalPersec'] > $rxbytes)
-							   $txbytes = $device['BytesTotalPersec'] - $rxbytes;
+								$txbytes = $device['BytesTotalPersec'] - $rxbytes;
 							else
-							   $txbytes += 4294967296;
+								$txbytes += 4294967296;
 						} elseif ($rxbytes < 0) {
 							if ($device['BytesTotalPersec'] > $txbytes)
-							   $rxbytes = $device['BytesTotalPersec'] - $txbytes;
+								$rxbytes = $device['BytesTotalPersec'] - $txbytes;
 							else
-							   $rxbytes += 4294967296;
+								$rxbytes += 4294967296;
 						}
 						$dev->setTxBytes($txbytes);
 						$dev->setRxBytes($rxbytes);
@@ -1754,7 +1755,7 @@ class WINNT extends OS
 						$dev->setTotal($size);
 						$dev->setUsed($size - $free);
 						$dev->setFree($free);
-					   $this->sys->setDiskDevices($dev);
+						$this->sys->setDiskDevices($dev);
 					}
 				}
 			}

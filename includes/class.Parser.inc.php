@@ -63,7 +63,7 @@ class Parser
 					if (count($arrParams) == 2)
 						$strName = preg_replace('/\(rev\s[^\)]+\)/', '', $arrParams[1]);
 					else
-					   $strName = "unknown";
+						$strName = "unknown";
 					$dev->setName($strName);
 				}
 				$arrResults[] = $dev;

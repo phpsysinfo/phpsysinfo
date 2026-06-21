@@ -131,15 +131,15 @@ class Minix extends OS
 			$arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
 			$arrResults = array();
 			foreach ($arrLines as $strLine) {
-			   $arrParams = preg_split('/\s+/', trim($strLine), 4);
-			   if (count($arrParams) == 4)
-				  $strName = $arrParams[3];
-			   else
-				  $strName = "unknown";
-			   $strName = preg_replace('/\(.*\)/', '', $strName);
-			   $dev = new HWDevice();
-			   $dev->setName($strName);
-			   $arrResults[] = $dev;
+				$arrParams = preg_split('/\s+/', trim($strLine), 4);
+				if (count($arrParams) == 4)
+					$strName = $arrParams[3];
+				else
+					$strName = "unknown";
+				$strName = preg_replace('/\(.*\)/', '', $strName);
+				$dev = new HWDevice();
+				$dev->setName($strName);
+				$arrResults[] = $dev;
 			}
 			foreach ($arrResults as $dev) {
 				$this->sys->setPciDevices($dev);
@@ -168,9 +168,9 @@ class Minix extends OS
 				}
 			}
 			if (isset($branch))
-			   $this->sys->setKernel($ret.' ('.$branch.')');
+				$this->sys->setKernel($ret.' ('.$branch.')');
 			else
-			   $this->sys->setKernel($ret);
+				$this->sys->setKernel($ret);
 		}
 	}
 

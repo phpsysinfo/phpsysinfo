@@ -750,8 +750,8 @@ class CommonFunctions
 			if (($separator !== '') && preg_match('/'.$separator.'[\s\S]+'.$separator.'/', $out)) {
 				fwrite($pipes[0], "quit\n");
 				$separator = ''; //only one time
-			  //  $te = true;
-			  //  break;
+				//$te = true;
+				//break;
 			}
 		}
 

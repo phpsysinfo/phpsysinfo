@@ -102,14 +102,14 @@ if (!defined('PSI_CONFIG_FILE')) {
 			if (strpos($allow, '/') === false) {
 					$was = ($allow === $ip);
 			} else {
-				  list($allow, $netmask) = explode('/', $allow, 2);
-				  $allow_decimal = ip2long($allow);
-				  $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
-				  $netmask_decimal = ~$wildcard_decimal;
+				list($allow, $netmask) = explode('/', $allow, 2);
+				$allow_decimal = ip2long($allow);
+				$wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+				$netmask_decimal = ~$wildcard_decimal;
 				$was = (($ip_decimal & $netmask_decimal) === ($allow_decimal & $netmask_decimal));
 			}
 			if ($was) {
-			   break;
+				break;
 			}
 		}
 

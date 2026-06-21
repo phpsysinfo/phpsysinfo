@@ -42,13 +42,13 @@ class AIX extends OS
 	 */
 	private function _hostname()
 	{
-		/*   if (PSI_USE_VHOST) {
-			   if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
-		   } else {
-			   if (CommonFunctions::executeProgram('hostname', '', $ret)) {
-				   $this->sys->setHostname($ret);
-			   }
-		   } */
+		/*if (PSI_USE_VHOST) {
+			if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+		} else {
+			if (CommonFunctions::executeProgram('hostname', '', $ret)) {
+				$this->sys->setHostname($ret);
+			 }
+		} */
 		if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
 
 	}
