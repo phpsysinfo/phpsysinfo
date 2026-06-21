@@ -12,63 +12,63 @@
  */
 class StableBit extends PSI_Plugin
 {
-    /**
-     * variable, which holds the result before the xml is generated out of this array
-     * @var array
-     */
-    private $_result;
+	/**
+	 * variable, which holds the result before the xml is generated out of this array
+	 * @var array
+	 */
+	private $_result;
 
-    /**
-     * read the data into an internal array and also call the parent constructor
-     *
-     * @param String $enc encoding
-     */
-    public function __construct($enc)
-    {
-        parent::__construct(__CLASS__, $enc);
+	/**
+	 * read the data into an internal array and also call the parent constructor
+	 *
+	 * @param String $enc encoding
+	 */
+	public function __construct($enc)
+	{
+		parent::__construct(__CLASS__, $enc);
 
-        $this->_result = array();
-    }
+		$this->_result = array();
+	}
 
-    private $stablebit_items = array('Name', 'Firmware', 'Size', 'TemperatureC', 'PowerState', 'IsHot', 'IsSmartWarning', 'IsSmartPastThresholds', 'IsSmartPastAdvisoryThresholds', 'IsSmartFailurePredicted', 'IsDamaged', 'SerialNumber');
+	private $stablebit_items = array('Name', 'Firmware', 'Size', 'TemperatureC', 'PowerState', 'IsHot', 'IsSmartWarning', 'IsSmartPastThresholds', 'IsSmartPastAdvisoryThresholds', 'IsSmartFailurePredicted', 'IsDamaged', 'SerialNumber');
 
-    /**
-     * doing all tasks to get the required informations that the plugin needs
-     * result is stored in an internal array
-     *
-     * @return void
-     */
-    public function execute()
-    {
-        if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
-            try {
-                $wmi = WINNT::initWMI('root\StableBit\Scanner');
-                $this->_result = WINNT::getWMI($wmi, 'Disks', $this->stablebit_items);
-            } catch (Exception $e) {
-            }
-        }
-    }
+	/**
+	 * doing all tasks to get the required informations that the plugin needs
+	 * result is stored in an internal array
+	 *
+	 * @return void
+	 */
+	public function execute()
+	{
+		if (((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) || (defined('PSI_EMU_HOSTNAME') && !defined('PSI_EMU_PORT'))) {
+			try {
+				$wmi = WINNT::initWMI('root\StableBit\Scanner');
+				$this->_result = WINNT::getWMI($wmi, 'Disks', $this->stablebit_items);
+			} catch (Exception $e) {
+			}
+		}
+	}
 
    /**
-     * generates the XML content for the plugin
-     *
-     * @return SimpleXMLElement entire XML content for the plugin
-     */
-    public function xml()
-    {
-        foreach ($this->_result as $disk_items) {
-            if (isset($disk_items['Name']) && (trim($disk_items['Name']) !== '')) {
-                $xmlstablebit_disk = $this->xml->addChild("Disk");
-                foreach ($this->stablebit_items as $item) {
-                    if (isset($disk_items[$item]) && (($itemvalue=$disk_items[$item]) !== '') &&
-                    (($item !== 'TemperatureC') || ($itemvalue > 0)) &&
-                    (($item !== 'SerialNumber') || (defined('PSI_PLUGIN_STABLEBIT_SHOW_SERIAL') && PSI_PLUGIN_STABLEBIT_SHOW_SERIAL))) {
-                        $xmlstablebit_disk ->addAttribute($item, $itemvalue);
-                    }
-                }
-            }
-        }
+	 * generates the XML content for the plugin
+	 *
+	 * @return SimpleXMLElement entire XML content for the plugin
+	 */
+	public function xml()
+	{
+		foreach ($this->_result as $disk_items) {
+			if (isset($disk_items['Name']) && (trim($disk_items['Name']) !== '')) {
+				$xmlstablebit_disk = $this->xml->addChild("Disk");
+				foreach ($this->stablebit_items as $item) {
+					if (isset($disk_items[$item]) && (($itemvalue=$disk_items[$item]) !== '') &&
+					(($item !== 'TemperatureC') || ($itemvalue > 0)) &&
+					(($item !== 'SerialNumber') || (defined('PSI_PLUGIN_STABLEBIT_SHOW_SERIAL') && PSI_PLUGIN_STABLEBIT_SHOW_SERIAL))) {
+						$xmlstablebit_disk ->addAttribute($item, $itemvalue);
+					}
+				}
+			}
+		}
 
-        return $this->xml->getSimpleXmlElement();
-    }
+		return $this->xml->getSimpleXmlElement();
+	}
 }

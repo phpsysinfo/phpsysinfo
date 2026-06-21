@@ -1,137 +1,137 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 13px;
-    padding-top: 80px;
-    color: #c6d0f5;
-    background-color: #303446;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	padding-top: 80px;
+	color: #c6d0f5;
+	background-color: #303446;
 }
 
 wbr {
-    display: inline-block;
+	display: inline-block;
 }
 
 .table td.rightCell, .table th.rightCell {
-    text-align: right;
+	text-align: right;
 }
 
 .percent {
-    text-align: center;
+	text-align: center;
 }
 
 .card {
-    background-color: #414559;
-    border-style: none;
+	background-color: #414559;
+	border-style: none;
 }
 
 .navbar {
-    background-color: #51576d;
-    border-color: #414559;
+	background-color: #51576d;
+	border-color: #414559;
 }
 
 .navbar-brand, .navbar-brand:hover {
-    color: #c6d0f5;
-    margin-right: 0;
+	color: #c6d0f5;
+	margin-right: 0;
 }
 
 .treegrid-span {
-    display: table-cell;
+	display: table-cell;
 }
 
 .treegrid-spanbold {
-    font-weight: bold;
-    display: table-cell;
+	font-weight: bold;
+	display: table-cell;
 }
 
 .treegrid-indent {
-    width: 16px;
-    height: 16px;
-    display: table-cell;
+	width: 16px;
+	height: 16px;
+	display: table-cell;
 }
 
 .treegrid-expander {
-    width: 0px;
-    height: 16px;
-    display: table-cell;
-    cursor: pointer;
+	width: 0px;
+	height: 16px;
+	display: table-cell;
+	cursor: pointer;
 }
 
 .normalicon {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    top: 1px;
-    display: table-cell;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	top: 1px;
+	display: table-cell;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 .normalicon-right:before {
-    content: "\25ba";
+	content: "\25ba";
 }
 .normalicon-down:before {
-    content: "\25bc";
+	content: "\25bc";
 }
 
 table.sortable thead th {
-    cursor: pointer;
-    position: relative;
-    top: 0;
-    left: 0;
+	cursor: pointer;
+	position: relative;
+	top: 0;
+	left: 0;
 }
 
 table.sortable thead th:hover {
-    background-color: #51576d;
+	background-color: #51576d;
 }
 
 .sorttable_nosort {
-    cursor: auto!important;
+	cursor: auto!important;
 }
 
 .table-hover > tbody > tr:hover {
-    color: #c6d0f5;
-    background-color: #51576d;
+	color: #c6d0f5;
+	background-color: #51576d;
 }
 
 .table-hover > tfoot > tr:hover {
-    background-color: #51576d;
+	background-color: #51576d;
 }
 
 table.borderless td, table.borderless th, table.noborderattop tr:first-child td, table.noborderattop tr:first-child th {
-    border-style: none!important;
+	border-style: none!important;
 }
 
 .table {
-    color: #c6d0f5;
-    background-color: #414559!important;
-    margin: 0;
-    border-style: none;
+	color: #c6d0f5;
+	background-color: #414559!important;
+	margin: 0;
+	border-style: none;
 }
 
 .logo {
-    cursor: pointer;
-    width: 32px;
+	cursor: pointer;
+	width: 32px;
 }
 
 .select {
-    color: #c6d0f5;
+	color: #c6d0f5;
 }
 
 select {
-    background-color: #51576d;
-    color: #c6d0f5;
+	background-color: #51576d;
+	color: #c6d0f5;
 }
 
 .template {
-    cursor: pointer;
-    color: #c6d0f5;
+	cursor: pointer;
+	color: #c6d0f5;
 }
 
 .language {
-    cursor: pointer;
-    color: #c6d0f5;
+	cursor: pointer;
+	color: #c6d0f5;
 }
 
 .card-header {
@@ -141,89 +141,89 @@ select {
 }
 
 .progress {
-    margin-bottom: 0;
-    background-color: #292c3c;
+	margin-bottom: 0;
+	background-color: #292c3c;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+		  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
 .progress-bar-success {
-    background-color: #a6d189;
+	background-color: #a6d189;
 }
 
 .progress-bar-info {
-    background-color: #99d1db;
+	background-color: #99d1db;
 }
 
 .progress-bar-warning {
-    background-color: #e5c890;
+	background-color: #e5c890;
 }
 
 .progress-bar-danger {
-    background-color: #e78284;
+	background-color: #e78284;
 }
 
 .modal-content {
-    background-color: #414559;
+	background-color: #414559;
 }
 
 .modal {
-    overflow-y: auto;
-    background-color: rgba(0,0,0,0.5);
+	overflow-y: auto;
+	background-color: rgba(0,0,0,0.5);
 }
 
 .list-group {
-    display: block;
+	display: block;
 }
 
 .list-group-item {
-    background-color: #414559;
+	background-color: #414559;
 }
 
 .reload {
-    background-image: url("../../gfx/reload.gif");
-    float: right;
-    cursor: pointer;
-    width: 16px;
-    height: 16px;
+	background-image: url("../../gfx/reload.gif");
+	float: right;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
 }
 
 .container {
-    padding: 0;
+	padding: 0;
 }
 
 .table thead th {
-    border-top: none;
+	border-top: none;
 }
 
 a, a:visited {
-    color: #8caaee;
+	color: #8caaee;
 }
 
 a:hover {
-    text-decoration: underline;
-    color: #b4c8f4;
+	text-decoration: underline;
+	color: #b4c8f4;
 }
 
 .psihref, .psihref:visited {
-    text-decoration: none;
-    color: #c6d0f5;
+	text-decoration: none;
+	color: #c6d0f5;
 }
 
 .psihref:hover {
-    text-decoration: underline;
-    color: #c6d0f5;
+	text-decoration: underline;
+	color: #c6d0f5;
 }
 
 .col-lg-6, .col-lg-12 {
-    padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 .badge {
-    font-size: 12px;
-    border-radius: 10px;
-    padding: 3px 7px;
-    float: right;
+	font-size: 12px;
+	border-radius: 10px;
+	padding: 3px 7px;
+	float: right;
 }
 
 .table-nopadding > tbody > tr > td,

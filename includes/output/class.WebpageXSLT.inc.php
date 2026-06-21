@@ -25,31 +25,31 @@
  */
 class WebpageXSLT extends WebpageXML implements PSI_Interface_Output
 {
-    /**
-     * call the parent constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	/**
+	 * call the parent constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
-    /**
-     * generate the static page
-     *
-     * @return void
-     */
-    public function run()
-    {
-        CommonFunctions::checkForExtensions(array('xsl'));
-        $xmlfile = $this->getXMLString();
-        $xslfile = "templates/index_static.xslt";
-        $domxml = new DOMDocument();
-        $domxml->loadXML($xmlfile);
-        $domxsl = new DOMDocument();
-        $domxsl->load($xslfile);
-        $xsltproc = new XSLTProcessor;
-        $xsltproc->importStyleSheet($domxsl);
-        header('Cache-Control: no-cache, must-revalidate');
-        echo $xsltproc->transformToXML($domxml);
-    }
+	/**
+	 * generate the static page
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		CommonFunctions::checkForExtensions(array('xsl'));
+		$xmlfile = $this->getXMLString();
+		$xslfile = "templates/index_static.xslt";
+		$domxml = new DOMDocument();
+		$domxml->loadXML($xmlfile);
+		$domxsl = new DOMDocument();
+		$domxsl->load($xslfile);
+		$xsltproc = new XSLTProcessor;
+		$xsltproc->importStyleSheet($domxsl);
+		header('Cache-Control: no-cache, must-revalidate');
+		echo $xsltproc->transformToXML($domxml);
+	}
 }

@@ -25,564 +25,564 @@
  */
 class UPSDevice
 {
-    /**
-     * name of the ups
-     *
-     * @var string
-     */
-    private $_name = "";
+	/**
+	 * name of the ups
+	 *
+	 * @var string
+	 */
+	private $_name = "";
 
-    /**
-     * model of the ups
-     *
-     * @var string
-     */
-    private $_model = "";
+	/**
+	 * model of the ups
+	 *
+	 * @var string
+	 */
+	private $_model = "";
 
-    /**
-     * mode of the ups
-     *
-     * @var string
-     */
-    private $_mode = "";
+	/**
+	 * mode of the ups
+	 *
+	 * @var string
+	 */
+	private $_mode = "";
 
-    /**
-     * last start time
-     *
-     * @var string
-     */
-    private $_startTime = "";
+	/**
+	 * last start time
+	 *
+	 * @var string
+	 */
+	private $_startTime = "";
 
-    /**
-     * status of the ups
-     *
-     * @var string
-     */
-    private $_status = "";
+	/**
+	 * status of the ups
+	 *
+	 * @var string
+	 */
+	private $_status = "";
 
-    /**
-     * temperature of the ups
-     *
-     * @var string
-     */
-    private $_temperatur = null;
+	/**
+	 * temperature of the ups
+	 *
+	 * @var string
+	 */
+	private $_temperatur = null;
 
-    /**
-     * outages count
-     *
-     * @var int
-     */
-    private $_outages = null;
+	/**
+	 * outages count
+	 *
+	 * @var int
+	 */
+	private $_outages = null;
 
-    /**
-     * date of last outtage
-     *
-     * @var string
-     */
-    private $_lastOutage = null;
+	/**
+	 * date of last outtage
+	 *
+	 * @var string
+	 */
+	private $_lastOutage = null;
 
-    /**
-     * date of last outage finish
-     *
-     * @var string
-     */
-    private $_lastOutageFinish = null;
+	/**
+	 * date of last outage finish
+	 *
+	 * @var string
+	 */
+	private $_lastOutageFinish = null;
 
-    /**
-     * line volt
-     *
-     * @var float
-     */
-    private $_lineVoltage = null;
+	/**
+	 * line volt
+	 *
+	 * @var float
+	 */
+	private $_lineVoltage = null;
 
-    /**
-     * line freq
-     *
-     * @var int
-     */
-    private $_lineFrequency = null;
+	/**
+	 * line freq
+	 *
+	 * @var int
+	 */
+	private $_lineFrequency = null;
 
-    /**
-     * current load of the ups in percent
-     *
-     * @var float
-     */
-    private $_load = null;
+	/**
+	 * current load of the ups in percent
+	 *
+	 * @var float
+	 */
+	private $_load = null;
 
-    /**
-     * battery installation date
-     *
-     * @var string
-     */
-    private $_batteryDate = null;
+	/**
+	 * battery installation date
+	 *
+	 * @var string
+	 */
+	private $_batteryDate = null;
 
-    /**
-     * current battery volt
-     *
-     * @var float
-     */
-    private $_batteryVoltage = null;
+	/**
+	 * current battery volt
+	 *
+	 * @var float
+	 */
+	private $_batteryVoltage = null;
 
-    /**
-     * current charge in percent of the battery
-     *
-     * @var float
-     */
-    private $_batterCharge = null;
+	/**
+	 * current charge in percent of the battery
+	 *
+	 * @var float
+	 */
+	private $_batterCharge = null;
 
-    /**
-     * time left
-     *
-     * @var string
-     */
-    private $_timeLeft = null;
+	/**
+	 * time left
+	 *
+	 * @var string
+	 */
+	private $_timeLeft = null;
 
-    /**
-     * beeper enabled or disabled
-     *
-     * @var string
-     */
-    private $_beeperStatus = null;
+	/**
+	 * beeper enabled or disabled
+	 *
+	 * @var string
+	 */
+	private $_beeperStatus = null;
 
-    /**
-     * Returns $_batterCharge.
-     *
-     * @see UPSDevice::$_batterCharge
-     *
-     * @return float
-     */
-    public function getBatterCharge()
-    {
-        return $this->_batterCharge;
-    }
+	/**
+	 * Returns $_batterCharge.
+	 *
+	 * @see UPSDevice::$_batterCharge
+	 *
+	 * @return float
+	 */
+	public function getBatterCharge()
+	{
+		return $this->_batterCharge;
+	}
 
-    /**
-     * Sets $_batterCharge.
-     *
-     * @param float $batterCharge battery charge
-     *
-     * @see UPSDevice::$_batterCharge
-     *
-     * @return void
-     */
-    public function setBatterCharge($batterCharge)
-    {
-        $this->_batterCharge = $batterCharge;
-    }
+	/**
+	 * Sets $_batterCharge.
+	 *
+	 * @param float $batterCharge battery charge
+	 *
+	 * @see UPSDevice::$_batterCharge
+	 *
+	 * @return void
+	 */
+	public function setBatterCharge($batterCharge)
+	{
+		$this->_batterCharge = $batterCharge;
+	}
 
-    /**
-     * Returns $_batteryDate.
-     *
-     * @see UPSDevice::$_batteryDate
-     *
-     * @return String
-     */
-    public function getBatteryDate()
-    {
-        return $this->_batteryDate;
-    }
+	/**
+	 * Returns $_batteryDate.
+	 *
+	 * @see UPSDevice::$_batteryDate
+	 *
+	 * @return String
+	 */
+	public function getBatteryDate()
+	{
+		return $this->_batteryDate;
+	}
 
-    /**
-     * Sets $_batteryDate.
-     *
-     * @param object $batteryDate battery date
-     *
-     * @see UPSDevice::$_batteryDate
-     *
-     * @return void
-     */
-    public function setBatteryDate($batteryDate)
-    {
-        $this->_batteryDate = $batteryDate;
-    }
+	/**
+	 * Sets $_batteryDate.
+	 *
+	 * @param object $batteryDate battery date
+	 *
+	 * @see UPSDevice::$_batteryDate
+	 *
+	 * @return void
+	 */
+	public function setBatteryDate($batteryDate)
+	{
+		$this->_batteryDate = $batteryDate;
+	}
 
-    /**
-     * Returns $_batteryVoltage.
-     *
-     * @see UPSDevice::$_batteryVoltage
-     *
-     * @return float
-     */
-    public function getBatteryVoltage()
-    {
-        return $this->_batteryVoltage;
-    }
+	/**
+	 * Returns $_batteryVoltage.
+	 *
+	 * @see UPSDevice::$_batteryVoltage
+	 *
+	 * @return float
+	 */
+	public function getBatteryVoltage()
+	{
+		return $this->_batteryVoltage;
+	}
 
-    /**
-     * Sets $_batteryVoltage.
-     *
-     * @param float $batteryVoltage battery volt
-     *
-     * @see UPSDevice::$_batteryVoltage
-     *
-     * @return void
-     */
-    public function setBatteryVoltage($batteryVoltage)
-    {
-        $this->_batteryVoltage = $batteryVoltage;
-    }
+	/**
+	 * Sets $_batteryVoltage.
+	 *
+	 * @param float $batteryVoltage battery volt
+	 *
+	 * @see UPSDevice::$_batteryVoltage
+	 *
+	 * @return void
+	 */
+	public function setBatteryVoltage($batteryVoltage)
+	{
+		$this->_batteryVoltage = $batteryVoltage;
+	}
 
-    /**
-     * Returns $_lastOutage.
-     *
-     * @see UPSDevice::$_lastOutage
-     *
-     * @return String
-     */
-    public function getLastOutage()
-    {
-        return $this->_lastOutage;
-    }
+	/**
+	 * Returns $_lastOutage.
+	 *
+	 * @see UPSDevice::$_lastOutage
+	 *
+	 * @return String
+	 */
+	public function getLastOutage()
+	{
+		return $this->_lastOutage;
+	}
 
-    /**
-     * Sets $_lastOutage.
-     *
-     * @param String $lastOutage last Outage
-     *
-     * @see UPSDevice::$lastOutage
-     *
-     * @return void
-     */
-    public function setLastOutage($lastOutage)
-    {
-        $this->_lastOutage = $lastOutage;
-    }
+	/**
+	 * Sets $_lastOutage.
+	 *
+	 * @param String $lastOutage last Outage
+	 *
+	 * @see UPSDevice::$lastOutage
+	 *
+	 * @return void
+	 */
+	public function setLastOutage($lastOutage)
+	{
+		$this->_lastOutage = $lastOutage;
+	}
 
-    /**
-     * Returns $_lastOutageFinish.
-     *
-     * @see UPSDevice::$_lastOutageFinish
-     *
-     * @return String
-     */
-    public function getLastOutageFinish()
-    {
-        return $this->_lastOutageFinish;
-    }
+	/**
+	 * Returns $_lastOutageFinish.
+	 *
+	 * @see UPSDevice::$_lastOutageFinish
+	 *
+	 * @return String
+	 */
+	public function getLastOutageFinish()
+	{
+		return $this->_lastOutageFinish;
+	}
 
-    /**
-     * Sets $_lastOutageFinish.
-     *
-     * @param String $lastOutageFinish last outage finish
-     *
-     * @see UPSDevice::$_lastOutageFinish
-     *
-     * @return void
-     */
-    public function setLastOutageFinish($lastOutageFinish)
-    {
-        $this->_lastOutageFinish = $lastOutageFinish;
-    }
+	/**
+	 * Sets $_lastOutageFinish.
+	 *
+	 * @param String $lastOutageFinish last outage finish
+	 *
+	 * @see UPSDevice::$_lastOutageFinish
+	 *
+	 * @return void
+	 */
+	public function setLastOutageFinish($lastOutageFinish)
+	{
+		$this->_lastOutageFinish = $lastOutageFinish;
+	}
 
-    /**
-     * Returns $_lineVoltage.
-     *
-     * @see UPSDevice::$_lineVoltage
-     *
-     * @return float
-     */
-    public function getLineVoltage()
-    {
-        return $this->_lineVoltage;
-    }
+	/**
+	 * Returns $_lineVoltage.
+	 *
+	 * @see UPSDevice::$_lineVoltage
+	 *
+	 * @return float
+	 */
+	public function getLineVoltage()
+	{
+		return $this->_lineVoltage;
+	}
 
-    /**
-     * Sets $_lineVoltage.
-     *
-     * @param float $lineVoltage line voltage
-     *
-     * @see UPSDevice::$_lineVoltage
-     *
-     * @return void
-     */
-    public function setLineVoltage($lineVoltage)
-    {
-        $this->_lineVoltage = $lineVoltage;
-    }
+	/**
+	 * Sets $_lineVoltage.
+	 *
+	 * @param float $lineVoltage line voltage
+	 *
+	 * @see UPSDevice::$_lineVoltage
+	 *
+	 * @return void
+	 */
+	public function setLineVoltage($lineVoltage)
+	{
+		$this->_lineVoltage = $lineVoltage;
+	}
 
-    /**
-     * Returns $_lineFrequency.
-     *
-     * @see UPSDevice::$_lineFrequency
-     *
-     * @return int
-     */
-    public function getLineFrequency()
-    {
-        return $this->_lineFrequency;
-    }
+	/**
+	 * Returns $_lineFrequency.
+	 *
+	 * @see UPSDevice::$_lineFrequency
+	 *
+	 * @return int
+	 */
+	public function getLineFrequency()
+	{
+		return $this->_lineFrequency;
+	}
 
-    /**
-     * Sets $_lineFrequency.
-     *
-     * @param int $lineFrequency line frequency
-     *
-     * @see UPSDevice::$_lineFrequency
-     *
-     * @return void
-     */
-    public function setLineFrequency($lineFrequency)
-    {
-        $this->_lineFrequency = $lineFrequency;
-    }
+	/**
+	 * Sets $_lineFrequency.
+	 *
+	 * @param int $lineFrequency line frequency
+	 *
+	 * @see UPSDevice::$_lineFrequency
+	 *
+	 * @return void
+	 */
+	public function setLineFrequency($lineFrequency)
+	{
+		$this->_lineFrequency = $lineFrequency;
+	}
 
-    /**
-     * Returns $_load.
-     *
-     * @see UPSDevice::$_load
-     *
-     * @return float
-     */
-    public function getLoad()
-    {
-        return $this->_load;
-    }
+	/**
+	 * Returns $_load.
+	 *
+	 * @see UPSDevice::$_load
+	 *
+	 * @return float
+	 */
+	public function getLoad()
+	{
+		return $this->_load;
+	}
 
-    /**
-     * Sets $_load.
-     *
-     * @param float $load current load
-     *
-     * @see UPSDevice::$_load
-     *
-     * @return void
-     */
-    public function setLoad($load)
-    {
-        $this->_load = $load;
-    }
+	/**
+	 * Sets $_load.
+	 *
+	 * @param float $load current load
+	 *
+	 * @see UPSDevice::$_load
+	 *
+	 * @return void
+	 */
+	public function setLoad($load)
+	{
+		$this->_load = $load;
+	}
 
-    /**
-     * Returns $_mode.
-     *
-     * @see UPSDevice::$_mode
-     *
-     * @return String
-     */
-    public function getMode()
-    {
-        return $this->_mode;
-    }
+	/**
+	 * Returns $_mode.
+	 *
+	 * @see UPSDevice::$_mode
+	 *
+	 * @return String
+	 */
+	public function getMode()
+	{
+		return $this->_mode;
+	}
 
-    /**
-     * Sets $_mode.
-     *
-     * @param String $mode mode
-     *
-     * @see UPSDevice::$_mode
-     *
-     * @return void
-     */
-    public function setMode($mode)
-    {
-        $this->_mode = $mode;
-    }
+	/**
+	 * Sets $_mode.
+	 *
+	 * @param String $mode mode
+	 *
+	 * @see UPSDevice::$_mode
+	 *
+	 * @return void
+	 */
+	public function setMode($mode)
+	{
+		$this->_mode = $mode;
+	}
 
-    /**
-     * Returns $_model.
-     *
-     * @see UPSDevice::$_model
-     *
-     * @return String
-     */
-    public function getModel()
-    {
-        return $this->_model;
-    }
+	/**
+	 * Returns $_model.
+	 *
+	 * @see UPSDevice::$_model
+	 *
+	 * @return String
+	 */
+	public function getModel()
+	{
+		return $this->_model;
+	}
 
-    /**
-     * Sets $_model.
-     *
-     * @param String $model model
-     *
-     * @see UPSDevice::$_model
-     *
-     * @return void
-     */
-    public function setModel($model)
-    {
-        $this->_model = $model;
-    }
+	/**
+	 * Sets $_model.
+	 *
+	 * @param String $model model
+	 *
+	 * @see UPSDevice::$_model
+	 *
+	 * @return void
+	 */
+	public function setModel($model)
+	{
+		$this->_model = $model;
+	}
 
-    /**
-     * Returns $_name.
-     *
-     * @see UPSDevice::$_name
-     *
-     * @return String
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
+	/**
+	 * Returns $_name.
+	 *
+	 * @see UPSDevice::$_name
+	 *
+	 * @return String
+	 */
+	public function getName()
+	{
+		return $this->_name;
+	}
 
-    /**
-     * Sets $_name.
-     *
-     * @param String $name name
-     *
-     * @see UPSDevice::$_name
-     *
-     * @return void
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
+	/**
+	 * Sets $_name.
+	 *
+	 * @param String $name name
+	 *
+	 * @see UPSDevice::$_name
+	 *
+	 * @return void
+	 */
+	public function setName($name)
+	{
+		$this->_name = $name;
+	}
 
-    /**
-     * Returns $_outages.
-     *
-     * @see UPSDevice::$_outages
-     *
-     * @return int
-     */
-    public function getOutages()
-    {
-        return $this->_outages;
-    }
+	/**
+	 * Returns $_outages.
+	 *
+	 * @see UPSDevice::$_outages
+	 *
+	 * @return int
+	 */
+	public function getOutages()
+	{
+		return $this->_outages;
+	}
 
-    /**
-     * Sets $_outages.
-     *
-     * @param int $outages outages count
-     *
-     * @see UPSDevice::$_outages
-     *
-     * @return void
-     */
-    public function setOutages($outages)
-    {
-        $this->_outages = $outages;
-    }
+	/**
+	 * Sets $_outages.
+	 *
+	 * @param int $outages outages count
+	 *
+	 * @see UPSDevice::$_outages
+	 *
+	 * @return void
+	 */
+	public function setOutages($outages)
+	{
+		$this->_outages = $outages;
+	}
 
-    /**
-     * Returns $_startTime.
-     *
-     * @see UPSDevice::$_startTime
-     *
-     * @return String
-     */
-    public function getStartTime()
-    {
-        return $this->_startTime;
-    }
+	/**
+	 * Returns $_startTime.
+	 *
+	 * @see UPSDevice::$_startTime
+	 *
+	 * @return String
+	 */
+	public function getStartTime()
+	{
+		return $this->_startTime;
+	}
 
-    /**
-     * Sets $_startTime.
-     *
-     * @param String $startTime startTime
-     *
-     * @see UPSDevice::$_startTime
-     *
-     * @return void
-     */
-    public function setStartTime($startTime)
-    {
-        $this->_startTime = $startTime;
-    }
+	/**
+	 * Sets $_startTime.
+	 *
+	 * @param String $startTime startTime
+	 *
+	 * @see UPSDevice::$_startTime
+	 *
+	 * @return void
+	 */
+	public function setStartTime($startTime)
+	{
+		$this->_startTime = $startTime;
+	}
 
-    /**
-     * Returns $_status.
-     *
-     * @see UPSDevice::$_status
-     *
-     * @return String
-     */
-    public function getStatus()
-    {
-        return $this->_status;
-    }
+	/**
+	 * Returns $_status.
+	 *
+	 * @see UPSDevice::$_status
+	 *
+	 * @return String
+	 */
+	public function getStatus()
+	{
+		return $this->_status;
+	}
 
-    /**
-     * Sets $_status.
-     *
-     * @param String $status status
-     *
-     * @see UPSDevice::$_status
-     *
-     * @return void
-     */
-    public function setStatus($status)
-    {
-        $this->_status = $status;
-    }
+	/**
+	 * Sets $_status.
+	 *
+	 * @param String $status status
+	 *
+	 * @see UPSDevice::$_status
+	 *
+	 * @return void
+	 */
+	public function setStatus($status)
+	{
+		$this->_status = $status;
+	}
 
-    /**
-     * Returns $_temperatur.
-     *
-     * @see UPSDevice::$_temperatur
-     *
-     * @return string
-     */
-    public function getTemperatur()
-    {
-        return $this->_temperatur;
-    }
+	/**
+	 * Returns $_temperatur.
+	 *
+	 * @see UPSDevice::$_temperatur
+	 *
+	 * @return string
+	 */
+	public function getTemperatur()
+	{
+		return $this->_temperatur;
+	}
 
-    /**
-     * Sets $_temperatur.
-     *
-     * @param string $temperatur temperature
-     *
-     * @see UPSDevice::$_temperatur
-     *
-     * @return void
-     */
-    public function setTemperatur($temperatur)
-    {
-        $this->_temperatur = $temperatur;
-    }
+	/**
+	 * Sets $_temperatur.
+	 *
+	 * @param string $temperatur temperature
+	 *
+	 * @see UPSDevice::$_temperatur
+	 *
+	 * @return void
+	 */
+	public function setTemperatur($temperatur)
+	{
+		$this->_temperatur = $temperatur;
+	}
 
-    /**
-     * Returns $_timeLeft.
-     *
-     * @see UPSDevice::$_timeLeft
-     *
-     * @return String
-     */
-    public function getTimeLeft()
-    {
-        return $this->_timeLeft;
-    }
+	/**
+	 * Returns $_timeLeft.
+	 *
+	 * @see UPSDevice::$_timeLeft
+	 *
+	 * @return String
+	 */
+	public function getTimeLeft()
+	{
+		return $this->_timeLeft;
+	}
 
-    /**
-     * Sets $_timeLeft.
-     *
-     * @param String $timeLeft time left
-     *
-     * @see UPSDevice::$_timeLeft
-     *
-     * @return void
-     */
-    public function setTimeLeft($timeLeft)
-    {
-        $this->_timeLeft = $timeLeft;
-    }
+	/**
+	 * Sets $_timeLeft.
+	 *
+	 * @param String $timeLeft time left
+	 *
+	 * @see UPSDevice::$_timeLeft
+	 *
+	 * @return void
+	 */
+	public function setTimeLeft($timeLeft)
+	{
+		$this->_timeLeft = $timeLeft;
+	}
 
-    /**
-     * Returns $_beeperStatus.
-     *
-     * @see UPSDevice::$_beeperStatus
-     *
-     * @return String
-     */
-    public function getBeeperStatus()
-    {
-        return $this->_beeperStatus;
-    }
+	/**
+	 * Returns $_beeperStatus.
+	 *
+	 * @see UPSDevice::$_beeperStatus
+	 *
+	 * @return String
+	 */
+	public function getBeeperStatus()
+	{
+		return $this->_beeperStatus;
+	}
 
-    /**
-     * Sets $_beeperStatus.
-     *
-     * @param String $beeperStatus beeper status
-     *
-     * @see UPSDevice::$_beeperStatus
-     *
-     * @return void
-     */
-    public function setBeeperStatus($beeperStatus)
-    {
-        $this->_beeperStatus = $beeperStatus;
-    }
+	/**
+	 * Sets $_beeperStatus.
+	 *
+	 * @param String $beeperStatus beeper status
+	 *
+	 * @see UPSDevice::$_beeperStatus
+	 *
+	 * @return void
+	 */
+	public function setBeeperStatus($beeperStatus)
+	{
+		$this->_beeperStatus = $beeperStatus;
+	}
 }

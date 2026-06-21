@@ -25,40 +25,40 @@
  */
 abstract class Sensors implements PSI_Interface_Sensor
 {
-    /**
-     * object for error handling
-     *
-     * @var PSI_Error
-     */
-    protected $error;
+	/**
+	 * object for error handling
+	 *
+	 * @var PSI_Error
+	 */
+	protected $error;
 
-    /**
-     * object for the information
-     *
-     * @var MBInfo
-     */
-    protected $mbinfo;
+	/**
+	 * object for the information
+	 *
+	 * @var MBInfo
+	 */
+	protected $mbinfo;
 
-    /**
-     * build the global Error object
-     */
-    public function __construct()
-    {
-        $this->error = PSI_Error::singleton();
-        $this->mbinfo = new MBInfo();
-    }
+	/**
+	 * build the global Error object
+	 */
+	public function __construct()
+	{
+		$this->error = PSI_Error::singleton();
+		$this->mbinfo = new MBInfo();
+	}
 
-    /**
-     * get the filled or unfilled (with default values) MBInfo object
-     *
-     * @see PSI_Interface_Sensor::getMBInfo()
-     *
-     * @return MBInfo
-     */
-    final public function getMBInfo()
-    {
-        $this->build();
+	/**
+	 * get the filled or unfilled (with default values) MBInfo object
+	 *
+	 * @see PSI_Interface_Sensor::getMBInfo()
+	 *
+	 * @return MBInfo
+	 */
+	final public function getMBInfo()
+	{
+		$this->build();
 
-        return $this->mbinfo;
-    }
+		return $this->mbinfo;
+	}
 }

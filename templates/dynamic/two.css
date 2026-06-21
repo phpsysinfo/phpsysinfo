@@ -2,168 +2,168 @@
  $Id: two.css 518 2011-10-28 08:09:07Z namiltd $
  */
 a {
-    text-decoration: none;
-    color: #c03000;
+	text-decoration: none;
+	color: #c03000;
 }
 
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 wbr {
-    display: inline-block;
+	display: inline-block;
 }
 
 html {
-    font-size: 100%;
-    height: 100%;
-    color: #2b2828;
-    background: url("two/gradient.png") repeat-x #eef2fe;
+	font-size: 100%;
+	height: 100%;
+	color: #2b2828;
+	background: url("two/gradient.png") repeat-x #eef2fe;
 }
 
 body {
-    font-family: Verdana, "Bitstream Vera Sans";
-    font-size: .75em;
-    position: relative;
-    width: 940px;
-    _width: 945px; /* ie6 */
-    min-height: 100%;
-    overflow: auto;
-    margin: 0 auto;
-    padding: 20px 20px 0 20px;
+	font-family: Verdana, "Bitstream Vera Sans";
+	font-size: .75em;
+	position: relative;
+	width: 940px;
+	_width: 945px; /* ie6 */
+	min-height: 100%;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 20px 20px 0 20px;
 }
 
 h1 {
-    margin: 0 10px;
-    _margin: 0 15px 0 10px; /* ie6 */
-    padding: 10px 10px;
-    text-align: center;
-    color: #fff;
-    font-weight: normal;
-    font-size: 170%;
-    line-height: 1.5em;
+	margin: 0 10px;
+	_margin: 0 15px 0 10px; /* ie6 */
+	padding: 10px 10px;
+	text-align: center;
+	color: #fff;
+	font-weight: normal;
+	font-size: 170%;
+	line-height: 1.5em;
 }
 
 h2 {
-    font-weight: bold;
-    font-size: 130%;
-    line-height: 1.5em;
-    color: #8b272a;
-    border-bottom: 2px solid #8b272a;
+	font-weight: bold;
+	font-size: 130%;
+	line-height: 1.5em;
+	color: #8b272a;
+	border-bottom: 2px solid #8b272a;
 }
 
 th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 100%;
+	padding: 4px 10px 2px 10px;
+	text-align: left;
+	vertical-align: top;
+	font-size: 100%;
 }
 
 table {
-    width: 100%;
+	width: 100%;
 }
 
 select {
-    background-color: #fefefe;
+	background-color: #fefefe;
 }
 
 #select {
-    color: #fff;
-    text-align: right;
-    padding: 0 10px 0 10px;
-    margin-bottom: 45px;
+	color: #fff;
+	text-align: right;
+	padding: 0 10px 0 10px;
+	margin-bottom: 45px;
 }
 
 #select select {
-    width: 100px;
+	width: 100px;
 }
 
 .fullsize, .halfsize {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .fullsize {
-    width: 918px;
+	width: 918px;
 }
 
 .halfsize {
-    width: 453px;
+	width: 453px;
 }
 
 #filesystemTable thead tr th {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #footer {
-    clear: both;
-    color: #5c5c5c;
-    margin: 12px;
-    padding: 13px 25px;
-    line-height: 18px;
-    font-size: 80%;
-    text-align: center;
+	clear: both;
+	color: #5c5c5c;
+	margin: 12px;
+	padding: 13px 25px;
+	line-height: 18px;
+	font-size: 80%;
+	text-align: center;
 }
 
 .plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .bar {
-    background-color: #8b272a;
+	background-color: #8b272a;
 }
 
 .barwarn {
-    background-color: #88278b;
+	background-color: #88278b;
 }
 
 .barrest {
-    background-color: #8b5627;
+	background-color: #8b5627;
 }
 
 .right {
-    text-align: right;
-    padding-right: 20px;
+	text-align: right;
+	padding-right: 20px;
 }
 
 .treeimg {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
-    vertical-align: top;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
+	vertical-align: top;
 }
 
 .treespan {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .treespanbold {
-    font-weight: bold;
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	font-weight: bold;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .tree tr td {
-    cursor: auto;
-    height: 100%;
+	cursor: auto;
+	height: 100%;
 }
 
 .treediv {
-    display: table;
-    height: 100%;
+	display: table;
+	height: 100%;
 }
 
 .tablemain {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }

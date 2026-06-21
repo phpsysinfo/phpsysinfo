@@ -20,10 +20,10 @@
 define('PSI_APP_ROOT', dirname(__FILE__));
 
 if (version_compare("5.1.3", PHP_VERSION, ">")) {
-    die("PHP 5.1.3 or greater is required!!!");
+	die("PHP 5.1.3 or greater is required!!!");
 }
 if (!extension_loaded("pcre")) {
-    die("phpSysInfo requires the pcre extension to php in order to work properly.");
+	die("phpSysInfo requires the pcre extension to php in order to work properly.");
 }
 
 require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
@@ -32,62 +32,62 @@ require_once PSI_APP_ROOT.'/includes/autoloader.inc.php';
 require_once PSI_APP_ROOT.'/read_config.php';
 
 if (!defined('PSI_CONFIG_FILE') || !defined('PSI_DEBUG')) {
-    $tpl = new Template("/templates/error_config.html");
-    echo $tpl->fetch();
-    die();
+	$tpl = new Template("/templates/error_config.html");
+	echo $tpl->fetch();
+	die();
 }
 
 // redirect to page with and without javascript
 $display = strtolower(isset($_GET['disp']) ? $_GET['disp'] : PSI_DEFAULT_DISPLAY_MODE);
 switch ($display) {
 case "static":
-    $webpage = new WebpageXSLT();
-    $webpage->run();
-    break;
+	$webpage = new WebpageXSLT();
+	$webpage->run();
+	break;
 case "dynamic":
-    $webpage = new Webpage();
-    $webpage->run();
-    break;
+	$webpage = new Webpage();
+	$webpage->run();
+	break;
 case "xml":
-    $webpage = new WebpageXML("complete");
-    $webpage->run();
-    break;
+	$webpage = new WebpageXML("complete");
+	$webpage->run();
+	break;
 case "json":
-    $webpage = new WebpageXML("complete");
-    $json = $webpage->getJsonString();
-    header('Cache-Control: no-cache, must-revalidate');
-    header('Content-Type: application/json');
-    echo $json;
-    break;
+	$webpage = new WebpageXML("complete");
+	$json = $webpage->getJsonString();
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Content-Type: application/json');
+	echo $json;
+	break;
 case "bootstrap":
 /*
-    $tpl = new Template("/templates/index_bootstrap.html");
-    echo $tpl->fetch();
+	$tpl = new Template("/templates/index_bootstrap.html");
+	echo $tpl->fetch();
 */
-    $webpage = new Webpage("bootstrap");
-    $webpage->run();
-    break;
+	$webpage = new Webpage("bootstrap");
+	$webpage->run();
+	break;
 case "auto":
-    $tpl = new Template("/templates/index_all.html");
-    echo $tpl->fetch();
-    break;
+	$tpl = new Template("/templates/index_all.html");
+	echo $tpl->fetch();
+	break;
 default:
-    $defaultdisplay = strtolower(PSI_DEFAULT_DISPLAY_MODE);
-    switch ($defaultdisplay) {
-    case "static":
-        $webpage = new WebpageXSLT();
-        $webpage->run();
-        break;
-    case "dynamic":
-        $webpage = new Webpage();
-        $webpage->run();
-        break;
-    case "bootstrap":
-        $webpage = new Webpage("bootstrap");
-        $webpage->run();
-        break;
-    default:
-        $tpl = new Template("/templates/index_all.html");
-        echo $tpl->fetch();
-    }
+	$defaultdisplay = strtolower(PSI_DEFAULT_DISPLAY_MODE);
+	switch ($defaultdisplay) {
+	case "static":
+		$webpage = new WebpageXSLT();
+		$webpage->run();
+		break;
+	case "dynamic":
+		$webpage = new Webpage();
+		$webpage->run();
+		break;
+	case "bootstrap":
+		$webpage = new Webpage("bootstrap");
+		$webpage->run();
+		break;
+	default:
+		$tpl = new Template("/templates/index_all.html");
+		echo $tpl->fetch();
+	}
 }

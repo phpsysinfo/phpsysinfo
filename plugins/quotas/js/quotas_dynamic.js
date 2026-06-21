@@ -34,123 +34,123 @@ var quotas_show = false, quotas_table;
  * @param {jQuery} xml plugin-XML
  */
 function quotas_populate(xml) {
-    var hostname = "";
+	var hostname = "";
 
-    quotas_table.fnClearTable();
+	quotas_table.fnClearTable();
 
-    hostname = $("Plugins Plugin_Quotas", xml).attr('Hostname');
-    if (hostname !== undefined) {
-        $('span[class=Hostname_Quotas]').html(hostname);
-    }
+	hostname = $("Plugins Plugin_Quotas", xml).attr('Hostname');
+	if (hostname !== undefined) {
+		$('span[class=Hostname_Quotas]').html(hostname);
+	}
 
-    $("Plugins Plugin_Quotas Quota", xml).each(function quotas_getquota(id) {
-        var user = "", bused = 0, bsoft = 0, bhard = 0, bpuse = 0, fpuse = 0, fused = 0, fsoft = 0, fhard = 0;
-        user = $(this).attr("User");
-        bused = parseInt($(this).attr("ByteUsed"), 10);
-        bsoft = parseInt($(this).attr("ByteSoft"), 10);
-        bhard = parseInt($(this).attr("ByteHard"), 10);
-        bpuse = parseInt($(this).attr("BytePercentUsed"), 10);
-        fused = parseInt($(this).attr("FileUsed"), 10);
-        fsoft = parseInt($(this).attr("FileSoft"), 10);
-        fhard = parseInt($(this).attr("FileHard"), 10);
-        fpuse = parseInt($(this).attr("FilePercentUsed"), 10);
+	$("Plugins Plugin_Quotas Quota", xml).each(function quotas_getquota(id) {
+		var user = "", bused = 0, bsoft = 0, bhard = 0, bpuse = 0, fpuse = 0, fused = 0, fsoft = 0, fhard = 0;
+		user = $(this).attr("User");
+		bused = parseInt($(this).attr("ByteUsed"), 10);
+		bsoft = parseInt($(this).attr("ByteSoft"), 10);
+		bhard = parseInt($(this).attr("ByteHard"), 10);
+		bpuse = parseInt($(this).attr("BytePercentUsed"), 10);
+		fused = parseInt($(this).attr("FileUsed"), 10);
+		fsoft = parseInt($(this).attr("FileSoft"), 10);
+		fhard = parseInt($(this).attr("FileHard"), 10);
+		fpuse = parseInt($(this).attr("FilePercentUsed"), 10);
 
-        quotas_table.fnAddData(["<span style=\"display:none;\">" + user + "</span>" + user, "<span style=\"display:none;\">" + bused + "</span>" + formatBytes(bused, xml), "<span style=\"display:none;\">" + bsoft + "</span>" + formatBytes(bsoft, xml), "<span style=\"display:none;\">" + bhard + "</span>" + formatBytes(bhard, xml), "<span style=\"display:none;\">" + bpuse + "</span>" + createBar(bpuse), "<span style=\"display:none;\">" + fused + "</span>" + fused, "<span style=\"display:none;\">" + fsoft + "</span>" + fsoft, "<span style=\"display:none;\">" + fhard + "</span>" + fhard, "<span style=\"display:none;\">" + fpuse + "</span>" + createBar(fpuse)]);
-        quotas_show = true;
-    });
+		quotas_table.fnAddData(["<span style=\"display:none;\">" + user + "</span>" + user, "<span style=\"display:none;\">" + bused + "</span>" + formatBytes(bused, xml), "<span style=\"display:none;\">" + bsoft + "</span>" + formatBytes(bsoft, xml), "<span style=\"display:none;\">" + bhard + "</span>" + formatBytes(bhard, xml), "<span style=\"display:none;\">" + bpuse + "</span>" + createBar(bpuse), "<span style=\"display:none;\">" + fused + "</span>" + fused, "<span style=\"display:none;\">" + fsoft + "</span>" + fsoft, "<span style=\"display:none;\">" + fhard + "</span>" + fhard, "<span style=\"display:none;\">" + fpuse + "</span>" + createBar(fpuse)]);
+		quotas_show = true;
+	});
 }
 
 /**
  * fill the plugin block with table structure
  */
 function quotas_buildTable() {
-    var html = "";
+	var html = "";
 
-    html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_QuotasTable\" style=\"border-collapse:collapse;\">\n";
-    html += "    <thead>\n";
-    html += "      <tr>\n";
-    html += "        <th>" + genlang(2, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(3, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(4, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(5, "Quotas") + "</th>\n";
-    html += "        <th>" + genlang(6, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(7, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(8, "Quotas") + "</th>\n";
-    html += "        <th class=\"right\">" + genlang(9, "Quotas") + "</th>\n";
-    html += "        <th>" + genlang(10, "Quotas") + "</th>\n";
-    html += "      </tr>\n";
-    html += "    </thead>\n";
-    html += "    <tbody>\n";
-    html += "    </tbody>\n";
-    html += "  </table>\n";
-    html += "</div>\n";
+	html += "<div style=\"overflow-x:auto;\">\n";
+	html += "  <table id=\"Plugin_QuotasTable\" style=\"border-collapse:collapse;\">\n";
+	html += "    <thead>\n";
+	html += "      <tr>\n";
+	html += "        <th>" + genlang(2, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(3, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(4, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(5, "Quotas") + "</th>\n";
+	html += "        <th>" + genlang(6, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(7, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(8, "Quotas") + "</th>\n";
+	html += "        <th class=\"right\">" + genlang(9, "Quotas") + "</th>\n";
+	html += "        <th>" + genlang(10, "Quotas") + "</th>\n";
+	html += "      </tr>\n";
+	html += "    </thead>\n";
+	html += "    <tbody>\n";
+	html += "    </tbody>\n";
+	html += "  </table>\n";
+	html += "</div>\n";
 
-    $("#Plugin_Quotas").append(html);
+	$("#Plugin_Quotas").append(html);
 
-    quotas_table = $("#Plugin_QuotasTable").dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bSort": true,
-        "bInfo": false,
-        "bProcessing": true,
-        "bAutoWidth": false,
-        "bStateSave": true,
-        "aoColumns": [{
-            "sType": 'span-string'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }, {
-            "sType": 'span-number'
-        }]
-    });
+	quotas_table = $("#Plugin_QuotasTable").dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": false,
+		"bSort": true,
+		"bInfo": false,
+		"bProcessing": true,
+		"bAutoWidth": false,
+		"bStateSave": true,
+		"aoColumns": [{
+			"sType": 'span-string'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}, {
+			"sType": 'span-number'
+		}]
+	});
 }
 
 /**
  * load the xml via ajax
  */
 function quotas_request() {
-    $("#Reload_QuotasTable").attr("title", "reload");
-    $.ajax({
-        url: "xml.php?plugin=Quotas",
-        dataType: "xml",
-        error: function quotas_error() {
-            $.jGrowl("Error loading XML document for Plugin quotas!");
-        },
-        success: function quotas_buildblock(xml) {
-            populateErrors(xml);
-            quotas_populate(xml);
-            if (quotas_show) {
-                plugin_translate("Quotas");
-                $("#Plugin_Quotas").show();
-            }
-        }
-    });
+	$("#Reload_QuotasTable").attr("title", "reload");
+	$.ajax({
+		url: "xml.php?plugin=Quotas",
+		dataType: "xml",
+		error: function quotas_error() {
+			$.jGrowl("Error loading XML document for Plugin quotas!");
+		},
+		success: function quotas_buildblock(xml) {
+			populateErrors(xml);
+			quotas_populate(xml);
+			if (quotas_show) {
+				plugin_translate("Quotas");
+				$("#Plugin_Quotas").show();
+			}
+		}
+	});
 }
 
 $(document).ready(function quotas_buildpage() {
-    $("#footer").before(buildBlock("Quotas", 1, true));
-    $("#Plugin_Quotas").addClass("fullsize");
+	$("#footer").before(buildBlock("Quotas", 1, true));
+	$("#Plugin_Quotas").addClass("fullsize");
 
-    quotas_buildTable();
+	quotas_buildTable();
 
-    quotas_request();
+	quotas_request();
 
-    $("#Reload_QuotasTable").click(function quotas_reload(id) {
-        quotas_request();
-        $(this).attr("title", datetime());
-    });
+	$("#Reload_QuotasTable").click(function quotas_reload(id) {
+		quotas_request();
+		$(this).attr("title", datetime());
+	});
 });

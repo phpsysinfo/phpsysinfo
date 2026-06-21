@@ -14,112 +14,112 @@
  */
 class SpeedFan extends Sensors
 {
-    /*
-     * variable, which holds the content of the command
-     * @var array
-     */
-    private $_filecontent = array();
+	/*
+	 * variable, which holds the content of the command
+	 * @var array
+	 */
+	private $_filecontent = array();
 
-    public function __construct()
-    {
-        parent::__construct();
-        if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_SPEEDFAN_ACCESS')?strtolower(PSI_SENSOR_SPEEDFAN_ACCESS):'command') {
-        case 'command':
-            if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG) && (strlen($buffer) > 0)) {
-                if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["temp"] = $out[1];
-                }
-                if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["fans"] = $out[1];
-                }
-                if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["volt"] = $out[1];
-                }
-            }
-            break;
-        case 'data':
-            if (CommonFunctions::rftsdata('speedfan.tmp', $buffer) && (strlen($buffer) > 0)) {
-                if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["temp"] = $out[1];
-                }
-                if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["fans"] = $out[1];
-                }
-                if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
-                    $this->_filecontent["volt"] = $out[1];
-                }
-            }
-            break;
-        default:
-            $this->error->addConfigError('__construct()', '[sensor_speedfan] ACCESS');
-        }
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		if ((PSI_OS == 'WINNT') && !defined('PSI_EMU_HOSTNAME')) switch (defined('PSI_SENSOR_SPEEDFAN_ACCESS')?strtolower(PSI_SENSOR_SPEEDFAN_ACCESS):'command') {
+		case 'command':
+			if (CommonFunctions::executeProgram("SpeedFanGet.exe", "", $buffer, PSI_DEBUG) && (strlen($buffer) > 0)) {
+				if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["temp"] = $out[1];
+				}
+				if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["fans"] = $out[1];
+				}
+				if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["volt"] = $out[1];
+				}
+			}
+			break;
+		case 'data':
+			if (CommonFunctions::rftsdata('speedfan.tmp', $buffer) && (strlen($buffer) > 0)) {
+				if (preg_match("/^Temperatures:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["temp"] = $out[1];
+				}
+				if (preg_match("/^Fans:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["fans"] = $out[1];
+				}
+				if (preg_match("/^Voltages:\s+(.+)$/m", $buffer, $out)) {
+					$this->_filecontent["volt"] = $out[1];
+				}
+			}
+			break;
+		default:
+			$this->error->addConfigError('__construct()', '[sensor_speedfan] ACCESS');
+		}
+	}
 
-    /**
-     * get temperature information
-     *
-     * @return void
-     */
-    private function _temperature()
-    {
-        if (isset($this->_filecontent["temp"]) && (trim($this->_filecontent["temp"]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent["temp"]));
-            foreach ($values as $id=>$value) {
-                $dev = new SensorDevice();
-                $dev->setName("temp".$id);
-                $dev->setValue($value);
-                $this->mbinfo->setMbTemp($dev);
-            }
-        }
-    }
+	/**
+	 * get temperature information
+	 *
+	 * @return void
+	 */
+	private function _temperature()
+	{
+		if (isset($this->_filecontent["temp"]) && (trim($this->_filecontent["temp"]) !== "")) {
+			$values = preg_split("/ /", trim($this->_filecontent["temp"]));
+			foreach ($values as $id=>$value) {
+				$dev = new SensorDevice();
+				$dev->setName("temp".$id);
+				$dev->setValue($value);
+				$this->mbinfo->setMbTemp($dev);
+			}
+		}
+	}
 
-    /**
-     * get fan information
-     *
-     * @return void
-     */
-    private function _fans()
-    {
-        if (isset($this->_filecontent["fans"]) && (trim($this->_filecontent["fans"]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent["fans"]));
-            foreach ($values as $id=>$value) {
-                $dev = new SensorDevice();
-                $dev->setName("fan".$id);
-                $dev->setValue($value);
-                $this->mbinfo->setMbFan($dev);
-            }
-        }
-    }
+	/**
+	 * get fan information
+	 *
+	 * @return void
+	 */
+	private function _fans()
+	{
+		if (isset($this->_filecontent["fans"]) && (trim($this->_filecontent["fans"]) !== "")) {
+			$values = preg_split("/ /", trim($this->_filecontent["fans"]));
+			foreach ($values as $id=>$value) {
+				$dev = new SensorDevice();
+				$dev->setName("fan".$id);
+				$dev->setValue($value);
+				$this->mbinfo->setMbFan($dev);
+			}
+		}
+	}
 
-    /**
-     * get voltage information
-     *
-     * @return void
-     */
-    private function _voltage()
-    {
-        if (isset($this->_filecontent["volt"]) && (trim($this->_filecontent["volt"]) !== "")) {
-            $values = preg_split("/ /", trim($this->_filecontent["volt"]));
-            foreach ($values as $id=>$value) {
-                $dev = new SensorDevice();
-                $dev->setName("in".$id);
-                $dev->setValue($value);
-                $this->mbinfo->setMbVolt($dev);
-            }
-        }
-    }
+	/**
+	 * get voltage information
+	 *
+	 * @return void
+	 */
+	private function _voltage()
+	{
+		if (isset($this->_filecontent["volt"]) && (trim($this->_filecontent["volt"]) !== "")) {
+			$values = preg_split("/ /", trim($this->_filecontent["volt"]));
+			foreach ($values as $id=>$value) {
+				$dev = new SensorDevice();
+				$dev->setName("in".$id);
+				$dev->setValue($value);
+				$this->mbinfo->setMbVolt($dev);
+			}
+		}
+	}
 
-    /**
-     * get the information
-     *
-     * @see PSI_Interface_Sensor::build()
-     *
-     * @return void
-     */
-    public function build()
-    {
-        $this->_temperature();
-        $this->_fans();
-        $this->_voltage();
-    }
+	/**
+	 * get the information
+	 *
+	 * @see PSI_Interface_Sensor::build()
+	 *
+	 * @return void
+	 */
+	public function build()
+	{
+		$this->_temperature();
+		$this->_fans();
+		$this->_voltage();
+	}
 }

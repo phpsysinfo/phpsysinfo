@@ -27,144 +27,144 @@
  */
 class Nut extends UPS
 {
-    /**
-     * internal storage for all gathered data
-     *
-     * @var array
-     */
-    private $_output = array();
+	/**
+	 * internal storage for all gathered data
+	 *
+	 * @var array
+	 */
+	private $_output = array();
 
-    /**
-     * get all information from all configured ups and store output in internal array
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        if (!defined('PSI_UPS_NUT_ACCESS')) {
-             define('PSI_UPS_NUT_ACCESS', false);
-        }
-        switch (strtolower(PSI_UPS_NUT_ACCESS)) {
-        case 'data':
-            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-                $upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
-            } else {
-                $upses = array('UPS');
-            }
-            $un = 0;
-            foreach ($upses as $ups) {
-                $temp = "";
-                CommonFunctions::rftsdata("upsnut{$un}.tmp", $temp);
-                if (! empty($temp)) {
-                    $this->_output[$ups] = $temp;
-                }
-                $un++;
-            }
-            break;
-        default:
-            if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
-                $upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
-                foreach ($upses as $ups) {
-                    CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
-                    $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-                    foreach ($ups_names as $ups_name) {
-                        $upsname = trim($ups_name).'@'.trim($ups);
-                        $temp = "";
-                        CommonFunctions::executeProgram('upsc', $upsname, $temp, PSI_DEBUG);
-                        if (! empty($temp)) {
-                            $this->_output[$upsname] = $temp;
-                        }
-                    }
-                }
-            } else { //use default if address and port not defined
-                if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) {
-                    CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
-                } else {
-                    CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
-                }
-                $ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($ups_names as $ups_name) {
-                    $temp = "";
-                    CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
-                    if (! empty($temp)) {
-                        $this->_output[trim($ups_name)] = $temp;
-                    }
-                }
-            }
-        }
-    }
+	/**
+	 * get all information from all configured ups and store output in internal array
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if (!defined('PSI_UPS_NUT_ACCESS')) {
+			 define('PSI_UPS_NUT_ACCESS', false);
+		}
+		switch (strtolower(PSI_UPS_NUT_ACCESS)) {
+		case 'data':
+			if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+				$upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
+			} else {
+				$upses = array('UPS');
+			}
+			$un = 0;
+			foreach ($upses as $ups) {
+				$temp = "";
+				CommonFunctions::rftsdata("upsnut{$un}.tmp", $temp);
+				if (! empty($temp)) {
+					$this->_output[$ups] = $temp;
+				}
+				$un++;
+			}
+			break;
+		default:
+			if (defined('PSI_UPS_NUT_LIST') && is_string(PSI_UPS_NUT_LIST)) {
+				$upses = CommonFunctions::splitCommaList(PSI_UPS_NUT_LIST);
+				foreach ($upses as $ups) {
+					CommonFunctions::executeProgram('upsc', '-l '.trim($ups), $output, PSI_DEBUG);
+					$ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+					foreach ($ups_names as $ups_name) {
+						$upsname = trim($ups_name).'@'.trim($ups);
+						$temp = "";
+						CommonFunctions::executeProgram('upsc', $upsname, $temp, PSI_DEBUG);
+						if (! empty($temp)) {
+							$this->_output[$upsname] = $temp;
+						}
+					}
+				}
+			} else { //use default if address and port not defined
+				if (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT')) {
+					CommonFunctions::executeProgram('upsc', '-l', $output, PSI_DEBUG);
+				} else {
+					CommonFunctions::executeProgram('upsc', '-l '.PSI_EMU_HOSTNAME, $output, PSI_DEBUG);
+				}
+				$ups_names = preg_split("/\n/", $output, -1, PREG_SPLIT_NO_EMPTY);
+				foreach ($ups_names as $ups_name) {
+					$temp = "";
+					CommonFunctions::executeProgram('upsc', trim($ups_name), $temp, PSI_DEBUG);
+					if (! empty($temp)) {
+						$this->_output[trim($ups_name)] = $temp;
+					}
+				}
+			}
+		}
+	}
 
-    /**
-     * parse the input and store data in resultset for xml generation
-     *
-     * @return void
-     */
-    private function _info()
-    {
-        if (! empty($this->_output)) {
-            foreach ($this->_output as $name => $value) {
-                $temp = preg_split("/\n/", $value, -1, PREG_SPLIT_NO_EMPTY);
-                $ups_data = array();
-                foreach ($temp as $valueTemp) {
-                    $line = preg_split('/: /', $valueTemp, 2);
-                    $ups_data[$line[0]] = isset($line[1]) ? trim($line[1]) : '';
-                }
-                $dev = new UPSDevice();
-                //General
-                $dev->setName($name);
-                if (isset($ups_data['ups.model'])) {
-                    $dev->setModel($ups_data['ups.model']);
-                }
-                if (isset($ups_data['driver.name'])) {
-                    $dev->setMode($ups_data['driver.name']);
-                }
-                if (isset($ups_data['ups.status'])) {
-                    $dev->setStatus($ups_data['ups.status']);
-                }
-                if (isset($ups_data['ups.beeper.status'])) {
-                    $dev->setBeeperStatus($ups_data['ups.beeper.status']);
-                }
+	/**
+	 * parse the input and store data in resultset for xml generation
+	 *
+	 * @return void
+	 */
+	private function _info()
+	{
+		if (! empty($this->_output)) {
+			foreach ($this->_output as $name => $value) {
+				$temp = preg_split("/\n/", $value, -1, PREG_SPLIT_NO_EMPTY);
+				$ups_data = array();
+				foreach ($temp as $valueTemp) {
+					$line = preg_split('/: /', $valueTemp, 2);
+					$ups_data[$line[0]] = isset($line[1]) ? trim($line[1]) : '';
+				}
+				$dev = new UPSDevice();
+				//General
+				$dev->setName($name);
+				if (isset($ups_data['ups.model'])) {
+					$dev->setModel($ups_data['ups.model']);
+				}
+				if (isset($ups_data['driver.name'])) {
+					$dev->setMode($ups_data['driver.name']);
+				}
+				if (isset($ups_data['ups.status'])) {
+					$dev->setStatus($ups_data['ups.status']);
+				}
+				if (isset($ups_data['ups.beeper.status'])) {
+					$dev->setBeeperStatus($ups_data['ups.beeper.status']);
+				}
 
-                //Line
-                if (isset($ups_data['input.voltage'])) {
-                    $dev->setLineVoltage($ups_data['input.voltage']);
-                }
-                if (isset($ups_data['input.frequency'])) {
-                    $dev->setLineFrequency($ups_data['input.frequency']);
-                }
-                if (isset($ups_data['ups.load'])) {
-                    $dev->setLoad($ups_data['ups.load']);
-                }
+				//Line
+				if (isset($ups_data['input.voltage'])) {
+					$dev->setLineVoltage($ups_data['input.voltage']);
+				}
+				if (isset($ups_data['input.frequency'])) {
+					$dev->setLineFrequency($ups_data['input.frequency']);
+				}
+				if (isset($ups_data['ups.load'])) {
+					$dev->setLoad($ups_data['ups.load']);
+				}
 
-                //Battery
-                if (isset($ups_data['battery.voltage'])) {
-                    $dev->setBatteryVoltage($ups_data['battery.voltage']);
-                }
-                if (isset($ups_data['battery.charge'])) {
-                    $dev->setBatterCharge($ups_data['battery.charge']);
-                }
-                if (isset($ups_data['battery.runtime'])) {
-                    $dev->setTimeLeft(round($ups_data['battery.runtime']/60, 2));
-                }
+				//Battery
+				if (isset($ups_data['battery.voltage'])) {
+					$dev->setBatteryVoltage($ups_data['battery.voltage']);
+				}
+				if (isset($ups_data['battery.charge'])) {
+					$dev->setBatterCharge($ups_data['battery.charge']);
+				}
+				if (isset($ups_data['battery.runtime'])) {
+					$dev->setTimeLeft(round($ups_data['battery.runtime']/60, 2));
+				}
 
-                //Temperature
-                if (isset($ups_data['ups.temperature'])) {
-                    $dev->setTemperatur($ups_data['ups.temperature']);
-                }
+				//Temperature
+				if (isset($ups_data['ups.temperature'])) {
+					$dev->setTemperatur($ups_data['ups.temperature']);
+				}
 
-                $this->upsinfo->setUpsDevices($dev);
-            }
-        }
-    }
+				$this->upsinfo->setUpsDevices($dev);
+			}
+		}
+	}
 
-    /**
-     * get the information
-     *
-     * @see PSI_Interface_UPS::build()
-     *
-     * @return void
-     */
-    public function build()
-    {
-        $this->_info();
-    }
+	/**
+	 * get the information
+	 *
+	 * @see PSI_Interface_UPS::build()
+	 *
+	 * @return void
+	 */
+	public function build()
+	{
+		$this->_info();
+	}
 }

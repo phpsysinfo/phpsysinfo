@@ -33,99 +33,99 @@ var pingtest_show = false, pingtest_table;
  * @param {jQuery} xml plugin-XML
  */
 function pingtest_populate(xml) {
-    var address = "", pingtime = 0, state = "", hostname = "";
+	var address = "", pingtime = 0, state = "", hostname = "";
 
-    pingtest_table.fnClearTable();
+	pingtest_table.fnClearTable();
 
-    hostname = $("Plugins Plugin_PingTest", xml).attr('Hostname');
-    if (hostname !== undefined) {
-        $('span[class=Hostname_PingTest]').html(hostname);
-    }
+	hostname = $("Plugins Plugin_PingTest", xml).attr('Hostname');
+	if (hostname !== undefined) {
+		$('span[class=Hostname_PingTest]').html(hostname);
+	}
 
-    $("Plugins Plugin_PingTest Ping", xml).each(function pingtest_getprocess(idp) {
-        address = $(this).attr("Address");
-        pingtime = parseInt($(this).attr("PingTime"), 10);
-        if (!isNaN(pingtime)) {
-            state = "<span style=\"display:none;\">" + pingtime.toString() + "</span>" + pingtime.toString() + "&nbsp;ms";
-        }
-        else {
-            state = "<span style=\"display:none;\">1000000</span>" + genlang(4, "PingTest");
-        }
-        pingtest_table.fnAddData(["<span style=\"display:none;\">" + address + "</span>" + address, state]);
-        pingtest_show = true;
-    });
+	$("Plugins Plugin_PingTest Ping", xml).each(function pingtest_getprocess(idp) {
+		address = $(this).attr("Address");
+		pingtime = parseInt($(this).attr("PingTime"), 10);
+		if (!isNaN(pingtime)) {
+			state = "<span style=\"display:none;\">" + pingtime.toString() + "</span>" + pingtime.toString() + "&nbsp;ms";
+		}
+		else {
+			state = "<span style=\"display:none;\">1000000</span>" + genlang(4, "PingTest");
+		}
+		pingtest_table.fnAddData(["<span style=\"display:none;\">" + address + "</span>" + address, state]);
+		pingtest_show = true;
+	});
 }
 
 /**
  * fill the plugin block with table structure
  */
 function pingtest_buildTable() {
-    var html = "";
+	var html = "";
 
-    html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_PingTestTable\" style=\"border-collapse:collapse;\">\n";
-    html += "    <thead>\n";
-    html += "      <tr>\n";
-    html += "        <th>" + genlang(2, "PingTest") + "</th>\n";
-    html += "        <th>" + genlang(3, "PingTest") + "</th>\n";
-    html += "      </tr>\n";
-    html += "    </thead>\n";
-    html += "    <tbody>\n";
-    html += "    </tbody>\n";
-    html += "  </table>\n";
-    html += "</div>\n";
+	html += "<div style=\"overflow-x:auto;\">\n";
+	html += "  <table id=\"Plugin_PingTestTable\" style=\"border-collapse:collapse;\">\n";
+	html += "    <thead>\n";
+	html += "      <tr>\n";
+	html += "        <th>" + genlang(2, "PingTest") + "</th>\n";
+	html += "        <th>" + genlang(3, "PingTest") + "</th>\n";
+	html += "      </tr>\n";
+	html += "    </thead>\n";
+	html += "    <tbody>\n";
+	html += "    </tbody>\n";
+	html += "  </table>\n";
+	html += "</div>\n";
 
-    $("#Plugin_PingTest").append(html);
+	$("#Plugin_PingTest").append(html);
 
-    pingtest_table = $("#Plugin_PingTestTable").dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bSort": true,
-        "bInfo": false,
-        "bProcessing": true,
-        "bAutoWidth": false,
-        "bStateSave": true,
-        "aoColumns": [{
-            "sType": 'span-ip'
-        }, {
-            "sType": 'span-number'
-        }]
-    });
+	pingtest_table = $("#Plugin_PingTestTable").dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": false,
+		"bSort": true,
+		"bInfo": false,
+		"bProcessing": true,
+		"bAutoWidth": false,
+		"bStateSave": true,
+		"aoColumns": [{
+			"sType": 'span-ip'
+		}, {
+			"sType": 'span-number'
+		}]
+	});
 }
 
 /**
  * load the xml via ajax
  */
 function pingtest_request() {
-    $("#Reload_PingTestTable").attr("title", "reload");
-    $.ajax({
-        url: "xml.php?plugin=PingTest",
-        dataType: "xml",
-        error: function pingtest_error() {
-            $.jGrowl("Error loading XML document for Plugin PingTest!");
-        },
-        success: function pingtest_buildblock(xml) {
-            populateErrors(xml);
-            pingtest_populate(xml);
-            if (pingtest_show) {
-                plugin_translate("PingTest");
-                $("#Plugin_PingTest").show();
-            }
-        }
-    });
+	$("#Reload_PingTestTable").attr("title", "reload");
+	$.ajax({
+		url: "xml.php?plugin=PingTest",
+		dataType: "xml",
+		error: function pingtest_error() {
+			$.jGrowl("Error loading XML document for Plugin PingTest!");
+		},
+		success: function pingtest_buildblock(xml) {
+			populateErrors(xml);
+			pingtest_populate(xml);
+			if (pingtest_show) {
+				plugin_translate("PingTest");
+				$("#Plugin_PingTest").show();
+			}
+		}
+	});
 }
 
 $(document).ready(function pingtest_buildpage() {
-    $("#footer").before(buildBlock("PingTest", 1, true));
-    $("#Plugin_PingTest").addClass("halfsize");
+	$("#footer").before(buildBlock("PingTest", 1, true));
+	$("#Plugin_PingTest").addClass("halfsize");
 
-    pingtest_buildTable();
+	pingtest_buildTable();
 
-    pingtest_request();
+	pingtest_request();
 
-    $("#Reload_PingTestTable").click(function pingtest_reload(id) {
-        pingtest_request();
-        $(this).attr("title", datetime());
-    });
+	$("#Reload_PingTestTable").click(function pingtest_reload(id) {
+		pingtest_request();
+		$(this).attr("title", datetime());
+	});
 });
