@@ -34,99 +34,99 @@ var hyperv_show = false, hyperv_table;
  * @param {jQuery} xml plugin-XML
  */
 function hyperv_populate(xml) {
-    var name = "", status = 0, state = "", hostname = "";
+	var name = "", status = 0, state = "", hostname = "";
 
-    hyperv_table.fnClearTable();
+	hyperv_table.fnClearTable();
 
-    hostname = $("Plugins Plugin_HyperV", xml).attr('Hostname');
-    if (hostname !== undefined) {
-        $('span[class=Hostname_HyperV]').html(hostname);
-    }
+	hostname = $("Plugins Plugin_HyperV", xml).attr('Hostname');
+	if (hostname !== undefined) {
+		$('span[class=Hostname_HyperV]').html(hostname);
+	}
 
-    $("Plugins Plugin_HyperV Machine", xml).each(function hyperv_getprocess(idp) {
-        name = $(this).attr("Name");
-        status = parseInt($(this).attr("State"), 10);
-        if (!isNaN(status) && (status === 2)) {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
-        }
-        else {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
-        }
-        hyperv_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
-        hyperv_show = true;
-    });
+	$("Plugins Plugin_HyperV Machine", xml).each(function hyperv_getprocess(idp) {
+		name = $(this).attr("Name");
+		status = parseInt($(this).attr("State"), 10);
+		if (!isNaN(status) && (status === 2)) {
+			state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
+		}
+		else {
+			state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
+		}
+		hyperv_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
+		hyperv_show = true;
+	});
 }
 
 /**
  * fill the plugin block with table structure
  */
 function hyperv_buildTable() {
-    var html = "";
+	var html = "";
 
-    html += "<div style=\"overflow-x:auto;\">\n";
-    html += "  <table id=\"Plugin_HyperVTable\" style=\"border-collapse:collapse;\">\n";
-    html += "    <thead>\n";
-    html += "      <tr>\n";
-    html += "        <th>" + genlang(2, "HyperV") + "</th>\n";
-    html += "        <th>" + genlang(3, "HyperV") + "</th>\n";
-    html += "      </tr>\n";
-    html += "    </thead>\n";
-    html += "    <tbody>\n";
-    html += "    </tbody>\n";
-    html += "  </table>\n";
-    html += "</div>\n";
+	html += "<div style=\"overflow-x:auto;\">\n";
+	html += "  <table id=\"Plugin_HyperVTable\" style=\"border-collapse:collapse;\">\n";
+	html += "    <thead>\n";
+	html += "      <tr>\n";
+	html += "        <th>" + genlang(2, "HyperV") + "</th>\n";
+	html += "        <th>" + genlang(3, "HyperV") + "</th>\n";
+	html += "      </tr>\n";
+	html += "    </thead>\n";
+	html += "    <tbody>\n";
+	html += "    </tbody>\n";
+	html += "  </table>\n";
+	html += "</div>\n";
 
-    $("#Plugin_HyperV").append(html);
+	$("#Plugin_HyperV").append(html);
 
-    hyperv_table = $("#Plugin_HyperVTable").dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bSort": true,
-        "bInfo": false,
-        "bProcessing": true,
-        "bAutoWidth": false,
-        "bStateSave": true,
-        "aoColumns": [{
-            "sType": 'span-string'
-        }, {
-            "sType": 'span-number'
-        }]
-    });
+	hyperv_table = $("#Plugin_HyperVTable").dataTable({
+		"bPaginate": false,
+		"bLengthChange": false,
+		"bFilter": false,
+		"bSort": true,
+		"bInfo": false,
+		"bProcessing": true,
+		"bAutoWidth": false,
+		"bStateSave": true,
+		"aoColumns": [{
+			"sType": 'span-string'
+		}, {
+			"sType": 'span-number'
+		}]
+	});
 }
 
 /**
  * load the xml via ajax
  */
 function hyperv_request() {
-    $("#Reload_HyperVTable").attr("title", "reload");
-    $.ajax({
-        url: "xml.php?plugin=HyperV",
-        dataType: "xml",
-        error: function hyperv_error() {
-            $.jGrowl("Error loading XML document for Plugin HyperV!");
-        },
-        success: function hyperv_buildblock(xml) {
-            populateErrors(xml);
-            hyperv_populate(xml);
-            if (hyperv_show) {
-                plugin_translate("HyperV");
-                $("#Plugin_HyperV").show();
-            }
-        }
-    });
+	$("#Reload_HyperVTable").attr("title", "reload");
+	$.ajax({
+		url: "xml.php?plugin=HyperV",
+		dataType: "xml",
+		error: function hyperv_error() {
+			$.jGrowl("Error loading XML document for Plugin HyperV!");
+		},
+		success: function hyperv_buildblock(xml) {
+			populateErrors(xml);
+			hyperv_populate(xml);
+			if (hyperv_show) {
+				plugin_translate("HyperV");
+				$("#Plugin_HyperV").show();
+			}
+		}
+	});
 }
 
 $(document).ready(function hyperv_buildpage() {
-    $("#footer").before(buildBlock("HyperV", 1, true));
-    $("#Plugin_HyperV").addClass("halfsize");
+	$("#footer").before(buildBlock("HyperV", 1, true));
+	$("#Plugin_HyperV").addClass("halfsize");
 
-    hyperv_buildTable();
+	hyperv_buildTable();
 
-    hyperv_request();
+	hyperv_request();
 
-    $("#Reload_HyperVTable").click(function hyperv_reload(id) {
-        hyperv_request();
-        $(this).attr("title", datetime());
-    });
+	$("#Reload_HyperVTable").click(function hyperv_reload(id) {
+		hyperv_request();
+		$(this).attr("title", datetime());
+	});
 });

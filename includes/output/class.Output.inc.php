@@ -25,34 +25,34 @@
  */
 abstract class Output
 {
-    /**
-     * error object for logging errors
-     *
-     * @var PSI_Error
-     */
-    protected $error;
+	/**
+	 * error object for logging errors
+	 *
+	 * @var PSI_Error
+	 */
+	protected $error;
 
-    /**
-     * call the parent constructor and check for needed extensions
-     */
-    public function __construct()
-    {
-        $this->error = PSI_Error::singleton();
-        $this->_checkConfig();
-        CommonFunctions::checkForExtensions();
-    }
+	/**
+	 * call the parent constructor and check for needed extensions
+	 */
+	public function __construct()
+	{
+		$this->error = PSI_Error::singleton();
+		$this->_checkConfig();
+		CommonFunctions::checkForExtensions();
+	}
 
-    /**
-     * read the config file and check for existence
-     *
-     * @return void
-     */
-    private function _checkConfig()
-    {
-        include_once PSI_APP_ROOT.'/read_config.php';
+	/**
+	 * read the config file and check for existence
+	 *
+	 * @return void
+	 */
+	private function _checkConfig()
+	{
+		include_once PSI_APP_ROOT.'/read_config.php';
 
-        if ($this->error->errorsExist()) {
-            $this->error->errorsAsXML();
-        }
-    }
+		if ($this->error->errorsExist()) {
+			$this->error->errorsAsXML();
+		}
+	}
 }

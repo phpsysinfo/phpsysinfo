@@ -26,337 +26,337 @@
  */
 class Minix extends OS
 {
-    /**
-     * uptime command result.
-     */
-    private $_uptime = null;
+	/**
+	 * uptime command result.
+	 */
+	private $_uptime = null;
 
-    /**
-     * content of the syslog
-     *
-     * @var array
-     */
-    private $_dmesg = null;
+	/**
+	 * content of the syslog
+	 *
+	 * @var array
+	 */
+	private $_dmesg = null;
 
-    /**
-     * read /var/log/messages, but only if we haven't already
-     *
-     * @return array
-     */
-    protected function readdmesg()
-    {
-        if ($this->_dmesg === null) {
-            if (CommonFunctions::rfts('/var/log/messages', $buf)) {
-                    $blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
-                    $parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
-                    $this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
-            } else {
-                $this->_dmesg = array();
-            }
-        }
+	/**
+	 * read /var/log/messages, but only if we haven't already
+	 *
+	 * @return array
+	 */
+	protected function readdmesg()
+	{
+		if ($this->_dmesg === null) {
+			if (CommonFunctions::rfts('/var/log/messages', $buf)) {
+					$blocks = preg_replace("/\s(kernel: MINIX \d+\.\d+\.\d+\.)/", '<BLOCK>$1', $buf);
+					$parts = preg_split("/<BLOCK>/", $blocks, -1, PREG_SPLIT_NO_EMPTY);
+					$this->_dmesg = preg_split("/\n/", $parts[count($parts) - 1], -1, PREG_SPLIT_NO_EMPTY);
+			} else {
+				$this->_dmesg = array();
+			}
+		}
 
-        return $this->_dmesg;
-    }
+		return $this->_dmesg;
+	}
 
-    /**
-     * get the cpu information
-     *
-     * @return void
-     */
-    protected function _cpuinfo()
-    {
-        if (CommonFunctions::rfts('/proc/cpuinfo', $bufr, 0, 4096, false)) {
-            $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
-            foreach ($processors as $processor) {
-                $_n = ""; $_f = ""; $_m = ""; $_s = "";
-                $dev = new CpuDevice();
-                $details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
-                foreach ($details as $detail) {
-                    if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
-                        switch (strtolower(trim($arrBuff[1]))) {
-                        case 'model name':
-                            $_n = $arrBuff2;
-                            break;
-                        case 'cpu mhz':
-                            $dev->setCpuSpeed($arrBuff2);
-                            break;
-                        case 'cpu family':
-                            $_f = $arrBuff2;
-                            break;
-                        case 'model':
-                            $_m = $arrBuff2;
-                            break;
-                        case 'stepping':
-                            $_s = $arrBuff2;
-                            break;
-                        case 'flags':
-                            if (preg_match("/ vmx/", $arrBuff2)) {
-                                $dev->setVirt("vmx");
-                            } elseif (preg_match("/ svm/", $arrBuff2)) {
-                                $dev->setVirt("svm");
-                            }
-                            break;
-                        case 'vendor_id':
-                            $dev->setVendorId($arrBuff2);
-                        }
-                    }
-                }
-                if ($_n == "") $_n="CPU";
-                if ($_f != "") $_n.=" Family ".$_f;
-                if ($_m != "") $_n.=" Model ".$_m;
-                if ($_s != "") $_n.=" Stepping ".$_s;
-                $dev->SetModel($_n);
-                $this->sys->setCpus($dev);
-            }
-        } else
-        foreach ($this->readdmesg() as $line) {
-            if (preg_match('/kernel: (CPU .*) freq (.*) MHz/', $line, $ar_buf)) {
-                $dev = new CpuDevice();
-                $dev->setModel($ar_buf[1]);
-                $dev->setCpuSpeed($ar_buf[2]);
-                $this->sys->setCpus($dev);
-            }
-        }
-    }
+	/**
+	 * get the cpu information
+	 *
+	 * @return void
+	 */
+	protected function _cpuinfo()
+	{
+		if (CommonFunctions::rfts('/proc/cpuinfo', $bufr, 0, 4096, false)) {
+			$processors = preg_split('/\s?\n\s?\n/', trim($bufr));
+			foreach ($processors as $processor) {
+				$_n = ""; $_f = ""; $_m = ""; $_s = "";
+				$dev = new CpuDevice();
+				$details = preg_split("/\n/", $processor, -1, PREG_SPLIT_NO_EMPTY);
+				foreach ($details as $detail) {
+					if (preg_match('/^([^:]+):(.+)$/', trim($detail) , $arrBuff) && (($arrBuff2 = trim($arrBuff[2])) !== '')) {
+						switch (strtolower(trim($arrBuff[1]))) {
+						case 'model name':
+							$_n = $arrBuff2;
+							break;
+						case 'cpu mhz':
+							$dev->setCpuSpeed($arrBuff2);
+							break;
+						case 'cpu family':
+							$_f = $arrBuff2;
+							break;
+						case 'model':
+							$_m = $arrBuff2;
+							break;
+						case 'stepping':
+							$_s = $arrBuff2;
+							break;
+						case 'flags':
+							if (preg_match("/ vmx/", $arrBuff2)) {
+								$dev->setVirt("vmx");
+							} elseif (preg_match("/ svm/", $arrBuff2)) {
+								$dev->setVirt("svm");
+							}
+							break;
+						case 'vendor_id':
+							$dev->setVendorId($arrBuff2);
+						}
+					}
+				}
+				if ($_n == "") $_n="CPU";
+				if ($_f != "") $_n.=" Family ".$_f;
+				if ($_m != "") $_n.=" Model ".$_m;
+				if ($_s != "") $_n.=" Stepping ".$_s;
+				$dev->SetModel($_n);
+				$this->sys->setCpus($dev);
+			}
+		} else
+		foreach ($this->readdmesg() as $line) {
+			if (preg_match('/kernel: (CPU .*) freq (.*) MHz/', $line, $ar_buf)) {
+				$dev = new CpuDevice();
+				$dev->setModel($ar_buf[1]);
+				$dev->setCpuSpeed($ar_buf[2]);
+				$this->sys->setCpus($dev);
+			}
+		}
+	}
 
-    /**
-     * PCI devices
-     * get the pci device information out of dmesg
-     *
-     * @return void
-     */
-    protected function _pci()
-    {
-        if (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
-            $arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
-            $arrResults = array();
-            foreach ($arrLines as $strLine) {
-               $arrParams = preg_split('/\s+/', trim($strLine), 4);
-               if (count($arrParams) == 4)
-                  $strName = $arrParams[3];
-               else
-                  $strName = "unknown";
-               $strName = preg_replace('/\(.*\)/', '', $strName);
-               $dev = new HWDevice();
-               $dev->setName($strName);
-               $arrResults[] = $dev;
-            }
-            foreach ($arrResults as $dev) {
-                $this->sys->setPciDevices($dev);
-            }
-        }
-        if (!(isset($arrResults) && is_array($arrResults)) && ($results = Parser::lspci())) {
-            /* if access error: chmod 4755 /usr/bin/lspci */
-            foreach ($results as $dev) {
-                $this->sys->setPciDevices($dev);
-            }
-        }
-    }
+	/**
+	 * PCI devices
+	 * get the pci device information out of dmesg
+	 *
+	 * @return void
+	 */
+	protected function _pci()
+	{
+		if (CommonFunctions::rfts('/proc/pci', $strBuf, 0, 4096, false)) {
+			$arrLines = preg_split("/\n/", $strBuf, -1, PREG_SPLIT_NO_EMPTY);
+			$arrResults = array();
+			foreach ($arrLines as $strLine) {
+				$arrParams = preg_split('/\s+/', trim($strLine), 4);
+				if (count($arrParams) == 4)
+					$strName = $arrParams[3];
+				else
+					$strName = "unknown";
+				$strName = preg_replace('/\(.*\)/', '', $strName);
+				$dev = new HWDevice();
+				$dev->setName($strName);
+				$arrResults[] = $dev;
+			}
+			foreach ($arrResults as $dev) {
+				$this->sys->setPciDevices($dev);
+			}
+		}
+		if (!(isset($arrResults) && is_array($arrResults)) && ($results = Parser::lspci())) {
+			/* if access error: chmod 4755 /usr/bin/lspci */
+			foreach ($results as $dev) {
+				$this->sys->setPciDevices($dev);
+			}
+		}
+	}
 
-    /**
-     * Minix Version
-     *
-     * @return void
-     */
-    private function _kernel()
-    {
-        if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
-            foreach ($this->readdmesg() as $line) {
-                if (preg_match('/kernel: MINIX (\d+\.\d+\.\d+)\. \((.+)\)/', $line, $ar_buf)) {
-                    $branch = $ar_buf[2];
-                    break;
-                }
-            }
-            if (isset($branch))
-               $this->sys->setKernel($ret.' ('.$branch.')');
-            else
-               $this->sys->setKernel($ret);
-        }
-    }
+	/**
+	 * Minix Version
+	 *
+	 * @return void
+	 */
+	private function _kernel()
+	{
+		if (CommonFunctions::executeProgram('uname', '-rvm', $ret)) {
+			foreach ($this->readdmesg() as $line) {
+				if (preg_match('/kernel: MINIX (\d+\.\d+\.\d+)\. \((.+)\)/', $line, $ar_buf)) {
+					$branch = $ar_buf[2];
+					break;
+				}
+			}
+			if (isset($branch))
+				$this->sys->setKernel($ret.' ('.$branch.')');
+			else
+				$this->sys->setKernel($ret);
+		}
+	}
 
-    /**
-     * Distribution
-     *
-     * @return void
-     */
-    protected function _distro()
-    {
-        if (CommonFunctions::executeProgram('uname', '-sr', $ret))
-            $this->sys->setDistribution($ret);
-        else
-            $this->sys->setDistribution('Minix');
+	/**
+	 * Distribution
+	 *
+	 * @return void
+	 */
+	protected function _distro()
+	{
+		if (CommonFunctions::executeProgram('uname', '-sr', $ret))
+			$this->sys->setDistribution($ret);
+		else
+			$this->sys->setDistribution('Minix');
 
-        $this->sys->setDistributionIcon('Minix.png');
-    }
+		$this->sys->setDistributionIcon('Minix.png');
+	}
 
-    /**
-     * UpTime
-     * time the system is running
-     *
-     * @return void
-     */
-    private function _uptime()
-    {
-        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
-            if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
-                $min = $ar_buf[3];
-                $hours = $ar_buf[2];
-                $days = $ar_buf[1];
-                $this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
-            } elseif (preg_match("/up (\d+):(\d+),/", $this->_uptime, $ar_buf)) {
-                $min = $ar_buf[2];
-                $hours = $ar_buf[1];
-                $this->sys->setUptime($hours * 3600 + $min * 60);
-            }
-        }
-    }
+	/**
+	 * UpTime
+	 * time the system is running
+	 *
+	 * @return void
+	 */
+	private function _uptime()
+	{
+		if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+			if (preg_match("/up (\d+) day[s]?,\s*(\d+):(\d+),/", $this->_uptime, $ar_buf)) {
+				$min = $ar_buf[3];
+				$hours = $ar_buf[2];
+				$days = $ar_buf[1];
+				$this->sys->setUptime($days * 86400 + $hours * 3600 + $min * 60);
+			} elseif (preg_match("/up (\d+):(\d+),/", $this->_uptime, $ar_buf)) {
+				$min = $ar_buf[2];
+				$hours = $ar_buf[1];
+				$this->sys->setUptime($hours * 3600 + $min * 60);
+			}
+		}
+	}
 
-    /**
-     * Processor Load
-     * optionally create a loadbar
-     *
-     * @return void
-     */
-    private function _loadavg()
-    {
-        if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
-            if (preg_match("/load averages: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
-                $this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
-            }
-        }
-    }
+	/**
+	 * Processor Load
+	 * optionally create a loadbar
+	 *
+	 * @return void
+	 */
+	private function _loadavg()
+	{
+		if (($this->_uptime !== null) || CommonFunctions::executeProgram('uptime', '', $this->_uptime)) {
+			if (preg_match("/load averages: (.*), (.*), (.*)$/", $this->_uptime, $ar_buf)) {
+				$this->sys->setLoad($ar_buf[1].' '.$ar_buf[2].' '.$ar_buf[3]);
+			}
+		}
+	}
 
-    /**
-     * Virtual Host Name
-     *
-     * @return void
-     */
-    private function _hostname()
-    {
-        if (PSI_USE_VHOST) {
-            if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
-        } else {
-            if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {
-                $ip = gethostbyname($result);
-                if ($ip != $result) {
-                    $this->sys->setHostname(gethostbyaddr($ip));
-                }
-            }
-        }
-    }
+	/**
+	 * Virtual Host Name
+	 *
+	 * @return void
+	 */
+	private function _hostname()
+	{
+		if (PSI_USE_VHOST) {
+			if (CommonFunctions::readenv('SERVER_NAME', $hnm)) $this->sys->setHostname($hnm);
+		} else {
+			if (CommonFunctions::executeProgram('uname', '-n', $result, PSI_DEBUG)) {
+				$ip = gethostbyname($result);
+				if ($ip != $result) {
+					$this->sys->setHostname(gethostbyaddr($ip));
+				}
+			}
+		}
+	}
 
 
-    /**
-     *  Physical memory information and Swap Space information
-     *
-     *  @return void
-     */
-    private function _memory()
-    {
-        if (CommonFunctions::rfts('/proc/meminfo', $bufr, 1, 4096, false)) {
-            $ar_buf = preg_split('/\s+/', trim($bufr));
-            if (count($ar_buf) >= 5) {
-                    $this->sys->setMemTotal($ar_buf[0]*$ar_buf[1]);
-                    $this->sys->setMemFree($ar_buf[0]*$ar_buf[2]);
-                    $this->sys->setMemCache($ar_buf[0]*$ar_buf[4]);
-                    $this->sys->setMemUsed($ar_buf[0]*($ar_buf[1]-$ar_buf[2]));
-            }
-        }
-    }
+	/**
+	 *  Physical memory information and Swap Space information
+	 *
+	 *  @return void
+	 */
+	private function _memory()
+	{
+		if (CommonFunctions::rfts('/proc/meminfo', $bufr, 1, 4096, false)) {
+			$ar_buf = preg_split('/\s+/', trim($bufr));
+			if (count($ar_buf) >= 5) {
+					$this->sys->setMemTotal($ar_buf[0]*$ar_buf[1]);
+					$this->sys->setMemFree($ar_buf[0]*$ar_buf[2]);
+					$this->sys->setMemCache($ar_buf[0]*$ar_buf[4]);
+					$this->sys->setMemUsed($ar_buf[0]*($ar_buf[1]-$ar_buf[2]));
+			}
+		}
+	}
 
-    /**
-     * filesystem information
-     *
-     * @return void
-     */
-    private function _filesystems()
-    {
-        $arrResult = Parser::df("-P 2>/dev/null");
-        foreach ($arrResult as $dev) {
-            $this->sys->setDiskDevices($dev);
-        }
-    }
+	/**
+	 * filesystem information
+	 *
+	 * @return void
+	 */
+	private function _filesystems()
+	{
+		$arrResult = Parser::df("-P 2>/dev/null");
+		foreach ($arrResult as $dev) {
+			$this->sys->setDiskDevices($dev);
+		}
+	}
 
-    /**
-     * network information
-     *
-     * @return void
-     */
-    private function _network()
-    {
-        if (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
-            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            foreach ($lines as $line) {
-                if (preg_match("/^([^\s:]+):\saddress\s(\S+)\snetmask/", $line, $ar_buf)) {
-                    $dev = new NetDevice();
-                    $dev->setName($ar_buf[1]);
-                    if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
-                            $dev->setInfo($ar_buf[2]);
-                    }
-                    $this->sys->setNetDevices($dev);
-                }
-            }
-        }
-    }
+	/**
+	 * network information
+	 *
+	 * @return void
+	 */
+	private function _network()
+	{
+		if (CommonFunctions::executeProgram('ifconfig', '-a', $bufr, PSI_DEBUG)) {
+			$lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+			foreach ($lines as $line) {
+				if (preg_match("/^([^\s:]+):\saddress\s(\S+)\snetmask/", $line, $ar_buf)) {
+					$dev = new NetDevice();
+					$dev->setName($ar_buf[1]);
+					if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
+							$dev->setInfo($ar_buf[2]);
+					}
+					$this->sys->setNetDevices($dev);
+				}
+			}
+		}
+	}
 
-    /**
-     * Processes
-     *
-     * @return void
-     */
-    protected function _processes()
-    {
-        if (CommonFunctions::executeProgram('ps', 'alx', $bufr, PSI_DEBUG)) {
-            $lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
-            $processes['*'] = 0;
-            foreach ($lines as $line) {
-                if (preg_match("/^\s(\w)\s/", $line, $ar_buf)) {
-                    $processes['*']++;
-                    $state = $ar_buf[1];
-                    if ($state == 'W') $state = 'D'; //linux format
-                    elseif ($state == 'D') $state = 'd'; //invalid
-                    if (isset($processes[$state])) {
-                        $processes[$state]++;
-                    } else {
-                        $processes[$state] = 1;
-                    }
-                }
-            }
-            if ($processes['*'] > 0) {
-                $this->sys->setProcesses($processes);
-            }
-        }
-    }
+	/**
+	 * Processes
+	 *
+	 * @return void
+	 */
+	protected function _processes()
+	{
+		if (CommonFunctions::executeProgram('ps', 'alx', $bufr, PSI_DEBUG)) {
+			$lines = preg_split("/\n/", $bufr, -1, PREG_SPLIT_NO_EMPTY);
+			$processes['*'] = 0;
+			foreach ($lines as $line) {
+				if (preg_match("/^\s(\w)\s/", $line, $ar_buf)) {
+					$processes['*']++;
+					$state = $ar_buf[1];
+					if ($state == 'W') $state = 'D'; //linux format
+					elseif ($state == 'D') $state = 'd'; //invalid
+					if (isset($processes[$state])) {
+						$processes[$state]++;
+					} else {
+						$processes[$state] = 1;
+					}
+				}
+			}
+			if ($processes['*'] > 0) {
+				$this->sys->setProcesses($processes);
+			}
+		}
+	}
 
-    /**
-     * get the information
-     *
-     * @return void
-     */
-    public function build()
-    {
-        $this->error->addWarning("The Minix version of phpSysInfo is a work in progress, some things currently don't work");
-        if (!$this->blockname || $this->blockname==='vitals') {
-            $this->_distro();
-            $this->_hostname();
-            $this->_kernel();
-            $this->_uptime();
-            $this->_users();
-            $this->_loadavg();
-            $this->_processes();
-        }
-        if (!$this->blockname || $this->blockname==='hardware') {
-            $this->_pci();
-            $this->_cpuinfo();
-        }
-        if (!$this->blockname || $this->blockname==='memory') {
-            $this->_memory();
-        }
-        if (!$this->blockname || $this->blockname==='filesystem') {
-            $this->_filesystems();
-        }
-        if (!$this->blockname || $this->blockname==='network') {
-            $this->_network();
-        }
-    }
+	/**
+	 * get the information
+	 *
+	 * @return void
+	 */
+	public function build()
+	{
+		$this->error->addWarning("The Minix version of phpSysInfo is a work in progress, some things currently don't work");
+		if (!$this->blockname || $this->blockname==='vitals') {
+			$this->_distro();
+			$this->_hostname();
+			$this->_kernel();
+			$this->_uptime();
+			$this->_users();
+			$this->_loadavg();
+			$this->_processes();
+		}
+		if (!$this->blockname || $this->blockname==='hardware') {
+			$this->_pci();
+			$this->_cpuinfo();
+		}
+		if (!$this->blockname || $this->blockname==='memory') {
+			$this->_memory();
+		}
+		if (!$this->blockname || $this->blockname==='filesystem') {
+			$this->_filesystems();
+		}
+		if (!$this->blockname || $this->blockname==='network') {
+			$this->_network();
+		}
+	}
 }

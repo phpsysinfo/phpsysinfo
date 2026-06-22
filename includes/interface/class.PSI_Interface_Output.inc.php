@@ -26,10 +26,10 @@
  */
 interface PSI_Interface_Output
 {
-    /**
-     * generate the output
-     *
-     * @return void
-     */
-    public function run();
+	/**
+	 * generate the output
+	 *
+	 * @return void
+	 */
+	public function run();
 }

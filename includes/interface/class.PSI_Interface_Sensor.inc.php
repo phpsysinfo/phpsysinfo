@@ -27,17 +27,17 @@
  */
 interface PSI_Interface_Sensor
 {
-    /**
-     * build the mbinfo information
-     *
-     * @return void
-     */
-    public function build();
+	/**
+	 * build the mbinfo information
+	 *
+	 * @return void
+	 */
+	public function build();
 
-    /**
-     * get the filled or unfilled (with default values) MBInfo object
-     *
-     * @return MBInfo
-     */
-    public function getMBInfo();
+	/**
+	 * get the filled or unfilled (with default values) MBInfo object
+	 *
+	 * @return MBInfo
+	 */
+	public function getMBInfo();
 }

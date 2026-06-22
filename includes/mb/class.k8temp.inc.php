@@ -14,66 +14,66 @@
  */
 class K8Temp extends Sensors
 {
-    /**
-     * content to parse
-     *
-     * @var array
-     */
-    private $_lines = array();
+	/**
+	 * content to parse
+	 *
+	 * @var array
+	 */
+	private $_lines = array();
 
-    /**
-     * fill the private array
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
-        case 'command':
-            $lines = "";
-            CommonFunctions::executeProgram('k8temp', '', $lines);
-            $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            break;
-        case 'data':
-            if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('k8temp.tmp', $lines)) {
-                $this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
-            }
-            break;
-        default:
-            $this->error->addConfigError('__construct()', '[sensor_k8temp] ACCESS');
-        }
-    }
+	/**
+	 * fill the private array
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if ((PSI_OS != 'WINNT') && (!defined('PSI_EMU_HOSTNAME') || defined('PSI_EMU_PORT'))) switch (defined('PSI_SENSOR_K8TEMP_ACCESS')?strtolower(PSI_SENSOR_K8TEMP_ACCESS):'command') {
+		case 'command':
+			$lines = "";
+			CommonFunctions::executeProgram('k8temp', '', $lines);
+			$this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+			break;
+		case 'data':
+			if (!defined('PSI_EMU_PORT') && CommonFunctions::rftsdata('k8temp.tmp', $lines)) {
+				$this->_lines = preg_split("/\n/", $lines, -1, PREG_SPLIT_NO_EMPTY);
+			}
+			break;
+		default:
+			$this->error->addConfigError('__construct()', '[sensor_k8temp] ACCESS');
+		}
+	}
 
-    /**
-     * get temperature information
-     *
-     * @return void
-     */
-    private function _temperature()
-    {
-        foreach ($this->_lines as $line) {
-            if (preg_match('/(.*):\s*(\d*)/', $line, $data)) {
-                if ($data[2] > 0) {
-                    $dev = new SensorDevice();
-                    $dev->setName($data[1]);
-//                    $dev->setMax('70.0');
-                    if ($data[2] < 250) {
-                        $dev->setValue($data[2]);
-                    }
-                    $this->mbinfo->setMbTemp($dev);
-                }
-            }
-        }
-    }
+	/**
+	 * get temperature information
+	 *
+	 * @return void
+	 */
+	private function _temperature()
+	{
+		foreach ($this->_lines as $line) {
+			if (preg_match('/(.*):\s*(\d*)/', $line, $data)) {
+				if ($data[2] > 0) {
+					$dev = new SensorDevice();
+					$dev->setName($data[1]);
+//					$dev->setMax('70.0');
+					if ($data[2] < 250) {
+						$dev->setValue($data[2]);
+					}
+					$this->mbinfo->setMbTemp($dev);
+				}
+			}
+		}
+	}
 
-    /**
-     * get the information
-     *
-     * @see PSI_Interface_Sensor::build()
-     *
-     * @return void
-     */
-    public function build()
-    {
-        $this->_temperature();
-    }
+	/**
+	 * get the information
+	 *
+	 * @see PSI_Interface_Sensor::build()
+	 *
+	 * @return void
+	 */
+	public function build()
+	{
+		$this->_temperature();
+	}
 }

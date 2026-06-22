@@ -27,17 +27,17 @@
  */
 interface PSI_Interface_Plugin
 {
-    /**
-     * doing all tasks before the xml can be build
-     *
-     * @return void
-     */
-    public function execute();
+	/**
+	 * doing all tasks before the xml can be build
+	 *
+	 * @return void
+	 */
+	public function execute();
 
-    /**
-     * build the xml
-     *
-     * @return SimpleXMLElement entire XML content for the plugin which than can be appended to the main XML
-     */
-    public function xml();
+	/**
+	 * build the xml
+	 *
+	 * @return SimpleXMLElement entire XML content for the plugin which than can be appended to the main XML
+	 */
+	public function xml();
 }

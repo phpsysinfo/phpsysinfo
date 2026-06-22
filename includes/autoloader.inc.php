@@ -24,34 +24,34 @@ error_reporting(E_ALL);
  */
 function psi_autoload($class_name)
 {
-    //$class_name = str_replace('-', '', $class_name);
+	//$class_name = str_replace('-', '', $class_name);
 
-    /* case-insensitive folders */
-    $dirs = array('/plugins/'.strtolower($class_name).'/', '/includes/mb/', '/includes/ups/');
+	/* case-insensitive folders */
+	$dirs = array('/plugins/'.strtolower($class_name).'/', '/includes/mb/', '/includes/ups/');
 
-    foreach ($dirs as $dir) {
-        if (file_exists(PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php')) {
-            include_once PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php';
+	foreach ($dirs as $dir) {
+		if (file_exists(PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php')) {
+			include_once PSI_APP_ROOT.$dir.'class.'.strtolower($class_name).'.inc.php';
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 
-    /* case-sensitive folders */
-    $dirs = array('/includes/', '/includes/interface/', '/includes/to/', '/includes/to/device/', '/includes/os/', '/includes/plugin/', '/includes/xml/', '/includes/web/', '/includes/error/', '/includes/js/', '/includes/output/');
+	/* case-sensitive folders */
+	$dirs = array('/includes/', '/includes/interface/', '/includes/to/', '/includes/to/device/', '/includes/os/', '/includes/plugin/', '/includes/xml/', '/includes/web/', '/includes/error/', '/includes/js/', '/includes/output/');
 
-    foreach ($dirs as $dir) {
-        if (file_exists(PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php')) {
-            include_once PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php';
+	foreach ($dirs as $dir) {
+		if (file_exists(PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php')) {
+			include_once PSI_APP_ROOT.$dir.'class.'.$class_name.'.inc.php';
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 
-    $error = PSI_Error::singleton();
+	$error = PSI_Error::singleton();
 
-    $error->addError("psi_autoload(\"".$class_name."\")", "autoloading of class file (class.".$class_name.".inc.php) failed!");
-    $error->errorsAsXML();
+	$error->addError("psi_autoload(\"".$class_name."\")", "autoloading of class file (class.".$class_name.".inc.php) failed!");
+	$error->errorsAsXML();
 }
 
 spl_autoload_register('psi_autoload');
@@ -68,10 +68,10 @@ spl_autoload_register('psi_autoload');
  */
 function errorHandlerPsi($level, $message, $file, $line)
 {
-    $error = PSI_Error::singleton();
-    if ((PSI_DEBUG && !preg_match("/^fgets\(|^stream_select\(/", $message)) || (($level !== 2) && ($level !== 8)) || !preg_match("/^[^:]*: open_basedir |^fopen\(|^fwrite\(|^is_readable\(|^file_exists\(|^fgets\(|^stream_select\(/", $message)) { // disable open_basedir, fopen, is_readable, file_exists, fgets and stream_select warnings and notices
-        $error->addPhpError("errorHandlerPsi : ", "Level : ".$level." Message : ".$message." File : ".$file." Line : ".$line);
-    }
+	$error = PSI_Error::singleton();
+	if ((PSI_DEBUG && !preg_match("/^fgets\(|^stream_select\(/", $message)) || (($level !== 2) && ($level !== 8)) || !preg_match("/^[^:]*: open_basedir |^fopen\(|^fwrite\(|^is_readable\(|^file_exists\(|^fgets\(|^stream_select\(/", $message)) { // disable open_basedir, fopen, is_readable, file_exists, fgets and stream_select warnings and notices
+		$error->addPhpError("errorHandlerPsi : ", "Level : ".$level." Message : ".$message." File : ".$file." Line : ".$line);
+	}
 }
 
 set_error_handler('errorHandlerPsi');

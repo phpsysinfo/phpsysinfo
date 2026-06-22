@@ -25,300 +25,300 @@
  */
 class NetDevice
 {
-    /**
-     * name of the device
-     *
-     * @var string
-     */
-    private $_name = "";
+	/**
+	 * name of the device
+	 *
+	 * @var string
+	 */
+	private $_name = "";
 
-    /**
-     * transmitted bytes
-     *
-     * @var int
-     */
-    private $_txBytes = 0;
+	/**
+	 * transmitted bytes
+	 *
+	 * @var int
+	 */
+	private $_txBytes = 0;
 
-    /**
-     * received bytes
-     *
-     * @var int
-     */
-    private $_rxBytes = 0;
+	/**
+	 * received bytes
+	 *
+	 * @var int
+	 */
+	private $_rxBytes = 0;
 
-    /**
-     * counted error packages
-     *
-     * @var int
-     */
-    private $_errors = 0;
+	/**
+	 * counted error packages
+	 *
+	 * @var int
+	 */
+	private $_errors = 0;
 
-    /**
-     * counted droped packages
-     *
-     * @var int
-     */
-    private $_drops = 0;
+	/**
+	 * counted droped packages
+	 *
+	 * @var int
+	 */
+	private $_drops = 0;
 
-    /**
-     * string with info
-     *
-     * @var string
-     */
-    private $_info = null;
+	/**
+	 * string with info
+	 *
+	 * @var string
+	 */
+	private $_info = null;
 
-    /**
-     * string with bridge
-     *
-     * @var string
-     */
-    private $_bridge = null;
+	/**
+	 * string with bridge
+	 *
+	 * @var string
+	 */
+	private $_bridge = null;
 
-    /**
-     * transmitted bytes rate
-     *
-     * @var int
-     */
-    private $_txRate = null;
+	/**
+	 * transmitted bytes rate
+	 *
+	 * @var int
+	 */
+	private $_txRate = null;
 
-    /**
-     * received bytes rate
-     *
-     * @var int
-     */
-    private $_rxRate = null;
+	/**
+	 * received bytes rate
+	 *
+	 * @var int
+	 */
+	private $_rxRate = null;
 
-    /**
-     * Returns $_drops.
-     *
-     * @see NetDevice::$_drops
-     *
-     * @return int
-     */
-    public function getDrops()
-    {
-        return $this->_drops;
-    }
+	/**
+	 * Returns $_drops.
+	 *
+	 * @see NetDevice::$_drops
+	 *
+	 * @return int
+	 */
+	public function getDrops()
+	{
+		return $this->_drops;
+	}
 
-    /**
-     * Sets $_drops.
-     *
-     * @param int $drops dropped packages
-     *
-     * @see NetDevice::$_drops
-     *
-     * @return void
-     */
-    public function setDrops($drops)
-    {
-        $this->_drops = $drops;
-    }
+	/**
+	 * Sets $_drops.
+	 *
+	 * @param int $drops dropped packages
+	 *
+	 * @see NetDevice::$_drops
+	 *
+	 * @return void
+	 */
+	public function setDrops($drops)
+	{
+		$this->_drops = $drops;
+	}
 
-    /**
-     * Returns $_errors.
-     *
-     * @see NetDevice::$_errors
-     *
-     * @return int
-     */
-    public function getErrors()
-    {
-        return $this->_errors;
-    }
+	/**
+	 * Returns $_errors.
+	 *
+	 * @see NetDevice::$_errors
+	 *
+	 * @return int
+	 */
+	public function getErrors()
+	{
+		return $this->_errors;
+	}
 
-    /**
-     * Sets $_errors.
-     *
-     * @param int $errors error packages
-     *
-     * @see NetDevice::$_errors
-     *
-     * @return void
-     */
-    public function setErrors($errors)
-    {
-        $this->_errors = $errors;
-    }
+	/**
+	 * Sets $_errors.
+	 *
+	 * @param int $errors error packages
+	 *
+	 * @see NetDevice::$_errors
+	 *
+	 * @return void
+	 */
+	public function setErrors($errors)
+	{
+		$this->_errors = $errors;
+	}
 
-    /**
-     * Returns $_name.
-     *
-     * @see NetDevice::$_name
-     *
-     * @return String
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
+	/**
+	 * Returns $_name.
+	 *
+	 * @see NetDevice::$_name
+	 *
+	 * @return String
+	 */
+	public function getName()
+	{
+		return $this->_name;
+	}
 
-    /**
-     * Sets $_name.
-     *
-     * @param String $name device name
-     *
-     * @see NetDevice::$_name
-     *
-     * @return void
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
+	/**
+	 * Sets $_name.
+	 *
+	 * @param String $name device name
+	 *
+	 * @see NetDevice::$_name
+	 *
+	 * @return void
+	 */
+	public function setName($name)
+	{
+		$this->_name = $name;
+	}
 
-    /**
-     * Returns $_rxBytes.
-     *
-     * @see NetDevice::$_rxBytes
-     *
-     * @return int
-     */
-    public function getRxBytes()
-    {
-        return $this->_rxBytes;
-    }
+	/**
+	 * Returns $_rxBytes.
+	 *
+	 * @see NetDevice::$_rxBytes
+	 *
+	 * @return int
+	 */
+	public function getRxBytes()
+	{
+		return $this->_rxBytes;
+	}
 
-    /**
-     * Sets $_rxBytes.
-     *
-     * @param int $rxBytes received bytes
-     *
-     * @see NetDevice::$_rxBytes
-     *
-     * @return void
-     */
-    public function setRxBytes($rxBytes)
-    {
-        $this->_rxBytes = $rxBytes;
-    }
+	/**
+	 * Sets $_rxBytes.
+	 *
+	 * @param int $rxBytes received bytes
+	 *
+	 * @see NetDevice::$_rxBytes
+	 *
+	 * @return void
+	 */
+	public function setRxBytes($rxBytes)
+	{
+		$this->_rxBytes = $rxBytes;
+	}
 
-    /**
-     * Returns $_txBytes.
-     *
-     * @see NetDevice::$_txBytes
-     *
-     * @return int
-     */
-    public function getTxBytes()
-    {
-        return $this->_txBytes;
-    }
+	/**
+	 * Returns $_txBytes.
+	 *
+	 * @see NetDevice::$_txBytes
+	 *
+	 * @return int
+	 */
+	public function getTxBytes()
+	{
+		return $this->_txBytes;
+	}
 
-    /**
-     * Sets $_txBytes.
-     *
-     * @param int $txBytes transmitted bytes
-     *
-     * @see NetDevice::$_txBytes
-     *
-     * @return void
-     */
-    public function setTxBytes($txBytes)
-    {
-        $this->_txBytes = $txBytes;
-    }
+	/**
+	 * Sets $_txBytes.
+	 *
+	 * @param int $txBytes transmitted bytes
+	 *
+	 * @see NetDevice::$_txBytes
+	 *
+	 * @return void
+	 */
+	public function setTxBytes($txBytes)
+	{
+		$this->_txBytes = $txBytes;
+	}
 
-    /**
-     * Returns $_info.
-     *
-     * @see NetDevice::$_info
-     *
-     * @return String
-     */
-    public function getInfo()
-    {
-        return $this->_info;
-    }
+	/**
+	 * Returns $_info.
+	 *
+	 * @see NetDevice::$_info
+	 *
+	 * @return String
+	 */
+	public function getInfo()
+	{
+		return $this->_info;
+	}
 
-    /**
-     * Sets $_info.
-     *
-     * @param String $info info string
-     *
-     * @see NetDevice::$_info
-     *
-     * @return void
-     */
-    public function setInfo($info)
-    {
-        $this->_info = $info;
-    }
+	/**
+	 * Sets $_info.
+	 *
+	 * @param String $info info string
+	 *
+	 * @see NetDevice::$_info
+	 *
+	 * @return void
+	 */
+	public function setInfo($info)
+	{
+		$this->_info = $info;
+	}
 
-    /**
-     * Returns $_bridge.
-     *
-     * @see NetDevice::$_bridge
-     *
-     * @return String
-     */
-    public function getBridge()
-    {
-        return $this->_bridge;
-    }
+	/**
+	 * Returns $_bridge.
+	 *
+	 * @see NetDevice::$_bridge
+	 *
+	 * @return String
+	 */
+	public function getBridge()
+	{
+		return $this->_bridge;
+	}
 
-    /**
-     * Sets $_bridge.
-     *
-     * @param String $bridge bridge string
-     *
-     * @see NetDevice::$_bridge
-     *
-     * @return void
-     */
-    public function setBridge($bridge)
-    {
-        $this->_bridge = $bridge;
-    }
+	/**
+	 * Sets $_bridge.
+	 *
+	 * @param String $bridge bridge string
+	 *
+	 * @see NetDevice::$_bridge
+	 *
+	 * @return void
+	 */
+	public function setBridge($bridge)
+	{
+		$this->_bridge = $bridge;
+	}
 
-    /**
-     * Returns $_rxRate.
-     *
-     * @see NetDevice::$_rxRate
-     *
-     * @return int
-     */
-    public function getRxRate()
-    {
-        return $this->_rxRate;
-    }
+	/**
+	 * Returns $_rxRate.
+	 *
+	 * @see NetDevice::$_rxRate
+	 *
+	 * @return int
+	 */
+	public function getRxRate()
+	{
+		return $this->_rxRate;
+	}
 
-    /**
-     * Sets $_rxRate.
-     *
-     * @param int $rxRate received bytes rate
-     *
-     * @see NetDevice::$_rxRate
-     *
-     * @return void
-     */
-    public function setRxRate($rxRate)
-    {
-        $this->_rxRate = $rxRate;
-    }
+	/**
+	 * Sets $_rxRate.
+	 *
+	 * @param int $rxRate received bytes rate
+	 *
+	 * @see NetDevice::$_rxRate
+	 *
+	 * @return void
+	 */
+	public function setRxRate($rxRate)
+	{
+		$this->_rxRate = $rxRate;
+	}
 
-    /**
-     * Returns $_txRate.
-     *
-     * @see NetDevice::$_txRate
-     *
-     * @return int
-     */
-    public function getTxRate()
-    {
-        return $this->_txRate;
-    }
+	/**
+	 * Returns $_txRate.
+	 *
+	 * @see NetDevice::$_txRate
+	 *
+	 * @return int
+	 */
+	public function getTxRate()
+	{
+		return $this->_txRate;
+	}
 
-    /**
-     * Sets $_txRate.
-     *
-     * @param int $txRate transmitted bytes rate
-     *
-     * @see NetDevice::$_txRate
-     *
-     * @return void
-     */
-    public function setTxRate($txRate)
-    {
-        $this->_txRate = $txRate;
-    }
+	/**
+	 * Sets $_txRate.
+	 *
+	 * @param int $txRate transmitted bytes rate
+	 *
+	 * @see NetDevice::$_txRate
+	 *
+	 * @return void
+	 */
+	public function setTxRate($txRate)
+	{
+		$this->_txRate = $txRate;
+	}
 }
