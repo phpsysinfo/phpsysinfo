@@ -1,7 +1,7 @@
 Changelog of phpSysInfo
 =======================
 
-http://phpsysinfo.sourceforge.net/
+http://phpsysinfo.github.io/phpsysinfo/
 
 phpSysInfo 3.4.6
 ----------------

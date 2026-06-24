@@ -8,7 +8,7 @@
  * @copyright 2023 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   $Id: class.diskload.inc.php 661 2023-02-10 09:13:52Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class DiskLoad extends PSI_Plugin
 {

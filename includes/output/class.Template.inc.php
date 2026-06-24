@@ -10,7 +10,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Output.inc.php 315 2009-09-02 15:48:31Z bigmichi1 $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 /**
  * basic output functions for all output formats
@@ -21,7 +21,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class Template
 {

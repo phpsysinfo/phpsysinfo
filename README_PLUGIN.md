@@ -1,4 +1,4 @@
-phpSysInfo 3.1 - http://phpsysinfo.sourceforge.net/
+phpSysInfo 3.1 - http://phpsysinfo.github.io/phpsysinfo/
 ===================================================
 
 Document written by Michael Cramer (bigmichi1 at sourceforge.net)
@@ -129,6 +129,6 @@ SUGGESTION
 
 If anybody out there has some suggestions in improving the plugin system let us
 know. We are looking forward to get some feedback, suggestions and patches and
-more. Feel free to contact us on our website: http://phpsysinfo.sourceforge.net.
+more. Feel free to contact us on our website: http://phpsysinfo.github.io/phpsysinfo.
 
 $Id: README_PLUGIN 463 2011-04-19 17:34:41Z namiltd $

@@ -10,7 +10,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.FreeBSD.inc.php 696 2012-09-09 11:24:04Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
  /**
  * FreeBSD sysinfo class
@@ -22,7 +22,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class FreeBSD extends BSDCommon
 {

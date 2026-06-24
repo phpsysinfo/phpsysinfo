@@ -10,7 +10,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: xml.php 614 2012-07-28 09:02:59Z jacky672 $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 
 header('Access-Control-Allow-Origin: *');

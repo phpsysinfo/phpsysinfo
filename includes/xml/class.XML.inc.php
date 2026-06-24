@@ -10,7 +10,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.XML.inc.php 699 2012-09-15 11:57:13Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
  /**
  * class for generation of the xml
@@ -21,7 +21,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class XML
 {
@@ -945,9 +945,9 @@ class XML
 	{
 		$dom = new DOMDocument('1.0', 'UTF-8');
 		$root = $dom->createElement("tns:phpsysinfo");
-		$root->setAttribute('xmlns:tns', 'http://phpsysinfo.sourceforge.net/');
+		$root->setAttribute('xmlns:tns', 'http://phpsysinfo.github.io/phpsysinfo/');
 		$root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-		$root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.sourceforge.net/ phpsysinfo3.xsd');
+		$root->setAttribute('xsi:schemaLocation', 'http://phpsysinfo.github.io/phpsysinfo/ phpsysinfo3.xsd');
 		$dom->appendChild($root);
 		$this->_xml = new SimpleXMLExtended(simplexml_import_dom($dom), $this->_sysinfo->getEncoding());
 

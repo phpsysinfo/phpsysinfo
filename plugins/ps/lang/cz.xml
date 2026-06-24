@@ -4,8 +4,8 @@
 		phpSysInfo language file Language: Czech Created by: Tomáš Růžička
 	-->
 <tns:translationPlugin language="czech" charset="utf-8"
-	xmlns:tns="http://phpsysinfo.sourceforge.net/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation-plugin ../../../language/translation-plugin.xsd">
+	xmlns:tns="http://phpsysinfo.github.io/phpsysinfo/translation-plugin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phpsysinfo.github.io/phpsysinfo/translation-plugin ../../../language/translation-plugin.xsd">
 	<expression id="plugin_ps_001" name="ps_title">
 		<exp>Procesy</exp>
 	</expression>

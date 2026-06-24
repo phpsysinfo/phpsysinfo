@@ -1477,17 +1477,17 @@
 								</span>
 								<a>
 									<xsl:choose>
-										<xsl:when test="substring(string(&apos;http://phpsysinfo.sourceforge.net/&apos;), 1, 1) = '#'">
+										<xsl:when test="substring(string(&apos;http://phpsysinfo.github.io/phpsysinfo/&apos;), 1, 1) = '#'">
 											<xsl:attribute name="href">
-												<xsl:value-of select="&apos;http://phpsysinfo.sourceforge.net/&apos;"/>
+												<xsl:value-of select="&apos;http://phpsysinfo.github.io/phpsysinfo/&apos;"/>
 											</xsl:attribute>
 										</xsl:when>
 										<xsl:otherwise>
 											<xsl:attribute name="href">
-												<xsl:if test="substring(string(&apos;http://phpsysinfo.sourceforge.net/&apos;), 2, 1) = ':'">
+												<xsl:if test="substring(string(&apos;http://phpsysinfo.github.io/phpsysinfo/&apos;), 2, 1) = ':'">
 													<xsl:text>file:///</xsl:text>
 												</xsl:if>
-												<xsl:value-of select="translate(string(&apos;http://phpsysinfo.sourceforge.net/&apos;), '&#x5c;', '/')"/>
+												<xsl:value-of select="translate(string(&apos;http://phpsysinfo.github.io/phpsysinfo/&apos;), '&#x5c;', '/')"/>
 											</xsl:attribute>
 										</xsl:otherwise>
 									</xsl:choose>

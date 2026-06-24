@@ -4,8 +4,8 @@
 phpSysInfo language file Language: Slovak Created by: Peter 'Pessoft' Kolínek
 -->
 <tns:translation language="slovak" charset="utf-8"
- xmlns:tns="http://phpsysinfo.sourceforge.net/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://phpsysinfo.sourceforge.net/translation translation.xsd">
+ xmlns:tns="http://phpsysinfo.github.io/phpsysinfo/translation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://phpsysinfo.github.io/phpsysinfo/translation translation.xsd">
 	<expression id="001" name="title">
 		<exp>Informácie o systéme</exp>
 	</expression>

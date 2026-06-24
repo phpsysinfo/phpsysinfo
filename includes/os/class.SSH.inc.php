@@ -10,7 +10,7 @@
  * @copyright 2012 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.SSH.inc.php 687 2012-09-06 20:54:49Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
  /**
  * SSH sysinfo class
@@ -22,7 +22,7 @@
  * @copyright 2022 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class SSH extends GNU
 {

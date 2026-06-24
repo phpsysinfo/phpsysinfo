@@ -10,7 +10,7 @@
  * @copyright 2021 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 1.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 
 $file = isset($_GET['name']) ? basename(htmlspecialchars($_GET['name'])) : null;

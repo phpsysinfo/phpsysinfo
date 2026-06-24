@@ -10,7 +10,7 @@
  * @copyright 2017 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.pingtest.inc.php 1 2017-09-01 09:01:15Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 class PingTest extends PSI_Plugin
 {
