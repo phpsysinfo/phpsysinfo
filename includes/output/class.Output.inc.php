@@ -10,7 +10,7 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   SVN: $Id: class.Output.inc.php 569 2012-04-16 06:08:18Z namiltd $
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
  /**
  * basic output functions for all output formats
@@ -21,38 +21,38 @@
  * @copyright 2009 phpSysInfo
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
  * @version   Release: 3.0
- * @link      http://phpsysinfo.sourceforge.net
+ * @link      http://phpsysinfo.github.io/phpsysinfo
  */
 abstract class Output
 {
-    /**
-     * error object for logging errors
-     *
-     * @var PSI_Error
-     */
-    protected $error;
+	/**
+	 * error object for logging errors
+	 *
+	 * @var PSI_Error
+	 */
+	protected $error;
 
-    /**
-     * call the parent constructor and check for needed extensions
-     */
-    public function __construct()
-    {
-        $this->error = PSI_Error::singleton();
-        $this->_checkConfig();
-        CommonFunctions::checkForExtensions();
-    }
+	/**
+	 * call the parent constructor and check for needed extensions
+	 */
+	public function __construct()
+	{
+		$this->error = PSI_Error::singleton();
+		$this->_checkConfig();
+		CommonFunctions::checkForExtensions();
+	}
 
-    /**
-     * read the config file and check for existence
-     *
-     * @return void
-     */
-    private function _checkConfig()
-    {
-        include_once PSI_APP_ROOT.'/read_config.php';
+	/**
+	 * read the config file and check for existence
+	 *
+	 * @return void
+	 */
+	private function _checkConfig()
+	{
+		include_once PSI_APP_ROOT.'/read_config.php';
 
-        if ($this->error->errorsExist()) {
-            $this->error->errorsAsXML();
-        }
-    }
+		if ($this->error->errorsExist()) {
+			$this->error->errorsAsXML();
+		}
+	}
 }

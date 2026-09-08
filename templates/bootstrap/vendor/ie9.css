@@ -64,7 +64,7 @@
 .col-xl-12,
 .page-link,
 .navbar-brand {
-  float: left;
+	float: left;
 }
 .row,
 .container-fluid,
@@ -75,31 +75,31 @@ main,
 aside,
 .navbar-nav,
 .navbar-collapse {
-  display: block;
+	display: block;
 }
 .modal.fade .modal-dialog {
-  -ms-transform: translate(0, -25%);
+	-ms-transform: translate(0, -25%);
 }
 .modal.show .modal-dialog {
-  -ms-transform: translate(0, 0);
+	-ms-transform: translate(0, 0);
 }
 .custom-select {
-  background-image: none;
-  padding-right: .75rem;
+	background-image: none;
+	padding-right: .75rem;
 }
 .table-responsive {
-  min-height: 0%;
+	min-height: 0%;
 } /* see https://github.com/twbs/bootstrap/issues/14837 */
 .progress {
-  display: block;
+	display: block;
 }
 .progress-bar {
-  float: left;
-  font-size: 12px;
-  line-height: 20px;
-  width: 0;
-  text-align: center;
-  height: 100%;
+	float: left;
+	font-size: 12px;
+	line-height: 20px;
+	width: 0;
+	text-align: center;
+	height: 100%;
 }
 .d-flex,
 .d-sm-flex,
@@ -107,7 +107,7 @@ aside,
 .d-lg-flex,
 .d-xl-flex,
 .d-print-flex {
-  display: block !important;
+	display: block !important;
 }
 .d-inline-flex,
 .d-sm-inline-flex,
@@ -115,78 +115,78 @@ aside,
 .d-lg-inline-flex,
 .d-xl-inline-flex,
 .d-print-inline-flex {
-  display: inline-block !important;
+	display: inline-block !important;
 }
 .flex-row .div {
-  display: inline-block;
+	display: inline-block;
 }
 .flex-row-reverse {
-  text-align: right;
+	text-align: right;
 }
 .flex-row-reverse .div {
-  display: inline-block;
-  float: right;
+	display: inline-block;
+	float: right;
 }
 .justify-content-start div {
-  display: inline-block;
+	display: inline-block;
 }
 .justify-content-end {
-  text-align: right;
+	text-align: right;
 }
 .justify-content-end div {
-  display: inline-block;
-  margin-right: 0;
-  float: right;
+	display: inline-block;
+	margin-right: 0;
+	float: right;
 }
 .justify-content-center {
-  text-align: center;
+	text-align: center;
 }
 .justify-content-center div {
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
+	display: inline-block;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
 }
 .justify-content-between {
-  text-justify: distribute-all-lines;
+	text-justify: distribute-all-lines;
 }
 .justify-content-between div {
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: justify;
+	display: inline-block;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: justify;
 }
  /* see https://stackoverflow.com/questions/6865194/fluid-width-with-equally-spaced-divs */
 .justify-content-around {
-  text-align: justify;
-  text-justify: distribute-all-lines;
+	text-align: justify;
+	text-justify: distribute-all-lines;
 }
 .justify-content-around div {
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: justify;
+	display: inline-block;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: justify;
 }
 [class^="justify-content-"] div {
-  display: inline-block;
+	display: inline-block;
 }
 /** Carousel - Hide indicators and controls as the carousel doesn't work **/
 .carousel-indicators,
 .carousel-control-prev,
 .carousel-control-next {
-  display: none;
+	display: none;
 }
 .btn-link.disabled,
 .btn-link:disabled {
-  text-decoration: none;
+	text-decoration: none;
 }
 .modal-header .close {
-  margin: -48px -16px -16px auto;
+	margin: -48px -16px -16px auto;
 }
 .btn-group,
 .btn-group-vertical {
-  display: inline;
-  vertical-align: baseline;
+	display: inline;
+	vertical-align: baseline;
 }
 .btn-group .btn + .btn,
 .btn-group .btn + .btn-group,
@@ -196,31 +196,31 @@ aside,
 .btn-group-vertical .btn + .btn-group,
 .btn-group-vertical .btn-group + .btn,
 .btn-group-vertical .btn-group + .btn-group {
-  margin-left: -5px;
+	margin-left: -5px;
 }
 .navbar-expand-sm .navbar-collapse,
 .navbar-expand-md .navbar-collapse,
 .navbar-expand-lg .navbar-collapse,
 .navbar-expand-xl .navbar-collapse,
 .navbar-expand .navbar-collapse {
-  display: block !important;
+	display: block !important;
 }
 .navbar > .container,
 .navbar > .container-fluid,
 .nav,
 .navbar {
-  display: block;
+	display: block;
 }
 .nav-link {
-  padding: 0.5rem 1rem;
-  float:none;
+	padding: 0.5rem 1rem;
+	float:none;
 }
 .navbar-expand-sm .nav-link,
 .navbar-expand-md .nav-link,
 .navbar-expand-lg .nav-link,
 .navbar-expand-xl .nav-link,
 .navbar-expand .nav-link {
-  float: left;
+	float: left;
 }
 .row,
 .container-fluid,
@@ -228,17 +228,17 @@ aside,
 section,
 footer,
 aside {
-  clear: both;
+	clear: both;
 }
 .breadcrumb-item {
-  display: inline-block;
+	display: inline-block;
 }
 .modal-footer {
-  text-align: right;
+	text-align: right;
 }
 .img-fluid[src$=".svg"] {
-  width: 100%;
+	width: 100%;
 }
 .custom-switch .custom-control-input:checked ~ .custom-control-label:after {
-  -ms-transform: translateX(0.75rem);
+	-ms-transform: translateX(0.75rem);
 }

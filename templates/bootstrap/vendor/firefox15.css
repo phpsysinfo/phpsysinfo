@@ -60,17 +60,17 @@
 .col-xl-11,
 .col-xl-12,
 .navbar-brand {
-  float: left;
+	float: left;
 }
 .modal-header .close {
-  margin: -48px -16px -16px auto;
+	margin: -48px -16px -16px auto;
 }
 .progress-bar {
-  height: 100%;
+	height: 100%;
 }
 .card-header:first-child {
-  border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 *, :after, :before {
-  -moz-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }

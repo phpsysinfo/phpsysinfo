@@ -6,7 +6,7 @@
 ; @copyright 2009 phpSysInfo
 ; @license   http://opensource.org/licenses/gpl-2.0.php GNU General Public License version 2, or (at your option) any later version
 ; @version   SVN: $Id: phpsysinfo.ini.new 705 2012-11-11 00:33:29Z namiltd $
-; @link      http://phpsysinfo.sourceforge.net
+; @link      http://phpsysinfo.github.io/phpsysinfo
 
 [main]
 ; ********************************
@@ -47,7 +47,7 @@ ADD_PATHS=false
 ;
 ALLOWED=false
 
-; Trusted reverse proxies — ONLY when phpSysInfo is behind a proxy
+; Trusted reverse proxies - ONLY when phpSysInfo is behind a proxy
 ; These are the proxy IPs, NOT client IPs. Supports CIDR notation.
 ; Example : TRUSTED_PROXIES="192.168.1.1,10.0.0.0/8,127.0.0.1"
 ;           TRUSTED_PROXIES=false //no proxy (default, safest)

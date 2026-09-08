@@ -1,7 +1,19 @@
 Changelog of phpSysInfo
 =======================
 
-http://phpsysinfo.sourceforge.net/
+http://phpsysinfo.github.io/phpsysinfo/
+
+phpSysInfo 3.4.7
+----------------
+
+ - [FIX] Fixed fatal errors on macOS environments running PHP 8.x (PR #427)
+ - [FIX] Fixed Undefined Array Key notices during network and disk device parsing
+ - [FIX] Fixed simple typo in Russian translation ru.xml (PR #425)
+
+ - [UPD] Updated and improved CPU clock MHz speed detection on Linux/Unix systems
+ - [UPD] Updated the list of recognized Apple Mac hardware models
+ - [UPD] Added input filtering for LANG environment variable to prevent injection anomalies
+ - [UPD] Refactored CommonFunctions class and standardized indentation formatting
 
 phpSysInfo 3.4.6
 ----------------

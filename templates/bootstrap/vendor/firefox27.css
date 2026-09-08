@@ -60,7 +60,7 @@
 .col-xl-11,
 .col-xl-12,
 .navbar-brand {
-  float: left;
+	float: left;
 }
 .row,
 .container-fluid,
@@ -71,8 +71,8 @@ main,
 aside,
 .navbar-nav,
 .navbar-collapse {
-  display: block;
+	display: block;
 }
 *, :after, :before {
-  -moz-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }

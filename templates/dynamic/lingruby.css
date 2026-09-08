@@ -2,168 +2,168 @@
  $Id: two.css 518 2011-10-28 08:09:07Z namiltd $
  */
 a {
-    text-decoration: none;
-    color: #cc0000;
+	text-decoration: none;
+	color: #cc0000;
 }
 
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 wbr {
-    display: inline-block;
+	display: inline-block;
 }
 
 html {
-    font-size: 100%;
-    height: 100%;
-    color: #2b2828;
-    background: url("lingruby/background.png") fixed center;
+	font-size: 100%;
+	height: 100%;
+	color: #2b2828;
+	background: url("lingruby/background.png") fixed center;
 }
 
 body {
-    font-family: "Comic Sans MS",  sans-serif;
-    font-size: .85em;
-    position: relative;
-    width: 940px;
-    _width: 945px; /* ie6 */
-    min-height: 100%;
-    overflow: auto;
-    margin: 0 auto;
-    padding: 20px 20px 0 20px;
+	font-family: "Comic Sans MS",  sans-serif;
+	font-size: .85em;
+	position: relative;
+	width: 940px;
+	_width: 945px; /* ie6 */
+	min-height: 100%;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 20px 20px 0 20px;
 }
 
 h1 {
-    margin: 0 10px;
-    _margin: 0 15px 0 10px; /* ie6 */
-    padding: 10px 10px;
-    text-align: center;
-    color: #fff;
-    font-weight: normal;
-    font-size: 170%;
-    line-height: 1.5em;
+	margin: 0 10px;
+	_margin: 0 15px 0 10px; /* ie6 */
+	padding: 10px 10px;
+	text-align: center;
+	color: #fff;
+	font-weight: normal;
+	font-size: 170%;
+	line-height: 1.5em;
 }
 
 h2 {
-    font-weight: bold;
-    font-size: 150%;
-    line-height: 1.5em;
-    color: #fff;
-    border-bottom: 2px solid #fff;
+	font-weight: bold;
+	font-size: 150%;
+	line-height: 1.5em;
+	color: #fff;
+	border-bottom: 2px solid #fff;
 }
 
 th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 100%;
+	padding: 4px 10px 2px 10px;
+	text-align: left;
+	vertical-align: top;
+	font-size: 100%;
 }
 
 table {
-    width: 100%;
+	width: 100%;
 }
 
 select {
-    background-color: #fefefe;
+	background-color: #fefefe;
 }
 
 #select {
-    color: #fff;
-    text-align: right;
-    padding: 0 10px 0 10px;
-    margin-bottom: 10px;
+	color: #fff;
+	text-align: right;
+	padding: 0 10px 0 10px;
+	margin-bottom: 10px;
 }
 
 #select select {
-    width: 100px;
+	width: 100px;
 }
 
 .fullsize, .halfsize {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .fullsize {
-    width: 918px;
+	width: 918px;
 }
 
 .halfsize {
-    width: 453px;
+	width: 453px;
 }
 
 #filesystemTable thead tr th {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #footer {
-    clear: both;
-    color: #000;
-    margin: 12px;
-    padding: 13px 25px;
-    line-height: 18px;
-    font-size: 90%;
-    text-align: center;
+	clear: both;
+	color: #000;
+	margin: 12px;
+	padding: 13px 25px;
+	line-height: 18px;
+	font-size: 90%;
+	text-align: center;
 }
 
 .plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .bar {
-    background-color: #fff;
+	background-color: #fff;
 }
 
 .barwarn {
-    background-color: #bbb;
+	background-color: #bbb;
 }
 
 .barrest {
-    background-color: #eaeaea;
+	background-color: #eaeaea;
 }
 
 .right {
-    text-align: right;
-    padding-right: 20px;
+	text-align: right;
+	padding-right: 20px;
 }
 
 .treeimg {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
-    vertical-align: top;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
+	vertical-align: top;
 }
 
 .treespan {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .treespanbold {
-    font-weight: normal;
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	font-weight: normal;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .tree tr td {
-    cursor: auto;
-    height: 100%;
+	cursor: auto;
+	height: 100%;
 }
 
 .treediv {
-    display: table;
-    height: 100%;
+	display: table;
+	height: 100%;
 }
 
 .tablemain {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }

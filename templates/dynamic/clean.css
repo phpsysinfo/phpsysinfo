@@ -2,186 +2,186 @@
  $Id: clean.css 518 2011-10-28 08:09:07Z namiltd $
  */
 a {
-    text-decoration: none;
-    color: #c03000;
+	text-decoration: none;
+	color: #c03000;
 }
 
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 wbr {
-    display: inline-block;
+	display: inline-block;
 }
 
 html {
-    font-size: 100%;
-    height: 100%;
-    color: #333;
+	font-size: 100%;
+	height: 100%;
+	color: #333;
 }
 
 body {
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: .75em;
-    position: relative;
-    width: 940px;
-    _width: 945px; /* ie6 */
-    min-height: 100%;
-    overflow: auto;
-    margin: 0 auto;
-    padding: 20px 20px 0 20px;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: .75em;
+	position: relative;
+	width: 940px;
+	_width: 945px; /* ie6 */
+	min-height: 100%;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 20px 20px 0 20px;
 }
 
 p {
-    padding: 4px 10px 2px 10px;
-    line-height: 1.6;
-    text-align: left;
-    vertical-align: top;
+	padding: 4px 10px 2px 10px;
+	line-height: 1.6;
+	text-align: left;
+	vertical-align: top;
 }
 
 h1 {
-    margin: 0 10px;
-    _margin: 0 15px 0 10px; /* ie6 */
-    padding: 10px 10px;
-    text-align: center;
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: 130%;
-    line-height: 1.5em;
-    color: #224970;
+	margin: 0 10px;
+	_margin: 0 15px 0 10px; /* ie6 */
+	padding: 10px 10px;
+	text-align: center;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: 130%;
+	line-height: 1.5em;
+	color: #224970;
 }
 
 h2 {
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: 120%;
-    padding: 3px 10px;
-    text-transform: uppercase;
-    line-height: 1.5em;
-    color: #224970;
-    text-align: left;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: 120%;
+	padding: 3px 10px;
+	text-transform: uppercase;
+	line-height: 1.5em;
+	color: #224970;
+	text-align: left;
 }
 
 th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 100%;
+	padding: 4px 10px 2px 10px;
+	text-align: left;
+	vertical-align: top;
+	font-size: 100%;
 }
 
 table {
-    width: 100%;
-    border-top: solid 2px #dadada;
-    border-bottom: solid 2px #dadada;
-    background-color: #f3f8fc;
+	width: 100%;
+	border-top: solid 2px #dadada;
+	border-bottom: solid 2px #dadada;
+	background-color: #f3f8fc;
 }
 
 table th {
-    color: #330;
+	color: #330;
 }
 
 select {
-    background-color: #fefefe;
+	background-color: #fefefe;
 }
 
 #select {
-    text-align: right;
-    padding: 0 10px 0 10px;
+	text-align: right;
+	padding: 0 10px 0 10px;
 }
 
 #select select {
-    width: 100px;
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	width: 100px;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
 }
 
 .fullsize, .halfsize {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    color: #000;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	color: #000;
 }
 
 .fullsize {
-    width: 920px;
+	width: 920px;
 }
 
 .halfsize {
-    width: 455px;
+	width: 455px;
 }
 
 #filesystemTable thead tr th {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #footer {
-    clear: both;
-    color: #000;
-    margin: 12px;
-    padding: 13px 25px;
-    line-height: 18px;
-    font-size: 80%;
-    text-align: center;
+	clear: both;
+	color: #000;
+	margin: 12px;
+	padding: 13px 25px;
+	line-height: 18px;
+	font-size: 80%;
+	text-align: center;
 }
 
 .plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .bar {
-    background-color: #2f659b;
+	background-color: #2f659b;
 }
 
 .barwarn {
-    background-color: #9b2f65;
+	background-color: #9b2f65;
 }
 
 .barrest {
-    background: #2f9b9b;
+	background: #2f9b9b;
 }
 
 .right {
-    text-align: right;
-    padding-right: 20px;
+	text-align: right;
+	padding-right: 20px;
 }
 
 .treeTable {
-    border: none;
+	border: none;
 }
 
 .treeimg {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
-    vertical-align: top;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
+	vertical-align: top;
 }
 
 .treespan {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .treespanbold {
-    font-weight: bold;
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	font-weight: bold;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .tree tr td {
-    cursor: auto;
-    height: 100%;
+	cursor: auto;
+	height: 100%;
 }
 
 .treediv {
-    display: table;
-    height: 100%;
+	display: table;
+	height: 100%;
 }
 
 .tablemain {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }

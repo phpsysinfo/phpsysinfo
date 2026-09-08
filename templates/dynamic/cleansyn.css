@@ -2,187 +2,187 @@
  $Id: cleansyn.css 518 2015-03-21 10:31:07Z namiltd $
  */
 a {
-    text-decoration: none;
-    color: #363;
+	text-decoration: none;
+	color: #363;
 }
 
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 wbr {
-    display: inline-block;
+	display: inline-block;
 }
 
 html {
-    font-size: 100%;
-    height: 100%;
-    color: #ddd;
+	font-size: 100%;
+	height: 100%;
+	color: #ddd;
 }
 
 body {
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: .75em;
-    position: relative;
-    width: 940px;
-    _width: 945px; /* ie6 */
-    min-height: 100%;
-    overflow: auto;
-    margin: 0 auto;
-    padding: 20px 20px 0 20px;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: .75em;
+	position: relative;
+	width: 940px;
+	_width: 945px; /* ie6 */
+	min-height: 100%;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 20px 20px 0 20px;
 	background-color: #111;
 }
 
 p {
-    padding: 4px 10px 2px 10px;
-    line-height: 1.6;
-    text-align: left;
-    vertical-align: top;
+	padding: 4px 10px 2px 10px;
+	line-height: 1.6;
+	text-align: left;
+	vertical-align: top;
 }
 
 h1 {
-    margin: 0 10px;
-    _margin: 0 15px 0 10px; /* ie6 */
-    padding: 10px 10px;
-    text-align: center;
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: 130%;
-    line-height: 1.5em;
-    color: #fff;
+	margin: 0 10px;
+	_margin: 0 15px 0 10px; /* ie6 */
+	padding: 10px 10px;
+	text-align: center;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: 130%;
+	line-height: 1.5em;
+	color: #fff;
 }
 
 h2 {
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
-    font-size: 120%;
-    padding: 3px 10px;
-    text-transform: uppercase;
-    line-height: 1.5em;
-    color: #fff;
-    text-align: left;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	font-size: 120%;
+	padding: 3px 10px;
+	text-transform: uppercase;
+	line-height: 1.5em;
+	color: #fff;
+	text-align: left;
 }
 
 th, td, h3 {
-    padding: 4px 10px 2px 10px;
-    text-align: left;
-    vertical-align: top;
-    font-size: 100%;
+	padding: 4px 10px 2px 10px;
+	text-align: left;
+	vertical-align: top;
+	font-size: 100%;
 }
 
 table {
-    width: 100%;
-    border-top: solid 2px #dadada;
-    border-bottom: solid 2px #dadada;
-    background-color: #333;
+	width: 100%;
+	border-top: solid 2px #dadada;
+	border-bottom: solid 2px #dadada;
+	background-color: #333;
 }
 
 table th {
-    color: #3a3;
+	color: #3a3;
 }
 
 select {
-    background-color: #fefefe;
+	background-color: #fefefe;
 }
 
 #select {
-    text-align: right;
-    padding: 0 10px 0 10px;
+	text-align: right;
+	padding: 0 10px 0 10px;
 }
 
 #select select {
-    width: 100px;
-    font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+	width: 100px;
+	font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
 }
 
 .fullsize, .halfsize {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    color: #ccc;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	color: #ccc;
 }
 
 .fullsize {
-    width: 920px;
+	width: 920px;
 }
 
 .halfsize {
-    width: 455px;
+	width: 455px;
 }
 
 #filesystemTable thead tr th {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #footer {
-    clear: both;
-    color: #bbb;
-    margin: 12px;
-    padding: 13px 25px;
-    line-height: 18px;
-    font-size: 80%;
-    text-align: center;
+	clear: both;
+	color: #bbb;
+	margin: 12px;
+	padding: 13px 25px;
+	line-height: 18px;
+	font-size: 80%;
+	text-align: center;
 }
 
 .plugin {
-    float: left;
-    margin: 10px 0 0 10px;
-    _margin: 10px 5px 0 5px; /* ie6 */
-    padding: 1px;
+	float: left;
+	margin: 10px 0 0 10px;
+	_margin: 10px 5px 0 5px; /* ie6 */
+	padding: 1px;
 }
 
 .bar {
-    background-color: #0f0;
+	background-color: #0f0;
 }
 
 .barwarn {
-    background-color: #944;
+	background-color: #944;
 }
 
 .barrest {
-    background: #80ff00;
+	background: #80ff00;
 }
 
 .right {
-    text-align: right;
-    padding-right: 20px;
+	text-align: right;
+	padding-right: 20px;
 }
 
 .treeTable {
-    border: none;
+	border: none;
 }
 
 .treeimg {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
-    vertical-align: top;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
+	vertical-align: top;
 }
 
 .treespan {
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .treespanbold {
-    font-weight: bold;
-    display: table-cell;
-    *float: left; /* ie6 ie7 */
+	font-weight: bold;
+	display: table-cell;
+	*float: left; /* ie6 ie7 */
 }
 
 .tree tr td {
-    cursor: auto;
-    height: 100%;
+	cursor: auto;
+	height: 100%;
 }
 
 .treediv {
-    display: table;
-    height: 100%;
+	display: table;
+	height: 100%;
 }
 
 .tablemain {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
