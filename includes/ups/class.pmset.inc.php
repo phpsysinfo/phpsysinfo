@@ -54,7 +54,7 @@ class Pmset extends UPS
 	 *
 	 * @return void
 	 */
-   private function _info()
+	private function _info()
 	{
 		if (empty($this->_output)) {
 			return;

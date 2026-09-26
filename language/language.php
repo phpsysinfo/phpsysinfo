@@ -46,20 +46,20 @@ if (defined('PSI_DEFAULT_LANG')) {
 }
 
 if (isset($_GET['lang']) && (trim($_GET['lang'])!=="")
-   && !preg_match('/[^A-Za-z\-]/', $_GET['lang'])
-   && file_exists(PSI_APP_ROOT.'/language/'.$_GET['lang'].'.xml')) {
+	&& !preg_match('/[^A-Za-z\-]/', $_GET['lang'])
+	&& file_exists(PSI_APP_ROOT.'/language/'.$_GET['lang'].'.xml')) {
 	$lang = strtolower($_GET['lang']);
 }
 
 if (isset($_GET['plugin'])) {
-   if ((trim($_GET['plugin'])!=="") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
-	   $plugin = strtolower($_GET['plugin']);
+	if ((trim($_GET['plugin'])!=="") && !preg_match('/[^A-Za-z]/', $_GET['plugin'])) {
+		$plugin = strtolower($_GET['plugin']);
 		if (file_exists(PSI_APP_ROOT.'/plugins/'.$plugin.'/lang/'.$lang.'.xml')) {
 			echo file_get_contents(PSI_APP_ROOT.'/plugins/'.$plugin.'/lang/'.$lang.'.xml');
 		} elseif (file_exists(PSI_APP_ROOT.'/plugins/'.$plugin.'/lang/en.xml')) {
 			echo file_get_contents(PSI_APP_ROOT.'/plugins/'.$plugin.'/lang/en.xml');
 		}
-   }
+	}
 } else {
 	if (file_exists(PSI_APP_ROOT.'/language/'.$lang.'.xml')) {
 		echo file_get_contents(PSI_APP_ROOT.'/language/'.$lang.'.xml');
