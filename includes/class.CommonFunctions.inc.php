@@ -109,15 +109,18 @@ class CommonFunctions
 
 		$exceptPath = "";
 		if ((PSI_OS == 'WINNT') && self::readenv('WinDir', $windir)) {
-			foreach ($arrPath as $strPath) {
-				if ((strtolower($strPath) == strtolower($windir)."\\system32") && is_dir($windir."\\SysWOW64")) {
-					if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
-						$exceptPath = $windir."\\sysnative"; //32-bit PHP on 64-bit Windows
-					} else {
-						$exceptPath = $windir."\\SysWOW64"; //64-bit PHP on 64-bit Windows
+			if (is_dir($windir."\\SysWOW64")) {
+				$system32 = strtolower($windir)."\\system32";
+				foreach ($arrPath as $strPath) {
+					if (strtolower($strPath) == $system32) {
+						if (is_dir($windir."\\sysnative\\drivers")) { // or strlen(decbin(~0)) == 32; is_dir($windir."\\sysnative") sometimes does not work
+							$exceptPath = $windir."\\sysnative"; //32-bit PHP on 64-bit Windows
+						} else {
+							$exceptPath = $windir."\\SysWOW64"; //64-bit PHP on 64-bit Windows
+						}
+						array_push($arrPath, $exceptPath);
+						break;
 					}
-					array_push($arrPath, $exceptPath);
-					break;
 				}
 			}
 		} elseif (PSI_OS == 'Android') {
