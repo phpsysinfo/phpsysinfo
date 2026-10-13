@@ -2170,8 +2170,10 @@ class Linux extends OS
 			}
 			// if the distribution is still unknown
 			if ($this->sys->getDistribution() == "Linux") {
-				if (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
-					|| (!defined('PSI_EMU_PORT') && CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))
+				// /etc/os-release is usually a symlink to /usr/lib/os-release, but it may be absent (e.g. CloudLinux CageFS)
+				if (((defined('PSI_EMU_PORT') && (CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false) || CommonFunctions::executeProgram('cat', '/usr/lib/os-release', $buf, false)))
+					|| (!defined('PSI_EMU_PORT') && ((CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false))
+						|| (CommonFunctions::fileexists($filename="/usr/lib/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))))
 					&& (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf) || preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_ID=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
 					if (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf)) {
 						if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\r\n]+)/m', $buf, $desc_buf)) {
