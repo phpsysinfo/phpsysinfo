@@ -61,7 +61,7 @@ class CommonFunctions
 		global $other;
 		if ($strFileName=="/etc/lsb-release") {
 			$test = $lsbfile;
-		} elseif ($strFileName=="/etc/os-release") {
+		} elseif (($strFileName=="/etc/os-release") || ($strFileName=="/usr/lib/os-release")) {
 			$test = $osfile;
 		} elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")|| ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
 			$test = $other;
@@ -101,7 +101,7 @@ class CommonFunctions
 		global $log_file;
 		if ($strFileName=="/etc/lsb-release") {
 			$test = $lsbfile;
-		} elseif ($strFileName=="/etc/os-release") {
+		} elseif (($strFileName=="/etc/os-release") || ($strFileName=="/usr/lib/os-release")) {
 			$test = $osfile;
 		} elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
 			$test = $other;
