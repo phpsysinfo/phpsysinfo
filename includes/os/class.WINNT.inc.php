@@ -276,7 +276,14 @@ class WINNT extends OS
 		if (self::$_asadmin == null) {
 			if (PSI_OS == 'WINNT') {
 				if (defined('PSI_WINNT_DISABLE_EXECUTE') && PSI_WINNT_DISABLE_EXECUTE) {
-					self::$_asadmin = true;
+					self::$_asadmin = false;
+					if (gettype(self::$_wmi) === "object") {
+						self::$_wmi->Security_->Privileges->AddAsString('SeSecurityPrivilege', true);
+						foreach (self::getWMI(self::$_wmi, 'Win32_NTEventlogFile', array('LogfileName')) as $log) {
+							if (strcasecmp($log['LogfileName'], 'Security') === 0) self::$_asadmin = true;
+						}
+						self::$_wmi->Security_->Privileges->AddAsString('SeSecurityPrivilege', false);
+					}
 				} else {
 					$strBuf = '';
 					CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false, PSI_EXEC_TIMEOUT_INT, '', true); // execute with quick utf16 conversion
