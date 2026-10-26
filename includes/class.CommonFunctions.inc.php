@@ -166,7 +166,9 @@ class CommonFunctions
 	 */
 	public static function executeProgram($strProgramname, $strArguments, &$strBuffer, $booErrorRep = true, $timeout = PSI_EXEC_TIMEOUT_INT, $separator = '', $utf16 = false)
 	{
-		if (PSI_ROOT_FILESYSTEM !== '') { // disabled if ROOTFS defined
+		if ((PSI_ROOT_FILESYSTEM !== '') || // disabled if ROOTFS defined
+		    ((PSI_OS == 'WINNT') && defined('PSI_WINNT_DISABLE_EXECUTE') && PSI_WINNT_DISABLE_EXECUTE)) {
+			$strBuffer = '';
 
 			return false;
 		}

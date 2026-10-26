@@ -66,6 +66,13 @@ TRUSTED_PROXIES=false
 ;
 SUDO_COMMANDS=false
 
+; Windows only: disable execution of external programs
+; (use if commands like quser hang or are slow)
+; - false - execute (default)
+; - true - do not execute
+;
+;WINNT_DISABLE_EXECUTE=false
+
 ; Order of data blocks
 ; Example : BLOCKS="vitals,hardware,memory,filesystem,network,voltage,current,temperature,fans,power,other,ups" or BLOCKS=true //default order
 ;           BLOCKS=false //hide all blocks

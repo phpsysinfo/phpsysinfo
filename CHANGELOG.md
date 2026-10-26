@@ -3,6 +3,11 @@ Changelog of phpSysInfo
 
 http://phpsysinfo.github.io/phpsysinfo/
 
+phpSysInfo 3.4.8
+----------------
+
+ - [NEW] WINNT_DISABLE_EXECUTE option
+
 phpSysInfo 3.4.7
 ----------------
 
