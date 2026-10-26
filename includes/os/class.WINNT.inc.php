@@ -275,12 +275,16 @@ class WINNT extends OS
 	{
 		if (self::$_asadmin == null) {
 			if (PSI_OS == 'WINNT') {
-				$strBuf = '';
-				CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false, PSI_EXEC_TIMEOUT_INT, '', true); // execute with quick utf16 conversion
-				if (preg_match('/^\/SCANNOW\s/m', $strBuf)) { // SCANNOW checking
+				if (defined('PSI_WINNT_DISABLE_EXECUTE') && PSI_WINNT_DISABLE_EXECUTE) {
 					self::$_asadmin = true;
 				} else {
-					self::$_asadmin = false;
+					$strBuf = '';
+					CommonFunctions::executeProgram('sfc', '2>&1', $strBuf, false, PSI_EXEC_TIMEOUT_INT, '', true); // execute with quick utf16 conversion
+					if (preg_match('/^\/SCANNOW\s/m', $strBuf)) { // SCANNOW checking
+						self::$_asadmin = true;
+					} else {
+						self::$_asadmin = false;
+					}
 				}
 			} else {
 				self::$_asadmin = false;
