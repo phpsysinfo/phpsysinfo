@@ -280,7 +280,10 @@ class WINNT extends OS
 					if (gettype(self::$_wmi) === "object") {
 						self::$_wmi->Security_->Privileges->AddAsString('SeSecurityPrivilege', true);
 						foreach (self::getWMI(self::$_wmi, 'Win32_NTEventlogFile', array('LogfileName')) as $log) {
-							if (strcasecmp($log['LogfileName'], 'Security') === 0) self::$_asadmin = true;
+							if (strcasecmp($log['LogfileName'], 'Security') === 0) {
+								self::$_asadmin = true;
+								break;
+							}
 						}
 						self::$_wmi->Security_->Privileges->AddAsString('SeSecurityPrivilege', false);
 					}
