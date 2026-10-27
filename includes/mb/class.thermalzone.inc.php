@@ -40,9 +40,9 @@ class ThermalZone extends Sensors
 					if ($_wmi) {
 						$this->_buf = WINNT::getWMI($_wmi, 'Win32_PerfFormattedData_Counters_ThermalZoneInformation', array('Name', 'HighPrecisionTemperature', 'Temperature'));
 					}
-					if (!$this->_buf || PSI_DEBUG) {
-						$this->error->addError("Error reading data from thermalzone sensor", "Allowed only for systems with administrator privileges (run as administrator)");
-					}
+				}
+				if (!$this->_buf && PSI_DEBUG) {
+					$this->error->addError("Error reading data from thermalzone sensor", "Try running with administrator privileges (run as administrator)");
 				}
 			}
 			break;
