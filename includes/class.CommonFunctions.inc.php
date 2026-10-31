@@ -65,7 +65,7 @@ class CommonFunctions
 	/**
 	 * One-time probe (max 1 s): can PHP see a program's output at all?
 	 * Returns true if the pipe layer looks stalled.
- 	 */
+ 	*/
 	private static function _execStalled()
 	{
 		if ((PSI_OS != 'WINNT') || (defined('PSI_MODE_POPEN') && PSI_MODE_POPEN)) {
@@ -84,6 +84,7 @@ class CommonFunctions
 			$prog = '"'.$prog.'"';
 		}
 
+		$pipes = array();
 		$process = @proc_open($prog, array(0=>array('pipe', 'r'), 1=>array('pipe', 'w'), 2=>array('pipe', 'w')), $pipes);
 		if (!is_resource($process)) {
 			return false;
