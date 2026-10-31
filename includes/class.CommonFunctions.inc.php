@@ -92,7 +92,7 @@ class CommonFunctions
 		$read = array($pipes[1], $pipes[2]);
 		$w = null;
 		$e = null;
-		$n = @stream_select($read, $w, $e, 1);
+		$n = @stream_select($read, $w, $e, 5);
 		fclose($pipes[0]);
 		fclose($pipes[1]);
 		fclose($pipes[2]);
