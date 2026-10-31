@@ -206,7 +206,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 									while (!(feof($pipes[1]) && feof($pipes[2]))) {
 										$read = array($pipes[1], $pipes[2]);
 
-										$n = stream_select($read, $w, $e, 5);
+										$n = stream_select($read, $w, $e, 3);
 
 										if (($n === false) || ($n === 0)) {
 											break;
