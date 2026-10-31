@@ -68,7 +68,7 @@ class CommonFunctions
  	 */
 	private static function _execStalled()
 	{
-		if (PSI_OS != 'WINNT') {
+		if ((PSI_OS != 'WINNT') || (defined('PSI_MODE_POPEN') && PSI_MODE_POPEN)) {
 			return false;
 		}
 		if (self::$_execOk !== null) {
@@ -357,13 +357,9 @@ class CommonFunctions
 		$strBuffer = '';
 		$strError = '';
 
-	if (!$externally
-		&& (PSI_OS == 'WINNT')
-		&& (!defined('PSI_MODE_POPEN') || !PSI_MODE_POPEN)
-		&& self::_execStalled()) {
-
-		return false;
-	}
+		if (!$externally && self::_execStalled()) {
+			return false;
+		}
 
 		$pipes = array();
 		$descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
