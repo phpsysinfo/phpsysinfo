@@ -32,6 +32,11 @@ class CommonFunctions
 	 */
 	private static $_dmimd = null;
 
+	/**
+	 * null = not tested yet, true = output can be read, false = stalled
+	 */
+	private static $_execOk = null;
+
 	private static function _parse_log_file($string)
 	{
 		if (defined('PSI_LOG') && is_string(PSI_LOG) && (strlen(PSI_LOG)>0) && ((substr(PSI_LOG, 0, 1)=="-") || (substr(PSI_LOG, 0, 1)=="+"))) {
@@ -53,6 +58,51 @@ class CommonFunctions
 				}
 			}
 		}
+
+		return false;
+	}
+
+	/**
+	 * One-time probe (max 1 s): can PHP see a program's output at all?
+	 * Returns true if the pipe layer looks stalled.
+ 	 */
+	private static function _execStalled()
+	{
+		if (PSI_OS != 'WINNT') {
+			return false;
+		}
+		if (self::$_execOk !== null) {
+			return !self::$_execOk;
+		}
+		self::$_execOk = true; // assume OK unless proven otherwise
+
+		$prog = self::_findProgram('hostname'); // exists on every Windows edition, also Home
+		if (!$prog) {
+			return false;
+		}
+		if (preg_match('/\s/', $prog)) {
+			$prog = '"'.$prog.'"';
+		}
+
+		$process = @proc_open($prog, array(0=>array('pipe', 'r'), 1=>array('pipe', 'w'), 2=>array('pipe', 'w')), $pipes);
+		if (!is_resource($process)) {
+			return false;
+		}
+		$read = array($pipes[1], $pipes[2]);
+		$w = null;
+		$e = null;
+		$n = @stream_select($read, $w, $e, 1);
+		fclose($pipes[0]);
+		fclose($pipes[1]);
+		fclose($pipes[2]);
+		if ($n === 0) {
+			proc_terminate($process); // proc_close can hang on a stalled process
+			self::$_execOk = false;
+			PSI_Error::singleton()->addError('executeProgram', 'program output could not be read (stream_select timeout); external programs are skipped. If this repeats, set WINNT_DISABLE_EXECUTE=true in phpsysinfo.ini');
+
+			return true;
+		}
+		proc_close($process);
 
 		return false;
 	}
@@ -306,6 +356,15 @@ class CommonFunctions
 
 		$strBuffer = '';
 		$strError = '';
+
+	if (!$externally
+		&& (PSI_OS == 'WINNT')
+		&& (!defined('PSI_MODE_POPEN') || !PSI_MODE_POPEN)
+		&& self::_execStalled()) {
+
+		return false;
+	}
+
 		$pipes = array();
 		$descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
 		if ($externally) {
