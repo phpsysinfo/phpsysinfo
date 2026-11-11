@@ -299,7 +299,7 @@ if (!defined('PSI_CONFIG_FILE')) {
 					}
 				}
 			}
-		} elseif ((PHP_OS == 'Darwin') || (defined('PSI_OS') && (PSI_OS == 'Darwin'))){
+		} elseif ((PHP_OS == 'Darwin') || (defined('PSI_OS') && (PSI_OS == 'Darwin'))) {
 			if (!defined('PSI_SYSTEM_LANG') //if not overloaded in phpsysinfo.ini
 				&& (PSI_ROOT_FILESYSTEM === '') && function_exists('exec') && @exec('defaults read /Library/Preferences/.GlobalPreferences AppleLocale 2>/dev/null', $lines)) {
 				$lang = "";
@@ -312,6 +312,13 @@ if (!defined('PSI_CONFIG_FILE')) {
 					$lang = 'Unknown';
 				}
 				define('PSI_SYSTEM_LANG', $lang.' ('.$lines[0].')');
+			}
+		} elseif (PHP_OS == 'WINNT') {
+			if (!defined('PSI_MODE_SOCKET')) { //if not overloaded in phpsysinfo.ini
+				define('PSI_MODE_SOCKET',
+					version_compare(PHP_VERSION, '7.4.0', '>=')
+					&& !(defined('PSI_MODE_POPEN') && PSI_MODE_POPEN)
+				);
 			}
 		}
 	}

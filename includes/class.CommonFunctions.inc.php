@@ -63,7 +63,24 @@ class CommonFunctions
 	}
 
 	/**
-	 * One-time probe (max 1 s): can PHP see a program's output at all?
+	 * Descriptor specification for proc_open().
+	 * Windows: sockets instead of anonymous pipes (pipes can deadlock with
+	 * stream_select() under Apache). Other systems: ordinary pipes.
+	 * Not used in PSI_MODE_POPEN (popen() has no descriptors).
+	 *
+	 * @return array
+	 */
+	private static function _descriptorSpec()
+	{
+		if (defined('PSI_MODE_SOCKET') && PSI_MODE_SOCKET) {
+			return array(0=>array('socket'), 1=>array('socket'), 2=>array('socket'));
+		} else {
+			return array(0=>array('pipe', 'r'), 1=>array('pipe', 'w'), 2=>array('pipe', 'w'));
+		}
+	}
+
+	/**
+	 * One-time probe (max 3 s): can PHP see a program's output at all?
 	 * Returns true if the pipe layer looks stalled.
  	*/
 	private static function _execStalled()
@@ -85,7 +102,7 @@ class CommonFunctions
 		}
 
 		$pipes = array();
-		$process = @proc_open($prog, array(0=>array('pipe', 'r'), 1=>array('pipe', 'w'), 2=>array('pipe', 'w')), $pipes);
+		$process = @proc_open($prog, self::_descriptorSpec(), $pipes);
 		if (!is_resource($process)) {
 			return false;
 		}
@@ -363,7 +380,7 @@ class CommonFunctions
 		}
 
 		$pipes = array();
-		$descriptorspec = array(0=>array("pipe", "r"), 1=>array("pipe", "w"), 2=>array("pipe", "w"));
+		$descriptorspec = self::_descriptorSpec();
 		if ($externally) {
 			putenv('SSHPASS='.PSI_EMU_PASSWORD);
 		}
