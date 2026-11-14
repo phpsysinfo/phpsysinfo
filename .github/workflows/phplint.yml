@@ -5,39 +5,50 @@ on:
     branches:
       - main
       - stable
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
   phplint:
-
+    name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental == true }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '5.3'
+          - '5.4'
+          - '5.5'
+          - '5.6'
+          - '7.0'
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+          - '8.6'
+          - '8.7'
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          fetch-depth: 0
-      - name: PHP Lint 5.5
-        uses: PrestaShopCorp/github-action-php-lint/5.5@v2.3.1
-      - name: PHP Lint 5.6
-        uses: PrestaShopCorp/github-action-php-lint/5.6@v2.3.1
-      - name: PHP Lint 7.1
-        uses: PrestaShopCorp/github-action-php-lint/7.1@v2.3.1
-      - name: PHP Lint 7.2
-        uses: PrestaShopCorp/github-action-php-lint/7.2@v2.3.1
-      - name: PHP Lint 7.3
-        uses: PrestaShopCorp/github-action-php-lint/7.3@v2.3.1
-      - name: PHP Lint 7.4
-        uses: PrestaShopCorp/github-action-php-lint/7.4@v2.3.1
-      - name: PHP Lint 8.0
-        uses: PrestaShopCorp/github-action-php-lint/8.0@v2.3.1
-      - name: PHP Lint 8.1
-        uses: PrestaShopCorp/github-action-php-lint/8.1@v2.3.1
-      - name: PHP Lint 8.2
-        uses: PrestaShopCorp/github-action-php-lint/8.2@v2.3.1
-      - name: PHP Lint 8.3
-        uses: PrestaShopCorp/github-action-php-lint/8.3@v2.3.1
-      - name: PHP Lint 8.4
-        uses: PrestaShopCorp/github-action-php-lint/8.4@v2.3.1
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+
+      - name: PHP Lint
+        run: |
+          find . -name '*.php' -not -path './vendor/*' -not -path './.git/*' -print0 \
+            | xargs -0 -n1 -P4 php -l > /dev/null
