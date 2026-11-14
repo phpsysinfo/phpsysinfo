@@ -2063,7 +2063,9 @@ class Linux extends OS
 					if (!isset($distribution['Files'])) {
 						continue;
 					} else {
-						foreach (preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY) as $filename) {
+						$files = preg_split("/;/", $distribution['Files'], -1, PREG_SPLIT_NO_EMPTY);
+						$lastindex = count($files) - 1;
+						foreach ($files as $index => $filename) {
 							if (CommonFunctions::fileexists($filename)) {
 								$distro = $distribution;
 								if (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="detection")) {
@@ -2071,14 +2073,18 @@ class Linux extends OS
 								} elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="execute")) {
 									if (!CommonFunctions::executeProgram($filename, '2>/dev/null', $buf, PSI_DEBUG)) {
 										$buf = "";
+										if ($index < $lastindex) {
+											continue; // try next file
+										}
 									} elseif (preg_match('/^pve-manager\/([\d.]+)\//', $buf, $vers_buf)) { // Proxmox version
 										$buf = $vers_buf[1];
 									}
 								} else {
 									if (!CommonFunctions::rfts($filename, $buf, 1, 4096, false)) {
 										$buf = "";
-										if (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="analyse")) {
-											break;
+										if ((isset($distribution['Mode']) && (strtolower($distribution['Mode']) == "analyse"))
+										    || ($index < $lastindex)) {
+											continue; // try next file
 										}
 									} elseif (isset($distribution['Mode'])&&(strtolower($distribution['Mode'])=="analyse")) {
 										if (preg_match('/^(\S+)\s*/', preg_replace('/^red\s+/', 'red', strtolower($buf)), $id_buf)
