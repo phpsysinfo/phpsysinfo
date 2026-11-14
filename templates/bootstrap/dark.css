@@ -116,21 +116,21 @@ table.borderless td, table.borderless th, table.noborderattop tr:first-child td,
 }
 
 .select {
-	color: #c8c8c8;
+	color: #fbfbfe;
 }
 
 select {
-	background-color: #fefefe;
+	background-color: #2b2a33;
 }
 
 .template {
 	cursor: pointer;
-	color: #333;
+	color: #fbfbfe;
 }
 
 .language {
 	cursor: pointer;
-	color: #333;
+	color: #fbfbfe;
 }
 
 .card-header {
