@@ -8,6 +8,8 @@ phpSysInfo 3.4.8
 
  - [NEW] WINNT_DISABLE_EXECUTE option
 
+ - [UPD] Read /usr/lib/os-release as an alternative to /etc/os-release on Linux
+
 phpSysInfo 3.4.7
 ----------------
 
