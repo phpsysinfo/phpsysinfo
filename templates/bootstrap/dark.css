@@ -229,3 +229,18 @@ a:hover {
 .table-nopadding > tbody > tr > th {
 	padding: 0;
 }
+
+@supports (color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+	}
+
+	select {
+		background-color: revert;
+	}
+
+	.template,
+	.language {
+		color: revert;
+	}
+}
