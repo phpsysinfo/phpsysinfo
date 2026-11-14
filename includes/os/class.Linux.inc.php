@@ -2176,75 +2176,85 @@ class Linux extends OS
 			}
 			// if the distribution is still unknown
 			if ($this->sys->getDistribution() == "Linux") {
-				if (((defined('PSI_EMU_PORT') && CommonFunctions::executeProgram('cat', '/etc/os-release', $buf, false))
-					|| (!defined('PSI_EMU_PORT') && CommonFunctions::fileexists($filename="/etc/os-release") && CommonFunctions::rfts($filename, $buf, 0, 4096, false)))
-					&& (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf) || preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf) || preg_match('/^DISTRIB_ID=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
-					if (preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf)) {
-						if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\r\n]+)/m', $buf, $desc_buf)) {
-							$this->sys->setDistribution(trim($desc_buf[1])." ".trim($tid_buf[1]));
-						} else {
-							if (isset($list['tails']['Name'])) {
-								$this->sys->setDistribution(trim($list['tails']['Name'])." ".trim($tid_buf[1]));
-							} else {
-								$this->sys->setDistribution('Tails'." ".trim($tid_buf[1]));
-							}
+				$buf = "";
+				foreach (array('/etc/os-release', '/usr/lib/os-release') as $filename) {
+					if (defined('PSI_EMU_PORT')) {
+						if (CommonFunctions::executeProgram('cat', $filename, $buf, false) && ($buf !== "")) {
+							break;
 						}
-						$this->sys->setDistributionIcon($list['tails']['Image']);
+					} elseif (CommonFunctions::fileexists($filename)
+						   && CommonFunctions::rfts($filename, $buf, 0, 4096, false)
+						   && (($buf = trim($buf)) !== "")) {
+							break;
+					}
+				}
+				if (($buf !== "") && preg_match('/^TAILS_VERSION_ID="?([^"\r\n]+)/m', $buf, $tid_buf)) {
+					if (preg_match('/^TAILS_PRODUCT_NAME="?([^"\r\n]+)/m', $buf, $desc_buf)) {
+						$this->sys->setDistribution(trim($desc_buf[1])." ".trim($tid_buf[1]));
 					} else {
-						$addversion = false;
-						$distrib = trim($id_buf[1]);
-						if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
-						   && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
-						   && ($distrib!==trim($desc_buf[1]))) {
-							if (isset($list[strtolower($distrib)]['Name']) && !preg_match("/".$list[strtolower($distrib)]['Name']."/i", trim($desc_buf[1]))) {
-								$this->sys->setDistribution($list[strtolower($distrib)]['Name'] ." ". preg_replace("/ - Version:| Build:| Release| version| build| based in Ubuntu/i", "", trim($desc_buf[1])));
-							} else {
-								$this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build| based in Ubuntu/i", "", trim($desc_buf[1])));
-							}
-							$distrib2 = $distrib;
-							$distrib3 = $distrib;
-							$distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
-							if (isset($distarr[0])) {
-								$distrib2 .= ' '.$distarr[0];
-							}
-							if (isset($distarr[1])) {
-								$distrib3 .= ' '.$distarr[0].' '.$distarr[1];
-							}
-							if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
-								$this->sys->setDistributionIcon($list[strtolower($distrib3)]['Image']);
-								if (count($distarr) == 2) {
-									$addversion = true;
-								}
-							} elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
-								$this->sys->setDistributionIcon($list[strtolower($distrib2)]['Image']);
-								if (count($distarr) == 1) {
-									$addversion = true;
-								}
-							} elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
-								$this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
-							}
+						if (isset($list['tails']['Name'])) {
+							$this->sys->setDistribution(trim($list['tails']['Name'])." ".trim($tid_buf[1]));
 						} else {
-							if (isset($list[strtolower($distrib)]['Name'])) {
-								$this->sys->setDistribution(trim($list[strtolower($distrib)]['Name']));
-							} else {
-								$this->sys->setDistribution($distrib);
-							}
-							if (isset($list[strtolower($distrib)]['Image'])) {
-								$this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
-							}
-							$addversion = true;
+							$this->sys->setDistribution('Tails'." ".trim($tid_buf[1]));
 						}
-						if ($addversion) {
-							if (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
-							   || preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
-							   || preg_match('/^DISTRIB_RELEASE=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
-							   || preg_match('/^IMAGE_VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
-								$this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+					}
+					$this->sys->setDistributionIcon($list['tails']['Image']);
+				} elseif (($buf !== "") && 
+					   (preg_match('/^NAME=["\']?([^"\'\r\n]+)/m', $buf, $id_buf) 
+					    || preg_match('/^DISTRIB_ID=["\']?([^"\'\r\n]+)/m', $buf, $id_buf))) {
+					$addversion = false;
+					$distrib = trim($id_buf[1]);
+					if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
+					   && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
+					   && ($distrib!==trim($desc_buf[1]))) {
+						if (isset($list[strtolower($distrib)]['Name']) && !preg_match("/".$list[strtolower($distrib)]['Name']."/i", trim($desc_buf[1]))) {
+							$this->sys->setDistribution($list[strtolower($distrib)]['Name'] ." ". preg_replace("/ - Version:| Build:| Release| version| build| based in Ubuntu/i", "", trim($desc_buf[1])));
+						} else {
+							$this->sys->setDistribution(preg_replace("/ - Version:| Build:| Release| version| build| based in Ubuntu/i", "", trim($desc_buf[1])));
+						}
+						$distrib2 = $distrib;
+						$distrib3 = $distrib;
+						$distarr = preg_split("/\s/", trim($desc_buf[1]), -1, PREG_SPLIT_NO_EMPTY);
+						if (isset($distarr[0])) {
+							$distrib2 .= ' '.$distarr[0];
+						}
+						if (isset($distarr[1])) {
+							$distrib3 .= ' '.$distarr[0].' '.$distarr[1];
+						}
+						if (($distrib!==$distrib3) && isset($list[strtolower($distrib3)]['Image'])) {
+							$this->sys->setDistributionIcon($list[strtolower($distrib3)]['Image']);
+							if (count($distarr) == 2) {
+								$addversion = true;
 							}
-							if (!strstr($this->sys->getDistribution(), "(") && (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)
-							   || preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf))) {
-								$this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
+						} elseif (($distrib!==$distrib2) && isset($list[strtolower($distrib2)]['Image'])) {
+							$this->sys->setDistributionIcon($list[strtolower($distrib2)]['Image']);
+							if (count($distarr) == 1) {
+								$addversion = true;
 							}
+						} elseif (($distrib!=="n/a") && isset($list[strtolower($distrib)]['Image'])) {
+							$this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+						}
+					} else {
+						if (isset($list[strtolower($distrib)]['Name'])) {
+							$this->sys->setDistribution(trim($list[strtolower($distrib)]['Name']));
+						} else {
+							$this->sys->setDistribution($distrib);
+						}
+						if (isset($list[strtolower($distrib)]['Image'])) {
+							$this->sys->setDistributionIcon($list[strtolower($distrib)]['Image']);
+						}
+						$addversion = true;
+					}
+					if ($addversion) {
+						if (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+						   || preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+						   || preg_match('/^DISTRIB_RELEASE=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)
+						   || preg_match('/^IMAGE_VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+							$this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+						}
+						if (!strstr($this->sys->getDistribution(), "(") && (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)
+						   || preg_match('/^DISTRIB_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf))) {
+							$this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
 						}
 					}
 				} elseif (CommonFunctions::fileexists($filename="/etc/DISTRO_SPECS")

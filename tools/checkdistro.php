@@ -17,7 +17,7 @@ $log_file = "";
 $lsb = true; //enable detection lsb_release -a
 $lsbfile = true; //enable detection /etc/lsb-release
 $files = true; //enable detection files
-$osfile = true; //enable detection /etc/os-release
+$osfile = true; //enable detection /etc/os-release and /usr/lib/os-release
 $other = true; //enable other detection
 
 class PSI_Error
@@ -59,9 +59,10 @@ class CommonFunctions
 		global $files;
 		global $osfile;
 		global $other;
+
 		if ($strFileName=="/etc/lsb-release") {
 			$test = $lsbfile;
-		} elseif ($strFileName=="/etc/os-release") {
+		} elseif (($strFileName=="/etc/os-release") || ($strFileName=="/usr/lib/os-release")) {
 			$test = $osfile;
 		} elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release")|| ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
 			$test = $other;
@@ -73,7 +74,6 @@ class CommonFunctions
 			if ($strRet && ($intLines == 1) && (strpos($strRet, "\n") !== false)) {
 				$strRet=trim(substr($strRet, 0, strpos($strRet, "\n")));
 			}
-
 			return $strRet;
 		} else {
 			return false;
@@ -101,7 +101,7 @@ class CommonFunctions
 		global $log_file;
 		if ($strFileName=="/etc/lsb-release") {
 			$test = $lsbfile;
-		} elseif ($strFileName=="/etc/os-release") {
+		} elseif (($strFileName=="/etc/os-release") || ($strFileName=="/usr/lib/os-release")) {
 			$test = $osfile;
 		} elseif (($strFileName=="/etc/DISTRO_SPECS") || ($strFileName=="/etc/distro-release") || ($strFileName=="/etc/system-release") || ($strFileName=="/etc/debian_version") || ($strFileName=="/etc/slackware-version") || ($strFileName=="/etc/config/uLinux.conf")) {
 			$test = $other;

@@ -34,15 +34,29 @@ if (is_resource($fp)) {
 	pclose($fp);
 }
 
+$noosrelease=false;
 foreach ($filemaskarray as $filemask) {
 	$filenames = glob($filemask);
 	if (is_array($filenames)) foreach ($filenames as $filename) {
 		if (!is_dir($filename)) {
+			if ($filename=="/etc/os-release")
+				$noosrelease = true;
 			echo "----------".$filename."----------\n";
 			echo $contents=file_get_contents($filename);
 			if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")) {
 				echo "\n";
 			}
+		}
+	}
+}
+
+if ($noosrelease) {
+	$filename="/usr/lib/os-release";
+	if (!is_dir($filename)) {
+		echo "----------".$filename."----------\n";
+		echo $contents=file_get_contents($filename);
+		if ((strlen($contents)>0)&&(substr($contents, -1)!="\n")) {
+			echo "\n";
 		}
 	}
 }
